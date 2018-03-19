@@ -22,10 +22,27 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // kotlin
     implementation Libs.kotlin
+
+    // support
     implementation Libs.supportAppcompat
+
+    // networking
+    implementation Libs.retrofit
+    implementation Libs.retrofitRxAdapter
+    implementation Libs.retrofitGsonConverter
+    implementation Libs.gson
+
+    // rx
+    implementation Libs.rxAndroid
+    implementation Libs.rxJava
+
+    // view
     implementation Libs.constraintLayout
 
+    // testing
     testImplementation TestLibs.jUnit
     androidTestImplementation TestLibs.testRunner
     androidTestImplementation TestLibs.espresso
