@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity(), BaseView<MainPresenter>,
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.isDrawerSlideAnimationEnabled = false
         actionBarDrawerToggle.syncState()
+
+        navigationView.setCheckedItem(R.id.questions)
     }
 
     override fun onResume() {
@@ -51,7 +53,10 @@ class MainActivity : AppCompatActivity(), BaseView<MainPresenter>,
         drawerLayout.closeDrawers()
 
         setFragment(when(item.itemId) {
-            R.id.questions -> QuestionsFragment.newInstance()
+            R.id.questions -> {
+                supportActionBar?.title = getString(R.string.questions)
+                QuestionsFragment.newInstance()
+            }
             else -> {
                 Log.e("ERROR", "Could not resolve any fragment")
                 null
