@@ -22,10 +22,6 @@ class MainActivity : AppCompatActivity(), BaseView<MainPresenter>,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        supportActionBar?.let {
-            it.setDisplayHomeAsUpEnabled(true)
-            it.setHomeAsUpIndicator(R.drawable.ic_menu)
-        }
         navigationView.setNavigationItemSelectedListener(this)
 
         val actionBarDrawerToggle = object : ActionBarDrawerToggle(
