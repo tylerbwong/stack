@@ -28,6 +28,7 @@ dependencies {
 
     // support
     implementation Libs.supportAppcompat
+    implementation Libs.supportDesign
 
     // networking
     implementation Libs.retrofit
@@ -40,6 +41,7 @@ dependencies {
     implementation Libs.rxJava
 
     // view
+    implementation Libs.supportDesign
     implementation Libs.constraintLayout
 
     // testing

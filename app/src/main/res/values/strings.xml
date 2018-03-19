@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Stack</string>
+
+    <!-- Navigation Drawer -->
+    <string name="open_drawer">open</string>
+    <string name="close_drawer">close</string>
+    <string name="questions">Questions</string>
 </resources>

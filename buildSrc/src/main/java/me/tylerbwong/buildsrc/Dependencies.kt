@@ -15,6 +15,7 @@ object Versions {
 object Libs {
     val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jre7:${Versions.kotlin}"
     val supportAppcompat = "com.android.support:appcompat-v7:${Versions.supportLib}"
+    val supportDesign = "com.android.support:design:${Versions.supportLib}"
     val constraintLayout = "com.android.support.constraint:constraint-layout:${Versions.constraintLayout}"
     val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     val retrofitRxAdapter = "com.squareup.retrofit2:adapter-rxjava2:${Versions.retrofit}"

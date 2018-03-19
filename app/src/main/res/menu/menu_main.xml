@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/questions"
+            android:icon="@drawable/ic_question_answer"
+            android:title="@string/questions" />
+    </group>
+</menu>
