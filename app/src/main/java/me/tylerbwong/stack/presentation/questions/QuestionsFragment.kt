@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.inflateWithoutAttaching
+import me.tylerbwong.stack.presentation.BaseFragment
 import me.tylerbwong.stack.presentation.BaseView
 
-class QuestionsFragment : Fragment(), BaseView<QuestionsPresenter> {
+class QuestionsFragment : BaseFragment(), BaseView<QuestionsPresenter> {
 
     private lateinit var presenter: QuestionsPresenter
+
+    override var titleRes: Int = R.string.questions
 
     override fun onCreateView(
             inflater: LayoutInflater,

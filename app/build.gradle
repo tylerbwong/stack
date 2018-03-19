@@ -25,6 +25,7 @@ dependencies {
 
     // kotlin
     implementation Libs.kotlin
+    implementation Libs.ktx
 
     // support
     implementation Libs.supportAppcompat

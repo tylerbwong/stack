@@ -1,5 +1,6 @@
 object Versions {
     val kotlin = "1.2.30"
+    val ktx = "0.2"
     val gradle = "3.0.1"
     val supportLib = "27.1.0"
     val constraintLayout = "1.0.2"
@@ -14,6 +15,7 @@ object Versions {
 
 object Libs {
     val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jre7:${Versions.kotlin}"
+    val ktx = "androidx.core:core-ktx:${Versions.ktx}"
     val supportAppcompat = "com.android.support:appcompat-v7:${Versions.supportLib}"
     val supportDesign = "com.android.support:design:${Versions.supportLib}"
     val constraintLayout = "com.android.support.constraint:constraint-layout:${Versions.constraintLayout}"
