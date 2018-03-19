@@ -25,10 +25,10 @@ dependencies {
 
     // kotlin
     implementation Libs.kotlin
-    implementation Libs.ktx
 
     // support
     implementation Libs.supportAppcompat
+    implementation Libs.cardView
     implementation Libs.supportDesign
 
     // networking
@@ -36,6 +36,7 @@ dependencies {
     implementation Libs.retrofitRxAdapter
     implementation Libs.retrofitGsonConverter
     implementation Libs.gson
+    implementation Libs.okHttpLogger
 
     // rx
     implementation Libs.rxAndroid
@@ -44,6 +45,9 @@ dependencies {
     // view
     implementation Libs.supportDesign
     implementation Libs.constraintLayout
+
+    // logging
+    implementation Libs.timber
 
     // testing
     testImplementation TestLibs.jUnit

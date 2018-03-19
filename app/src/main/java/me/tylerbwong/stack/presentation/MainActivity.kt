@@ -3,20 +3,15 @@ package me.tylerbwong.stack.presentation
 import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.MenuItem
-import androidx.view.doOnLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.presentation.questions.QuestionsFragment
+import timber.log.Timber
 
-class MainActivity : AppCompatActivity(), BaseView<MainPresenter>,
-        NavigationView.OnNavigationItemSelectedListener {
-
-    private lateinit var presenter: MainPresenter
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,15 +36,6 @@ class MainActivity : AppCompatActivity(), BaseView<MainPresenter>,
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-    }
-
-    override fun setPresenter(presenter: MainPresenter) {
-        this.presenter = presenter
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         drawerLayout.closeDrawers()
 
@@ -58,7 +44,7 @@ class MainActivity : AppCompatActivity(), BaseView<MainPresenter>,
                 QuestionsFragment.newInstance()
             }
             else -> {
-                Log.e("ERROR", "Could not resolve any fragment")
+                Timber.e("Could not resolve any fragment")
                 null
             }
         }.also { setFragment(it) }
