@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
  * Simplified model of a question.
  * TODO add owner data
  */
-class Question(
+data class Question(
         val tags: Array<String>,
         @SerializedName("is_answered")
         val isAnswered: Boolean,
