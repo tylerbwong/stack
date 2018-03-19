@@ -16,5 +16,6 @@ fun NOOP(message: String = "No operation needed."): Nothing = TODO(message)
 fun String.toHtml(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
     Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
 } else {
+    @Suppress("DEPRECATION")
     Html.fromHtml(this)
 }
