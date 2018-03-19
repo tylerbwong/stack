@@ -1,7 +1,7 @@
 object Versions {
-    val kotlin = "1.1.51"
+    val kotlin = "1.2.30"
     val gradle = "3.0.1"
-    val supportLib = "26.1.0"
+    val supportLib = "27.1.0"
     val constraintLayout = "1.0.2"
     val jUnit = "4.12"
     val testRunner = "1.0.1"
