@@ -15,6 +15,6 @@ class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(question: Question) {
         title.text = question.title.toHtml()
-        link.text = question.link
+        link.text = question.shareLink
     }
 }

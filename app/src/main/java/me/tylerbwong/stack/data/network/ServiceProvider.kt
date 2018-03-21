@@ -1,6 +1,5 @@
 package me.tylerbwong.stack.data.network
 
-import android.os.Build
 import io.reactivex.schedulers.Schedulers
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.network.service.QuestionService

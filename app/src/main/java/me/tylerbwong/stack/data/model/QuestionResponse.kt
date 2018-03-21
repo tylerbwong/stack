@@ -1,9 +1,12 @@
 package me.tylerbwong.stack.data.model
 
+import com.google.gson.annotations.SerializedName
+
 /**
- * Model for the response returned from /questions
+ * Response returned from /questions
  */
 data class QuestionResponse(
         val items: List<Question>,
-        val has_more: Boolean
+        @SerializedName("has_more")
+        val hasMore: Boolean
 )
