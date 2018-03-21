@@ -1,7 +1,7 @@
 object Versions {
     val kotlin = "1.2.30"
     val gradle = "3.0.1"
-    val supportLib = "27.1.0"
+    val supportLib = "28.0.0-alpha1"
     val constraintLayout = "1.0.2"
     val okHttp = "3.10.0"
     val retrofit = "2.4.0"

@@ -3,7 +3,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 'android-P'
+    buildToolsVersion '27.0.3'
+
     defaultConfig {
         applicationId "me.tylerbwong.stack"
         minSdkVersion 21
@@ -21,8 +23,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     // kotlin
     implementation Libs.kotlin
 

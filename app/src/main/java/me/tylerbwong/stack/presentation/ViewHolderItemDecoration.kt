@@ -12,16 +12,18 @@ class ViewHolderItemDecoration(private val spacing: Int) : RecyclerView.ItemDeco
             state: RecyclerView.State?
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        val position = parent?.getChildAdapterPosition(view)
-        val size = parent?.adapter?.itemCount ?: 0
+        view?.let {
+            val position = parent?.getChildAdapterPosition(it)
+            val size = parent?.adapter?.itemCount ?: 0
 
-        outRect?.apply {
-            top = spacing
-            left = spacing
-            right = spacing
+            outRect?.apply {
+                top = spacing
+                left = spacing
+                right = spacing
 
-            if (position == size - 1) {
-                bottom = spacing
+                if (position == size - 1) {
+                    bottom = spacing
+                }
             }
         }
     }

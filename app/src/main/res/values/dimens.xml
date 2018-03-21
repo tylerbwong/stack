@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="chip_text_spacing">12dp</dimen>
     <dimen name="item_spacing">8dp</dimen>
 </resources>
