@@ -41,7 +41,7 @@ class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             true
         }
 
-        expandCollapseArrow.setOnClickListener {
+        itemView.setOnClickListener {
             question.isExpanded = !question.isExpanded
             setExpanded(it.context, question.isExpanded)
         }
@@ -82,8 +82,6 @@ class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             }
 
             vectorDrawable.start()
-
-            TransitionManager.beginDelayedTransition(tagsChipGroup, AutoTransition())
         }
 
         tagLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
