@@ -3,7 +3,6 @@ package me.tylerbwong.stack.presentation.questions
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.R.id.question
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.inflateWithoutAttaching
 

@@ -6,8 +6,6 @@ import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.support.design.chip.Chip
 import android.support.design.chip.ChipGroup
-import android.support.transition.AutoTransition
-import android.support.transition.TransitionManager
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -18,19 +16,22 @@ import android.widget.Toast
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.toHtml
+import ru.noties.markwon.Markwon
 
 
 class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    private val question: TextView = ViewCompat.requireViewById(itemView, R.id.question)
+    private val questionTitle: TextView = ViewCompat.requireViewById(itemView, R.id.questionTitle)
+    private val questionBody: TextView = ViewCompat.requireViewById(itemView, R.id.questionBody)
     private val username: TextView = ViewCompat.requireViewById(itemView, R.id.username)
     private val expandCollapseArrow: ImageView = ViewCompat.requireViewById(itemView, R.id.expandCollapseButton)
-    private val tagLayout: LinearLayout = ViewCompat.requireViewById(itemView, R.id.tagLayout)
+    private val expandedView: LinearLayout = ViewCompat.requireViewById(itemView, R.id.expandedView)
     private val tagsChipGroup: ChipGroup = ViewCompat.requireViewById(itemView, R.id.tags)
 
     fun bind(question: Question) {
-        this.question.text = question.title.toHtml()
-        this.username.text = itemView.context.getString(R.string.by, question.owner.displayName)
+        this.questionTitle.text = question.title.toHtml()
+        this.username.text = itemView.context.getString(R.string.by, question.owner.displayName).toHtml()
+        Markwon.setMarkdown(questionBody, question.bodyMarkdown)
 
         setExpanded(itemView.context, question.isExpanded, false)
 
@@ -84,6 +85,6 @@ class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             vectorDrawable.start()
         }
 
-        tagLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
+        expandedView.visibility = if (isExpanded) View.VISIBLE else View.GONE
     }
 }

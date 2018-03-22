@@ -48,6 +48,9 @@ dependencies {
     implementation Libs.supportDesign
     implementation Libs.constraintLayout
 
+    // markdown
+    implementation Libs.markwon
+
     // logging
     implementation Libs.timber
 
