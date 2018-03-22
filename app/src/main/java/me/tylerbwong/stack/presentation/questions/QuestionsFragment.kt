@@ -36,6 +36,7 @@ class QuestionsFragment : BaseFragment(), QuestionsContract.View {
                     context.resources.getDimensionPixelSize(R.dimen.item_spacing)
             ))
         }
+        refreshLayout.setOnRefreshListener { presenter.subscribe() }
     }
 
     override fun onResume() {
@@ -45,6 +46,10 @@ class QuestionsFragment : BaseFragment(), QuestionsContract.View {
 
     override fun setQuestions(questions: List<Question>) {
         adapter.questions = questions
+    }
+
+    override fun setRefreshing(isRefreshing: Boolean) {
+        refreshLayout.isRefreshing = isRefreshing
     }
 
     companion object {

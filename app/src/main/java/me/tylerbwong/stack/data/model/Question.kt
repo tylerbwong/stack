@@ -35,5 +35,6 @@ data class Question(
         @SerializedName("up_vote_count")
         val upVoteCount: Int,
         @SerializedName("view_count")
-        val viewCount: Int
+        val viewCount: Int,
+        var isExpanded: Boolean = false
 )

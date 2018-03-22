@@ -11,10 +11,17 @@ internal class QuestionsPresenter(
 ) : QuestionsContract.Presenter {
 
     override fun subscribe() {
+        view.setRefreshing(true)
         val disposable = ServiceProvider.questionService.getQuestions()
                 .map { it.items }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(view::setQuestions, Timber::e)
+                .subscribe({
+                    view.setQuestions(it)
+                    view.setRefreshing(false)
+                }, {
+                    Timber.e(it)
+                    view.setRefreshing(false)
+                })
         disposables.add(disposable)
     }
 
