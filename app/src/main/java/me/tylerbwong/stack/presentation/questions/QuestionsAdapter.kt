@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
-import me.tylerbwong.stack.inflateWithoutAttaching
+import me.tylerbwong.stack.presentation.utils.inflateWithoutAttaching
 
 class QuestionsAdapter : RecyclerView.Adapter<QuestionHolder>() {
 

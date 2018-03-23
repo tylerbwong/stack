@@ -20,6 +20,7 @@ object Libs {
     val supportAppcompat = "com.android.support:appcompat-v7:${Versions.supportLib}"
     val cardView = "com.android.support:cardview-v7:${Versions.supportLib}"
     val supportDesign = "com.android.support:design:${Versions.supportLib}"
+    val supportCustomTabs = "com.android.support:customtabs:${Versions.supportLib}"
     val constraintLayout = "com.android.support.constraint:constraint-layout:${Versions.constraintLayout}"
     val markwon = "ru.noties:markwon:${Versions.markwon}"
     val okHttpLogger = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"

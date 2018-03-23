@@ -15,23 +15,31 @@ import android.widget.TextView
 import android.widget.Toast
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
-import me.tylerbwong.stack.toHtml
+import me.tylerbwong.stack.presentation.owners.BadgeView
+import me.tylerbwong.stack.presentation.utils.CustomTabsLinkResolver
+import me.tylerbwong.stack.presentation.utils.toHtml
 import ru.noties.markwon.Markwon
-
+import ru.noties.markwon.SpannableConfiguration
 
 class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val questionTitle: TextView = ViewCompat.requireViewById(itemView, R.id.questionTitle)
     private val questionBody: TextView = ViewCompat.requireViewById(itemView, R.id.questionBody)
     private val username: TextView = ViewCompat.requireViewById(itemView, R.id.username)
+    private val badgeView: BadgeView = ViewCompat.requireViewById(itemView, R.id.badgeView)
     private val expandCollapseArrow: ImageView = ViewCompat.requireViewById(itemView, R.id.expandCollapseButton)
     private val expandedView: LinearLayout = ViewCompat.requireViewById(itemView, R.id.expandedView)
     private val tagsChipGroup: ChipGroup = ViewCompat.requireViewById(itemView, R.id.tags)
 
+    private val spannableConfiguration = SpannableConfiguration.builder(itemView.context)
+        .linkResolver(CustomTabsLinkResolver())
+        .build()
+
     fun bind(question: Question) {
         this.questionTitle.text = question.title.toHtml()
         this.username.text = itemView.context.getString(R.string.by, question.owner.displayName).toHtml()
-        Markwon.setMarkdown(questionBody, question.bodyMarkdown)
+        this.badgeView.badgeCounts = question.owner.badgeCounts
+        Markwon.setMarkdown(questionBody, spannableConfiguration, question.bodyMarkdown)
 
         setExpanded(itemView.context, question.isExpanded, false)
 
@@ -50,14 +58,6 @@ class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         question.tags.forEach {
             with (Chip(itemView.context)) {
                 chipText = it
-                with(itemView.context.resources.getDimension(R.dimen.item_spacing)) {
-                    chipStartPadding = this
-                    chipEndPadding = this
-                }
-                with (itemView.context.resources.getDimension(R.dimen.chip_text_spacing)) {
-                    textStartPadding = this
-                    textEndPadding = this
-                }
                 tagsChipGroup.addView(this)
             }
         }

@@ -1,4 +1,4 @@
-package me.tylerbwong.stack
+package me.tylerbwong.stack.presentation.utils
 
 import android.os.Build
 import android.support.annotation.LayoutRes

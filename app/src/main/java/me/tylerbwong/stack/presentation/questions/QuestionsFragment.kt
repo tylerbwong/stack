@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.questions_fragment.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
-import me.tylerbwong.stack.inflateWithoutAttaching
 import me.tylerbwong.stack.presentation.BaseFragment
 import me.tylerbwong.stack.presentation.ViewHolderItemDecoration
+import me.tylerbwong.stack.presentation.utils.inflateWithoutAttaching
 
 class QuestionsFragment : BaseFragment(), QuestionsContract.View {
 
@@ -37,10 +37,7 @@ class QuestionsFragment : BaseFragment(), QuestionsContract.View {
             ))
         }
         refreshLayout.setOnRefreshListener { presenter.subscribe() }
-    }
 
-    override fun onResume() {
-        super.onResume()
         presenter.subscribe()
     }
 
