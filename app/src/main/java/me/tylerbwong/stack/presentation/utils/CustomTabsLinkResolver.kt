@@ -15,6 +15,6 @@ class CustomTabsLinkResolver : LinkSpan.Resolver {
                         R.color.colorPrimary
                 ))
                 .build()
-        customTabsIntent.launchUrl(view?.context, Uri.parse(link))
+        customTabsIntent.launchUrl(view.context, Uri.parse(link))
     }
 }
