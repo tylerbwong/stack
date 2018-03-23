@@ -3,9 +3,9 @@ package me.tylerbwong.stack.data.model
 import com.google.gson.annotations.SerializedName
 
 /**
- * Shallow user model.
+ * Shallow owner model.
  */
-data class User(
+data class Owner(
         @SerializedName("accept_rate")
         val acceptRate: Int?,
         @SerializedName("display_name")
@@ -16,5 +16,7 @@ data class User(
         @SerializedName("user_id")
         val userId: Int,
         @SerializedName("user_type")
-        val userType: String
+        val userType: String,
+        @SerializedName("badge_counts")
+        val badgeCounts: BadgeCounts
 )

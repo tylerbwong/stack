@@ -24,7 +24,7 @@ data class Question(
         val isAnswered: Boolean,
         @SerializedName("last_activity_date")
         val lastActivityDate: Long,
-        val owner: User,
+        val owner: Owner,
         @SerializedName("question_id")
         val questionId: Int,
         val score: Int,
