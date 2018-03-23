@@ -22,6 +22,7 @@ interface QuestionService {
         private const val FILTER_PARAM = "filter"
         private const val TAGGED_PARAM = "tagged"
         private const val KEY_PARAM = "key"
+        private const val SEARCH_PARAM = "q"
 
         // query param values
         internal const val DESC = "desc"
@@ -94,4 +95,16 @@ interface QuestionService {
             @Query(FILTER_PARAM) filter: String = DETAIL_FILTER,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
     ): Single<Response<Answer>>
+
+    @GET("search/advanced")
+    fun getQuestionsBySearchString(
+            @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+            @Query(SORT_PARAM) @Sort sort: String = DEFAULT_SORT,
+            @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
+            @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
+            @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
+            @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
+            @Query(KEY_PARAM) key: String = DEFAULT_KEY,
+            @Query(SEARCH_PARAM) searchString: String
+    ): Single<Response<Question>>
 }
