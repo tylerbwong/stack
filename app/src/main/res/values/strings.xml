@@ -6,5 +6,4 @@
     <string name="close_drawer">close</string>
     <string name="questions">Questions</string>
     <string name="tags">Tags</string>
-    <string name="by">by %1$s</string>
 </resources>
