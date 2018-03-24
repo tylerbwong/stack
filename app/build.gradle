@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 'android-P'
@@ -33,6 +34,10 @@ dependencies {
     implementation Libs.cardView
     implementation Libs.supportDesign
     implementation Libs.supportCustomTabs
+
+    // glide
+    implementation Libs.glide
+    kapt Libs.glideProcessor
 
     // networking
     implementation Libs.retrofit
