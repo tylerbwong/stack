@@ -7,4 +7,8 @@
     <color name="black">#000000</color>
     <color name="colorTextPrimary">#83898F</color>
     <color name="colorUserImagePlaceholder">#E0E0E0</color>
+
+    <color name="goldBadgeColor">#FFE082</color>
+    <color name="silverBadgeColor">#BDBDBD</color>
+    <color name="bronzeBadgeColor">#A1887F</color>
 </resources>

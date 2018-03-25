@@ -2,62 +2,122 @@ package me.tylerbwong.stack.presentation.owners
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.Typeface
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
+import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.BadgeCounts
+
 
 class BadgeView : View {
 
-    private val goldPaint by lazy { Paint().apply { color = Color.YELLOW } }
-    private val silverPaint by lazy { Paint().apply { color = Color.GRAY } }
-    private val bronzePaint by lazy { Paint().apply { color = Color.BLUE } }
-    private val textPaint by lazy { Paint().apply { color = Color.BLACK } }
+    // measurements
+    private val drawingHeight by lazy { TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, context.resources.displayMetrics) }
+    private val iconHeight by lazy { TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7f, context.resources.displayMetrics) }
+    private val iconRadius by lazy { iconHeight / 2f }
+    private val startEndPadding by lazy { TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, context.resources.displayMetrics) }
+    private val iconLabelPadding by lazy { TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f, context.resources.displayMetrics) }
+    private val badgePadding by lazy { TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6f, context.resources.displayMetrics) }
 
+    // colors
+    private val iconColors by lazy {
+        listOf(
+                ContextCompat.getColor(context, R.color.goldBadgeColor),
+                ContextCompat.getColor(context, R.color.silverBadgeColor),
+                ContextCompat.getColor(context, R.color.bronzeBadgeColor)
+        )
+    }
+
+    // paint
+    private val iconPaint by lazy { Paint(Paint.ANTI_ALIAS_FLAG) }
+    private val textPaint by lazy {
+        Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = ContextCompat.getColor(context, R.color.colorTextPrimary)
+            textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, context.resources.displayMetrics)
+            typeface = Typeface.DEFAULT
+        }
+    }
+
+    // extras
+    private val labelHelperRect by lazy { Rect() }
+
+    // badge data
     var badgeCounts: BadgeCounts? = null
         set(value) {
             field = value
             invalidate()
         }
 
-    constructor(context: Context) : super(context)
+    constructor(context: Context) : this(context, null)
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
-
-    init {
-        setWillNotDraw(false)
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
+        if (isInEditMode) {
+            badgeCounts = BadgeCounts(80, 3, 4)
+        }
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+
+        var idealWidth = paddingLeft + paddingRight + suggestedMinimumWidth + 0f
+        val idealHeight = paddingTop + paddingBottom + suggestedMinimumHeight + drawingHeight
+
+        badgeCounts?.let {
+            var addPadding = false
+            var badgeCount = 0
+
+            // add space for each badge
+            listOf(it.gold, it.silver, it.bronze).forEach { amount ->
+                if (amount > 0) {
+                    val amountString = amount.toString()
+                    idealWidth += iconHeight + iconLabelPadding + textPaint.measureText(amountString)
+                    addPadding = true
+                    badgeCount += 1
+                }
+            }
+
+            // add padding between badges
+            if (badgeCount >= 2) {
+                idealWidth += badgePadding * (badgeCount - 1)
+            }
+
+            // add start and end padding
+            if (addPadding) {
+                idealWidth += startEndPadding * 2
+            }
+        }
+
+        setMeasuredDimension(View.resolveSize(idealWidth.toInt(), widthMeasureSpec), View.resolveSize(idealHeight.toInt(), heightMeasureSpec))
+    }
+
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        var x = 0f
-        val badgeRadius = width / 8f
+        badgeCounts?.let {
+            val canvasHeight = canvas.height
+            val centerY = canvasHeight / 2f
+            var posX = paddingStart + startEndPadding
 
-        if (badgeCounts?.gold != 0) {
-            // draw gold badge with count at left most spot
-            canvas?.drawCircle(badgeRadius, x, badgeRadius, goldPaint)
-            x += badgeRadius
-            canvas?.drawText(badgeCounts?.gold.toString(), x, 0f, textPaint)
-            x += badgeRadius
-        }
+            listOf(it.gold, it.silver, it.bronze).forEachIndexed { index, amount ->
+                if (amount > 0) {
+                    // draw icon
+                    posX += iconRadius
+                    iconPaint.color = iconColors[index]
+                    canvas.drawCircle(posX, centerY, iconRadius, iconPaint)
 
-        if (badgeCounts?.silver != 0) {
-            // draw silver badge with count at left most spot
-            canvas?.drawCircle(badgeRadius, x, badgeRadius, silverPaint)
-            x += badgeRadius
-            canvas?.drawText(badgeCounts?.silver.toString(), x, 0f, textPaint)
-            x += badgeRadius
-        }
-
-        if (badgeCounts?.bronze != 0) {
-            // draw bronze badge with count at left most spot
-            canvas?.drawCircle(badgeRadius, x, badgeRadius, bronzePaint)
-            x += badgeRadius
-            canvas?.drawText(badgeCounts?.bronze.toString(), x, 0f, textPaint)
-            x += badgeRadius
+                    // draw label
+                    val amountString = amount.toString()
+                    posX += iconRadius + iconLabelPadding
+                    textPaint.getTextBounds(amountString, 0, amountString.length, labelHelperRect)
+                    canvas.drawText(amountString, posX, canvasHeight / 2f + labelHelperRect.height() / 2f, textPaint)
+                    posX += textPaint.measureText(amountString) + badgePadding
+                }
+            }
         }
     }
 }
