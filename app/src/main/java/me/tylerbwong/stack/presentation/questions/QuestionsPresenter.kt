@@ -10,9 +10,9 @@ internal class QuestionsPresenter(
         private val disposables: CompositeDisposable = CompositeDisposable()
 ) : QuestionsContract.Presenter {
 
-    override fun subscribe() {
+    override fun getQuestions(sort: String) {
         view.setRefreshing(true)
-        val disposable = ServiceProvider.questionService.getQuestions()
+        val disposable = ServiceProvider.questionService.getQuestions(sort = sort)
                 .map { it.items }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -23,6 +23,25 @@ internal class QuestionsPresenter(
                     view.setRefreshing(false)
                 })
         disposables.add(disposable)
+    }
+
+    override fun searchQuestions(query: String) {
+        view.setRefreshing(true)
+        val disposable = ServiceProvider.questionService.getQuestionsBySearchString(searchString = query)
+                .map { it.items }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    view.setQuestions(it)
+                    view.setRefreshing(false)
+                }, {
+                    Timber.e(it)
+                    view.setRefreshing(false)
+                })
+        disposables.add(disposable)
+    }
+
+    override fun subscribe() {
+        getQuestions()
     }
 
     override fun unsubscribe() = disposables.clear()

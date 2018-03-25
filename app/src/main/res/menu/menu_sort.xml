@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/creation"
+        android:title="@string/creation"/>
+    <item
+        android:id="@+id/activity"
+        android:title="@string/activity"/>
+    <item
+        android:id="@+id/votes"
+        android:title="@string/votes"/>
+    <item
+        android:id="@+id/hot"
+        android:title="@string/hot"/>
+    <item
+        android:id="@+id/week"
+        android:title="@string/week"/>
+    <item
+        android:id="@+id/month"
+        android:title="@string/month"/>
+</menu>

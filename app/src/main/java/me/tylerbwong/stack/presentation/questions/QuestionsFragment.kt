@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.questions_fragment.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
+import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.presentation.BaseFragment
 import me.tylerbwong.stack.presentation.ViewHolderItemDecoration
 import me.tylerbwong.stack.presentation.utils.inflateWithoutAttaching
@@ -55,6 +56,10 @@ class QuestionsFragment : BaseFragment(), QuestionsContract.View {
     override fun setRefreshing(isRefreshing: Boolean) {
         refreshLayout.isRefreshing = isRefreshing
     }
+
+    fun sortQuestions(@QuestionService.Companion.Sort sort: String) = presenter.getQuestions(sort)
+
+    fun searchQuestions(query: String) = presenter.searchQuestions(query)
 
     companion object {
         fun newInstance() = QuestionsFragment()

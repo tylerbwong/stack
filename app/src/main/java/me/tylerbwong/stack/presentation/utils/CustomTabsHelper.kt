@@ -30,7 +30,7 @@ class CustomTabsLinkResolver : LinkSpan.Resolver {
 }
 
 fun launchCustomTab(context: Context, url: String) {
-    val packageName = getPackageNameToUse(context)
+    val packageName = getPackageNameToUse(context, url)
     val customTabsIntent = CustomTabsIntent.Builder()
             .setToolbarColor(ContextCompat.getColor(
                     context,
@@ -41,16 +41,16 @@ fun launchCustomTab(context: Context, url: String) {
     customTabsIntent.launchUrl(context, Uri.parse(url))
 }
 
-private fun getPackageNameToUse(context: Context): String? {
+private fun getPackageNameToUse(context: Context, url: String): String? {
     if (packageName != null) return packageName
 
     val pm = context.packageManager
     // Get default VIEW intent handler.
-    val activityIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.example.com"))
+    val activityIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
     val defaultViewHandlerInfo = pm.resolveActivity(activityIntent, 0)
     var defaultViewHandlerPackageName: String? = null
-    if (defaultViewHandlerInfo != null) {
-        defaultViewHandlerPackageName = defaultViewHandlerInfo!!.activityInfo.packageName
+    defaultViewHandlerInfo?.let {
+        defaultViewHandlerPackageName = it.activityInfo.packageName
     }
 
     // Get all apps that can handle VIEW intents.
@@ -71,7 +71,7 @@ private fun getPackageNameToUse(context: Context): String? {
         packageName = null
     }
     else if (packagesSupportingCustomTabs.size == 1) {
-        packageName = packagesSupportingCustomTabs.get(0)
+        packageName = packagesSupportingCustomTabs[0]
     }
     else if (!TextUtils.isEmpty(defaultViewHandlerPackageName)
             && !hasSpecializedHandlerIntents(context, activityIntent)

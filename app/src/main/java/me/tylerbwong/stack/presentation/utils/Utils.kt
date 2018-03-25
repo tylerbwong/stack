@@ -3,11 +3,18 @@ package me.tylerbwong.stack.presentation.utils
 import android.os.Build
 import android.support.annotation.LayoutRes
 import android.text.Html
+import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.URLSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import java.util.*
+
+
 
 fun ViewGroup.inflateWithoutAttaching(@LayoutRes resId: Int): View? =
         LayoutInflater.from(context).inflate(resId, this, false)
@@ -19,6 +26,30 @@ fun String.toHtml(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.
 } else {
     @Suppress("DEPRECATION")
     Html.fromHtml(this)
+}
+
+private fun makeLinkClickable(strBuilder: SpannableStringBuilder, span: URLSpan) {
+    val start = strBuilder.getSpanStart(span)
+    val end = strBuilder.getSpanEnd(span)
+    val flags = strBuilder.getSpanFlags(span)
+    val clickable = object : ClickableSpan() {
+        override fun onClick(view: View) {
+            launchCustomTab(view.context, span.url)
+        }
+    }
+    strBuilder.setSpan(clickable, start, end, flags)
+    strBuilder.removeSpan(span)
+}
+
+fun TextView.setTextViewHTML(html: String) {
+    val sequence = html.toHtml()
+    val strBuilder = SpannableStringBuilder(sequence)
+    val urls = strBuilder.getSpans(0, sequence.length, URLSpan::class.java)
+    for (span in urls) {
+        makeLinkClickable(strBuilder, span)
+    }
+    text = strBuilder
+    movementMethod = LinkMovementMethod.getInstance()
 }
 
 private val suffixes = TreeMap<Long, String>().apply {

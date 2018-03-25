@@ -1,17 +1,35 @@
 package me.tylerbwong.stack.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.NavigationView
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.SearchView
+import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.PopupMenu
 import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.network.service.QuestionService
+import me.tylerbwong.stack.data.network.service.QuestionService.Companion.ACTIVITY
+import me.tylerbwong.stack.data.network.service.QuestionService.Companion.CREATION
+import me.tylerbwong.stack.data.network.service.QuestionService.Companion.HOT
+import me.tylerbwong.stack.data.network.service.QuestionService.Companion.MONTH
+import me.tylerbwong.stack.data.network.service.QuestionService.Companion.VOTES
+import me.tylerbwong.stack.data.network.service.QuestionService.Companion.WEEK
 import me.tylerbwong.stack.presentation.questions.QuestionsFragment
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+        PopupMenu.OnMenuItemClickListener, SearchView.OnQueryTextListener {
+
+    private var currentFragment: BaseFragment? = null
+    @QuestionService.Companion.Sort private var currentSort: String = CREATION
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +47,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.isDrawerSlideAnimationEnabled = false
         actionBarDrawerToggle.syncState()
+
+        searchView.setOnQueryTextListener(this)
 
         navigationView.setCheckedItem(R.id.questions)
         QuestionsFragment.newInstance().also {
@@ -60,6 +80,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .replace(R.id.contentFrame, it)
                     .commit()
             setFragmentTitle(it.titleRes)
+            currentFragment = it
         }
     }
 
@@ -68,4 +89,80 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             supportActionBar?.title = getString(it)
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_questions, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.sort -> {
+                PopupMenu(this, findViewById(R.id.sort)).also {
+                    it.inflate(R.menu.menu_sort)
+                    it.setOnMenuItemClickListener(this)
+                    it.show()
+                }
+            }
+            R.id.search -> {
+                searchView.visibility = View.VISIBLE
+                searchView.requestFocus()
+                showKeyboard()
+            }
+        }
+        return true
+    }
+
+    override fun onBackPressed() {
+        if (searchView.visibility == View.VISIBLE) {
+            searchView.visibility = View.GONE
+            sortQuestions(currentSort)
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    override fun onMenuItemClick(item: MenuItem?) = when (item?.itemId) {
+        R.id.creation -> sortQuestions(CREATION)
+        R.id.activity -> sortQuestions(ACTIVITY)
+        R.id.votes -> sortQuestions(VOTES)
+        R.id.hot -> sortQuestions(HOT)
+        R.id.week -> sortQuestions(WEEK)
+        R.id.month -> sortQuestions(MONTH)
+        else -> false
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        query?.let {
+            hideKeyboard()
+            searchQuestions(it)
+            return true
+        }
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?) = false
+
+    private fun hideKeyboard() {
+        currentFocus?.let {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(it.windowToken, 0)
+        }
+    }
+
+    private fun showKeyboard() {
+        currentFocus?.let {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(it, 0)
+        }
+    }
+
+    private fun sortQuestions(@QuestionService.Companion.Sort sort: String): Boolean {
+        (currentFragment as? QuestionsFragment)?.sortQuestions(sort)
+        currentSort = sort
+        return true
+    }
+
+    private fun searchQuestions(query: String) =
+            (currentFragment as? QuestionsFragment)?.searchQuestions(query)
 }
