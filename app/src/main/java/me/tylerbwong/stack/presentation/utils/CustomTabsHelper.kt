@@ -8,7 +8,9 @@ import android.support.customtabs.CustomTabsIntent
 import android.support.customtabs.CustomTabsService
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
+import android.view.View
 import me.tylerbwong.stack.R
+import ru.noties.markwon.spans.LinkSpan
 import timber.log.Timber
 
 private const val STABLE_PACKAGE = "com.android.chrome"
@@ -17,6 +19,15 @@ private const val DEV_PACKAGE = "com.chrome.dev"
 private const val LOCAL_PACKAGE = "com.google.android.apps.chrome"
 
 private var packageName: String? = null
+
+class CustomTabsLinkResolver : LinkSpan.Resolver {
+    override fun resolve(view: View?, link: String) {
+        launchCustomTab(
+                view?.context ?: throw IllegalArgumentException("Context cannot be null"),
+                link
+        )
+    }
+}
 
 fun launchCustomTab(context: Context, url: String) {
     val packageName = getPackageNameToUse(context)

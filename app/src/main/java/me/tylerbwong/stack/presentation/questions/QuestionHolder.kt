@@ -1,10 +1,12 @@
 package me.tylerbwong.stack.presentation.questions
 
+import android.app.ActivityOptions
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
+import android.util.Pair
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,7 +14,9 @@ import android.widget.Toast
 import com.bumptech.glide.request.RequestOptions
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
+import me.tylerbwong.stack.presentation.MainActivity
 import me.tylerbwong.stack.presentation.owners.BadgeView
+import me.tylerbwong.stack.presentation.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.presentation.utils.GlideApp
 import me.tylerbwong.stack.presentation.utils.format
 import me.tylerbwong.stack.presentation.utils.toHtml
@@ -26,8 +30,10 @@ class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val reputation: TextView = ViewCompat.requireViewById(itemView, R.id.reputation)
     private val badgeView: BadgeView = ViewCompat.requireViewById(itemView, R.id.badgeView)
 
-    @Suppress("all")
+    private lateinit var question: Question
+
     fun bind(question: Question) {
+        this.question = question
         this.questionTitle.text = question.title.toHtml()
         this.questionBody.text = question.body?.toHtml()
 
@@ -48,7 +54,20 @@ class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         }
 
         itemView.setOnClickListener {
-            // TODO link to question detail activity
+            itemView.transitionName = question.questionId.toString()
+
+            val activityOptions = ActivityOptions.makeSceneTransitionAnimation(
+                    it.context as MainActivity,
+                    Pair(itemView, itemView.transitionName)
+            )
+            QuestionDetailActivity.startActivity(
+                    it.context,
+                    activityOptions,
+                    question.questionId,
+                    question.title,
+                    question.body,
+                    question.owner
+            )
         }
     }
 }

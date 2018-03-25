@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootQuestionView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="2dp"
@@ -68,7 +70,8 @@
                         android:id="@+id/reputation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp"
+                        android:textStyle="bold"/>
 
                     <me.tylerbwong.stack.presentation.owners.BadgeView
                         android:id="@+id/badgeView"

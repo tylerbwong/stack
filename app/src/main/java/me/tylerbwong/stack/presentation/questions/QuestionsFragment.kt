@@ -41,6 +41,11 @@ class QuestionsFragment : BaseFragment(), QuestionsContract.View {
         presenter.subscribe()
     }
 
+    override fun onStop() {
+        super.onStop()
+        presenter.unsubscribe()
+    }
+
     override fun setQuestions(questions: List<Question>) {
         adapter.questions = questions
     }

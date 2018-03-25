@@ -21,6 +21,7 @@ interface QuestionService {
         private const val PAGE_PARAM = "page"
         private const val FILTER_PARAM = "filter"
         private const val TAGGED_PARAM = "tagged"
+        private const val KEY_PARAM = "key"
 
         // query param values
         internal const val DESC = "desc"
@@ -45,6 +46,7 @@ interface QuestionService {
         private const val DEFAULT_ORDER = DESC
         private const val DEFAULT_PAGE_SIZE = 50
         private const val DEFAULT_PAGE = 1
+        private const val DEFAULT_KEY = ")vdLbYccKv*tSRXeypGGeA(("
 
         // detail
         private const val DETAIL_FILTER = "!3r.zRmD4l6rHdTgXfBOo(qq6rg_D3I7uaTO)p123.RRrNwbbeBOKxJp8dch552I"
@@ -57,7 +59,8 @@ interface QuestionService {
             @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
             @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
             @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
-            @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER
+            @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
+            @Query(KEY_PARAM) key: String = DEFAULT_KEY
     ): Single<Response<Question>>
 
     @GET("questions")
@@ -68,22 +71,27 @@ interface QuestionService {
             @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
             @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
             @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
-            @Query(TAGGED_PARAM) tags: String
+            @Query(TAGGED_PARAM) tags: String,
+            @Query(KEY_PARAM) key: String = DEFAULT_KEY
     ): Single<Response<Question>>
 
     @GET("questions/{id}")
     fun getQuestionDetails(
             @Path("id") questionId: Int,
-            @Query(FILTER_PARAM) filter: String = DETAIL_FILTER
+            @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+            @Query(FILTER_PARAM) filter: String = DETAIL_FILTER,
+            @Query(KEY_PARAM) key: String = DEFAULT_KEY
     ): Single<Response<Question>>
 
     @GET("questions/{id}/answers")
     fun getQuestionAnswers(
             @Path("id") questionId: Int,
+            @Query(SITE_PARAM) site: String = DEFAULT_SITE,
             @Query(SORT_PARAM) @Sort sort: String = DEFAULT_SORT,
             @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
             @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
             @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
-            @Query(FILTER_PARAM) filter: String = DETAIL_FILTER
+            @Query(FILTER_PARAM) filter: String = DETAIL_FILTER,
+            @Query(KEY_PARAM) key: String = DEFAULT_KEY
     ): Single<Response<Answer>>
 }

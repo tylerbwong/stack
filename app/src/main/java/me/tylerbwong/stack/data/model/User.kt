@@ -1,10 +1,13 @@
 package me.tylerbwong.stack.data.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Shallow owner model.
  */
+@Parcelize
 data class User(
         @SerializedName("accept_rate")
         val acceptRate: Int?,
@@ -20,4 +23,4 @@ data class User(
         val userType: String,
         @SerializedName("badge_counts")
         val badgeCounts: BadgeCounts
-)
+) : Parcelable

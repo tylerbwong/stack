@@ -25,7 +25,5 @@ internal class QuestionsPresenter(
         disposables.add(disposable)
     }
 
-    override fun unsubscribe() {
-        disposables.clear()
-    }
+    override fun unsubscribe() = disposables.clear()
 }
