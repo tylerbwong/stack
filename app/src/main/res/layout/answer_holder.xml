@@ -1,68 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootAnswerView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/answerBody"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:paddingBottom="16dp"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:textColor="@color/colorTextPrimary"
-        android:textSize="14sp"/>
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/userImage"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:scaleType="centerCrop" />
+        <TextView
+            android:id="@+id/answerBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="14sp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="8dp"
-                android:textColor="@color/black"
-                android:textSize="13sp" />
+            <ImageView
+                android:id="@+id/userImage"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:scaleType="centerCrop" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp">
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/reputation"
+                    android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorTextPrimary"
-                    android:textSize="12sp"
-                    android:textStyle="bold"/>
+                    android:layout_gravity="start"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
 
-                <me.tylerbwong.stack.presentation.owners.BadgeView
-                    android:id="@+id/badgeView"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/reputation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <me.tylerbwong.stack.presentation.owners.BadgeView
+                        android:id="@+id/badgeView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
-</LinearLayout>
+</android.support.v7.widget.CardView>

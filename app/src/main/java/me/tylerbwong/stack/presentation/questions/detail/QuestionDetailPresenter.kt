@@ -14,10 +14,17 @@ class QuestionDetailPresenter(
     private val disposables = CompositeDisposable()
 
     private fun getQuestion() {
+        view.setRefreshing(true)
         val disposable = ServiceProvider.questionService.getQuestionDetails(questionId)
                 .map { it.items.first() }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(view::setQuestion, Timber::e)
+                .subscribe({
+                    view.setQuestion(it)
+                    view.setRefreshing(false)
+                }, {
+                    Timber.e(it)
+                    view.setRefreshing(false)
+                })
         disposables.add(disposable)
     }
 

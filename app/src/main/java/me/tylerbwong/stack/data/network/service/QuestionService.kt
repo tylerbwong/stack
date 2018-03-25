@@ -43,7 +43,7 @@ interface QuestionService {
         // defaults
         private const val DEFAULT_SITE = "stackoverflow"
         private const val DEFAULT_FILTER = "!-N4vhDh8TGjM*h(2reCz3exHc6q)hWsdi"
-        private const val DEFAULT_SORT = CREATION
+        private const val DEFAULT_SORT = HOT
         private const val DEFAULT_ORDER = DESC
         private const val DEFAULT_PAGE_SIZE = 50
         private const val DEFAULT_PAGE = 1
@@ -88,7 +88,6 @@ interface QuestionService {
     fun getQuestionAnswers(
             @Path("id") questionId: Int,
             @Query(SITE_PARAM) site: String = DEFAULT_SITE,
-            @Query(SORT_PARAM) @Sort sort: String = DEFAULT_SORT,
             @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
             @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
             @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,

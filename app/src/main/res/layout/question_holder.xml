@@ -26,7 +26,7 @@
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
-            tools:text="Question title" />
+            tools:text="Question title"/>
 
         <TextView
             android:id="@+id/questionBody"
@@ -39,19 +39,25 @@
             android:paddingStart="16dp"
             android:textColor="@color/colorTextPrimary"
             android:textSize="14sp"
-            tools:text="Question body" />
+            tools:text="Question body"/>
+
+        <android.support.design.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height=""/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/userImage"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -66,11 +72,12 @@
                     android:layout_marginStart="8dp"
                     android:textColor="@color/black"
                     android:textSize="13sp"
-                    tools:text="Brittany Berlanga" />
+                    tools:text="Brittany Berlanga"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:layout_marginStart="8dp"
                     android:gravity="center_vertical">
 
@@ -78,19 +85,19 @@
                         android:id="@+id/reputation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
                         android:textColor="@color/colorTextPrimary"
                         android:textSize="12sp"
                         android:textStyle="bold"
-                        tools:text="40k" />
+                        tools:text="40k"/>
 
                     <me.tylerbwong.stack.presentation.owners.BadgeView
                         android:id="@+id/badgeView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp" />
+                        android:layout_marginStart="8dp"/>
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

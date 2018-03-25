@@ -4,7 +4,11 @@ import android.graphics.Rect
 import android.support.v7.widget.RecyclerView
 import android.view.View
 
-class ViewHolderItemDecoration(private val spacing: Int) : RecyclerView.ItemDecoration() {
+class ViewHolderItemDecoration(
+        private val spacing: Int,
+        private val removeSideSpacing: Boolean = false,
+        private val removeTopSpacing: Boolean = false
+) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
             outRect: Rect?,
             view: View?,
@@ -17,11 +21,16 @@ class ViewHolderItemDecoration(private val spacing: Int) : RecyclerView.ItemDeco
             val size = parent?.adapter?.itemCount ?: 0
 
             outRect?.apply {
-                top = spacing
-                left = spacing
-                right = spacing
+                if (!removeTopSpacing) {
+                    top = spacing
+                }
 
-                if (position == size - 1) {
+                if (!removeSideSpacing) {
+                    left = spacing
+                    right = spacing
+                }
+
+                if (position == size - 1 || removeTopSpacing) {
                     bottom = spacing
                 }
             }

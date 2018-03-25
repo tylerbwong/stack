@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.view.MenuItem
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_question_detail.*
 import kotlinx.android.synthetic.main.question_holder.*
@@ -12,6 +14,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.User
+import me.tylerbwong.stack.presentation.ViewHolderItemDecoration
 import me.tylerbwong.stack.presentation.answers.AnswerAdapter
 import me.tylerbwong.stack.presentation.utils.CustomTabsLinkResolver
 import me.tylerbwong.stack.presentation.utils.GlideApp
@@ -36,6 +39,18 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
 
+        recyclerView.apply {
+            adapter = this@QuestionDetailActivity.adapter
+            layoutManager = LinearLayoutManager(this@QuestionDetailActivity)
+            addItemDecoration(
+                    ViewHolderItemDecoration(
+                            context.resources.getDimensionPixelSize(R.dimen.item_spacing),
+                            true,
+                            true
+                    )
+            )
+        }
+
         questionTitle.text = intent.getStringExtra(QUESTION_TITLE).toHtml()
         questionBody.text = intent.getStringExtra(QUESTION_BODY).toHtml()
         presenter.questionId = intent.getIntExtra(QUESTION_ID, 0).also {
@@ -52,6 +67,8 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
         badgeView.badgeCounts = owner.badgeCounts
         reputation.text = owner.reputation.toLong().format()
 
+        refreshLayout.setOnRefreshListener { presenter.subscribe() }
+
         presenter.subscribe()
     }
 
@@ -60,10 +77,18 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
         presenter.unsubscribe()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun setQuestion(question: Question) {
         this.question = question
         questionBody.maxLines = Integer.MAX_VALUE
         questionBody.ellipsize = null
+        answersCount.text = resources.getString(R.string.answers, question.answerCount)
 
         question.bodyMarkdown?.let {
             Markwon.setMarkdown(

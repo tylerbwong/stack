@@ -30,11 +30,13 @@ class QuestionsFragment : BaseFragment(), QuestionsContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.apply {
-            this@apply.adapter = this@QuestionsFragment.adapter
+            adapter = this@QuestionsFragment.adapter
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(ViewHolderItemDecoration(
-                    context.resources.getDimensionPixelSize(R.dimen.item_spacing)
-            ))
+            addItemDecoration(
+                    ViewHolderItemDecoration(
+                        context.resources.getDimensionPixelSize(R.dimen.item_spacing)
+                    )
+            )
         }
         refreshLayout.setOnRefreshListener { presenter.subscribe() }
 
