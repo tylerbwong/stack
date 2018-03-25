@@ -12,6 +12,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.User
+import me.tylerbwong.stack.presentation.answers.AnswerAdapter
 import me.tylerbwong.stack.presentation.utils.CustomTabsLinkResolver
 import me.tylerbwong.stack.presentation.utils.GlideApp
 import me.tylerbwong.stack.presentation.utils.format
@@ -22,6 +23,7 @@ import ru.noties.markwon.SpannableConfiguration
 class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View {
 
     private val presenter = QuestionDetailPresenter(this)
+    private val adapter = AnswerAdapter()
 
     private lateinit var question: Question
     private lateinit var owner: User
@@ -75,9 +77,11 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
     }
 
     override fun setAnswers(answers: List<Answer>) {
+        adapter.answers = answers
     }
 
     override fun setRefreshing(isRefreshing: Boolean) {
+        refreshLayout.isRefreshing = isRefreshing
     }
 
     companion object {

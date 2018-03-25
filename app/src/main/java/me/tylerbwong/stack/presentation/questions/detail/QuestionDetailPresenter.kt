@@ -22,10 +22,17 @@ class QuestionDetailPresenter(
     }
 
     private fun getAnswers() {
+        view.setRefreshing(true)
         val disposable = ServiceProvider.questionService.getQuestionAnswers(questionId)
                 .map { it.items }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(view::setAnswers, Timber::e)
+                .subscribe({
+                    view.setAnswers(it)
+                    view.setRefreshing(false)
+                }, {
+                    Timber.e(it)
+                    view.setRefreshing(false)
+                })
         disposables.add(disposable)
     }
 
