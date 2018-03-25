@@ -23,7 +23,8 @@
             android:paddingStart="16dp"
             android:paddingTop="16dp"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/questionBody"
@@ -59,6 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginStart="8dp"
+                    android:textColor="@color/black"
                     android:textSize="13sp" />
 
                 <LinearLayout

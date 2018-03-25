@@ -4,5 +4,7 @@
     <color name="colorPrimaryDark">#BDBDBD</color>
     <color name="colorAccent">#2196F3</color>
 
+    <color name="black">#000000</color>
+    <color name="colorTextPrimary">#83898F</color>
     <color name="colorUserImagePlaceholder">#E0E0E0</color>
 </resources>
