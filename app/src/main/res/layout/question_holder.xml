@@ -22,9 +22,9 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
+            android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"/>
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/questionBody"
@@ -35,6 +35,7 @@
             android:paddingBottom="16dp"
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
+            android:textColor="@color/colorTextPrimary"
             android:textSize="14sp"/>
 
         <LinearLayout
@@ -72,6 +73,7 @@
                         android:id="@+id/reputation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/colorTextPrimary"
                         android:textSize="12sp"
                         android:textStyle="bold"/>
 
