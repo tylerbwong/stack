@@ -4,7 +4,13 @@
     <!-- Navigation Drawer -->
     <string name="open_drawer">open</string>
     <string name="close_drawer">close</string>
-    <string name="answers">%1$d Answers</string>
     <string name="questions">Questions</string>
     <string name="tags">Tags</string>
+
+    <plurals name="answers">
+        <item quantity="zero">%1$d Answers</item>
+        <item quantity="one">%1$d Answer</item>
+        <item quantity="many">%1$d Answers</item>
+        <item quantity="other">%1$d Answers</item>
+    </plurals>
 </resources>

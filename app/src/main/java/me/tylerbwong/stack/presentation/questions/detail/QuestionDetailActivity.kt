@@ -4,9 +4,11 @@ import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.chip.Chip
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
+import android.view.View
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_question_detail.*
 import kotlinx.android.synthetic.main.question_holder.*
@@ -88,7 +90,11 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
         this.question = question
         questionBody.maxLines = Integer.MAX_VALUE
         questionBody.ellipsize = null
-        answersCount.text = resources.getString(R.string.answers, question.answerCount)
+        answersCount.text = resources.getQuantityString(
+                R.plurals.answers,
+                question.answerCount,
+                question.answerCount
+        )
 
         question.bodyMarkdown?.let {
             Markwon.setMarkdown(
@@ -98,6 +104,22 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
                             .build(),
                     it
             )
+        }
+        question.tags?.let {
+            tagsView.removeAllViews()
+            tagsView.visibility = View.VISIBLE
+            val padding = resources.getDimensionPixelOffset(R.dimen.item_spacing_double)
+            it.forEachIndexed { index, tag ->
+                val chip = Chip(this).apply {
+                    chipText = tag
+                }
+                if (index == 0) {
+                    chip.setPadding(padding, 0, 0, 0)
+                } else if (index == it.size - 1) {
+                    chip.setPadding(0, 0, padding, 0)
+                }
+                tagsView.addView(chip)
+            }
         }
     }
 

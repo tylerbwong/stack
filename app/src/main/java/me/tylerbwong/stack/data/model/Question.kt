@@ -30,7 +30,7 @@ data class Question(
         @SerializedName("last_edit_date")
         val lastEditDate: Long?,
         @SerializedName("last_editor")
-        val lastEditor: Long?,
+        val lastEditor: User?,
         val owner: User,
         @SerializedName("question_id")
         val questionId: Int,
