@@ -51,6 +51,7 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
                             true
                     )
             )
+            isNestedScrollingEnabled = false
         }
 
         questionTitle.text = intent.getStringExtra(QUESTION_TITLE).toHtml()
