@@ -60,6 +60,7 @@ dependencies {
 
     // markdown
     implementation Libs.markwon
+    implementation Libs.markwonImageLoader
 
     // logging
     implementation Libs.timber

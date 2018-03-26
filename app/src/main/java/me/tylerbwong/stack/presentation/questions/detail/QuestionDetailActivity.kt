@@ -1,6 +1,5 @@
 package me.tylerbwong.stack.presentation.questions.detail
 
-import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -18,12 +17,10 @@ import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.presentation.ViewHolderItemDecoration
 import me.tylerbwong.stack.presentation.answers.AnswerAdapter
-import me.tylerbwong.stack.presentation.utils.CustomTabsLinkResolver
 import me.tylerbwong.stack.presentation.utils.GlideApp
 import me.tylerbwong.stack.presentation.utils.format
+import me.tylerbwong.stack.presentation.utils.setMarkdown
 import me.tylerbwong.stack.presentation.utils.toHtml
-import ru.noties.markwon.Markwon
-import ru.noties.markwon.SpannableConfiguration
 
 class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View {
 
@@ -56,9 +53,7 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
 
         questionTitle.text = intent.getStringExtra(QUESTION_TITLE).toHtml()
         questionBody.text = intent.getStringExtra(QUESTION_BODY).toHtml()
-        presenter.questionId = intent.getIntExtra(QUESTION_ID, 0).also {
-            rootQuestionView.transitionName = it.toString()
-        }
+        presenter.questionId = intent.getIntExtra(QUESTION_ID, 0)
         owner = intent.getParcelableExtra(QUESTION_OWNER)
 
         username.text = owner.displayName.toHtml()
@@ -89,6 +84,8 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
 
     override fun setQuestion(question: Question) {
         this.question = question
+        val voteCount = question.upVoteCount - question.downVoteCount
+        supportActionBar?.title = resources.getQuantityString(R.plurals.votes, voteCount, voteCount)
         questionBody.maxLines = Integer.MAX_VALUE
         questionBody.ellipsize = null
         answersCount.text = resources.getQuantityString(
@@ -98,13 +95,7 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
         )
 
         question.bodyMarkdown?.let {
-            Markwon.setMarkdown(
-                    questionBody,
-                    SpannableConfiguration.builder(this)
-                            .linkResolver(CustomTabsLinkResolver())
-                            .build(),
-                    it
-            )
+            questionBody.setMarkdown(it)
         }
         question.tags?.let {
             tagsView.removeAllViews()
@@ -129,7 +120,9 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
     }
 
     override fun setRefreshing(isRefreshing: Boolean) {
-        refreshLayout.isRefreshing = isRefreshing
+        if (refreshLayout.isRefreshing != isRefreshing) {
+            refreshLayout.isRefreshing = isRefreshing
+        }
     }
 
     companion object {
@@ -140,7 +133,6 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
 
         fun startActivity(
                 context: Context,
-                activityOptions: ActivityOptions,
                 id: Int,
                 title: String,
                 body: String?,
@@ -152,7 +144,7 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
                 putExtra(QUESTION_BODY, body)
                 putExtra(QUESTION_OWNER, owner)
             }
-            context.startActivity(intent, activityOptions.toBundle())
+            context.startActivity(intent)
         }
     }
 }

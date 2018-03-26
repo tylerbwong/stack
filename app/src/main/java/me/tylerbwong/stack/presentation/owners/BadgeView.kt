@@ -49,6 +49,7 @@ class BadgeView : View {
     var badgeCounts: BadgeCounts? = null
         set(value) {
             field = value
+            requestLayout()
             invalidate()
         }
 

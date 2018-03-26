@@ -26,6 +26,7 @@ object Libs {
     val supportCustomTabs = "com.android.support:customtabs:${Versions.supportLib}"
     val constraintLayout = "com.android.support.constraint:constraint-layout:${Versions.constraintLayout}"
     val markwon = "ru.noties:markwon:${Versions.markwon}"
+    val markwonImageLoader = "ru.noties:markwon-image-loader:${Versions.markwon}"
     val okHttpLogger = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"
     val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     val retrofitRxAdapter = "com.squareup.retrofit2:adapter-rxjava2:${Versions.retrofit}"

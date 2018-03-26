@@ -18,6 +18,6 @@ data class Answer(
         @SerializedName("body_markdown")
         val bodyMarkdown: String,
         @SerializedName("last_editor")
-        val lastEditor: User,
+        val lastEditor: User?,
         val comments: List<Comment>
 )

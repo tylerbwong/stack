@@ -16,6 +16,13 @@
         <item quantity="other">%1$d Answers</item>
     </plurals>
 
+    <plurals name="votes">
+        <item quantity="zero">%1$d Votes</item>
+        <item quantity="one">%1$d Vote</item>
+        <item quantity="many">%1$d Votes</item>
+        <item quantity="other">%1$d Votes</item>
+    </plurals>
+
     <!-- Sort -->
     <string name="sort">Sort</string>
     <string name="creation">Creation</string>
