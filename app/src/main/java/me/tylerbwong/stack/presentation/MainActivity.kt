@@ -14,13 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.network.service.QuestionService
-import me.tylerbwong.stack.data.network.service.QuestionService.Companion.ACTIVITY
-import me.tylerbwong.stack.data.network.service.QuestionService.Companion.CREATION
-import me.tylerbwong.stack.data.network.service.QuestionService.Companion.HOT
-import me.tylerbwong.stack.data.network.service.QuestionService.Companion.MONTH
-import me.tylerbwong.stack.data.network.service.QuestionService.Companion.VOTES
-import me.tylerbwong.stack.data.network.service.QuestionService.Companion.WEEK
+import me.tylerbwong.stack.data.model.*
 import me.tylerbwong.stack.presentation.questions.QuestionsFragment
 import timber.log.Timber
 
@@ -29,7 +23,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         PopupMenu.OnMenuItemClickListener, SearchView.OnQueryTextListener {
 
     private var currentFragment: BaseFragment? = null
-    @QuestionService.Companion.Sort private var currentSort: String = CREATION
+    @Sort private var currentSort: String = CREATION
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -157,7 +151,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    private fun sortQuestions(@QuestionService.Companion.Sort sort: String): Boolean {
+    private fun sortQuestions(@Sort sort: String): Boolean {
         (currentFragment as? QuestionsFragment)?.sortQuestions(sort)
         currentSort = sort
         return true

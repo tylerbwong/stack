@@ -1,10 +1,7 @@
 package me.tylerbwong.stack.data.network.service
 
-import android.support.annotation.StringDef
 import io.reactivex.Single
-import me.tylerbwong.stack.data.model.Answer
-import me.tylerbwong.stack.data.model.Question
-import me.tylerbwong.stack.data.model.Response
+import me.tylerbwong.stack.data.model.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -23,23 +20,6 @@ interface QuestionService {
         private const val TAGGED_PARAM = "tagged"
         private const val KEY_PARAM = "key"
         private const val SEARCH_PARAM = "q"
-
-        // query param values
-        internal const val DESC = "desc"
-        internal const val ASC = "asc"
-        internal const val CREATION = "creation"
-        internal const val ACTIVITY = "activity"
-        internal const val VOTES = "votes"
-        internal const val HOT = "hot"
-        internal const val WEEK = "week"
-        internal const val MONTH = "month"
-        internal const val RELEVANCE = "relevance"
-
-        @StringDef(DESC, ASC)
-        annotation class Order
-
-        @StringDef(CREATION, ACTIVITY, VOTES, HOT, WEEK, MONTH)
-        annotation class Sort
 
         // defaults
         private const val DEFAULT_SITE = "stackoverflow"
