@@ -129,8 +129,8 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
     }
 
     override fun setRefreshing(isRefreshing: Boolean) {
-        if (refreshLayout.isRefreshing != isRefreshing) {
-            refreshLayout.isRefreshing = isRefreshing
+        if (refreshLayout?.isRefreshing != isRefreshing) {
+            refreshLayout?.isRefreshing = isRefreshing
         }
     }
 

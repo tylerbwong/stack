@@ -54,7 +54,7 @@ class QuestionsFragment : BaseFragment(), QuestionsContract.View {
     }
 
     override fun setRefreshing(isRefreshing: Boolean) {
-        refreshLayout.isRefreshing = isRefreshing
+        refreshLayout?.isRefreshing = isRefreshing
     }
 
     fun sortQuestions(@Sort sort: String) = presenter.getQuestions(sort)
