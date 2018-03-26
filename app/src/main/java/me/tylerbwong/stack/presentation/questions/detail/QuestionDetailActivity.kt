@@ -59,6 +59,8 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
             questionBody.text = intent.getStringExtra(QUESTION_BODY).toHtml()
             bindUser(intent.getParcelableExtra(QUESTION_OWNER))
         }
+        questionBody.setTextIsSelectable(true)
+
         presenter.questionId = intent.getIntExtra(QUESTION_ID, 0)
 
         refreshLayout.setOnRefreshListener { presenter.subscribe() }

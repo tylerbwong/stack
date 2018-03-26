@@ -48,6 +48,7 @@
             android:paddingStart="16dp"
             android:paddingTop="16dp"
             android:textColor="@color/colorTextPrimary"
+            android:textIsSelectable="true"
             android:textSize="14sp" />
 
         <LinearLayout
