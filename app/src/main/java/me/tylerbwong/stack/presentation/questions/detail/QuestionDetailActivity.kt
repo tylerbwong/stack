@@ -119,7 +119,7 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
         }
 
         if (isFromDeepLink) {
-            questionTitle.text = question.title
+            questionTitle.text = question.title.toHtml()
             bindUser(question.owner)
         }
     }
