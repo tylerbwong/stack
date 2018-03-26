@@ -29,6 +29,11 @@
                     android:scheme="https"
                     android:host="stackoverflow.com"
                     android:pathPrefix="/questions" />
+
+                <data
+                    android:scheme="https"
+                    android:host="stackoverflow.com"
+                    android:pathPrefix="/q" />
             </intent-filter>
         </activity>
 
