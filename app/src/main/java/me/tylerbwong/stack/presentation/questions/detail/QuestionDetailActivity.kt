@@ -27,8 +27,9 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
     private val presenter = QuestionDetailPresenter(this)
     private val adapter = AnswerAdapter()
 
+    private var isFromDeepLink = false
+
     private lateinit var question: Question
-    private lateinit var owner: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,23 +52,31 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
             isNestedScrollingEnabled = false
         }
 
-        questionTitle.text = intent.getStringExtra(QUESTION_TITLE).toHtml()
-        questionBody.text = intent.getStringExtra(QUESTION_BODY).toHtml()
-        presenter.questionId = intent.getIntExtra(QUESTION_ID, 0)
-        owner = intent.getParcelableExtra(QUESTION_OWNER)
+        isFromDeepLink = intent.getBooleanExtra(IS_FROM_DEEP_LINK, false)
 
-        username.text = owner.displayName.toHtml()
-        GlideApp.with(this)
-                .load(owner.profileImage)
-                .placeholder(R.drawable.user_image_placeholder)
-                .apply(RequestOptions.circleCropTransform())
-                .into(userImage)
-        badgeView.badgeCounts = owner.badgeCounts
-        reputation.text = owner.reputation.toLong().format()
+        if (!isFromDeepLink) {
+            questionTitle.text = intent.getStringExtra(QUESTION_TITLE).toHtml()
+            questionBody.text = intent.getStringExtra(QUESTION_BODY).toHtml()
+            bindUser(intent.getParcelableExtra(QUESTION_OWNER))
+        }
+        presenter.questionId = intent.getIntExtra(QUESTION_ID, 0)
 
         refreshLayout.setOnRefreshListener { presenter.subscribe() }
 
         presenter.subscribe()
+    }
+
+    private fun bindUser(user: User?) {
+        user?.let {
+            username.text = it.displayName.toHtml()
+            GlideApp.with(this)
+                    .load(it.profileImage)
+                    .placeholder(R.drawable.user_image_placeholder)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(userImage)
+            badgeView.badgeCounts = it.badgeCounts
+            reputation.text = it.reputation.toLong().format()
+        }
     }
 
     override fun onStop() {
@@ -100,18 +109,16 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
         question.tags?.let {
             tagsView.removeAllViews()
             tagsView.visibility = View.VISIBLE
-            val padding = resources.getDimensionPixelOffset(R.dimen.item_spacing_double)
-            it.forEachIndexed { index, tag ->
-                val chip = Chip(this).apply {
-                    chipText = tag
-                }
-                if (index == 0) {
-                    chip.setPadding(padding, 0, 0, 0)
-                } else if (index == it.size - 1) {
-                    chip.setPadding(0, 0, padding, 0)
-                }
-                tagsView.addView(chip)
+            it.forEach {
+                tagsView.addView(Chip(this).apply {
+                    chipText = it
+                })
             }
+        }
+
+        if (isFromDeepLink) {
+            questionTitle.text = question.title
+            bindUser(question.owner)
         }
     }
 
@@ -130,19 +137,22 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
         private const val QUESTION_TITLE = "title"
         private const val QUESTION_BODY = "body"
         private const val QUESTION_OWNER = "owner"
+        private const val IS_FROM_DEEP_LINK = "isFromDeepLink"
 
         fun startActivity(
                 context: Context,
                 id: Int,
-                title: String,
-                body: String?,
-                owner: User
+                title: String? = null,
+                body: String? = null,
+                owner: User? = null,
+                isFromDeepLink: Boolean = false
         ) {
             val intent = Intent(context, QuestionDetailActivity::class.java).apply {
                 putExtra(QUESTION_ID, id)
                 putExtra(QUESTION_TITLE, title)
                 putExtra(QUESTION_BODY, body)
                 putExtra(QUESTION_OWNER, owner)
+                putExtra(IS_FROM_DEEP_LINK, isFromDeepLink)
             }
             context.startActivity(intent)
         }

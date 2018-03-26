@@ -12,9 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import ru.noties.markwon.Markwon
-import ru.noties.markwon.SpannableConfiguration
-import ru.noties.markwon.il.AsyncDrawableLoader
 import java.util.*
 
 fun ViewGroup.inflateWithoutAttaching(@LayoutRes resId: Int): View? =
@@ -27,18 +24,6 @@ fun String.toHtml(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.
 } else {
     @Suppress("DEPRECATION")
     Html.fromHtml(this)
-}
-
-fun TextView.setMarkdown(markdown: String) {
-    Markwon.setMarkdown(
-            this,
-            SpannableConfiguration.builder(this.context)
-                    .urlProcessor(CustomUrlProcessor())
-                    .linkResolver(CustomTabsLinkResolver())
-                    .asyncDrawableLoader(AsyncDrawableLoader.create())
-                    .build(),
-            markdown
-    )
 }
 
 private fun makeLinkClickable(strBuilder: SpannableStringBuilder, span: URLSpan) {

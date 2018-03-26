@@ -19,9 +19,22 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".presentation.DeepLinkingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "https://www.stackoverflow.com/questions” -->
+                <data
+                    android:scheme="https"
+                    android:host="stackoverflow.com"
+                    android:pathPrefix="/questions" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".presentation.questions.detail.QuestionDetailActivity"
-            android:theme="@style/QuestionDetailTheme" />
+            android:theme="@style/QuestionDetailTheme"/>
     </application>
 
 </manifest>
