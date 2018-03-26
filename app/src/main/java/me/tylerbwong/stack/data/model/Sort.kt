@@ -2,6 +2,7 @@ package me.tylerbwong.stack.data.model
 
 import android.support.annotation.StringDef
 
+const val SORT_PARAM = "sort"
 const val CREATION = "creation"
 const val ACTIVITY = "activity"
 const val VOTES = "votes"

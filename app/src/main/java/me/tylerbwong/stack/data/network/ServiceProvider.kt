@@ -13,6 +13,8 @@ object ServiceProvider {
 
     val questionService: QuestionService
 
+    const val DEFAULT_KEY = ")vdLbYccKv*tSRXeypGGeA(("
+
     init {
         val okHttpClientBuilder = OkHttpClient.Builder()
 
@@ -32,5 +34,4 @@ object ServiceProvider {
                 .build()
         questionService = retrofit.create(QuestionService::class.java)
     }
-
 }

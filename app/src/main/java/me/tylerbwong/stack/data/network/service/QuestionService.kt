@@ -2,6 +2,7 @@ package me.tylerbwong.stack.data.network.service
 
 import io.reactivex.Single
 import me.tylerbwong.stack.data.model.*
+import me.tylerbwong.stack.data.network.ServiceProvider.DEFAULT_KEY
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -12,8 +13,6 @@ interface QuestionService {
 
         // query params
         private const val SITE_PARAM = "site"
-        private const val SORT_PARAM = "sort"
-        private const val ORDER_PARAM = "order"
         private const val PAGE_SIZE_PARAM = "pagesize"
         private const val PAGE_PARAM = "page"
         private const val FILTER_PARAM = "filter"
@@ -24,11 +23,10 @@ interface QuestionService {
         // defaults
         private const val DEFAULT_SITE = "stackoverflow"
         private const val DEFAULT_FILTER = "!-N4vhDh8TGjM*h(2reCz3exHc6q)hWsdi"
-        private const val DEFAULT_SORT = ACTIVITY
-        private const val DEFAULT_ORDER = DESC
+        @Sort private const val DEFAULT_SORT = ACTIVITY
+        @Order private const val DEFAULT_ORDER = DESC
         private const val DEFAULT_PAGE_SIZE = 50
         private const val DEFAULT_PAGE = 1
-        private const val DEFAULT_KEY = ")vdLbYccKv*tSRXeypGGeA(("
 
         // detail
         private const val DETAIL_FILTER = "!3r.zRmD4l6rHdTgXfBOo(qq6rg_D3I7uaTO)p123.RRrNwbbeBOKxJp8dch552I"
