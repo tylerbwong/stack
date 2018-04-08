@@ -74,10 +74,9 @@ class BadgeView : View {
             var badgeCount = 0
 
             // add space for each badge
-            listOf(it.gold, it.silver, it.bronze).forEach { amount ->
-                if (amount > 0) {
-                    val amountString = amount.toString()
-                    idealWidth += iconHeight + iconLabelPadding + textPaint.measureText(amountString)
+            listOf(it.gold, it.silver, it.bronze).forEach {
+                if (it > 0) {
+                    idealWidth += iconHeight + iconLabelPadding + textPaint.measureText(it.toString())
                     addPadding = true
                     badgeCount += 1
                 }
@@ -94,7 +93,10 @@ class BadgeView : View {
             }
         }
 
-        setMeasuredDimension(View.resolveSize(idealWidth.toInt(), widthMeasureSpec), View.resolveSize(idealHeight.toInt(), heightMeasureSpec))
+        setMeasuredDimension(
+                View.resolveSize(idealWidth.toInt(), widthMeasureSpec),
+                View.resolveSize(idealHeight.toInt(), heightMeasureSpec)
+        )
     }
 
     override fun onDraw(canvas: Canvas) {
