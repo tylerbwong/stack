@@ -19,8 +19,8 @@ import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.presentation.ViewHolderItemDecoration
 import me.tylerbwong.stack.presentation.answers.AnswerAdapter
 import me.tylerbwong.stack.presentation.utils.GlideApp
+import me.tylerbwong.stack.presentation.utils.MarkdownUtils
 import me.tylerbwong.stack.presentation.utils.format
-import me.tylerbwong.stack.presentation.utils.setMarkdown
 import me.tylerbwong.stack.presentation.utils.toHtml
 
 class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View {
@@ -107,7 +107,7 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
         )
 
         question.bodyMarkdown?.let {
-            questionBody.setMarkdown(it)
+            MarkdownUtils.setMarkdown(questionBody, it)
         }
         question.tags?.let {
             tagsView.removeAllViews()
