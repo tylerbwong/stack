@@ -11,6 +11,7 @@ import android.view.View
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_question_detail.*
 import kotlinx.android.synthetic.main.question_holder.*
+import kotlinx.android.synthetic.main.user_view.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.model.Question
