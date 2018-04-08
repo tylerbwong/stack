@@ -60,7 +60,9 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
             questionBody.text = intent.getStringExtra(QUESTION_BODY).toHtml()
             bindUser(intent.getParcelableExtra(QUESTION_OWNER))
         }
-        questionBody.setTextIsSelectable(true)
+
+        // false for now to stop crash
+        questionBody.setTextIsSelectable(false)
 
         presenter.questionId = intent.getIntExtra(QUESTION_ID, 0)
 
