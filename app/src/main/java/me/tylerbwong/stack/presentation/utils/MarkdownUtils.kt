@@ -18,7 +18,7 @@ object MarkdownUtils {
                         .linkResolver(tabsResolver)
                         .asyncDrawableLoader(ServiceProvider.asyncDrawableLoader)
                         .build(),
-                markdown
+                markdown.stripSpecials()
         )
     }
 }

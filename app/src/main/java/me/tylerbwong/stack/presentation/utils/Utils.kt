@@ -14,16 +14,35 @@ import android.view.ViewGroup
 import android.widget.TextView
 import java.util.*
 
+private val specialChars = mapOf(
+        "&lt;" to "<",
+        "&gt;" to ">",
+        "&quot;" to "\"",
+        "&nbsp;" to " ",
+        "&amp;" to "&",
+        "&apos;" to "'",
+        "&#39;" to "'",
+        "&#40;" to "(",
+        "&#41;" to ")",
+        "&#215;" to "×"
+)
+
 fun ViewGroup.inflateWithoutAttaching(@LayoutRes resId: Int): View? =
         LayoutInflater.from(context).inflate(resId, this, false)
-
-fun NOOP(message: String = "No operation needed."): Nothing = TODO(message)
 
 fun String.toHtml(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
     Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
 } else {
     @Suppress("DEPRECATION")
     Html.fromHtml(this)
+}
+
+fun String.stripSpecials(): String {
+    var result = this
+    specialChars.forEach { key, value ->
+         result = result.replace(key, value)
+    }
+    return result
 }
 
 private fun makeLinkClickable(strBuilder: SpannableStringBuilder, span: URLSpan) {
@@ -39,15 +58,17 @@ private fun makeLinkClickable(strBuilder: SpannableStringBuilder, span: URLSpan)
     strBuilder.removeSpan(span)
 }
 
-fun TextView.setTextViewHTML(html: String) {
-    val sequence = html.toHtml()
-    val strBuilder = SpannableStringBuilder(sequence)
-    val urls = strBuilder.getSpans(0, sequence.length, URLSpan::class.java)
-    for (span in urls) {
-        makeLinkClickable(strBuilder, span)
+fun TextView.setHtml(html: String?) {
+    html?.let {
+        val sequence = it.toHtml()
+        val strBuilder = SpannableStringBuilder(sequence)
+        val urls = strBuilder.getSpans(0, sequence.length, URLSpan::class.java)
+        for (span in urls) {
+            makeLinkClickable(strBuilder, span)
+        }
+        text = strBuilder
+        movementMethod = LinkMovementMethod.getInstance()
     }
-    text = strBuilder
-    movementMethod = LinkMovementMethod.getInstance()
 }
 
 private val suffixes = TreeMap<Long, String>().apply {

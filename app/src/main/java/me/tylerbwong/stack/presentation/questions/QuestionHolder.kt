@@ -16,6 +16,7 @@ import me.tylerbwong.stack.presentation.owners.BadgeView
 import me.tylerbwong.stack.presentation.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.presentation.utils.GlideApp
 import me.tylerbwong.stack.presentation.utils.format
+import me.tylerbwong.stack.presentation.utils.setHtml
 import me.tylerbwong.stack.presentation.utils.toHtml
 
 class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
