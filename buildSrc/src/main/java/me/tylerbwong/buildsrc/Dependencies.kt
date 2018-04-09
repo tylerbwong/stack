@@ -10,8 +10,9 @@ object Versions {
     val rxAndroid = "2.0.2"
     val rxJava = "2.1.12"
     val gson = "2.8.2"
-    val jUnit = "4.12"
     val timber = "4.6.1"
+    val room = "1.1.0-beta2"
+    val jUnit = "4.12"
     val testRunner = "1.0.1"
     val espresso = "3.0.1"
 }
@@ -35,6 +36,9 @@ object Libs {
     val rxJava = "io.reactivex.rxjava2:rxjava:${Versions.rxJava}"
     val gson = "com.google.code.gson:gson:${Versions.gson}"
     val timber = "com.jakewharton.timber:timber:${Versions.timber}"
+    val room = "android.arch.persistence.room:runtime:${Versions.room}"
+    val roomProcessor = "android.arch.persistence.room:compiler:${Versions.room}"
+    val roomRxSupport = "android.arch.persistence.room:rxjava2:${Versions.room}"
 }
 
 object TestLibs {

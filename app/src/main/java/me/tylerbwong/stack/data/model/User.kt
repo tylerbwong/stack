@@ -13,14 +13,14 @@ data class User(
         val acceptRate: Int?,
         @SerializedName("display_name")
         val displayName: String,
-        val link: String,
+        val link: String?,
         @SerializedName("profile_image")
-        val profileImage: String,
+        val profileImage: String?,
         val reputation: Int,
         @SerializedName("user_id")
         val userId: Int,
         @SerializedName("user_type")
         val userType: String,
         @SerializedName("badge_counts")
-        val badgeCounts: BadgeCounts
+        val badgeCounts: BadgeCounts?
 ) : Parcelable

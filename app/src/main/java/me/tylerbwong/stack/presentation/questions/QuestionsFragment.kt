@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.presentation.questions
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -9,13 +10,15 @@ import kotlinx.android.synthetic.main.questions_fragment.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Sort
+import me.tylerbwong.stack.data.persistence.StackDatabase
+import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.presentation.BaseFragment
 import me.tylerbwong.stack.presentation.ViewHolderItemDecoration
 import me.tylerbwong.stack.presentation.utils.inflateWithoutAttaching
 
 class QuestionsFragment : BaseFragment(), QuestionsContract.View {
 
-    private val presenter: QuestionsContract.Presenter = QuestionsPresenter(this)
+    private lateinit var presenter: QuestionsContract.Presenter
     private val adapter = QuestionsAdapter()
 
     override var titleRes: Int = R.string.questions
@@ -35,13 +38,18 @@ class QuestionsFragment : BaseFragment(), QuestionsContract.View {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
                     ViewHolderItemDecoration(
-                        context.resources.getDimensionPixelSize(R.dimen.item_spacing)
+                            context.resources.getDimensionPixelSize(R.dimen.item_spacing)
                     )
             )
         }
         refreshLayout.setOnRefreshListener { presenter.subscribe() }
 
         presenter.subscribe()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        presenter = QuestionsPresenter(this, QuestionRepository(StackDatabase.getInstance(context)))
     }
 
     override fun onStop() {

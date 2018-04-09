@@ -3,21 +3,24 @@ package me.tylerbwong.stack.presentation.questions
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import me.tylerbwong.stack.data.network.ServiceProvider
+import me.tylerbwong.stack.data.repository.QuestionRepository
 import timber.log.Timber
 
 internal class QuestionsPresenter(
         private val view: QuestionsContract.View,
+        private val repository: QuestionRepository,
         private val disposables: CompositeDisposable = CompositeDisposable()
 ) : QuestionsContract.Presenter {
 
     override fun getQuestions(sort: String) {
         view.setRefreshing(true)
-        val disposable = ServiceProvider.questionService.getQuestions(sort = sort)
-                .map { it.items }
-                .observeOn(AndroidSchedulers.mainThread())
+        val disposable = repository.getQuestions(sort)
+                .observeOn(AndroidSchedulers.mainThread(), true)
+                .doOnTerminate {
+                    view.setRefreshing(false)
+                }
                 .subscribe({
                     view.setQuestions(it)
-                    view.setRefreshing(false)
                 }, {
                     Timber.e(it)
                     view.setRefreshing(false)

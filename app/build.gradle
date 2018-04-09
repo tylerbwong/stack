@@ -65,6 +65,11 @@ dependencies {
     // logging
     implementation Libs.timber
 
+    // room
+    implementation Libs.room
+    implementation Libs.roomRxSupport
+    kapt Libs.roomProcessor
+
     // testing
     testImplementation TestLibs.jUnit
     androidTestImplementation TestLibs.testRunner
