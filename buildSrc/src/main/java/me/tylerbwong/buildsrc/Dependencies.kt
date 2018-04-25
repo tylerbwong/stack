@@ -1,6 +1,6 @@
 object Versions {
     val kotlin = "1.2.31"
-    val gradle = "3.0.1"
+    val gradlePlugin = "3.1.0"
     val supportLib = "28.0.0-alpha1"
     val constraintLayout = "1.0.2"
     val glide = "4.6.1"
@@ -49,5 +49,5 @@ object TestLibs {
 
 object Plugins {
     val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-    val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
+    val gradle = "com.android.tools.build:gradle:${Versions.gradlePlugin}"
 }
