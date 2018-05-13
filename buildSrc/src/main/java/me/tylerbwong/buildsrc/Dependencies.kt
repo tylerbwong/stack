@@ -1,6 +1,6 @@
 object Versions {
     val kotlin = "1.2.41"
-    val gradlePlugin = "3.1.0"
+    val gradlePlugin = "3.2.0-alpha14"
     val supportLib = "28.0.0-alpha1"
     val constraintLayout = "1.1.0"
     val glide = "4.7.1"
