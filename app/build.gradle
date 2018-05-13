@@ -49,6 +49,8 @@ dependencies {
     implementation Libs.retrofitGsonConverter
     implementation Libs.gson
     implementation Libs.okHttpLogger
+    implementation Libs.stetho
+    implementation Libs.stethoOkHttp
 
     // rx
     implementation Libs.rxAndroid

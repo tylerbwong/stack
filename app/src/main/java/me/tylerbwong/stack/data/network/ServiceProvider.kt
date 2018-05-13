@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.data.network
 
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import io.reactivex.schedulers.Schedulers
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.network.service.QuestionService
@@ -25,6 +26,7 @@ object ServiceProvider {
             okHttpClientBuilder.addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
+            okHttpClientBuilder.addInterceptor(StethoInterceptor())
         }
 
         val okHttpClient = okHttpClientBuilder.build()

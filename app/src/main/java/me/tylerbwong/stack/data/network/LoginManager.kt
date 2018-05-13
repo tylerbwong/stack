@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.data.network
 
 import android.content.Context
-import android.net.Uri
 import me.tylerbwong.stack.data.model.NO_EXPIRY
 import me.tylerbwong.stack.data.model.Scope
 import me.tylerbwong.stack.presentation.utils.launchCustomTab
@@ -38,7 +37,7 @@ object LoginManager {
             return this
         }
 
-        fun setRedirect(redirectUri: Uri? = null): LoginUrlBuilder {
+        fun setRedirect(redirectUri: String? = null): LoginUrlBuilder {
             this.redirectUri = "&redirect_uri=$redirectUri"
             return this
         }
