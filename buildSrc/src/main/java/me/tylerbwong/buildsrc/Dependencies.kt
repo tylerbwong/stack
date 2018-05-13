@@ -11,7 +11,7 @@ object Versions {
     val rxJava = "2.1.13"
     val gson = "2.8.4"
     val timber = "4.7.0"
-    val room = "1.1.0-beta2"
+    val room = "1.1.0"
     val jUnit = "4.12"
     val testRunner = "1.0.1"
     val espresso = "3.0.1"
