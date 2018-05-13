@@ -19,7 +19,7 @@ object Versions {
 }
 
 object Libs {
-    val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jre7:${Versions.kotlin}"
+    val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     val supportAppcompat = "com.android.support:appcompat-v7:${Versions.supportLib}"
     val cardView = "com.android.support:cardview-v7:${Versions.supportLib}"
     val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
