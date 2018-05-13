@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.presentation
 
 import android.app.Application
-import android.content.Context
 import com.facebook.stetho.Stetho
 import io.reactivex.plugins.RxJavaPlugins
 import me.tylerbwong.stack.BuildConfig
