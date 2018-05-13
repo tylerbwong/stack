@@ -2,17 +2,20 @@ package me.tylerbwong.stack.presentation.questions
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
+import me.tylerbwong.stack.data.persistence.StackDatabase
 import me.tylerbwong.stack.data.repository.QuestionRepository
 import timber.log.Timber
 
 internal class QuestionsPresenter(
         private val view: QuestionsContract.View,
-        private val repository: QuestionRepository,
-        private val disposables: CompositeDisposable = CompositeDisposable()
+        private val repository: QuestionRepository = QuestionRepository(StackDatabase.getInstance())
 ) : QuestionsContract.Presenter {
 
-    override fun getQuestions(sort: String) {
+    private val disposables: CompositeDisposable = CompositeDisposable()
+
+    override fun getQuestions(@Sort sort: String) {
         view.setRefreshing(true)
         val disposable = repository.getQuestions(sort)
                 .observeOn(AndroidSchedulers.mainThread(), true)
@@ -30,7 +33,8 @@ internal class QuestionsPresenter(
 
     override fun searchQuestions(query: String) {
         view.setRefreshing(true)
-        val disposable = ServiceProvider.questionService.getQuestionsBySearchString(searchString = query)
+        val disposable = ServiceProvider.questionService
+                .getQuestionsBySearchString(searchString = query)
                 .map { it.items }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

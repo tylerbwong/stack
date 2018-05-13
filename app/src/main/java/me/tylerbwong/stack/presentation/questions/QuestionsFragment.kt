@@ -10,8 +10,6 @@ import kotlinx.android.synthetic.main.questions_fragment.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Sort
-import me.tylerbwong.stack.data.persistence.StackDatabase
-import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.presentation.BaseFragment
 import me.tylerbwong.stack.presentation.ViewHolderItemDecoration
 import me.tylerbwong.stack.presentation.utils.inflateWithoutAttaching
@@ -49,7 +47,7 @@ class QuestionsFragment : BaseFragment(), QuestionsContract.View {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        presenter = QuestionsPresenter(this, QuestionRepository(StackDatabase.getInstance(context)))
+        presenter = QuestionsPresenter(this)
     }
 
     override fun onStop() {

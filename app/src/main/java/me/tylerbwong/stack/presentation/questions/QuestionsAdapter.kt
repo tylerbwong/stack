@@ -16,7 +16,6 @@ class QuestionsAdapter : RecyclerView.Adapter<QuestionHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionHolder {
         val view = parent.inflateWithoutAttaching(R.layout.question_holder)
-                ?: throw IllegalStateException("Could not inflate question view")
         return QuestionHolder(view)
     }
 

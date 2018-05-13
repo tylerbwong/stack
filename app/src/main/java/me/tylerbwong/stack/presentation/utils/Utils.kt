@@ -27,7 +27,7 @@ private val specialChars = mapOf(
         "&#215;" to "×"
 )
 
-fun ViewGroup.inflateWithoutAttaching(@LayoutRes resId: Int): View? =
+fun ViewGroup.inflateWithoutAttaching(@LayoutRes resId: Int): View =
         LayoutInflater.from(context).inflate(resId, this, false)
 
 fun String.toHtml(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

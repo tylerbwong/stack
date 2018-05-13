@@ -5,6 +5,7 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import me.tylerbwong.stack.data.model.Question
+import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.persistence.StackDatabase
 import me.tylerbwong.stack.data.persistence.entity.QuestionEntity
@@ -20,7 +21,7 @@ class QuestionRepository(private val stackDatabase: StackDatabase) {
 
     fun getQuestions(sort: String): Flowable<List<Question>> = Single.mergeDelayError(getQuestionsFromDb(sort), getQuestionsFromNetwork(sort)).subscribeOn(Schedulers.io())
 
-    private fun getQuestionsFromDb(sort: String): Single<List<Question>> =
+    private fun getQuestionsFromDb(@Sort sort: String): Single<List<Question>> =
             questionDao.get(sort)
                     .subscribeOn(Schedulers.computation())
                     .map { questions ->
@@ -29,12 +30,12 @@ class QuestionRepository(private val stackDatabase: StackDatabase) {
                         }
                     }
 
-    private fun getQuestionsFromNetwork(sort: String): Single<List<Question>> =
+    private fun getQuestionsFromNetwork(@Sort sort: String): Single<List<Question>> =
             ServiceProvider.questionService.getQuestions(sort = sort)
                     .map { it.items }
                     .flatMap { questions -> saveQuestions(questions, sort).toSingleDefault(questions) }
 
-    private fun saveQuestions(questions: List<Question>, sortString: String): Completable =
+    private fun saveQuestions(questions: List<Question>, @Sort sortString: String): Completable =
             Completable.fromAction {
                 val userEntities = mutableListOf<UserEntity>()
                 val questionEntities = mutableListOf<QuestionEntity>()

@@ -19,10 +19,18 @@ abstract class StackDatabase : RoomDatabase() {
     companion object {
         private const val stackDatabaseName = "stack-database"
 
-        private var stackDatabaseInstance: StackDatabase? = null
+        private lateinit var stackDatabaseInstance: StackDatabase
+
+        fun init(context: Context) {
+            stackDatabaseInstance = Room.databaseBuilder(
+                    context,
+                    StackDatabase::class.java,
+                    stackDatabaseName
+            ).build()
+        }
 
         @Synchronized
-        fun getInstance(context: Context): StackDatabase = stackDatabaseInstance ?: Room.databaseBuilder(context.applicationContext, StackDatabase::class.java, stackDatabaseName).build()
+        fun getInstance(): StackDatabase = stackDatabaseInstance
     }
 
     abstract fun getQuestionDao(): QuestionDao
