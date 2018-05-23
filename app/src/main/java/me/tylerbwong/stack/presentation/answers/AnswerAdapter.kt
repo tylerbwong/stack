@@ -15,7 +15,6 @@ class AnswerAdapter : RecyclerView.Adapter<AnswerHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnswerHolder {
         val view = parent.inflateWithoutAttaching(R.layout.answer_holder)
-                ?: throw IllegalStateException("Could not inflate question view")
         return AnswerHolder(view)
     }
 

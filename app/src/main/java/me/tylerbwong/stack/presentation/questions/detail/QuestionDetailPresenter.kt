@@ -2,6 +2,8 @@ package me.tylerbwong.stack.presentation.questions.detail
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import me.tylerbwong.stack.R.plurals.answers
+import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.network.ServiceProvider
 import timber.log.Timber
 
@@ -31,7 +33,7 @@ class QuestionDetailPresenter(
     private fun getAnswers() {
         view.setRefreshing(true)
         val disposable = ServiceProvider.questionService.getQuestionAnswers(questionId)
-                .map { it.items }
+                .map { it.items.toMutableList().sortByAccepted().toList() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     view.setAnswers(it)
@@ -41,6 +43,21 @@ class QuestionDetailPresenter(
                     view.setRefreshing(false)
                 })
         disposables.add(disposable)
+    }
+
+    private fun MutableList<Answer>.sortByAccepted(): MutableList<Answer> {
+        var acceptedAnswer: Answer? = null
+        this.forEach {
+            if (it.isAccepted) {
+                acceptedAnswer = it
+            }
+        }
+
+        acceptedAnswer?.let {
+            this.remove(it)
+            this.add(0, it)
+        }
+        return this
     }
 
     override fun subscribe() {
