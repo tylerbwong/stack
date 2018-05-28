@@ -5,12 +5,11 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 'android-P'
-    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "me.tylerbwong.stack"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 'P'
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
