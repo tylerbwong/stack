@@ -15,7 +15,6 @@ import android.widget.PopupMenu
 import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.*
-import me.tylerbwong.stack.data.network.LoginManager
 import me.tylerbwong.stack.presentation.questions.QuestionsFragment
 import timber.log.Timber
 
@@ -58,10 +57,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.questions -> {
                 QuestionsFragment.newInstance()
             }
-            R.id.login -> {
-                LoginManager.startLogin(this)
-                currentFragment
-            }
+//            R.id.login -> {
+//                LoginManager.startLogin(this)
+//                currentFragment
+//            }
             else -> {
                 Timber.e("Could not resolve any fragment")
                 null

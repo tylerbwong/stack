@@ -5,8 +5,8 @@
             android:id="@+id/questions"
             android:icon="@drawable/ic_question_answer"
             android:title="@string/questions" />
-        <item
-            android:id="@+id/login"
-            android:title="@string/login" />
+        <!--<item-->
+            <!--android:id="@+id/login"-->
+            <!--android:title="@string/login" />-->
     </group>
 </menu>

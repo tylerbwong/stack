@@ -6,8 +6,8 @@ import me.tylerbwong.stack.data.model.Scope
 import me.tylerbwong.stack.presentation.utils.launchCustomTab
 
 object LoginManager {
-    const val CLIENT_ID = "12074"
-    const val LOGIN_URL = "https://stackoverflow.com/oauth/dialog"
+    private const val CLIENT_ID = "12074"
+    private const val LOGIN_URL = "https://stackoverflow.com/oauth/dialog"
 
     fun startLogin(context: Context, url: String? = null) {
         val launchUrl = url ?: LoginUrlBuilder()

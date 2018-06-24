@@ -13,13 +13,7 @@ import ru.noties.markwon.il.AsyncDrawableLoader
 
 object ServiceProvider {
 
-    val questionService: QuestionService
-
-    val asyncDrawableLoader: AsyncDrawableLoader
-
-    const val DEFAULT_KEY = ")vdLbYccKv*tSRXeypGGeA(("
-
-    init {
+    private val okHttpClient by lazy {
         val okHttpClientBuilder = OkHttpClient.Builder()
 
         if (BuildConfig.DEBUG) {
@@ -29,8 +23,10 @@ object ServiceProvider {
             okHttpClientBuilder.addInterceptor(StethoInterceptor())
         }
 
-        val okHttpClient = okHttpClientBuilder.build()
+        okHttpClientBuilder.build()
+    }
 
+    val questionService: QuestionService by lazy {
         val retrofit = Retrofit.Builder()
                 .baseUrl("https://api.stackexchange.com/2.2/")
                 .client(okHttpClient)
@@ -39,10 +35,14 @@ object ServiceProvider {
                         RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io())
                 )
                 .build()
-        questionService = retrofit.create(QuestionService::class.java)
+        retrofit.create(QuestionService::class.java)
+    }
 
-        asyncDrawableLoader = AsyncDrawableLoader.builder()
+    val asyncDrawableLoader: AsyncDrawableLoader by lazy {
+        AsyncDrawableLoader.builder()
                 .client(okHttpClient)
                 .build()
     }
+
+    internal const val DEFAULT_KEY = ")vdLbYccKv*tSRXeypGGeA(("
 }

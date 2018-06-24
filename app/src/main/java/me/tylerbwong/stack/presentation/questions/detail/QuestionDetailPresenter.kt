@@ -2,7 +2,6 @@ package me.tylerbwong.stack.presentation.questions.detail
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import me.tylerbwong.stack.R.plurals.answers
 import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.network.ServiceProvider
 import timber.log.Timber
