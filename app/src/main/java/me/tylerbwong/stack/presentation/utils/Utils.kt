@@ -39,7 +39,7 @@ fun String.toHtml(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.
 
 fun String.stripSpecials(): String {
     var result = this
-    specialChars.forEach { key, value ->
+    specialChars.forEach { (key, value) ->
          result = result.replace(key, value)
     }
     return result
