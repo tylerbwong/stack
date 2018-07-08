@@ -16,7 +16,7 @@
         android:layout_height="36dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/username"
@@ -35,7 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        android:includeFontPadding="false"
         android:textColor="@color/colorTextPrimary"
         android:textSize="12sp"
         android:textStyle="bold"
@@ -49,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/reputation"
         app:layout_constraintStart_toEndOf="@id/reputation"
-        app:layout_constraintTop_toBottomOf="@id/username"/>
+        app:layout_constraintTop_toBottomOf="@id/username" />
 </android.support.constraint.ConstraintLayout>

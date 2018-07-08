@@ -16,7 +16,6 @@ import me.tylerbwong.stack.data.model.BadgeCounts
 class BadgeView : View {
 
     // measurements
-    private val drawingHeight by lazy { TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, context.resources.displayMetrics) }
     private val iconHeight by lazy { TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7f, context.resources.displayMetrics) }
     private val iconRadius by lazy { iconHeight / 2f }
     private val startEndPadding by lazy { TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, context.resources.displayMetrics) }
@@ -41,6 +40,7 @@ class BadgeView : View {
             typeface = Typeface.DEFAULT
         }
     }
+    private val textHeight = textPaint.fontMetrics.bottom - textPaint.fontMetrics.top
 
     // extras
     private val labelHelperRect by lazy { Rect() }
@@ -67,7 +67,7 @@ class BadgeView : View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
         var idealWidth = paddingLeft + paddingRight + suggestedMinimumWidth + 0f
-        val idealHeight = paddingTop + paddingBottom + suggestedMinimumHeight + drawingHeight
+        val idealHeight = paddingTop + paddingBottom + suggestedMinimumHeight + textHeight
 
         badgeCounts?.let {
             var addPadding = false
@@ -117,7 +117,7 @@ class BadgeView : View {
                     val amountString = amount.toString()
                     posX += iconRadius + iconLabelPadding
                     textPaint.getTextBounds(amountString, 0, amountString.length, labelHelperRect)
-                    canvas.drawText(amountString, posX, canvasHeight / 2f + labelHelperRect.height() / 2f, textPaint)
+                    canvas.drawText(amountString, posX, canvasHeight - paddingBottom - textPaint.fontMetrics.descent, textPaint)
                     posX += textPaint.measureText(amountString) + badgePadding
                 }
             }
