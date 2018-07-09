@@ -6,10 +6,10 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.support.customtabs.CustomTabsIntent
 import android.support.customtabs.CustomTabsService
-import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.presentation.theme.ThemeManager
 import ru.noties.markwon.spans.LinkSpan
 import timber.log.Timber
 
@@ -31,11 +31,10 @@ class CustomTabsLinkResolver : LinkSpan.Resolver {
 
 fun launchCustomTab(context: Context, url: String) {
     val packageName = getPackageNameToUse(context, url)
+    val toolbarColor = ThemeManager.resolveThemeAttribute(context, R.attr.viewBackgroundColor)
     val customTabsIntent = CustomTabsIntent.Builder()
-            .setToolbarColor(ContextCompat.getColor(
-                    context,
-                    R.color.colorPrimary
-            ))
+            .setToolbarColor(toolbarColor)
+            .setSecondaryToolbarColor(toolbarColor)
             .build()
     customTabsIntent.intent.`package` = packageName
     customTabsIntent.launchUrl(context, Uri.parse(url))
@@ -69,25 +68,19 @@ private fun getPackageNameToUse(context: Context, url: String): String? {
     // and service calls.
     if (packagesSupportingCustomTabs.isEmpty()) {
         packageName = null
-    }
-    else if (packagesSupportingCustomTabs.size == 1) {
+    } else if (packagesSupportingCustomTabs.size == 1) {
         packageName = packagesSupportingCustomTabs[0]
-    }
-    else if (!TextUtils.isEmpty(defaultViewHandlerPackageName)
+    } else if (!TextUtils.isEmpty(defaultViewHandlerPackageName)
             && !hasSpecializedHandlerIntents(context, activityIntent)
             && packagesSupportingCustomTabs.contains(defaultViewHandlerPackageName)) {
         packageName = defaultViewHandlerPackageName
-    }
-    else if (packagesSupportingCustomTabs.contains(STABLE_PACKAGE)) {
+    } else if (packagesSupportingCustomTabs.contains(STABLE_PACKAGE)) {
         packageName = STABLE_PACKAGE
-    }
-    else if (packagesSupportingCustomTabs.contains(BETA_PACKAGE)) {
+    } else if (packagesSupportingCustomTabs.contains(BETA_PACKAGE)) {
         packageName = BETA_PACKAGE
-    }
-    else if (packagesSupportingCustomTabs.contains(DEV_PACKAGE)) {
+    } else if (packagesSupportingCustomTabs.contains(DEV_PACKAGE)) {
         packageName = DEV_PACKAGE
-    }
-    else if (packagesSupportingCustomTabs.contains(LOCAL_PACKAGE)) {
+    } else if (packagesSupportingCustomTabs.contains(LOCAL_PACKAGE)) {
         packageName = LOCAL_PACKAGE
     }
     return packageName
@@ -108,8 +101,7 @@ private fun hasSpecializedHandlerIntents(context: Context, intent: Intent): Bool
             if (resolveInfo.activityInfo == null) continue
             return true
         }
-    }
-    catch (e: RuntimeException) {
+    } catch (e: RuntimeException) {
         Timber.e("Runtime exception while getting specialized handlers")
     }
 

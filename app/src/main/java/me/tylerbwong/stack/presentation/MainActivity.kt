@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.NavigationView
-import android.support.v4.content.ContextCompat.getSystemService
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
@@ -16,8 +15,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.R.id.drawerLayout
-import me.tylerbwong.stack.R.id.searchView
 import me.tylerbwong.stack.data.model.*
 import me.tylerbwong.stack.presentation.questions.QuestionsFragment
 import me.tylerbwong.stack.presentation.theme.ThemeManager
