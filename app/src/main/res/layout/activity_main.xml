@@ -22,10 +22,10 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-                app:layout_scrollFlags="scroll|enterAlways|snap"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                android:background="?attr/viewBackgroundColor"
+                app:navigationIcon="?attr/drawerIcon"
+                app:titleTextColor="?android:attr/textColorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
 
                 <android.support.v7.widget.SearchView
                     android:id="@+id/searchView"

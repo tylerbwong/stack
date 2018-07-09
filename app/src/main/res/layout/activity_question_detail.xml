@@ -15,10 +15,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:background="?attr/viewBackgroundColor"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:navigationIcon="?attr/backIcon"
+            app:titleTextColor="?android:attr/textColorPrimary" />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -43,8 +43,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView"
@@ -67,20 +68,20 @@
         app:fabSize="mini"
         app:layout_anchor="@id/refreshLayout"
         app:layout_anchorGravity="top|end"
-        app:rippleColor="@color/colorAccent"/>
+        app:rippleColor="@color/colorAccent" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/downFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:src="@drawable/ic_arrow_downward"
         android:visibility="gone"
         app:backgroundTint="@color/colorPrimaryDark"
         app:fabSize="mini"
         app:layout_anchor="@id/refreshLayout"
         app:layout_anchorGravity="bottom|end"
-        app:rippleColor="@color/colorAccent"/>
+        app:rippleColor="@color/colorAccent" />
 
 </android.support.design.widget.CoordinatorLayout>

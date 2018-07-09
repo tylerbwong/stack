@@ -5,6 +5,7 @@
     android:id="@+id/rootAnswerView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:cardBackgroundColor="?attr/viewBackgroundColor"
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp">
 
@@ -33,9 +34,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:textColor="@color/black"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -43,15 +44,14 @@
             android:id="@+id/answerBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="16dp"
-            android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
-            android:textColor="@color/colorTextPrimary"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp"
+            android:textColor="?android:attr/textColorPrimary"
             android:textIsSelectable="true"
             android:textSize="14sp" />
 
-        <include
-            layout="@layout/user_view"/>
+        <include layout="@layout/user_view" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

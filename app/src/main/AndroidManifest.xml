@@ -10,7 +10,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.Primary.Base.Light">
         <activity android:name=".presentation.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,24 +21,25 @@
         <activity android:name=".presentation.DeepLinkingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with "https://www.stackoverflow.com/questions” -->
                 <data
-                    android:scheme="https"
                     android:host="stackoverflow.com"
-                    android:pathPrefix="/questions" />
+                    android:pathPrefix="/questions"
+                    android:scheme="https" />
 
                 <data
-                    android:scheme="https"
                     android:host="stackoverflow.com"
-                    android:pathPrefix="/q" />
+                    android:pathPrefix="/q"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".presentation.questions.detail.QuestionDetailActivity"
-            android:theme="@style/QuestionDetailTheme"/>
+            android:theme="@style/AppTheme.Primary.Base.Light" />
     </application>
 
 </manifest>

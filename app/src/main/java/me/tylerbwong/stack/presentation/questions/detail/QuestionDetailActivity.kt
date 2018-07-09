@@ -18,6 +18,7 @@ import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.presentation.ViewHolderItemDecoration
 import me.tylerbwong.stack.presentation.answers.AnswerAdapter
+import me.tylerbwong.stack.presentation.theme.ThemeManager
 import me.tylerbwong.stack.presentation.utils.GlideApp
 import me.tylerbwong.stack.presentation.utils.MarkdownUtils
 import me.tylerbwong.stack.presentation.utils.format
@@ -33,10 +34,12 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
     private lateinit var question: Question
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeManager.injectTheme(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_detail)
-
         setSupportActionBar(toolbar)
+        ThemeManager.themeViews(toolbar, upFab, downFab)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
 

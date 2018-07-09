@@ -6,6 +6,7 @@
     android:id="@+id/rootQuestionView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:cardBackgroundColor="?attr/viewBackgroundColor"
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp">
 
@@ -23,7 +24,7 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
-            android:textColor="@color/black"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="18sp"
             android:textStyle="bold"
             tools:text="Question title" />
@@ -37,7 +38,7 @@
             android:paddingBottom="16dp"
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
-            android:textColor="@color/colorTextPrimary"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
             tools:text="Question body" />
 

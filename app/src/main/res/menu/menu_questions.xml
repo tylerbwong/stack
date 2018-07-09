@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/theme"
+        android:icon="?attr/themeMenuIcon"
+        android:title="@string/theme"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/search"
-        android:icon="@drawable/ic_search"
+        android:icon="?attr/searchMenuIcon"
         android:title="@string/search"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/sort"
-        android:icon="@drawable/ic_sort"
+        android:icon="?attr/sortMenuIcon"
         android:title="@string/sort"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom" />
 </menu>

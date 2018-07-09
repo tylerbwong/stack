@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -8,8 +8,34 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="QuestionDetailTheme" parent="AppTheme">
+    <!-- Light base activity theme -->
+    <style name="AppTheme.Primary.Base.Light" parent="AppTheme">
+        <item name="android:windowBackground">@color/windowBackgroundLight</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/primaryTextColorLight</item>
+        <item name="android:textColorSecondary">@color/secondaryTextColorLight</item>
+        <item name="android:textColorHint">@color/secondaryTextColorLight</item>
+        <item name="viewBackgroundColor">@color/viewBackgroundColorLight</item>
+        <item name="themeMenuIcon">@drawable/ic_brightness_2_light</item>
+        <item name="searchMenuIcon">@drawable/ic_search_light</item>
+        <item name="sortMenuIcon">@drawable/ic_sort_light</item>
+        <item name="backIcon">@drawable/ic_arrow_back_light</item>
+        <item name="drawerIcon">@drawable/ic_menu_light</item>
+    </style>
+
+    <!-- Dark base activity theme -->
+    <style name="AppTheme.Primary.Base.Dark" parent="AppTheme">
+        <item name="android:windowBackground">@color/windowBackgroundDark</item>
+        <item name="android:statusBarColor">@color/viewBackgroundColorDark</item>
+        <item name="android:textColorPrimary">@color/primaryTextColorDark</item>
+        <item name="android:textColorSecondary">@color/secondaryTextColorDark</item>
+        <item name="android:textColorHint">@color/secondaryTextColorDark</item>
+        <item name="viewBackgroundColor">@color/windowBackgroundDark</item>
+        <item name="themeMenuIcon">@drawable/ic_brightness_2_dark</item>
+        <item name="searchMenuIcon">@drawable/ic_search_dark</item>
+        <item name="sortMenuIcon">@drawable/ic_sort_dark</item>
+        <item name="backIcon">@drawable/ic_arrow_back_dark</item>
+        <item name="drawerIcon">@drawable/ic_menu_dark</item>
     </style>
 
 </resources>

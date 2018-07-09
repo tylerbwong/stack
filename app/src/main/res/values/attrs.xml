@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StackAppTheme">
+        <attr name="viewBackgroundColor" format="color" />
+        <attr name="themeMenuIcon" format="integer" />
+        <attr name="searchMenuIcon" format="integer" />
+        <attr name="sortMenuIcon" format="integer" />
+        <attr name="backIcon" format="integer" />
+        <attr name="drawerIcon" format="integer" />
+    </declare-styleable>
+</resources>
