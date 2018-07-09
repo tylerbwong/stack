@@ -5,11 +5,14 @@ import com.facebook.stetho.Stetho
 import io.reactivex.plugins.RxJavaPlugins
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.persistence.StackDatabase
+import me.tylerbwong.stack.presentation.theme.ThemeManager
 import timber.log.Timber
 
 class StackApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+
+        ThemeManager.init(this)
 
         StackDatabase.init(this)
 
