@@ -34,51 +34,51 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'Dep')
     // kotlin
-    implementation Libs.kotlin
+    implementation Dep.kotlinLib
 
     // support
-    implementation Libs.supportAppcompat
-    implementation Libs.cardView
-    implementation Libs.supportDesign
-    implementation Libs.supportCustomTabs
+    implementation Dep.supportAppcompat
+    implementation Dep.cardView
+    implementation Dep.supportDesign
+    implementation Dep.supportCustomTabs
 
     // glide
-    implementation Libs.glide
-    kapt Libs.glideProcessor
+    implementation Dep.glide
+    kapt Dep.glideProcessor
 
     // networking
-    implementation Libs.retrofit
-    implementation Libs.retrofitRxAdapter
-    implementation Libs.retrofitGsonConverter
-    implementation Libs.gson
-    implementation Libs.okHttpLogger
-    implementation Libs.stetho
-    implementation Libs.stethoOkHttp
+    implementation Dep.retrofit
+    implementation Dep.retrofitRxAdapter
+    implementation Dep.retrofitGsonConverter
+    implementation Dep.gson
+    implementation Dep.okHttpLogger
+    implementation Dep.stetho
+    implementation Dep.stethoOkHttp
 
     // rx
-    implementation Libs.rxAndroid
-    implementation Libs.rxJava
+    implementation Dep.rxAndroid
+    implementation Dep.rxJava
 
     // view
-    implementation Libs.supportDesign
-    implementation Libs.constraintLayout
+    implementation Dep.supportDesign
+    implementation Dep.constraintLayout
 
     // markdown
-    implementation Libs.markwon
-    implementation Libs.markwonImageLoader
+    implementation Dep.markwon
+    implementation Dep.markwonImageLoader
 
     // logging
-    implementation Libs.timber
+    implementation Dep.timber
 
     // room
-    implementation Libs.room
-    implementation Libs.roomRxSupport
-    kapt Libs.roomProcessor
+    implementation Dep.room
+    implementation Dep.roomRxSupport
+    kapt Dep.roomProcessor
 
     // testing
-    testImplementation TestLibs.jUnit
-    androidTestImplementation TestLibs.testRunner
-    androidTestImplementation TestLibs.espresso
+    testImplementation Dep.jUnit
+    androidTestImplementation Dep.testRunner
+    androidTestImplementation Dep.espresso
 }

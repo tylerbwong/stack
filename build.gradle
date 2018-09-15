@@ -4,8 +4,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath Plugins.gradle
-        classpath Plugins.kotlin
+        classpath Dep.gradlePlugin
+        classpath Dep.kotlinPlugin
     }
 }
 

@@ -7,8 +7,9 @@ import me.tylerbwong.stack.presentation.questions.detail.QuestionDetailActivity
 class DeepLinkingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val tokens = intent.data.encodedPath.split('/')
-        QuestionDetailActivity.startActivity(this, tokens[2].toInt(), isFromDeepLink = true)
+        intent.data?.encodedPath?.split('/')?.let {
+            QuestionDetailActivity.startActivity(this, it[2].toInt(), isFromDeepLink = true)
+        }
         finish()
     }
 }

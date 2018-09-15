@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="?attr/viewBackgroundColor"
-    app:cardCornerRadius="2dp"
+    app:cardCornerRadius="8dp"
     app:cardElevation="2dp">
 
     <LinearLayout
@@ -52,7 +52,6 @@
             android:visibility="gone"
             app:singleSelection="true" />
 
-        <include
-            layout="@layout/user_view"/>
+        <include layout="@layout/user_view"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

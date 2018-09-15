@@ -117,9 +117,9 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
         question.tags?.let {
             tagsView.removeAllViews()
             tagsView.visibility = View.VISIBLE
-            it.forEach {
+            it.forEach { tagText ->
                 tagsView.addView(Chip(this).apply {
-                    chipText = it
+                    text = tagText
                 })
             }
         }
