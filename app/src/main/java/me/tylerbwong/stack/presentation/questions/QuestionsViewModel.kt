@@ -3,14 +3,13 @@ package me.tylerbwong.stack.presentation.questions
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactive.awaitLast
-import kotlinx.coroutines.reactive.awaitSingle
 import kotlinx.coroutines.rx2.await
-import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Sort
@@ -36,18 +35,19 @@ internal class QuestionsViewModel(
 
     internal fun getQuestions(@Sort sort: String = CREATION) {
         launchRequest {
-            _questions.postValue(repository.getQuestions(sort).awaitLast())
+            _questions.value = repository.getQuestions(sort)
+                    .subscribeOn(Schedulers.io())
+                    .awaitLast()
         }
     }
 
     internal fun searchQuestions(query: String) {
         launchRequest {
-            _questions.postValue(
-                    ServiceProvider.questionService
-                            .getQuestionsBySearchString(searchString = query)
-                            .map { it.items }
-                            .await()
-            )
+            _questions.value = ServiceProvider.questionService
+                    .getQuestionsBySearchString(searchString = query)
+                    .map { it.items }
+                    .subscribeOn(Schedulers.io())
+                    .await()
         }
     }
 
@@ -55,13 +55,12 @@ internal class QuestionsViewModel(
         return uiScope.launch {
             try {
                 _refreshing.value = true
-                withContext(Dispatchers.IO) {
-                    block()
-                }
+                block()
             }
             catch (exception: Exception) {
                 Timber.e(exception)
-            } finally {
+            }
+            finally {
                 _refreshing.value = false
             }
         }

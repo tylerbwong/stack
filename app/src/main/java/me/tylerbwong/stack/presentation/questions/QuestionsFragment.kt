@@ -6,16 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.questions_fragment.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.CREATION
-import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.presentation.BaseFragment
 import me.tylerbwong.stack.presentation.ViewHolderItemDecoration
+import me.tylerbwong.stack.presentation.utils.getViewModel
 import me.tylerbwong.stack.presentation.utils.inflateWithoutAttaching
 
 class QuestionsFragment : BaseFragment() {
@@ -35,7 +34,7 @@ class QuestionsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(QuestionsViewModel::class.java)
+        viewModel = getViewModel(QuestionsViewModel::class.java)
         viewModel.refreshing.observe(this, Observer {
             refreshLayout?.isRefreshing = it
         })
