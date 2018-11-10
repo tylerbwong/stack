@@ -1,8 +1,8 @@
 package me.tylerbwong.stack.presentation
 
 import android.graphics.Rect
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 
 class ViewHolderItemDecoration(
         private val spacing: Int,
@@ -28,6 +28,10 @@ class ViewHolderItemDecoration(
                 if (!removeSideSpacing) {
                     left = spacing
                     right = spacing
+                }
+
+                if (position == 0) {
+                    top = spacing / 4
                 }
 
                 if (position == size - 1 || removeTopSpacing) {

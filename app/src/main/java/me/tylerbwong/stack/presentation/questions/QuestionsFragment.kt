@@ -1,12 +1,10 @@
 package me.tylerbwong.stack.presentation.questions
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.questions_fragment.*
 import me.tylerbwong.stack.R
@@ -47,7 +45,8 @@ class QuestionsFragment : BaseFragment() {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
                     ViewHolderItemDecoration(
-                            context.resources.getDimensionPixelSize(R.dimen.item_spacing)
+                            context.resources.getDimensionPixelSize(R.dimen.item_spacing),
+                            removeTopSpacing = true
                     )
             )
         }
