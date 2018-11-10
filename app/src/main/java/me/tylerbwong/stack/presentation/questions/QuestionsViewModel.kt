@@ -24,9 +24,12 @@ internal class QuestionsViewModel(
         private val repository: QuestionRepository = QuestionRepository(StackDatabase.getInstance())
 ) : ViewModel() {
 
+    internal val refreshing: LiveData<Boolean>
+        get() = _refreshing
     internal val questions: LiveData<List<Question>>
         get() = _questions
 
+    private val _refreshing = MutableLiveData<Boolean>()
     private val _questions = MutableLiveData<List<Question>>()
     private val questionsJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + questionsJob)
@@ -51,12 +54,15 @@ internal class QuestionsViewModel(
     private fun launchRequest(block: suspend () -> Unit): Job {
         return uiScope.launch {
             try {
+                _refreshing.value = true
                 withContext(Dispatchers.IO) {
                     block()
                 }
             }
             catch (exception: Exception) {
                 Timber.e(exception)
+            } finally {
+                _refreshing.value = false
             }
         }
     }

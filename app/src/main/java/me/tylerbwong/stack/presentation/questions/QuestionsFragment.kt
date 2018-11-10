@@ -35,6 +35,14 @@ class QuestionsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProviders.of(this).get(QuestionsViewModel::class.java)
+        viewModel.refreshing.observe(this, Observer {
+            refreshLayout?.isRefreshing = it
+        })
+        viewModel.questions.observe(this, Observer {
+            adapter.questions = it
+        })
+
         recyclerView.apply {
             adapter = this@QuestionsFragment.adapter
             layoutManager = LinearLayoutManager(context)
@@ -49,28 +57,9 @@ class QuestionsFragment : BaseFragment() {
         sortQuestions()
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        viewModel = ViewModelProviders.of(this).get(QuestionsViewModel::class.java)
-        viewModel.questions.observe(this, Observer {
-            adapter.questions = it
-            setRefreshing(false)
-        })
-    }
+    fun sortQuestions(@Sort sort: String = CREATION) = viewModel.getQuestions(sort)
 
-    fun sortQuestions(@Sort sort: String = CREATION) {
-        setRefreshing(true)
-        viewModel.getQuestions(sort)
-    }
-
-    fun searchQuestions(query: String) {
-        setRefreshing(true)
-        viewModel.searchQuestions(query)
-    }
-
-    private fun setRefreshing(isRefreshing: Boolean) {
-        refreshLayout?.isRefreshing = isRefreshing
-    }
+    fun searchQuestions(query: String) = viewModel.searchQuestions(query)
 
     companion object {
         fun newInstance() = QuestionsFragment()
