@@ -6,13 +6,14 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_question_detail.*
 import kotlinx.android.synthetic.main.question_holder.*
 import kotlinx.android.synthetic.main.user_view.*
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.presentation.ViewHolderItemDecoration
@@ -21,11 +22,12 @@ import me.tylerbwong.stack.presentation.theme.ThemeManager
 import me.tylerbwong.stack.presentation.utils.GlideApp
 import me.tylerbwong.stack.presentation.utils.MarkdownUtils
 import me.tylerbwong.stack.presentation.utils.format
+import me.tylerbwong.stack.presentation.utils.getViewModel
 import me.tylerbwong.stack.presentation.utils.toHtml
 
-class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View {
+class QuestionDetailActivity : AppCompatActivity() {
 
-    private val presenter = QuestionDetailPresenter(this)
+    private lateinit var viewModel: QuestionDetailViewModel
     private val adapter = AnswerAdapter()
 
     private var isFromDeepLink = false
@@ -39,12 +41,23 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
         setSupportActionBar(toolbar)
         ThemeManager.themeViews(toolbar, upFab, downFab)
 
+        viewModel = getViewModel(QuestionDetailViewModel::class.java)
+        viewModel.refreshing.observe(this, Observer {
+            refreshLayout?.isRefreshing = it
+        })
+        viewModel.question.observe(this, Observer {
+            setQuestion(it)
+        })
+        viewModel.answers.observe(this, Observer {
+            adapter.answers = it
+        })
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
 
         recyclerView.apply {
             adapter = this@QuestionDetailActivity.adapter
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@QuestionDetailActivity)
+            layoutManager = LinearLayoutManager(this@QuestionDetailActivity)
             addItemDecoration(
                     ViewHolderItemDecoration(
                             context.resources.getDimensionPixelSize(R.dimen.item_spacing),
@@ -63,14 +76,11 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
             bindUser(intent.getParcelableExtra(QUESTION_OWNER))
         }
 
-        // false for now to stop crash
-        questionBody.setTextIsSelectable(false)
+        viewModel.questionId = intent.getIntExtra(QUESTION_ID, 0)
 
-        presenter.questionId = intent.getIntExtra(QUESTION_ID, 0)
+        refreshLayout.setOnRefreshListener { viewModel.getQuestionDetails() }
 
-        refreshLayout.setOnRefreshListener { presenter.subscribe() }
-
-        presenter.subscribe()
+        viewModel.getQuestionDetails()
     }
 
     private fun bindUser(user: User?) {
@@ -86,11 +96,6 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        presenter.unsubscribe()
-    }
-
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
             android.R.id.home -> onBackPressed()
@@ -98,7 +103,7 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
         return super.onOptionsItemSelected(item)
     }
 
-    override fun setQuestion(question: Question) {
+    private fun setQuestion(question: Question) {
         this.question = question
         val voteCount = question.upVoteCount - question.downVoteCount
         supportActionBar?.title = resources.getQuantityString(R.plurals.votes, voteCount, voteCount)
@@ -119,6 +124,7 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
             it.forEach { tagText ->
                 tagsView.addView(Chip(this).apply {
                     text = tagText
+                    isClickable = false
                 })
             }
         }
@@ -126,16 +132,6 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
         if (isFromDeepLink) {
             questionTitle.text = question.title.toHtml()
             bindUser(question.owner)
-        }
-    }
-
-    override fun setAnswers(answers: List<Answer>) {
-        adapter.answers = answers
-    }
-
-    override fun setRefreshing(isRefreshing: Boolean) {
-        if (refreshLayout?.isRefreshing != isRefreshing) {
-            refreshLayout?.isRefreshing = isRefreshing
         }
     }
 
