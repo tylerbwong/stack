@@ -1,8 +1,8 @@
 package me.tylerbwong.stack.data.persistence.entity
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "question", foreignKeys = [
 ForeignKey(entity = UserEntity::class, parentColumns = ["userId"], childColumns = ["owner"], onDelete = ForeignKey.CASCADE),

@@ -1,6 +1,6 @@
 package me.tylerbwong.stack.data.model
 
-import android.support.annotation.StringDef
+import androidx.annotation.StringDef
 
 const val SORT_PARAM = "sort"
 const val CREATION = "creation"

@@ -1,7 +1,7 @@
 package me.tylerbwong.stack.presentation.answers
 
-import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.presentation.utils.inflateWithoutAttaching

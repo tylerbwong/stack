@@ -1,10 +1,9 @@
 package me.tylerbwong.stack.presentation.answers
 
-import android.support.v4.view.ViewCompat
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.ViewCompat
 import com.bumptech.glide.request.RequestOptions
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Answer
@@ -14,7 +13,7 @@ import me.tylerbwong.stack.presentation.utils.MarkdownUtils
 import me.tylerbwong.stack.presentation.utils.format
 import me.tylerbwong.stack.presentation.utils.toHtml
 
-class AnswerHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class AnswerHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
     private val acceptedAnswerCheck: ImageView = ViewCompat.requireViewById(itemView, R.id.acceptedAnswerCheck)
     private val votes: TextView = ViewCompat.requireViewById(itemView, R.id.votes)

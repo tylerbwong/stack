@@ -2,21 +2,25 @@ package me.tylerbwong.stack.presentation.questions
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.questions_fragment.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.presentation.BaseFragment
 import me.tylerbwong.stack.presentation.ViewHolderItemDecoration
 import me.tylerbwong.stack.presentation.utils.inflateWithoutAttaching
 
-class QuestionsFragment : BaseFragment(), QuestionsContract.View {
+class QuestionsFragment : BaseFragment() {
 
-    private lateinit var presenter: QuestionsContract.Presenter
+    private lateinit var viewModel: QuestionsViewModel
     private val adapter = QuestionsAdapter()
 
     override var titleRes: Int = R.string.questions
@@ -40,32 +44,33 @@ class QuestionsFragment : BaseFragment(), QuestionsContract.View {
                     )
             )
         }
-        refreshLayout.setOnRefreshListener { presenter.subscribe() }
+        refreshLayout.setOnRefreshListener { sortQuestions() }
 
-        presenter.subscribe()
+        sortQuestions()
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        presenter = QuestionsPresenter(this)
+        viewModel = ViewModelProviders.of(this).get(QuestionsViewModel::class.java)
+        viewModel.questions.observe(this, Observer {
+            adapter.questions = it
+            setRefreshing(false)
+        })
     }
 
-    override fun onStop() {
-        super.onStop()
-        presenter.unsubscribe()
+    fun sortQuestions(@Sort sort: String = CREATION) {
+        setRefreshing(true)
+        viewModel.getQuestions(sort)
     }
 
-    override fun setQuestions(questions: List<Question>) {
-        adapter.questions = questions
+    fun searchQuestions(query: String) {
+        setRefreshing(true)
+        viewModel.searchQuestions(query)
     }
 
-    override fun setRefreshing(isRefreshing: Boolean) {
+    private fun setRefreshing(isRefreshing: Boolean) {
         refreshLayout?.isRefreshing = isRefreshing
     }
-
-    fun sortQuestions(@Sort sort: String) = presenter.getQuestions(sort)
-
-    fun searchQuestions(query: String) = presenter.searchQuestions(query)
 
     companion object {
         fun newInstance() = QuestionsFragment()

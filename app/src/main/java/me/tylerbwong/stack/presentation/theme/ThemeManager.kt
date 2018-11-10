@@ -3,11 +3,11 @@ package me.tylerbwong.stack.presentation.theme
 import android.app.Activity
 import android.content.Context
 import android.preference.PreferenceManager
-import android.support.annotation.AttrRes
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.widget.Toolbar
 import android.util.TypedValue
 import android.view.View
+import androidx.annotation.AttrRes
+import androidx.appcompat.widget.Toolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import me.tylerbwong.stack.R
 import timber.log.Timber
 

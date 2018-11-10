@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.presentation.utils
 
 import android.os.Build
-import android.support.annotation.LayoutRes
 import android.text.Html
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -12,7 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import java.util.*
+import androidx.annotation.LayoutRes
+import java.util.TreeMap
 
 private val specialChars = mapOf(
         "&lt;" to "<",

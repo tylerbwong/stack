@@ -1,6 +1,6 @@
 package me.tylerbwong.stack.data.model
 
-import android.support.annotation.StringDef
+import androidx.annotation.StringDef
 
 const val READ_INBOX = "read_inbox"
 const val NO_EXPIRY = "no_expiry"

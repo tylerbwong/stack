@@ -12,7 +12,7 @@ android {
         targetSdkVersion 28
         versionCode 5
         versionName "0.2.1"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -35,35 +35,37 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'Dep')
+
     // kotlin
     implementation Dep.kotlinLib
+    implementation Dep.kotlinCoroutinesCore
+    implementation Dep.kotlinCoroutinesAndroid
+    implementation Dep.kotlinCoroutinesRx
 
-    // support
-    implementation Dep.supportAppcompat
-    implementation Dep.cardView
-    implementation Dep.supportDesign
-    implementation Dep.supportCustomTabs
+    // androidx
+    implementation Dep.androidxAppCompat
+    implementation Dep.androidxBrowser
+    implementation Dep.androidxCardView
+    implementation Dep.androidxExtensions
+    implementation Dep.constraintLayout
+    implementation Dep.materialComponents
 
     // glide
     implementation Dep.glide
     kapt Dep.glideProcessor
 
     // networking
+    implementation Dep.gson
+    implementation Dep.okHttpLogger
     implementation Dep.retrofit
     implementation Dep.retrofitRxAdapter
     implementation Dep.retrofitGsonConverter
-    implementation Dep.gson
-    implementation Dep.okHttpLogger
     implementation Dep.stetho
     implementation Dep.stethoOkHttp
 
     // rx
     implementation Dep.rxAndroid
     implementation Dep.rxJava
-
-    // view
-    implementation Dep.supportDesign
-    implementation Dep.constraintLayout
 
     // markdown
     implementation Dep.markwon

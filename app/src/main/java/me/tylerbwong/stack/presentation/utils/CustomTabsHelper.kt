@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.support.customtabs.CustomTabsIntent
-import android.support.customtabs.CustomTabsService
 import android.text.TextUtils
 import android.view.View
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.browser.customtabs.CustomTabsService
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.presentation.theme.ThemeManager
 import ru.noties.markwon.spans.LinkSpan

@@ -3,12 +3,12 @@ package me.tylerbwong.stack.presentation.questions
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.support.v4.view.ViewCompat
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
@@ -16,7 +16,6 @@ import me.tylerbwong.stack.presentation.owners.BadgeView
 import me.tylerbwong.stack.presentation.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.presentation.utils.GlideApp
 import me.tylerbwong.stack.presentation.utils.format
-import me.tylerbwong.stack.presentation.utils.setHtml
 import me.tylerbwong.stack.presentation.utils.toHtml
 
 class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

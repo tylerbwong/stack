@@ -23,8 +23,10 @@ interface QuestionService {
         // defaults
         private const val DEFAULT_SITE = "stackoverflow"
         private const val DEFAULT_FILTER = "!-N4vhDh8TGjM*h(2reCz3exHc6q)hWsdi"
-        @Sort private const val DEFAULT_SORT = ACTIVITY
-        @Order private const val DEFAULT_ORDER = DESC
+        @Sort
+        private const val DEFAULT_SORT = ACTIVITY
+        @Order
+        private const val DEFAULT_ORDER = DESC
         private const val DEFAULT_PAGE_SIZE = 50
         private const val DEFAULT_PAGE = 1
 

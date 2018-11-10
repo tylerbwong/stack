@@ -2,17 +2,17 @@ package me.tylerbwong.stack.presentation
 
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.design.widget.NavigationView
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.SearchView
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
+import androidx.annotation.StringRes
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.GravityCompat
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.*
@@ -49,10 +49,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         actionBarDrawerToggle.isDrawerSlideAnimationEnabled = false
         actionBarDrawerToggle.isDrawerIndicatorEnabled = false
         actionBarDrawerToggle.toolbarNavigationClickListener = View.OnClickListener {
-            if (drawerLayout.isDrawerOpen(Gravity.START)) {
-                drawerLayout.closeDrawer(Gravity.START)
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START)
             } else {
-                drawerLayout.openDrawer(Gravity.START)
+                drawerLayout.openDrawer(GravityCompat.START)
             }
         }
         actionBarDrawerToggle.syncState()

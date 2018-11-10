@@ -1,6 +1,6 @@
 package me.tylerbwong.stack.data.persistence.typeconverter
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -17,5 +17,4 @@ class ListTypeConverter {
             gson.fromJson(it, this)
         }
     }
-
 }

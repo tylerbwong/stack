@@ -3,12 +3,11 @@ package me.tylerbwong.stack.presentation.questions.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.chip.Chip
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_question_detail.*
 import kotlinx.android.synthetic.main.question_holder.*
 import kotlinx.android.synthetic.main.user_view.*
@@ -45,7 +44,7 @@ class QuestionDetailActivity : AppCompatActivity(), QuestionDetailContract.View 
 
         recyclerView.apply {
             adapter = this@QuestionDetailActivity.adapter
-            layoutManager = LinearLayoutManager(this@QuestionDetailActivity)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@QuestionDetailActivity)
             addItemDecoration(
                     ViewHolderItemDecoration(
                             context.resources.getDimensionPixelSize(R.dimen.item_spacing),
