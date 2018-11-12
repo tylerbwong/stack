@@ -21,6 +21,14 @@ class ViewHolderItemDecoration(
             val size = parent.adapter?.itemCount ?: 0
 
             outRect.apply {
+                if (position == 0) {
+                    top = spacing / 4
+                }
+
+                if (position == size - 1 || removeTopSpacing) {
+                    bottom = spacing
+                }
+
                 if (!removeTopSpacing) {
                     top = spacing
                 }
@@ -28,14 +36,6 @@ class ViewHolderItemDecoration(
                 if (!removeSideSpacing) {
                     left = spacing
                     right = spacing
-                }
-
-                if (position == 0) {
-                    top = spacing / 4
-                }
-
-                if (position == size - 1 || removeTopSpacing) {
-                    bottom = spacing
                 }
             }
         }

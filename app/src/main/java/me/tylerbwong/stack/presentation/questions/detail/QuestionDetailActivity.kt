@@ -21,9 +21,9 @@ import me.tylerbwong.stack.presentation.ViewHolderItemDecoration
 import me.tylerbwong.stack.presentation.answers.AnswerAdapter
 import me.tylerbwong.stack.presentation.theme.ThemeManager
 import me.tylerbwong.stack.presentation.utils.GlideApp
-import me.tylerbwong.stack.presentation.utils.MarkdownUtils
 import me.tylerbwong.stack.presentation.utils.format
 import me.tylerbwong.stack.presentation.utils.getViewModel
+import me.tylerbwong.stack.presentation.utils.setMarkdown
 import me.tylerbwong.stack.presentation.utils.toHtml
 
 class QuestionDetailActivity : AppCompatActivity() {
@@ -126,7 +126,7 @@ class QuestionDetailActivity : AppCompatActivity() {
         )
 
         question.bodyMarkdown?.let {
-            MarkdownUtils.setMarkdown(questionBody, it)
+            questionBody.setMarkdown(it)
         }
         question.tags?.let {
             tagsView.removeAllViews()

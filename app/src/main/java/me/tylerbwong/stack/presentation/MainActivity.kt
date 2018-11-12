@@ -7,12 +7,11 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
-import androidx.annotation.StringRes
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.GravityCompat
-import com.google.android.material.navigation.NavigationView
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.ACTIVITY
@@ -22,15 +21,18 @@ import me.tylerbwong.stack.data.model.MONTH
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
-import me.tylerbwong.stack.presentation.questions.QuestionsFragment
+import me.tylerbwong.stack.presentation.questions.QuestionsAdapter
+import me.tylerbwong.stack.presentation.questions.QuestionsViewModel
 import me.tylerbwong.stack.presentation.theme.ThemeManager
-import timber.log.Timber
+import me.tylerbwong.stack.presentation.utils.getViewModel
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-        PopupMenu.OnMenuItemClickListener, SearchView.OnQueryTextListener {
+class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
+        SearchView.OnQueryTextListener {
 
-    private var currentFragment: BaseFragment? = null
-    private var menu: Menu? = null
+    private lateinit var viewModel: QuestionsViewModel
+    private val adapter = QuestionsAdapter()
+    private var snackbar: Snackbar? = null
+
     @Sort
     private var currentSort: String = CREATION
 
@@ -39,77 +41,50 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        navigationView.setNavigationItemSelectedListener(this)
-
-        val actionBarDrawerToggle = object : ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                toolbar,
-                R.string.open_drawer,
-                R.string.close_drawer
-        ) { /* No overrides needed */ }
-        drawerLayout.addDrawerListener(actionBarDrawerToggle)
-        actionBarDrawerToggle.isDrawerSlideAnimationEnabled = false
-        actionBarDrawerToggle.isDrawerIndicatorEnabled = false
-        actionBarDrawerToggle.toolbarNavigationClickListener = View.OnClickListener {
-            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                drawerLayout.closeDrawer(GravityCompat.START)
+        viewModel = getViewModel(QuestionsViewModel::class.java)
+        viewModel.refreshing.observe(this, Observer {
+            refreshLayout?.isRefreshing = it
+        })
+        viewModel.snackbar.observe(this, Observer {
+            if (it != null) {
+                snackbar = Snackbar.make(refreshLayout, it, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.retry) { sortQuestions() }
+                snackbar?.show()
             } else {
-                drawerLayout.openDrawer(GravityCompat.START)
+                snackbar?.dismiss()
             }
-        }
-        actionBarDrawerToggle.syncState()
+        })
+        viewModel.questions.observe(this, Observer {
+            adapter.questions = it
+        })
 
+        recyclerView.apply {
+            adapter = this@MainActivity.adapter
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(
+                    ViewHolderItemDecoration(
+                            context.resources.getDimensionPixelSize(R.dimen.item_spacing),
+                            removeTopSpacing = true
+                    )
+            )
+        }
         searchView.setOnQueryTextListener(this)
 
-        navigationView.setCheckedItem(R.id.questions)
-        QuestionsFragment.newInstance().also {
-            setFragment(it)
-        }
+        refreshLayout.setOnRefreshListener { sortQuestions() }
+
+        sortQuestions()
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        drawerLayout.closeDrawers()
-
-        when (item.itemId) {
-            R.id.questions -> {
-                QuestionsFragment.newInstance()
-            }
-//            R.id.login -> {
-//                LoginManager.startLogin(this)
-//                currentFragment
-//            }
-            else -> {
-                Timber.e("Could not resolve any fragment")
-                null
-            }
-        }.also { setFragment(it) }
-
+    private fun sortQuestions(@Sort sort: String = CREATION): Boolean {
+        viewModel.getQuestions(sort)
+        currentSort = sort
         return true
     }
 
-    private fun setFragment(fragment: BaseFragment?) {
-        fragment?.let {
-            supportFragmentManager
-                    .beginTransaction()
-                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                    .replace(R.id.contentFrame, it)
-                    .commit()
-            setFragmentTitle(it.titleRes)
-            currentFragment = it
-        }
-    }
-
-    private fun setFragmentTitle(@StringRes resId: Int?) {
-        resId?.let {
-            supportActionBar?.title = getString(it)
-        }
-    }
+    private fun searchQuestions(query: String) = viewModel.searchQuestions(query)
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        this.menu = menu
         menuInflater.inflate(R.menu.menu_questions, menu)
         return true
     }
@@ -179,13 +154,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             imm.showSoftInput(it, 0)
         }
     }
-
-    private fun sortQuestions(@Sort sort: String): Boolean {
-        (currentFragment as? QuestionsFragment)?.sortQuestions(sort)
-        currentSort = sort
-        return true
-    }
-
-    private fun searchQuestions(query: String) =
-            (currentFragment as? QuestionsFragment)?.searchQuestions(query)
 }

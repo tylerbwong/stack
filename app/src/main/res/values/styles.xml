@@ -5,7 +5,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Base.AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
@@ -13,7 +12,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <!-- Light base activity theme -->
@@ -28,7 +26,6 @@
         <item name="searchMenuIcon">@drawable/ic_search_light</item>
         <item name="sortMenuIcon">@drawable/ic_sort_light</item>
         <item name="backIcon">@drawable/ic_arrow_back_light</item>
-        <item name="drawerIcon">@drawable/ic_menu_light</item>
     </style>
 
     <!-- Dark base activity theme -->
@@ -43,7 +40,6 @@
         <item name="searchMenuIcon">@drawable/ic_search_dark</item>
         <item name="sortMenuIcon">@drawable/ic_sort_dark</item>
         <item name="backIcon">@drawable/ic_arrow_back_dark</item>
-        <item name="drawerIcon">@drawable/ic_menu_dark</item>
     </style>
 
 </resources>

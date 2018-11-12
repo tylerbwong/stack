@@ -9,8 +9,8 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.presentation.owners.BadgeView
 import me.tylerbwong.stack.presentation.utils.GlideApp
-import me.tylerbwong.stack.presentation.utils.MarkdownUtils
 import me.tylerbwong.stack.presentation.utils.format
+import me.tylerbwong.stack.presentation.utils.setMarkdown
 import me.tylerbwong.stack.presentation.utils.toHtml
 
 class AnswerHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
@@ -27,7 +27,7 @@ class AnswerHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.V
         val voteCount = answer.upVoteCount - answer.downVoteCount
         votes.text = itemView.context.resources.getQuantityString(R.plurals.votes, voteCount, voteCount)
         acceptedAnswerCheck.visibility = if (answer.isAccepted) View.VISIBLE else View.GONE
-        MarkdownUtils.setMarkdown(answerBody, answer.bodyMarkdown)
+        answerBody.setMarkdown(answer.bodyMarkdown)
 
         this.username.text = answer.owner.displayName.toHtml()
         GlideApp.with(itemView)

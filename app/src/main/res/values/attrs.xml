@@ -6,6 +6,5 @@
         <attr name="searchMenuIcon" format="integer" />
         <attr name="sortMenuIcon" format="integer" />
         <attr name="backIcon" format="integer" />
-        <attr name="drawerIcon" format="integer" />
     </declare-styleable>
 </resources>
