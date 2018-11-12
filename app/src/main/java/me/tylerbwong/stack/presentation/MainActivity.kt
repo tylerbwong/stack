@@ -24,6 +24,7 @@ import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.presentation.questions.QuestionsAdapter
 import me.tylerbwong.stack.presentation.questions.QuestionsViewModel
 import me.tylerbwong.stack.presentation.theme.ThemeManager
+import me.tylerbwong.stack.presentation.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.presentation.utils.getViewModel
 
 class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,

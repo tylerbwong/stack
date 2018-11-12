@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.presentation
+package me.tylerbwong.stack.presentation.utils
 
 import android.graphics.Rect
 import android.view.View

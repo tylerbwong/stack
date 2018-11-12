@@ -17,10 +17,10 @@ import kotlinx.android.synthetic.main.user_view.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.User
-import me.tylerbwong.stack.presentation.ViewHolderItemDecoration
 import me.tylerbwong.stack.presentation.answers.AnswerAdapter
 import me.tylerbwong.stack.presentation.theme.ThemeManager
 import me.tylerbwong.stack.presentation.utils.GlideApp
+import me.tylerbwong.stack.presentation.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.presentation.utils.format
 import me.tylerbwong.stack.presentation.utils.getViewModel
 import me.tylerbwong.stack.presentation.utils.setMarkdown
