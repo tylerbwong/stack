@@ -3,6 +3,7 @@ package me.tylerbwong.stack.ui.questions.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -106,11 +107,26 @@ class QuestionDetailActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_question_details, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
             android.R.id.home -> onBackPressed()
+            R.id.share -> startShareIntent()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun startShareIntent() {
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = SHARE_TEXT_TYPE
+            putExtra(Intent.EXTRA_SUBJECT, question.title)
+            putExtra(Intent.EXTRA_TEXT, question.shareLink)
+        }
+        startActivity(Intent.createChooser(intent, getString(R.string.share)))
     }
 
     private fun setQuestion(question: Question) {
@@ -151,6 +167,7 @@ class QuestionDetailActivity : AppCompatActivity() {
         private const val QUESTION_BODY = "body"
         private const val QUESTION_OWNER = "owner"
         private const val IS_FROM_DEEP_LINK = "isFromDeepLink"
+        private const val SHARE_TEXT_TYPE = "text/plain"
 
         fun startActivity(
                 context: Context,

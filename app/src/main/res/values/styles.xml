@@ -26,6 +26,7 @@
         <item name="searchMenuIcon">@drawable/ic_search_light</item>
         <item name="sortMenuIcon">@drawable/ic_sort_light</item>
         <item name="backIcon">@drawable/ic_arrow_back_light</item>
+        <item name="shareIcon">@drawable/ic_share_light</item>
     </style>
 
     <!-- Dark base activity theme -->
@@ -40,6 +41,7 @@
         <item name="searchMenuIcon">@drawable/ic_search_dark</item>
         <item name="sortMenuIcon">@drawable/ic_sort_dark</item>
         <item name="backIcon">@drawable/ic_arrow_back_dark</item>
+        <item name="shareIcon">@drawable/ic_share_dark</item>
     </style>
 
 </resources>
