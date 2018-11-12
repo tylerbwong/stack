@@ -4,15 +4,13 @@ import android.os.Build
 import android.text.Html
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.URLSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.annotation.LayoutRes
-import java.util.TreeMap
+import java.util.*
 
 private val specialChars = mapOf(
         "&lt;" to "<",
@@ -56,19 +54,6 @@ private fun makeLinkClickable(strBuilder: SpannableStringBuilder, span: URLSpan)
     }
     strBuilder.setSpan(clickable, start, end, flags)
     strBuilder.removeSpan(span)
-}
-
-fun TextView.setHtml(html: String?) {
-    html?.let {
-        val sequence = it.toHtml()
-        val strBuilder = SpannableStringBuilder(sequence)
-        val urls = strBuilder.getSpans(0, sequence.length, URLSpan::class.java)
-        for (span in urls) {
-            makeLinkClickable(strBuilder, span)
-        }
-        text = strBuilder
-        movementMethod = LinkMovementMethod.getInstance()
-    }
 }
 
 private val suffixes = TreeMap<Long, String>().apply {

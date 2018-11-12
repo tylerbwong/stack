@@ -17,6 +17,7 @@ class QuestionDetailViewModel(
     internal val question: LiveData<Question>
         get() = _question
     private val _question = MutableLiveData<Question>()
+
     internal val answers: LiveData<List<Answer>>
         get() = _answers
     private val _answers = MutableLiveData<List<Answer>>()
@@ -29,25 +30,11 @@ class QuestionDetailViewModel(
                     .map { it.items.first() }
                     .subscribeOn(Schedulers.io())
                     .await()
+
             _answers.value = service.getQuestionAnswers(questionId)
-                    .map { it.items.toMutableList().sortByAccepted().toList() }
+                    .map { it.items.sortedBy { answer -> !answer.isAccepted } }
                     .subscribeOn(Schedulers.io())
                     .await()
         }
-    }
-
-    private fun MutableList<Answer>.sortByAccepted(): MutableList<Answer> {
-        var acceptedAnswer: Answer? = null
-        this.forEach {
-            if (it.isAccepted) {
-                acceptedAnswer = it
-            }
-        }
-
-        acceptedAnswer?.let {
-            this.remove(it)
-            this.add(0, it)
-        }
-        return this
     }
 }

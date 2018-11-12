@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.data.network
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import io.reactivex.schedulers.Schedulers
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.network.service.QuestionService
 import okhttp3.OkHttpClient
@@ -31,9 +30,7 @@ object ServiceProvider {
                 .baseUrl("https://api.stackexchange.com/2.2/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(
-                        RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io())
-                )
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
         retrofit.create(QuestionService::class.java)
     }

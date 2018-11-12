@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.questions_fragment.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.CREATION
@@ -19,6 +20,7 @@ class QuestionsFragment : BaseFragment() {
 
     private lateinit var viewModel: QuestionsViewModel
     private val adapter = QuestionsAdapter()
+    private var snackbar: Snackbar? = null
 
     override var titleRes: Int = R.string.questions
 
@@ -35,6 +37,15 @@ class QuestionsFragment : BaseFragment() {
         viewModel = getViewModel(QuestionsViewModel::class.java)
         viewModel.refreshing.observe(this, Observer {
             refreshLayout?.isRefreshing = it
+        })
+        viewModel.snackbar.observe(this, Observer {
+            if (it != null) {
+                snackbar = Snackbar.make(rootLayout, it, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.retry) { sortQuestions() }
+                snackbar?.show()
+            } else {
+                snackbar?.dismiss()
+            }
         })
         viewModel.questions.observe(this, Observer {
             adapter.questions = it

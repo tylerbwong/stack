@@ -55,35 +55,32 @@ private fun getPackageNameToUse(context: Context, url: String): String? {
     // Get all apps that can handle VIEW intents.
     val resolvedActivityList = pm.queryIntentActivities(activityIntent, 0)
     val packagesSupportingCustomTabs = ArrayList<String>()
-    for (info in resolvedActivityList) {
+    resolvedActivityList.forEach {
         val serviceIntent = Intent()
         serviceIntent.action = CustomTabsService.ACTION_CUSTOM_TABS_CONNECTION
-        serviceIntent.`package` = info.activityInfo.packageName
+        serviceIntent.`package` = it.activityInfo.packageName
         if (pm.resolveService(serviceIntent, 0) != null) {
-            packagesSupportingCustomTabs.add(info.activityInfo.packageName)
+            packagesSupportingCustomTabs.add(it.activityInfo.packageName)
         }
     }
 
     // Now packagesSupportingCustomTabs contains all apps that can handle both VIEW intents
     // and service calls.
-    if (packagesSupportingCustomTabs.isEmpty()) {
-        packageName = null
-    } else if (packagesSupportingCustomTabs.size == 1) {
-        packageName = packagesSupportingCustomTabs[0]
-    } else if (!TextUtils.isEmpty(defaultViewHandlerPackageName)
-            && !hasSpecializedHandlerIntents(context, activityIntent)
-            && packagesSupportingCustomTabs.contains(defaultViewHandlerPackageName)) {
-        packageName = defaultViewHandlerPackageName
-    } else if (packagesSupportingCustomTabs.contains(STABLE_PACKAGE)) {
-        packageName = STABLE_PACKAGE
-    } else if (packagesSupportingCustomTabs.contains(BETA_PACKAGE)) {
-        packageName = BETA_PACKAGE
-    } else if (packagesSupportingCustomTabs.contains(DEV_PACKAGE)) {
-        packageName = DEV_PACKAGE
-    } else if (packagesSupportingCustomTabs.contains(LOCAL_PACKAGE)) {
-        packageName = LOCAL_PACKAGE
+    return when {
+        packagesSupportingCustomTabs.isEmpty() -> null
+        packagesSupportingCustomTabs.size == 1 -> packagesSupportingCustomTabs[0]
+        !TextUtils.isEmpty(defaultViewHandlerPackageName)
+                && !hasSpecializedHandlerIntents(context, activityIntent)
+                && packagesSupportingCustomTabs.contains(defaultViewHandlerPackageName) -> defaultViewHandlerPackageName
+        packagesSupportingCustomTabs.contains(STABLE_PACKAGE) -> STABLE_PACKAGE
+        packagesSupportingCustomTabs.contains(BETA_PACKAGE) -> BETA_PACKAGE
+        packagesSupportingCustomTabs.contains(DEV_PACKAGE) -> DEV_PACKAGE
+        packagesSupportingCustomTabs.contains(LOCAL_PACKAGE) -> LOCAL_PACKAGE
+        else -> {
+            Timber.e("Could not resolve package for custom tabs")
+            null
+        }
     }
-    return packageName
 }
 
 private fun hasSpecializedHandlerIntents(context: Context, intent: Intent): Boolean {

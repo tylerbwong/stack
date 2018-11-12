@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_question_detail.*
 import kotlinx.android.synthetic.main.question_holder.*
 import kotlinx.android.synthetic.main.user_view.*
@@ -29,6 +30,7 @@ class QuestionDetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: QuestionDetailViewModel
     private val adapter = AnswerAdapter()
+    private var snackbar: Snackbar? = null
 
     private var isFromDeepLink = false
 
@@ -43,6 +45,15 @@ class QuestionDetailActivity : AppCompatActivity() {
         viewModel = getViewModel(QuestionDetailViewModel::class.java)
         viewModel.refreshing.observe(this, Observer {
             refreshLayout?.isRefreshing = it
+        })
+        viewModel.snackbar.observe(this, Observer {
+            if (it != null) {
+                snackbar = Snackbar.make(rootLayout, it, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.retry) { viewModel.getQuestionDetails() }
+                snackbar?.show()
+            } else {
+                snackbar?.dismiss()
+            }
         })
         viewModel.question.observe(this, Observer {
             setQuestion(it)

@@ -1,10 +1,7 @@
 package me.tylerbwong.stack.presentation
 
 import android.app.Application
-import android.os.Looper
 import com.facebook.stetho.Stetho
-import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.plugins.RxJavaPlugins
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.persistence.StackDatabase
@@ -18,10 +15,6 @@ class StackApplication : Application() {
         ThemeManager.init(this)
 
         StackDatabase.init(this)
-
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler {
-            AndroidSchedulers.from(Looper.getMainLooper(), true)
-        }
 
         RxJavaPlugins.setErrorHandler {
             when (it) {

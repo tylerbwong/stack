@@ -14,6 +14,10 @@ abstract class BaseViewModel : ViewModel() {
         get() = _refreshing
     private val _refreshing = MutableLiveData<Boolean>()
 
+    val snackbar: LiveData<String?>
+        get() = _snackbar
+    private val _snackbar = MutableLiveData<String?>()
+
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
@@ -21,12 +25,12 @@ abstract class BaseViewModel : ViewModel() {
         return uiScope.launch {
             try {
                 _refreshing.value = true
+                _snackbar.value = null
                 block()
-            }
-            catch (exception: Exception) {
+            } catch (exception: Exception) {
                 Timber.e(exception)
-            }
-            finally {
+                _snackbar.value = "Network error"
+            } finally {
                 _refreshing.value = false
             }
         }
