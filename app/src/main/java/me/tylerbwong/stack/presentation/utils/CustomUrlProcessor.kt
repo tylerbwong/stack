@@ -6,7 +6,7 @@ class CustomUrlProcessor : UrlProcessor {
     override fun process(destination: String): String {
         var url = destination
         if (!destination.contains("http")) {
-            url = "http:$destination"
+            url = "https:$destination"
         }
         return url
     }

@@ -2,10 +2,7 @@ package me.tylerbwong.stack.presentation.utils
 
 import android.os.Build
 import android.text.Html
-import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.style.ClickableSpan
-import android.text.style.URLSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,19 +38,6 @@ fun String.stripSpecials(): String {
          result = result.replace(key, value)
     }
     return result
-}
-
-private fun makeLinkClickable(strBuilder: SpannableStringBuilder, span: URLSpan) {
-    val start = strBuilder.getSpanStart(span)
-    val end = strBuilder.getSpanEnd(span)
-    val flags = strBuilder.getSpanFlags(span)
-    val clickable = object : ClickableSpan() {
-        override fun onClick(view: View) {
-            launchCustomTab(view.context, span.url)
-        }
-    }
-    strBuilder.setSpan(clickable, start, end, flags)
-    strBuilder.removeSpan(span)
 }
 
 private val suffixes = TreeMap<Long, String>().apply {

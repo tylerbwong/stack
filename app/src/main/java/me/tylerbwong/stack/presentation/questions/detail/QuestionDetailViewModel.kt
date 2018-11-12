@@ -2,6 +2,8 @@ package me.tylerbwong.stack.presentation.questions.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.Single
+import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.rx2.await
 import me.tylerbwong.stack.data.model.Answer
@@ -26,15 +28,18 @@ class QuestionDetailViewModel(
 
     internal fun getQuestionDetails() {
         launchRequest {
-            _question.value = service.getQuestionDetails(questionId)
-                    .map { it.items.first() }
-                    .subscribeOn(Schedulers.io())
-                    .await()
+            val response = Single.zip(
+                    service.getQuestionDetails(questionId)
+                            .map { it.items.first() }
+                            .subscribeOn(Schedulers.io()),
+                    service.getQuestionAnswers(questionId)
+                            .map { it.items.sortedBy { answer -> !answer.isAccepted } }
+                            .subscribeOn(Schedulers.io()),
+                    BiFunction { question: Question, answers: List<Answer> -> question to answers }
+            ).subscribeOn(Schedulers.io()).await()
 
-            _answers.value = service.getQuestionAnswers(questionId)
-                    .map { it.items.sortedBy { answer -> !answer.isAccepted } }
-                    .subscribeOn(Schedulers.io())
-                    .await()
+            _question.value = response.first
+            _answers.value = response.second
         }
     }
 }
