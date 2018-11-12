@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.presentation.owners
+package me.tylerbwong.stack.ui.owners
 
 import android.content.Context
 import android.graphics.Canvas

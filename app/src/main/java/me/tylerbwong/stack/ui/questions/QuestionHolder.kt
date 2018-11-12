@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.presentation.questions
+package me.tylerbwong.stack.ui.questions
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
-import me.tylerbwong.stack.presentation.owners.BadgeView
-import me.tylerbwong.stack.presentation.questions.detail.QuestionDetailActivity
-import me.tylerbwong.stack.presentation.utils.GlideApp
-import me.tylerbwong.stack.presentation.utils.format
-import me.tylerbwong.stack.presentation.utils.toHtml
+import me.tylerbwong.stack.ui.owners.BadgeView
+import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
+import me.tylerbwong.stack.ui.utils.GlideApp
+import me.tylerbwong.stack.ui.utils.format
+import me.tylerbwong.stack.ui.utils.toHtml
 
 class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

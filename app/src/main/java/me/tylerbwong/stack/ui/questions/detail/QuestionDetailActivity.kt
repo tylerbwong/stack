@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.presentation.questions.detail
+package me.tylerbwong.stack.ui.questions.detail
 
 import android.content.Context
 import android.content.Intent
@@ -17,14 +17,14 @@ import kotlinx.android.synthetic.main.user_view.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.User
-import me.tylerbwong.stack.presentation.answers.AnswerAdapter
-import me.tylerbwong.stack.presentation.theme.ThemeManager
-import me.tylerbwong.stack.presentation.utils.GlideApp
-import me.tylerbwong.stack.presentation.utils.ViewHolderItemDecoration
-import me.tylerbwong.stack.presentation.utils.format
-import me.tylerbwong.stack.presentation.utils.getViewModel
-import me.tylerbwong.stack.presentation.utils.setMarkdown
-import me.tylerbwong.stack.presentation.utils.toHtml
+import me.tylerbwong.stack.ui.answers.AnswerAdapter
+import me.tylerbwong.stack.ui.theme.ThemeManager
+import me.tylerbwong.stack.ui.utils.GlideApp
+import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.format
+import me.tylerbwong.stack.ui.utils.getViewModel
+import me.tylerbwong.stack.ui.utils.setMarkdown
+import me.tylerbwong.stack.ui.utils.toHtml
 
 class QuestionDetailActivity : AppCompatActivity() {
 

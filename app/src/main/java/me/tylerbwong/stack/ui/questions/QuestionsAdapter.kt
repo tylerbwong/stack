@@ -1,10 +1,10 @@
-package me.tylerbwong.stack.presentation.questions
+package me.tylerbwong.stack.ui.questions
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
-import me.tylerbwong.stack.presentation.utils.inflateWithoutAttaching
+import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
 
 class QuestionsAdapter : RecyclerView.Adapter<QuestionHolder>() {
 

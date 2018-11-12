@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.presentation.utils
+package me.tylerbwong.stack.ui.utils
 
 import android.content.Context
 import android.content.Intent
@@ -9,7 +9,7 @@ import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsService
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.presentation.theme.ThemeManager
+import me.tylerbwong.stack.ui.theme.ThemeManager
 import ru.noties.markwon.spans.LinkSpan
 import timber.log.Timber
 

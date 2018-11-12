@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.presentation.questions.detail
+package me.tylerbwong.stack.ui.questions.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +10,7 @@ import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
-import me.tylerbwong.stack.presentation.BaseViewModel
+import me.tylerbwong.stack.ui.BaseViewModel
 
 class QuestionDetailViewModel(
         private val service: QuestionService = ServiceProvider.questionService

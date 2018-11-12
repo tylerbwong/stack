@@ -3,7 +3,7 @@ package me.tylerbwong.stack.data.network
 import android.content.Context
 import me.tylerbwong.stack.data.model.NO_EXPIRY
 import me.tylerbwong.stack.data.model.Scope
-import me.tylerbwong.stack.presentation.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.launchCustomTab
 
 object LoginManager {
     private const val CLIENT_ID = "12074"

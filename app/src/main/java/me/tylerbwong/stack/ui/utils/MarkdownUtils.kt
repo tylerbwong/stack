@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.presentation.utils
+package me.tylerbwong.stack.ui.utils
 
 import android.widget.TextView
 import me.tylerbwong.stack.data.network.ServiceProvider

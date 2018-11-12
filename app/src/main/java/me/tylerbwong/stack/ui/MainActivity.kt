@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.presentation
+package me.tylerbwong.stack.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -21,11 +21,11 @@ import me.tylerbwong.stack.data.model.MONTH
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
-import me.tylerbwong.stack.presentation.questions.QuestionsAdapter
-import me.tylerbwong.stack.presentation.questions.QuestionsViewModel
-import me.tylerbwong.stack.presentation.theme.ThemeManager
-import me.tylerbwong.stack.presentation.utils.ViewHolderItemDecoration
-import me.tylerbwong.stack.presentation.utils.getViewModel
+import me.tylerbwong.stack.ui.questions.QuestionsAdapter
+import me.tylerbwong.stack.ui.questions.QuestionsViewModel
+import me.tylerbwong.stack.ui.theme.ThemeManager
+import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.getViewModel
 
 class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
         SearchView.OnQueryTextListener {

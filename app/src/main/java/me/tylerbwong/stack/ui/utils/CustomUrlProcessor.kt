@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.presentation.utils
+package me.tylerbwong.stack.ui.utils
 
 import ru.noties.markwon.UrlProcessor
 

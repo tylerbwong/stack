@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.presentation
+package me.tylerbwong.stack.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

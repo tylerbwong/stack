@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.presentation.theme
+package me.tylerbwong.stack.ui.theme
 
 import android.app.Activity
 import android.content.Context

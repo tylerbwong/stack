@@ -1,10 +1,10 @@
-package me.tylerbwong.stack.presentation.answers
+package me.tylerbwong.stack.ui.answers
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Answer
-import me.tylerbwong.stack.presentation.utils.inflateWithoutAttaching
+import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
 
 class AnswerAdapter : RecyclerView.Adapter<AnswerHolder>() {
     internal var answers: List<Answer> = listOf()

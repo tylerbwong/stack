@@ -1,8 +1,8 @@
-package me.tylerbwong.stack.presentation
+package me.tylerbwong.stack.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import me.tylerbwong.stack.presentation.questions.detail.QuestionDetailActivity
+import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 
 class DeepLinkingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,11 +1,11 @@
-package me.tylerbwong.stack.presentation
+package me.tylerbwong.stack.ui
 
 import android.app.Application
 import com.facebook.stetho.Stetho
 import io.reactivex.plugins.RxJavaPlugins
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.persistence.StackDatabase
-import me.tylerbwong.stack.presentation.theme.ThemeManager
+import me.tylerbwong.stack.ui.theme.ThemeManager
 import timber.log.Timber
 
 class StackApplication : Application() {
