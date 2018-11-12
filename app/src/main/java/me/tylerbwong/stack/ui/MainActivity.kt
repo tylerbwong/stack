@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
         this.menu = menu
         menuInflater.inflate(R.menu.menu_questions, menu)
 
-        if (viewModel.currentQuery.isNotBlank()) {
+        if (!viewModel.isQueryBlank()) {
             onOptionsItemSelected(menu?.findItem(R.id.search))
         }
         return true
@@ -142,11 +142,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        viewModel.currentQuery = newText ?: ""
-
-        if (viewModel.currentQuery.isBlank()) {
-            viewModel.getQuestions()
-        }
+        viewModel.onQueryTextChange(newText)
         return true
     }
 

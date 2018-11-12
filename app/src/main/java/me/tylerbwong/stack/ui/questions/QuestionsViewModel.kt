@@ -25,7 +25,7 @@ internal class QuestionsViewModel(
 
     @Sort
     private var currentSort: String = CREATION
-    internal var currentQuery: String = ""
+    private var currentQuery: String = ""
 
     internal fun getQuestions(@Sort sort: String = currentSort) {
         currentSort = sort
@@ -54,4 +54,14 @@ internal class QuestionsViewModel(
             getQuestions()
         }
     }
+
+    internal fun onQueryTextChange(newText: String?) {
+        currentQuery = newText ?: ""
+
+        if (currentQuery.isBlank()) {
+            getQuestions()
+        }
+    }
+
+    internal fun isQueryBlank() = currentQuery.isBlank()
 }
