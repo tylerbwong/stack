@@ -39,7 +39,6 @@ class QuestionDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_detail)
         setSupportActionBar(toolbar)
-        ThemeManager.themeViews(toolbar, upFab, downFab)
 
         viewModel = getViewModel(QuestionDetailViewModel::class.java)
         viewModel.refreshing.observe(this, Observer {

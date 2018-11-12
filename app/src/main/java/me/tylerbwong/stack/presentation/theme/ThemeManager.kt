@@ -4,18 +4,14 @@ import android.app.Activity
 import android.content.Context
 import android.preference.PreferenceManager
 import android.util.TypedValue
-import android.view.View
 import androidx.annotation.AttrRes
-import androidx.appcompat.widget.Toolbar
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import me.tylerbwong.stack.R
-import timber.log.Timber
 
 object ThemeManager {
 
     private var isDarkModeEnabled: Boolean = false
 
-    private const val DARK_MODE_ENABLED = "DARK_mode_enabled"
+    private const val DARK_MODE_ENABLED = "dark_mode_enabled"
 
     fun init(context: Context) {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -41,19 +37,5 @@ object ThemeManager {
         val theme = context.theme
         theme.resolveAttribute(attr, typedValue, true)
         return typedValue.data
-    }
-
-    fun themeViews(vararg views: View) = views.forEach {
-        it.applyTheme()
-    }
-
-    private fun View.applyTheme() = when (this) {
-        is Toolbar -> {
-            /* TODO Apply [Toolbar] theme */
-        }
-        is FloatingActionButton -> {
-            /* TODO Apply [FloatingActionButton] theme */
-        }
-        else -> Timber.e("Could not find theme for view.")
     }
 }

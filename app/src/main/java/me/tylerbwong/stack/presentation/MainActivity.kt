@@ -15,7 +15,13 @@ import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.*
+import me.tylerbwong.stack.data.model.ACTIVITY
+import me.tylerbwong.stack.data.model.CREATION
+import me.tylerbwong.stack.data.model.HOT
+import me.tylerbwong.stack.data.model.MONTH
+import me.tylerbwong.stack.data.model.Sort
+import me.tylerbwong.stack.data.model.VOTES
+import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.presentation.questions.QuestionsFragment
 import me.tylerbwong.stack.presentation.theme.ThemeManager
 import timber.log.Timber
@@ -34,7 +40,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        ThemeManager.themeViews(toolbar)
 
         navigationView.setNavigationItemSelectedListener(this)
 

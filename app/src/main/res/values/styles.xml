@@ -1,6 +1,14 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Base.AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Base.AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -9,7 +17,7 @@
     </style>
 
     <!-- Light base activity theme -->
-    <style name="AppTheme.Primary.Base.Light" parent="AppTheme">
+    <style name="AppTheme.Primary.Base.Light" parent="Base.AppTheme.Light">
         <item name="android:windowBackground">@color/windowBackgroundLight</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:textColorPrimary">@color/primaryTextColorLight</item>
@@ -24,7 +32,7 @@
     </style>
 
     <!-- Dark base activity theme -->
-    <style name="AppTheme.Primary.Base.Dark" parent="AppTheme">
+    <style name="AppTheme.Primary.Base.Dark" parent="Base.AppTheme.Dark">
         <item name="android:windowBackground">@color/windowBackgroundDark</item>
         <item name="android:statusBarColor">@color/viewBackgroundColorDark</item>
         <item name="android:textColorPrimary">@color/primaryTextColorDark</item>
