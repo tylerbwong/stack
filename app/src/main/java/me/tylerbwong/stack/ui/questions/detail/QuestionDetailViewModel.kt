@@ -1,11 +1,14 @@
 package me.tylerbwong.stack.ui.questions.detail
 
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.rx2.await
+import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.network.ServiceProvider
@@ -25,6 +28,7 @@ class QuestionDetailViewModel(
     private val _answers = MutableLiveData<List<Answer>>()
 
     internal var questionId: Int = 0
+    internal var isFromDeepLink = false
 
     internal fun getQuestionDetails() {
         launchRequest {
@@ -41,5 +45,20 @@ class QuestionDetailViewModel(
             _question.value = response.first
             _answers.value = response.second
         }
+    }
+
+    internal fun startShareIntent(context: Context) {
+        question.value?.let {
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = SHARE_TEXT_TYPE
+                putExtra(Intent.EXTRA_SUBJECT, it.title)
+                putExtra(Intent.EXTRA_TEXT, it.shareLink)
+            }
+            context.startActivity(Intent.createChooser(intent, context.getString(R.string.share)))
+        }
+    }
+
+    companion object {
+        private const val SHARE_TEXT_TYPE = "text/plain"
     }
 }

@@ -23,7 +23,12 @@ internal class QuestionsViewModel(
         get() = _questions
     private val _questions = MutableLiveData<List<Question>>()
 
-    internal fun getQuestions(@Sort sort: String = CREATION) {
+    @Sort
+    private var currentSort: String = CREATION
+    internal var currentQuery: String = ""
+
+    internal fun getQuestions(@Sort sort: String = currentSort) {
+        currentSort = sort
         launchRequest {
             _questions.value = repository.getQuestions(sort)
                     .subscribeOn(Schedulers.io())
@@ -31,13 +36,22 @@ internal class QuestionsViewModel(
         }
     }
 
-    internal fun searchQuestions(query: String) {
+    internal fun searchQuestions(query: String = currentQuery) {
+        currentQuery = query
         launchRequest {
             _questions.value = service
                     .getQuestionsBySearchString(searchString = query)
                     .map { it.items }
                     .subscribeOn(Schedulers.io())
                     .await()
+        }
+    }
+
+    internal fun onStart() {
+        if (currentQuery.isNotBlank()) {
+            searchQuestions()
+        } else {
+            getQuestions()
         }
     }
 }

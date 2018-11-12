@@ -18,7 +18,6 @@ import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.HOT
 import me.tylerbwong.stack.data.model.MONTH
-import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.ui.questions.QuestionsAdapter
@@ -33,9 +32,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
     private lateinit var viewModel: QuestionsViewModel
     private val adapter = QuestionsAdapter()
     private var snackbar: Snackbar? = null
-
-    @Sort
-    private var currentSort: String = CREATION
+    private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ThemeManager.injectTheme(this)
@@ -50,7 +47,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
         viewModel.snackbar.observe(this, Observer {
             if (it != null) {
                 snackbar = Snackbar.make(refreshLayout, it, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.retry) { sortQuestions() }
+                        .setAction(R.string.retry) { viewModel.getQuestions() }
                 snackbar?.show()
             } else {
                 snackbar?.dismiss()
@@ -72,21 +69,21 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
         }
         searchView.setOnQueryTextListener(this)
 
-        refreshLayout.setOnRefreshListener { sortQuestions() }
-
-        sortQuestions()
+        refreshLayout.setOnRefreshListener { viewModel.getQuestions() }
     }
 
-    private fun sortQuestions(@Sort sort: String = CREATION): Boolean {
-        viewModel.getQuestions(sort)
-        currentSort = sort
-        return true
+    override fun onStart() {
+        super.onStart()
+        viewModel.onStart()
     }
-
-    private fun searchQuestions(query: String) = viewModel.searchQuestions(query)
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menu = menu
         menuInflater.inflate(R.menu.menu_questions, menu)
+
+        if (viewModel.currentQuery.isNotBlank()) {
+            onOptionsItemSelected(menu?.findItem(R.id.search))
+        }
         return true
     }
 
@@ -115,32 +112,43 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
     override fun onBackPressed() {
         if (searchView.visibility == View.VISIBLE) {
             searchView.visibility = View.GONE
-            sortQuestions(currentSort)
+            viewModel.getQuestions()
         } else {
             super.onBackPressed()
         }
     }
 
-    override fun onMenuItemClick(item: MenuItem?) = when (item?.itemId) {
-        R.id.creation -> sortQuestions(CREATION)
-        R.id.activity -> sortQuestions(ACTIVITY)
-        R.id.votes -> sortQuestions(VOTES)
-        R.id.hot -> sortQuestions(HOT)
-        R.id.week -> sortQuestions(WEEK)
-        R.id.month -> sortQuestions(MONTH)
-        else -> false
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        val sort = when (item?.itemId) {
+            R.id.creation -> CREATION
+            R.id.activity -> ACTIVITY
+            R.id.votes -> VOTES
+            R.id.hot -> HOT
+            R.id.week -> WEEK
+            R.id.month -> MONTH
+            else -> CREATION
+        }
+        viewModel.getQuestions(sort)
+        return true
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         query?.let {
             hideKeyboard()
-            searchQuestions(it)
+            viewModel.searchQuestions(it)
             return true
         }
         return false
     }
 
-    override fun onQueryTextChange(newText: String?) = false
+    override fun onQueryTextChange(newText: String?): Boolean {
+        viewModel.currentQuery = newText ?: ""
+
+        if (viewModel.currentQuery.isBlank()) {
+            viewModel.getQuestions()
+        }
+        return true
+    }
 
     private fun hideKeyboard() {
         currentFocus?.let {

@@ -33,10 +33,6 @@ class QuestionDetailActivity : AppCompatActivity() {
     private val adapter = AnswerAdapter()
     private var snackbar: Snackbar? = null
 
-    private var isFromDeepLink = false
-
-    private lateinit var question: Question
-
     override fun onCreate(savedInstanceState: Bundle?) {
         ThemeManager.injectTheme(this)
         super.onCreate(savedInstanceState)
@@ -79,9 +75,9 @@ class QuestionDetailActivity : AppCompatActivity() {
             isNestedScrollingEnabled = false
         }
 
-        isFromDeepLink = intent.getBooleanExtra(IS_FROM_DEEP_LINK, false)
+        viewModel.isFromDeepLink = intent.getBooleanExtra(IS_FROM_DEEP_LINK, false)
 
-        if (!isFromDeepLink) {
+        if (!viewModel.isFromDeepLink) {
             questionTitle.text = intent.getStringExtra(QUESTION_TITLE).toHtml()
             questionBody.text = intent.getStringExtra(QUESTION_BODY).toHtml()
             bindUser(intent.getParcelableExtra(QUESTION_OWNER))
@@ -115,22 +111,12 @@ class QuestionDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
             android.R.id.home -> onBackPressed()
-            R.id.share -> startShareIntent()
+            R.id.share -> viewModel.startShareIntent(this)
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun startShareIntent() {
-        val intent = Intent(Intent.ACTION_SEND).apply {
-            type = SHARE_TEXT_TYPE
-            putExtra(Intent.EXTRA_SUBJECT, question.title)
-            putExtra(Intent.EXTRA_TEXT, question.shareLink)
-        }
-        startActivity(Intent.createChooser(intent, getString(R.string.share)))
-    }
-
     private fun setQuestion(question: Question) {
-        this.question = question
         val voteCount = question.upVoteCount - question.downVoteCount
         supportActionBar?.title = resources.getQuantityString(R.plurals.votes, voteCount, voteCount)
         questionBody.maxLines = Integer.MAX_VALUE
@@ -155,7 +141,7 @@ class QuestionDetailActivity : AppCompatActivity() {
             }
         }
 
-        if (isFromDeepLink) {
+        if (viewModel.isFromDeepLink) {
             questionTitle.text = question.title.toHtml()
             bindUser(question.owner)
         }
@@ -167,7 +153,6 @@ class QuestionDetailActivity : AppCompatActivity() {
         private const val QUESTION_BODY = "body"
         private const val QUESTION_OWNER = "owner"
         private const val IS_FROM_DEEP_LINK = "isFromDeepLink"
-        private const val SHARE_TEXT_TYPE = "text/plain"
 
         fun startActivity(
                 context: Context,
