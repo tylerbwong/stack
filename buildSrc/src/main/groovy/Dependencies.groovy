@@ -18,7 +18,7 @@ enum Dep {
         static final rxAndroid = "2.1.0"
         static final rxJava = "2.2.3"
         static final stetho = "1.5.0"
-        static final testRunner = "1.0.1"
+        static final testRunner = "1.1.0"
         static final timber = "4.7.1"
     }
 
@@ -51,7 +51,7 @@ enum Dep {
     static final timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
     static final jUnit = "junit:junit:${Versions.jUnit}"
-    static final testRunner = "com.android.support.test:runner:${Versions.testRunner}"
+    static final testRunner = "androidx.test.runner:${Versions.testRunner}"
     static final espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
 
     static final kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
