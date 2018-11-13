@@ -4,8 +4,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath Dep.gradlePlugin
-        classpath Dep.kotlinPlugin
+        classpath(Dep.gradlePlugin)
+        classpath(Dep.kotlinPlugin)
     }
 }
 
@@ -16,6 +16,6 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register("clean", Delete::class) {
+    delete(rootProject.buildDir)
 }
