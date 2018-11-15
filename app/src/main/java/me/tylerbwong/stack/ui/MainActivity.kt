@@ -20,9 +20,9 @@ import me.tylerbwong.stack.data.model.HOT
 import me.tylerbwong.stack.data.model.MONTH
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
-import me.tylerbwong.stack.ui.questions.QuestionsAdapter
 import me.tylerbwong.stack.ui.questions.QuestionsViewModel
 import me.tylerbwong.stack.ui.theme.ThemeManager
+import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.getViewModel
 
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
         SearchView.OnQueryTextListener {
 
     private lateinit var viewModel: QuestionsViewModel
-    private val adapter = QuestionsAdapter()
+    private val adapter = DynamicViewAdapter()
     private var snackbar: Snackbar? = null
     private var menu: Menu? = null
 
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
             }
         })
         viewModel.questions.observe(this, Observer {
-            adapter.questions = it
+            adapter.update(it)
         })
 
         recyclerView.apply {

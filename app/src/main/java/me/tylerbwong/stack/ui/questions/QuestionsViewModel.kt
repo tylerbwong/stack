@@ -3,10 +3,8 @@ package me.tylerbwong.stack.ui.questions
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.reactive.awaitLast
 import kotlinx.coroutines.rx2.await
 import me.tylerbwong.stack.data.model.CREATION
-import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
@@ -19,9 +17,9 @@ internal class QuestionsViewModel(
         private val service: QuestionService = ServiceProvider.questionService
 ) : BaseViewModel() {
 
-    internal val questions: LiveData<List<Question>>
+    internal val questions: LiveData<List<QuestionDataModel>>
         get() = _questions
-    private val _questions = MutableLiveData<List<Question>>()
+    private val _questions = MutableLiveData<List<QuestionDataModel>>()
 
     @Sort
     private var currentSort: String = CREATION
@@ -31,8 +29,12 @@ internal class QuestionsViewModel(
         currentSort = sort
         launchRequest {
             _questions.value = repository.getQuestions(sort)
+                    .toObservable()
+                    .flatMapIterable { it }
+                    .map { QuestionDataModel(it) }
+                    .toList()
                     .subscribeOn(Schedulers.io())
-                    .awaitLast()
+                    .await()
         }
     }
 
@@ -42,6 +44,10 @@ internal class QuestionsViewModel(
             _questions.value = service
                     .getQuestionsBySearchString(searchString = query)
                     .map { it.items }
+                    .toObservable()
+                    .flatMapIterable { it }
+                    .map { QuestionDataModel(it) }
+                    .toList()
                     .subscribeOn(Schedulers.io())
                     .await()
         }

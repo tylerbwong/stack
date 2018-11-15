@@ -14,20 +14,24 @@ import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.ui.BaseViewModel
+import me.tylerbwong.stack.ui.answers.AnswerDataModel
+import me.tylerbwong.stack.ui.questions.QuestionDataModel
+import me.tylerbwong.stack.ui.utils.DynamicDataModel
 
 class QuestionDetailViewModel(
         private val service: QuestionService = ServiceProvider.questionService
 ) : BaseViewModel() {
 
-    internal val question: LiveData<Question>
-        get() = _question
-    private val _question = MutableLiveData<Question>()
+    internal val data: LiveData<List<DynamicDataModel>>
+        get() = _data
+    private val _data = MutableLiveData<List<DynamicDataModel>>()
 
-    internal val answers: LiveData<List<Answer>>
-        get() = _answers
-    private val _answers = MutableLiveData<List<Answer>>()
+    internal val voteCount: LiveData<Int>
+        get() = _voteCount
+    private val _voteCount = MutableLiveData<Int>()
 
     internal var questionId: Int = 0
+    internal var question: Question? = null
     internal var isFromDeepLink = false
 
     internal fun getQuestionDetails() {
@@ -39,16 +43,24 @@ class QuestionDetailViewModel(
                     service.getQuestionAnswers(questionId)
                             .map { it.items.sortedBy { answer -> !answer.isAccepted } }
                             .subscribeOn(Schedulers.io()),
-                    BiFunction { question: Question, answers: List<Answer> -> question to answers }
+                    BiFunction { question: Question, answers: List<Answer> ->
+                        mutableListOf<DynamicDataModel>().apply {
+                            add(0, QuestionDataModel(question, isDetail = true))
+                            add(AnswerHeaderDataModel(question.answerCount))
+                            addAll(answers.map { AnswerDataModel(it) })
+                        } to question
+                    }
             ).subscribeOn(Schedulers.io()).await()
 
-            _question.value = response.first
-            _answers.value = response.second
+            question = response.second
+
+            _data.value = response.first
+            _voteCount.value = response.second.upVoteCount - response.second.downVoteCount
         }
     }
 
     internal fun startShareIntent(context: Context) {
-        question.value?.let {
+        question?.let {
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = SHARE_TEXT_TYPE
                 putExtra(Intent.EXTRA_SUBJECT, it.title)

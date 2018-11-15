@@ -5,32 +5,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_question_detail.*
-import kotlinx.android.synthetic.main.question_holder.*
-import kotlinx.android.synthetic.main.user_view.*
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.User
-import me.tylerbwong.stack.ui.answers.AnswerAdapter
 import me.tylerbwong.stack.ui.theme.ThemeManager
-import me.tylerbwong.stack.ui.utils.GlideApp
+import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
-import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.getViewModel
-import me.tylerbwong.stack.ui.utils.setMarkdown
-import me.tylerbwong.stack.ui.utils.toHtml
 
 class QuestionDetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: QuestionDetailViewModel
-    private val adapter = AnswerAdapter()
+    private val adapter = DynamicViewAdapter()
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,11 +42,11 @@ class QuestionDetailActivity : AppCompatActivity() {
                 snackbar?.dismiss()
             }
         })
-        viewModel.question.observe(this, Observer {
-            setQuestion(it)
+        viewModel.data.observe(this, Observer {
+            adapter.update(it)
         })
-        viewModel.answers.observe(this, Observer {
-            adapter.answers = it
+        viewModel.voteCount.observe(this, Observer {
+            supportActionBar?.title = resources.getQuantityString(R.plurals.votes, it, it)
         })
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -77,30 +67,11 @@ class QuestionDetailActivity : AppCompatActivity() {
 
         viewModel.isFromDeepLink = intent.getBooleanExtra(IS_FROM_DEEP_LINK, false)
 
-        if (!viewModel.isFromDeepLink) {
-            questionTitle.text = intent.getStringExtra(QUESTION_TITLE).toHtml()
-            questionBody.text = intent.getStringExtra(QUESTION_BODY).toHtml()
-            bindUser(intent.getParcelableExtra(QUESTION_OWNER))
-        }
-
         viewModel.questionId = intent.getIntExtra(QUESTION_ID, 0)
 
         refreshLayout.setOnRefreshListener { viewModel.getQuestionDetails() }
 
         viewModel.getQuestionDetails()
-    }
-
-    private fun bindUser(user: User?) {
-        user?.let {
-            username.text = it.displayName.toHtml()
-            GlideApp.with(this)
-                    .load(it.profileImage)
-                    .placeholder(R.drawable.user_image_placeholder)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(userImage)
-            badgeView.badgeCounts = it.badgeCounts
-            reputation.text = it.reputation.toLong().format()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -114,37 +85,6 @@ class QuestionDetailActivity : AppCompatActivity() {
             R.id.share -> viewModel.startShareIntent(this)
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun setQuestion(question: Question) {
-        val voteCount = question.upVoteCount - question.downVoteCount
-        supportActionBar?.title = resources.getQuantityString(R.plurals.votes, voteCount, voteCount)
-        questionBody.maxLines = Integer.MAX_VALUE
-        questionBody.ellipsize = null
-        answersCount.text = resources.getQuantityString(
-                R.plurals.answers,
-                question.answerCount,
-                question.answerCount
-        )
-
-        question.bodyMarkdown?.let {
-            questionBody.setMarkdown(it)
-        }
-        question.tags?.let {
-            tagsView.removeAllViews()
-            tagsView.visibility = View.VISIBLE
-            it.forEach { tagText ->
-                tagsView.addView(Chip(this).apply {
-                    text = tagText
-                    isClickable = false
-                })
-            }
-        }
-
-        if (viewModel.isFromDeepLink) {
-            questionTitle.text = question.title.toHtml()
-            bindUser(question.owner)
-        }
     }
 
     companion object {
