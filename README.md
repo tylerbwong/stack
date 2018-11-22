@@ -7,6 +7,6 @@ Stack is an Android application that lets you browse stackoverflow.com. It is cu
 * Kotlin
 * Kotlin Coroutines
 * RxJava2
-* Android Architecture Components (ViewModel + LiveData)
+* Android Architecture Components (ViewModel + LiveData + Room)
 
 and many more!
