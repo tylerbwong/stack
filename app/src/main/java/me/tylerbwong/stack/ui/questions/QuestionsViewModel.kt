@@ -22,8 +22,8 @@ internal class QuestionsViewModel(
     private val _questions = MutableLiveData<List<QuestionDataModel>>()
 
     @Sort
-    private var currentSort: String = CREATION
-    private var currentQuery: String = ""
+    internal var currentSort: String = CREATION
+    internal var currentQuery: String = ""
 
     internal fun getQuestions(@Sort sort: String = currentSort) {
         currentSort = sort

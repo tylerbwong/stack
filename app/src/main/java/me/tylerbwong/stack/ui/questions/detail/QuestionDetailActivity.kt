@@ -57,7 +57,7 @@ class QuestionDetailActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@QuestionDetailActivity)
             addItemDecoration(
                     ViewHolderItemDecoration(
-                            context.resources.getDimensionPixelSize(R.dimen.item_spacing),
+                            context.resources.getDimensionPixelSize(R.dimen.item_spacing_question_detail),
                             true,
                             true
                     )

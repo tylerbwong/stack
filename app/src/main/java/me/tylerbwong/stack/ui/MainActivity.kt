@@ -20,8 +20,11 @@ import me.tylerbwong.stack.data.model.HOT
 import me.tylerbwong.stack.data.model.MONTH
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
+import me.tylerbwong.stack.ui.questions.HeaderDataModel
+import me.tylerbwong.stack.ui.questions.QuestionDataModel
 import me.tylerbwong.stack.ui.questions.QuestionsViewModel
 import me.tylerbwong.stack.ui.theme.ThemeManager
+import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.getViewModel
@@ -54,14 +57,14 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
             }
         })
         viewModel.questions.observe(this, Observer {
-            adapter.update(it)
+            updateContent(it)
         })
 
         recyclerView.apply {
             adapter = this@MainActivity.adapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
-                    ViewHolderItemDecoration(context.resources.getDimensionPixelSize(R.dimen.item_spacing))
+                    ViewHolderItemDecoration(context.resources.getDimensionPixelSize(R.dimen.item_spacing_main))
             )
         }
         searchView.setOnQueryTextListener(this)
@@ -155,5 +158,16 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(it, 0)
         }
+    }
+
+    private fun updateContent(questions: List<QuestionDataModel>) {
+        val content = questions.toMutableList<DynamicDataModel>().apply {
+            val subtitle: String = when {
+                !viewModel.isQueryBlank() -> "\"${viewModel.currentQuery}\""
+                else -> viewModel.currentSort.toLowerCase().capitalize()
+            }
+            add(0, HeaderDataModel(getString(R.string.posts), subtitle))
+        }
+        adapter.update(content)
     }
 }

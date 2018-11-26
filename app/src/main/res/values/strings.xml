@@ -5,6 +5,7 @@
     <string name="search">Search</string>
     <string name="tags">Tags</string>
     <string name="share">Share</string>
+    <string name="posts">Posts</string>
 
     <plurals name="answers">
         <item quantity="zero">%1$d Answers</item>

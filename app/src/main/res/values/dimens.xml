@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="chip_text_spacing">12dp</dimen>
-    <dimen name="item_spacing">16dp</dimen>
-    <dimen name="item_spacing_double">16dp</dimen>
+    <dimen name="item_spacing_main">8dp</dimen>
+    <dimen name="item_spacing_question_detail">16dp</dimen>
     <dimen name="divider_height">1px</dimen>
     <dimen name="keyline_1">72dp</dimen>
 </resources>
