@@ -11,8 +11,6 @@ class QuestionDataModel(
     override fun areItemsThemSame(
             other: DynamicDataModel
     ) = other is QuestionDataModel
-            && question.questionId == other.question.questionId
-            && isDetail == other.isDetail
 
     override fun areContentsTheSame(
             other: DynamicDataModel

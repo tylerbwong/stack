@@ -7,7 +7,7 @@ class AnswerDataModel(internal val answer: Answer) : DynamicDataModel() {
 
     override fun areItemsThemSame(
             other: DynamicDataModel
-    ) = other is AnswerDataModel && answer.answerId == other.answer.answerId
+    ) = other is AnswerDataModel
 
     override fun areContentsTheSame(
             other: DynamicDataModel
