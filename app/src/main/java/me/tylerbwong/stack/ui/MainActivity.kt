@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
         })
         viewModel.snackbar.observe(this, Observer {
             if (it != null) {
-                snackbar = Snackbar.make(refreshLayout, it, Snackbar.LENGTH_INDEFINITE)
+                snackbar = Snackbar.make(rootLayout, it, Snackbar.LENGTH_INDEFINITE)
                         .setAction(R.string.retry) { viewModel.getQuestions() }
                 snackbar?.show()
             } else {
