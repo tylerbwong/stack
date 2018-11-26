@@ -10,7 +10,7 @@ object Versions {
     const val kotlin = "1.3.0"
     const val kotlinxCoroutines = "1.0.1"
     const val markwon = "2.0.0"
-    const val materialComponents = "1.0.0"
+    const val materialComponents = "1.1.0-alpha01"
     const val okHttp = "3.11.0"
     const val retrofit = "2.4.0"
     const val room = "2.0.0"

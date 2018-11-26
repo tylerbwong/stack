@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
         ThemeManager.injectTheme(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(bottomBar)
 
         viewModel = getViewModel(QuestionsViewModel::class.java)
         viewModel.refreshing.observe(this, Observer {
@@ -61,10 +61,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
             adapter = this@MainActivity.adapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
-                    ViewHolderItemDecoration(
-                            context.resources.getDimensionPixelSize(R.dimen.item_spacing),
-                            removeTopSpacing = true
-                    )
+                    ViewHolderItemDecoration(context.resources.getDimensionPixelSize(R.dimen.item_spacing))
             )
         }
         searchView.setOnQueryTextListener(this)
