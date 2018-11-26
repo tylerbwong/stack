@@ -15,7 +15,7 @@
         style="@style/TextAppearance.MaterialComponents.Headline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/posts"
+        android:text="@string/questions"
         android:textColor="?android:attr/textColorPrimary" />
 
     <TextView

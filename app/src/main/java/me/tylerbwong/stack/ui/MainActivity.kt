@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
                 !viewModel.isQueryBlank() -> "\"${viewModel.currentQuery}\""
                 else -> viewModel.currentSort.toLowerCase().capitalize()
             }
-            add(0, HeaderDataModel(getString(R.string.posts), subtitle))
+            add(0, HeaderDataModel(getString(R.string.questions), subtitle))
         }
         adapter.update(content)
     }
