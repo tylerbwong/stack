@@ -3,7 +3,7 @@ package me.tylerbwong.stack.data.repository
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.reactive.awaitFirst
+import kotlinx.coroutines.reactive.awaitLast
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
@@ -22,7 +22,7 @@ class QuestionRepository(private val stackDatabase: StackDatabase) {
     suspend fun getQuestions(sort: String): List<Question> = Single.mergeDelayError(
             getQuestionsFromDb(sort),
             getQuestionsFromNetwork(sort)
-    ).awaitFirst()
+    ).awaitLast()
 
     private fun getQuestionsFromDb(@Sort sort: String): Single<List<Question>> =
             questionDao.get(sort)
