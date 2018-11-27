@@ -28,6 +28,7 @@ android {
 }
 
 androidExtensions {
+    // https://youtrack.jetbrains.com/issue/KT-22213
     configure(delegateClosureOf<AndroidExtensionsExtension> {
         isExperimental = true
     })
