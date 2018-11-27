@@ -2,8 +2,10 @@ package me.tylerbwong.stack.ui.theme
 
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import android.preference.PreferenceManager
 import android.util.TypedValue
+import android.view.View
 import androidx.annotation.AttrRes
 import me.tylerbwong.stack.R
 
@@ -21,6 +23,25 @@ object ThemeManager {
     fun injectTheme(activity: Activity) {
         if (isDarkModeEnabled) {
             activity.setTheme(R.style.AppTheme_Primary_Base_Dark)
+            removeLightStatusBarIfSupported(activity)
+        } else {
+            setLightStatusBarIfSupported(activity)
+        }
+    }
+
+    private fun setLightStatusBarIfSupported(activity: Activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            var flags = activity.window.decorView.systemUiVisibility
+            flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            activity.window.decorView.systemUiVisibility = flags
+        }
+    }
+
+    private fun removeLightStatusBarIfSupported(activity: Activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            var flags = activity.window.decorView.systemUiVisibility
+            flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+            activity.window.decorView.systemUiVisibility = flags
         }
     }
 

@@ -17,7 +17,7 @@
     <!-- Light base activity theme -->
     <style name="AppTheme.Primary.Base.Light" parent="Base.AppTheme.Light">
         <item name="android:windowBackground">@color/windowBackgroundLight</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@color/viewBackgroundColorLight</item>
         <item name="android:textColorPrimary">@color/primaryTextColorLight</item>
         <item name="android:textColorSecondary">@color/secondaryTextColorLight</item>
         <item name="android:textColorHint">@color/secondaryTextColorLight</item>
