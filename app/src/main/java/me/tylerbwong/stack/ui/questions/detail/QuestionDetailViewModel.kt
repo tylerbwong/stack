@@ -4,13 +4,10 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.Single
-import io.reactivex.functions.BiFunction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.rx2.await
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
@@ -38,19 +35,17 @@ class QuestionDetailViewModel(
     internal fun getQuestionDetails() {
         launchRequest {
             val response = withContext(Dispatchers.IO) {
-                Single.zip(
-                        service.getQuestionDetails(questionId)
-                                .map { it.items.first() },
-                        service.getQuestionAnswers(questionId)
-                                .map { it.items.sortedBy { answer -> !answer.isAccepted } },
-                        BiFunction { question: Question, answers: List<Answer> ->
-                            mutableListOf<DynamicDataModel>().apply {
-                                add(0, QuestionDataModel(question, isDetail = true))
-                                add(AnswerHeaderDataModel(question.answerCount))
-                                addAll(answers.map { AnswerDataModel(it) })
-                            } to question
-                        }
-                ).await()
+                val question = service.getQuestionDetails(questionId)
+                        .map { it.items.first() }
+                        .await()
+                val answers = service.getQuestionAnswers(questionId)
+                        .map { it.items.sortedBy { answer -> !answer.isAccepted } }
+                        .await()
+                mutableListOf<DynamicDataModel>().apply {
+                    add(0, QuestionDataModel(question, isDetail = true))
+                    add(AnswerHeaderDataModel(question.answerCount))
+                    addAll(answers.map { AnswerDataModel(it) })
+                } to question
             }
 
             question = response.second
