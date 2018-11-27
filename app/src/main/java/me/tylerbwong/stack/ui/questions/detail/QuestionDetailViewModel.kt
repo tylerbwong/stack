@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.rx2.await
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
@@ -35,12 +34,10 @@ class QuestionDetailViewModel(
     internal fun getQuestionDetails() {
         launchRequest {
             val response = withContext(Dispatchers.IO) {
-                val question = service.getQuestionDetails(questionId)
-                        .map { it.items.first() }
-                        .await()
-                val answers = service.getQuestionAnswers(questionId)
-                        .map { it.items.sortedBy { answer -> !answer.isAccepted } }
-                        .await()
+                val question = service.getQuestionDetails(questionId).await()
+                        .items.first()
+                val answers = service.getQuestionAnswers(questionId).await()
+                        .items.sortedBy { !it.isAccepted }
                 mutableListOf<DynamicDataModel>().apply {
                     add(0, QuestionDataModel(question, isDetail = true))
                     add(AnswerHeaderDataModel(question.answerCount))

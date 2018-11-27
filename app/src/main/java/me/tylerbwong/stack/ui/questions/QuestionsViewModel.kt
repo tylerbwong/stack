@@ -45,12 +45,9 @@ internal class QuestionsViewModel(
         launchRequest {
             _questions.value = withContext(Dispatchers.IO) {
                 service.getQuestionsBySearchString(searchString = query)
-                        .map { it.items }
-                        .toObservable()
-                        .flatMapIterable { it }
-                        .map { QuestionDataModel(it) }
-                        .toList()
                         .await()
+                        .items
+                        .map { QuestionDataModel(it) }
             }
         }
     }

@@ -40,6 +40,7 @@ dependencies {
     implementation Dep.kotlinLib
     implementation Dep.kotlinCoroutinesCore
     implementation Dep.kotlinCoroutinesAndroid
+    implementation Dep.kotlinCoroutinesRetrofit
     implementation Dep.kotlinCoroutinesRx
 
     // androidx

@@ -1,7 +1,17 @@
 package me.tylerbwong.stack.data.network.service
 
 import io.reactivex.Single
-import me.tylerbwong.stack.data.model.*
+import kotlinx.coroutines.Deferred
+import me.tylerbwong.stack.data.model.ACTIVITY
+import me.tylerbwong.stack.data.model.Answer
+import me.tylerbwong.stack.data.model.DESC
+import me.tylerbwong.stack.data.model.ORDER_PARAM
+import me.tylerbwong.stack.data.model.Order
+import me.tylerbwong.stack.data.model.Question
+import me.tylerbwong.stack.data.model.RELEVANCE
+import me.tylerbwong.stack.data.model.Response
+import me.tylerbwong.stack.data.model.SORT_PARAM
+import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider.DEFAULT_KEY
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -63,7 +73,7 @@ interface QuestionService {
             @Query(SITE_PARAM) site: String = DEFAULT_SITE,
             @Query(FILTER_PARAM) filter: String = DETAIL_FILTER,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
-    ): Single<Response<Question>>
+    ): Deferred<Response<Question>>
 
     @GET("questions/{id}/answers")
     fun getQuestionAnswers(
@@ -74,7 +84,7 @@ interface QuestionService {
             @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
             @Query(FILTER_PARAM) filter: String = DETAIL_FILTER,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
-    ): Single<Response<Answer>>
+    ): Deferred<Response<Answer>>
 
     @GET("search/advanced")
     fun getQuestionsBySearchString(
@@ -86,5 +96,5 @@ interface QuestionService {
             @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY,
             @Query(SEARCH_PARAM) searchString: String
-    ): Single<Response<Question>>
+    ): Deferred<Response<Question>>
 }
