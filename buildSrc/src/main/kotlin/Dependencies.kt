@@ -11,7 +11,7 @@ object Versions {
     const val kotlinxCoroutines = "1.0.1"
     const val kotlinxCoroutinesRetrofit = "0.9.2"
     const val markwon = "2.0.0"
-    const val materialComponents = "1.1.0-alpha01"
+    const val materialComponents = "1.0.0"
     const val okHttp = "3.12.0"
     const val retrofit = "2.5.0"
     const val room = "2.0.0"
