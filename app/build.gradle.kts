@@ -47,7 +47,6 @@ dependencies {
     implementation(Dep.kotlinLib)
     implementation(Dep.kotlinCoroutinesCore)
     implementation(Dep.kotlinCoroutinesAndroid)
-    implementation(Dep.kotlinCoroutinesRetrofit)
     implementation(Dep.kotlinCoroutinesRx)
 
     // androidx
@@ -66,10 +65,9 @@ dependencies {
     implementation(Dep.gson)
     implementation(Dep.okHttpLogger)
     implementation(Dep.retrofit)
+    implementation(Dep.retrofitCoroutineAdapter)
     implementation(Dep.retrofitRxAdapter)
     implementation(Dep.retrofitGsonConverter)
-    implementation(Dep.stetho)
-    implementation(Dep.stethoOkHttp)
 
     // rx
     implementation(Dep.rxAndroid)

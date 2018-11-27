@@ -1,6 +1,5 @@
 package me.tylerbwong.stack.data.network
 
-import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.network.service.QuestionService
@@ -21,7 +20,6 @@ object ServiceProvider {
             okHttpClientBuilder.addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
-            okHttpClientBuilder.addInterceptor(StethoInterceptor())
         }
 
         okHttpClientBuilder.build()

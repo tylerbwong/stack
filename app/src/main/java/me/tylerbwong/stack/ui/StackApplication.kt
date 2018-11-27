@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.ui
 
 import android.app.Application
-import com.facebook.stetho.Stetho
 import io.reactivex.plugins.RxJavaPlugins
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.persistence.StackDatabase
@@ -24,7 +23,6 @@ class StackApplication : Application() {
         }
 
         if (BuildConfig.DEBUG) {
-            Stetho.initializeWithDefaults(this)
             Timber.plant(Timber.DebugTree())
         }
     }
