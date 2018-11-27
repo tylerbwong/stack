@@ -3,7 +3,6 @@ package me.tylerbwong.stack.ui.questions
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.rx2.await
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.Sort
@@ -31,11 +30,7 @@ internal class QuestionsViewModel(
         launchRequest {
             _questions.value = withContext(Dispatchers.IO) {
                 repository.getQuestions(sort)
-                        .toObservable()
-                        .flatMapIterable { it }
                         .map { QuestionDataModel(it) }
-                        .toList()
-                        .await()
             }
         }
     }
