@@ -26,7 +26,7 @@ class QuestionRepository(private val stackDatabase: StackDatabase) {
 
     private fun getQuestionsFromDb(@Sort sort: String): Single<List<Question>> =
             questionDao.get(sort)
-                    .subscribeOn(Schedulers.computation())
+                    .subscribeOn(Schedulers.io())
                     .map { questions ->
                         questions.map { question ->
                             question.toQuestion(
