@@ -2,8 +2,9 @@ package me.tylerbwong.stack.ui.questions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.rx2.await
+import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
@@ -28,28 +29,29 @@ internal class QuestionsViewModel(
     internal fun getQuestions(@Sort sort: String = currentSort) {
         currentSort = sort
         launchRequest {
-            _questions.value = repository.getQuestions(sort)
-                    .toObservable()
-                    .flatMapIterable { it }
-                    .map { QuestionDataModel(it) }
-                    .toList()
-                    .subscribeOn(Schedulers.io())
-                    .await()
+            _questions.value = withContext(Dispatchers.IO) {
+                repository.getQuestions(sort)
+                        .toObservable()
+                        .flatMapIterable { it }
+                        .map { QuestionDataModel(it) }
+                        .toList()
+                        .await()
+            }
         }
     }
 
     internal fun searchQuestions(query: String = currentQuery) {
         currentQuery = query
         launchRequest {
-            _questions.value = service
-                    .getQuestionsBySearchString(searchString = query)
-                    .map { it.items }
-                    .toObservable()
-                    .flatMapIterable { it }
-                    .map { QuestionDataModel(it) }
-                    .toList()
-                    .subscribeOn(Schedulers.io())
-                    .await()
+            _questions.value = withContext(Dispatchers.IO) {
+                service.getQuestionsBySearchString(searchString = query)
+                        .map { it.items }
+                        .toObservable()
+                        .flatMapIterable { it }
+                        .map { QuestionDataModel(it) }
+                        .toList()
+                        .await()
+            }
         }
     }
 
