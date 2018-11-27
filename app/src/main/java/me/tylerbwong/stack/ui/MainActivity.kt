@@ -112,6 +112,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
     override fun onBackPressed() {
         if (searchView.visibility == View.VISIBLE) {
             searchView.visibility = View.GONE
+            viewModel.currentQuery = ""
             viewModel.getQuestions()
         } else {
             super.onBackPressed()

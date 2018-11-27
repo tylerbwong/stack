@@ -62,7 +62,6 @@ class QuestionDetailActivity : AppCompatActivity() {
                             true
                     )
             )
-            isNestedScrollingEnabled = false
         }
 
         viewModel.isFromDeepLink = intent.getBooleanExtra(IS_FROM_DEEP_LINK, false)
