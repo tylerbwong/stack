@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.android.parcel.PARCELIZE_CLASS_FQNAME
+import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -26,7 +29,9 @@ android {
 }
 
 androidExtensions {
-    isExperimental = true
+    configure(delegateClosureOf<AndroidExtensionsExtension> {
+        isExperimental = true
+    })
 }
 
 android {
