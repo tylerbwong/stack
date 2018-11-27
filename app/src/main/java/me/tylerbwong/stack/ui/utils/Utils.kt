@@ -9,19 +9,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import java.util.*
 
-private val specialChars = mapOf(
-        "&lt;" to "<",
-        "&gt;" to ">",
-        "&quot;" to "\"",
-        "&nbsp;" to " ",
-        "&amp;" to "&",
-        "&apos;" to "'",
-        "&#39;" to "'",
-        "&#40;" to "(",
-        "&#41;" to ")",
-        "&#215;" to "×"
-)
-
 fun ViewGroup.inflateWithoutAttaching(@LayoutRes resId: Int): View =
         LayoutInflater.from(context).inflate(resId, this, false)
 
@@ -30,14 +17,6 @@ fun String.toHtml(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.
 } else {
     @Suppress("DEPRECATION")
     Html.fromHtml(this)
-}
-
-fun String.stripSpecials(): String {
-    var result = this
-    specialChars.forEach { (key, value) ->
-         result = result.replace(key, value)
-    }
-    return result
 }
 
 private val suffixes = TreeMap<Long, String>().apply {
