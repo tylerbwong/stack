@@ -8,12 +8,11 @@ import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
-import me.tylerbwong.stack.data.persistence.StackDatabase
 import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.ui.BaseViewModel
 
 internal class QuestionsViewModel(
-        private val repository: QuestionRepository = QuestionRepository(StackDatabase.getInstance()),
+        private val repository: QuestionRepository = QuestionRepository(),
         private val service: QuestionService = ServiceProvider.questionService
 ) : BaseViewModel() {
 
