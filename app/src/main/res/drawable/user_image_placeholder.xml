@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
 
     <size
-        android:width="36dp"
-        android:height="36dp"/>
+        android:width="@dimen/user_image_placeholder_size"
+        android:height="@dimen/user_image_placeholder_size" />
 
-    <solid android:color="@color/colorUserImagePlaceholder"/>
+    <solid android:color="@color/colorUserImagePlaceholder" />
 </shape>
