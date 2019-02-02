@@ -6,7 +6,6 @@ import me.tylerbwong.stack.data.network.service.QuestionService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.noties.markwon.il.AsyncDrawableLoader
 import ru.noties.markwon.il.NetworkSchemeHandler
@@ -30,7 +29,6 @@ object ServiceProvider {
                 .baseUrl("https://api.stackexchange.com/2.2/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .build()
         retrofit.create(QuestionService::class.java)

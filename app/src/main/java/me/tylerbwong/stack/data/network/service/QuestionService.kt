@@ -1,6 +1,5 @@
 package me.tylerbwong.stack.data.network.service
 
-import io.reactivex.Single
 import kotlinx.coroutines.Deferred
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.Answer
@@ -53,7 +52,7 @@ interface QuestionService {
             @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
             @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
-    ): Single<Response<Question>>
+    ): Deferred<Response<Question>>
 
     @GET("questions")
     fun getQuestionsByTags(
@@ -65,7 +64,7 @@ interface QuestionService {
             @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
             @Query(TAGGED_PARAM) tags: String,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
-    ): Single<Response<Question>>
+    ): Deferred<Response<Question>>
 
     @GET("questions/{id}")
     fun getQuestionDetails(

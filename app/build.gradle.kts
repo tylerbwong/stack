@@ -66,12 +66,7 @@ dependencies {
     implementation(Dep.okHttpLogger)
     implementation(Dep.retrofit)
     implementation(Dep.retrofitCoroutineAdapter)
-    implementation(Dep.retrofitRxAdapter)
     implementation(Dep.retrofitGsonConverter)
-
-    // rx
-    implementation(Dep.rxAndroid)
-    implementation(Dep.rxJava)
 
     // markdown
     implementation(Dep.markwon)
@@ -82,7 +77,7 @@ dependencies {
 
     // room
     implementation(Dep.room)
-    implementation(Dep.roomRxSupport)
+    implementation(Dep.roomCoroutines)
     kapt(Dep.roomProcessor)
 
     // testing

@@ -1,9 +1,9 @@
 package me.tylerbwong.stack.data.repository
 
-import io.reactivex.Completable
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.reactive.awaitLast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
@@ -19,42 +19,56 @@ class QuestionRepository(private val stackDatabase: StackDatabase = StackDatabas
     private val questionDao by lazy { stackDatabase.getQuestionDao() }
     private val userDao by lazy { stackDatabase.getUserDao() }
 
-    suspend fun getQuestions(sort: String): List<Question> = Single.mergeDelayError(
-            getQuestionsFromDb(sort),
-            getQuestionsFromNetwork(sort)
-    ).awaitLast()
-
-    private fun getQuestionsFromDb(@Sort sort: String): Single<List<Question>> {
-        return questionDao.get(sort)
-                .subscribeOn(Schedulers.io())
-                .map { questions ->
-                    questions.map { question ->
-                        question.toQuestion(
-                                userDao.get(question.owner),
-                                question.lastEditor?.let { userDao.get(it) }
-                        )
-                    }
-                }
-    }
-
-    private fun getQuestionsFromNetwork(@Sort sort: String): Single<List<Question>> {
-        return ServiceProvider.questionService.getQuestions(sort = sort)
-                .map { it.items }
-                .flatMap { questions ->
-                    saveQuestions(questions, sort).toSingleDefault(questions)
-                }
-    }
-
-    private fun saveQuestions(questions: List<Question>, @Sort sortString: String): Completable {
-        return Completable.fromAction {
-            val userEntities = mutableListOf<UserEntity>()
-            val questionEntities = mutableListOf<QuestionEntity>()
-            questions.forEach { question ->
-                userEntities.add(question.owner.toUserEntity())
-                question.lastEditor?.let { userEntities.add(it.toUserEntity()) }
-                questionEntities.add(question.toQuestionEntity(sortString))
-            }
-            questionDao.update(questionEntities, userEntities, sortString, userDao)
+    suspend fun getQuestions(sort: String): ReceiveChannel<List<Question>> {
+        val channel = Channel<List<Question>>(2)
+        val questionsFromDb = withContext(Dispatchers.IO) {
+            getQuestionsFromDb(sort)
         }
+        val questionsFromNetwork = withContext(Dispatchers.IO) {
+            getQuestionsFromNetwork(sort)
+        }
+        channel.send(questionsFromDb)
+        channel.send(questionsFromNetwork)
+        channel.close()
+        return channel
+    }
+
+    private suspend fun getQuestionsFromDb(@Sort sort: String): List<Question> {
+        return questionDao.get(sort)
+                .map { questionEntity ->
+                    questionEntity.toQuestion(
+                            userDao.get(questionEntity.owner),
+                            questionEntity.lastEditor?.let { userDao.get(it) }
+                    )
+                }
+    }
+
+    private suspend fun getQuestionsFromNetwork(@Sort sort: String): List<Question> {
+        return ServiceProvider.questionService.getQuestions(sort = sort)
+                .await()
+                .items
+                .also { saveQuestions(it, sort) }
+    }
+
+    private suspend fun saveQuestions(questions: List<Question>, @Sort sortString: String) {
+        val userEntities = mutableListOf<UserEntity>()
+        val questionEntities = mutableListOf<QuestionEntity>()
+        questions.forEach { question ->
+            userEntities.add(question.owner.toUserEntity())
+            question.lastEditor?.let { userEntities.add(it.toUserEntity()) }
+            questionEntities.add(question.toQuestionEntity(sortString))
+        }
+        updateQuestionsAndUsers(questionEntities, userEntities, sortString)
+    }
+
+    private suspend fun updateQuestionsAndUsers(
+            questions: List<QuestionEntity>,
+            users: List<UserEntity>,
+            sortString: String
+    ) {
+        // TODO delete old users
+        questionDao.delete(sortString)
+        userDao.insert(users)
+        questionDao.insert(questions)
     }
 }

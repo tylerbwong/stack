@@ -27,9 +27,8 @@ internal class QuestionsViewModel(
     internal fun getQuestions(@Sort sort: String = currentSort) {
         currentSort = sort
         launchRequest {
-            _questions.value = withContext(Dispatchers.IO) {
-                repository.getQuestions(sort)
-                        .map { QuestionDataModel(it) }
+            for (list in repository.getQuestions(sort)) {
+                _questions.value = list.map { QuestionDataModel(it) }
             }
         }
     }
