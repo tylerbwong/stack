@@ -3,7 +3,7 @@ package me.tylerbwong.stack.data.repository
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Sort
@@ -21,14 +21,14 @@ class QuestionRepository(private val stackDatabase: StackDatabase = StackDatabas
     private val questionDao by lazy { stackDatabase.getQuestionDao() }
     private val userDao by lazy { stackDatabase.getUserDao() }
 
-    suspend fun getQuestions(sort: String): Channel<List<Question>> {
+    suspend fun getQuestions(sort: String): ReceiveChannel<List<Question>> {
         return concat(
-                getQuestionsFromDbAsync(sort),
-                getQuestionsFromNetworkAsync(sort)
+                getQuestionsFromDb(sort),
+                getQuestionsFromNetwork(sort)
         )
     }
 
-    private suspend fun getQuestionsFromDbAsync(@Sort sort: String): Deferred<List<Question>> {
+    private suspend fun getQuestionsFromDb(@Sort sort: String): Deferred<List<Question>> {
         return withContext(Dispatchers.IO) {
             async {
                 questionDao.get(sort)
@@ -42,7 +42,7 @@ class QuestionRepository(private val stackDatabase: StackDatabase = StackDatabas
         }
     }
 
-    private suspend fun getQuestionsFromNetworkAsync(@Sort sort: String): Deferred<List<Question>> {
+    private suspend fun getQuestionsFromNetwork(@Sort sort: String): Deferred<List<Question>> {
         return withContext(Dispatchers.IO) {
             async {
                 ServiceProvider.questionService.getQuestions(sort = sort)
