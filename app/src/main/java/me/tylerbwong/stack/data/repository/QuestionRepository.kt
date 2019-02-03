@@ -2,7 +2,6 @@ package me.tylerbwong.stack.data.repository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Sort
@@ -19,7 +18,7 @@ class QuestionRepository(private val stackDatabase: StackDatabase = StackDatabas
     private val questionDao by lazy { stackDatabase.getQuestionDao() }
     private val userDao by lazy { stackDatabase.getUserDao() }
 
-    suspend fun getQuestions(sort: String): ReceiveChannel<List<Question>> {
+    suspend fun getQuestions(sort: String): Channel<List<Question>> {
         val channel = Channel<List<Question>>(2)
         val questionsFromDb = withContext(Dispatchers.IO) {
             getQuestionsFromDb(sort)
