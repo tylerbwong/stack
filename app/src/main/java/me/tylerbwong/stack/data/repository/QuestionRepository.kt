@@ -1,6 +1,7 @@
 package me.tylerbwong.stack.data.repository
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.data.model.Question
@@ -20,15 +21,15 @@ class QuestionRepository(private val stackDatabase: StackDatabase = StackDatabas
 
     suspend fun getQuestions(sort: String): Channel<List<Question>> {
         val channel = Channel<List<Question>>(2)
-        val questionsFromDb = withContext(Dispatchers.IO) {
-            getQuestionsFromDb(sort)
+
+        withContext(Dispatchers.IO) {
+            val questionsFromDb = async { getQuestionsFromDb(sort) }
+            val questionsFromNetwork = async { getQuestionsFromNetwork(sort) }
+            channel.send(questionsFromDb.await())
+            channel.send(questionsFromNetwork.await())
+            channel.close()
         }
-        val questionsFromNetwork = withContext(Dispatchers.IO) {
-            getQuestionsFromNetwork(sort)
-        }
-        channel.send(questionsFromDb)
-        channel.send(questionsFromNetwork)
-        channel.close()
+
         return channel
     }
 
