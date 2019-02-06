@@ -23,12 +23,12 @@ class QuestionRepository(private val stackDatabase: StackDatabase = StackDatabas
 
     suspend fun getQuestions(sort: String): ReceiveChannel<List<Question>> {
         return concat(
-                getQuestionsFromDb(sort),
-                getQuestionsFromNetwork(sort)
+                getQuestionsFromDbAsync(sort),
+                getQuestionsFromNetworkAsync(sort)
         )
     }
 
-    private suspend fun getQuestionsFromDb(@Sort sort: String): Deferred<List<Question>> {
+    private suspend fun getQuestionsFromDbAsync(@Sort sort: String): Deferred<List<Question>> {
         return withContext(Dispatchers.IO) {
             async {
                 questionDao.get(sort)
@@ -42,7 +42,7 @@ class QuestionRepository(private val stackDatabase: StackDatabase = StackDatabas
         }
     }
 
-    private suspend fun getQuestionsFromNetwork(@Sort sort: String): Deferred<List<Question>> {
+    private suspend fun getQuestionsFromNetworkAsync(@Sort sort: String): Deferred<List<Question>> {
         return withContext(Dispatchers.IO) {
             async {
                 ServiceProvider.questionService.getQuestions(sort = sort)
