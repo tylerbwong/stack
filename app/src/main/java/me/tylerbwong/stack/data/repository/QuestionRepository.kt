@@ -1,10 +1,9 @@
 package me.tylerbwong.stack.data.repository
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.ReceiveChannel
-import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
@@ -21,35 +20,31 @@ class QuestionRepository(private val stackDatabase: StackDatabase = StackDatabas
     private val questionDao by lazy { stackDatabase.getQuestionDao() }
     private val userDao by lazy { stackDatabase.getUserDao() }
 
-    suspend fun getQuestions(sort: String): ReceiveChannel<List<Question>> {
+    suspend fun getQuestions(scope: CoroutineScope, @Sort sort: String): ReceiveChannel<List<Question>> {
         return concat(
-                getQuestionsFromDbAsync(sort),
-                getQuestionsFromNetworkAsync(sort)
+                getQuestionsFromDb(scope, sort),
+                getQuestionsFromNetwork(scope, sort)
         )
     }
 
-    private suspend fun getQuestionsFromDbAsync(@Sort sort: String): Deferred<List<Question>> {
-        return withContext(Dispatchers.IO) {
-            async {
-                questionDao.get(sort)
-                        .map { questionEntity ->
-                            questionEntity.toQuestion(
-                                    userDao.get(questionEntity.owner),
-                                    questionEntity.lastEditor?.let { userDao.get(it) }
-                            )
-                        }
-            }
+    private suspend fun getQuestionsFromDb(scope: CoroutineScope, @Sort sort: String): Deferred<List<Question>> {
+        return scope.async {
+            questionDao.get(sort)
+                    .map { questionEntity ->
+                        questionEntity.toQuestion(
+                                userDao.get(questionEntity.owner),
+                                questionEntity.lastEditor?.let { userDao.get(it) }
+                        )
+                    }
         }
     }
 
-    private suspend fun getQuestionsFromNetworkAsync(@Sort sort: String): Deferred<List<Question>> {
-        return withContext(Dispatchers.IO) {
-            async {
-                ServiceProvider.questionService.getQuestions(sort = sort)
-                        .await()
-                        .items
-                        .also { saveQuestions(it, sort) }
-            }
+    private suspend fun getQuestionsFromNetwork(scope: CoroutineScope, @Sort sort: String): Deferred<List<Question>> {
+        return scope.async {
+            ServiceProvider.questionService.getQuestions(sort = sort)
+                    .await()
+                    .items
+                    .also { saveQuestions(it, sort) }
         }
     }
 

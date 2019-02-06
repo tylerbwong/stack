@@ -33,17 +33,25 @@ class QuestionDetailViewModel(
 
     internal fun getQuestionDetails() {
         launchRequest {
-            val response = withContext(Dispatchers.IO) {
-                val question = service.getQuestionDetails(questionId).await()
-                        .items.first()
-                val answers = service.getQuestionAnswers(questionId).await()
-                        .items.sortedBy { !it.isAccepted }
-                mutableListOf<DynamicDataModel>().apply {
-                    add(0, QuestionDataModel(question, isDetail = true))
-                    add(AnswerHeaderDataModel(question.answerCount))
-                    addAll(answers.map { AnswerDataModel(it) })
-                } to question
+            val questionRequest = withContext(Dispatchers.IO) {
+                service.getQuestionDetails(questionId)
             }
+            val answersRequest = withContext(Dispatchers.IO) {
+                service.getQuestionAnswers(questionId)
+            }
+
+            val questionResult = questionRequest.await()
+                    .items
+                    .first()
+            val answersResult = answersRequest.await()
+                    .items
+                    .sortedBy { !it.isAccepted }
+
+            val response = mutableListOf<DynamicDataModel>().apply {
+                add(0, QuestionDataModel(questionResult, isDetail = true))
+                add(AnswerHeaderDataModel(questionResult.answerCount))
+                addAll(answersResult.map { AnswerDataModel(it) })
+            } to questionResult
 
             question = response.second
 
