@@ -12,7 +12,7 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Accept Android licenses
-          command: sdkmanager --update && yes | sdkmanager --licenses
+          command: sdkmanager --licenses && yes
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
