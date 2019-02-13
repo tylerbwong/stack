@@ -47,7 +47,6 @@ dependencies {
     implementation(Dep.kotlinLib)
     implementation(Dep.kotlinCoroutinesCore)
     implementation(Dep.kotlinCoroutinesAndroid)
-    implementation(Dep.kotlinCoroutinesRx)
 
     // androidx
     implementation(Dep.androidxAppCompat)
