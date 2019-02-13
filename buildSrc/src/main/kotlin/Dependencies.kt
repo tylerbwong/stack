@@ -1,6 +1,7 @@
 object Versions {
     const val androidx = "1.0.0"
-    const val androidxArch = "2.0.0"
+    const val androidxAppCompat = "1.1.0-alpha02"
+    const val androidxArch = "2.1.0-alpha02"
     const val constraintLayout = "1.1.3"
     const val espresso = "3.1.0"
     const val glide = "4.8.0"
@@ -10,7 +11,7 @@ object Versions {
     const val kotlin = "1.3.21"
     const val kotlinxCoroutines = "1.1.1"
     const val markwon = "2.0.1"
-    const val materialComponents = "1.0.0"
+    const val materialComponents = "1.1.0-alpha02"
     const val okHttp = "3.12.1"
     const val retrofit = "2.5.0"
     const val retrofitCoroutineAdapter = "0.9.2"
@@ -20,7 +21,7 @@ object Versions {
 }
 
 object Dep {
-    const val androidxAppCompat = "androidx.appcompat:appcompat:${Versions.androidx}"
+    const val androidxAppCompat = "androidx.appcompat:appcompat:${Versions.androidxAppCompat}"
     const val androidxBrowser = "androidx.browser:browser:${Versions.androidx}"
     const val androidxCardView = "androidx.cardview:cardview:${Versions.androidx}"
     const val androidxExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.androidxArch}"
