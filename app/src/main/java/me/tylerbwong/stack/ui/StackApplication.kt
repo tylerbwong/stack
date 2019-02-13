@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.ui
 
 import android.app.Application
-import io.reactivex.plugins.RxJavaPlugins
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.persistence.StackDatabase
 import me.tylerbwong.stack.ui.theme.ThemeManager
@@ -14,13 +13,6 @@ class StackApplication : Application() {
         ThemeManager.init(this)
 
         StackDatabase.init(this)
-
-        RxJavaPlugins.setErrorHandler {
-            when (it) {
-                is Error -> throw it
-                else -> Timber.e(it)
-            }
-        }
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
