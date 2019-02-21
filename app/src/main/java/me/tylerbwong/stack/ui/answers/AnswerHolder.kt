@@ -27,21 +27,22 @@ class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
     private val badgeView: BadgeView = ViewCompat.requireViewById(itemView, R.id.badgeView)
 
     override fun bind(data: Any) {
-        (data as? AnswerDataModel)?.let {
-            val answer = it.answer
+        (data as? AnswerDataModel)?.let { dataModel ->
+            val answer = dataModel.answer
             val voteCount = answer.upVoteCount - answer.downVoteCount
             votes.text = itemView.context.resources.getQuantityString(R.plurals.votes, voteCount, voteCount)
             acceptedAnswerCheck.visibility = if (answer.isAccepted) View.VISIBLE else View.GONE
             answerBody.setMarkdown(answer.bodyMarkdown)
 
-            this.username.text = answer.owner.displayName.toHtml()
+            username.text = answer.owner.displayName.toHtml()
             GlideApp.with(itemView)
                     .load(answer.owner.profileImage)
                     .placeholder(R.drawable.user_image_placeholder)
                     .apply(RequestOptions.circleCropTransform())
                     .into(userImage)
-            this.reputation.text = answer.owner.reputation.toLong().format()
-            this.badgeView.badgeCounts = answer.owner.badgeCounts
+            userImage.setOnClickListener { dataModel.onProfilePictureClicked(it.context) }
+            reputation.text = answer.owner.reputation.toLong().format()
+            badgeView.badgeCounts = answer.owner.badgeCounts
         }
     }
 }

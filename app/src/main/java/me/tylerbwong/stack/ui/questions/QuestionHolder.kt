@@ -33,43 +33,44 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
     private lateinit var question: Question
 
     override fun bind(data: Any) {
-        (data as? QuestionDataModel)?.let {
-            if (it.isDetail) {
+        (data as? QuestionDataModel)?.let { dataModel ->
+            if (dataModel.isDetail) {
                 questionBody.maxLines = Integer.MAX_VALUE
                 questionBody.ellipsize = null
             }
 
-            this.question = it.question
-            this.questionTitle.text = question.title.toHtml()
+            question = dataModel.question
+            questionTitle.text = question.title.toHtml()
 
-            if (it.isDetail) {
+            if (dataModel.isDetail) {
                 question.bodyMarkdown?.let { body ->
-                    this.questionBody.setMarkdown(body)
+                    questionBody.setMarkdown(body)
                 }
             } else {
-                this.questionBody.text = question.body?.toHtml()
+                questionBody.text = question.body?.toHtml()
             }
 
-            this.username.text = question.owner.displayName.toHtml()
+            username.text = question.owner.displayName.toHtml()
             GlideApp.with(itemView)
                     .load(question.owner.profileImage)
                     .placeholder(R.drawable.user_image_placeholder)
                     .apply(RequestOptions.circleCropTransform())
                     .into(userImage)
-            this.badgeView.badgeCounts = question.owner.badgeCounts
-            this.reputation.text = question.owner.reputation.toLong().format()
+            userImage.setOnClickListener { dataModel.onProfilePictureClicked(it.context) }
+            badgeView.badgeCounts = question.owner.badgeCounts
+            reputation.text = question.owner.reputation.toLong().format()
 
-            itemView.setOnLongClickListener { view ->
-                val context = view.context
+            itemView.setOnLongClickListener {
+                val context = it.context
                 val contentManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 contentManager.primaryClip = ClipData.newPlainText("linkText", question.shareLink)
                 Toast.makeText(context, "Link copied to clipboard", Toast.LENGTH_SHORT).show()
                 true
             }
 
-            itemView.setOnClickListener { view ->
+            itemView.setOnClickListener {
                 QuestionDetailActivity.startActivity(
-                        view.context,
+                        it.context,
                         question.questionId,
                         question.title,
                         question.body,
