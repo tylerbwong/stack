@@ -29,7 +29,7 @@ import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.getViewModel
 
-class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
+class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         SearchView.OnQueryTextListener {
 
     private lateinit var viewModel: QuestionsViewModel
@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener,
     private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ThemeManager.injectTheme(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(bottomBar)

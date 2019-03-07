@@ -12,19 +12,19 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_question_detail.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.User
+import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.theme.ThemeManager
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.getViewModel
 
-class QuestionDetailActivity : AppCompatActivity() {
+class QuestionDetailActivity : BaseActivity() {
 
     private lateinit var viewModel: QuestionDetailViewModel
     private val adapter = DynamicViewAdapter()
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ThemeManager.injectTheme(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_detail)
         setSupportActionBar(toolbar)
