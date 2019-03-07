@@ -58,6 +58,7 @@ dependencies {
     implementation(Dep.androidxCardView)
     implementation(Dep.androidxExtensions)
     implementation(Dep.constraintLayout)
+    implementation(Dep.ktxLifecycleExtensions)
     implementation(Dep.materialComponents)
 
     // glide
