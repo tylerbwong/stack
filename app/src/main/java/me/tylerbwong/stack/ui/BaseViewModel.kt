@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -17,7 +18,7 @@ abstract class BaseViewModel : ViewModel() {
         get() = _snackbar
     private val _snackbar = MutableLiveData<Unit?>()
 
-    protected fun launchRequest(block: suspend () -> Unit): Job {
+    protected fun launchRequest(block: suspend CoroutineScope.() -> Unit): Job {
         return viewModelScope.launch {
             try {
                 _refreshing.value = true

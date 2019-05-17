@@ -5,7 +5,7 @@ import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 
-class QuestionDataModel(
+data class QuestionDataModel(
         internal val question: Question,
         internal val isDetail: Boolean = false
 ) : DynamicDataModel() {
@@ -16,13 +16,11 @@ class QuestionDataModel(
 
     override fun areItemsThemSame(
             other: DynamicDataModel
-    ) = other is QuestionDataModel
+    ) = other is QuestionDataModel && other.question.questionId == question.questionId
 
     override fun areContentsTheSame(
             other: DynamicDataModel
-    ) = other is QuestionDataModel
-            && question.questionId == other.question.questionId
-            && isDetail == other.isDetail
+    ) = other is QuestionDataModel && other == this
 
     override fun getViewCreator() = ::QuestionHolder
 }

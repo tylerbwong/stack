@@ -8,15 +8,9 @@ import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
 import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
 
-class AnswerHeaderDataModel(internal val answerCount: Int) : DynamicDataModel() {
+data class AnswerHeaderDataModel(internal val answerCount: Int) : DynamicDataModel() {
 
-    override fun areItemsThemSame(
-            other: DynamicDataModel
-    ) = other is AnswerHeaderDataModel && answerCount == other.answerCount
-
-    override fun areContentsTheSame(
-            other: DynamicDataModel
-    ) = other is AnswerHeaderDataModel && answerCount == other.answerCount
+    override fun areItemsThemSame(other: DynamicDataModel) = other == this
 
     override fun getViewCreator() = ::AnswerHeaderViewHolder
 }
