@@ -10,7 +10,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsService
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.theme.ThemeManager
-import ru.noties.markwon.spans.LinkSpan
+import ru.noties.markwon.core.spans.LinkSpan
 import timber.log.Timber
 
 private const val STABLE_PACKAGE = "com.android.chrome"

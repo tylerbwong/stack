@@ -31,5 +31,6 @@
     <string name="month">Month</string>
 
     <!-- Error -->
+    <string name="network_error">Network error</string>
     <string name="retry">Retry</string>
 </resources>

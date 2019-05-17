@@ -33,8 +33,11 @@ class QuestionDetailActivity : BaseActivity() {
         })
         viewModel.snackbar.observe(this, Observer {
             if (it != null) {
-                snackbar = Snackbar.make(rootLayout, it, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.retry) { viewModel.getQuestionDetails() }
+                snackbar = Snackbar.make(
+                        rootLayout,
+                        getString(R.string.network_error),
+                        Snackbar.LENGTH_INDEFINITE
+                ).setAction(R.string.retry) { viewModel.getQuestionDetails() }
                 snackbar?.show()
             } else {
                 snackbar?.dismiss()

@@ -32,8 +32,11 @@ class ProfileActivity : BaseActivity() {
         })
         viewModel.snackbar.observe(this, Observer {
             if (it != null) {
-                snackbar = Snackbar.make(rootLayout, it, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.retry) { viewModel.getUserQuestionsAndAnswers() }
+                snackbar = Snackbar.make(
+                        rootLayout,
+                        getString(R.string.network_error),
+                        Snackbar.LENGTH_INDEFINITE
+                ).setAction(R.string.retry) { viewModel.getUserQuestionsAndAnswers() }
                 snackbar?.show()
             } else {
                 snackbar?.dismiss()

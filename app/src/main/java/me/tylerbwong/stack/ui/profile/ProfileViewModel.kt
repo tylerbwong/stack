@@ -34,8 +34,8 @@ class ProfileViewModel(
                 service.getUserAnswersById(userId)
             }
 
-            _questionsData.value = questionsRequest.await().items.map { QuestionDataModel(it) }
-            _answersData.value = answersRequest.await().items.map { AnswerDataModel(it) }
+            _questionsData.value = questionsRequest.items.map { QuestionDataModel(it) }
+            _answersData.value = answersRequest.items.map { AnswerDataModel(it) }
         }
     }
 }

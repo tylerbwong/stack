@@ -13,9 +13,9 @@ abstract class BaseViewModel : ViewModel() {
         get() = _refreshing
     private val _refreshing = MutableLiveData<Boolean>()
 
-    val snackbar: LiveData<String?>
+    val snackbar: LiveData<Unit?>
         get() = _snackbar
-    private val _snackbar = MutableLiveData<String?>()
+    private val _snackbar = MutableLiveData<Unit?>()
 
     protected fun launchRequest(block: suspend () -> Unit): Job {
         return viewModelScope.launch {
@@ -25,7 +25,7 @@ abstract class BaseViewModel : ViewModel() {
                 block()
             } catch (exception: Exception) {
                 Timber.e(exception)
-                _snackbar.value = "Network error"
+                _snackbar.value = Unit
             } finally {
                 _refreshing.value = false
             }

@@ -47,8 +47,11 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         })
         viewModel.snackbar.observe(this, Observer {
             if (it != null) {
-                snackbar = Snackbar.make(rootLayout, it, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.retry) { viewModel.getQuestions() }
+                snackbar = Snackbar.make(
+                        rootLayout,
+                        getString(R.string.network_error),
+                        Snackbar.LENGTH_INDEFINITE
+                ).setAction(R.string.retry) { viewModel.getQuestions() }
                 snackbar?.show()
             } else {
                 snackbar?.dismiss()

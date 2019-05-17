@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -32,10 +30,7 @@ android {
 }
 
 androidExtensions {
-    // https://youtrack.jetbrains.com/issue/KT-22213
-    configure(delegateClosureOf<AndroidExtensionsExtension> {
-        isExperimental = true
-    })
+    isExperimental = true
 }
 
 android {
@@ -55,8 +50,7 @@ dependencies {
     // androidx
     implementation(Dep.androidxAppCompat)
     implementation(Dep.androidxBrowser)
-    implementation(Dep.androidxCardView)
-    implementation(Dep.androidxExtensions)
+    implementation(Dep.androidxLifecycleExtensions)
     implementation(Dep.constraintLayout)
     implementation(Dep.ktxLifecycleExtensions)
     implementation(Dep.materialComponents)
@@ -69,12 +63,13 @@ dependencies {
     implementation(Dep.gson)
     implementation(Dep.okHttpLogger)
     implementation(Dep.retrofit)
-    implementation(Dep.retrofitCoroutineAdapter)
     implementation(Dep.retrofitGsonConverter)
 
     // markdown
-    implementation(Dep.markwon)
-    implementation(Dep.markwonImageLoader)
+    implementation(Dep.markwonCore)
+    implementation(Dep.markwonImageOkhttp)
+    implementation(Dep.markwonRecycler)
+    implementation(Dep.markwonStrikethrough)
 
     // logging
     implementation(Dep.timber)

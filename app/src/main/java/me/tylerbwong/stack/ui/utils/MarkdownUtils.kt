@@ -1,9 +1,39 @@
 package me.tylerbwong.stack.ui.utils
 
+import android.content.Context
 import android.widget.TextView
 import me.tylerbwong.stack.data.network.ServiceProvider
+import ru.noties.markwon.AbstractMarkwonPlugin
 import ru.noties.markwon.Markwon
-import ru.noties.markwon.SpannableConfiguration
+import ru.noties.markwon.MarkwonConfiguration
+import ru.noties.markwon.core.CorePlugin
+import ru.noties.markwon.ext.strikethrough.StrikethroughPlugin
+import ru.noties.markwon.image.ImagesPlugin
+import ru.noties.markwon.image.okhttp.OkHttpImagesPlugin
+
+object MarkdownUtils {
+    lateinit var markwon: Markwon
+
+    fun init(context: Context) {
+        val configurationPlugin = object : AbstractMarkwonPlugin() {
+            override fun configureConfiguration(builder: MarkwonConfiguration.Builder) {
+                builder
+                        .urlProcessor(urlProcessor)
+                        .linkResolver(tabsResolver)
+            }
+        }
+        val plugins = listOf(
+                CorePlugin.create(),
+                ImagesPlugin.create(context),
+                OkHttpImagesPlugin.create(ServiceProvider.okHttpClient),
+                StrikethroughPlugin.create(),
+                configurationPlugin
+        )
+        markwon = Markwon.builder(context)
+                .usePlugins(plugins)
+                .build()
+    }
+}
 
 private val urlProcessor = CustomUrlProcessor()
 private val tabsResolver = CustomTabsLinkResolver()
@@ -21,15 +51,7 @@ private val specialChars = mapOf(
 )
 
 fun TextView.setMarkdown(markdown: String) {
-    Markwon.setMarkdown(
-            this,
-            SpannableConfiguration.builder(context)
-                    .urlProcessor(urlProcessor)
-                    .linkResolver(tabsResolver)
-                    .asyncDrawableLoader(ServiceProvider.asyncDrawableLoader)
-                    .build(),
-            markdown.stripSpecials()
-    )
+    MarkdownUtils.markwon.setMarkdown(this, markdown.stripSpecials())
 }
 
 private fun String.stripSpecials(): String {

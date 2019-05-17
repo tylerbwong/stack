@@ -1,6 +1,5 @@
 package me.tylerbwong.stack.data.network.service
 
-import kotlinx.coroutines.Deferred
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.model.DESC
@@ -19,7 +18,7 @@ import retrofit2.http.Query
 interface QuestionService {
 
     @GET("questions")
-    fun getQuestions(
+    suspend fun getQuestions(
             @Query(SITE_PARAM) site: String = DEFAULT_SITE,
             @Query(SORT_PARAM) @Sort sort: String = DEFAULT_SORT,
             @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
@@ -27,10 +26,10 @@ interface QuestionService {
             @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
             @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
-    ): Deferred<Response<Question>>
+    ): Response<Question>
 
     @GET("questions")
-    fun getQuestionsByTags(
+    suspend fun getQuestionsByTags(
             @Query(SITE_PARAM) site: String = DEFAULT_SITE,
             @Query(SORT_PARAM) @Sort sort: String = DEFAULT_SORT,
             @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
@@ -39,18 +38,18 @@ interface QuestionService {
             @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
             @Query(TAGGED_PARAM) tags: String,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
-    ): Deferred<Response<Question>>
+    ): Response<Question>
 
     @GET("questions/{id}")
-    fun getQuestionDetails(
+    suspend fun getQuestionDetails(
             @Path("id") questionId: Int,
             @Query(SITE_PARAM) site: String = DEFAULT_SITE,
             @Query(FILTER_PARAM) filter: String = DETAIL_FILTER,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
-    ): Deferred<Response<Question>>
+    ): Response<Question>
 
     @GET("questions/{id}/answers")
-    fun getQuestionAnswers(
+    suspend fun getQuestionAnswers(
             @Path("id") questionId: Int,
             @Query(SITE_PARAM) site: String = DEFAULT_SITE,
             @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
@@ -58,10 +57,10 @@ interface QuestionService {
             @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
             @Query(FILTER_PARAM) filter: String = DETAIL_FILTER,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
-    ): Deferred<Response<Answer>>
+    ): Response<Answer>
 
     @GET("search/advanced")
-    fun getQuestionsBySearchString(
+    suspend fun getQuestionsBySearchString(
             @Query(SITE_PARAM) site: String = DEFAULT_SITE,
             @Query(SORT_PARAM) @Sort sort: String = RELEVANCE,
             @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
@@ -70,27 +69,27 @@ interface QuestionService {
             @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY,
             @Query(SEARCH_PARAM) searchString: String
-    ): Deferred<Response<Question>>
+    ): Response<Question>
 
     @GET("users/{userId}/questions")
-    fun getUserQuestionsById(
+    suspend fun getUserQuestionsById(
             @Path("userId") userId: Int?,
             @Query(SITE_PARAM) site: String = DEFAULT_SITE,
             @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
             @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
             @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
-    ): Deferred<Response<Question>>
+    ): Response<Question>
 
     @GET("users/{userId}/answers")
-    fun getUserAnswersById(
+    suspend fun getUserAnswersById(
             @Path("userId") userId: Int?,
             @Query(SITE_PARAM) site: String = DEFAULT_SITE,
             @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
             @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
             @Query(FILTER_PARAM) filter: String = DETAIL_FILTER,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
-    ): Deferred<Response<Answer>>
+    ): Response<Answer>
 
     companion object {
 

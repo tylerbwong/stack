@@ -27,13 +27,8 @@ internal class QuestionsViewModel(
     internal fun getQuestions(@Sort sort: String = currentSort) {
         currentSort = sort
         launchRequest {
-            val questionsChannel = withContext(Dispatchers.IO) {
-                repository.getQuestions(this, sort)
-            }
-
-            for (list in questionsChannel) {
-                _questions.value = list.map { QuestionDataModel(it) }
-            }
+            val questions = withContext(Dispatchers.IO) { repository.getQuestions(sort) }
+            _questions.value = questions.map { QuestionDataModel(it) }
         }
     }
 
@@ -44,7 +39,7 @@ internal class QuestionsViewModel(
                 service.getQuestionsBySearchString(searchString = query)
             }
 
-            _questions.value = searchResult.await()
+            _questions.value = searchResult
                     .items
                     .map { QuestionDataModel(it) }
         }
