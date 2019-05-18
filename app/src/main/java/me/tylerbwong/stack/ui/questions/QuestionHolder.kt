@@ -40,30 +40,30 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
             }
 
             question = dataModel.question
-            questionTitle.text = question.title.toHtml()
+            questionTitle.text = dataModel.questionTitle.toHtml()
 
             if (dataModel.isDetail) {
-                question.bodyMarkdown?.let { body ->
+                dataModel.questionBody?.let { body ->
                     questionBody.setMarkdown(body)
                 }
             } else {
-                questionBody.text = question.body?.toHtml()
+                questionBody.text = dataModel.questionBody?.toHtml()
             }
 
-            username.text = question.owner.displayName.toHtml()
+            username.text = dataModel.username.toHtml()
             GlideApp.with(itemView)
-                    .load(question.owner.profileImage)
+                    .load(dataModel.userImage)
                     .placeholder(R.drawable.user_image_placeholder)
                     .apply(RequestOptions.circleCropTransform())
                     .into(userImage)
             userImage.setOnClickListener { dataModel.onProfilePictureClicked(it.context) }
-            badgeView.badgeCounts = question.owner.badgeCounts
-            reputation.text = question.owner.reputation.toLong().format()
+            badgeView.badgeCounts = dataModel.badgeCounts
+            reputation.text = dataModel.reputation.toLong().format()
 
             itemView.setOnLongClickListener {
                 val context = it.context
                 val contentManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                contentManager.primaryClip = ClipData.newPlainText("linkText", question.shareLink)
+                contentManager.primaryClip = ClipData.newPlainText("linkText", dataModel.shareLink)
                 Toast.makeText(context, "Link copied to clipboard", Toast.LENGTH_SHORT).show()
                 true
             }
@@ -71,10 +71,10 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
             itemView.setOnClickListener {
                 QuestionDetailActivity.startActivity(
                         it.context,
-                        question.questionId,
-                        question.title,
-                        question.body,
-                        question.owner
+                        dataModel.questionId,
+                        dataModel.questionTitle,
+                        dataModel.questionBody,
+                        dataModel.owner
                 )
             }
         }

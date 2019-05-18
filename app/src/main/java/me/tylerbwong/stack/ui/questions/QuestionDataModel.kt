@@ -5,22 +5,35 @@ import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 
-data class QuestionDataModel(
+class QuestionDataModel(
         internal val question: Question,
         internal val isDetail: Boolean = false
 ) : DynamicDataModel() {
 
+    internal val questionTitle = question.title
+    internal val questionBody = if (isDetail) question.bodyMarkdown else question.body
+    internal val userImage = question.owner.profileImage
+    internal val username = question.owner.displayName
+    internal val reputation = question.owner.reputation
+    internal val badgeCounts = question.owner.badgeCounts
+    internal val shareLink = question.shareLink
+    internal val questionId = question.questionId
+    internal val owner = question.owner
+
     internal fun onProfilePictureClicked(context: Context) {
-        ProfileActivity.startActivity(context, question.owner.userId)
+        ProfileActivity.startActivity(context, owner.userId)
     }
 
     override fun areItemsThemSame(
             other: DynamicDataModel
-    ) = other is QuestionDataModel && other.question.questionId == question.questionId
+    ) = other is QuestionDataModel && other.questionId == questionId
 
     override fun areContentsTheSame(
             other: DynamicDataModel
-    ) = other is QuestionDataModel && other == this
+    ) = other is QuestionDataModel && other.questionTitle == questionTitle
+            && other.questionBody == questionBody && other.userImage == userImage
+            && other.username == username && other.reputation == reputation
+            && other.badgeCounts == badgeCounts
 
     override fun getViewCreator() = ::QuestionHolder
 }
