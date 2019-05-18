@@ -10,10 +10,8 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.owners.BadgeView
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
 import me.tylerbwong.stack.ui.utils.GlideApp
-import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
 import me.tylerbwong.stack.ui.utils.setMarkdown
-import me.tylerbwong.stack.ui.utils.toHtml
 
 class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
         parent.inflateWithoutAttaching(R.layout.answer_holder)
@@ -28,21 +26,20 @@ class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
 
     override fun bind(data: Any) {
         (data as? AnswerDataModel)?.let { dataModel ->
-            val answer = dataModel.answer
-            val voteCount = answer.upVoteCount - answer.downVoteCount
+            val voteCount = dataModel.voteCount
             votes.text = itemView.context.resources.getQuantityString(R.plurals.votes, voteCount, voteCount)
-            acceptedAnswerCheck.visibility = if (answer.isAccepted) View.VISIBLE else View.GONE
-            answerBody.setMarkdown(answer.bodyMarkdown)
+            acceptedAnswerCheck.visibility = if (dataModel.isAccepted) View.VISIBLE else View.GONE
+            answerBody.setMarkdown(dataModel.answerBody)
 
-            username.text = answer.owner.displayName.toHtml()
+            username.text = dataModel.username
             GlideApp.with(itemView)
-                    .load(answer.owner.profileImage)
+                    .load(dataModel.userImage)
                     .placeholder(R.drawable.user_image_placeholder)
                     .apply(RequestOptions.circleCropTransform())
                     .into(userImage)
             userImage.setOnClickListener { dataModel.onProfilePictureClicked(it.context) }
-            reputation.text = answer.owner.reputation.toLong().format()
-            badgeView.badgeCounts = answer.owner.badgeCounts
+            reputation.text = dataModel.reputation
+            badgeView.badgeCounts = dataModel.badgeCounts
         }
     }
 }

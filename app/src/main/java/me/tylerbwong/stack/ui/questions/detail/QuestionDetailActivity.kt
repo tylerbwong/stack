@@ -59,8 +59,8 @@ class QuestionDetailActivity : BaseActivity() {
             addItemDecoration(
                     ViewHolderItemDecoration(
                             context.resources.getDimensionPixelSize(R.dimen.item_spacing_question_detail),
-                            true,
-                            true
+                            removeSideSpacing = true,
+                            removeTopSpacing = true
                     )
             )
         }

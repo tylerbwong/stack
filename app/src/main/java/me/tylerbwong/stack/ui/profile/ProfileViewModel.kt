@@ -9,7 +9,6 @@ import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.answers.AnswerDataModel
 import me.tylerbwong.stack.ui.questions.QuestionDataModel
-import me.tylerbwong.stack.ui.utils.DynamicDataModel
 
 class ProfileViewModel(
         private val service: QuestionService = ServiceProvider.questionService
@@ -17,13 +16,13 @@ class ProfileViewModel(
 
     internal var userId: Int? = null
 
-    internal val questionsData: LiveData<List<DynamicDataModel>>
+    internal val questionsData: LiveData<List<QuestionDataModel>>
         get() = _questionsData
-    private val _questionsData = MutableLiveData<List<DynamicDataModel>>()
+    private val _questionsData = MutableLiveData<List<QuestionDataModel>>()
 
-    internal val answersData: LiveData<List<DynamicDataModel>>
+    internal val answersData: LiveData<List<AnswerDataModel>>
         get() = _answersData
-    private val _answersData = MutableLiveData<List<DynamicDataModel>>()
+    private val _answersData = MutableLiveData<List<AnswerDataModel>>()
 
     internal fun getUserQuestionsAndAnswers() {
         launchRequest {

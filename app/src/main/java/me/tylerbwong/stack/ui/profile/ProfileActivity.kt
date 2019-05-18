@@ -42,8 +42,9 @@ class ProfileActivity : BaseActivity() {
                 snackbar?.dismiss()
             }
         })
-        viewModel.answersData.observe(this, Observer {
+        viewModel.questionsData.observe(this, Observer {
             adapter.update(it)
+            supportActionBar?.title = it.firstOrNull()?.username
         })
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -54,7 +55,7 @@ class ProfileActivity : BaseActivity() {
             layoutManager = LinearLayoutManager(this@ProfileActivity)
             addItemDecoration(
                     ViewHolderItemDecoration(
-                            context.resources.getDimensionPixelSize(R.dimen.item_spacing_question_detail)
+                            context.resources.getDimensionPixelSize(R.dimen.item_spacing_main)
                     )
             )
         }

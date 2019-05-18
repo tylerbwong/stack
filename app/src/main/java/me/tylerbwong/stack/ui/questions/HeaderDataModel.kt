@@ -9,5 +9,7 @@ data class HeaderDataModel(
 
     override fun areItemsThemSame(other: DynamicDataModel) = other == this
 
+    override fun areContentsTheSame(other: DynamicDataModel) = other == this
+
     override fun getViewCreator() = ::HeaderHolder
 }

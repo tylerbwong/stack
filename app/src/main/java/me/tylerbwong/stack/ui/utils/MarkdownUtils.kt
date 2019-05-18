@@ -6,13 +6,15 @@ import me.tylerbwong.stack.data.network.ServiceProvider
 import ru.noties.markwon.AbstractMarkwonPlugin
 import ru.noties.markwon.Markwon
 import ru.noties.markwon.MarkwonConfiguration
-import ru.noties.markwon.core.CorePlugin
 import ru.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import ru.noties.markwon.image.ImagesPlugin
 import ru.noties.markwon.image.okhttp.OkHttpImagesPlugin
 
 object MarkdownUtils {
     lateinit var markwon: Markwon
+
+    private val urlProcessor = CustomUrlProcessor()
+    private val tabsResolver = CustomTabsLinkResolver()
 
     fun init(context: Context) {
         val configurationPlugin = object : AbstractMarkwonPlugin() {
@@ -23,7 +25,6 @@ object MarkdownUtils {
             }
         }
         val plugins = listOf(
-                CorePlugin.create(),
                 ImagesPlugin.create(context),
                 OkHttpImagesPlugin.create(ServiceProvider.okHttpClient),
                 StrikethroughPlugin.create(),
@@ -35,8 +36,6 @@ object MarkdownUtils {
     }
 }
 
-private val urlProcessor = CustomUrlProcessor()
-private val tabsResolver = CustomTabsLinkResolver()
 private val specialChars = mapOf(
         "&lt;" to "<",
         "&gt;" to ">",

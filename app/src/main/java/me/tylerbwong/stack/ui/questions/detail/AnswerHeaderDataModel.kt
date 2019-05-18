@@ -12,6 +12,8 @@ data class AnswerHeaderDataModel(internal val answerCount: Int) : DynamicDataMod
 
     override fun areItemsThemSame(other: DynamicDataModel) = other == this
 
+    override fun areContentsTheSame(other: DynamicDataModel) = other == this
+
     override fun getViewCreator() = ::AnswerHeaderViewHolder
 }
 
