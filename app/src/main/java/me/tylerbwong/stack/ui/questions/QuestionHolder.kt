@@ -64,15 +64,17 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
             badgeView.badgeCounts = dataModel.badgeCounts
             reputation.text = dataModel.reputation.toLong().format()
 
-            tagsView.visibility = if (dataModel.isDetail) View.VISIBLE else View.GONE
-
-            tagsView.removeAllViews()
-
-            dataModel.tags.forEach {
-                val chip = Chip(tagsView.context).apply {
-                    text = it
+            tagsView.visibility = if (dataModel.isDetail) {
+                tagsView.removeAllViews()
+                dataModel.tags?.forEach {
+                    val chip = Chip(tagsView.context).apply {
+                        text = it
+                    }
+                    tagsView.addView(chip)
                 }
-                tagsView.addView(chip)
+                View.VISIBLE
+            } else {
+                View.GONE
             }
 
             if (!dataModel.isDetail) {
