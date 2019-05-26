@@ -1,10 +1,12 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Base.AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">@color/divider</item>
+        <item name="android:navigationBarColor">@android:color/white</item>
     </style>
 
     <style name="Base.AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
