@@ -4,7 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.lifecycle.Observer
+import androidx.activity.viewModels
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_profile.*
@@ -12,11 +13,10 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
-import me.tylerbwong.stack.ui.utils.getViewModel
 
 class ProfileActivity : BaseActivity() {
 
-    private lateinit var viewModel: ProfileViewModel
+    private val viewModel: ProfileViewModel by viewModels()
     private val adapter = DynamicViewAdapter()
     private var snackbar: Snackbar? = null
 
@@ -25,12 +25,11 @@ class ProfileActivity : BaseActivity() {
         setContentView(R.layout.activity_profile)
         setSupportActionBar(toolbar)
 
-        viewModel = getViewModel(ProfileViewModel::class.java)
         viewModel.userId = intent.getIntExtra(USER_ID, 0)
-        viewModel.refreshing.observe(this, Observer {
+        viewModel.refreshing.observe(this) {
             refreshLayout?.isRefreshing = it
-        })
-        viewModel.snackbar.observe(this, Observer {
+        }
+        viewModel.snackbar.observe(this) {
             if (it != null) {
                 snackbar = Snackbar.make(
                         rootLayout,
@@ -41,11 +40,11 @@ class ProfileActivity : BaseActivity() {
             } else {
                 snackbar?.dismiss()
             }
-        })
-        viewModel.questionsData.observe(this, Observer {
+        }
+        viewModel.questionsData.observe(this) {
             adapter.update(it)
             supportActionBar?.title = it.firstOrNull()?.username
-        })
+        }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""

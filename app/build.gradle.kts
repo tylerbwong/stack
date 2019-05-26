@@ -52,7 +52,9 @@ dependencies {
     implementation(Dep.androidxBrowser)
     implementation(Dep.androidxLifecycleExtensions)
     implementation(Dep.constraintLayout)
-    implementation(Dep.ktxLifecycleExtensions)
+    implementation(Dep.ktxActivityExtensions)
+    implementation(Dep.ktxViewModelExtensions)
+    implementation(Dep.ktxLiveDataExtensions)
     implementation(Dep.materialComponents)
 
     // glide

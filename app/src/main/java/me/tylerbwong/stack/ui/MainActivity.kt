@@ -7,8 +7,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
+import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,12 +27,11 @@ import me.tylerbwong.stack.ui.theme.ThemeManager
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
-import me.tylerbwong.stack.ui.utils.getViewModel
 
 class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         SearchView.OnQueryTextListener {
 
-    private lateinit var viewModel: QuestionsViewModel
+    private val viewModel: QuestionsViewModel by viewModels()
     private val adapter = DynamicViewAdapter()
     private var snackbar: Snackbar? = null
     private var menu: Menu? = null
@@ -41,11 +41,10 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         setContentView(R.layout.activity_main)
         setSupportActionBar(bottomBar)
 
-        viewModel = getViewModel(QuestionsViewModel::class.java)
-        viewModel.refreshing.observe(this, Observer {
+        viewModel.refreshing.observe(this) {
             refreshLayout?.isRefreshing = it
-        })
-        viewModel.snackbar.observe(this, Observer {
+        }
+        viewModel.snackbar.observe(this) {
             if (it != null) {
                 snackbar = Snackbar.make(
                         rootLayout,
@@ -56,10 +55,10 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             } else {
                 snackbar?.dismiss()
             }
-        })
-        viewModel.questions.observe(this, Observer {
+        }
+        viewModel.questions.observe(this) {
             updateContent(it)
-        })
+        }
 
         recyclerView.apply {
             adapter = this@MainActivity.adapter

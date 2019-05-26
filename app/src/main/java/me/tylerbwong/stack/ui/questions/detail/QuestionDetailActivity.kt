@@ -5,7 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.lifecycle.Observer
+import androidx.activity.viewModels
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_question_detail.*
@@ -14,11 +15,10 @@ import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
-import me.tylerbwong.stack.ui.utils.getViewModel
 
 class QuestionDetailActivity : BaseActivity() {
 
-    private lateinit var viewModel: QuestionDetailViewModel
+    private val viewModel: QuestionDetailViewModel by viewModels()
     private val adapter = DynamicViewAdapter()
     private var snackbar: Snackbar? = null
 
@@ -27,11 +27,10 @@ class QuestionDetailActivity : BaseActivity() {
         setContentView(R.layout.activity_question_detail)
         setSupportActionBar(toolbar)
 
-        viewModel = getViewModel(QuestionDetailViewModel::class.java)
-        viewModel.refreshing.observe(this, Observer {
+        viewModel.refreshing.observe(this) {
             refreshLayout?.isRefreshing = it
-        })
-        viewModel.snackbar.observe(this, Observer {
+        }
+        viewModel.snackbar.observe(this) {
             if (it != null) {
                 snackbar = Snackbar.make(
                         rootLayout,
@@ -42,13 +41,13 @@ class QuestionDetailActivity : BaseActivity() {
             } else {
                 snackbar?.dismiss()
             }
-        })
-        viewModel.data.observe(this, Observer {
+        }
+        viewModel.data.observe(this) {
             adapter.update(it)
-        })
-        viewModel.voteCount.observe(this, Observer {
+        }
+        viewModel.voteCount.observe(this) {
             supportActionBar?.title = resources.getQuantityString(R.plurals.votes, it, it)
-        })
+        }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
