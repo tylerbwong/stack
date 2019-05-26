@@ -3,6 +3,7 @@ package me.tylerbwong.stack.ui.questions
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -62,6 +63,8 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
             userImage.setOnClickListener { dataModel.onProfilePictureClicked(it.context) }
             badgeView.badgeCounts = dataModel.badgeCounts
             reputation.text = dataModel.reputation.toLong().format()
+
+            tagsView.visibility = if (dataModel.isDetail) View.VISIBLE else View.GONE
 
             tagsView.removeAllViews()
 
