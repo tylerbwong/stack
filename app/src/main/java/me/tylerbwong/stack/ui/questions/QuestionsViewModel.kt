@@ -2,8 +2,6 @@ package me.tylerbwong.stack.ui.questions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
@@ -27,19 +25,14 @@ internal class QuestionsViewModel(
     internal fun getQuestions(@Sort sort: String = currentSort) {
         currentSort = sort
         launchRequest {
-            val questions = withContext(Dispatchers.IO) { repository.getQuestions(sort) }
-            _questions.value = questions.map { QuestionDataModel(it) }
+            _questions.value = repository.getQuestions(sort).map { QuestionDataModel(it) }
         }
     }
 
     internal fun searchQuestions(query: String = currentQuery) {
         currentQuery = query
         launchRequest {
-            val searchResult = withContext(Dispatchers.IO) {
-                service.getQuestionsBySearchString(searchString = query)
-            }
-
-            _questions.value = searchResult
+            _questions.value = service.getQuestionsBySearchString(searchString = query)
                     .items
                     .map { QuestionDataModel(it) }
         }

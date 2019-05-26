@@ -2,8 +2,6 @@ package me.tylerbwong.stack.ui.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.ui.BaseViewModel
@@ -26,15 +24,12 @@ class ProfileViewModel(
 
     internal fun getUserQuestionsAndAnswers() {
         launchRequest {
-            val questionsRequest = withContext(Dispatchers.IO) {
-                service.getUserQuestionsById(userId)
+            _questionsData.value = service.getUserQuestionsById(userId).items.map {
+                QuestionDataModel(it)
             }
-            val answersRequest = withContext(Dispatchers.IO) {
-                service.getUserAnswersById(userId)
+            _answersData.value = service.getUserAnswersById(userId).items.map {
+                AnswerDataModel(it)
             }
-
-            _questionsData.value = questionsRequest.items.map { QuestionDataModel(it) }
-            _answersData.value = answersRequest.items.map { AnswerDataModel(it) }
         }
     }
 }

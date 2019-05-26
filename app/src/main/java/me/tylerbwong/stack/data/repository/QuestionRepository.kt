@@ -1,5 +1,7 @@
 package me.tylerbwong.stack.data.repository
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
@@ -17,7 +19,7 @@ class QuestionRepository(private val stackDatabase: StackDatabase = StackDatabas
 
     suspend fun getQuestions(@Sort sort: String): List<Question> {
         getQuestionsFromNetwork(sort)
-        return getQuestionsFromDb(sort)
+        return withContext(Dispatchers.IO) { getQuestionsFromDb(sort) }
     }
 
     private suspend fun getQuestionsFromDb(@Sort sort: String): List<Question> {
@@ -33,7 +35,7 @@ class QuestionRepository(private val stackDatabase: StackDatabase = StackDatabas
     private suspend fun getQuestionsFromNetwork(@Sort sort: String): List<Question> {
         return ServiceProvider.questionService.getQuestions(sort = sort)
                 .items
-                .also { saveQuestions(it, sort) }
+                .also { withContext(Dispatchers.IO) { saveQuestions(it, sort) } }
     }
 
     private suspend fun saveQuestions(questions: List<Question>, @Sort sortString: String) {
