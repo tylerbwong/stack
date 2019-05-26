@@ -9,6 +9,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.ViewCompat
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.ui.owners.BadgeView
@@ -29,6 +31,7 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
     private val username: TextView = ViewCompat.requireViewById(itemView, R.id.username)
     private val reputation: TextView = ViewCompat.requireViewById(itemView, R.id.reputation)
     private val badgeView: BadgeView = ViewCompat.requireViewById(itemView, R.id.badgeView)
+    private val tagsView: ChipGroup = ViewCompat.requireViewById(itemView, R.id.tagsView)
 
     private lateinit var question: Question
 
@@ -60,22 +63,33 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
             badgeView.badgeCounts = dataModel.badgeCounts
             reputation.text = dataModel.reputation.toLong().format()
 
-            itemView.setOnLongClickListener {
-                val context = it.context
-                val contentManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                contentManager.primaryClip = ClipData.newPlainText("linkText", dataModel.shareLink)
-                Toast.makeText(context, "Link copied to clipboard", Toast.LENGTH_SHORT).show()
-                true
+            tagsView.removeAllViews()
+
+            dataModel.tags.forEach {
+                val chip = Chip(tagsView.context).apply {
+                    text = it
+                }
+                tagsView.addView(chip)
             }
 
-            itemView.setOnClickListener {
-                QuestionDetailActivity.startActivity(
-                        it.context,
-                        dataModel.questionId,
-                        dataModel.questionTitle,
-                        dataModel.questionBody,
-                        dataModel.owner
-                )
+            if (!dataModel.isDetail) {
+                itemView.setOnLongClickListener {
+                    val context = it.context
+                    val contentManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    contentManager.primaryClip = ClipData.newPlainText("linkText", dataModel.shareLink)
+                    Toast.makeText(context, "Link copied to clipboard", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                itemView.setOnClickListener {
+                    QuestionDetailActivity.startActivity(
+                            it.context,
+                            dataModel.questionId,
+                            dataModel.questionTitle,
+                            dataModel.questionBody,
+                            dataModel.owner
+                    )
+                }
             }
         }
     }

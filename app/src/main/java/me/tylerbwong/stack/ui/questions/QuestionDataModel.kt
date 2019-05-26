@@ -19,6 +19,7 @@ class QuestionDataModel(
     internal val shareLink = question.shareLink
     internal val questionId = question.questionId
     internal val owner = question.owner
+    internal val tags = question.tags ?: emptyList()
 
     internal fun onProfilePictureClicked(context: Context) {
         ProfileActivity.startActivity(context, owner.userId)
@@ -33,7 +34,7 @@ class QuestionDataModel(
     ) = other is QuestionDataModel && other.questionTitle == questionTitle
             && other.questionBody == questionBody && other.userImage == userImage
             && other.username == username && other.reputation == reputation
-            && other.badgeCounts == badgeCounts
+            && other.badgeCounts == badgeCounts && other.tags == tags
 
     override fun getViewCreator() = ::QuestionHolder
 }
