@@ -59,8 +59,4 @@ class QuestionDetailViewModel(
             context.startActivity(Intent.createChooser(intent, context.getString(R.string.share)))
         }
     }
-
-    companion object {
-        private const val SHARE_TEXT_TYPE = "text/plain"
-    }
 }

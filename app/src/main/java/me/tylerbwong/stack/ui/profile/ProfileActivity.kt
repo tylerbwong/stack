@@ -3,6 +3,7 @@ package me.tylerbwong.stack.ui.profile
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.lifecycle.observe
@@ -11,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_profile.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.BaseActivity
+import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 
@@ -42,8 +44,12 @@ class ProfileActivity : BaseActivity() {
             }
         }
         viewModel.questionsData.observe(this) {
-            adapter.update(it)
-            supportActionBar?.title = it.firstOrNull()?.username
+            val data = it.toMutableList<DynamicDataModel>()
+            it.firstOrNull()?.owner?.let {  user ->
+                supportActionBar?.title = user.displayName
+                data.add(0, ProfileHeaderDataModel(user))
+            }
+            adapter.update(data)
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -64,9 +70,15 @@ class ProfileActivity : BaseActivity() {
         viewModel.getUserQuestionsAndAnswers()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_share, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
             android.R.id.home -> onBackPressed()
+            R.id.share -> viewModel.startShareIntent(this)
         }
         return super.onOptionsItemSelected(item)
     }

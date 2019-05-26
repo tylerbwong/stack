@@ -74,7 +74,7 @@ class QuestionDetailActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_question_details, menu)
+        menuInflater.inflate(R.menu.menu_share, menu)
         return true
     }
 

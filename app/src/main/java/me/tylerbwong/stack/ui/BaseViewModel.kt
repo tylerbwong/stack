@@ -32,4 +32,8 @@ abstract class BaseViewModel : ViewModel() {
             }
         }
     }
+
+    companion object {
+        const val SHARE_TEXT_TYPE = "text/plain"
+    }
 }
