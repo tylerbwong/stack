@@ -37,7 +37,6 @@ object Dep {
     const val ktxViewModelExtensions = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.ktxLifecycleExtensions}"
     const val markwonCore = "ru.noties.markwon:core:${Versions.markwon}"
     const val markwonImageOkhttp = "ru.noties.markwon:image-okhttp:${Versions.markwon}"
-    const val markwonRecycler = "ru.noties.markwon:recycler:${Versions.markwon}"
     const val markwonStrikethrough = "ru.noties.markwon:ext-strikethrough:${Versions.markwon}"
     const val materialComponents = "com.google.android.material:material:${Versions.materialComponents}"
     const val okHttpLogger = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"

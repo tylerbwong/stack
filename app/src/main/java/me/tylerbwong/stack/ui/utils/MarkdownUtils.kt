@@ -25,10 +25,10 @@ object MarkdownUtils {
             }
         }
         val plugins = listOf(
+                configurationPlugin,
                 ImagesPlugin.create(context),
                 OkHttpImagesPlugin.create(ServiceProvider.okHttpClient),
-                StrikethroughPlugin.create(),
-                configurationPlugin
+                StrikethroughPlugin.create()
         )
         markwon = Markwon.builder(context)
                 .usePlugins(plugins)

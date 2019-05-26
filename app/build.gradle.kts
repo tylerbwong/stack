@@ -70,7 +70,6 @@ dependencies {
     // markdown
     implementation(Dep.markwonCore)
     implementation(Dep.markwonImageOkhttp)
-    implementation(Dep.markwonRecycler)
     implementation(Dep.markwonStrikethrough)
 
     // logging
