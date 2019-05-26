@@ -38,7 +38,7 @@ internal class QuestionsViewModel(
         }
     }
 
-    internal fun onStart() {
+    internal fun fetchQuestions() {
         if (currentQuery.isNotBlank()) {
             searchQuestions()
         } else {

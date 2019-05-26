@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
@@ -41,6 +42,8 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        supportActionBar?.title = ""
+
         viewModel.refreshing.observe(this) {
             refreshLayout?.isRefreshing = it
         }
@@ -68,13 +71,13 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             )
         }
         searchView.setOnQueryTextListener(this)
+        searchView.findViewById<ImageView>(R.id.search_close_btn)?.setOnClickListener {
+            clearSearch()
+        }
 
-        refreshLayout.setOnRefreshListener { viewModel.getQuestions() }
-    }
+        refreshLayout.setOnRefreshListener { viewModel.fetchQuestions() }
 
-    override fun onStart() {
-        super.onStart()
-        viewModel.onStart()
+        viewModel.fetchQuestions()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -129,6 +132,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             R.id.month -> MONTH
             else -> CREATION
         }
+        clearSearch(fetchQuestions = false)
         viewModel.getQuestions(sort)
         return true
     }
@@ -145,6 +149,15 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
     override fun onQueryTextChange(newText: String?): Boolean {
         viewModel.onQueryTextChange(newText)
         return true
+    }
+
+    private fun clearSearch(fetchQuestions: Boolean = true) {
+        searchView.setQuery("", false)
+        searchView.visibility = View.GONE
+
+        if (fetchQuestions) {
+            viewModel.fetchQuestions()
+        }
     }
 
     private fun hideKeyboard() {
