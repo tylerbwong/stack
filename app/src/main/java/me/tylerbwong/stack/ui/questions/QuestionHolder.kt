@@ -20,7 +20,7 @@ import me.tylerbwong.stack.ui.utils.DynamicViewHolder
 import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
-import me.tylerbwong.stack.ui.utils.setMarkdown
+import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.toHtml
 
 class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(

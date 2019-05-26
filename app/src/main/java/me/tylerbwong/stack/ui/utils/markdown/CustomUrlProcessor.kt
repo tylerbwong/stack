@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.ui.utils
+package me.tylerbwong.stack.ui.utils.markdown
 
 import ru.noties.markwon.urlprocessor.UrlProcessor
 

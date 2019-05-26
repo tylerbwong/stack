@@ -4,7 +4,7 @@ import android.app.Application
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.persistence.StackDatabase
 import me.tylerbwong.stack.ui.theme.ThemeManager
-import me.tylerbwong.stack.ui.utils.MarkdownUtils
+import me.tylerbwong.stack.ui.utils.markdown.Markdown
 import timber.log.Timber
 
 class StackApplication : Application() {
@@ -15,7 +15,7 @@ class StackApplication : Application() {
 
         StackDatabase.init(this)
 
-        MarkdownUtils.init(this)
+        Markdown.init(this)
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())

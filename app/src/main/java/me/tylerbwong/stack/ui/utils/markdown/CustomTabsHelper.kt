@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.ui.utils
+package me.tylerbwong.stack.ui.utils.markdown
 
 import android.content.Context
 import android.content.Intent
@@ -21,7 +21,7 @@ private const val LOCAL_PACKAGE = "com.google.android.apps.chrome"
 private var packageName: String? = null
 
 class CustomTabsLinkResolver : LinkSpan.Resolver {
-    override fun resolve(view: View, link: String) =  launchCustomTab(view.context, link)
+    override fun resolve(view: View, link: String) = launchCustomTab(view.context, link)
 }
 
 fun launchCustomTab(context: Context, url: String) {

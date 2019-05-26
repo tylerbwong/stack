@@ -1,34 +1,23 @@
-package me.tylerbwong.stack.ui.utils
+package me.tylerbwong.stack.ui.utils.markdown
 
 import android.content.Context
 import android.widget.TextView
 import me.tylerbwong.stack.data.network.ServiceProvider
-import ru.noties.markwon.AbstractMarkwonPlugin
 import ru.noties.markwon.Markwon
-import ru.noties.markwon.MarkwonConfiguration
 import ru.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import ru.noties.markwon.image.ImagesPlugin
 import ru.noties.markwon.image.okhttp.OkHttpImagesPlugin
 
-object MarkdownUtils {
+object Markdown {
     lateinit var markwon: Markwon
 
-    private val urlProcessor = CustomUrlProcessor()
-    private val tabsResolver = CustomTabsLinkResolver()
-
     fun init(context: Context) {
-        val configurationPlugin = object : AbstractMarkwonPlugin() {
-            override fun configureConfiguration(builder: MarkwonConfiguration.Builder) {
-                builder
-                        .urlProcessor(urlProcessor)
-                        .linkResolver(tabsResolver)
-            }
-        }
         val plugins = listOf(
-                configurationPlugin,
+                GlideImagePlugin.create(context),
                 ImagesPlugin.create(context),
                 OkHttpImagesPlugin.create(ServiceProvider.okHttpClient),
-                StrikethroughPlugin.create()
+                StrikethroughPlugin.create(),
+                UrlPlugin.create()
         )
         markwon = Markwon.builder(context)
                 .usePlugins(plugins)
@@ -50,7 +39,7 @@ private val specialChars = mapOf(
 )
 
 fun TextView.setMarkdown(markdown: String) {
-    MarkdownUtils.markwon.setMarkdown(this, markdown.stripSpecials())
+    Markdown.markwon.setMarkdown(this, markdown.stripSpecials())
 }
 
 private fun String.stripSpecials(): String {

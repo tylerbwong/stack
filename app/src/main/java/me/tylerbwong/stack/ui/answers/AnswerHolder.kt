@@ -11,7 +11,7 @@ import me.tylerbwong.stack.ui.owners.BadgeView
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
 import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
-import me.tylerbwong.stack.ui.utils.setMarkdown
+import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 
 class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
         parent.inflateWithoutAttaching(R.layout.answer_holder)
