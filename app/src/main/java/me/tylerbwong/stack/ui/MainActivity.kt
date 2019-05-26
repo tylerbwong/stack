@@ -39,7 +39,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(bottomBar)
+        setSupportActionBar(toolbar)
 
         viewModel.refreshing.observe(this) {
             refreshLayout?.isRefreshing = it
