@@ -12,7 +12,7 @@ object Versions {
     const val kotlinxCoroutines = "1.2.2"
     const val ktxActivityExtensions = "1.0.0-beta01"
     const val ktxLifecycleExtensions = "2.2.0-alpha01"
-    const val markwon = "3.0.1"
+    const val markwon = "3.0.2"
     const val materialComponents = "1.1.0-alpha07"
     const val okHttp = "4.0.0"
     const val retrofit = "2.6.0"
