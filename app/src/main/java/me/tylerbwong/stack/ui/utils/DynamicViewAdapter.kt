@@ -33,7 +33,7 @@ class DynamicViewAdapter : RecyclerView.Adapter<DynamicViewHolder>() {
     override fun getItemCount() = data.size
 
     fun update(newData: List<DynamicDataModel>) {
-        val oldData = ArrayList<DynamicDataModel>(data)
+        val oldData = ArrayList(data)
         data = newData
         val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun areItemsTheSame(
