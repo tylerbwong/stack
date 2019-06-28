@@ -35,7 +35,7 @@ androidExtensions {
 
 android {
     lintOptions {
-        setAbortOnError(false)
+        isAbortOnError = false
     }
 }
 
