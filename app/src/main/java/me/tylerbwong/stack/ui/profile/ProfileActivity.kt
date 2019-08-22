@@ -2,6 +2,7 @@ package me.tylerbwong.stack.ui.profile
 
 import android.content.Context
 import android.content.Intent
+import androidx.lifecycle.observe
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
