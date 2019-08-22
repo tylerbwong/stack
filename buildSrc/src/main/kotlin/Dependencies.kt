@@ -13,7 +13,7 @@ object Versions {
     const val ktxActivityExtensions = "1.0.0-beta01"
     const val ktxLifecycleExtensions = "2.2.0-alpha01"
     const val markwon = "3.0.2"
-    const val materialComponents = "1.1.0-alpha07"
+    const val materialComponents = "1.1.0-alpha09"
     const val okHttp = "4.0.0"
     const val retrofit = "2.6.0"
     const val room = "2.1.0-alpha04"
