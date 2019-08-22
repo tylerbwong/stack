@@ -81,7 +81,7 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                 itemView.setOnLongClickListener {
                     val context = it.context
                     val contentManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    contentManager.primaryClip = ClipData.newPlainText("linkText", dataModel.shareLink)
+                    contentManager.setPrimaryClip(ClipData.newPlainText("linkText", dataModel.shareLink))
                     Toast.makeText(context, "Link copied to clipboard", Toast.LENGTH_SHORT).show()
                     true
                 }

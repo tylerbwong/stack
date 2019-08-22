@@ -6,14 +6,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion(28)
+    compileSdkVersion(29)
 
     defaultConfig {
         applicationId = "me.tylerbwong.stack"
         minSdkVersion(21)
-        targetSdkVersion(28)
-        versionCode = 5
-        versionName = "0.2.1"
+        targetSdkVersion(29)
+        versionCode = 6
+        versionName = "0.2.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
