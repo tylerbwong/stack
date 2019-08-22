@@ -5,7 +5,7 @@ object Versions {
     const val constraintLayout = "2.0.0-beta2"
     const val espresso = "3.1.0"
     const val glide = "4.9.0"
-    const val gradlePlugin = "3.5.0-beta05"
+    const val gradlePlugin = "3.5.0"
     const val gson = "2.8.5"
     const val jUnit = "4.12"
     const val kotlin = "1.3.40"
