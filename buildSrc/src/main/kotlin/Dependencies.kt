@@ -8,7 +8,7 @@ object Versions {
     const val gradlePlugin = "3.5.0"
     const val gson = "2.8.5"
     const val jUnit = "4.12"
-    const val kotlin = "1.3.40"
+    const val kotlin = "1.3.41"
     const val kotlinxCoroutines = "1.2.2"
     const val ktxActivityExtensions = "1.0.0-beta01"
     const val ktxLifecycleExtensions = "2.2.0-alpha01"
