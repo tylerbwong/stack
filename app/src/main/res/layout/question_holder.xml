@@ -38,7 +38,7 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:paddingBottom="16dp"
-            android:textColor="?android:attr/textColorSecondary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="14sp"
             tools:text="Question body" />
 
