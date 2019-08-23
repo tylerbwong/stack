@@ -49,7 +49,7 @@ private fun getPackageNameToUse(context: Context, url: String): String? {
 
     // Get all apps that can handle VIEW intents.
     val resolvedActivityList = pm.queryIntentActivities(activityIntent, 0)
-    val packagesSupportingCustomTabs = ArrayList<String>()
+    val packagesSupportingCustomTabs = mutableListOf<String>()
     resolvedActivityList.forEach {
         val serviceIntent = Intent()
         serviceIntent.action = CustomTabsService.ACTION_CUSTOM_TABS_CONNECTION
@@ -84,7 +84,7 @@ private fun hasSpecializedHandlerIntents(context: Context, intent: Intent): Bool
         val handlers = pm.queryIntentActivities(
                 intent,
                 PackageManager.GET_RESOLVED_FILTER)
-        if (handlers == null || handlers.size == 0) {
+        if (handlers.size == 0) {
             return false
         }
         for (resolveInfo in handlers) {

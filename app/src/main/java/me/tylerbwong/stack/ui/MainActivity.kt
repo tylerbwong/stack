@@ -80,18 +80,20 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         viewModel.fetchQuestions()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         this.menu = menu
         menuInflater.inflate(R.menu.menu_questions, menu)
 
         if (!viewModel.isQueryBlank()) {
-            onOptionsItemSelected(menu?.findItem(R.id.search))
+            menu.findItem(R.id.search)?.let {
+                onOptionsItemSelected(it)
+            }
         }
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.theme -> {
                 ThemeManager.toggleTheme(this)
                 recreate()

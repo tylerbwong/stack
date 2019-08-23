@@ -35,8 +35,8 @@ fun Long.format(): String {
     if (this < 1000) return this.toString() //deal with easy case
 
     val e = suffixes.floorEntry(this)
-    val divideBy = e.key
-    val suffix = e.value
+    val divideBy = e?.key ?: 0
+    val suffix = e?.value
 
     val truncated = this / (divideBy / 10) //the number part of the output times 10
     val hasDecimal = truncated < 100 && truncated / 10.0 != (truncated / 10).toDouble()

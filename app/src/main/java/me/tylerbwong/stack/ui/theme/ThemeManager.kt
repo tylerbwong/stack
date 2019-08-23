@@ -3,10 +3,10 @@ package me.tylerbwong.stack.ui.theme
 import android.app.Activity
 import android.content.Context
 import android.os.Build
-import android.preference.PreferenceManager
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.AttrRes
+import androidx.preference.PreferenceManager
 import me.tylerbwong.stack.R
 
 object ThemeManager {
