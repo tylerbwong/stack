@@ -20,7 +20,6 @@ import me.tylerbwong.stack.data.model.MONTH
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.ui.BaseActivity
-import me.tylerbwong.stack.ui.questions.detail.SingleTagQuestionsViewModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 
@@ -45,7 +44,7 @@ class SingleTagQuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickList
         supportActionBar?.title = tag
 
         viewModel.refreshing.observe(this) {
-            refreshLayout?.isRefreshing = it
+            refreshLayout.isRefreshing = it
         }
         viewModel.snackbar.observe(this) {
             if (it != null) {

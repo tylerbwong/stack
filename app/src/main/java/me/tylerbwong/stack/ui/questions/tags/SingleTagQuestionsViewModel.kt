@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.ui.questions.detail
+package me.tylerbwong.stack.ui.questions.tags
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,9 +18,9 @@ class SingleTagQuestionsViewModel(
         get() = _data
     private val _data = MutableLiveData<List<DynamicDataModel>>()
 
-    internal var currentTag: String = ""
+    private var currentTag: String = ""
     @Sort
-    internal var currentSort: String = CREATION
+    private var currentSort: String = CREATION
 
     internal fun getQuestionsByTag(tag: String = currentTag, @Sort sort: String = currentSort) {
         currentTag = tag
