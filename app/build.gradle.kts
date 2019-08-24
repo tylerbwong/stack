@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-kapt")
+    id("io.fabric")
 }
 
 android {
@@ -58,6 +59,12 @@ dependencies {
     implementation(Dep.ktxLiveDataExtensions)
     implementation(Dep.materialComponents)
 
+    // crashlytics
+    implementation(Dep.crashlytics)
+
+    // firebase
+    implementation(Dep.firebaseCore)
+
     // glide
     implementation(Dep.glide)
     kapt(Dep.glideProcessor)
@@ -86,3 +93,5 @@ dependencies {
     androidTestImplementation(Dep.testRunner)
     androidTestImplementation(Dep.espresso)
 }
+
+apply(plugin = "com.google.gms.google-services")
