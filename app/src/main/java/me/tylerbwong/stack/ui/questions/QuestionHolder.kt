@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.question_holder.view.*
-import kotlinx.android.synthetic.main.user_view.view.*
+import kotlinx.android.synthetic.main.question_holder.*
+import kotlinx.android.synthetic.main.user_view.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.questions.tags.SingleTagQuestionsActivity
@@ -25,69 +25,67 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
 ) {
     override fun bind(data: Any) {
         (data as? QuestionDataModel)?.let { dataModel ->
-            with (itemView) {
-                if (dataModel.isDetail) {
-                    questionBody.maxLines = Integer.MAX_VALUE
-                    questionBody.ellipsize = null
+            if (dataModel.isDetail) {
+                questionBody.maxLines = Integer.MAX_VALUE
+                questionBody.ellipsize = null
+            }
+
+            questionTitle.text = dataModel.questionTitle.toHtml()
+            answerCount.text = dataModel.answerCount.toString()
+
+            if (dataModel.isDetail) {
+                dataModel.questionBody?.let { body ->
+                    questionBody.setMarkdown(body)
                 }
+                answerCount.visibility = View.GONE
+            } else {
+                questionBody.text = dataModel.questionBody?.toHtml()
+                answerCount.visibility = View.VISIBLE
+            }
 
-                questionTitle.text = dataModel.questionTitle.toHtml()
-                answerCount.text = dataModel.answerCount.toString()
+            username.text = dataModel.username.toHtml()
+            GlideApp.with(itemView)
+                    .load(dataModel.userImage)
+                    .placeholder(R.drawable.user_image_placeholder)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(userImage)
+            userImage.setOnClickListener { dataModel.onProfilePictureClicked(it.context) }
+            badgeView.badgeCounts = dataModel.badgeCounts
+            reputation.text = dataModel.reputation.toLong().format()
 
-                if (dataModel.isDetail) {
-                    dataModel.questionBody?.let { body ->
-                        questionBody.setMarkdown(body)
-                    }
-                    answerCount.visibility = View.GONE
-                } else {
-                    questionBody.text = dataModel.questionBody?.toHtml()
-                    answerCount.visibility = View.VISIBLE
-                }
-
-                username.text = dataModel.username.toHtml()
-                GlideApp.with(itemView)
-                        .load(dataModel.userImage)
-                        .placeholder(R.drawable.user_image_placeholder)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(userImage)
-                userImage.setOnClickListener { dataModel.onProfilePictureClicked(it.context) }
-                badgeView.badgeCounts = dataModel.badgeCounts
-                reputation.text = dataModel.reputation.toLong().format()
-
-                tagsView.visibility = if (dataModel.isDetail) {
-                    tagsView.removeAllViews()
-                    dataModel.tags?.forEach {
-                        val chip = Chip(tagsView.context).apply {
-                            text = it
-                            setOnClickListener { view ->
-                                SingleTagQuestionsActivity.startActivity(view.context, it)
-                            }
+            tagsView.visibility = if (dataModel.isDetail) {
+                tagsView.removeAllViews()
+                dataModel.tags?.forEach {
+                    val chip = Chip(tagsView.context).apply {
+                        text = it
+                        setOnClickListener { view ->
+                            SingleTagQuestionsActivity.startActivity(view.context, it)
                         }
-                        tagsView.addView(chip)
                     }
-                    View.VISIBLE
-                } else {
-                    View.GONE
+                    tagsView.addView(chip)
+                }
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+
+            if (!dataModel.isDetail) {
+                itemView.setOnLongClickListener {
+                    val context = it.context
+                    val contentManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    contentManager.setPrimaryClip(ClipData.newPlainText("linkText", dataModel.shareLink))
+                    Toast.makeText(context, "Link copied to clipboard", Toast.LENGTH_SHORT).show()
+                    true
                 }
 
-                if (!dataModel.isDetail) {
-                    itemView.setOnLongClickListener {
-                        val context = it.context
-                        val contentManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        contentManager.setPrimaryClip(ClipData.newPlainText("linkText", dataModel.shareLink))
-                        Toast.makeText(context, "Link copied to clipboard", Toast.LENGTH_SHORT).show()
-                        true
-                    }
-
-                    itemView.setOnClickListener {
-                        QuestionDetailActivity.startActivity(
-                                it.context,
-                                dataModel.questionId,
-                                dataModel.questionTitle,
-                                dataModel.questionBody,
-                                dataModel.owner
-                        )
-                    }
+                itemView.setOnClickListener {
+                    QuestionDetailActivity.startActivity(
+                            it.context,
+                            dataModel.questionId,
+                            dataModel.questionTitle,
+                            dataModel.questionBody,
+                            dataModel.owner
+                    )
                 }
             }
         }

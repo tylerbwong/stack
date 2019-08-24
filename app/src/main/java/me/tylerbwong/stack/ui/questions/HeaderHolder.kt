@@ -1,7 +1,7 @@
 package me.tylerbwong.stack.ui.questions
 
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.header_holder.view.*
+import kotlinx.android.synthetic.main.header_holder.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
 import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
@@ -11,10 +11,8 @@ class HeaderHolder(parent: ViewGroup) : DynamicViewHolder(
 ) {
     override fun bind(data: Any) {
         (data as? HeaderDataModel)?.let {
-            with(itemView) {
-                title.text = it.title
-                subtitle.text = it.subtitle
-            }
+            title.text = it.title
+            subtitle.text = it.subtitle
         }
     }
 }

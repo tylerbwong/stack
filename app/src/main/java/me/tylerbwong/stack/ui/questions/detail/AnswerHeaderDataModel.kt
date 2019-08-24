@@ -1,7 +1,7 @@
 package me.tylerbwong.stack.ui.questions.detail
 
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.answer_header.view.*
+import kotlinx.android.synthetic.main.answer_header.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
@@ -21,13 +21,11 @@ class AnswerHeaderViewHolder(parent: ViewGroup) : DynamicViewHolder(
 ) {
     override fun bind(data: Any) {
         (data as? AnswerHeaderDataModel)?.let {
-            with(itemView) {
-                answersCount.text = context.resources.getQuantityString(
-                        R.plurals.answers,
-                        it.answerCount,
-                        it.answerCount
-                )
-            }
+            answersCount.text = answersCount.context.resources.getQuantityString(
+                    R.plurals.answers,
+                    it.answerCount,
+                    it.answerCount
+            )
         }
     }
 }
