@@ -48,6 +48,10 @@
         <activity
             android:name=".ui.profile.ProfileActivity"
             android:theme="@style/AppTheme.Primary.Base.Light" />
+
+        <activity
+            android:name=".ui.questions.tags.SingleTagQuestionsActivity"
+            android:theme="@style/AppTheme.Primary.Base.Light" />
     </application>
 
 </manifest>

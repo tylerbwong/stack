@@ -93,6 +93,21 @@ class QuestionDetailActivity : BaseActivity() {
         private const val QUESTION_OWNER = "owner"
         private const val IS_FROM_DEEP_LINK = "isFromDeepLink"
 
+        fun makeIntent(
+                context: Context,
+                id: Int,
+                title: String? = null,
+                body: String? = null,
+                owner: User? = null,
+                isFromDeepLink: Boolean = false
+        ) = Intent(context, QuestionDetailActivity::class.java).apply {
+            putExtra(QUESTION_ID, id)
+            putExtra(QUESTION_TITLE, title)
+            putExtra(QUESTION_BODY, body)
+            putExtra(QUESTION_OWNER, owner)
+            putExtra(IS_FROM_DEEP_LINK, isFromDeepLink)
+        }
+
         fun startActivity(
                 context: Context,
                 id: Int,
@@ -101,14 +116,7 @@ class QuestionDetailActivity : BaseActivity() {
                 owner: User? = null,
                 isFromDeepLink: Boolean = false
         ) {
-            val intent = Intent(context, QuestionDetailActivity::class.java).apply {
-                putExtra(QUESTION_ID, id)
-                putExtra(QUESTION_TITLE, title)
-                putExtra(QUESTION_BODY, body)
-                putExtra(QUESTION_OWNER, owner)
-                putExtra(IS_FROM_DEEP_LINK, isFromDeepLink)
-            }
-            context.startActivity(intent)
+            context.startActivity(makeIntent(context, id, title, body, owner, isFromDeepLink))
         }
     }
 }

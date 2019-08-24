@@ -23,12 +23,13 @@ object ServiceProvider {
 
     val questionService: QuestionService by lazy {
         Retrofit.Builder()
-                .baseUrl("https://api.stackexchange.com/2.2/")
+                .baseUrl(BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(QuestionService::class.java)
     }
 
+    private const val BASE_URL = "https://api.stackexchange.com/2.2/"
     internal const val DEFAULT_KEY = ")vdLbYccKv*tSRXeypGGeA(("
 }
