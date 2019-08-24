@@ -83,6 +83,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         this.menu = menu
         menuInflater.inflate(R.menu.menu_questions, menu)
+        menuInflater.inflate(R.menu.menu_sort_item, menu)
 
         if (!viewModel.isQueryBlank()) {
             menu.findItem(R.id.search)?.let {

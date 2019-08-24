@@ -13,10 +13,4 @@
         android:icon="?attr/searchMenuIcon"
         android:title="@string/search"
         app:showAsAction="always" />
-
-    <item
-        android:id="@+id/sort"
-        android:icon="?attr/sortMenuIcon"
-        android:title="@string/sort"
-        app:showAsAction="ifRoom" />
 </menu>

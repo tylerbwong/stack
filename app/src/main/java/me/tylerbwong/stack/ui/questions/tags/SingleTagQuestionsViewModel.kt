@@ -2,6 +2,8 @@ package me.tylerbwong.stack.ui.questions.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import me.tylerbwong.stack.data.model.CREATION
+import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.ui.BaseViewModel
@@ -16,9 +18,15 @@ class SingleTagQuestionsViewModel(
         get() = _data
     private val _data = MutableLiveData<List<DynamicDataModel>>()
 
-    internal fun getQuestionsByTag(tag: String) {
+    internal var currentTag: String = ""
+    @Sort
+    internal var currentSort: String = CREATION
+
+    internal fun getQuestionsByTag(tag: String = currentTag, @Sort sort: String = currentSort) {
+        currentTag = tag
+        currentSort = sort
         launchRequest {
-            val questions = service.getQuestionsByTags(tags = tag).items
+            val questions = service.getQuestionsByTags(tags = tag, sort = sort).items
                     .map { QuestionDataModel(it) }
             _data.value = questions
         }
