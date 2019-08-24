@@ -26,9 +26,11 @@ object DeepLinker {
 
         return when (ResolvedPath.fromPath(path)) {
             QUESTIONS_BY_TAG -> {
+                // Format is /questions/tagged/{tag} so use the last segment
                 SingleTagQuestionsActivity.makeIntent(context, uri.lastPathSegment ?: "")
             }
             QUESTION_DETAILS -> {
+                // Format is /questions/{id}/title so get the second segment
                 val id = uri.pathSegments.getOrNull(1)?.toIntOrNull() ?: return null
                 QuestionDetailActivity.makeIntent(context, id)
             }
