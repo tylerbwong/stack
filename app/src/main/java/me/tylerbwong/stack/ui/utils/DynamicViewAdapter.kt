@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.extensions.LayoutContainer
 
 typealias ViewCreator = (ViewGroup) -> DynamicViewHolder
 
@@ -54,7 +55,9 @@ class DynamicViewAdapter : RecyclerView.Adapter<DynamicViewHolder>() {
     }
 }
 
-abstract class DynamicViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+abstract class DynamicViewHolder(
+        override val containerView: View
+) : RecyclerView.ViewHolder(containerView), LayoutContainer {
     // TODO: THIS IS BAD - Figure out a better way to do this
     abstract fun bind(data: Any)
 }

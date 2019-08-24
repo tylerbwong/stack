@@ -5,16 +5,12 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.ViewCompat
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
+import kotlinx.android.synthetic.main.question_holder.*
+import kotlinx.android.synthetic.main.user_view.*
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.Question
-import me.tylerbwong.stack.ui.owners.BadgeView
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.questions.tags.SingleTagQuestionsActivity
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
@@ -27,16 +23,6 @@ import me.tylerbwong.stack.ui.utils.toHtml
 class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
         parent.inflateWithoutAttaching(R.layout.question_holder)
 ) {
-    private val questionTitle: TextView = ViewCompat.requireViewById(itemView, R.id.questionTitle)
-    private val questionBody: TextView = ViewCompat.requireViewById(itemView, R.id.questionBody)
-    private val userImage: ImageView = ViewCompat.requireViewById(itemView, R.id.userImage)
-    private val username: TextView = ViewCompat.requireViewById(itemView, R.id.username)
-    private val reputation: TextView = ViewCompat.requireViewById(itemView, R.id.reputation)
-    private val badgeView: BadgeView = ViewCompat.requireViewById(itemView, R.id.badgeView)
-    private val tagsView: ChipGroup = ViewCompat.requireViewById(itemView, R.id.tagsView)
-
-    private lateinit var question: Question
-
     override fun bind(data: Any) {
         (data as? QuestionDataModel)?.let { dataModel ->
             if (dataModel.isDetail) {
@@ -44,15 +30,17 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                 questionBody.ellipsize = null
             }
 
-            question = dataModel.question
             questionTitle.text = dataModel.questionTitle.toHtml()
+            answerCount.text = dataModel.answerCount.toString()
 
             if (dataModel.isDetail) {
                 dataModel.questionBody?.let { body ->
                     questionBody.setMarkdown(body)
                 }
+                answerCount.visibility = View.GONE
             } else {
                 questionBody.text = dataModel.questionBody?.toHtml()
+                answerCount.visibility = View.VISIBLE
             }
 
             username.text = dataModel.username.toHtml()
