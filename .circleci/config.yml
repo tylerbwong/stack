@@ -23,8 +23,11 @@ jobs:
       - run:
           name: Run Build
           command: ./gradlew :app:assembleDebug
+      - run:
+          name: Run Unit Tests
+          command: ./gradlew :app:testDebugUnitTest
       - store_artifacts:
-          path: app/build
-          destination: build
+          path: app/build/outputs/apk
+          destination: build/outputs/apk
       - store_test_results:
           path: app/build/test-results

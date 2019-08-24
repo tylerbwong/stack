@@ -16,6 +16,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.ui.owners.BadgeView
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
+import me.tylerbwong.stack.ui.questions.tags.SingleTagQuestionsActivity
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
 import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.format
@@ -69,6 +70,9 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                 dataModel.tags?.forEach {
                     val chip = Chip(tagsView.context).apply {
                         text = it
+                        setOnClickListener { view ->
+                            SingleTagQuestionsActivity.startActivity(view.context, it)
+                        }
                     }
                     tagsView.addView(chip)
                 }

@@ -33,4 +33,6 @@
     <!-- Error -->
     <string name="network_error">Network error</string>
     <string name="retry">Retry</string>
+    <string name="single_tag_error">Could not get questions for tag %1$s</string>
+    <string name="deep_link_error">Stack can\'t handle this link yet!</string>
 </resources>
