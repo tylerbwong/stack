@@ -10,10 +10,9 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="2dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/questionTitle"
@@ -27,6 +26,9 @@
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Question title" />
 
         <TextView
@@ -40,20 +42,50 @@
             android:paddingBottom="16dp"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/questionTitle"
             tools:text="Question body" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/tagsView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipToPadding="false"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:paddingBottom="16dp"
-            android:clipToPadding="false"
             android:visibility="gone"
             app:chipSpacing="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/questionBody"
             app:singleSelection="true" />
 
-        <include layout="@layout/user_view" />
-    </LinearLayout>
+        <include
+            android:id="@+id/userView"
+            layout="@layout/user_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/answerCount"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tagsView" />
+
+        <TextView
+            android:id="@+id/answerCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:drawableStart="@drawable/ic_question_answer"
+            android:drawablePadding="4dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/userView"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="22" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

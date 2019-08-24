@@ -11,6 +11,7 @@ class QuestionDataModel(
 ) : DynamicDataModel() {
 
     internal val questionTitle = question.title
+    internal val answerCount = question.answerCount
     internal val questionBody = if (isDetail) question.bodyMarkdown else question.body
     internal val userImage = question.owner.profileImage
     internal val username = question.owner.displayName
@@ -32,9 +33,10 @@ class QuestionDataModel(
     override fun areContentsTheSame(
             other: DynamicDataModel
     ) = other is QuestionDataModel && other.questionTitle == questionTitle
-            && other.questionBody == questionBody && other.userImage == userImage
-            && other.username == username && other.reputation == reputation
-            && other.badgeCounts == badgeCounts && other.tags == tags
+            && other.answerCount == answerCount && other.questionBody == questionBody
+            && other.userImage == userImage && other.username == username
+            && other.reputation == reputation && other.badgeCounts == badgeCounts
+            && other.tags == tags
 
     override fun getViewCreator() = ::QuestionHolder
 }

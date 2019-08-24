@@ -6,4 +6,5 @@
     <dimen name="item_spacing_question_detail">16dp</dimen>
     <dimen name="divider_height">1px</dimen>
     <dimen name="keyline_1">72dp</dimen>
+    <dimen name="small_icon_size">4dp</dimen>
 </resources>
