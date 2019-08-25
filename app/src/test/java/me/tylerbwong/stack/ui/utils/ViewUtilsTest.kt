@@ -7,7 +7,7 @@ import org.junit.Test
 
 class ViewUtilsTest : BaseTest() {
     @Test
-    fun `view with listener clicked rapidly multiple times will not get triggered`() {
+    fun `view clicked rapidly multiple times will not get triggered more than once`() {
         var count = 0
 
         val view = View(context).apply {
