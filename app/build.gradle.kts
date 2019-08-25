@@ -83,7 +83,7 @@ dependencies {
 
     // markdown
     implementation(Dep.markwonCore)
-    implementation(Dep.markwonImageOkhttp)
+    implementation(Dep.markwonGlide)
     implementation(Dep.markwonStrikethrough)
 
     // logging
