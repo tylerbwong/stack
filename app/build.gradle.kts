@@ -59,6 +59,7 @@ dependencies {
     implementation(Dep.androidxBrowser)
     implementation(Dep.androidxLifecycleExtensions)
     implementation(Dep.androidxPreference)
+    implementation(Dep.androidxSwipeRefreshLayout)
     implementation(Dep.constraintLayout)
     implementation(Dep.ktxActivityExtensions)
     implementation(Dep.ktxViewModelExtensions)

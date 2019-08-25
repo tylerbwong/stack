@@ -26,10 +26,11 @@ class CustomTabsLinkResolver : LinkSpan.Resolver {
 
 fun launchCustomTab(context: Context, url: String) {
     val packageName = getPackageNameToUse(context, url)
-    val toolbarColor = ThemeManager.resolveThemeAttribute(context, R.attr.viewBackgroundColor)
+    val themeColor = ThemeManager.resolveThemeAttribute(context, R.attr.viewBackgroundColor)
     val customTabsIntent = CustomTabsIntent.Builder()
-            .setToolbarColor(toolbarColor)
-            .setSecondaryToolbarColor(toolbarColor)
+            .setNavigationBarColor(themeColor)
+            .setToolbarColor(themeColor)
+            .setSecondaryToolbarColor(themeColor)
             .build()
     customTabsIntent.intent.`package` = packageName
     customTabsIntent.launchUrl(context, Uri.parse(url))

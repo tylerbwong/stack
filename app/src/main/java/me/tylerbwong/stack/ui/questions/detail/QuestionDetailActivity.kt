@@ -28,7 +28,7 @@ class QuestionDetailActivity : BaseActivity() {
         setSupportActionBar(toolbar)
 
         viewModel.refreshing.observe(this) {
-            refreshLayout?.isRefreshing = it
+            refreshLayout.isRefreshing = it
         }
         viewModel.snackbar.observe(this) {
             if (it != null) {
