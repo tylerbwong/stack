@@ -10,6 +10,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.question_holder.*
 import kotlinx.android.synthetic.main.user_view.*
+import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.questions.tags.SingleTagQuestionsActivity
@@ -31,16 +32,29 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
             }
 
             questionTitle.text = dataModel.questionTitle.toHtml()
-            answerCount.text = dataModel.answerCount.toString()
-
-            if (dataModel.isDetail) {
-                dataModel.questionBody?.let { body ->
-                    questionBody.setMarkdown(body)
+            answerCount.apply {
+                if (dataModel.isDetail) {
+                    visibility = View.GONE
+                } else {
+                    text = dataModel.answerCount.toString()
+                    visibility = View.VISIBLE
                 }
-                answerCount.visibility = View.GONE
-            } else {
-                questionBody.text = dataModel.questionBody?.toHtml()
-                answerCount.visibility = View.VISIBLE
+            }
+
+            questionBody.apply {
+                if (dataModel.isDetail) {
+                    dataModel.questionBody?.let { body ->
+                        setMarkdown(body)
+                    }
+
+                    post {
+                        setTextIsSelectable(true)
+                        movementMethod = BetterLinkMovementMethod.getInstance()
+                    }
+                } else {
+                    text = dataModel.questionBody?.toHtml()
+                    setTextIsSelectable(false)
+                }
             }
 
             username.text = dataModel.username.toHtml()
