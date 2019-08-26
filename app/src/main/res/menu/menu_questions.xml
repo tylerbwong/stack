@@ -4,13 +4,13 @@
 
     <item
         android:id="@+id/theme"
-        android:icon="?attr/themeMenuIcon"
+        android:icon="@drawable/ic_brightness_2"
         android:title="@string/theme"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/search"
-        android:icon="?attr/searchMenuIcon"
+        android:icon="@drawable/ic_search"
         android:title="@string/search"
         app:showAsAction="always" />
 </menu>
