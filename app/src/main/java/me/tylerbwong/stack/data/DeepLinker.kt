@@ -31,7 +31,7 @@ object DeepLinker {
         return when (ResolvedPath.fromPath(path)) {
             AUTH -> {
                 AuthProvider.setAccessToken(uri)
-                MainActivity.makeIntent(context)
+                MainActivity.makeIntentClearTop(context)
             }
             QUESTIONS_BY_TAG -> {
                 // Format is /questions/tagged/{tag} so use the last segment

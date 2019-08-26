@@ -216,7 +216,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
     }
 
     companion object {
-        fun makeIntent(context: Context) = Intent(context, MainActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        fun makeIntentClearTop(context: Context) = Intent(context, MainActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     }
 }

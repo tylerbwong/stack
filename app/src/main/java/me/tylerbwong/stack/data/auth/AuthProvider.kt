@@ -5,13 +5,9 @@ import android.content.SharedPreferences
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import me.tylerbwong.stack.data.model.Scope
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
-import retrofit2.HttpException
-import timber.log.Timber
 
 object AuthProvider {
     const val ACCESS_TOKEN = "access_token"
@@ -45,41 +41,15 @@ object AuthProvider {
             mutableIsAuthenticatedLiveData.postValue(!value.isNullOrBlank())
         }
 
-    var accountId: Int?
-        get() = preferences.getInt(ACCOUNT_ID, -1)
-        set(value) {
-            preferences.edit().putInt(ACCOUNT_ID, value ?: -1).apply()
-            mutableIsAuthenticatedLiveData.postValue(!accessToken.isNullOrBlank())
-        }
-
     val isAuthenticatedLiveData: LiveData<Boolean>
         get() = mutableIsAuthenticatedLiveData
     private val mutableIsAuthenticatedLiveData = MutableLiveData(!accessToken.isNullOrBlank())
-
-    fun init() {
-        GlobalScope.launch {
-            val user = try {
-                repository.getCurrentUserNetwork()
-            } catch (ex: HttpException) {
-                Timber.i("User not available, not authed.")
-                null
-            }
-
-            if (user == null) {
-                accountId = null
-                accessToken = null
-            } else {
-                accountId = user.accountId
-            }
-        }
-    }
 
     suspend fun logOut() {
         accessToken?.let {
             repository.logOut(it)
         }
 
-        accountId = null
         accessToken = null
     }
 
