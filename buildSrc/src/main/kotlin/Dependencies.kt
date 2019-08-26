@@ -52,6 +52,7 @@ object Dep {
     const val markwonImageOkhttp = "ru.noties.markwon:image-okhttp:${Versions.markwon}"
     const val markwonStrikethrough = "ru.noties.markwon:ext-strikethrough:${Versions.markwon}"
     const val materialComponents = "com.google.android.material:material:${Versions.materialComponents}"
+    const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
     const val okHttpLogger = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"

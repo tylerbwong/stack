@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="StackAppTheme">
         <attr name="viewBackgroundColor" format="color" />
+        <attr name="iconColor" format="color" />
         <attr name="themeMenuIcon" format="integer" />
         <attr name="searchMenuIcon" format="integer" />
         <attr name="sortMenuIcon" format="integer" />

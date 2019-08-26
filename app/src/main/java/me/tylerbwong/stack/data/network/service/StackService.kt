@@ -10,12 +10,13 @@ import me.tylerbwong.stack.data.model.RELEVANCE
 import me.tylerbwong.stack.data.model.Response
 import me.tylerbwong.stack.data.model.SORT_PARAM
 import me.tylerbwong.stack.data.model.Sort
+import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.network.ServiceProvider.DEFAULT_KEY
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface QuestionService {
+interface StackService {
 
     @GET("questions")
     suspend fun getQuestions(
@@ -91,9 +92,23 @@ interface QuestionService {
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
     ): Response<Answer>
 
+    @GET("me")
+    suspend fun getCurrentUser(
+            @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+            @Query(FILTER_PARAM) filter: String = CURRENT_USER_FILTER,
+            @Query(KEY_PARAM) key: String = DEFAULT_KEY
+    ): Response<User>
+
+    @GET("access-tokens/{accessToken}/invalidate")
+    suspend fun logOut(
+            @Query(KEY_PARAM) key: String = DEFAULT_KEY,
+            @Path(ACCESS_TOKEN) accessToken: String
+    ): Response<Unit>
+
     companion object {
 
         // query params
+        private const val ACCESS_TOKEN = "accessToken"
         private const val SITE_PARAM = "site"
         private const val PAGE_SIZE_PARAM = "pagesize"
         private const val PAGE_PARAM = "page"
@@ -114,5 +129,8 @@ interface QuestionService {
 
         // detail
         private const val DETAIL_FILTER = "!3r.zRmD4l6rHdTgXfBOo(qq6rg_D3I7uaTO)p123.RRrNwbbeBOKxJp8dch552I"
+
+        // current user
+        private const val CURRENT_USER_FILTER = "!BTeL*Mb3d_KiD.hc7r8myHkxGjY*UT"
     }
 }

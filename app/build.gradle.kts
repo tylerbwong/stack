@@ -77,6 +77,7 @@ dependencies {
 
     // networking
     implementation(Dep.gson)
+    implementation(Dep.okHttp)
     implementation(Dep.okHttpLogger)
     implementation(Dep.retrofit)
     implementation(Dep.retrofitGsonConverter)

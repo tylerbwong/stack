@@ -1,6 +1,7 @@
 package me.tylerbwong.stack.ui
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,9 +13,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.auth.AuthProvider
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.HOT
@@ -27,7 +30,9 @@ import me.tylerbwong.stack.ui.questions.QuestionsViewModel
 import me.tylerbwong.stack.ui.theme.ThemeManager
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
+import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.launchCustomTab
 
 class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         SearchView.OnQueryTextListener {
@@ -62,6 +67,26 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         viewModel.questions.observe(this) {
             updateContent(it)
         }
+        viewModel.isAuthenticated.observe(this) {
+            if (it) {
+                viewModel.fetchUser()
+            }
+        }
+        viewModel.profileImage.observe(this) {
+            profileIcon.apply {
+                if (it != null) {
+                    GlideApp.with(this)
+                            .load(it)
+                            .placeholder(R.drawable.user_image_placeholder)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(this)
+                    setOnClickListener(null)
+                } else {
+                    setImageResource(R.drawable.ic_account_circle)
+                    setOnClickListener { launchCustomTab(context, AuthProvider.authUrl) }
+                }
+            }
+        }
 
         recyclerView.apply {
             adapter = this@MainActivity.adapter
@@ -76,8 +101,10 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         }
 
         refreshLayout.setOnRefreshListener { viewModel.fetchQuestions() }
+        profileIcon.setOnClickListener { launchCustomTab(this, AuthProvider.authUrl) }
 
         viewModel.fetchQuestions()
+        viewModel.fetchUser()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -186,5 +213,10 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             add(0, HeaderDataModel(getString(R.string.questions), subtitle))
         }
         adapter.update(content)
+    }
+
+    companion object {
+        fun makeIntent(context: Context) = Intent(context, MainActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
     }
 }

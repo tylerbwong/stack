@@ -17,10 +17,12 @@
     <color name="primaryTextColorLight">#33343B</color>
     <color name="secondaryTextColorLight">#8033343B</color>
     <color name="viewBackgroundColorLight">#FFFFFF</color>
+    <color name="iconColorLight">#000000</color>
 
     <!-- Dark Theme -->
     <color name="windowBackgroundDark">#000000</color>
     <color name="primaryTextColorDark">#F4F4F6</color>
     <color name="secondaryTextColorDark">#96F4F4F6</color>
     <color name="viewBackgroundColorDark">#000000</color>
+    <color name="iconColorDark">#FFFFFF</color>
 </resources>

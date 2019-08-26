@@ -8,7 +8,7 @@ import me.tylerbwong.stack.ui.utils.DynamicViewHolder
 import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
-import me.tylerbwong.stack.ui.utils.markdown.launchCustomTab
+import me.tylerbwong.stack.ui.utils.launchCustomTab
 
 class ProfileHeaderHolder(parent: ViewGroup) : DynamicViewHolder(
         parent.inflateWithoutAttaching(R.layout.profile_header_holder)
