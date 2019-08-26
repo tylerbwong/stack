@@ -7,6 +7,7 @@
     <color name="colorTextPrimary">#83898F</color>
     <color name="colorUserImagePlaceholder">#E0E0E0</color>
     <color name="divider">#1f000000</color>
+    <color name="rippleColor">#1AFFFFFF</color>
 
     <color name="goldBadgeColor">#FFE082</color>
     <color name="silverBadgeColor">#BDBDBD</color>

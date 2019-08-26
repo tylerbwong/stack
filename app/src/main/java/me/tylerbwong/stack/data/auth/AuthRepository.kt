@@ -17,7 +17,7 @@ class AuthRepository(
         authProvider.accessToken = null
     }
 
-    suspend fun getCurrentUserNetwork(): User? {
+    suspend fun getCurrentUser(): User? {
         val users = service.getCurrentUser().items
         val userEntities = users.map { it.toUserEntity() }
         userDao.insert(userEntities)

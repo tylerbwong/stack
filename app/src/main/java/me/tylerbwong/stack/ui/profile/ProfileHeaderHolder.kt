@@ -1,6 +1,7 @@
 package me.tylerbwong.stack.ui.profile
 
 import android.view.ViewGroup
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.profile_header_holder.*
 import me.tylerbwong.stack.R
@@ -17,6 +18,7 @@ class ProfileHeaderHolder(parent: ViewGroup) : DynamicViewHolder(
         (data as? ProfileHeaderDataModel)?.let { dataModel ->
             GlideApp.with(itemView)
                     .load(dataModel.userImage)
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .placeholder(R.drawable.user_image_placeholder)
                     .apply(RequestOptions.circleCropTransform())
                     .into(userImage)

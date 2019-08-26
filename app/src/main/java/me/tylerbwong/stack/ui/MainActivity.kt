@@ -13,6 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -78,6 +79,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
                 if (it != null) {
                     GlideApp.with(this)
                             .load(it)
+                            .transition(DrawableTransitionOptions.withCrossFade())
                             .placeholder(R.drawable.user_image_placeholder)
                             .apply(RequestOptions.circleCropTransform())
                             .into(this)

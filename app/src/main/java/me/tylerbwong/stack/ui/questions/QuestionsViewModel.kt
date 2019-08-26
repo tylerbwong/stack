@@ -63,7 +63,7 @@ internal class QuestionsViewModel(
     internal fun fetchUser() {
         viewModelScope.launch {
             try {
-                val user = authRepository.getCurrentUserNetwork()
+                val user = authRepository.getCurrentUser()
                 _profileImage.value = user?.profileImage
             } catch (ex: HttpException) {
                 Timber.i("User not authenticated")

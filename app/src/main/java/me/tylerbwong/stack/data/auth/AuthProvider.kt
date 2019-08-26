@@ -11,13 +11,10 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 object AuthProvider {
     const val ACCESS_TOKEN = "access_token"
-    private const val ACCOUNT_ID = "account_id"
     private const val AUTH_PREFERENCES = "auth_preferences"
     private const val AUTH_BASE = "https://stackoverflow.com/oauth/dialog"
     private const val AUTH_REDIRECT = "stack://tylerbwong.me/auth/redirect"
     private const val CLIENT_ID = "12074"
-
-    private val repository = AuthRepository()
 
     private val preferences: SharedPreferences
         get() = ApplicationWrapper.context.getSharedPreferences(AUTH_PREFERENCES, Context.MODE_PRIVATE)

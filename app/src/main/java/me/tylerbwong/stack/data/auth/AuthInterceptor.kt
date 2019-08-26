@@ -8,6 +8,8 @@ class AuthInterceptor : Interceptor {
         val authUrlBuilder = chain.request().url.newBuilder()
         val accessToken = AuthProvider.accessToken
 
+        // We only want to append the access_token as a query parameter if it exists
+        // The API will return a error code if the query parameter is present with no valid value
         if (!accessToken.isNullOrBlank()) {
             authUrlBuilder.addEncodedQueryParameter(AuthProvider.ACCESS_TOKEN, accessToken)
         }

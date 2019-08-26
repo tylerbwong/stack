@@ -2,6 +2,7 @@ package me.tylerbwong.stack.ui.answers
 
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.answer_holder.*
 import kotlinx.android.synthetic.main.user_view.*
@@ -24,6 +25,7 @@ class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
             username.text = dataModel.username
             GlideApp.with(itemView)
                     .load(dataModel.userImage)
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .placeholder(R.drawable.user_image_placeholder)
                     .apply(RequestOptions.circleCropTransform())
                     .into(userImage)

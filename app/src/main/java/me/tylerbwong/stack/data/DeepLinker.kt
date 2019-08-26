@@ -30,6 +30,8 @@ object DeepLinker {
 
         return when (ResolvedPath.fromPath(path)) {
             AUTH -> {
+                // When coming back from an auth redirect, save the access token in the fragment
+                // and restart MainActivity + clear top
                 AuthProvider.setAccessToken(uri)
                 MainActivity.makeIntentClearTop(context)
             }
