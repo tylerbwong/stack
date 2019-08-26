@@ -14,6 +14,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
@@ -80,10 +81,32 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
                             .placeholder(R.drawable.user_image_placeholder)
                             .apply(RequestOptions.circleCropTransform())
                             .into(this)
-                    setOnClickListener(null)
+                    setOnClickListener {
+                        MaterialAlertDialogBuilder(context)
+                                .setTitle(R.string.log_out_title)
+                                .setPositiveButton(R.string.log_out) { _, _ ->
+                                    viewModel.logOut()
+                                }
+                                .setNegativeButton(R.string.cancel) { dialog, _ ->
+                                    dialog.cancel()
+                                }
+                                .create()
+                                .show()
+                    }
                 } else {
                     setImageResource(R.drawable.ic_account_circle)
-                    setOnClickListener { launchCustomTab(context, AuthProvider.authUrl) }
+                    setOnClickListener {
+                        MaterialAlertDialogBuilder(context)
+                                .setTitle(R.string.log_in_title)
+                                .setPositiveButton(R.string.log_in) { _, _ ->
+                                    launchCustomTab(context, AuthProvider.authUrl)
+                                }
+                                .setNegativeButton(R.string.cancel) { dialog, _ ->
+                                    dialog.cancel()
+                                }
+                                .create()
+                                .show()
+                    }
                 }
             }
         }

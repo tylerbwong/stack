@@ -9,9 +9,13 @@ import me.tylerbwong.stack.data.toUserEntity
 
 class AuthRepository(
         private val userDao: UserDao = StackDatabase.getInstance().getUserDao(),
-        private val service: StackService = ServiceProvider.stackService
+        private val service: StackService = ServiceProvider.stackService,
+        private val authProvider: AuthProvider = AuthProvider
 ) {
-    suspend fun logOut(accessToken: String) = service.logOut(accessToken = accessToken)
+    suspend fun logOut() {
+        service.logOut(accessToken = authProvider.accessToken)
+        authProvider.accessToken = null
+    }
 
     suspend fun getCurrentUserNetwork(): User? {
         val users = service.getCurrentUser().items

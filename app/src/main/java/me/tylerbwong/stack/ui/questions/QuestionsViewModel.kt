@@ -72,6 +72,13 @@ internal class QuestionsViewModel(
         }
     }
 
+    internal fun logOut() {
+        viewModelScope.launch {
+            authRepository.logOut()
+            _profileImage.value = null
+        }
+    }
+
     internal fun onQueryTextChange(newText: String?) {
         currentQuery = newText ?: ""
 

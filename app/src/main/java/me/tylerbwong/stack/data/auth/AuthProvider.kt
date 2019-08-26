@@ -45,14 +45,6 @@ object AuthProvider {
         get() = mutableIsAuthenticatedLiveData
     private val mutableIsAuthenticatedLiveData = MutableLiveData(!accessToken.isNullOrBlank())
 
-    suspend fun logOut() {
-        accessToken?.let {
-            repository.logOut(it)
-        }
-
-        accessToken = null
-    }
-
     fun setAccessToken(uri: Uri) {
         accessToken = Uri.parse("$AUTH_REDIRECT?${uri.encodedFragment}").getQueryParameter(ACCESS_TOKEN)
     }
