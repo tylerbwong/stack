@@ -38,9 +38,9 @@ object AuthProvider {
             mutableIsAuthenticatedLiveData.postValue(!value.isNullOrBlank())
         }
 
-    val isAuthenticatedLiveData: LiveData<Boolean>
-        get() = mutableIsAuthenticatedLiveData
     private val mutableIsAuthenticatedLiveData = MutableLiveData(!accessToken.isNullOrBlank())
+
+    val isAuthenticatedLiveData: LiveData<Boolean> = mutableIsAuthenticatedLiveData
 
     fun setAccessToken(uri: Uri) {
         accessToken = Uri.parse("$AUTH_REDIRECT?${uri.encodedFragment}").getQueryParameter(ACCESS_TOKEN)
