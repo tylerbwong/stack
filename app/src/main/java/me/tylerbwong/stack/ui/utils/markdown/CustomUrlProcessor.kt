@@ -1,6 +1,6 @@
 package me.tylerbwong.stack.ui.utils.markdown
 
-import ru.noties.markwon.urlprocessor.UrlProcessor
+import io.noties.markwon.urlprocessor.UrlProcessor
 
 class CustomUrlProcessor : UrlProcessor {
     override fun process(destination: String): String {
