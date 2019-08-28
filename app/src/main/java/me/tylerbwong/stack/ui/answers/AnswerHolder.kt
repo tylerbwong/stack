@@ -20,15 +20,11 @@ class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
             val voteCount = dataModel.voteCount
             votes.text = itemView.context.resources.getQuantityString(R.plurals.votes, voteCount, voteCount)
             acceptedAnswerCheck.visibility = if (dataModel.isAccepted) View.VISIBLE else View.GONE
-            answerBody.setMarkdown(dataModel.answerBody)
 
             answerBody.apply {
                 setMarkdown(dataModel.answerBody)
-
-                post {
-                    setTextIsSelectable(true)
-                    movementMethod = BetterLinkMovementMethod.getInstance()
-                }
+                setTextIsSelectable(true)
+                movementMethod = BetterLinkMovementMethod.getInstance()
             }
 
             username.text = dataModel.username
