@@ -10,6 +10,7 @@ import me.tylerbwong.stack.ui.utils.DynamicViewHolder
 import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
+import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
         parent.inflateWithoutAttaching(R.layout.answer_holder)
@@ -27,7 +28,7 @@ class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
                     .placeholder(R.drawable.user_image_placeholder)
                     .apply(RequestOptions.circleCropTransform())
                     .into(userImage)
-            userImage.setOnClickListener { dataModel.onProfilePictureClicked(it.context) }
+            userImage.setThrottledOnClickListener { dataModel.onProfilePictureClicked(it.context) }
             reputation.text = dataModel.reputation
             badgeView.badgeCounts = dataModel.badgeCounts
         }
