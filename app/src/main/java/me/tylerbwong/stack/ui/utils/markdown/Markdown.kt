@@ -2,20 +2,17 @@ package me.tylerbwong.stack.ui.utils.markdown
 
 import android.content.Context
 import android.widget.TextView
-import me.tylerbwong.stack.data.network.ServiceProvider
-import ru.noties.markwon.Markwon
-import ru.noties.markwon.ext.strikethrough.StrikethroughPlugin
-import ru.noties.markwon.image.ImagesPlugin
-import ru.noties.markwon.image.okhttp.OkHttpImagesPlugin
+import io.noties.markwon.Markwon
+import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
+import io.noties.markwon.image.glide.GlideImagesPlugin
+import me.tylerbwong.stack.ui.utils.GlideApp
 
 object Markdown {
     lateinit var markwon: Markwon
 
     fun init(context: Context) {
         val plugins = listOf(
-                GlideImagePlugin.create(context),
-                ImagesPlugin.create(context),
-                OkHttpImagesPlugin.create(ServiceProvider.okHttpClient),
+                GlideImagesPlugin.create(GlideApp.with(context)),
                 StrikethroughPlugin.create(),
                 UrlPlugin.create()
         )
