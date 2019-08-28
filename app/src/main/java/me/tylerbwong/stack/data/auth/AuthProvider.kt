@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.data.auth
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,20 +15,21 @@ object AuthProvider {
     private const val AUTH_REDIRECT = "stack://tylerbwong.me/auth/redirect"
     private const val CLIENT_ID = "12074"
 
-    private val preferences: SharedPreferences
-        get() = ApplicationWrapper.context.getSharedPreferences(AUTH_PREFERENCES, Context.MODE_PRIVATE)
+    private val preferences = ApplicationWrapper.context.getSharedPreferences(
+            AUTH_PREFERENCES,
+            Context.MODE_PRIVATE
+    )
 
-    val authUrl: String
-        get() {
-            val httpUrl = AUTH_BASE.toHttpUrlOrNull() ?: return ""
+    val authUrl: String = run {
+        val httpUrl = AUTH_BASE.toHttpUrlOrNull() ?: return@run ""
 
-            return httpUrl.newBuilder()
-                    .addEncodedQueryParameter("client_id", CLIENT_ID)
-                    .addEncodedQueryParameter("redirect_uri", AUTH_REDIRECT)
-                    .addEncodedQueryParameter("scope", Scope.all.joinToString(","))
-                    .build()
-                    .toString()
-        }
+        httpUrl.newBuilder()
+                .addEncodedQueryParameter("client_id", CLIENT_ID)
+                .addEncodedQueryParameter("redirect_uri", AUTH_REDIRECT)
+                .addEncodedQueryParameter("scope", Scope.all.joinToString(","))
+                .build()
+                .toString()
+    }
 
     var accessToken: String?
         get() = preferences.getString(ACCESS_TOKEN, "")
