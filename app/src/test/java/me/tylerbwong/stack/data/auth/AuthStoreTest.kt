@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 
-class AuthProviderTest : BaseTest() {
+class AuthStoreTest : BaseTest() {
 
     @Mock
     private lateinit var service: StackService
@@ -19,24 +19,24 @@ class AuthProviderTest : BaseTest() {
     @Before
     fun setUp() {
         repository = AuthRepository(service = service)
-        AuthProvider.accessToken = null
+        AuthStore.clear()
     }
 
     @Test
     fun `setAccessToken() with valid redirect uri sets correct access token`() {
-        assertEquals(false, AuthProvider.isAuthenticatedLiveData.value)
+        assertEquals(false, AuthStore.isAuthenticatedLiveData.value)
         val validUri = Uri.parse("stack://tylerbwong.me/auth/redirect#access_token=1234567")
-        AuthProvider.setAccessToken(validUri)
-        assertEquals("1234567", AuthProvider.accessToken)
-        assertEquals(true, AuthProvider.isAuthenticatedLiveData.value)
+        AuthStore.setAccessToken(validUri)
+        assertEquals("1234567", AuthStore.accessToken)
+        assertEquals(true, AuthStore.isAuthenticatedLiveData.value)
     }
 
     @Test
     fun `setAccessToken() with invalid redirect uri does not set access token`() {
-        assertEquals(false, AuthProvider.isAuthenticatedLiveData.value)
+        assertEquals(false, AuthStore.isAuthenticatedLiveData.value)
         val invalidUri = Uri.parse("stack://tylerbwong.me/auth?access_token=1234567")
-        AuthProvider.setAccessToken(invalidUri)
-        assertNull(AuthProvider.accessToken)
-        assertEquals(false, AuthProvider.isAuthenticatedLiveData.value)
+        AuthStore.setAccessToken(invalidUri)
+        assertNull(AuthStore.accessToken)
+        assertEquals(false, AuthStore.isAuthenticatedLiveData.value)
     }
 }

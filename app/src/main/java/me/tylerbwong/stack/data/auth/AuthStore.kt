@@ -8,7 +8,7 @@ import me.tylerbwong.stack.data.model.Scope
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
-object AuthProvider {
+object AuthStore {
     const val ACCESS_TOKEN = "access_token"
     private const val AUTH_PREFERENCES = "auth_preferences"
     private const val AUTH_BASE = "https://stackoverflow.com/oauth/dialog"
@@ -33,7 +33,7 @@ object AuthProvider {
 
     var accessToken: String?
         get() = preferences.getString(ACCESS_TOKEN, null)
-        internal set(value) {
+        private set(value) {
             preferences.edit().putString(ACCESS_TOKEN, value).apply()
             mutableIsAuthenticatedLiveData.postValue(!value.isNullOrBlank())
         }
@@ -43,6 +43,11 @@ object AuthProvider {
     val isAuthenticatedLiveData: LiveData<Boolean> = mutableIsAuthenticatedLiveData
 
     fun setAccessToken(uri: Uri) {
-        accessToken = Uri.parse("$AUTH_REDIRECT?${uri.encodedFragment}").getQueryParameter(ACCESS_TOKEN)
+        accessToken = Uri.parse("$AUTH_REDIRECT?${uri.encodedFragment}")
+                .getQueryParameter(ACCESS_TOKEN)
+    }
+
+    fun clear() {
+        accessToken = null
     }
 }

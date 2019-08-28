@@ -6,7 +6,7 @@ import android.net.Uri
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.AUTH
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTIONS_BY_TAG
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTION_DETAILS
-import me.tylerbwong.stack.data.auth.AuthProvider
+import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.questions.tags.SingleTagQuestionsActivity
@@ -32,7 +32,7 @@ object DeepLinker {
             AUTH -> {
                 // When coming back from an auth redirect, save the access token in the hash
                 // and restart MainActivity + clear top
-                AuthProvider.setAccessToken(uri)
+                AuthStore.setAccessToken(uri)
                 MainActivity.makeIntentClearTop(context)
             }
             QUESTIONS_BY_TAG -> {

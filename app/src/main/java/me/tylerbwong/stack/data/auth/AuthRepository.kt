@@ -13,15 +13,15 @@ import timber.log.Timber
 class AuthRepository(
         private val userDao: UserDao = StackDatabase.getInstance().getUserDao(),
         private val service: StackService = ServiceProvider.stackService,
-        private val authProvider: AuthProvider = AuthProvider
+        private val authStore: AuthStore = AuthStore
 ) {
     suspend fun logOut(): LogOutResult {
-        val accessToken = authProvider.accessToken
+        val accessToken = authStore.accessToken
 
         return try {
             if (!accessToken.isNullOrBlank()) {
                 service.logOut(accessToken = accessToken)
-                authProvider.accessToken = null
+                authStore.clear()
                 LogOutSuccess
             } else {
                 throw IllegalStateException("Could not log user out for null access token")
@@ -38,10 +38,8 @@ class AuthRepository(
      * @return A [User] instance if there is a valid accessToken, otherwise null
      */
     suspend fun getCurrentUser(): User? {
-        val isAuthenticated = !authProvider.accessToken.isNullOrBlank()
-
         return try {
-            if (isAuthenticated) {
+            if (authStore.isAuthenticatedLiveData.value == true) {
                 service.getCurrentUser().items.firstOrNull()?.also {
                     userDao.insert(listOf(it.toUserEntity()))
                 }

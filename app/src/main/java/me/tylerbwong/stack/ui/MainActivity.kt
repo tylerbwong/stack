@@ -19,7 +19,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.auth.AuthProvider
+import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.HOT
@@ -234,7 +234,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.log_in_title)
                 .setPositiveButton(R.string.log_in) { _, _ ->
-                    launchCustomTab(this, AuthProvider.authUrl)
+                    launchCustomTab(this, AuthStore.authUrl)
                 }
                 .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
                 .create()

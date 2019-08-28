@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.data.auth
 
+import android.net.Uri
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.runBlocking
@@ -41,18 +42,18 @@ class AuthRepositoryTest : BaseTest() {
     @Test
     fun `logOut with existing access token returns success state`() {
         runBlocking {
-            AuthProvider.accessToken = "test"
+            AuthStore.setAccessToken(testUri)
             val result = repository.logOut()
             assertTrue(result is LogOutSuccess)
             verify(stackService).logOut("test")
-            assertTrue(AuthProvider.accessToken.isNullOrBlank())
+            assertTrue(AuthStore.accessToken.isNullOrBlank())
         }
     }
 
     @Test
     fun `logOut with absent access token returns error state`() {
         runBlocking {
-            AuthProvider.accessToken = null
+            AuthStore.clear()
             val result = repository.logOut()
             assertTrue(result is LogOutError)
             verify(stackService, never()).logOut(any(), any())
@@ -62,7 +63,7 @@ class AuthRepositoryTest : BaseTest() {
     @Test
     fun `logOut that comes back with error returns error state`() {
         runBlocking {
-            AuthProvider.accessToken = null
+            AuthStore.clear()
             whenever(stackService.logOut(any(), any()))
                     .thenThrow(HttpException(Response.error<ResponseBody>(403, """
                         {
@@ -81,7 +82,7 @@ class AuthRepositoryTest : BaseTest() {
             whenever(stackService.getCurrentUser(any(), any(), any())).thenReturn(
                     StackResponse(listOf(testUser), false)
             )
-            AuthProvider.accessToken = "test"
+            AuthStore.setAccessToken(testUri)
             repository.getCurrentUser()
             verify(stackService).getCurrentUser(any(), any(), any())
             verify(userDao).insert(any())
@@ -91,7 +92,7 @@ class AuthRepositoryTest : BaseTest() {
     @Test
     fun `getCurrentUser with absent access token never makes service and db calls and returns null`() {
         runBlocking {
-            AuthProvider.accessToken = null
+            AuthStore.clear()
             assertNull(repository.getCurrentUser())
             verify(stackService, never()).getCurrentUser(any(), any(), any())
             verify(userDao, never()).insert(any())
@@ -107,7 +108,7 @@ class AuthRepositoryTest : BaseTest() {
                             "errorCode": 403
                         }
                     """.trimIndent().toResponseBody("application/json".toMediaTypeOrNull()))))
-            AuthProvider.accessToken = "test"
+            AuthStore.setAccessToken(testUri)
             assertNull(repository.getCurrentUser())
             verify(stackService).getCurrentUser(any(), any(), any())
             verify(userDao, never()).insert(any())
@@ -121,7 +122,7 @@ class AuthRepositoryTest : BaseTest() {
                     StackResponse(listOf(testUser), false)
             )
             whenever(userDao.insert(any())).thenThrow(IllegalStateException("Could not insert"))
-            AuthProvider.accessToken = "test"
+            AuthStore.setAccessToken(testUri)
             assertNull(repository.getCurrentUser())
             verify(stackService).getCurrentUser(any(), any(), any())
             verify(userDao).insert(any())
@@ -129,6 +130,7 @@ class AuthRepositoryTest : BaseTest() {
     }
 
     companion object {
+        private val testUri = Uri.parse("https://test.com/auth#access_token=test")
         private val testUser = User(
                 null,
                 null,
