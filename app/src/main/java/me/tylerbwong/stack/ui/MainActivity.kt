@@ -105,7 +105,10 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             clearSearch()
         }
 
-        refreshLayout.setOnRefreshListener { viewModel.fetchQuestions() }
+        refreshLayout.setOnRefreshListener {
+            viewModel.fetchUser()
+            viewModel.fetchQuestions()
+        }
 
         viewModel.fetchQuestions()
     }
