@@ -103,6 +103,7 @@ dependencies {
     testImplementation(Dep.androidxTestCore)
     testImplementation(Dep.jUnit)
     testImplementation(Dep.mockito)
+    testImplementation(Dep.mockitoKotlin)
     testImplementation(Dep.robolectric)
     androidTestImplementation(Dep.testRunner)
     androidTestImplementation(Dep.espresso)

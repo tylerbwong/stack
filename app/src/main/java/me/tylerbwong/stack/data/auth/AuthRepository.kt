@@ -40,12 +40,17 @@ class AuthRepository(
     suspend fun getCurrentUser(): User? {
         val isAuthenticated = !authProvider.accessToken.isNullOrBlank()
 
-        return if (isAuthenticated) {
-            val users = service.getCurrentUser().items
-            val userEntities = users.map { it.toUserEntity() }
-            userDao.insert(userEntities)
-            users.firstOrNull()
-        } else {
+        return try {
+            if (isAuthenticated) {
+                val users = service.getCurrentUser().items
+                val userEntities = users.map { it.toUserEntity() }
+                userDao.insert(userEntities)
+                users.firstOrNull()
+            } else {
+                null
+            }
+        } catch (ex: Exception) {
+            Timber.e(ex)
             null
         }
     }
