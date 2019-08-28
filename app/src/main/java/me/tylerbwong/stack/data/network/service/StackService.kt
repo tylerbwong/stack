@@ -101,7 +101,7 @@ interface StackService {
 
     @GET("access-tokens/{accessToken}/invalidate")
     suspend fun logOut(
-            @Path(ACCESS_TOKEN) accessToken: String? = null,
+            @Path(ACCESS_TOKEN) accessToken: String,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
     ): Response<Unit>
 

@@ -6,6 +6,7 @@ import me.tylerbwong.stack.data.network.service.StackService
 import me.tylerbwong.stack.data.persistence.StackDatabase
 import me.tylerbwong.stack.data.persistence.dao.UserDao
 import me.tylerbwong.stack.data.toUserEntity
+import timber.log.Timber
 
 class AuthRepository(
         private val userDao: UserDao = StackDatabase.getInstance().getUserDao(),
@@ -13,8 +14,14 @@ class AuthRepository(
         private val authProvider: AuthProvider = AuthProvider
 ) {
     suspend fun logOut() {
-        service.logOut(accessToken = authProvider.accessToken)
-        authProvider.accessToken = null
+        val accessToken = authProvider.accessToken
+
+        if (accessToken != null) {
+            service.logOut(accessToken = accessToken)
+            authProvider.accessToken = null
+        } else {
+            Timber.e("Could not log user out for null access token")
+        }
     }
 
     suspend fun getCurrentUser(): User? {
