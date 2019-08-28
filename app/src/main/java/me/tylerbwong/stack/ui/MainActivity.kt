@@ -108,7 +108,6 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         refreshLayout.setOnRefreshListener { viewModel.fetchQuestions() }
 
         viewModel.fetchQuestions()
-        viewModel.fetchUser()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
