@@ -1,5 +1,7 @@
 package me.tylerbwong.stack.data.auth
 
+import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
+import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.StackService
@@ -13,14 +15,20 @@ class AuthRepository(
         private val service: StackService = ServiceProvider.stackService,
         private val authProvider: AuthProvider = AuthProvider
 ) {
-    suspend fun logOut() {
+    suspend fun logOut(): LogOutResult {
         val accessToken = authProvider.accessToken
 
-        if (accessToken != null) {
-            service.logOut(accessToken = accessToken)
-            authProvider.accessToken = null
-        } else {
-            Timber.e("Could not log user out for null access token")
+        return try {
+            if (accessToken != null) {
+                service.logOut(accessToken = accessToken)
+                authProvider.accessToken = null
+                LogOutSuccess
+            } else {
+                throw IllegalStateException("Could not log user out for null access token")
+            }
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            LogOutError
         }
     }
 
@@ -30,4 +38,9 @@ class AuthRepository(
         userDao.insert(userEntities)
         return users.firstOrNull()
     }
+}
+
+sealed class LogOutResult {
+    object LogOutSuccess : LogOutResult()
+    object LogOutError : LogOutResult()
 }

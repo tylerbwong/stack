@@ -16,7 +16,7 @@ abstract class BaseViewModel : ViewModel() {
 
     val snackbar: LiveData<Unit?>
         get() = _snackbar
-    private val _snackbar = MutableLiveData<Unit?>()
+    protected val _snackbar = MutableLiveData<Unit?>()
 
     protected fun launchRequest(block: suspend CoroutineScope.() -> Unit): Job {
         return viewModelScope.launch {

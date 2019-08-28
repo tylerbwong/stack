@@ -35,6 +35,7 @@ import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         SearchView.OnQueryTextListener {
@@ -72,6 +73,9 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         viewModel.isAuthenticated.observe(this) {
             if (it) {
                 viewModel.fetchUser()
+                profileIcon.setThrottledOnClickListener { showLogOutDialog() }
+            } else {
+                profileIcon.setThrottledOnClickListener { showLogInDialog() }
             }
         }
         viewModel.profileImage.observe(this) {
@@ -83,32 +87,8 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
                             .placeholder(R.drawable.user_image_placeholder)
                             .apply(RequestOptions.circleCropTransform())
                             .into(this)
-                    setOnClickListener {
-                        MaterialAlertDialogBuilder(context)
-                                .setTitle(R.string.log_out_title)
-                                .setPositiveButton(R.string.log_out) { _, _ ->
-                                    viewModel.logOut()
-                                }
-                                .setNegativeButton(R.string.cancel) { dialog, _ ->
-                                    dialog.cancel()
-                                }
-                                .create()
-                                .show()
-                    }
                 } else {
                     setImageResource(R.drawable.ic_account_circle)
-                    setOnClickListener {
-                        MaterialAlertDialogBuilder(context)
-                                .setTitle(R.string.log_in_title)
-                                .setPositiveButton(R.string.log_in) { _, _ ->
-                                    launchCustomTab(context, AuthProvider.authUrl)
-                                }
-                                .setNegativeButton(R.string.cancel) { dialog, _ ->
-                                    dialog.cancel()
-                                }
-                                .create()
-                                .show()
-                    }
                 }
             }
         }
@@ -126,7 +106,6 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         }
 
         refreshLayout.setOnRefreshListener { viewModel.fetchQuestions() }
-        profileIcon.setOnClickListener { launchCustomTab(this, AuthProvider.authUrl) }
 
         viewModel.fetchQuestions()
         viewModel.fetchUser()
@@ -238,6 +217,26 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             add(0, HeaderDataModel(getString(R.string.questions), subtitle))
         }
         adapter.update(content)
+    }
+
+    private fun showLogOutDialog() {
+        MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.log_out_title)
+                .setPositiveButton(R.string.log_out) { _, _ -> viewModel.logOut() }
+                .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                .create()
+                .show()
+    }
+
+    private fun showLogInDialog() {
+        MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.log_in_title)
+                .setPositiveButton(R.string.log_in) { _, _ ->
+                    launchCustomTab(this, AuthProvider.authUrl)
+                }
+                .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                .create()
+                .show()
     }
 
     companion object {

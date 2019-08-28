@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.data.auth.AuthProvider
 import me.tylerbwong.stack.data.auth.AuthRepository
+import me.tylerbwong.stack.data.auth.LogOutResult
+import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
@@ -74,8 +76,14 @@ internal class QuestionsViewModel(
 
     internal fun logOut() {
         viewModelScope.launch {
-            authRepository.logOut()
-            _profileImage.value = null
+            when (authRepository.logOut()) {
+                is LogOutError -> _snackbar.value = Unit
+                is LogOutResult.LogOutSuccess -> {
+                    _profileImage.value = null
+                    _snackbar.value = null
+                    fetchQuestions()
+                }
+            }
         }
     }
 
