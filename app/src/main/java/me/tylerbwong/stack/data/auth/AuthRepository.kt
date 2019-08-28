@@ -42,10 +42,9 @@ class AuthRepository(
 
         return try {
             if (isAuthenticated) {
-                val users = service.getCurrentUser().items
-                val userEntities = users.map { it.toUserEntity() }
-                userDao.insert(userEntities)
-                users.firstOrNull()
+                service.getCurrentUser().items.firstOrNull()?.also {
+                    userDao.insert(listOf(it.toUserEntity()))
+                }
             } else {
                 null
             }
