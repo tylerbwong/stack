@@ -59,11 +59,15 @@ dependencies {
     implementation(Dep.androidxBrowser)
     implementation(Dep.androidxLifecycleExtensions)
     implementation(Dep.androidxPreference)
+    implementation(Dep.androidxSwipeRefreshLayout)
     implementation(Dep.constraintLayout)
     implementation(Dep.ktxActivityExtensions)
     implementation(Dep.ktxViewModelExtensions)
     implementation(Dep.ktxLiveDataExtensions)
     implementation(Dep.materialComponents)
+
+    // betterlinkmovementmethod
+    implementation(Dep.betterLinkMovementMethod)
 
     // crashlytics
     implementation(Dep.crashlytics)
@@ -84,7 +88,7 @@ dependencies {
 
     // markdown
     implementation(Dep.markwonCore)
-    implementation(Dep.markwonImageOkhttp)
+    implementation(Dep.markwonGlide)
     implementation(Dep.markwonStrikethrough)
 
     // logging

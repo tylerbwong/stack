@@ -52,7 +52,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         supportActionBar?.title = ""
 
         viewModel.refreshing.observe(this) {
-            refreshLayout?.isRefreshing = it
+            refreshLayout.isRefreshing = it
         }
         viewModel.snackbar.observe(this) {
             if (it != null) {

@@ -69,9 +69,9 @@ class BadgeView : View {
             var badgeCount = 0
 
             // add space for each badge
-            listOf(it.gold, it.silver, it.bronze).forEach {
-                if (it > 0) {
-                    idealWidth += iconHeight + iconLabelPadding + textPaint.measureText(it.toString())
+            listOf(it.gold, it.silver, it.bronze).forEach { count ->
+                if (count > 0) {
+                    idealWidth += iconHeight + iconLabelPadding + textPaint.measureText(count.toString())
                     addPadding = true
                     badgeCount += 1
                 }
@@ -112,7 +112,7 @@ class BadgeView : View {
                     val amountString = amount.toString()
                     posX += iconRadius + iconLabelPadding
                     textPaint.getTextBounds(amountString, 0, amountString.length, labelHelperRect)
-                    canvas.drawText(amountString, posX, canvasHeight - paddingBottom - textPaint.fontMetrics.descent, textPaint)
+                    canvas.drawText(amountString, posX, canvasHeight - paddingBottom - textPaint.fontMetrics.bottom, textPaint)
                     posX += textPaint.measureText(amountString) + badgePadding
                 }
             }

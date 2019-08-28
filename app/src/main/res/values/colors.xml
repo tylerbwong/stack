@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">#BDBDBD</color>
     <color name="colorAccent">#B3E5FC</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 
     <color name="colorTextPrimary">#83898F</color>
     <color name="colorUserImagePlaceholder">#E0E0E0</color>
     <color name="divider">#1f000000</color>
-    <color name="rippleColor">#1AFFFFFF</color>
 
     <color name="goldBadgeColor">#FFE082</color>
     <color name="silverBadgeColor">#BDBDBD</color>
     <color name="bronzeBadgeColor">#A1887F</color>
 
     <!-- Light Theme -->
-    <color name="windowBackgroundLight">#FFFFFF</color>
+    <color name="windowBackgroundLight">@color/white</color>
     <color name="primaryTextColorLight">#33343B</color>
     <color name="secondaryTextColorLight">#8033343B</color>
-    <color name="viewBackgroundColorLight">#FFFFFF</color>
-    <color name="iconColorLight">#000000</color>
+    <color name="viewBackgroundColorLight">@color/white</color>
+    <color name="iconColorLight">@color/black</color>
 
     <!-- Dark Theme -->
-    <color name="windowBackgroundDark">#000000</color>
+    <color name="windowBackgroundDark">@color/black</color>
     <color name="primaryTextColorDark">#F4F4F6</color>
     <color name="secondaryTextColorDark">#96F4F4F6</color>
-    <color name="viewBackgroundColorDark">#000000</color>
-    <color name="iconColorDark">#FFFFFF</color>
+    <color name="viewBackgroundColorDark">@color/black</color>
+    <color name="iconColorDark">@color/white</color>
 </resources>

@@ -29,7 +29,7 @@ class ProfileActivity : BaseActivity() {
 
         viewModel.userId = intent.getIntExtra(USER_ID, 0)
         viewModel.refreshing.observe(this) {
-            refreshLayout?.isRefreshing = it
+            refreshLayout.isRefreshing = it
         }
         viewModel.snackbar.observe(this) {
             if (it != null) {

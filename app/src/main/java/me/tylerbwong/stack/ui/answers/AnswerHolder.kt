@@ -6,6 +6,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.answer_holder.*
 import kotlinx.android.synthetic.main.user_view.*
+import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
 import me.tylerbwong.stack.ui.utils.GlideApp
@@ -21,7 +22,12 @@ class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
             val voteCount = dataModel.voteCount
             votes.text = itemView.context.resources.getQuantityString(R.plurals.votes, voteCount, voteCount)
             acceptedAnswerCheck.visibility = if (dataModel.isAccepted) View.VISIBLE else View.GONE
-            answerBody.setMarkdown(dataModel.answerBody)
+
+            answerBody.apply {
+                setMarkdown(dataModel.answerBody)
+                setTextIsSelectable(true)
+                movementMethod = BetterLinkMovementMethod.getInstance()
+            }
 
             username.text = dataModel.username
             GlideApp.with(itemView)

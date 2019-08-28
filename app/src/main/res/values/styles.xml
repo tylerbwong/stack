@@ -28,11 +28,6 @@
         <item name="materialAlertDialogTitlePanelStyle">@style/MaterialAlertDialog.MaterialComponents.Title.Panel</item>
         <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.MaterialComponents.Title.Text</item>
         <item name="iconColor">@color/iconColorLight</item>
-        <item name="themeMenuIcon">@drawable/ic_brightness_2_light</item>
-        <item name="searchMenuIcon">@drawable/ic_search_light</item>
-        <item name="sortMenuIcon">@drawable/ic_sort_light</item>
-        <item name="backIcon">@drawable/ic_arrow_back_light</item>
-        <item name="shareIcon">@drawable/ic_share_light</item>
     </style>
     
     <!-- Light alert dialog theme -->
@@ -63,11 +58,6 @@
         <item name="materialAlertDialogTitlePanelStyle">@style/MaterialAlertDialog.MaterialComponents.Title.Panel</item>
         <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.MaterialComponents.Title.Text</item>
         <item name="iconColor">@color/iconColorDark</item>
-        <item name="themeMenuIcon">@drawable/ic_brightness_2_dark</item>
-        <item name="searchMenuIcon">@drawable/ic_search_dark</item>
-        <item name="sortMenuIcon">@drawable/ic_sort_dark</item>
-        <item name="backIcon">@drawable/ic_arrow_back_dark</item>
-        <item name="shareIcon">@drawable/ic_share_dark</item>
     </style>
 
     <!-- Dark alert dialog theme -->

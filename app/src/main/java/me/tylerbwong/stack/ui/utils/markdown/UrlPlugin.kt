@@ -1,7 +1,7 @@
 package me.tylerbwong.stack.ui.utils.markdown
 
-import ru.noties.markwon.AbstractMarkwonPlugin
-import ru.noties.markwon.MarkwonConfiguration
+import io.noties.markwon.AbstractMarkwonPlugin
+import io.noties.markwon.MarkwonConfiguration
 
 class UrlPlugin private constructor() : AbstractMarkwonPlugin() {
     private val urlProcessor = CustomUrlProcessor()
