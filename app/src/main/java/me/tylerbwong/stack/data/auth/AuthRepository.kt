@@ -19,7 +19,7 @@ class AuthRepository(
         val accessToken = authProvider.accessToken
 
         return try {
-            if (accessToken != null) {
+            if (!accessToken.isNullOrBlank()) {
                 service.logOut(accessToken = accessToken)
                 authProvider.accessToken = null
                 LogOutSuccess
@@ -32,11 +32,22 @@ class AuthRepository(
         }
     }
 
+    /**
+     * Fetches the currently logged in user.
+     *
+     * @return A [User] instance if there is a valid accessToken, otherwise null
+     */
     suspend fun getCurrentUser(): User? {
-        val users = service.getCurrentUser().items
-        val userEntities = users.map { it.toUserEntity() }
-        userDao.insert(userEntities)
-        return users.firstOrNull()
+        val isAuthenticated = !authProvider.accessToken.isNullOrBlank()
+
+        return if (isAuthenticated) {
+            val users = service.getCurrentUser().items
+            val userEntities = users.map { it.toUserEntity() }
+            userDao.insert(userEntities)
+            users.firstOrNull()
+        } else {
+            null
+        }
     }
 }
 

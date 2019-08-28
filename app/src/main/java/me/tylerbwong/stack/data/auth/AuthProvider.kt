@@ -32,7 +32,7 @@ object AuthProvider {
     }
 
     var accessToken: String?
-        get() = preferences.getString(ACCESS_TOKEN, "")
+        get() = preferences.getString(ACCESS_TOKEN, null)
         set(value) {
             preferences.edit().putString(ACCESS_TOKEN, value).apply()
             mutableIsAuthenticatedLiveData.postValue(!value.isNullOrBlank())

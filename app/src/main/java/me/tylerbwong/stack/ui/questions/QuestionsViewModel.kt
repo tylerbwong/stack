@@ -15,7 +15,6 @@ import me.tylerbwong.stack.data.network.service.StackService
 import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.ui.BaseViewModel
 import retrofit2.HttpException
-import timber.log.Timber
 
 internal class QuestionsViewModel(
         private val authRepository: AuthRepository = AuthRepository(),
@@ -68,7 +67,6 @@ internal class QuestionsViewModel(
                 val user = authRepository.getCurrentUser()
                 _profileImage.value = user?.profileImage
             } catch (ex: HttpException) {
-                Timber.i("User not authenticated")
                 _profileImage.value = null
             }
         }
