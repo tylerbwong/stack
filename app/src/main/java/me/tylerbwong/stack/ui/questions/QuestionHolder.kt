@@ -19,6 +19,7 @@ import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
+import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.toHtml
 
 class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
@@ -51,7 +52,7 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                     .placeholder(R.drawable.user_image_placeholder)
                     .apply(RequestOptions.circleCropTransform())
                     .into(userImage)
-            userImage.setOnClickListener { dataModel.onProfilePictureClicked(it.context) }
+            userImage.setThrottledOnClickListener { dataModel.onProfilePictureClicked(it.context) }
             badgeView.badgeCounts = dataModel.badgeCounts
             reputation.text = dataModel.reputation.toLong().format()
 
@@ -60,7 +61,7 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                 dataModel.tags?.forEach {
                     val chip = Chip(tagsView.context).apply {
                         text = it
-                        setOnClickListener { view ->
+                        setThrottledOnClickListener { view ->
                             SingleTagQuestionsActivity.startActivity(view.context, it)
                         }
                     }
@@ -80,7 +81,7 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                     true
                 }
 
-                itemView.setOnClickListener {
+                itemView.setThrottledOnClickListener {
                     QuestionDetailActivity.startActivity(
                             it.context,
                             dataModel.questionId,

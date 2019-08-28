@@ -10,6 +10,7 @@ import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
 import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class ProfileHeaderHolder(parent: ViewGroup) : DynamicViewHolder(
         parent.inflateWithoutAttaching(R.layout.profile_header_holder)
@@ -27,7 +28,7 @@ class ProfileHeaderHolder(parent: ViewGroup) : DynamicViewHolder(
             badgeView.badgeCounts = dataModel.badgeCounts
 
             dataModel.link?.let { link ->
-                itemView.setOnClickListener {
+                itemView.setThrottledOnClickListener {
                     launchCustomTab(it.context, link)
                 }
             }
