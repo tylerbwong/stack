@@ -8,9 +8,10 @@ import android.text.TextUtils
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsService
+import io.noties.markwon.LinkResolver
+import io.noties.markwon.core.spans.LinkSpan
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.theme.ThemeManager
-import ru.noties.markwon.core.spans.LinkSpan
 import timber.log.Timber
 
 private const val STABLE_PACKAGE = "com.android.chrome"
@@ -20,16 +21,17 @@ private const val LOCAL_PACKAGE = "com.google.android.apps.chrome"
 
 private var packageName: String? = null
 
-class CustomTabsLinkResolver : LinkSpan.Resolver {
+class CustomTabsLinkResolver : LinkResolver {
     override fun resolve(view: View, link: String) = launchCustomTab(view.context, link)
 }
 
 fun launchCustomTab(context: Context, url: String) {
     val packageName = getPackageNameToUse(context, url)
-    val toolbarColor = ThemeManager.resolveThemeAttribute(context, R.attr.viewBackgroundColor)
+    val themeColor = ThemeManager.resolveThemeAttribute(context, R.attr.viewBackgroundColor)
     val customTabsIntent = CustomTabsIntent.Builder()
-            .setToolbarColor(toolbarColor)
-            .setSecondaryToolbarColor(toolbarColor)
+            .setNavigationBarColor(themeColor)
+            .setToolbarColor(themeColor)
+            .setSecondaryToolbarColor(themeColor)
             .build()
     customTabsIntent.intent.`package` = packageName
     customTabsIntent.launchUrl(context, Uri.parse(url))
