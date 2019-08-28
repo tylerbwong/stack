@@ -66,6 +66,9 @@ dependencies {
     implementation(Dep.ktxLiveDataExtensions)
     implementation(Dep.materialComponents)
 
+    // betterlinkmovementmethod
+    implementation(Dep.betterLinkMovementMethod)
+
     // crashlytics
     implementation(Dep.crashlytics)
 
