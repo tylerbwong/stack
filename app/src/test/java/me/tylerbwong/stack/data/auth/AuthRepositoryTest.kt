@@ -6,6 +6,7 @@ import kotlinx.coroutines.runBlocking
 import me.tylerbwong.stack.BaseTest
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
+import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.network.service.StackService
 import me.tylerbwong.stack.data.persistence.dao.UserDao
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -78,7 +79,7 @@ class AuthRepositoryTest : BaseTest() {
     fun `getCurrentUser with existing access token makes service and db calls`() {
         runBlocking {
             whenever(stackService.getCurrentUser(any(), any(), any())).thenReturn(
-                    StackResponse(emptyList(), false)
+                    StackResponse(listOf(testUser), false)
             )
             AuthProvider.accessToken = "test"
             repository.getCurrentUser()
@@ -117,7 +118,7 @@ class AuthRepositoryTest : BaseTest() {
     fun `getCurrentUser with throwing db call returns null`() {
         runBlocking {
             whenever(stackService.getCurrentUser(any(), any(), any())).thenReturn(
-                    StackResponse(emptyList(), false)
+                    StackResponse(listOf(testUser), false)
             )
             whenever(userDao.insert(any())).thenThrow(IllegalStateException("Could not insert"))
             AuthProvider.accessToken = "test"
@@ -125,5 +126,21 @@ class AuthRepositoryTest : BaseTest() {
             verify(stackService).getCurrentUser(any(), any(), any())
             verify(userDao).insert(any())
         }
+    }
+
+    companion object {
+        private val testUser = User(
+                null,
+                null,
+                null,
+                "test_user",
+                null,
+                null,
+                null,
+                0,
+                0,
+                "registered",
+                null
+        )
     }
 }
