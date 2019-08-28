@@ -2,10 +2,6 @@
 <resources>
     <declare-styleable name="StackAppTheme">
         <attr name="viewBackgroundColor" format="color" />
-        <attr name="themeMenuIcon" format="integer" />
-        <attr name="searchMenuIcon" format="integer" />
-        <attr name="sortMenuIcon" format="integer" />
-        <attr name="backIcon" format="integer" />
-        <attr name="shareIcon" format="integer" />
+        <attr name="iconColor" format="color" />
     </declare-styleable>
 </resources>

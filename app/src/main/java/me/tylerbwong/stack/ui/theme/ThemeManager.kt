@@ -6,6 +6,7 @@ import android.os.Build
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.AttrRes
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import me.tylerbwong.stack.R
 
@@ -52,6 +53,8 @@ object ThemeManager {
             var flags = activity.window.decorView.systemUiVisibility
             flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             activity.window.decorView.systemUiVisibility = flags
+        } else {
+            activity.window.navigationBarColor = ContextCompat.getColor(activity, R.color.black)
         }
     }
 
