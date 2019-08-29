@@ -196,12 +196,19 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
     }
 
     private fun checkForPendingInstall() {
-        appUpdater.checkForPendingInstall { manager ->
-            rootLayout.showSnackbar(R.string.restart_to_install, R.string.restart) {
-                manager.completeUpdate()
-                appUpdater.unregisterListener(this)
-            }
-        }
+        appUpdater.checkForPendingInstall(
+                onDownloadFinished = { manager ->
+                    rootLayout.showSnackbar(R.string.restart_to_install, R.string.restart) {
+                        manager.completeUpdate()
+                        appUpdater.unregisterListener(this)
+                    }
+                },
+                onDownloadFailed = {
+                    rootLayout.showSnackbar(R.string.download_error, R.string.retry) {
+                        appUpdater.checkForUpdate(this)
+                    }
+                }
+        )
     }
 
     private fun clearSearch(fetchQuestions: Boolean = true) {

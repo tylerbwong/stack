@@ -41,4 +41,5 @@
     <string name="restart">Restart</string>
     <string name="restart_to_install">Restart to install update</string>
     <string name="update_not_downloaded">Update not downloaded</string>
+    <string name="download_error">Error downloading update</string>
 </resources>

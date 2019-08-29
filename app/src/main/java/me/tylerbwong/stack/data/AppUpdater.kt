@@ -13,17 +13,24 @@ class AppUpdater(private val manager: AppUpdateManager) {
         manager.registerListener(activity)
 
         manager.appUpdateInfo.addOnSuccessListener {
-            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
-                    it.isUpdateTypeAllowed(FLEXIBLE)) {
-                manager.startUpdateFlowForResult(it, FLEXIBLE, activity, APP_UPDATE_REQUEST_CODE)
+            when (it.updateAvailability()) {
+                UpdateAvailability.UPDATE_AVAILABLE -> {
+                    if (it.isUpdateTypeAllowed(FLEXIBLE)) {
+                        manager.startUpdateFlowForResult(it, FLEXIBLE, activity, APP_UPDATE_REQUEST_CODE)
+                    }
+                }
             }
         }
     }
 
-    fun checkForPendingInstall(onDownloadFinished: (AppUpdateManager) -> Unit) {
+    fun checkForPendingInstall(
+            onDownloadFinished: (AppUpdateManager) -> Unit,
+            onDownloadFailed: () -> Unit
+    ) {
         manager.appUpdateInfo.addOnSuccessListener {
-            if (it.installStatus() == InstallStatus.DOWNLOADED) {
-                onDownloadFinished(manager)
+            when (it.installStatus()) {
+                InstallStatus.DOWNLOADED -> onDownloadFinished(manager)
+                InstallStatus.FAILED -> onDownloadFailed()
             }
         }
     }
