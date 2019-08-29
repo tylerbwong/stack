@@ -1,6 +1,7 @@
 package me.tylerbwong.stack.data
 
 import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType.FLEXIBLE
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
@@ -27,8 +28,8 @@ class AppUpdater(private val manager: AppUpdateManager) {
         }
     }
 
-    fun unregisterListener(activity: MainActivity) {
-        manager.unregisterListener(activity)
+    fun unregisterListener(listener: InstallStateUpdatedListener) {
+        manager.unregisterListener(listener)
     }
 
     companion object {
