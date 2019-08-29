@@ -38,6 +38,7 @@
 
     <!-- In-App Update -->
     <string name="update">Update</string>
-    <string name="update_downloaded">Update downloaded</string>
-    <string name="update_error">Could not update Stack</string>
+    <string name="restart">Restart</string>
+    <string name="restart_to_install">Restart to install update</string>
+    <string name="update_not_downloaded">Update not downloaded</string>
 </resources>

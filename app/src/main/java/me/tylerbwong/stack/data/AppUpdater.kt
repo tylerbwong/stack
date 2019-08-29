@@ -1,18 +1,15 @@
 package me.tylerbwong.stack.data
 
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.play.core.appupdate.AppUpdateManager
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType.FLEXIBLE
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
+import me.tylerbwong.stack.ui.MainActivity
 
-object AppUpdater {
+class AppUpdater(private val manager: AppUpdateManager) {
 
-    const val APP_UPDATE_REQUEST_CODE = 3141
-
-    fun checkForUpdate(activity: AppCompatActivity) {
-        val manager = AppUpdateManagerFactory.create(activity)
+    fun checkForUpdate(activity: MainActivity) {
+        manager.registerListener(activity)
 
         manager.appUpdateInfo.addOnSuccessListener {
             if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
@@ -22,16 +19,19 @@ object AppUpdater {
         }
     }
 
-    fun checkForPendingInstall(
-            activity: AppCompatActivity,
-            onDownloadFinished: (AppUpdateManager) -> Unit
-    ) {
-        val manager = AppUpdateManagerFactory.create(activity)
-
+    fun checkForPendingInstall(onDownloadFinished: (AppUpdateManager) -> Unit) {
         manager.appUpdateInfo.addOnSuccessListener {
             if (it.installStatus() == InstallStatus.DOWNLOADED) {
                 onDownloadFinished(manager)
             }
         }
+    }
+
+    fun unregisterListener(activity: MainActivity) {
+        manager.unregisterListener(activity)
+    }
+
+    companion object {
+        const val APP_UPDATE_REQUEST_CODE = 3141
     }
 }

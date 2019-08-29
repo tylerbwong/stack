@@ -15,6 +15,7 @@ import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.showSnackbar
 
 class QuestionDetailActivity : BaseActivity() {
 
@@ -32,12 +33,9 @@ class QuestionDetailActivity : BaseActivity() {
         }
         viewModel.snackbar.observe(this) {
             if (it != null) {
-                snackbar = Snackbar.make(
-                        rootLayout,
-                        getString(R.string.network_error),
-                        Snackbar.LENGTH_INDEFINITE
-                ).setAction(R.string.retry) { viewModel.getQuestionDetails() }
-                snackbar?.show()
+                snackbar = rootLayout.showSnackbar(R.string.network_error, R.string.retry) {
+                    viewModel.getQuestionDetails()
+                }
             } else {
                 snackbar?.dismiss()
             }
