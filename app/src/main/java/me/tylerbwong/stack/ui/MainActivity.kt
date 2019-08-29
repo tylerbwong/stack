@@ -1,6 +1,8 @@
 package me.tylerbwong.stack.ui
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.AppUpdater
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.HOT
@@ -78,6 +81,13 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         refreshLayout.setOnRefreshListener { viewModel.fetchQuestions() }
 
         viewModel.fetchQuestions()
+
+        AppUpdater.checkForUpdate(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkForPendingInstall()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -152,6 +162,29 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
     override fun onQueryTextChange(newText: String?): Boolean {
         viewModel.onQueryTextChange(newText)
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AppUpdater.APP_UPDATE_REQUEST_CODE) {
+            if (resultCode != Activity.RESULT_OK) {
+                Snackbar.make(rootLayout, getString(R.string.update_error), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry) { AppUpdater.checkForUpdate(this) }
+                        .show()
+            } else {
+                checkForPendingInstall()
+            }
+        }
+    }
+
+    private fun checkForPendingInstall() {
+        AppUpdater.checkForPendingInstall(this) { manager ->
+            Snackbar.make(
+                    rootLayout,
+                    getString(R.string.update_downloaded),
+                    Snackbar.LENGTH_INDEFINITE
+            ).setAction(R.string.update) { manager.completeUpdate() }.show()
+        }
     }
 
     private fun clearSearch(fetchQuestions: Boolean = true) {

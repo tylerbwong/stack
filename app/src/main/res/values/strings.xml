@@ -35,4 +35,9 @@
     <string name="retry">Retry</string>
     <string name="single_tag_error">Could not get questions for tag %1$s</string>
     <string name="deep_link_error">Stack can\'t handle this link yet!</string>
+
+    <!-- In-App Update -->
+    <string name="update">Update</string>
+    <string name="update_downloaded">Update downloaded</string>
+    <string name="update_error">Could not update Stack</string>
 </resources>
