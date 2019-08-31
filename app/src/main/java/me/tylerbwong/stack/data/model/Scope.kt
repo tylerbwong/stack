@@ -11,6 +11,6 @@ const val PRIVATE_INFO = "private_info"
 annotation class Scope {
     companion object {
         val all: List<String>
-            get() = listOf(READ_INBOX, WRITE_ACCESS, PRIVATE_INFO)
+            get() = listOf(READ_INBOX, NO_EXPIRY, WRITE_ACCESS, PRIVATE_INFO)
     }
 }
