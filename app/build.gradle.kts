@@ -31,6 +31,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    lintOptions {
+        isAbortOnError = false
+    }
+
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }
@@ -38,12 +42,6 @@ android {
 
 androidExtensions {
     isExperimental = true
-}
-
-android {
-    lintOptions {
-        isAbortOnError = false
-    }
 }
 
 dependencies {
