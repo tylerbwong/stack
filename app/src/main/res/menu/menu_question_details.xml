@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/linked"
+        android:title="@string/linked"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/related"
+        android:title="@string/related"
+        app:showAsAction="never" />
+</menu>

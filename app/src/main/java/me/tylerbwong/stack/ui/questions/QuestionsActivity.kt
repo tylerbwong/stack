@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.ui.questions.tags
+package me.tylerbwong.stack.ui.questions
 
 import android.content.Context
 import android.content.Intent
@@ -11,7 +11,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_single_tag_questions.*
+import kotlinx.android.synthetic.main.activity_questions.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.CREATION
@@ -23,56 +23,47 @@ import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 
-class SingleTagQuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
+class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
 
-    private val viewModel by viewModels<SingleTagQuestionsViewModel>()
+    private val viewModel by viewModels<QuestionsViewModel>()
     private val adapter = DynamicViewAdapter()
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_single_tag_questions)
+        setContentView(R.layout.activity_questions)
         setSupportActionBar(toolbar)
 
-        val tag = intent.getStringExtra(TAG_EXTRA) ?: ""
+        val key = intent.getStringExtra(KEY_EXTRA) ?: ""
 
-        if (tag.isBlank()) {
-            Toast.makeText(this, getString(R.string.single_tag_error, tag), Toast.LENGTH_LONG).show()
+        if (key.isBlank()) {
+            Toast.makeText(this, R.string.network_error, Toast.LENGTH_LONG).show()
             finish()
         }
 
-        supportActionBar?.title = tag
+        val page = intent.getSerializableExtra(PAGE_EXTRA) as QuestionPage
+
+        setUpPageForKey(page, key)
 
         viewModel.refreshing.observe(this) {
             refreshLayout.isRefreshing = it
         }
-        viewModel.snackbar.observe(this) {
-            if (it != null) {
-                snackbar = Snackbar.make(
-                        rootLayout,
-                        getString(R.string.single_tag_error, tag),
-                        Snackbar.LENGTH_INDEFINITE
-                ).setAction(R.string.retry) { viewModel.getQuestionsByTag(tag) }
-                snackbar?.show()
-            } else {
-                snackbar?.dismiss()
-            }
-        }
+
         viewModel.data.observe(this) {
             adapter.update(it)
+
+            if (it.isEmpty()) {
+                Snackbar.make(rootLayout, R.string.nothing_here, Snackbar.LENGTH_INDEFINITE).show()
+            }
         }
 
         recyclerView.apply {
-            adapter = this@SingleTagQuestionsActivity.adapter
+            adapter = this@QuestionsActivity.adapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
                     ViewHolderItemDecoration(context.resources.getDimensionPixelSize(R.dimen.item_spacing_main))
             )
         }
-
-        refreshLayout.setOnRefreshListener { viewModel.getQuestionsByTag(tag) }
-
-        viewModel.getQuestionsByTag(tag)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -104,20 +95,52 @@ class SingleTagQuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickList
             R.id.month -> MONTH
             else -> CREATION
         }
-        viewModel.getQuestionsByTag(sort = sort)
+        viewModel.getQuestions(sort = sort)
         return true
     }
 
+    private fun setUpPageForKey(page: QuestionPage, key: String) {
+        supportActionBar?.title = if (page.titleRes != null) {
+            getString(page.titleRes)
+        } else {
+            key
+        }
+
+        viewModel.page = page
+        viewModel.key = key
+
+        viewModel.snackbar.observe(this) {
+            if (it != null) {
+                snackbar = Snackbar.make(
+                        rootLayout,
+                        R.string.network_error,
+                        Snackbar.LENGTH_INDEFINITE
+                ).setAction(R.string.retry) { viewModel.getQuestionsByTag(key) }
+                snackbar?.show()
+            } else {
+                snackbar?.dismiss()
+            }
+        }
+
+        refreshLayout.setOnRefreshListener { viewModel.getQuestions() }
+
+        viewModel.getQuestions()
+    }
+
     companion object {
-        private const val TAG_EXTRA = "tag"
+        private const val PAGE_EXTRA = "page"
+        private const val KEY_EXTRA = "key"
 
-        fun makeIntent(
+        fun makeIntentForKey(
                 context: Context,
-                tag: String
-        ) = Intent(context, SingleTagQuestionsActivity::class.java).putExtra(TAG_EXTRA, tag)
+                page: QuestionPage,
+                key: String
+        ) = Intent(context, QuestionsActivity::class.java)
+                .putExtra(PAGE_EXTRA, page)
+                .putExtra(KEY_EXTRA, key)
 
-        fun startActivity(context: Context, tag: String) {
-            context.startActivity(makeIntent(context, tag))
+        fun startActivityForKey(context: Context, page: QuestionPage, key: String) {
+            context.startActivity(makeIntentForKey(context, page, key))
         }
     }
 }

@@ -50,7 +50,7 @@
             android:theme="@style/AppTheme.Primary.Base.Light" />
 
         <activity
-            android:name=".ui.questions.tags.SingleTagQuestionsActivity"
+            android:name=".ui.questions.QuestionsActivity"
             android:theme="@style/AppTheme.Primary.Base.Light" />
     </application>
 

@@ -23,7 +23,6 @@ import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.ui.questions.HeaderDataModel
 import me.tylerbwong.stack.ui.questions.QuestionDataModel
-import me.tylerbwong.stack.ui.questions.QuestionsViewModel
 import me.tylerbwong.stack.ui.theme.ThemeManager
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
@@ -32,7 +31,7 @@ import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         SearchView.OnQueryTextListener {
 
-    private val viewModel: QuestionsViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
     private val adapter = DynamicViewAdapter()
     private var snackbar: Snackbar? = null
     private var menu: Menu? = null
@@ -82,7 +81,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         this.menu = menu
-        menuInflater.inflate(R.menu.menu_questions, menu)
+        menuInflater.inflate(R.menu.menu_main, menu)
         menuInflater.inflate(R.menu.menu_sort_item, menu)
 
         if (!viewModel.isQueryBlank()) {

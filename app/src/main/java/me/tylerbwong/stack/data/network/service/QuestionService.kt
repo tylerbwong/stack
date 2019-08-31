@@ -48,6 +48,30 @@ interface QuestionService {
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
     ): Response<Question>
 
+    @GET("questions/{id}/linked")
+    suspend fun getLinkedQuestions(
+            @Path("id") questionId: Int,
+            @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+            @Query(SORT_PARAM) @Sort sort: String = DEFAULT_SORT,
+            @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
+            @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
+            @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
+            @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
+            @Query(KEY_PARAM) key: String = DEFAULT_KEY
+    ): Response<Question>
+
+    @GET("questions/{id}/related")
+    suspend fun getRelatedQuestions(
+            @Path("id") questionId: Int,
+            @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+            @Query(SORT_PARAM) @Sort sort: String = DEFAULT_SORT,
+            @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
+            @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
+            @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
+            @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
+            @Query(KEY_PARAM) key: String = DEFAULT_KEY
+    ): Response<Question>
+
     @GET("questions/{id}/answers")
     suspend fun getQuestionAnswers(
             @Path("id") questionId: Int,

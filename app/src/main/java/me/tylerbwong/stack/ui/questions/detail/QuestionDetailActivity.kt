@@ -13,6 +13,9 @@ import kotlinx.android.synthetic.main.activity_question_detail.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.ui.BaseActivity
+import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
+import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
+import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 
@@ -75,6 +78,7 @@ class QuestionDetailActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_share, menu)
+        menuInflater.inflate(R.menu.menu_question_details, menu)
         return true
     }
 
@@ -82,6 +86,16 @@ class QuestionDetailActivity : BaseActivity() {
         when(item.itemId) {
             android.R.id.home -> onBackPressed()
             R.id.share -> viewModel.startShareIntent(this)
+            R.id.linked -> QuestionsActivity.startActivityForKey(
+                    this,
+                    LINKED,
+                    viewModel.questionId.toString()
+            )
+            R.id.related -> QuestionsActivity.startActivityForKey(
+                    this,
+                    RELATED,
+                    viewModel.questionId.toString()
+            )
         }
         return super.onOptionsItemSelected(item)
     }

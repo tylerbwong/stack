@@ -38,4 +38,8 @@
         <item name="iconColor">@color/iconColorDark</item>
     </style>
 
+    <style name="MainToolbarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorSecondary">?attr/iconColor</item>
+    </style>
+
 </resources>
