@@ -87,8 +87,6 @@ class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
             }
         })
 
-        tabLayout.selectTab(tabLayout.getTabAt(viewModel.selectedTabPosition))
-
         postAnswerButton.setOnClickListener {
             if (!markdownEditText.text.isNullOrBlank()) {
                 viewModel.postAnswer(markdownEditText.text.toString(), isPreview = BuildConfig.DEBUG)
@@ -105,6 +103,7 @@ class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
         super.onViewStateRestored(savedInstanceState)
         tearDownTextWatcher()
         setUpTextWatcher()
+        tabLayout.selectTab(tabLayout.getTabAt(viewModel.selectedTabPosition))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
