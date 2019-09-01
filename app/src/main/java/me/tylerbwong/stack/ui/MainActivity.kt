@@ -1,6 +1,7 @@
 package me.tylerbwong.stack.ui
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,9 +13,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.HOT
@@ -26,7 +31,10 @@ import me.tylerbwong.stack.ui.questions.QuestionDataModel
 import me.tylerbwong.stack.ui.theme.ThemeManager
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
+import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         SearchView.OnQueryTextListener {
@@ -61,6 +69,28 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         viewModel.questions.observe(this) {
             updateContent(it)
         }
+        viewModel.isAuthenticated.observe(this) {
+            if (it) {
+                viewModel.fetchUser()
+                profileIcon.setThrottledOnClickListener { showLogOutDialog() }
+            } else {
+                profileIcon.setThrottledOnClickListener { showLogInDialog() }
+            }
+        }
+        viewModel.profileImage.observe(this) {
+            profileIcon.apply {
+                if (it != null) {
+                    GlideApp.with(this)
+                            .load(it)
+                            .transition(DrawableTransitionOptions.withCrossFade())
+                            .placeholder(R.drawable.user_image_placeholder)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(this)
+                } else {
+                    setImageResource(R.drawable.ic_account_circle)
+                }
+            }
+        }
 
         recyclerView.apply {
             adapter = this@MainActivity.adapter
@@ -74,7 +104,10 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             clearSearch()
         }
 
-        refreshLayout.setOnRefreshListener { viewModel.fetchQuestions() }
+        refreshLayout.setOnRefreshListener {
+            viewModel.fetchUser()
+            viewModel.fetchQuestions()
+        }
 
         viewModel.fetchQuestions()
     }
@@ -185,5 +218,30 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             add(0, HeaderDataModel(getString(R.string.questions), subtitle))
         }
         adapter.update(content)
+    }
+
+    private fun showLogOutDialog() {
+        MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.log_out_title)
+                .setPositiveButton(R.string.log_out) { _, _ -> viewModel.logOut() }
+                .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                .create()
+                .show()
+    }
+
+    private fun showLogInDialog() {
+        MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.log_in_title)
+                .setPositiveButton(R.string.log_in) { _, _ ->
+                    launchCustomTab(this, AuthStore.authUrl)
+                }
+                .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                .create()
+                .show()
+    }
+
+    companion object {
+        fun makeIntentClearTop(context: Context) = Intent(context, MainActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     }
 }

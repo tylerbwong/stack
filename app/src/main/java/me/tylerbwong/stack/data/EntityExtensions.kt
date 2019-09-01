@@ -54,9 +54,13 @@ fun QuestionEntity.toQuestion(owner: UserEntity, lastEditor: UserEntity?): Quest
                 viewCount = viewCount)
 
 fun User.toUserEntity(): UserEntity =
-        UserEntity(acceptRate = acceptRate,
+        UserEntity(
+                aboutMe = aboutMe,
+                acceptRate = acceptRate,
+                accountId = accountId,
                 displayName = displayName,
                 link = link,
+                location = location,
                 profileImage = profileImage,
                 reputation = reputation,
                 userId = userId,
@@ -66,9 +70,13 @@ fun User.toUserEntity(): UserEntity =
                 goldBadgeCount = badgeCounts?.gold ?: 0)
 
 fun UserEntity.toUser(): User =
-        User(acceptRate = acceptRate,
+        User(
+                aboutMe = aboutMe,
+                acceptRate = acceptRate,
+                accountId = accountId,
                 displayName = displayName,
                 link = link,
+                location = location,
                 profileImage = profileImage,
                 reputation = reputation,
                 userId = userId,

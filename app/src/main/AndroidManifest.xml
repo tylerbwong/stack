@@ -28,6 +28,13 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Accept URIs for OAuth 2.0 Implicit Flow -->
+                <data
+                    android:host="tylerbwong.me"
+                    android:pathPrefix="/auth/redirect"
+                    android:scheme="stack" />
+
                 <!-- Accepts URIs that begin with "https://www.stackoverflow.com/questions” -->
                 <data
                     android:host="stackoverflow.com"

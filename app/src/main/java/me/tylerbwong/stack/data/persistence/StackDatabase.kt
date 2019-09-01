@@ -1,10 +1,10 @@
 package me.tylerbwong.stack.data.persistence
 
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import android.content.Context
 import me.tylerbwong.stack.data.persistence.dao.QuestionDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
 import me.tylerbwong.stack.data.persistence.entity.QuestionEntity

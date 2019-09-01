@@ -6,6 +6,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.question_holder.*
@@ -59,6 +60,7 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
             username.text = dataModel.username.toHtml()
             GlideApp.with(itemView)
                     .load(dataModel.userImage)
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .placeholder(R.drawable.user_image_placeholder)
                     .apply(RequestOptions.circleCropTransform())
                     .into(userImage)

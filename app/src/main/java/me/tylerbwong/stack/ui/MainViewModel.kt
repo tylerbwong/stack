@@ -2,21 +2,36 @@ package me.tylerbwong.stack.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import me.tylerbwong.stack.data.auth.AuthRepository
+import me.tylerbwong.stack.data.auth.AuthStore
+import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
+import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
-import me.tylerbwong.stack.data.network.service.QuestionService
+import me.tylerbwong.stack.data.network.service.StackService
 import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.ui.questions.QuestionDataModel
+import retrofit2.HttpException
 
 internal class MainViewModel(
+        private val authRepository: AuthRepository = AuthRepository(),
         private val repository: QuestionRepository = QuestionRepository(),
-        private val service: QuestionService = ServiceProvider.questionService
+        private val service: StackService = ServiceProvider.stackService
 ) : BaseViewModel() {
 
     internal val questions: LiveData<List<QuestionDataModel>>
         get() = _questions
     private val _questions = MutableLiveData<List<QuestionDataModel>>()
+
+    internal val profileImage: LiveData<String?>
+        get() = _profileImage
+    private val _profileImage = MutableLiveData<String?>()
+
+    internal val isAuthenticated: LiveData<Boolean>
+        get() = AuthStore.isAuthenticatedLiveData
 
     @Sort
     internal var currentSort: String = CREATION
@@ -43,6 +58,30 @@ internal class MainViewModel(
             searchQuestions()
         } else {
             getQuestions()
+        }
+    }
+
+    internal fun fetchUser() {
+        viewModelScope.launch {
+            try {
+                val user = authRepository.getCurrentUser()
+                _profileImage.value = user?.profileImage
+            } catch (ex: HttpException) {
+                _profileImage.value = null
+            }
+        }
+    }
+
+    internal fun logOut() {
+        viewModelScope.launch {
+            when (authRepository.logOut()) {
+                is LogOutError -> _snackbar.value = Unit
+                is LogOutSuccess -> {
+                    _profileImage.value = null
+                    _snackbar.value = null
+                    fetchQuestions()
+                }
+            }
         }
     }
 

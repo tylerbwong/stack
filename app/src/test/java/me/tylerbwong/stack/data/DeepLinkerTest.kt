@@ -14,6 +14,7 @@ class DeepLinkerTest : BaseTest() {
     ).map { Uri.parse(it) }
 
     private val supportedDeepLinks = listOf(
+            "stack://tylerbwong.me/auth/redirect#access_token=abcdefg",
             "https://stackoverflow.com/questions/tagged/android",
             "http://stackoverflow.com/questions/26533510/",
             "http://stackoverflow.com/q/26533510/"

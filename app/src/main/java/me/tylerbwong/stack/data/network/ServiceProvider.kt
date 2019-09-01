@@ -1,7 +1,8 @@
 package me.tylerbwong.stack.data.network
 
 import me.tylerbwong.stack.BuildConfig
-import me.tylerbwong.stack.data.network.service.QuestionService
+import me.tylerbwong.stack.data.auth.AuthInterceptor
+import me.tylerbwong.stack.data.network.service.StackService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,6 +12,7 @@ object ServiceProvider {
 
     val okHttpClient by lazy {
         val okHttpClientBuilder = OkHttpClient.Builder()
+                .addInterceptor(AuthInterceptor())
 
         if (BuildConfig.DEBUG) {
             okHttpClientBuilder.addInterceptor(HttpLoggingInterceptor().apply {
@@ -21,13 +23,13 @@ object ServiceProvider {
         okHttpClientBuilder.build()
     }
 
-    val questionService: QuestionService by lazy {
+    val stackService: StackService by lazy {
         Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-                .create(QuestionService::class.java)
+                .create(StackService::class.java)
     }
 
     private const val BASE_URL = "https://api.stackexchange.com/2.2/"

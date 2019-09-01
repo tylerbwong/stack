@@ -5,15 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
-import me.tylerbwong.stack.data.network.service.QuestionService
+import me.tylerbwong.stack.data.network.service.StackService
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
 import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
 import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 
-class QuestionsViewModel(
-        private val service: QuestionService = ServiceProvider.questionService
+internal class QuestionsViewModel(
+        private val service: StackService = ServiceProvider.stackService
 ) : BaseViewModel() {
 
     internal val data: LiveData<List<DynamicDataModel>>
