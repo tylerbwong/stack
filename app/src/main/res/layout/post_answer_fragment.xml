@@ -15,7 +15,9 @@
         android:elevation="@dimen/default_app_bar_elevation"
         app:tabIndicatorColor="@color/colorAccent"
         app:tabIndicatorFullWidth="false"
-        app:tabTextColor="?android:attr/textColorPrimary">
+        app:tabSelectedTextColor="?android:attr/textColorPrimary"
+        app:tabTextAppearance="@style/TabTextAppearance"
+        app:tabTextColor="?android:attr/textColorSecondary">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/markdownTab"

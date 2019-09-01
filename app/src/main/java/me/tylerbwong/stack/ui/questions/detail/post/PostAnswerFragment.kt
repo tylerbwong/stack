@@ -15,7 +15,7 @@ import androidx.lifecycle.observe
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
-import kotlinx.android.synthetic.main.submit_answer_fragment.*
+import kotlinx.android.synthetic.main.post_answer_fragment.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
@@ -25,7 +25,7 @@ import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.showKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
-class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
+class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
 
     private val viewModel by viewModels<PostAnswerViewModel>()
 
