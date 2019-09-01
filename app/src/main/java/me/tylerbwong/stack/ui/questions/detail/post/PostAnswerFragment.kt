@@ -12,6 +12,7 @@ import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
 import kotlinx.android.synthetic.main.submit_answer_fragment.*
@@ -112,7 +113,14 @@ class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.discard -> clearFields()
+            R.id.discard -> {
+                MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(R.string.discard_answer)
+                        .setPositiveButton(R.string.discard) { _, _ -> clearFields() }
+                        .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                        .create()
+                        .show()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
