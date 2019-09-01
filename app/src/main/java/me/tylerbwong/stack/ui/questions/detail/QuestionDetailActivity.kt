@@ -11,7 +11,6 @@ import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_question_detail.*
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 
@@ -29,7 +28,7 @@ class QuestionDetailActivity : BaseActivity() {
         viewModel.questionId = savedInstanceState?.getInt(QUESTION_ID)
                 ?: intent.getIntExtra(QUESTION_ID, 0)
 
-        AuthStore.isAuthenticatedLiveData.observe(this) {
+        viewModel.canAnswerQuestion.observe(this) {
             toggleAnswerButtonVisibility(isVisible = it && !viewModel.isInAnswerMode)
         }
 
