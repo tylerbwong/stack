@@ -1,17 +1,13 @@
-package me.tylerbwong.stack.ui.utils.markdown
+package me.tylerbwong.stack.ui.utils
 
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.text.TextUtils
-import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsService
-import io.noties.markwon.LinkResolver
-import io.noties.markwon.core.spans.LinkSpan
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.DeepLinker
 import me.tylerbwong.stack.ui.theme.ThemeManager
 import timber.log.Timber
 
@@ -21,20 +17,6 @@ private const val DEV_PACKAGE = "com.chrome.dev"
 private const val LOCAL_PACKAGE = "com.google.android.apps.chrome"
 
 private var packageName: String? = null
-
-class CustomTabsLinkResolver : LinkResolver {
-    override fun resolve(view: View, link: String) {
-        val context = view.context
-        val deepLinkIntent = DeepLinker.resolvePath(context, Uri.parse(link))
-
-        if (deepLinkIntent != null) {
-            Timber.i("Resolving internal deep link for $link")
-            context.startActivity(deepLinkIntent)
-        } else {
-            launchCustomTab(context, link)
-        }
-    }
-}
 
 fun launchCustomTab(context: Context, url: String) {
     val packageName = getPackageNameToUse(context, url)

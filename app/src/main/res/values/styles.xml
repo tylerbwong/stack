@@ -24,7 +24,26 @@
         <item name="android:textColorSecondary">@color/secondaryTextColorLight</item>
         <item name="android:textColorHint">@color/secondaryTextColorLight</item>
         <item name="viewBackgroundColor">@color/viewBackgroundColorLight</item>
+        <item name="materialAlertDialogTheme">@style/MaterialAlertDialogTheme.Light</item>
+        <item name="materialAlertDialogTitlePanelStyle">@style/MaterialAlertDialog.MaterialComponents.Title.Panel</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.MaterialComponents.Title.Text</item>
         <item name="iconColor">@color/iconColorLight</item>
+    </style>
+    
+    <!-- Light alert dialog theme -->
+    <style name="MaterialAlertDialogTheme.Light" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/MaterialAlertDialogPositiveButtonLightStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/MaterialAlertDialogNegativeButtonLightStyle</item>
+    </style>
+
+    <style name="MaterialAlertDialogPositiveButtonLightStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/primaryTextColorLight</item>
+        <item name="rippleColor">@color/colorAccent</item>
+    </style>
+
+    <style name="MaterialAlertDialogNegativeButtonLightStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/primaryTextColorLight</item>
+        <item name="rippleColor">@color/colorAccent</item>
     </style>
 
     <!-- Dark base activity theme -->
@@ -35,7 +54,26 @@
         <item name="android:textColorSecondary">@color/secondaryTextColorDark</item>
         <item name="android:textColorHint">@color/secondaryTextColorDark</item>
         <item name="viewBackgroundColor">@color/windowBackgroundDark</item>
+        <item name="materialAlertDialogTheme">@style/MaterialAlertDialogTheme.Dark</item>
+        <item name="materialAlertDialogTitlePanelStyle">@style/MaterialAlertDialog.MaterialComponents.Title.Panel</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.MaterialComponents.Title.Text</item>
         <item name="iconColor">@color/iconColorDark</item>
+    </style>
+
+    <!-- Dark alert dialog theme -->
+    <style name="MaterialAlertDialogTheme.Dark" parent="Theme.MaterialComponents.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/MaterialAlertDialogPositiveButtonDarkStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/MaterialAlertDialogNegativeButtonDarkStyle</item>
+    </style>
+
+    <style name="MaterialAlertDialogPositiveButtonDarkStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/primaryTextColorDark</item>
+        <item name="rippleColor">@color/colorAccent</item>
+    </style>
+
+    <style name="MaterialAlertDialogNegativeButtonDarkStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/primaryTextColorDark</item>
+        <item name="rippleColor">@color/colorAccent</item>
     </style>
 
 </resources>

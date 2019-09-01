@@ -22,6 +22,8 @@ object Versions {
     const val ktxLifecycleExtensions = "2.2.0-alpha01"
     const val markwon = "4.1.0"
     const val materialComponents = "1.1.0-alpha09"
+    const val mockito = "3.0.0"
+    const val mockitoKotlin = "2.1.0"
     const val okHttp = "4.1.0"
     const val retrofit = "2.6.1"
     const val robolectric = "4.3"
@@ -56,6 +58,7 @@ object Dep {
     const val markwonGlide = "io.noties.markwon:image-glide:${Versions.markwon}"
     const val markwonStrikethrough = "io.noties.markwon:ext-strikethrough:${Versions.markwon}"
     const val materialComponents = "com.google.android.material:material:${Versions.materialComponents}"
+    const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
     const val okHttpLogger = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
@@ -66,6 +69,8 @@ object Dep {
 
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
     const val jUnit = "junit:junit:${Versions.jUnit}"
+    const val mockito = "org.mockito:mockito-core:${Versions.mockito}"
+    const val mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockitoKotlin}"
     const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
     const val testRunner = "androidx.test:runner:${Versions.testRunner}"
 

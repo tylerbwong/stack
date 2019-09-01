@@ -9,11 +9,16 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class User(
+        @SerializedName("about_me")
+        val aboutMe: String?,
         @SerializedName("accept_rate")
         val acceptRate: Int?,
+        @SerializedName("account_id")
+        val accountId: Int?,
         @SerializedName("display_name")
         val displayName: String,
         val link: String?,
+        val location: String?,
         @SerializedName("profile_image")
         val profileImage: String?,
         val reputation: Int,

@@ -33,7 +33,7 @@ class QuestionRepository(private val stackDatabase: StackDatabase = StackDatabas
     }
 
     private suspend fun getQuestionsFromNetwork(@Sort sort: String): List<Question> {
-        return ServiceProvider.questionService.getQuestions(sort = sort)
+        return ServiceProvider.stackService.getQuestions(sort = sort)
                 .items
                 .also { withContext(Dispatchers.IO) { saveQuestions(it, sort) } }
     }

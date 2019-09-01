@@ -35,4 +35,11 @@
     <string name="retry">Retry</string>
     <string name="single_tag_error">Could not get questions for tag %1$s</string>
     <string name="deep_link_error">Stack can\'t handle this link yet!</string>
+
+    <!-- Auth -->
+    <string name="log_in_title">Would you like to log in?</string>
+    <string name="log_out_title">Would you like to log out?</string>
+    <string name="log_in">Log in</string>
+    <string name="log_out">Log out</string>
+    <string name="cancel">Cancel</string>
 </resources>
