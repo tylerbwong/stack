@@ -40,7 +40,10 @@ class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
 
             val activity = activity as? QuestionDetailActivity
             when (it) {
-                is PostAnswerState.Success -> activity?.toggleAnswerMode(isInAnswerMode = false)
+                is PostAnswerState.Success -> {
+                    clearFields()
+                    activity?.toggleAnswerMode(isInAnswerMode = false)
+                }
                 is PostAnswerState.Loading -> togglePostAnswerButtonVisibility(isVisible = false)
                 is PostAnswerState.Error -> togglePostAnswerButtonVisibility(isVisible = true)
             }
@@ -151,6 +154,13 @@ class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
         postAnswerButton.extend()
     } else {
         postAnswerButton.hide()
+    }
+
+    // TODO(Tyler) Clear fields when exiting answer mode
+    private fun clearFields() {
+        markdownEditText.text = null
+        previewText.text = null
+        debugPreview.isChecked = BuildConfig.DEBUG
     }
 
     companion object {
