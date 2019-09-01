@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.Fragment
@@ -24,6 +27,11 @@ import me.tylerbwong.stack.ui.utils.showSnackbar
 class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
 
     private val viewModel by viewModels<PostAnswerViewModel>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -94,32 +102,19 @@ class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        // Fix TextInputLayout error message crash
-        if (viewModel.markdownTextWatcher != null) {
-            markdownEditText.removeTextChangedListener(viewModel.markdownTextWatcher)
-            viewModel.markdownTextWatcher = null
+        tearDownTextWatcher()
+        setUpTextWatcher()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_discard, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.discard -> clearFields()
         }
-
-        viewModel.markdownTextWatcher = object : TextWatcher {
-            override fun afterTextChanged(text: Editable) {
-                togglePostAnswerButtonVisibility(isVisible = !text.isBlank())
-            }
-
-            override fun beforeTextChanged(text: CharSequence, start: Int, count: Int, after: Int) {
-                // no-op
-            }
-
-            override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
-                markdownInputLayout.error = if (text.isBlank()) {
-                    getString(R.string.answer_error)
-                } else {
-                    null
-                }
-            }
-        }
-        markdownEditText.addTextChangedListener(viewModel.markdownTextWatcher)
-
-        togglePostAnswerButtonVisibility()
+        return super.onOptionsItemSelected(item)
     }
 
     private fun onTabChanged(position: Int) {
@@ -160,10 +155,41 @@ class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
 
     // TODO(Tyler) Clear fields when exiting answer mode
     private fun clearFields() {
+        tearDownTextWatcher()
         markdownEditText.text = null
         previewText.text = null
+        setUpTextWatcher()
         debugPreview.isChecked = BuildConfig.DEBUG
         tabLayout.selectTab(tabLayout.getTabAt(0))
+    }
+
+    private fun tearDownTextWatcher() {
+        // Fix TextInputLayout error message crash
+        if (viewModel.markdownTextWatcher != null) {
+            markdownEditText.removeTextChangedListener(viewModel.markdownTextWatcher)
+            viewModel.markdownTextWatcher = null
+        }
+    }
+
+    private fun setUpTextWatcher() {
+        viewModel.markdownTextWatcher = object : TextWatcher {
+            override fun afterTextChanged(text: Editable) {
+                togglePostAnswerButtonVisibility(isVisible = !text.isBlank())
+            }
+
+            override fun beforeTextChanged(text: CharSequence, start: Int, count: Int, after: Int) {
+                // no-op
+            }
+
+            override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
+                markdownInputLayout.error = if (text.isBlank()) {
+                    getString(R.string.answer_error)
+                } else {
+                    null
+                }
+            }
+        }
+        markdownEditText.addTextChangedListener(viewModel.markdownTextWatcher)
     }
 
     companion object {
