@@ -30,16 +30,18 @@ class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
         viewModel.questionId = arguments?.getInt(QuestionDetailActivity.QUESTION_ID, 0) ?: 0
 
         viewModel.snackbar.observe(this) {
-            scrollView.showSnackbar(it.messageId, duration = it.duration)
-
             val activity = activity as? QuestionDetailActivity
+
             when (it) {
                 is PostAnswerState.Success -> {
                     clearFields()
                     activity?.toggleAnswerMode(isInAnswerMode = false)
+                    rootLayout.showSnackbar(it.messageId, duration = it.duration)
                 }
-                is PostAnswerState.Loading -> togglePostAnswerButtonEnabled(isEnabled = false)
-                is PostAnswerState.Error -> togglePostAnswerButtonEnabled(isEnabled = true)
+                is PostAnswerState.Loading, is PostAnswerState.Error -> {
+                    togglePostAnswerButtonVisibility(isVisible = it is PostAnswerState.Error)
+                    scrollView.showSnackbar(it.messageId, duration = it.duration)
+                }
             }
         }
 
@@ -154,10 +156,6 @@ class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
         postAnswerButton.extend()
     } else {
         postAnswerButton.hide()
-    }
-
-    private fun togglePostAnswerButtonEnabled(isEnabled: Boolean) {
-        postAnswerButton.isEnabled = isEnabled
     }
 
     // TODO(Tyler) Clear fields when exiting answer mode
