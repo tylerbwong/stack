@@ -110,7 +110,7 @@ interface StackService {
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
     ): Response<User>
 
-    @GET("access-tokens/{accessToken}/invalidate")
+    @GET("apps/{accessToken}/de-authenticate")
     suspend fun logOut(
             @Path(ACCESS_TOKEN) accessToken: String,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
