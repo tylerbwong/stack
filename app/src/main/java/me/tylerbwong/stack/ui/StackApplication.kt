@@ -11,6 +11,8 @@ class StackApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        ApplicationWrapper.init(this)
+
         ThemeManager.init(this)
 
         StackDatabase.init(this)

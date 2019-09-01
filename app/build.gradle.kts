@@ -31,6 +31,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    lintOptions {
+        isAbortOnError = false
+    }
+
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }
@@ -38,12 +42,6 @@ android {
 
 androidExtensions {
     isExperimental = true
-}
-
-android {
-    lintOptions {
-        isAbortOnError = false
-    }
 }
 
 dependencies {
@@ -81,6 +79,7 @@ dependencies {
 
     // networking
     implementation(Dep.gson)
+    implementation(Dep.okHttp)
     implementation(Dep.okHttpLogger)
     implementation(Dep.retrofit)
     implementation(Dep.retrofitGsonConverter)
@@ -104,6 +103,8 @@ dependencies {
     // testing
     testImplementation(Dep.androidxTestCore)
     testImplementation(Dep.jUnit)
+    testImplementation(Dep.mockito)
+    testImplementation(Dep.mockitoKotlin)
     testImplementation(Dep.robolectric)
     androidTestImplementation(Dep.testRunner)
     androidTestImplementation(Dep.espresso)
