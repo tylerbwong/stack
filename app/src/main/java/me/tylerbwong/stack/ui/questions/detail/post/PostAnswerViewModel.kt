@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.AnswerRequest
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.StackService
 import timber.log.Timber
@@ -28,7 +27,7 @@ class PostAnswerViewModel(
 
         viewModelScope.launch {
             try {
-                val answer = service.postAnswer(questionId, answerRequest = AnswerRequest.from(markdown)).items
+                val answer = service.postAnswer(questionId, bodyMarkdown = markdown).items
 
                 _snackbar.value = if (answer.isNotEmpty()) {
                     R.string.post_answer_success

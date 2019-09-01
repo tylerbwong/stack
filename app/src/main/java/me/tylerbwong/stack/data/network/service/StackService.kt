@@ -1,8 +1,8 @@
 package me.tylerbwong.stack.data.network.service
 
+import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.Answer
-import me.tylerbwong.stack.data.model.AnswerRequest
 import me.tylerbwong.stack.data.model.DESC
 import me.tylerbwong.stack.data.model.ORDER_PARAM
 import me.tylerbwong.stack.data.model.Order
@@ -13,7 +13,8 @@ import me.tylerbwong.stack.data.model.SORT_PARAM
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.network.ServiceProvider.DEFAULT_KEY
-import retrofit2.http.Body
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -63,12 +64,15 @@ interface StackService {
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
     ): Response<Answer>
 
+    @FormUrlEncoded
     @POST("questions/{id}/answers/add")
     suspend fun postAnswer(
             @Path("id") questionId: Int,
-            @Query(SITE_PARAM) site: String = DEFAULT_SITE,
-            @Query(KEY_PARAM) key: String = DEFAULT_KEY,
-            @Body answerRequest: AnswerRequest
+            @Field(SITE_PARAM) site: String = DEFAULT_SITE,
+            @Field(KEY_PARAM) key: String = DEFAULT_KEY,
+            @Field("body") bodyMarkdown: String,
+            @Field("preview") preview: Boolean = true,
+            @Field("access_token") accessToken: String = AuthStore.accessToken ?: ""
     ): Response<Answer>
 
     @GET("search/advanced")
