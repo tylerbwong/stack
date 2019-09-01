@@ -18,7 +18,7 @@
         app:tabTextColor="?android:attr/textColorPrimary">
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/bodyTab"
+            android:id="@+id/markdownTab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/markdown" />

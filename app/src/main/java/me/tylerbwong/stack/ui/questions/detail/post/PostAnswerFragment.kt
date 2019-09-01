@@ -163,6 +163,7 @@ class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
         markdownEditText.text = null
         previewText.text = null
         debugPreview.isChecked = BuildConfig.DEBUG
+        tabLayout.selectTab(tabLayout.getTabAt(0))
     }
 
     companion object {
