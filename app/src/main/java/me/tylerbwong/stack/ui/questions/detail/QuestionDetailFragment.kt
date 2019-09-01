@@ -17,6 +17,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.R.dimen
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.showSnackbar
 
 class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
 
@@ -37,12 +38,10 @@ class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
         }
         viewModel.snackbar.observe(this) {
             if (it != null) {
-                snackbar = Snackbar.make(
-                        refreshLayout,
-                        getString(R.string.network_error),
-                        Snackbar.LENGTH_INDEFINITE
-                ).setAction(R.string.retry) { viewModel.getQuestionDetails() }
-                snackbar?.show()
+                snackbar = refreshLayout.showSnackbar(
+                        R.string.network_error,
+                        R.string.retry
+                ) { viewModel.getQuestionDetails() }
             } else {
                 snackbar?.dismiss()
             }

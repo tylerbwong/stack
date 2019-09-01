@@ -2,11 +2,11 @@ package me.tylerbwong.stack.ui.profile
 
 import android.content.Context
 import android.content.Intent
-import androidx.lifecycle.observe
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_profile.*
@@ -15,6 +15,7 @@ import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.showSnackbar
 
 class ProfileActivity : BaseActivity() {
 
@@ -33,12 +34,9 @@ class ProfileActivity : BaseActivity() {
         }
         viewModel.snackbar.observe(this) {
             if (it != null) {
-                snackbar = Snackbar.make(
-                        rootLayout,
-                        getString(R.string.network_error),
-                        Snackbar.LENGTH_INDEFINITE
-                ).setAction(R.string.retry) { viewModel.getUserQuestionsAndAnswers() }
-                snackbar?.show()
+                snackbar = rootLayout.showSnackbar(R.string.network_error, R.string.retry) {
+                    viewModel.getUserQuestionsAndAnswers()
+                }
             } else {
                 snackbar?.dismiss()
             }
