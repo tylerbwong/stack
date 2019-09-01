@@ -20,13 +20,24 @@ internal class QuestionsViewModel(
         get() = _data
     private val _data = MutableLiveData<List<DynamicDataModel>>()
 
+    internal val isMainSortsSupported: Boolean
+        get() = page == TAGS
+
     internal lateinit var page: QuestionPage
     internal var key: String = ""
 
     @Sort
     private var currentSort: String = CREATION
 
-    internal fun getQuestionsByTag(@Sort sort: String = currentSort) {
+    internal fun getQuestions(@Sort sort: String = currentSort) {
+        when (page) {
+            TAGS -> getQuestionsByTag(sort = sort)
+            LINKED -> getLinkedQuestions(sort = sort)
+            RELATED -> getRelatedQuestions(sort = sort)
+        }
+    }
+
+    private fun getQuestionsByTag(@Sort sort: String = currentSort) {
         currentSort = sort
         launchRequest {
             val questions = service.getQuestionsByTags(tags = key, sort = sort).items
@@ -35,7 +46,7 @@ internal class QuestionsViewModel(
         }
     }
 
-    internal fun getLinkedQuestions(@Sort sort: String = currentSort) {
+    private fun getLinkedQuestions(@Sort sort: String = currentSort) {
         currentSort = sort
         val questionId = key.toIntOrNull() ?: return
         launchRequest {
@@ -45,21 +56,13 @@ internal class QuestionsViewModel(
         }
     }
 
-    internal fun getRelatedQuestions(@Sort sort: String = currentSort) {
+    private fun getRelatedQuestions(@Sort sort: String = currentSort) {
         currentSort = sort
         val questionId = key.toIntOrNull() ?: return
         launchRequest {
             val questions = service.getRelatedQuestions(questionId = questionId, sort = sort).items
                     .map { QuestionDataModel(it) }
             _data.value = questions
-        }
-    }
-
-    internal fun getQuestions(@Sort sort: String = currentSort) {
-        when (page) {
-            TAGS -> getQuestionsByTag(sort = sort)
-            LINKED -> getLinkedQuestions(sort = sort)
-            RELATED -> getRelatedQuestions(sort = sort)
         }
     }
 }

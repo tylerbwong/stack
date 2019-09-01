@@ -77,6 +77,13 @@ class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
             R.id.sort -> {
                 PopupMenu(this, findViewById(R.id.sort)).also { popupMenu ->
                     popupMenu.inflate(R.menu.menu_sort)
+
+                    if (!viewModel.isMainSortsSupported) {
+                        listOf(R.id.hot, R.id.week, R.id.month).forEach {
+                            popupMenu.menu?.removeItem(it)
+                        }
+                    }
+
                     popupMenu.setOnMenuItemClickListener(this)
                     popupMenu.show()
                 }
@@ -115,7 +122,7 @@ class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
                         rootLayout,
                         R.string.network_error,
                         Snackbar.LENGTH_INDEFINITE
-                ).setAction(R.string.retry) { viewModel.getQuestionsByTag(key) }
+                ).setAction(R.string.retry) { viewModel.getQuestions() }
                 snackbar?.show()
             } else {
                 snackbar?.dismiss()
