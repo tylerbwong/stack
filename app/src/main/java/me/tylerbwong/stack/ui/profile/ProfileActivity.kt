@@ -41,6 +41,14 @@ class ProfileActivity : BaseActivity() {
                 snackbar?.dismiss()
             }
         }
+        viewModel.answersData.observe(this) {
+            val data = mutableListOf<DynamicDataModel>()
+            it.firstOrNull()?.owner?.let {  user ->
+                supportActionBar?.title = user.displayName
+                data.add(0, ProfileHeaderDataModel(user))
+            }
+            adapter.update(data)
+        }
         viewModel.questionsData.observe(this) {
             val data = it.toMutableList<DynamicDataModel>()
             it.firstOrNull()?.owner?.let {  user ->
