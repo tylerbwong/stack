@@ -89,12 +89,6 @@ class QuestionDetailActivity : BaseActivity() {
         }
     }
 
-    private fun toggleAnswerButtonVisibility(isVisible: Boolean) = if (isVisible) {
-        postAnswerButton.show(false)
-    } else {
-        postAnswerButton.hide(false)
-    }
-
     internal fun extendAnswerButton() = postAnswerButton.extend()
 
     internal fun shrinkAnswerButton() = postAnswerButton.shrink()
@@ -121,6 +115,12 @@ class QuestionDetailActivity : BaseActivity() {
         } else {
             0
         }
+    }
+
+    private fun toggleAnswerButtonVisibility(isVisible: Boolean) = if (isVisible) {
+        postAnswerButton.show(false)
+    } else {
+        postAnswerButton.hide(false)
     }
 
     companion object {

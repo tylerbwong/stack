@@ -1,10 +1,13 @@
 package me.tylerbwong.stack.ui.questions.detail.post
 
 import android.text.TextWatcher
+import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.material.snackbar.BaseTransientBottomBar.Duration
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.network.ServiceProvider
@@ -18,26 +21,36 @@ class PostAnswerViewModel(
     internal var selectedTabPosition = 0
     internal var questionId = 0
 
-    val snackbar: LiveData<Int?>
+    val snackbar: LiveData<PostAnswerState>
         get() = _snackbar
-    private val _snackbar = MutableLiveData<Int?>()
+    private val _snackbar = MutableLiveData<PostAnswerState>()
 
-    fun postAnswer(markdown: String) {
-        _snackbar.value = R.string.posting_answer
+    fun postAnswer(markdown: String, isPreview: Boolean = false) {
+        _snackbar.value = PostAnswerState.Loading
 
         viewModelScope.launch {
             try {
-                val answer = service.postAnswer(questionId, bodyMarkdown = markdown).items
+                val answer = service.postAnswer(
+                        questionId,
+                        bodyMarkdown = markdown,
+                        preview = isPreview
+                ).items
 
                 _snackbar.value = if (answer.isNotEmpty()) {
-                    R.string.post_answer_success
+                    PostAnswerState.Success
                 } else {
-                    R.string.post_answer_error
+                    throw IllegalStateException("Could not post answer")
                 }
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _snackbar.value = R.string.post_answer_error
+                _snackbar.value = PostAnswerState.Error
             }
         }
     }
+}
+
+sealed class PostAnswerState(@StringRes val messageId: Int, @Duration val duration: Int) {
+    object Success : PostAnswerState(R.string.post_answer_success, Snackbar.LENGTH_LONG)
+    object Loading : PostAnswerState(R.string.posting_answer, Snackbar.LENGTH_INDEFINITE)
+    object Error : PostAnswerState(R.string.post_answer_error, Snackbar.LENGTH_LONG)
 }

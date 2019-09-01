@@ -9,11 +9,11 @@ import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
 import kotlinx.android.synthetic.main.submit_answer_fragment.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
+import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
@@ -27,16 +27,22 @@ class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        debugPreview.visibility = if (BuildConfig.DEBUG) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+
         viewModel.questionId = arguments?.getInt(QuestionDetailActivity.QUESTION_ID, 0) ?: 0
 
         viewModel.snackbar.observe(this) {
-            if (it != null) {
-                rootLayout.showSnackbar(it, duration = Snackbar.LENGTH_LONG)
+            rootLayout.showSnackbar(it.messageId, duration = it.duration)
 
-                val activity = activity as? QuestionDetailActivity
-                when (it) {
-                    R.string.post_answer_success -> activity?.toggleAnswerMode(isInAnswerMode = false)
-                }
+            val activity = activity as? QuestionDetailActivity
+            when (it) {
+                is PostAnswerState.Success -> activity?.toggleAnswerMode(isInAnswerMode = false)
+                is PostAnswerState.Loading -> togglePostAnswerButtonVisibility(isVisible = false)
+                is PostAnswerState.Error -> togglePostAnswerButtonVisibility(isVisible = true)
             }
         }
 
@@ -71,9 +77,14 @@ class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
 
         postAnswerButton.setOnClickListener {
             if (!markdownEditText.text.isNullOrBlank()) {
-                viewModel.postAnswer(markdownEditText.text.toString())
+                viewModel.postAnswer(markdownEditText.text.toString(), isPreview = BuildConfig.DEBUG)
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        togglePostAnswerButtonVisibility()
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {

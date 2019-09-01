@@ -41,6 +41,7 @@ class ProfileActivity : BaseActivity() {
                 snackbar?.dismiss()
             }
         }
+        // TODO(Tyler) Integrate getUser endpoint
         // For now, we pull a user's answers and questions in case they don't have any of either
         // and we can't get their user info
         viewModel.answersData.observe(this) {

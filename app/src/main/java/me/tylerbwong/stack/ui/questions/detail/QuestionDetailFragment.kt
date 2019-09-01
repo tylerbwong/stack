@@ -80,7 +80,10 @@ class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
         viewModel.questionId = arguments?.getInt(QuestionDetailActivity.QUESTION_ID, 0) ?: 0
 
         refreshLayout.setOnRefreshListener { viewModel.getQuestionDetails() }
+    }
 
+    override fun onResume() {
+        super.onResume()
         viewModel.getQuestionDetails()
     }
 

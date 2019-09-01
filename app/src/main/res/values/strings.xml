@@ -63,4 +63,5 @@
     <string name="posting_answer">Posting answer…</string>
     <string name="post_answer_success">Successfully posted answer!</string>
     <string name="post_answer_error">Could not post answer</string>
+    <string name="post_preview">Post as preview</string>
 </resources>

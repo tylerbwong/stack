@@ -39,41 +39,58 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="16dp"
-                android:paddingBottom="80dp">
+                android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/markdownInputLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxStrokeColor="@color/colorAccent"
-                    app:hintTextColor="@color/colorAccent">
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/markdownEditText"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/markdownInputLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:boxStrokeColor="@color/colorAccent"
+                        app:hintTextColor="@color/colorAccent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/markdownEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start|top"
+                            android:minHeight="@dimen/answer_markdown_height"
+                            android:theme="@style/TextInputEditTextStyle" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/previewText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/answer_preview_background"
                         android:gravity="start|top"
                         android:minHeight="@dimen/answer_markdown_height"
-                        android:theme="@style/TextInputEditTextStyle" />
+                        android:visibility="gone" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </FrameLayout>
 
-                <TextView
-                    android:id="@+id/previewText"
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/debugPreview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/answer_preview_background"
-                    android:gravity="start|top"
-                    android:minHeight="@dimen/answer_markdown_height"
-                    android:visibility="gone" />
-
-            </FrameLayout>
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="80dp"
+                    android:checked="true"
+                    android:text="@string/post_preview" />
+            </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 
