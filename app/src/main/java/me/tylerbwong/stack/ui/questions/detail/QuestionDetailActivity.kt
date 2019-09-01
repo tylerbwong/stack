@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.ui.questions.detail
 
+import android.animation.AnimatorInflater
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -49,10 +50,16 @@ class QuestionDetailActivity : BaseActivity() {
 
             override fun onPageSelected(position: Int) {
                 if (position == 0) {
-                    appBar.elevation = resources.getDimension(R.dimen.default_app_bar_elevation)
+                    appBar.stateListAnimator = AnimatorInflater.loadStateListAnimator(
+                            this@QuestionDetailActivity,
+                            R.animator.app_bar_elevation
+                    )
                     rootLayout.hideKeyboard()
                 } else {
-                    appBar.elevation = 0f
+                    appBar.stateListAnimator = AnimatorInflater.loadStateListAnimator(
+                            this@QuestionDetailActivity,
+                            R.animator.app_bar_no_elevation
+                    )
                 }
             }
         })
