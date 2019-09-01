@@ -60,6 +60,7 @@ dependencies {
     implementation(Dep.androidxSwipeRefreshLayout)
     implementation(Dep.constraintLayout)
     implementation(Dep.ktxActivityExtensions)
+    implementation(Dep.ktxFragmentExtensions)
     implementation(Dep.ktxViewModelExtensions)
     implementation(Dep.ktxLiveDataExtensions)
     implementation(Dep.materialComponents)

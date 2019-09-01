@@ -1,11 +1,13 @@
 package me.tylerbwong.stack.ui.utils
 
+import android.content.Context
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import java.util.*
 
@@ -41,4 +43,14 @@ fun Long.format(): String {
     val truncated = this / (divideBy / 10) //the number part of the output times 10
     val hasDecimal = truncated < 100 && truncated / 10.0 != (truncated / 10).toDouble()
     return if (hasDecimal) "${truncated / 10.0}$suffix" else "${truncated / 10}$suffix"
+}
+
+fun View.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
+}
+
+fun View.showKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.showSoftInput(this, 0)
 }

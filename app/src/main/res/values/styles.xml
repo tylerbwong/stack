@@ -76,4 +76,8 @@
         <item name="rippleColor">@color/colorAccent</item>
     </style>
 
+    <style name="TextInputEditTextStyle">
+        <item name="android:colorControlActivated">@color/colorAccent</item>
+    </style>
+
 </resources>

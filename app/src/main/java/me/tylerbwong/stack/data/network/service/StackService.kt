@@ -13,6 +13,7 @@ import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.network.ServiceProvider.DEFAULT_KEY
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -57,6 +58,14 @@ interface StackService {
             @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
             @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
             @Query(FILTER_PARAM) filter: String = DETAIL_FILTER,
+            @Query(KEY_PARAM) key: String = DEFAULT_KEY
+    ): Response<Answer>
+
+    @POST("questions/{id}/answers/add")
+    suspend fun addAnswer(
+            @Path("id") questionId: Int,
+            @Query(BODY) bodyMarkdown: String,
+            @Query(PREVIEW) preview: Boolean = false,
             @Query(KEY_PARAM) key: String = DEFAULT_KEY
     ): Response<Answer>
 
@@ -116,6 +125,8 @@ interface StackService {
         private const val TAGGED_PARAM = "tagged"
         private const val KEY_PARAM = "key"
         private const val SEARCH_PARAM = "q"
+        private const val BODY = "body"
+        private const val PREVIEW = "preview"
 
         // defaults
         private const val DEFAULT_SITE = "stackoverflow"

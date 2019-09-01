@@ -27,7 +27,6 @@ class QuestionDetailViewModel(
 
     internal var questionId: Int = 0
     internal var question: Question? = null
-    internal var isFromDeepLink = false
 
     internal fun getQuestionDetails() {
         launchRequest {

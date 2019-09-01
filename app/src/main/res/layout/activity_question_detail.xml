@@ -20,15 +20,24 @@
             app:titleTextColor="?android:attr/textColorPrimary" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refreshLayout"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/addAnswerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:padding="16dp"
+        android:text="@string/answer"
+        android:textAllCaps="false"
+        android:textColor="@color/primaryTextColorLight"
+        app:backgroundTint="?attr/colorAccent"
+        app:icon="@drawable/ic_edit"
+        app:iconTint="@color/primaryTextColorLight"
+        app:layout_anchor="@id/viewPager"
+        app:layout_anchorGravity="bottom|end" />
+
+    <me.tylerbwong.stack.ui.utils.NoSwipeViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
