@@ -41,6 +41,8 @@ class ProfileActivity : BaseActivity() {
                 snackbar?.dismiss()
             }
         }
+        // For now, we pull a user's answers and questions in case they don't have any of either
+        // and we can't get their user info
         viewModel.answersData.observe(this) {
             val data = mutableListOf<DynamicDataModel>()
             it.firstOrNull()?.owner?.let {  user ->
