@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
 import kotlinx.android.synthetic.main.submit_answer_fragment.*
+import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
@@ -21,6 +22,11 @@ class SubmitAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
     private val viewModel by viewModels<SubmitAnswerViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        previewText.apply {
+            setTextIsSelectable(true)
+            movementMethod = BetterLinkMovementMethod.getInstance()
+        }
+
         scrollView.setOnScrollChangeListener(OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if (scrollY > oldScrollY) {
                 addAnswerButton.shrink()
@@ -42,6 +48,7 @@ class SubmitAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
                 onTabChanged(tab.position)
             }
         })
+
         tabLayout.selectTab(tabLayout.getTabAt(viewModel.selectedTabPosition))
     }
 
