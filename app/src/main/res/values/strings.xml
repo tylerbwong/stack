@@ -44,4 +44,12 @@
     <string name="log_in">Log in</string>
     <string name="log_out">Log out</string>
     <string name="cancel">Cancel</string>
+
+    <!-- In-App Update -->
+    <string name="update">Update</string>
+    <string name="restart">Restart</string>
+    <string name="restart_to_install">Restart to install update</string>
+    <string name="update_not_downloaded">Update not downloaded</string>
+    <string name="download_error">Error downloading update</string>
+
 </resources>

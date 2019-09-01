@@ -92,6 +92,9 @@ dependencies {
     // logging
     implementation(Dep.timber)
 
+    // play
+    implementation(Dep.playCore)
+
     // room
     implementation(Dep.room)
     implementation(Dep.roomCoroutines)

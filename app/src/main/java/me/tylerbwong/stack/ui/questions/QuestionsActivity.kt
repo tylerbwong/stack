@@ -22,6 +22,7 @@ import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.showSnackbar
 
 class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
 
@@ -118,12 +119,10 @@ class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
 
         viewModel.snackbar.observe(this) {
             if (it != null) {
-                snackbar = Snackbar.make(
-                        rootLayout,
+                snackbar = rootLayout.showSnackbar(
                         R.string.network_error,
-                        Snackbar.LENGTH_INDEFINITE
-                ).setAction(R.string.retry) { viewModel.getQuestions() }
-                snackbar?.show()
+                        R.string.retry
+                ) { viewModel.getQuestions() }
             } else {
                 snackbar?.dismiss()
             }

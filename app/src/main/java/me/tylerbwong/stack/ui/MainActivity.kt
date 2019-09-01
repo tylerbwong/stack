@@ -17,8 +17,13 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallState
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.InstallStatus
 import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.AppUpdater
 import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.CREATION
@@ -35,14 +40,17 @@ import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import me.tylerbwong.stack.ui.utils.showSnackbar
 
 class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
-        SearchView.OnQueryTextListener {
+        SearchView.OnQueryTextListener, InstallStateUpdatedListener {
 
     private val viewModel: MainViewModel by viewModels()
     private val adapter = DynamicViewAdapter()
     private var snackbar: Snackbar? = null
     private var menu: Menu? = null
+
+    private lateinit var appUpdater: AppUpdater
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,12 +64,9 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         }
         viewModel.snackbar.observe(this) {
             if (it != null) {
-                snackbar = Snackbar.make(
-                        rootLayout,
-                        getString(R.string.network_error),
-                        Snackbar.LENGTH_INDEFINITE
-                ).setAction(R.string.retry) { viewModel.getQuestions() }
-                snackbar?.show()
+                snackbar = rootLayout.showSnackbar(R.string.network_error, R.string.retry) {
+                    viewModel.getQuestions()
+                }
             } else {
                 snackbar?.dismiss()
             }
@@ -110,6 +115,14 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         }
 
         viewModel.fetchQuestions()
+
+        appUpdater = AppUpdater(AppUpdateManagerFactory.create(this))
+        appUpdater.checkForUpdate(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkForPendingInstall()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -184,6 +197,49 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
     override fun onQueryTextChange(newText: String?): Boolean {
         viewModel.onQueryTextChange(newText)
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AppUpdater.APP_UPDATE_REQUEST_CODE) {
+            when (resultCode) {
+                RESULT_OK -> checkForPendingInstall()
+                else -> {
+                    rootLayout.showSnackbar(
+                            R.string.update_not_downloaded,
+                            R.string.update,
+                            Snackbar.LENGTH_LONG
+                    ) { appUpdater.checkForUpdate(this) }
+                }
+            }
+        }
+    }
+
+    override fun onStateUpdate(state: InstallState) {
+        if (state.installStatus() == InstallStatus.DOWNLOADED) {
+            checkForPendingInstall()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        appUpdater.unregisterListener(this)
+    }
+
+    private fun checkForPendingInstall() {
+        appUpdater.checkForPendingInstall(
+                onDownloadFinished = { manager ->
+                    rootLayout.showSnackbar(R.string.restart_to_install, R.string.restart) {
+                        manager.completeUpdate()
+                        appUpdater.unregisterListener(this)
+                    }
+                },
+                onDownloadFailed = {
+                    rootLayout.showSnackbar(R.string.download_error, R.string.retry) {
+                        appUpdater.checkForUpdate(this)
+                    }
+                }
+        )
     }
 
     private fun clearSearch(fetchQuestions: Boolean = true) {
