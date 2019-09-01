@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.ui.questions.detail.submit
+package me.tylerbwong.stack.ui.questions.detail.post
 
 import android.os.Bundle
 import android.text.Editable
@@ -8,20 +8,38 @@ import android.view.View
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
 import kotlinx.android.synthetic.main.submit_answer_fragment.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.showKeyboard
+import me.tylerbwong.stack.ui.utils.showSnackbar
 
-class SubmitAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
+class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
 
-    private val viewModel by viewModels<SubmitAnswerViewModel>()
+    private val viewModel by viewModels<PostAnswerViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        viewModel.questionId = arguments?.getInt(QuestionDetailActivity.QUESTION_ID, 0) ?: 0
+
+        viewModel.snackbar.observe(this) {
+            if (it != null) {
+                rootLayout.showSnackbar(it, duration = Snackbar.LENGTH_LONG)
+
+                val activity = activity as? QuestionDetailActivity
+                when (it) {
+                    R.string.post_answer_success -> activity?.toggleAnswerMode(isInAnswerMode = false)
+                }
+            }
+        }
+
         previewText.apply {
             setTextIsSelectable(true)
             movementMethod = BetterLinkMovementMethod.getInstance()
@@ -29,9 +47,9 @@ class SubmitAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
 
         scrollView.setOnScrollChangeListener(OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if (scrollY > oldScrollY) {
-                addAnswerButton.shrink()
+                postAnswerButton.shrink()
             } else {
-                addAnswerButton.extend()
+                postAnswerButton.extend()
             }
         })
 
@@ -50,6 +68,12 @@ class SubmitAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
         })
 
         tabLayout.selectTab(tabLayout.getTabAt(viewModel.selectedTabPosition))
+
+        postAnswerButton.setOnClickListener {
+            if (!markdownEditText.text.isNullOrBlank()) {
+                viewModel.postAnswer(markdownEditText.text.toString())
+            }
+        }
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -62,7 +86,7 @@ class SubmitAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
 
         viewModel.markdownTextWatcher = object : TextWatcher {
             override fun afterTextChanged(text: Editable) {
-                toggleAddAnswerButtonVisibility(isVisible = !text.isBlank())
+                togglePostAnswerButtonVisibility(isVisible = !text.isBlank())
             }
 
             override fun beforeTextChanged(text: CharSequence, start: Int, count: Int, after: Int) {
@@ -79,7 +103,7 @@ class SubmitAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
         }
         markdownEditText.addTextChangedListener(viewModel.markdownTextWatcher)
 
-        toggleAddAnswerButtonVisibility()
+        togglePostAnswerButtonVisibility()
     }
 
     private fun onTabChanged(position: Int) {
@@ -109,16 +133,22 @@ class SubmitAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
         }
     }
 
-    private fun toggleAddAnswerButtonVisibility(
+    private fun togglePostAnswerButtonVisibility(
             isVisible: Boolean = !markdownEditText.text.isNullOrBlank()
     ) = if (isVisible) {
-        addAnswerButton.show()
-        addAnswerButton.extend()
+        postAnswerButton.show()
+        postAnswerButton.extend()
     } else {
-        addAnswerButton.hide()
+        postAnswerButton.hide()
     }
 
     companion object {
-        fun newInstance() = SubmitAnswerFragment()
+        fun newInstance(id: Int): PostAnswerFragment {
+            return PostAnswerFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(QuestionDetailActivity.QUESTION_ID, id)
+                }
+            }
+        }
     }
 }

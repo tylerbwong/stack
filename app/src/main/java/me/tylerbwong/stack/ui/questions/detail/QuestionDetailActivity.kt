@@ -32,7 +32,7 @@ class QuestionDetailActivity : BaseActivity() {
             toggleAnswerButtonVisibility(isVisible = it && !viewModel.isInAnswerMode)
         }
 
-        addAnswerButton.setOnClickListener {
+        postAnswerButton.setOnClickListener {
             toggleAnswerMode(isInAnswerMode = true)
         }
 
@@ -90,16 +90,16 @@ class QuestionDetailActivity : BaseActivity() {
     }
 
     private fun toggleAnswerButtonVisibility(isVisible: Boolean) = if (isVisible) {
-        addAnswerButton.show(false)
+        postAnswerButton.show(false)
     } else {
-        addAnswerButton.hide(false)
+        postAnswerButton.hide(false)
     }
 
-    internal fun extendAnswerButton() = addAnswerButton.extend()
+    internal fun extendAnswerButton() = postAnswerButton.extend()
 
-    internal fun shrinkAnswerButton() = addAnswerButton.shrink()
+    internal fun shrinkAnswerButton() = postAnswerButton.shrink()
 
-    private fun toggleAnswerMode(isInAnswerMode: Boolean) {
+    internal fun toggleAnswerMode(isInAnswerMode: Boolean) {
         viewModel.isInAnswerMode = isInAnswerMode
         adapter.isInAnswerMode = isInAnswerMode
         viewPager.isSwipeable = isInAnswerMode
@@ -110,7 +110,7 @@ class QuestionDetailActivity : BaseActivity() {
         supportActionBar?.apply {
             if (isInAnswerMode) {
                 setHomeAsUpIndicator(R.drawable.ic_close)
-                setTitle(R.string.add_answer)
+                setTitle(R.string.post_answer)
             } else {
                 setHomeAsUpIndicator(R.drawable.ic_arrow_back)
                 title = viewModel.title
