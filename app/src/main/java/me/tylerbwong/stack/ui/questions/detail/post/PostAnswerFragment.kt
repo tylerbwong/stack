@@ -27,16 +27,10 @@ class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        debugPreview.visibility = if (BuildConfig.DEBUG) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
-
         viewModel.questionId = arguments?.getInt(QuestionDetailActivity.QUESTION_ID, 0) ?: 0
 
         viewModel.snackbar.observe(this) {
-            rootLayout.showSnackbar(it.messageId, duration = it.duration)
+            scrollView.showSnackbar(it.messageId, duration = it.duration)
 
             val activity = activity as? QuestionDetailActivity
             when (it) {
@@ -44,9 +38,15 @@ class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
                     clearFields()
                     activity?.toggleAnswerMode(isInAnswerMode = false)
                 }
-                is PostAnswerState.Loading -> togglePostAnswerButtonVisibility(isVisible = false)
-                is PostAnswerState.Error -> togglePostAnswerButtonVisibility(isVisible = true)
+                is PostAnswerState.Loading -> togglePostAnswerButtonEnabled(isEnabled = false)
+                is PostAnswerState.Error -> togglePostAnswerButtonEnabled(isEnabled = true)
             }
+        }
+
+        debugPreview.visibility = if (BuildConfig.DEBUG) {
+            View.VISIBLE
+        } else {
+            View.GONE
         }
 
         previewText.apply {
@@ -154,6 +154,10 @@ class PostAnswerFragment : Fragment(R.layout.submit_answer_fragment) {
         postAnswerButton.extend()
     } else {
         postAnswerButton.hide()
+    }
+
+    private fun togglePostAnswerButtonEnabled(isEnabled: Boolean) {
+        postAnswerButton.isEnabled = isEnabled
     }
 
     // TODO(Tyler) Clear fields when exiting answer mode
