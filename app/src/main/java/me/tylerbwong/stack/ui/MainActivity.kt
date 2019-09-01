@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.activity.viewModels
@@ -68,7 +67,8 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         viewModel.snackbar.observe(this) {
             if (it != null) {
                 snackbar = rootLayout.showSnackbar(R.string.network_error, R.string.retry) {
-                    viewModel.getQuestions()
+                    viewModel.fetchUser()
+                    viewModel.fetchQuestions()
                 }
             } else {
                 snackbar?.dismiss()
