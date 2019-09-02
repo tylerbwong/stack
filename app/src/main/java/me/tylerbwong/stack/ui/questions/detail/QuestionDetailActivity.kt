@@ -106,6 +106,7 @@ class QuestionDetailActivity : BaseActivity() {
         toggleAnswerButtonVisibility(isVisible = !isInAnswerMode)
         if (!isInAnswerMode) {
             viewPager.hideKeyboard()
+            viewModel.clearFields()
         }
         supportActionBar?.apply {
             if (isInAnswerMode) {

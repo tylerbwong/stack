@@ -50,7 +50,7 @@
 
         <activity
             android:name=".ui.questions.detail.QuestionDetailActivity"
-            android:windowSoftInputMode="adjustNothing"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.Primary.Base.Light" />
 
         <activity

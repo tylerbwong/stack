@@ -28,6 +28,10 @@ class QuestionDetailMainViewModel(
         get() = _voteCount
     private val _voteCount = MutableLiveData<Int>()
 
+    internal val clearFields: LiveData<Unit>
+        get() = _clearFields
+    private val _clearFields = MutableLiveData<Unit>()
+
     internal val canAnswerQuestion = authStore.isAuthenticatedLiveData.zipWith(
             data,
             initialValue = false
@@ -56,6 +60,10 @@ class QuestionDetailMainViewModel(
             _data.value = response.first
             _voteCount.value = response.second.upVoteCount - response.second.downVoteCount
         }
+    }
+
+    internal fun clearFields() {
+        _clearFields.value = Unit
     }
 
     internal fun startShareIntent(context: Context) {

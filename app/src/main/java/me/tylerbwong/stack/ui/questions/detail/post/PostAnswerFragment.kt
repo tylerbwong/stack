@@ -11,6 +11,7 @@ import android.view.View
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -20,6 +21,7 @@ import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
+import me.tylerbwong.stack.ui.questions.detail.QuestionDetailMainViewModel
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.showKeyboard
@@ -28,6 +30,7 @@ import me.tylerbwong.stack.ui.utils.showSnackbar
 class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
 
     private val viewModel by viewModels<PostAnswerViewModel>()
+    private lateinit var mainViewModel: QuestionDetailMainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +38,10 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        mainViewModel = ViewModelProviders.of(requireActivity()).get(QuestionDetailMainViewModel::class.java)
+
+        mainViewModel.clearFields.observe(this) { clearFields() }
 
         viewModel.questionId = arguments?.getInt(QuestionDetailActivity.QUESTION_ID, 0) ?: 0
 
