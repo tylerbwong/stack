@@ -5,8 +5,6 @@ import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 
-typealias AuthCheck = Interceptor.Chain.() -> Boolean
-
 class AuthInterceptor(
         private val baseUrl: String,
         private val authStore: AuthStore = AuthStore
