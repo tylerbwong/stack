@@ -174,7 +174,6 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
         postAnswerButton.hide()
     }
 
-    // TODO(Tyler) Clear fields when exiting answer mode
     private fun clearFields() {
         tearDownTextWatcher()
         markdownEditText.text = null
