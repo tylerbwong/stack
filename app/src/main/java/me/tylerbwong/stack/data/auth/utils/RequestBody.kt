@@ -27,10 +27,10 @@ fun RequestBody.addField(name: String, value: String, isEncoded: Boolean = true)
 
 private fun RequestBody.toBodyString(): String {
     return try {
-        val buffer = Buffer()
-        writeTo(buffer)
-        buffer.close()
-        buffer.readUtf8()
+        Buffer().use {
+            writeTo(it)
+            it.readUtf8()
+        }
     } catch (ex: Exception) {
         Timber.e(ex)
         ""
