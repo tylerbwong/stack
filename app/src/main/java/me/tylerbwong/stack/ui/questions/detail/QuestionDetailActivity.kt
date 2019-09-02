@@ -48,25 +48,21 @@ class QuestionDetailActivity : BaseActivity() {
             }
 
             override fun onPageSelected(position: Int) {
-                if (position == 0) {
-                    appBar.stateListAnimator = AnimatorInflater.loadStateListAnimator(
-                            this@QuestionDetailActivity,
+                appBar.stateListAnimator = AnimatorInflater.loadStateListAnimator(
+                        this@QuestionDetailActivity,
+                        if (position == 0) {
                             R.animator.app_bar_elevation
-                    )
-                    rootLayout.hideKeyboard()
-                } else {
-                    appBar.stateListAnimator = AnimatorInflater.loadStateListAnimator(
-                            this@QuestionDetailActivity,
+                        } else {
                             R.animator.app_bar_no_elevation
-                    )
-                }
+                        }
+                )
             }
         })
         toggleAnswerMode(isInAnswerMode = viewModel.isInAnswerMode)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> onBackPressed()
         }
         return super.onOptionsItemSelected(item)
@@ -101,8 +97,14 @@ class QuestionDetailActivity : BaseActivity() {
 
     internal fun toggleAnswerMode(isInAnswerMode: Boolean) {
         viewModel.isInAnswerMode = isInAnswerMode
-        adapter.isInAnswerMode = isInAnswerMode
-        viewPager.isSwipeable = isInAnswerMode
+        viewPager.apply {
+            currentItem = if (isInAnswerMode) {
+                1
+            } else {
+                0
+            }
+            isSwipeable = isInAnswerMode
+        }
         toggleAnswerButtonVisibility(isVisible = !isInAnswerMode)
         if (!isInAnswerMode) {
             viewPager.hideKeyboard()
@@ -116,11 +118,6 @@ class QuestionDetailActivity : BaseActivity() {
                 setHomeAsUpIndicator(R.drawable.ic_arrow_back)
                 title = viewModel.title
             }
-        }
-        viewPager.currentItem = if (isInAnswerMode) {
-            1
-        } else {
-            0
         }
     }
 

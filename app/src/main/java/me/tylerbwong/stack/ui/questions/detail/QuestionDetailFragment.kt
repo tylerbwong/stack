@@ -17,6 +17,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.R.dimen
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
@@ -87,6 +88,7 @@ class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
     override fun onResume() {
         super.onResume()
         viewModel.getQuestionDetails()
+        refreshLayout.hideKeyboard()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

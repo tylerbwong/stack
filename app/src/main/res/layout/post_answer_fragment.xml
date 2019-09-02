@@ -66,6 +66,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="start|top"
+                            android:imeOptions="flagNoExtractUi"
                             android:minHeight="@dimen/answer_markdown_height"
                             android:theme="@style/TextInputEditTextStyle" />
 

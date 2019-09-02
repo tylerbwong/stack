@@ -82,7 +82,7 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
 
         tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabReselected(tab: Tab) {
-                onTabChanged(tab.position)
+                // no-op
             }
 
             override fun onTabUnselected(tab: Tab) {
@@ -93,6 +93,8 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
                 onTabChanged(tab.position)
             }
         })
+
+        tabLayout.selectTab(tabLayout.getTabAt(viewModel.selectedTabPosition))
 
         postAnswerButton.setOnClickListener {
             if (!markdownEditText.text.isNullOrBlank()) {
@@ -110,7 +112,7 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
         super.onViewStateRestored(savedInstanceState)
         tearDownTextWatcher()
         setUpTextWatcher()
-        tabLayout.selectTab(tabLayout.getTabAt(viewModel.selectedTabPosition))
+        refreshPreview()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -145,15 +147,20 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
                 previewText.apply {
                     visibility = View.VISIBLE
                     hideKeyboard()
-
-                    if (!markdownEditText.text.isNullOrBlank()) {
-                        gravity = Gravity.START or Gravity.TOP
-                        setMarkdown(markdownEditText.text.toString())
-                    } else {
-                        gravity = Gravity.CENTER
-                        setText(R.string.no_preview)
-                    }
+                    refreshPreview()
                 }
+            }
+        }
+    }
+
+    private fun refreshPreview() {
+        previewText.apply {
+            if (!markdownEditText.text.isNullOrBlank()) {
+                gravity = Gravity.START or Gravity.TOP
+                setMarkdown(markdownEditText.text.toString())
+            } else {
+                gravity = Gravity.CENTER
+                setText(R.string.no_preview)
             }
         }
     }
@@ -173,6 +180,7 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
         markdownEditText.text = null
         previewText.text = null
         setUpTextWatcher()
+        togglePostAnswerButtonVisibility(isVisible = false)
         debugPreview.isChecked = BuildConfig.DEBUG
         tabLayout.selectTab(tabLayout.getTabAt(0))
     }

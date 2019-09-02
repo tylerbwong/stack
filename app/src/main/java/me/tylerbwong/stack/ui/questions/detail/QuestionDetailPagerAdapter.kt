@@ -10,12 +10,6 @@ class QuestionDetailPagerAdapter(
         private val questionId: Int
 ) : FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-    internal var isInAnswerMode: Boolean = false
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> QuestionDetailFragment.newInstance(questionId)
@@ -24,9 +18,5 @@ class QuestionDetailPagerAdapter(
         }
     }
 
-    override fun getCount() = if (isInAnswerMode) {
-        2
-    } else {
-        1
-    }
+    override fun getCount() = 2
 }
