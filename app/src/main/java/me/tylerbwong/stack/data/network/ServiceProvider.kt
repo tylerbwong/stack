@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceProvider {
 
-    private val okHttpClient by lazy {
+    val okHttpClient by lazy {
         val okHttpClientBuilder = OkHttpClient.Builder()
                 .addInterceptor(AuthInterceptor(BASE_URL))
 
