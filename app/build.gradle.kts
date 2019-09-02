@@ -106,6 +106,7 @@ dependencies {
     testImplementation(Dep.jUnit)
     testImplementation(Dep.mockito)
     testImplementation(Dep.mockitoKotlin)
+    testImplementation(Dep.okHttpMock)
     testImplementation(Dep.robolectric)
     androidTestImplementation(Dep.testRunner)
     androidTestImplementation(Dep.espresso)

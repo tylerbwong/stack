@@ -63,6 +63,7 @@ object Dep {
     const val materialComponents = "com.google.android.material:material:${Versions.materialComponents}"
     const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
     const val okHttpLogger = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"
+    const val okHttpMock = "com.squareup.okhttp3:mockwebserver:${Versions.okHttp}"
     const val playCore = "com.google.android.play:core:${Versions.playCore}"
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"

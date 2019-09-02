@@ -1,6 +1,5 @@
 package me.tylerbwong.stack.data.network.service
 
-import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.model.DESC
@@ -70,9 +69,8 @@ interface StackService {
             @Path("id") questionId: Int,
             @Field(SITE_PARAM) site: String = DEFAULT_SITE,
             @Field(KEY_PARAM) key: String = DEFAULT_KEY,
-            @Field("body") bodyMarkdown: String,
-            @Field("preview") preview: Boolean = true,
-            @Field("access_token") accessToken: String = AuthStore.accessToken ?: ""
+            @Field(BODY_PARAM) bodyMarkdown: String,
+            @Field(PREVIEW_PARAM) preview: Boolean = true
     ): Response<Answer>
 
     @GET("search/advanced")
@@ -131,8 +129,8 @@ interface StackService {
         private const val TAGGED_PARAM = "tagged"
         private const val KEY_PARAM = "key"
         private const val SEARCH_PARAM = "q"
-        private const val BODY = "body"
-        private const val PREVIEW = "preview"
+        private const val BODY_PARAM = "body"
+        private const val PREVIEW_PARAM = "preview"
 
         // defaults
         internal const val DEFAULT_SITE = "stackoverflow"
