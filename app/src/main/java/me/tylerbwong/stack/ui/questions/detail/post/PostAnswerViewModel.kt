@@ -3,7 +3,6 @@ package me.tylerbwong.stack.ui.questions.detail.post
 import android.text.TextWatcher
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.BaseTransientBottomBar.Duration
@@ -12,6 +11,7 @@ import kotlinx.coroutines.launch
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.StackService
+import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import timber.log.Timber
 
 class PostAnswerViewModel(
@@ -23,7 +23,7 @@ class PostAnswerViewModel(
 
     val snackbar: LiveData<PostAnswerState>
         get() = _snackbar
-    private val _snackbar = MutableLiveData<PostAnswerState>()
+    private val _snackbar = SingleLiveEvent<PostAnswerState>()
 
     fun postAnswer(markdown: String, isPreview: Boolean = false) {
         _snackbar.value = PostAnswerState.Loading

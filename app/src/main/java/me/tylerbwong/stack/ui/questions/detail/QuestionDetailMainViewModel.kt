@@ -13,6 +13,7 @@ import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.answers.AnswerDataModel
 import me.tylerbwong.stack.ui.questions.QuestionDataModel
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
+import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import me.tylerbwong.stack.ui.utils.zipWith
 
 class QuestionDetailMainViewModel(
@@ -30,7 +31,7 @@ class QuestionDetailMainViewModel(
 
     internal val clearFields: LiveData<Unit>
         get() = _clearFields
-    private val _clearFields = MutableLiveData<Unit>()
+    private val _clearFields = SingleLiveEvent<Unit>()
 
     internal val canAnswerQuestion = authStore.isAuthenticatedLiveData.zipWith(
             data,
