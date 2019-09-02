@@ -13,7 +13,6 @@ class AnswerDataModel(private val answer: Answer) : DynamicDataModel() {
     internal val isAccepted = answer.isAccepted
     internal val voteCount = answer.upVoteCount - answer.downVoteCount
     internal val answerBody = answer.bodyMarkdown
-    internal val owner = answer.owner
     internal val userImage = answer.owner.profileImage
     internal val username = answer.owner.displayName.toHtml()
     internal val reputation = answer.owner.reputation.toLong().format()
