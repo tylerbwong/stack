@@ -2,23 +2,15 @@ package me.tylerbwong.stack.data.auth
 
 import android.net.Uri
 import me.tylerbwong.stack.BaseTest
-import me.tylerbwong.stack.data.network.service.StackService
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
 
 class AuthStoreTest : BaseTest() {
 
-    @Mock
-    private lateinit var service: StackService
-
-    private lateinit var repository: AuthRepository
-
     @Before
     fun setUp() {
-        repository = AuthRepository(userService = service)
         AuthStore.clear()
     }
 
