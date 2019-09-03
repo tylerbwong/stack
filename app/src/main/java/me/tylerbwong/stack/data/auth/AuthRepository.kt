@@ -4,7 +4,8 @@ import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.network.ServiceProvider
-import me.tylerbwong.stack.data.network.service.StackService
+import me.tylerbwong.stack.data.network.service.AuthService
+import me.tylerbwong.stack.data.network.service.UserService
 import me.tylerbwong.stack.data.persistence.StackDatabase
 import me.tylerbwong.stack.data.persistence.dao.UserDao
 import me.tylerbwong.stack.data.toUserEntity
@@ -12,7 +13,8 @@ import timber.log.Timber
 
 class AuthRepository(
         private val userDao: UserDao = StackDatabase.getInstance().getUserDao(),
-        private val service: StackService = ServiceProvider.stackService,
+        private val userService: UserService = ServiceProvider.userService,
+        private val authService: AuthService = ServiceProvider.authService,
         private val authStore: AuthStore = AuthStore
 ) {
     suspend fun logOut(): LogOutResult {
@@ -20,7 +22,7 @@ class AuthRepository(
 
         return try {
             if (!accessToken.isNullOrBlank()) {
-                service.logOut(accessToken = accessToken)
+                authService.logOut(accessToken = accessToken)
                 authStore.clear()
                 LogOutSuccess
             } else {
@@ -40,7 +42,7 @@ class AuthRepository(
     suspend fun getCurrentUser(): User? {
         return try {
             if (authStore.isAuthenticatedLiveData.value == true) {
-                service.getCurrentUser().items.firstOrNull()?.also {
+                userService.getCurrentUser().items.firstOrNull()?.also {
                     userDao.insert(listOf(it.toUserEntity()))
                 }
             } else {

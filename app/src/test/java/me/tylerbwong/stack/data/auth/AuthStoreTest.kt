@@ -18,7 +18,7 @@ class AuthStoreTest : BaseTest() {
 
     @Before
     fun setUp() {
-        repository = AuthRepository(service = service)
+        repository = AuthRepository(userService = service)
         AuthStore.clear()
     }
 
