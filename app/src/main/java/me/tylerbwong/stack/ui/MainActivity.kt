@@ -46,12 +46,11 @@ import me.tylerbwong.stack.ui.utils.showSnackbar
 class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         SearchView.OnQueryTextListener, InstallStateUpdatedListener {
 
+    private val appUpdater = AppUpdater(AppUpdateManagerFactory.create(this))
     private val viewModel: QuestionsViewModel by viewModels()
     private val adapter = DynamicViewAdapter()
     private var snackbar: Snackbar? = null
     private var menu: Menu? = null
-
-    private lateinit var appUpdater: AppUpdater
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,7 +116,6 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
         viewModel.fetchQuestions()
 
-        appUpdater = AppUpdater(AppUpdateManagerFactory.create(this))
         appUpdater.checkForUpdate(this)
     }
 
@@ -229,10 +227,12 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
     private fun checkForPendingInstall() {
         appUpdater.checkForPendingInstall(
-                onDownloadFinished = { manager ->
+                onDownloadFinished = {
                     rootLayout.showSnackbar(R.string.restart_to_install, R.string.restart) {
-                        manager.completeUpdate()
-                        appUpdater.unregisterListener(this)
+                        appUpdater.apply {
+                            completeUpdate()
+                            unregisterListener(this@MainActivity)
+                        }
                     }
                 },
                 onDownloadFailed = {
