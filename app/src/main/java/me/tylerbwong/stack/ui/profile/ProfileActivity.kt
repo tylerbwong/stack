@@ -55,7 +55,7 @@ class ProfileActivity : BaseActivity() {
                     .placeholder(R.drawable.user_image_placeholder)
                     .apply(RequestOptions.circleCropTransform())
                     .into(userImage)
-            supportActionBar?.title = it.displayName
+            collapsingToolbarLayout.title = it.displayName
             if (it.location != null) {
                 location.text = it.location
                 location.visibility = View.VISIBLE

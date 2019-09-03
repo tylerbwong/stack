@@ -29,7 +29,7 @@
         <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.MaterialComponents.Title.Text</item>
         <item name="iconColor">@color/iconColorLight</item>
     </style>
-    
+
     <!-- Light alert dialog theme -->
     <style name="MaterialAlertDialogTheme.Light" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/MaterialAlertDialogPositiveButtonLightStyle</item>
@@ -74,6 +74,11 @@
     <style name="MaterialAlertDialogNegativeButtonDarkStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/primaryTextColorDark</item>
         <item name="rippleColor">@color/colorAccent</item>
+    </style>
+
+    <style name="CollapsingToolbarLayoutExpandedTextAppearance">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>
