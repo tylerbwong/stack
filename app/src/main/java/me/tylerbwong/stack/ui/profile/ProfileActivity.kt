@@ -23,6 +23,7 @@ import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
+import me.tylerbwong.stack.ui.utils.toHtml
 
 class ProfileActivity : BaseActivity() {
 
@@ -55,9 +56,9 @@ class ProfileActivity : BaseActivity() {
                     .placeholder(R.drawable.user_image_placeholder)
                     .apply(RequestOptions.circleCropTransform())
                     .into(userImage)
-            collapsingToolbarLayout.title = it.displayName
+            collapsingToolbarLayout.title = it.displayName.toHtml()
             if (it.location != null) {
-                location.text = it.location
+                location.text = it.location.toHtml()
                 location.visibility = View.VISIBLE
             } else {
                 location.visibility = View.GONE
