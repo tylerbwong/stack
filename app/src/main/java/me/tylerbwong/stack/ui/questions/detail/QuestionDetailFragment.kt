@@ -15,6 +15,9 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.question_detail_fragment.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.R.dimen
+import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
+import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
+import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.hideKeyboard
@@ -93,11 +96,22 @@ class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_share, menu)
+        inflater.inflate(R.menu.menu_question_details, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.share -> viewModel.startShareIntent(requireContext())
+            R.id.linked -> QuestionsActivity.startActivityForKey(
+                    requireContext(),
+                    LINKED,
+                    viewModel.questionId.toString()
+            )
+            R.id.related -> QuestionsActivity.startActivityForKey(
+                    requireContext(),
+                    RELATED,
+                    viewModel.questionId.toString()
+            )
         }
         return super.onOptionsItemSelected(item)
     }

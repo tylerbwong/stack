@@ -2,96 +2,68 @@ package me.tylerbwong.stack.ui.questions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
-import me.tylerbwong.stack.data.auth.AuthRepository
-import me.tylerbwong.stack.data.auth.AuthStore
-import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
-import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
-import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.ui.BaseViewModel
-import retrofit2.HttpException
+import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
+import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
+import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
+import me.tylerbwong.stack.ui.utils.DynamicDataModel
 
 internal class QuestionsViewModel(
-        private val authRepository: AuthRepository = AuthRepository(),
-        private val repository: QuestionRepository = QuestionRepository(),
         private val service: QuestionService = ServiceProvider.questionService
 ) : BaseViewModel() {
 
-    internal val questions: LiveData<List<QuestionDataModel>>
-        get() = _questions
-    private val _questions = MutableLiveData<List<QuestionDataModel>>()
+    internal val data: LiveData<List<DynamicDataModel>>
+        get() = _data
+    private val _data = MutableLiveData<List<DynamicDataModel>>()
 
-    internal val profileImage: LiveData<String?>
-        get() = _profileImage
-    private val _profileImage = MutableLiveData<String?>()
+    internal val isMainSortsSupported: Boolean
+        get() = page == TAGS
 
-    internal val isAuthenticated: LiveData<Boolean>
-        get() = AuthStore.isAuthenticatedLiveData
+    internal lateinit var page: QuestionPage
+    internal var key: String = ""
 
     @Sort
-    internal var currentSort: String = CREATION
-    internal var currentQuery: String = ""
+    private var currentSort: String = CREATION
 
     internal fun getQuestions(@Sort sort: String = currentSort) {
+        when (page) {
+            TAGS -> getQuestionsByTag(sort = sort)
+            LINKED -> getLinkedQuestions(sort = sort)
+            RELATED -> getRelatedQuestions(sort = sort)
+        }
+    }
+
+    private fun getQuestionsByTag(@Sort sort: String = currentSort) {
         currentSort = sort
         launchRequest {
-            _questions.value = repository.getQuestions(sort).map { QuestionDataModel(it) }
-        }
-    }
-
-    internal fun searchQuestions(query: String = currentQuery) {
-        currentQuery = query
-        launchRequest {
-            _questions.value = service.getQuestionsBySearchString(searchString = query)
-                    .items
+            val questions = service.getQuestionsByTags(tags = key, sort = sort).items
                     .map { QuestionDataModel(it) }
+            _data.value = questions
         }
     }
 
-    internal fun fetchQuestions() {
-        if (currentQuery.isNotBlank()) {
-            searchQuestions()
-        } else {
-            getQuestions()
+    private fun getLinkedQuestions(@Sort sort: String = currentSort) {
+        currentSort = sort
+        val questionId = key.toIntOrNull() ?: return
+        launchRequest {
+            val questions = service.getLinkedQuestions(questionId = questionId, sort = sort).items
+                    .map { QuestionDataModel(it) }
+            _data.value = questions
         }
     }
 
-    internal fun fetchUser() {
-        viewModelScope.launch {
-            try {
-                val user = authRepository.getCurrentUser()
-                _profileImage.value = user?.profileImage
-            } catch (ex: HttpException) {
-                _profileImage.value = null
-            }
+    private fun getRelatedQuestions(@Sort sort: String = currentSort) {
+        currentSort = sort
+        val questionId = key.toIntOrNull() ?: return
+        launchRequest {
+            val questions = service.getRelatedQuestions(questionId = questionId, sort = sort).items
+                    .map { QuestionDataModel(it) }
+            _data.value = questions
         }
     }
-
-    internal fun logOut() {
-        viewModelScope.launch {
-            when (authRepository.logOut()) {
-                is LogOutError -> _snackbar.value = Unit
-                is LogOutSuccess -> {
-                    _profileImage.value = null
-                    _snackbar.value = null
-                    fetchQuestions()
-                }
-            }
-        }
-    }
-
-    internal fun onQueryTextChange(newText: String?) {
-        currentQuery = newText ?: ""
-
-        if (currentQuery.isBlank()) {
-            getQuestions()
-        }
-    }
-
-    internal fun isQueryBlank() = currentQuery.isBlank()
 }
+

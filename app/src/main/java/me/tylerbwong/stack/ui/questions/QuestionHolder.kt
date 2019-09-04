@@ -13,8 +13,8 @@ import kotlinx.android.synthetic.main.question_holder.*
 import kotlinx.android.synthetic.main.user_view.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
-import me.tylerbwong.stack.ui.questions.tags.SingleTagQuestionsActivity
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
 import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.format
@@ -75,7 +75,7 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                     val chip = Chip(tagsView.context).apply {
                         text = it
                         setThrottledOnClickListener { view ->
-                            SingleTagQuestionsActivity.startActivity(view.context, it)
+                            QuestionsActivity.startActivityForKey(view.context, TAGS, it)
                         }
                     }
                     tagsView.addView(chip)

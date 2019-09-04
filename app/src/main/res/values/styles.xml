@@ -81,6 +81,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="MainToolbarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorSecondary">?attr/iconColor</item>
+    </style>
+
     <style name="TabTextAppearance" parent="@style/TextAppearance.Design.Tab">
         <item name="android:textColor">@color/colorAccent</item>
         <item name="textAllCaps">false</item>

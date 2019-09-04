@@ -6,6 +6,8 @@
     <string name="tags">Tags</string>
     <string name="share">Share</string>
     <string name="questions">Questions</string>
+    <string name="linked">Linked</string>
+    <string name="related">Related</string>
 
     <plurals name="answers">
         <item quantity="zero">%1$d Answers</item>
@@ -31,9 +33,9 @@
     <string name="month">Month</string>
 
     <!-- Error -->
+    <string name="nothing_here">Nothing here!</string>
     <string name="network_error">Network error</string>
     <string name="retry">Retry</string>
-    <string name="single_tag_error">Could not get questions for tag %1$s</string>
     <string name="deep_link_error">Stack can\'t handle this link yet!</string>
 
     <!-- Auth -->

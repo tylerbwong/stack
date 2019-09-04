@@ -6,10 +6,11 @@ import android.net.Uri
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.AUTH
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTIONS_BY_TAG
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTION_DETAILS
+import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
+import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
-import me.tylerbwong.stack.ui.questions.tags.SingleTagQuestionsActivity
 
 object DeepLinker {
 
@@ -37,7 +38,7 @@ object DeepLinker {
             }
             QUESTIONS_BY_TAG -> {
                 // Format is /questions/tagged/{tag} so use the last segment
-                SingleTagQuestionsActivity.makeIntent(context, uri.lastPathSegment ?: "")
+                QuestionsActivity.makeIntentForKey(context, TAGS, uri.lastPathSegment ?: "")
             }
             QUESTION_DETAILS -> {
                 // Format is /questions/{id}/title so get the second segment
