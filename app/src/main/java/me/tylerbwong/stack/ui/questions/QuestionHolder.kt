@@ -50,7 +50,6 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                     }
 
                     setTextIsSelectable(true)
-                    movementMethod = BetterLinkMovementMethod.getInstance()
                 } else {
                     text = dataModel.questionBody?.toHtml()
                     setTextIsSelectable(false)
