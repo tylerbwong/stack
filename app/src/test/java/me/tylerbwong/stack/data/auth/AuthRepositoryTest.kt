@@ -8,7 +8,8 @@ import me.tylerbwong.stack.BaseTest
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
 import me.tylerbwong.stack.data.model.User
-import me.tylerbwong.stack.data.network.service.StackService
+import me.tylerbwong.stack.data.network.service.AuthService
+import me.tylerbwong.stack.data.network.service.UserService
 import me.tylerbwong.stack.data.persistence.dao.UserDao
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
@@ -30,13 +31,16 @@ class AuthRepositoryTest : BaseTest() {
     private lateinit var userDao: UserDao
 
     @Mock
-    private lateinit var stackService: StackService
+    private lateinit var userService: UserService
+
+    @Mock
+    private lateinit var authService: AuthService
 
     private lateinit var repository: AuthRepository
 
     @Before
     fun setUp() {
-        repository = AuthRepository(userDao, stackService)
+        repository = AuthRepository(userDao, userService, authService)
     }
 
     @Test
@@ -45,7 +49,7 @@ class AuthRepositoryTest : BaseTest() {
             AuthStore.setAccessToken(testUri)
             val result = repository.logOut()
             assertTrue(result is LogOutSuccess)
-            verify(stackService).logOut("test")
+            verify(authService).logOut("test")
             assertTrue(AuthStore.accessToken.isNullOrBlank())
         }
     }
@@ -56,7 +60,7 @@ class AuthRepositoryTest : BaseTest() {
             AuthStore.clear()
             val result = repository.logOut()
             assertTrue(result is LogOutError)
-            verify(stackService, never()).logOut(any(), any())
+            verify(authService, never()).logOut(any(), any())
         }
     }
 
@@ -64,7 +68,7 @@ class AuthRepositoryTest : BaseTest() {
     fun `logOut that comes back with error returns error state`() {
         runBlocking {
             AuthStore.clear()
-            whenever(stackService.logOut(any(), any()))
+            whenever(authService.logOut(any(), any()))
                     .thenThrow(HttpException(Response.error<ResponseBody>(403, """
                         {
                             "errorCode": 403
@@ -72,19 +76,19 @@ class AuthRepositoryTest : BaseTest() {
                     """.trimIndent().toResponseBody("application/json".toMediaTypeOrNull()))))
             val result = repository.logOut()
             assertTrue(result is LogOutError)
-            verify(stackService, never()).logOut(any(), any())
+            verify(authService, never()).logOut(any(), any())
         }
     }
 
     @Test
     fun `getCurrentUser with existing access token makes service and db calls`() {
         runBlocking {
-            whenever(stackService.getCurrentUser(any(), any(), any())).thenReturn(
+            whenever(userService.getCurrentUser(any(), any(), any())).thenReturn(
                     StackResponse(listOf(testUser), false)
             )
             AuthStore.setAccessToken(testUri)
             repository.getCurrentUser()
-            verify(stackService).getCurrentUser(any(), any(), any())
+            verify(userService).getCurrentUser(any(), any(), any())
             verify(userDao).insert(any())
         }
     }
@@ -94,7 +98,7 @@ class AuthRepositoryTest : BaseTest() {
         runBlocking {
             AuthStore.clear()
             assertNull(repository.getCurrentUser())
-            verify(stackService, never()).getCurrentUser(any(), any(), any())
+            verify(userService, never()).getCurrentUser(any(), any(), any())
             verify(userDao, never()).insert(any())
         }
     }
@@ -102,7 +106,7 @@ class AuthRepositoryTest : BaseTest() {
     @Test
     fun `getCurrentUser with throwing service call returns null`() {
         runBlocking {
-            whenever(stackService.getCurrentUser(any(), any(), any()))
+            whenever(userService.getCurrentUser(any(), any(), any()))
                     .thenThrow(HttpException(Response.error<ResponseBody>(403, """
                         {
                             "errorCode": 403
@@ -110,7 +114,7 @@ class AuthRepositoryTest : BaseTest() {
                     """.trimIndent().toResponseBody("application/json".toMediaTypeOrNull()))))
             AuthStore.setAccessToken(testUri)
             assertNull(repository.getCurrentUser())
-            verify(stackService).getCurrentUser(any(), any(), any())
+            verify(userService).getCurrentUser(any(), any(), any())
             verify(userDao, never()).insert(any())
         }
     }
@@ -118,13 +122,13 @@ class AuthRepositoryTest : BaseTest() {
     @Test
     fun `getCurrentUser with throwing db call returns null`() {
         runBlocking {
-            whenever(stackService.getCurrentUser(any(), any(), any())).thenReturn(
+            whenever(userService.getCurrentUser(any(), any(), any())).thenReturn(
                     StackResponse(listOf(testUser), false)
             )
             whenever(userDao.insert(any())).thenThrow(IllegalStateException("Could not insert"))
             AuthStore.setAccessToken(testUri)
             assertNull(repository.getCurrentUser())
-            verify(stackService).getCurrentUser(any(), any(), any())
+            verify(userService).getCurrentUser(any(), any(), any())
             verify(userDao).insert(any())
         }
     }

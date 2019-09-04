@@ -11,7 +11,7 @@ import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
-import me.tylerbwong.stack.data.network.service.StackService
+import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.ui.questions.QuestionDataModel
 import retrofit2.HttpException
@@ -19,7 +19,7 @@ import retrofit2.HttpException
 internal class MainViewModel(
         private val authRepository: AuthRepository = AuthRepository(),
         private val repository: QuestionRepository = QuestionRepository(),
-        private val service: StackService = ServiceProvider.stackService
+        private val service: QuestionService = ServiceProvider.questionService
 ) : BaseViewModel() {
 
     internal val questions: LiveData<List<QuestionDataModel>>

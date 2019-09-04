@@ -76,6 +76,11 @@
         <item name="rippleColor">@color/colorAccent</item>
     </style>
 
+    <style name="CollapsingToolbarLayoutExpandedTextAppearance">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="MainToolbarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:textColorSecondary">?attr/iconColor</item>
     </style>

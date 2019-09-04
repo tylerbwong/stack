@@ -5,17 +5,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.profile_header.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.BaseActivity
-import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
+import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.format
+import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
+import me.tylerbwong.stack.ui.utils.toHtml
 
 class ProfileActivity : BaseActivity() {
 
@@ -41,13 +49,31 @@ class ProfileActivity : BaseActivity() {
                 snackbar?.dismiss()
             }
         }
-        viewModel.questionsData.observe(this) {
-            val data = it.toMutableList<DynamicDataModel>()
-            it.firstOrNull()?.owner?.let {  user ->
-                supportActionBar?.title = user.displayName
-                data.add(0, ProfileHeaderDataModel(user))
+        viewModel.userData.observe(this) {
+            GlideApp.with(this)
+                    .load(it.profileImage)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .placeholder(R.drawable.user_image_placeholder)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(userImage)
+            collapsingToolbarLayout.title = it.displayName.toHtml()
+            if (it.location != null) {
+                location.text = it.location.toHtml()
+                location.visibility = View.VISIBLE
+            } else {
+                location.visibility = View.GONE
             }
-            adapter.update(data)
+            reputation.text = it.reputation.toLong().format()
+            badgeView.badgeCounts = it.badgeCounts
+
+            it.link?.let { link ->
+                userImage.setThrottledOnClickListener {
+                    launchCustomTab(this, link)
+                }
+            }
+        }
+        viewModel.questionsData.observe(this) {
+            adapter.update(it)
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -74,7 +100,7 @@ class ProfileActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> onBackPressed()
             R.id.share -> viewModel.startShareIntent(this)
         }
