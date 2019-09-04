@@ -4,8 +4,11 @@ import android.content.Context
 import android.widget.TextView
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
+import io.noties.markwon.ext.tables.TablePlugin
+import io.noties.markwon.html.HtmlPlugin
 import io.noties.markwon.image.glide.GlideImagesPlugin
 import me.tylerbwong.stack.ui.utils.GlideApp
+import org.apache.commons.text.StringEscapeUtils
 
 object Markdown {
     lateinit var markwon: Markwon
@@ -13,7 +16,9 @@ object Markdown {
     fun init(context: Context) {
         val plugins = listOf(
                 GlideImagesPlugin.create(GlideApp.with(context)),
+                HtmlPlugin.create(),
                 StrikethroughPlugin.create(),
+                TablePlugin.create(context),
                 UrlPlugin.create()
         )
         markwon = Markwon.builder(context)
@@ -22,27 +27,8 @@ object Markdown {
     }
 }
 
-private val specialChars = mapOf(
-        "&lt;" to "<",
-        "&gt;" to ">",
-        "&quot;" to "\"",
-        "&nbsp;" to " ",
-        "&amp;" to "&",
-        "&apos;" to "'",
-        "&#39;" to "'",
-        "&#40;" to "(",
-        "&#41;" to ")",
-        "&#215;" to "×"
-)
-
 fun TextView.setMarkdown(markdown: String) {
     Markdown.markwon.setMarkdown(this, markdown.stripSpecials())
 }
 
-private fun String.stripSpecials(): String {
-    var result = this
-    specialChars.forEach { (key, value) ->
-        result = result.replace(key, value)
-    }
-    return result
-}
+private fun String.stripSpecials() = StringEscapeUtils.unescapeHtml4(this)

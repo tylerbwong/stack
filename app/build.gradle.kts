@@ -86,9 +86,12 @@ dependencies {
     implementation(Dep.retrofitGsonConverter)
 
     // markdown
+    implementation(Dep.apacheCommonsText)
     implementation(Dep.markwonCore)
     implementation(Dep.markwonGlide)
+    implementation(Dep.markwonHtml)
     implementation(Dep.markwonStrikethrough)
+    implementation(Dep.markwonTables)
 
     // logging
     implementation(Dep.timber)

@@ -8,7 +8,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.network.ServiceProvider
-import me.tylerbwong.stack.data.network.service.StackService
+import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.answers.AnswerDataModel
 import me.tylerbwong.stack.ui.questions.QuestionDataModel
@@ -18,7 +18,7 @@ import me.tylerbwong.stack.ui.utils.zipWith
 
 class QuestionDetailMainViewModel(
         authStore: AuthStore = AuthStore,
-        private val service: StackService = ServiceProvider.stackService
+        private val service: QuestionService = ServiceProvider.questionService
 ) : BaseViewModel() {
 
     internal val data: LiveData<List<DynamicDataModel>>

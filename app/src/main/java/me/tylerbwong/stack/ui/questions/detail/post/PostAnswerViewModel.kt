@@ -10,12 +10,12 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.network.ServiceProvider
-import me.tylerbwong.stack.data.network.service.StackService
+import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import timber.log.Timber
 
 class PostAnswerViewModel(
-        private val service: StackService = ServiceProvider.stackService
+        private val service: QuestionService = ServiceProvider.questionService
 ) : ViewModel() {
     internal var markdownTextWatcher: TextWatcher? = null
     internal var selectedTabPosition = 0

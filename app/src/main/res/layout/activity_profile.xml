@@ -10,16 +10,35 @@
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/viewBackgroundColor"
         app:liftOnScroll="true"
         app:liftOnScrollTargetViewId="@id/recyclerView">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/viewBackgroundColor"
-            app:navigationIcon="@drawable/ic_arrow_back"
-            app:titleTextColor="?android:attr/textColorPrimary" />
+            android:layout_height="wrap_content"
+            app:contentScrim="?attr/viewBackgroundColor"
+            app:expandedTitleGravity="center|top"
+            app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextAppearance"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+            <include
+                layout="@layout/profile_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="72dp"
+                app:layout_collapseMode="parallax" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/viewBackgroundColor"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_back"
+                app:titleTextColor="?android:attr/textColorPrimary" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
