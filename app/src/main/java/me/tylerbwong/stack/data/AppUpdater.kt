@@ -13,27 +13,26 @@ class AppUpdater(private val manager: AppUpdateManager) {
         manager.registerListener(activity)
 
         manager.appUpdateInfo.addOnSuccessListener {
-            when (it.updateAvailability()) {
-                UpdateAvailability.UPDATE_AVAILABLE -> {
-                    if (it.isUpdateTypeAllowed(FLEXIBLE)) {
-                        manager.startUpdateFlowForResult(it, FLEXIBLE, activity, APP_UPDATE_REQUEST_CODE)
-                    }
-                }
+            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+                    it.isUpdateTypeAllowed(FLEXIBLE)) {
+                manager.startUpdateFlowForResult(it, FLEXIBLE, activity, APP_UPDATE_REQUEST_CODE)
             }
         }
     }
 
     fun checkForPendingInstall(
-            onDownloadFinished: (AppUpdateManager) -> Unit,
+            onDownloadFinished: () -> Unit,
             onDownloadFailed: () -> Unit
     ) {
         manager.appUpdateInfo.addOnSuccessListener {
             when (it.installStatus()) {
-                InstallStatus.DOWNLOADED -> onDownloadFinished(manager)
+                InstallStatus.DOWNLOADED -> onDownloadFinished()
                 InstallStatus.FAILED -> onDownloadFailed()
             }
         }
     }
+
+    fun completeUpdate() = manager.completeUpdate()
 
     fun unregisterListener(listener: InstallStateUpdatedListener) {
         manager.unregisterListener(listener)

@@ -229,10 +229,12 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
     private fun checkForPendingInstall() {
         appUpdater.checkForPendingInstall(
-                onDownloadFinished = { manager ->
+                onDownloadFinished = {
                     rootLayout.showSnackbar(R.string.restart_to_install, R.string.restart) {
-                        manager.completeUpdate()
-                        appUpdater.unregisterListener(this)
+                        appUpdater.apply {
+                            completeUpdate()
+                            unregisterListener(this@MainActivity)
+                        }
                     }
                 },
                 onDownloadFailed = {
