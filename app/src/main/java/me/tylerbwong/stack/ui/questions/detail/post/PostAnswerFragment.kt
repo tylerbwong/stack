@@ -206,7 +206,10 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
     private fun setUpTextWatcher() {
         viewModel.markdownTextWatcher = object : TextWatcher {
             override fun afterTextChanged(text: Editable) {
-                togglePostAnswerButtonVisibility(isVisible = !text.isBlank())
+                val hasContent = text.isNotBlank()
+                mainViewModel.hasContent = hasContent
+                toggleDiscardMenuItemVisibility(isVisible = hasContent)
+                togglePostAnswerButtonVisibility(isVisible = hasContent)
             }
 
             override fun beforeTextChanged(text: CharSequence, start: Int, count: Int, after: Int) {
@@ -214,13 +217,10 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
             }
 
             override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
-                val hasContent = text.isNotBlank()
-                mainViewModel.hasContent = hasContent
-                toggleDiscardMenuItemVisibility(isVisible = hasContent)
-                markdownInputLayout.error = if (hasContent) {
-                    null
-                } else {
+                markdownInputLayout.error = if (text.isBlank()) {
                     getString(R.string.answer_error)
+                } else {
+                    null
                 }
             }
         }
