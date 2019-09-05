@@ -40,7 +40,7 @@ class QuestionDetailMainViewModel(
 
     internal var title = ""
     internal var isInAnswerMode = false
-    internal var questionId = 0
+    internal var questionId = -1
     internal var question: Question? = null
 
     internal fun getQuestionDetails() {

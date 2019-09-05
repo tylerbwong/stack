@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_question_detail.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
+import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class QuestionDetailActivity : BaseActivity() {
 
@@ -25,14 +26,15 @@ class QuestionDetailActivity : BaseActivity() {
         setSupportActionBar(toolbar)
         setTitle("")
 
-        viewModel.questionId = savedInstanceState?.getInt(QUESTION_ID)
-                ?: intent.getIntExtra(QUESTION_ID, 0)
+        if (viewModel.questionId == -1) {
+            viewModel.questionId = intent.getIntExtra(QUESTION_ID, -1)
+        }
 
         viewModel.canAnswerQuestion.observe(this) {
             toggleAnswerButtonVisibility(isVisible = it && !viewModel.isInAnswerMode)
         }
 
-        postAnswerButton.setOnClickListener {
+        postAnswerButton.setThrottledOnClickListener {
             toggleAnswerMode(isInAnswerMode = true)
         }
 

@@ -24,6 +24,7 @@ import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailMainViewModel
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
+import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
@@ -96,7 +97,7 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
 
         tabLayout.selectTab(tabLayout.getTabAt(viewModel.selectedTabPosition))
 
-        postAnswerButton.setOnClickListener {
+        postAnswerButton.setThrottledOnClickListener {
             if (!markdownEditText.text.isNullOrBlank()) {
                 viewModel.postAnswer(markdownEditText.text.toString(), isPreview = BuildConfig.DEBUG)
             }
