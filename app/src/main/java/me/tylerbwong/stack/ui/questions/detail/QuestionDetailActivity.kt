@@ -72,14 +72,18 @@ class QuestionDetailActivity : BaseActivity() {
 
     override fun onBackPressed() {
         if (viewModel.isInAnswerMode) {
-            MaterialAlertDialogBuilder(this)
-                    .setTitle(R.string.discard_answer)
-                    .setPositiveButton(R.string.discard) { _, _ ->
-                        toggleAnswerMode(isInAnswerMode = false)
-                    }
-                    .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-                    .create()
-                    .show()
+            if (viewModel.hasContent) {
+                MaterialAlertDialogBuilder(this)
+                        .setTitle(R.string.discard_answer)
+                        .setPositiveButton(R.string.discard) { _, _ ->
+                            toggleAnswerMode(isInAnswerMode = false)
+                        }
+                        .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                        .create()
+                        .show()
+            } else {
+                toggleAnswerMode(isInAnswerMode = false)
+            }
         } else {
             super.onBackPressed()
         }

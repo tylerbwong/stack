@@ -32,6 +32,7 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
 
     private val viewModel by viewModels<PostAnswerViewModel>()
     private lateinit var mainViewModel: QuestionDetailMainViewModel
+    private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,7 +118,10 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        this.menu = menu
         inflater.inflate(R.menu.menu_discard, menu)
+        toggleDiscardMenuItemVisibility(isVisible = !markdownEditText.text.isNullOrBlank())
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -132,6 +136,10 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun toggleDiscardMenuItemVisibility(isVisible: Boolean) {
+        menu?.findItem(R.id.discard)?.isVisible = isVisible
     }
 
     private fun onTabChanged(position: Int) {
@@ -177,6 +185,8 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
 
     private fun clearFields() {
         tearDownTextWatcher()
+        mainViewModel.hasContent = false
+        toggleDiscardMenuItemVisibility(isVisible = false)
         markdownEditText.text = null
         previewText.text = null
         setUpTextWatcher()
@@ -204,10 +214,13 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
             }
 
             override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
-                markdownInputLayout.error = if (text.isBlank()) {
-                    getString(R.string.answer_error)
-                } else {
+                val hasContent = text.isNotBlank()
+                mainViewModel.hasContent = hasContent
+                toggleDiscardMenuItemVisibility(isVisible = hasContent)
+                markdownInputLayout.error = if (hasContent) {
                     null
+                } else {
+                    getString(R.string.answer_error)
                 }
             }
         }
