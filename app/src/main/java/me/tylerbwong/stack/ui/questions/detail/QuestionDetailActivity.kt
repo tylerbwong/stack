@@ -128,9 +128,9 @@ class QuestionDetailActivity : BaseActivity() {
     }
 
     private fun toggleAnswerButtonVisibility(isVisible: Boolean) = if (isVisible) {
-        postAnswerButton.show(false)
+        postAnswerButton.show()
     } else {
-        postAnswerButton.hide(false)
+        postAnswerButton.hide()
     }
 
     companion object {
