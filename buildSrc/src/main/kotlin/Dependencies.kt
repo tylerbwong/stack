@@ -20,7 +20,7 @@ object Versions {
     const val kotlin = "1.3.50"
     const val kotlinxCoroutines = "1.3.1"
     const val ktxActivityExtensions = "1.1.0-alpha03"
-    const val ktxFragmentExtensions = "	1.2.0-alpha03"
+    const val ktxFragmentExtensions = "1.2.0-alpha03"
     const val ktxLifecycleExtensions = "2.2.0-alpha04"
     const val markwon = "4.1.1"
     const val materialComponents = "1.1.0-alpha10"
