@@ -31,6 +31,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     lintOptions {
         isAbortOnError = false
     }
@@ -99,8 +103,8 @@ dependencies {
     implementation(Dep.playCore)
 
     // room
-    implementation(Dep.room)
-    implementation(Dep.roomCoroutines)
+    implementation(Dep.roomRuntime)
+    implementation(Dep.roomKtx)
     kapt(Dep.roomProcessor)
 
     // testing
