@@ -57,9 +57,7 @@ class QuestionDetailViewModel(
                     add(
                             QuestionDetailActionDataModel(
                                     this@QuestionDetailViewModel,
-                                    questionResult.downvoted,
-                                    questionResult.favorited,
-                                    questionResult.upvoted
+                                    questionResult
                             )
                     )
                 }

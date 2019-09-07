@@ -1,13 +1,15 @@
 package me.tylerbwong.stack.ui.questions.detail
 
-import android.content.res.ColorStateList
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
-import androidx.core.widget.ImageViewCompat
 import kotlinx.android.synthetic.main.question_detail_action_holder.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
+import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
 
 class QuestionDetailActionHolder(parent: ViewGroup) : DynamicViewHolder(
@@ -15,31 +17,33 @@ class QuestionDetailActionHolder(parent: ViewGroup) : DynamicViewHolder(
 ) {
     override fun bind(data: Any) {
         (data as? QuestionDetailActionDataModel)?.let { dataModel ->
-            upvote.renderSelectedState(isSelected = dataModel.upvoted)
+            upvote.renderSelectedState(dataModel.upVoteCount, isSelected = dataModel.upvoted)
             upvote.setOnClickListener {
                 dataModel.toggleUpvote(isSelected = !dataModel.upvoted)
             }
-            favorite.renderSelectedState(isSelected = dataModel.favorited)
+            favorite.renderSelectedState(dataModel.favoriteCount, isSelected = dataModel.favorited)
             favorite.setOnClickListener {
                 dataModel.toggleFavorite(isSelected = !dataModel.favorited)
             }
-            downvote.renderSelectedState(isSelected = dataModel.downvoted)
+            downvote.renderSelectedState(dataModel.downVoteCount, isSelected = dataModel.downvoted)
             downvote.setOnClickListener {
                 dataModel.toggleDownvote(isSelected = !dataModel.downvoted)
             }
         }
     }
 
-    private fun ImageView.renderSelectedState(isSelected: Boolean) {
-        ImageViewCompat.setImageTintList(
-                this,
-                ColorStateList.valueOf(
-                        if (isSelected) {
-                            ContextCompat.getColor(context, R.color.colorAccent)
-                        } else {
-                            ContextCompat.getColor(context, R.color.primaryTextColor)
-                        }
-                )
-        )
+    private fun TextView.renderSelectedState(value: Int, isSelected: Boolean) {
+        @ColorInt val color = if (isSelected) {
+            ContextCompat.getColor(context, R.color.colorAccent)
+        } else {
+            ContextCompat.getColor(context, R.color.primaryTextColor)
+        }
+        setTextColor(color)
+        text = value.toLong().format()
+        compoundDrawables.forEach {
+            if (it != null) {
+                it.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+            }
+        }
     }
 }
