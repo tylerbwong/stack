@@ -21,8 +21,12 @@ data class Question(
         val creationDate: Long,
         @SerializedName("down_vote_count")
         val downVoteCount: Int,
+        @SerializedName("downvoted")
+        val downvoted: Boolean,
         @SerializedName("favorite_count")
         val favoriteCount: Int,
+        @SerializedName("favorited")
+        val favorited: Boolean,
         @SerializedName("is_answered")
         val isAnswered: Boolean,
         @SerializedName("last_activity_date")
@@ -41,6 +45,8 @@ data class Question(
         val title: String,
         @SerializedName("up_vote_count")
         val upVoteCount: Int,
+        @SerializedName("upvoted")
+        val upvoted: Boolean,
         @SerializedName("view_count")
         val viewCount: Int
 )

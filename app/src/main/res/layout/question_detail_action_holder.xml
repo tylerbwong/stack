@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/upvote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/question_detail_action_item_bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        android:src="@drawable/ic_arrow_upward"
+        android:tint="@color/primaryTextColor" />
+
+    <ImageView
+        android:id="@+id/downvote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/question_detail_action_item_bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        android:rotation="180"
+        android:src="@drawable/ic_arrow_upward"
+        android:tint="@color/primaryTextColor" />
+
+    <ImageView
+        android:id="@+id/favorite"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/question_detail_action_item_bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        android:src="@drawable/ic_star"
+        android:tint="@color/primaryTextColor" />
+</LinearLayout>

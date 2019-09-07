@@ -10,7 +10,7 @@ class AuthInterceptor : Interceptor {
 
         // We only want to append the access_token as a query parameter if it exists
         // The API will return a error code if the query parameter is present with no valid value
-        if (!accessToken.isNullOrBlank()) {
+        if (!accessToken.isNullOrBlank() && chain.request().method != "POST") {
             authUrlBuilder.addEncodedQueryParameter(AuthStore.ACCESS_TOKEN, accessToken)
         }
 
