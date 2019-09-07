@@ -83,9 +83,7 @@ class AuthRepositoryTest : BaseTest() {
     @Test
     fun `getCurrentUser with existing access token makes service and db calls`() {
         runBlocking {
-            whenever(userService.getCurrentUser(any(), any(), any())).thenReturn(
-                    StackResponse(listOf(testUser), false)
-            )
+            whenever(userService.getCurrentUser(any(), any(), any())).thenReturn(testResponse)
             AuthStore.setAccessToken(testUri)
             repository.getCurrentUser()
             verify(userService).getCurrentUser(any(), any(), any())
@@ -122,9 +120,7 @@ class AuthRepositoryTest : BaseTest() {
     @Test
     fun `getCurrentUser with throwing db call returns null`() {
         runBlocking {
-            whenever(userService.getCurrentUser(any(), any(), any())).thenReturn(
-                    StackResponse(listOf(testUser), false)
-            )
+            whenever(userService.getCurrentUser(any(), any(), any())).thenReturn(testResponse)
             whenever(userDao.insert(any())).thenThrow(IllegalStateException("Could not insert"))
             AuthStore.setAccessToken(testUri)
             assertNull(repository.getCurrentUser())
@@ -148,5 +144,6 @@ class AuthRepositoryTest : BaseTest() {
                 "registered",
                 null
         )
+        private val testResponse = StackResponse(listOf(testUser), false, 0, "")
     }
 }
