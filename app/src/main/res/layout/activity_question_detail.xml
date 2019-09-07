@@ -29,10 +29,10 @@
         android:padding="16dp"
         android:text="@string/answer"
         android:textAllCaps="false"
-        android:textColor="@color/primaryTextColorLight"
+        android:textColor="@color/colorTextPrimaryDark"
         app:backgroundTint="?attr/colorAccent"
         app:icon="@drawable/ic_edit"
-        app:iconTint="@color/primaryTextColorLight"
+        app:iconTint="@color/colorTextPrimaryDark"
         app:layout_anchor="@id/viewPager"
         app:layout_anchorGravity="bottom|end" />
 

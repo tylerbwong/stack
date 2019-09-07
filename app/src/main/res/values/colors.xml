@@ -7,6 +7,7 @@
     <color name="black">#000000</color>
 
     <color name="colorTextPrimary">#83898F</color>
+    <color name="colorTextPrimaryDark">#33343B</color>
     <color name="colorUserImagePlaceholder">#E0E0E0</color>
     <color name="divider">#1f000000</color>
 
@@ -15,7 +16,7 @@
     <color name="bronzeBadgeColor">#A1887F</color>
 
     <color name="windowBackground">@color/white</color>
-    <color name="primaryTextColor">#33343B</color>
+    <color name="primaryTextColor">@color/colorTextPrimaryDark</color>
     <color name="secondaryTextColor">#8033343B</color>
     <color name="viewBackgroundColor">@color/white</color>
     <color name="iconColor">@color/black</color>

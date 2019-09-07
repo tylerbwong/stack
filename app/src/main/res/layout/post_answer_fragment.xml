@@ -105,10 +105,10 @@
             android:padding="16dp"
             android:text="@string/post"
             android:textAllCaps="false"
-            android:textColor="@color/primaryTextColorLight"
+            android:textColor="@color/colorTextPrimaryDark"
             app:backgroundTint="?attr/colorAccent"
             app:icon="@drawable/ic_send"
-            app:iconTint="@color/primaryTextColorLight"
+            app:iconTint="@color/colorTextPrimaryDark"
             app:layout_anchor="@id/scrollView"
             app:layout_anchorGravity="bottom|end" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
