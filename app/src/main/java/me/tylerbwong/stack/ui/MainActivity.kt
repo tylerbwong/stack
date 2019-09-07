@@ -34,6 +34,7 @@ import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.ui.questions.HeaderDataModel
 import me.tylerbwong.stack.ui.questions.QuestionDataModel
 import me.tylerbwong.stack.ui.theme.ThemeManager
+import me.tylerbwong.stack.ui.theme.showThemeChooserDialog
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.GlideApp
@@ -140,10 +141,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.theme -> {
-                ThemeManager.toggleTheme(this)
-                recreate()
-            }
+            R.id.theme -> showThemeChooserDialog()
             R.id.sort -> {
                 PopupMenu(this, findViewById(R.id.sort)).also {
                     it.inflate(R.menu.menu_sort)
