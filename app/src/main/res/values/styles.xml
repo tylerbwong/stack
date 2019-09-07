@@ -32,6 +32,7 @@
 
     <!-- Light alert dialog theme -->
     <style name="MaterialAlertDialogTheme.Light" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="buttonBarPositiveButtonStyle">@style/MaterialAlertDialogPositiveButtonLightStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/MaterialAlertDialogNegativeButtonLightStyle</item>
     </style>
@@ -62,6 +63,7 @@
 
     <!-- Dark alert dialog theme -->
     <style name="MaterialAlertDialogTheme.Dark" parent="Theme.MaterialComponents.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="buttonBarPositiveButtonStyle">@style/MaterialAlertDialogPositiveButtonDarkStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/MaterialAlertDialogNegativeButtonDarkStyle</item>
     </style>
