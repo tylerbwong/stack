@@ -19,14 +19,15 @@ class QuestionDetailActionHolder(parent: ViewGroup) : DynamicViewHolder(
     override fun bind(data: Any) {
         (data as? QuestionDetailActionDataModel)?.let { dataModel ->
             upvote.renderSelectedState(dataModel.upVoteCount, isSelected = dataModel.upvoted)
+            favorite.renderSelectedState(dataModel.favoriteCount, isSelected = dataModel.favorited)
+            downvote.renderSelectedState(dataModel.downVoteCount, isSelected = dataModel.downvoted)
+
             upvote.setThrottledOnClickListener {
                 dataModel.toggleUpvote(isSelected = !dataModel.upvoted)
             }
-            favorite.renderSelectedState(dataModel.favoriteCount, isSelected = dataModel.favorited)
             favorite.setThrottledOnClickListener {
                 dataModel.toggleFavorite(isSelected = !dataModel.favorited)
             }
-            downvote.renderSelectedState(dataModel.downVoteCount, isSelected = dataModel.downvoted)
             downvote.setThrottledOnClickListener {
                 dataModel.toggleDownvote(isSelected = !dataModel.downvoted)
             }
@@ -43,7 +44,7 @@ class QuestionDetailActionHolder(parent: ViewGroup) : DynamicViewHolder(
         text = value.toLong().format()
         compoundDrawables.forEach {
             if (it != null) {
-                it.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+                it.mutate().colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
             }
         }
     }
