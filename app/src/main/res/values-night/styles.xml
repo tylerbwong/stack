@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Base.AppTheme" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <style name="AppTheme.Base" parent="Theme.MaterialComponents.NoActionBar" />
+
+    <style name="MaterialAlertDialogTheme" parent="Theme.MaterialComponents.Dialog.Alert">
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="buttonBarPositiveButtonStyle">@style/MaterialAlertDialogButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/MaterialAlertDialogButtonStyle</item>
     </style>
+
+    <style name="MaterialAlertDialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="rippleColor">@color/colorAccent</item>
+    </style>
+
 </resources>

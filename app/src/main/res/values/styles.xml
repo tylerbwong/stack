@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Base.AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme.Base" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -9,7 +9,7 @@
         <item name="android:navigationBarColor">@android:color/white</item>
     </style>
 
-    <style name="AppTheme.Primary.Base" parent="Base.AppTheme">
+    <style name="AppTheme.Base.Primary">
         <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:statusBarColor">@color/viewBackgroundColor</item>
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
@@ -24,16 +24,11 @@
 
     <style name="MaterialAlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="buttonBarPositiveButtonStyle">@style/MaterialAlertDialogPositiveButtonStyle</item>
-        <item name="buttonBarNegativeButtonStyle">@style/MaterialAlertDialogNegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/MaterialAlertDialogButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/MaterialAlertDialogButtonStyle</item>
     </style>
 
-    <style name="MaterialAlertDialogPositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/primaryTextColor</item>
-        <item name="rippleColor">@color/colorAccent</item>
-    </style>
-
-    <style name="MaterialAlertDialogNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+    <style name="MaterialAlertDialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/primaryTextColor</item>
         <item name="rippleColor">@color/colorAccent</item>
     </style>
