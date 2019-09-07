@@ -45,7 +45,6 @@ object ThemeManager {
 
     fun injectTheme(activity: Activity) {
         if (activity.isNightModeEnabled) {
-            activity.setTheme(R.style.AppTheme_Primary_Base_Dark)
             removeLightStatusBarIfSupported(activity)
             removeLightNavigationBarIfSupported(activity)
         } else {

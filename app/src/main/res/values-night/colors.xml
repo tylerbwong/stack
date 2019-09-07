@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="windowBackground">@color/black</color>
+    <color name="primaryTextColor">#F4F4F6</color>
+    <color name="secondaryTextColor">#96F4F4F6</color>
+    <color name="viewBackgroundColor">@color/black</color>
+    <color name="iconColor">@color/white</color>
+</resources>

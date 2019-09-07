@@ -14,17 +14,9 @@
     <color name="silverBadgeColor">#BDBDBD</color>
     <color name="bronzeBadgeColor">#A1887F</color>
 
-    <!-- Light Theme -->
-    <color name="windowBackgroundLight">@color/white</color>
-    <color name="primaryTextColorLight">#33343B</color>
-    <color name="secondaryTextColorLight">#8033343B</color>
-    <color name="viewBackgroundColorLight">@color/white</color>
-    <color name="iconColorLight">@color/black</color>
-
-    <!-- Dark Theme -->
-    <color name="windowBackgroundDark">@color/black</color>
-    <color name="primaryTextColorDark">#F4F4F6</color>
-    <color name="secondaryTextColorDark">#96F4F4F6</color>
-    <color name="viewBackgroundColorDark">@color/black</color>
-    <color name="iconColorDark">@color/white</color>
+    <color name="windowBackground">@color/white</color>
+    <color name="primaryTextColor">#33343B</color>
+    <color name="secondaryTextColor">#8033343B</color>
+    <color name="viewBackgroundColor">@color/white</color>
+    <color name="iconColor">@color/black</color>
 </resources>
