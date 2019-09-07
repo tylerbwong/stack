@@ -11,6 +11,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
+import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class QuestionDetailActionHolder(parent: ViewGroup) : DynamicViewHolder(
         parent.inflateWithoutAttaching(R.layout.question_detail_action_holder)
@@ -18,15 +19,15 @@ class QuestionDetailActionHolder(parent: ViewGroup) : DynamicViewHolder(
     override fun bind(data: Any) {
         (data as? QuestionDetailActionDataModel)?.let { dataModel ->
             upvote.renderSelectedState(dataModel.upVoteCount, isSelected = dataModel.upvoted)
-            upvote.setOnClickListener {
+            upvote.setThrottledOnClickListener {
                 dataModel.toggleUpvote(isSelected = !dataModel.upvoted)
             }
             favorite.renderSelectedState(dataModel.favoriteCount, isSelected = dataModel.favorited)
-            favorite.setOnClickListener {
+            favorite.setThrottledOnClickListener {
                 dataModel.toggleFavorite(isSelected = !dataModel.favorited)
             }
             downvote.renderSelectedState(dataModel.downVoteCount, isSelected = dataModel.downvoted)
-            downvote.setOnClickListener {
+            downvote.setThrottledOnClickListener {
                 dataModel.toggleDownvote(isSelected = !dataModel.downvoted)
             }
         }

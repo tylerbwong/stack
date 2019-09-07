@@ -17,6 +17,7 @@
         android:focusable="true"
         android:gravity="center"
         android:padding="8dp"
+        android:textSize="12sp"
         tools:text="25k" />
 
     <TextView
@@ -30,6 +31,7 @@
         android:focusable="true"
         android:gravity="center"
         android:padding="8dp"
+        android:textSize="12sp"
         tools:text="25k" />
 
     <TextView
@@ -43,5 +45,6 @@
         android:focusable="true"
         android:gravity="center"
         android:padding="8dp"
+        android:textSize="12sp"
         tools:text="25k" />
 </LinearLayout>
