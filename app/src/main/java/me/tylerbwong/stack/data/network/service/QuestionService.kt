@@ -1,6 +1,5 @@
 package me.tylerbwong.stack.data.network.service
 
-import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.model.ORDER_PARAM
 import me.tylerbwong.stack.data.model.Order
@@ -92,7 +91,7 @@ interface QuestionService {
             @Field(SITE_PARAM) site: String = DEFAULT_SITE,
             @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
             @Field(BODY_PARAM) bodyMarkdown: String,
-            @Field(PREVIEW_PARAM) preview: Boolean = BuildConfig.DEBUG
+            @Field(PREVIEW_PARAM) preview: Boolean = false
     ): Response<Answer>
 
     @GET("search/advanced")
