@@ -19,5 +19,6 @@
     <color name="primaryTextColor">@color/colorTextPrimaryDark</color>
     <color name="secondaryTextColor">#8033343B</color>
     <color name="viewBackgroundColor">@color/white</color>
+    <color name="dialogBackgroundColor">@color/white</color>
     <color name="iconColor">@color/black</color>
 </resources>

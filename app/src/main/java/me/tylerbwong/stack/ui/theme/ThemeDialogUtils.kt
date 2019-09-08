@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
@@ -22,6 +23,7 @@ private val nightModeOptions = mapOf(
 
 fun Context.showThemeChooserDialog() {
     MaterialAlertDialogBuilder(this)
+            .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
             .setTitle(R.string.theme_title)
             .setSingleChoiceItems(
                     nightModeOptions.keys.map { getString(it) }.toTypedArray(),
