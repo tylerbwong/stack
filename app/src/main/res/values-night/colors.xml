@@ -4,5 +4,6 @@
     <color name="primaryTextColor">#F4F4F6</color>
     <color name="secondaryTextColor">#96F4F4F6</color>
     <color name="viewBackgroundColor">@color/black</color>
+    <color name="dialogBackgroundColor">#FF424242</color>
     <color name="iconColor">@color/white</color>
 </resources>
