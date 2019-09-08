@@ -5,6 +5,7 @@ import android.graphics.PorterDuffColorFilter
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.question_detail_action_holder.*
 import me.tylerbwong.stack.R
@@ -18,9 +19,21 @@ class QuestionDetailActionHolder(parent: ViewGroup) : DynamicViewHolder(
 ) {
     override fun bind(data: Any) {
         (data as? QuestionDetailActionDataModel)?.let { dataModel ->
-            upvote.renderSelectedState(dataModel.upVoteCount, isSelected = dataModel.upvoted)
-            favorite.renderSelectedState(dataModel.favoriteCount, isSelected = dataModel.favorited)
-            downvote.renderSelectedState(dataModel.downVoteCount, isSelected = dataModel.downvoted)
+            upvote.renderSelectedState(
+                    R.color.upvoted,
+                    dataModel.upVoteCount,
+                    isSelected = dataModel.upvoted
+            )
+            favorite.renderSelectedState(
+                    R.color.favorited,
+                    dataModel.favoriteCount,
+                    isSelected = dataModel.favorited
+            )
+            downvote.renderSelectedState(
+                    R.color.downvoted,
+                    dataModel.downVoteCount,
+                    isSelected = dataModel.downvoted
+            )
 
             upvote.setThrottledOnClickListener {
                 dataModel.toggleUpvote(isSelected = !dataModel.upvoted)
@@ -34,9 +47,13 @@ class QuestionDetailActionHolder(parent: ViewGroup) : DynamicViewHolder(
         }
     }
 
-    private fun TextView.renderSelectedState(value: Int, isSelected: Boolean) {
+    private fun TextView.renderSelectedState(
+            @ColorRes selectedColor: Int,
+            value: Int,
+            isSelected: Boolean
+    ) {
         @ColorInt val color = if (isSelected) {
-            ContextCompat.getColor(context, R.color.colorAccent)
+            ContextCompat.getColor(context, selectedColor)
         } else {
             ContextCompat.getColor(context, R.color.primaryTextColor)
         }

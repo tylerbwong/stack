@@ -29,6 +29,7 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
     override fun bind(data: Any) {
         (data as? QuestionDataModel)?.let { dataModel ->
             if (dataModel.isDetail) {
+                itemView.elevation = 0f
                 questionBody.maxLines = Integer.MAX_VALUE
                 questionBody.ellipsize = null
             }

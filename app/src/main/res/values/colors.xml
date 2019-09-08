@@ -14,6 +14,10 @@
     <color name="silverBadgeColor">#BDBDBD</color>
     <color name="bronzeBadgeColor">#A1887F</color>
 
+    <color name="upvoted">#9CCC65</color>
+    <color name="downvoted">#5C6BC0</color>
+    <color name="favorited">#FFCA28</color>
+
     <color name="windowBackground">@color/white</color>
     <color name="primaryTextColor">#33343B</color>
     <color name="secondaryTextColor">#8033343B</color>
