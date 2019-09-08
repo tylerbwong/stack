@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -277,6 +278,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
     private fun showLogOutDialog() {
         MaterialAlertDialogBuilder(this)
+                .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
                 .setTitle(R.string.log_out_title)
                 .setPositiveButton(R.string.log_out) { _, _ -> viewModel.logOut() }
                 .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
@@ -286,6 +288,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
     private fun showLogInDialog() {
         MaterialAlertDialogBuilder(this)
+                .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
                 .setTitle(R.string.log_in_title)
                 .setPositiveButton(R.string.log_in) { _, _ ->
                     launchCustomTab(this, AuthStore.authUrl)
