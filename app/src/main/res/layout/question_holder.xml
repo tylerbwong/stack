@@ -15,12 +15,22 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/questionViewsCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/questionTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/questionTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingStart="16dp"
-            android:paddingTop="16dp"
             android:paddingEnd="16dp"
             android:paddingBottom="8dp"
             android:textColor="?android:attr/textColorPrimary"
@@ -28,7 +38,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/questionViewsCount"
             tools:text="Question title" />
 
         <TextView
@@ -62,6 +72,17 @@
             app:layout_constraintTop_toBottomOf="@id/questionBody"
             app:singleSelection="true" />
 
+        <TextView
+            android:id="@+id/creationDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/userView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tagsView" />
+
         <include
             android:id="@+id/userView"
             layout="@layout/user_view"
@@ -73,7 +94,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/answerCount"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tagsView" />
+            app:layout_constraintTop_toBottomOf="@+id/creationDate" />
 
         <TextView
             android:id="@+id/answerCount"

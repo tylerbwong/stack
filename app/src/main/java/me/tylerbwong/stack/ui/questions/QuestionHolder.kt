@@ -15,13 +15,9 @@ import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
-import me.tylerbwong.stack.ui.utils.DynamicViewHolder
-import me.tylerbwong.stack.ui.utils.GlideApp
-import me.tylerbwong.stack.ui.utils.format
-import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
+import me.tylerbwong.stack.ui.utils.*
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
-import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
-import me.tylerbwong.stack.ui.utils.toHtml
+import java.text.DateFormat
 
 class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
         parent.inflateWithoutAttaching(R.layout.question_holder)
@@ -32,6 +28,8 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                 questionBody.maxLines = Integer.MAX_VALUE
                 questionBody.ellipsize = null
             }
+
+            questionViewsCount.text = "viewed ${dataModel.question.viewCount} times"
 
             questionTitle.text = dataModel.questionTitle.toHtml()
             answerCount.apply {
@@ -56,6 +54,8 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                     setTextIsSelectable(false)
                 }
             }
+
+            creationDate.text = "asked ${DateFormat.getDateInstance(DateFormat.SHORT).format(dataModel.question.creationDate)}"
 
             username.text = dataModel.username.toHtml()
             GlideApp.with(itemView)
