@@ -30,6 +30,7 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
             }
 
             questionViewsCount.text = "viewed ${dataModel.question.viewCount} times"
+            questionFavoriteCount.text = dataModel.question.favoriteCount.toString()
 
             questionTitle.text = dataModel.questionTitle.toHtml()
             answerCount.apply {
