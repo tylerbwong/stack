@@ -18,6 +18,7 @@ import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.*
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import java.text.DateFormat
+import java.util.*
 
 class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
         parent.inflateWithoutAttaching(R.layout.question_holder)
@@ -31,6 +32,12 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
 
             questionViewsCount.text = "viewed ${dataModel.question.viewCount} times"
             questionFavoriteCount.text = dataModel.question.favoriteCount.toString()
+            dataModel.question.lastActivityDate?.let {
+                val calendar = Calendar.getInstance()
+                calendar.timeInMillis = it * 1000
+                lastActivityDate.text = "active ${DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.time)}"
+                lastActivityDate.visibility = View.VISIBLE
+            } ?: run { lastActivityDate.visibility = View.GONE }
 
             questionTitle.text = dataModel.questionTitle.toHtml()
             answerCount.apply {
@@ -56,7 +63,11 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                 }
             }
 
-            creationDate.text = "asked ${DateFormat.getDateInstance(DateFormat.SHORT).format(dataModel.question.creationDate)}"
+            dataModel.question.creationDate.let {
+                val calendar = Calendar.getInstance()
+                calendar.timeInMillis = it * 1000
+                creationDate.text = "asked ${DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.time)}"
+            }
 
             username.text = dataModel.username.toHtml()
             GlideApp.with(itemView)
