@@ -9,7 +9,12 @@
     <string name="linked">Linked</string>
     <string name="related">Related</string>
 
-    <string name="answered_date">answered %1$s</string>
+    <string name="answered_min_ago">answered minutes ago</string>
+    <string name="answered_def_min_ago">answered %1$d minutes ago</string>
+    <string name="answered_hrs_ago">answered %1$d hours ago</string>
+    <string name="answered_days_ago">answered %1$s days ago</string>
+    <string name="answered_months_ago">answered %1$s months ago</string>
+    <string name="answered_years_ago">answered %1$s years ago</string>
 
     <plurals name="answers">
         <item quantity="zero">%1$d Answers</item>

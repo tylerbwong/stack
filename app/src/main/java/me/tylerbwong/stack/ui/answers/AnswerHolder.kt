@@ -13,8 +13,8 @@ import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
-import java.text.DateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
         parent.inflateWithoutAttaching(R.layout.answer_holder)
@@ -31,7 +31,7 @@ class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
                 movementMethod = BetterLinkMovementMethod.getInstance()
             }
 
-            creationDate.text = containerView.context.getString(R.string.answered_date, getAnswerDateFormatted(data.creationDate))
+            creationDate.text = getAnswerDateFormatted(data.creationDate)
 
             username.text = dataModel.username
             GlideApp.with(itemView)
@@ -47,8 +47,22 @@ class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
     }
 
     private fun getAnswerDateFormatted(creationDate: Long): String {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = creationDate * 1000
-        return DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.time)
+        val calendarStackAnswer = Calendar.getInstance()
+        calendarStackAnswer.timeInMillis = creationDate * 1000
+
+        val calendarCurrent = Calendar.getInstance()
+
+        val currentTimeInMinutes = TimeUnit.MILLISECONDS.toMinutes(calendarCurrent.timeInMillis)
+        val stackAnsweredInMinutes = TimeUnit.MILLISECONDS.toMinutes(calendarStackAnswer.timeInMillis)
+
+        val currentTimeInHours = TimeUnit.MILLISECONDS.toHours(calendarCurrent.timeInMillis)
+        val stackAnsweredInHours = TimeUnit.MILLISECONDS.toHours(calendarStackAnswer.timeInMillis)
+
+        return when {
+            currentTimeInMinutes - stackAnsweredInMinutes <= 5 -> containerView.context.getString(R.string.answered_min_ago)
+            currentTimeInMinutes - stackAnsweredInMinutes in 6..59 -> containerView.context.getString(R.string.answered_def_min_ago, currentTimeInMinutes - stackAnsweredInMinutes)
+            currentTimeInHours - stackAnsweredInHours in 1..23 -> containerView.context.getString(R.string.answered_hrs_ago, currentTimeInHours - stackAnsweredInHours)
+            else -> ""
+        }
     }
 }
