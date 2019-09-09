@@ -17,6 +17,7 @@ class AnswerDataModel(private val answer: Answer) : DynamicDataModel() {
     internal val username = answer.owner.displayName.toHtml()
     internal val reputation = answer.owner.reputation.toLong().format()
     internal val badgeCounts = answer.owner.badgeCounts
+    internal val creationDate = answer.creationDate
 
     internal fun onProfilePictureClicked(context: Context) {
         ProfileActivity.startActivity(context, answer.owner.userId)
@@ -31,7 +32,7 @@ class AnswerDataModel(private val answer: Answer) : DynamicDataModel() {
     ) = other is AnswerDataModel && other.isAccepted == isAccepted && other.voteCount == voteCount
             && other.answerBody == answerBody && other.userImage == userImage
             && other.username == username && other.reputation == reputation
-            && other.badgeCounts == badgeCounts
+            && other.badgeCounts == badgeCounts && other.creationDate == creationDate
 
     override fun getViewCreator() = ::AnswerHolder
 }

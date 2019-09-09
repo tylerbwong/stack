@@ -9,6 +9,8 @@
     <string name="linked">Linked</string>
     <string name="related">Related</string>
 
+    <string name="answered_date">answered %1$s</string>
+
     <plurals name="answers">
         <item quantity="zero">%1$d Answers</item>
         <item quantity="one">%1$d Answer</item>
