@@ -30,14 +30,19 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                 questionBody.ellipsize = null
             }
 
-            questionViewsCount.text = "viewed ${dataModel.question.viewCount} times"
+            questionViewsCount.text = if (dataModel.question.viewCount > 1)
+                containerView.context.getString(R.string.multiple_views, dataModel.question.viewCount)
+            else
+                containerView.context.getString(R.string.view, dataModel.question.viewCount)
+
             questionFavoriteCount.text = dataModel.question.favoriteCount.toString()
             dataModel.question.lastActivityDate?.let {
                 val calendar = Calendar.getInstance()
                 calendar.timeInMillis = it * 1000
-                lastActivityDate.text = "active ${DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.time)}"
+                val dateFormatted = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.time)
+                lastActivityDate.text = containerView.context.getString(R.string.last_active_date, dateFormatted)
                 lastActivityDate.visibility = View.VISIBLE
-            } ?: run { lastActivityDate.visibility = View.GONE }
+            }
 
             questionTitle.text = dataModel.questionTitle.toHtml()
             answerCount.apply {
@@ -66,7 +71,8 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
             dataModel.question.creationDate.let {
                 val calendar = Calendar.getInstance()
                 calendar.timeInMillis = it * 1000
-                creationDate.text = "asked ${DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.time)}"
+                val askedDate = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.time)
+                creationDate.text = containerView.context.getString(R.string.creation_date, askedDate)
             }
 
             username.text = dataModel.username.toHtml()

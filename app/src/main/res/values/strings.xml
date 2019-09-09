@@ -9,6 +9,11 @@
     <string name="linked">Linked</string>
     <string name="related">Related</string>
 
+    <string name="multiple_views">viewed %1$d times</string>
+    <string name="view">viewed %1$d time</string>
+    <string name="last_active_date">active %1$s</string>
+    <string name="creation_date">asked %1$s</string>
+
     <plurals name="answers">
         <item quantity="zero">%1$d Answers</item>
         <item quantity="one">%1$d Answer</item>

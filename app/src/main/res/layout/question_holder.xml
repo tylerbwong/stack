@@ -44,6 +44,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/questionTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/questionFavoriteCount" />
