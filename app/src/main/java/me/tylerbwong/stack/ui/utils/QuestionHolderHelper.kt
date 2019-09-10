@@ -35,3 +35,13 @@ internal fun calendarCalculation(minutesBefore: Long, typeDate: Int): Int {
         }
     }
 }
+
+internal fun getViewsCount(viewCount: Int): String {
+    val viewCountString = viewCount.toString()
+    val viewCountLength = viewCountString.length
+
+    return when {
+        viewCountLength > 3 -> "${viewCountString.removeRange(viewCountLength - 3, viewCountLength)}K"
+        else -> viewCountString
+    }
+}

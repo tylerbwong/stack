@@ -9,8 +9,7 @@
     <string name="linked">Linked</string>
     <string name="related">Related</string>
 
-    <string name="multiple_views">viewed %1$d times</string>
-    <string name="view">viewed %1$d time</string>
+    <string name="asked_views">viewed %1$s times</string>
     <string name="last_active_date">active %1$s</string>
 
     <string name="asked_years_ago">asked %1$d years ago</string>

@@ -30,10 +30,7 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                 questionBody.ellipsize = null
             }
 
-            questionViewsCount.text = if (dataModel.question.viewCount > 1)
-                containerView.context.getString(R.string.multiple_views, dataModel.question.viewCount)
-            else
-                containerView.context.getString(R.string.view, dataModel.question.viewCount)
+            questionViewsCount.text = containerView.context.getString(R.string.asked_views, getViewsCount(dataModel.question.viewCount))
 
             dataModel.question.lastActivityDate?.let {
                 val calendar = Calendar.getInstance()
