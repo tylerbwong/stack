@@ -52,17 +52,45 @@ class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
 
         val calendarCurrent = Calendar.getInstance()
 
-        val currentTimeInMinutes = TimeUnit.MILLISECONDS.toMinutes(calendarCurrent.timeInMillis)
-        val stackAnsweredInMinutes = TimeUnit.MILLISECONDS.toMinutes(calendarStackAnswer.timeInMillis)
-
-        val currentTimeInHours = TimeUnit.MILLISECONDS.toHours(calendarCurrent.timeInMillis)
-        val stackAnsweredInHours = TimeUnit.MILLISECONDS.toHours(calendarStackAnswer.timeInMillis)
+        val timeCalculation = calendarCurrent.timeInMillis - calendarStackAnswer.timeInMillis
 
         return when {
-            currentTimeInMinutes - stackAnsweredInMinutes <= 5 -> containerView.context.getString(R.string.answered_min_ago)
-            currentTimeInMinutes - stackAnsweredInMinutes in 6..59 -> containerView.context.getString(R.string.answered_def_min_ago, currentTimeInMinutes - stackAnsweredInMinutes)
-            currentTimeInHours - stackAnsweredInHours in 1..23 -> containerView.context.getString(R.string.answered_hrs_ago, currentTimeInHours - stackAnsweredInHours)
-            else -> ""
+            // less than
+            TimeUnit.MILLISECONDS.toMinutes(timeCalculation) <= 5 -> containerView.context.getString(R.string.answered_min_ago)
+            // x minutes ago
+            TimeUnit.MILLISECONDS.toMinutes(timeCalculation) in 6..59 -> containerView.context.getString(R.string.answered_def_min_ago, TimeUnit.MILLISECONDS.toMinutes(timeCalculation).toInt())
+            // hour ago
+            TimeUnit.MILLISECONDS.toHours(timeCalculation).toInt() == 1 -> containerView.context.getString(R.string.answered_hr_ago)
+            // x hours ago
+            TimeUnit.MILLISECONDS.toHours(timeCalculation) in 2..23 -> containerView.context.getString(R.string.answered_hrs_ago, TimeUnit.MILLISECONDS.toHours(timeCalculation).toInt())
+            // day ago
+            TimeUnit.MILLISECONDS.toDays(timeCalculation).toInt() == 1 -> containerView.context.getString(R.string.answered_yesterday)
+            // x days ago
+            TimeUnit.MILLISECONDS.toDays(timeCalculation) in 2..29 -> containerView.context.getString(R.string.answered_days_ago, TimeUnit.MILLISECONDS.toDays(timeCalculation).toInt())
+            // month ago
+            TimeUnit.MILLISECONDS.toDays(timeCalculation) in 30..59 -> containerView.context.getString(R.string.answered_month_ago)
+            // x months ago
+            TimeUnit.MILLISECONDS.toDays(timeCalculation) in 60..364 -> containerView.context.getString(R.string.answered_months_ago, monthCalculation(calendarStackAnswer.timeInMillis))
+            // x years ago
+            else -> containerView.context.getString(R.string.answered_years_ago, yearCalculation(calendarStackAnswer.timeInMillis))
         }
+    }
+
+    private fun monthCalculation(daysBefore: Long): Int {
+        val calendarAux = Calendar.getInstance()
+        calendarAux.timeInMillis = daysBefore
+
+        val month = calendarAux.get(Calendar.MONTH)
+
+        return Calendar.getInstance().get(Calendar.MONTH) - month
+    }
+
+    private fun yearCalculation(daysBefore: Long): Int {
+        val calendarAux = Calendar.getInstance()
+        calendarAux.timeInMillis = daysBefore
+
+        val year = calendarAux.get(Calendar.YEAR)
+
+        return Calendar.getInstance().get(Calendar.YEAR) - year
     }
 }

@@ -11,10 +11,14 @@
 
     <string name="answered_min_ago">answered minutes ago</string>
     <string name="answered_def_min_ago">answered %1$d minutes ago</string>
+    <string name="answered_hr_ago">answered hour ago</string>
     <string name="answered_hrs_ago">answered %1$d hours ago</string>
-    <string name="answered_days_ago">answered %1$s days ago</string>
-    <string name="answered_months_ago">answered %1$s months ago</string>
-    <string name="answered_years_ago">answered %1$s years ago</string>
+    <string name="answered_yesterday">answered yesterday</string>
+    <string name="answered_days_ago">answered %1$d days ago</string>
+    <string name="answered_month_ago">answered month ago</string>
+    <string name="answered_months_ago">answered %1$d months ago</string>
+    <string name="answered_year_ago">answered %1$d years ago</string>
+    <string name="answered_years_ago">answered %1$d years ago</string>
 
     <plurals name="answers">
         <item quantity="zero">%1$d Answers</item>
