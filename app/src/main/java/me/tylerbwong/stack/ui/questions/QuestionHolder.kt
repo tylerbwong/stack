@@ -35,7 +35,6 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
             else
                 containerView.context.getString(R.string.view, dataModel.question.viewCount)
 
-            questionFavoriteCount.text = dataModel.question.favoriteCount.toString()
             dataModel.question.lastActivityDate?.let {
                 val calendar = Calendar.getInstance()
                 calendar.timeInMillis = it * 1000
