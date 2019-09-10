@@ -67,12 +67,7 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                 }
             }
 
-            dataModel.question.creationDate.let {
-                val calendar = Calendar.getInstance()
-                calendar.timeInMillis = it * 1000
-                val askedDate = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.time)
-                creationDate.text = containerView.context.getString(R.string.creation_date, askedDate)
-            }
+            creationDate.text = getAskFormattedDate(dataModel.question.creationDate)
 
             username.text = dataModel.username.toHtml()
             GlideApp.with(itemView)
@@ -122,4 +117,33 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
             }
         }
     }
+
+    private fun getAskFormattedDate(creationDate: Long): String {
+        val calendarStack = Calendar.getInstance()
+        calendarStack.timeInMillis = creationDate * 1000
+
+        val calendarCurrent = Calendar.getInstance()
+
+        return when {
+            calendarCurrent.get(Calendar.YEAR) > calendarStack.get(Calendar.YEAR) -> getDateCalculation(calendarStack.timeInMillis, CALC_YEAR)
+            calendarCurrent.get(Calendar.MONTH) > calendarStack.get(Calendar.MONTH) -> getDateCalculation(calendarStack.timeInMillis, CALC_MONTH)
+            calendarCurrent.get(Calendar.DAY_OF_MONTH) > calendarStack.get(Calendar.DAY_OF_MONTH) -> getDateCalculation(calendarStack.timeInMillis, CALC_DAY)
+            calendarCurrent.get(Calendar.HOUR_OF_DAY) > calendarStack.get(Calendar.HOUR_OF_DAY) -> getDateCalculation(calendarStack.timeInMillis, CALC_HOUR)
+            calendarCurrent.get(Calendar.MINUTE) - calendarStack.get(Calendar.MINUTE) > 5 -> getDateCalculation(calendarStack.timeInMillis, CALC_MINUTES)
+            else -> containerView.context.getString(R.string.asked_min_ago)
+        }
+    }
+
+    private fun getDateCalculation(daysBefore: Long, typeDate: Int): String {
+        return when (typeDate) {
+            CALC_YEAR -> containerView.context.getString(R.string.asked_years_ago, calendarCalculation(daysBefore, typeDate))
+            CALC_MONTH -> containerView.context.getString(R.string.asked_months_ago, calendarCalculation(daysBefore, typeDate))
+            CALC_DAY -> containerView.context.getString(R.string.asked_days_ago, calendarCalculation(daysBefore, typeDate))
+            CALC_HOUR -> containerView.context.getString(R.string.asked_hours_ago, calendarCalculation(daysBefore, typeDate))
+            else -> containerView.context.getString(R.string.asked_minutes_ago, calendarCalculation(daysBefore, typeDate))
+        }
+    }
+
+
+
 }
