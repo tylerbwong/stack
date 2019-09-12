@@ -59,9 +59,10 @@ private fun getPackageNameToUse(context: Context, url: String): String? {
     return when {
         packagesSupportingCustomTabs.isEmpty() -> null
         packagesSupportingCustomTabs.size == 1 -> packagesSupportingCustomTabs[0]
-        !TextUtils.isEmpty(defaultViewHandlerPackageName)
-                && !hasSpecializedHandlerIntents(context, activityIntent)
-                && packagesSupportingCustomTabs.contains(defaultViewHandlerPackageName) -> defaultViewHandlerPackageName
+        !TextUtils.isEmpty(defaultViewHandlerPackageName) &&
+                !hasSpecializedHandlerIntents(context, activityIntent) &&
+                packagesSupportingCustomTabs.contains(defaultViewHandlerPackageName) ->
+            defaultViewHandlerPackageName
         packagesSupportingCustomTabs.contains(STABLE_PACKAGE) -> STABLE_PACKAGE
         packagesSupportingCustomTabs.contains(BETA_PACKAGE) -> BETA_PACKAGE
         packagesSupportingCustomTabs.contains(DEV_PACKAGE) -> DEV_PACKAGE

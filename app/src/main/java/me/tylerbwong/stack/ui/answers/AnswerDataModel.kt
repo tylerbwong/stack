@@ -28,10 +28,10 @@ class AnswerDataModel(private val answer: Answer) : DynamicDataModel() {
 
     override fun areContentsTheSame(
         other: DynamicDataModel
-    ) = other is AnswerDataModel && other.isAccepted == isAccepted && other.voteCount == voteCount
-            && other.answerBody == answerBody && other.userImage == userImage
-            && other.username == username && other.reputation == reputation
-            && other.badgeCounts == badgeCounts
+    ) = other is AnswerDataModel && other.isAccepted == isAccepted &&
+            other.voteCount == voteCount && other.answerBody == answerBody &&
+            other.userImage == userImage && other.username == username &&
+            other.reputation == reputation && other.badgeCounts == badgeCounts
 
     override fun getViewCreator() = ::AnswerHolder
 }
