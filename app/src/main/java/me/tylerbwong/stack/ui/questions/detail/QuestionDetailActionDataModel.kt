@@ -19,10 +19,10 @@ class QuestionDetailActionDataModel(
 
     override fun areContentsTheSame(
             other: DynamicDataModel
-    ) = other is QuestionDetailActionDataModel && other.downVoteCount == downVoteCount
-            && other.downvoted == downvoted && other.favoriteCount == favoriteCount
-            && other.favorited == favorited && other.upVoteCount == upVoteCount
-            && other.upvoted == upvoted
+    ) = other is QuestionDetailActionDataModel && other.downVoteCount == downVoteCount &&
+            other.downvoted == downvoted && other.favoriteCount == favoriteCount &&
+            other.favorited == favorited && other.upVoteCount == upVoteCount &&
+            other.upvoted == upvoted
 
     override fun getViewCreator() = ::QuestionDetailActionHolder
 }
