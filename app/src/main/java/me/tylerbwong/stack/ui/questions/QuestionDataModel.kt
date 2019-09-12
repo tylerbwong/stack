@@ -32,11 +32,10 @@ class QuestionDataModel(
 
     override fun areContentsTheSame(
         other: DynamicDataModel
-    ) = other is QuestionDataModel && other.questionTitle == questionTitle
-            && other.answerCount == answerCount && other.questionBody == questionBody
-            && other.userImage == userImage && other.username == username
-            && other.reputation == reputation && other.badgeCounts == badgeCounts
-            && other.tags == tags
+    ) = other is QuestionDataModel && other.questionTitle == questionTitle &&
+            other.answerCount == answerCount && other.questionBody == questionBody &&
+            other.userImage == userImage && other.username == username &&
+            other.reputation == reputation && other.badgeCounts == badgeCounts && other.tags == tags
 
     override fun getViewCreator() = ::QuestionHolder
 }

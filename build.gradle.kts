@@ -4,15 +4,15 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven {
-            setUrl("https://maven.fabric.io/public")
-        }
+        fabric()
+        gradle()
     }
     dependencies {
         classpath(Dep.fabricPlugin)
         classpath(Dep.gradlePlugin)
         classpath(Dep.kotlinPlugin)
         classpath(Dep.googleServicesPlugin)
+        classpath(Dep.ktlintGradle)
     }
 }
 

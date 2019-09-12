@@ -1,5 +1,31 @@
 version: 2
 jobs:
+  static-analysis:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-29
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
+      - run:
+          name: Accept Android licenses
+          command: sdkmanager --licenses
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
+      - run:
+          name: Run Static Analysis
+          command: ./gradlew ktlintCheck
+      - store_test_results:
+          path: app/build/test-results
+
   build:
     working_directory: ~/code
     docker:
@@ -57,5 +83,6 @@ workflows:
   version: 2
   build_and_test:
     jobs:
+      - static-analysis
       - build
       - unit-tests
