@@ -24,7 +24,7 @@ import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.toHtml
 
 class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
-        parent.inflateWithoutAttaching(R.layout.question_holder)
+    parent.inflateWithoutAttaching(R.layout.question_holder)
 ) {
     override fun bind(data: Any) {
         (data as? QuestionDataModel)?.let { dataModel ->
@@ -59,11 +59,11 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
 
             username.text = dataModel.username.toHtml()
             GlideApp.with(itemView)
-                    .load(dataModel.userImage)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .placeholder(R.drawable.user_image_placeholder)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(userImage)
+                .load(dataModel.userImage)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .placeholder(R.drawable.user_image_placeholder)
+                .apply(RequestOptions.circleCropTransform())
+                .into(userImage)
             userImage.setThrottledOnClickListener { dataModel.onProfilePictureClicked(it.context) }
             badgeView.badgeCounts = dataModel.badgeCounts
             reputation.text = dataModel.reputation.toLong().format()
@@ -87,19 +87,25 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
             if (!dataModel.isDetail) {
                 itemView.setOnLongClickListener {
                     val context = it.context
-                    val contentManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    contentManager.setPrimaryClip(ClipData.newPlainText("linkText", dataModel.shareLink))
+                    val contentManager =
+                        context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    contentManager.setPrimaryClip(
+                        ClipData.newPlainText(
+                            "linkText",
+                            dataModel.shareLink
+                        )
+                    )
                     Toast.makeText(context, "Link copied to clipboard", Toast.LENGTH_SHORT).show()
                     true
                 }
 
                 itemView.setThrottledOnClickListener {
                     QuestionDetailActivity.startActivity(
-                            it.context,
-                            dataModel.questionId,
-                            dataModel.questionTitle,
-                            dataModel.questionBody,
-                            dataModel.owner
+                        it.context,
+                        dataModel.questionId,
+                        dataModel.questionTitle,
+                        dataModel.questionBody,
+                        dataModel.owner
                     )
                 }
             }

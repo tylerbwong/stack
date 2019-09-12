@@ -62,7 +62,7 @@ class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
             adapter = this@QuestionsActivity.adapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
-                    ViewHolderItemDecoration(context.resources.getDimensionPixelSize(R.dimen.item_spacing_main))
+                ViewHolderItemDecoration(context.resources.getDimensionPixelSize(R.dimen.item_spacing_main))
             )
         }
     }
@@ -73,7 +73,7 @@ class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> onBackPressed()
             R.id.sort -> {
                 PopupMenu(this, findViewById(R.id.sort)).also { popupMenu ->
@@ -120,8 +120,8 @@ class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
         viewModel.snackbar.observe(this) {
             if (it != null) {
                 snackbar = rootLayout.showSnackbar(
-                        R.string.network_error,
-                        R.string.retry
+                    R.string.network_error,
+                    R.string.retry
                 ) { viewModel.getQuestions() }
             } else {
                 snackbar?.dismiss()
@@ -138,12 +138,12 @@ class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
         private const val KEY_EXTRA = "key"
 
         fun makeIntentForKey(
-                context: Context,
-                page: QuestionPage,
-                key: String
+            context: Context,
+            page: QuestionPage,
+            key: String
         ) = Intent(context, QuestionsActivity::class.java)
-                .putExtra(PAGE_EXTRA, page)
-                .putExtra(KEY_EXTRA, key)
+            .putExtra(PAGE_EXTRA, page)
+            .putExtra(KEY_EXTRA, key)
 
         fun startActivityForKey(context: Context, page: QuestionPage, key: String) {
             context.startActivity(makeIntentForKey(context, page, key))

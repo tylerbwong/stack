@@ -10,7 +10,7 @@ interface AuthService {
 
     @GET("apps/{accessToken}/de-authenticate")
     suspend fun logOut(
-            @Path(ACCESS_TOKEN) accessToken: String,
-            @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
+        @Path(ACCESS_TOKEN) accessToken: String,
+        @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
     ): Response<Unit>
 }

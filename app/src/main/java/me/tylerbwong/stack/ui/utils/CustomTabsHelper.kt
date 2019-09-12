@@ -22,10 +22,10 @@ fun launchCustomTab(context: Context, url: String) {
     val packageName = getPackageNameToUse(context, url)
     val themeColor = ThemeManager.resolveThemeAttribute(context, R.attr.viewBackgroundColor)
     val customTabsIntent = CustomTabsIntent.Builder()
-            .setNavigationBarColor(themeColor)
-            .setToolbarColor(themeColor)
-            .setSecondaryToolbarColor(themeColor)
-            .build()
+        .setNavigationBarColor(themeColor)
+        .setToolbarColor(themeColor)
+        .setSecondaryToolbarColor(themeColor)
+        .build()
     customTabsIntent.intent.`package` = packageName
     customTabsIntent.launchUrl(context, Uri.parse(url))
 }
@@ -77,8 +77,9 @@ private fun hasSpecializedHandlerIntents(context: Context, intent: Intent): Bool
     try {
         val pm = context.packageManager
         val handlers = pm.queryIntentActivities(
-                intent,
-                PackageManager.GET_RESOLVED_FILTER)
+            intent,
+            PackageManager.GET_RESOLVED_FILTER
+        )
         if (handlers.size == 0) {
             return false
         }

@@ -6,8 +6,8 @@ import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 
 class QuestionDataModel(
-        internal val question: Question,
-        internal val isDetail: Boolean = false
+    internal val question: Question,
+    internal val isDetail: Boolean = false
 ) : DynamicDataModel() {
 
     internal val questionTitle = question.title
@@ -27,11 +27,11 @@ class QuestionDataModel(
     }
 
     override fun areItemsThemSame(
-            other: DynamicDataModel
+        other: DynamicDataModel
     ) = other is QuestionDataModel && other.questionId == questionId
 
     override fun areContentsTheSame(
-            other: DynamicDataModel
+        other: DynamicDataModel
     ) = other is QuestionDataModel && other.questionTitle == questionTitle
             && other.answerCount == answerCount && other.questionBody == questionBody
             && other.userImage == userImage && other.username == username

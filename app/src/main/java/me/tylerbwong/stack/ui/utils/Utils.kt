@@ -10,7 +10,7 @@ import androidx.annotation.LayoutRes
 import java.util.*
 
 fun ViewGroup.inflateWithoutAttaching(@LayoutRes resId: Int): View =
-        LayoutInflater.from(context).inflate(resId, this, false)
+    LayoutInflater.from(context).inflate(resId, this, false)
 
 fun String.toHtml(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
     Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)

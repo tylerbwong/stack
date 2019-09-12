@@ -13,7 +13,7 @@ import me.tylerbwong.stack.ui.answers.AnswerDataModel
 import me.tylerbwong.stack.ui.questions.QuestionDataModel
 
 class ProfileViewModel(
-        private val service: UserService = ServiceProvider.userService
+    private val service: UserService = ServiceProvider.userService
 ) : BaseViewModel() {
 
     internal var userId: Int? = null

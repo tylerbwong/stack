@@ -5,15 +5,15 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 class ViewHolderItemDecoration(
-        private val spacing: Int,
-        private val removeSideSpacing: Boolean = false,
-        private val removeTopSpacing: Boolean = false
+    private val spacing: Int,
+    private val removeSideSpacing: Boolean = false,
+    private val removeTopSpacing: Boolean = false
 ) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
-            outRect: Rect,
-            view: View,
-            parent: RecyclerView,
-            state: RecyclerView.State
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         view.let {

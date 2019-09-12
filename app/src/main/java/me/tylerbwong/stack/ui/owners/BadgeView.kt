@@ -15,24 +15,32 @@ import me.tylerbwong.stack.data.model.BadgeCounts
 class BadgeView : View {
 
     // measurements
-    private val iconHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7f, context.resources.displayMetrics)
+    private val iconHeight =
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7f, context.resources.displayMetrics)
     private val iconRadius = iconHeight / 2f
-    private val startEndPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, context.resources.displayMetrics)
-    private val iconLabelPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f, context.resources.displayMetrics)
-    private val badgePadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6f, context.resources.displayMetrics)
+    private val startEndPadding =
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, context.resources.displayMetrics)
+    private val iconLabelPadding =
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f, context.resources.displayMetrics)
+    private val badgePadding =
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6f, context.resources.displayMetrics)
 
     // colors
     private val iconColors = listOf(
-            ContextCompat.getColor(context, R.color.goldBadgeColor),
-            ContextCompat.getColor(context, R.color.silverBadgeColor),
-            ContextCompat.getColor(context, R.color.bronzeBadgeColor)
+        ContextCompat.getColor(context, R.color.goldBadgeColor),
+        ContextCompat.getColor(context, R.color.silverBadgeColor),
+        ContextCompat.getColor(context, R.color.bronzeBadgeColor)
     )
 
     // paint
     private val iconPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = ContextCompat.getColor(context, R.color.colorTextPrimary)
-        textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, context.resources.displayMetrics)
+        textSize = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP,
+            12f,
+            context.resources.displayMetrics
+        )
         typeface = Typeface.DEFAULT
     }
     private val textHeight = textPaint.fontMetrics.bottom - textPaint.fontMetrics.top
@@ -52,7 +60,11 @@ class BadgeView : View {
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
+        context,
+        attrs,
+        defStyle
+    ) {
         if (isInEditMode) {
             badgeCounts = BadgeCounts(80, 3, 4)
         }
@@ -89,8 +101,8 @@ class BadgeView : View {
         }
 
         setMeasuredDimension(
-                resolveSize(idealWidth.toInt(), widthMeasureSpec),
-                resolveSize(idealHeight.toInt(), heightMeasureSpec)
+            resolveSize(idealWidth.toInt(), widthMeasureSpec),
+            resolveSize(idealHeight.toInt(), heightMeasureSpec)
         )
     }
 
@@ -112,7 +124,12 @@ class BadgeView : View {
                     val amountString = amount.toString()
                     posX += iconRadius + iconLabelPadding
                     textPaint.getTextBounds(amountString, 0, amountString.length, labelHelperRect)
-                    canvas.drawText(amountString, posX, canvasHeight - paddingBottom - textPaint.fontMetrics.bottom, textPaint)
+                    canvas.drawText(
+                        amountString,
+                        posX,
+                        canvasHeight - paddingBottom - textPaint.fontMetrics.bottom,
+                        textPaint
+                    )
                     posX += textPaint.measureText(amountString) + badgePadding
                 }
             }
