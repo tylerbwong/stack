@@ -6,10 +6,10 @@ import android.net.Uri
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.AUTH
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTIONS_BY_TAG
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTION_DETAILS
-import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
-import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.ui.MainActivity
+import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
+import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 
 object DeepLinker {

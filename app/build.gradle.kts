@@ -4,6 +4,7 @@ plugins {
     id("kotlin-android-extensions")
     id("kotlin-kapt")
     id("io.fabric")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 android {

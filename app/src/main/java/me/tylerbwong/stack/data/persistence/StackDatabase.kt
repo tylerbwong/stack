@@ -22,9 +22,9 @@ abstract class StackDatabase : RoomDatabase() {
 
         fun init(context: Context) {
             stackDatabaseInstance = Room.databaseBuilder(
-                    context,
-                    StackDatabase::class.java,
-                    stackDatabaseName
+                context,
+                StackDatabase::class.java,
+                stackDatabaseName
             ).build()
         }
 

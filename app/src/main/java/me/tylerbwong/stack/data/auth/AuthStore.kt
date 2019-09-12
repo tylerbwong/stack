@@ -16,19 +16,19 @@ object AuthStore {
     private const val CLIENT_ID = "12074"
 
     private val preferences = ApplicationWrapper.context.getSharedPreferences(
-            AUTH_PREFERENCES,
-            Context.MODE_PRIVATE
+        AUTH_PREFERENCES,
+        Context.MODE_PRIVATE
     )
 
     val authUrl: String = run {
         val httpUrl = AUTH_BASE.toHttpUrlOrNull() ?: return@run ""
 
         httpUrl.newBuilder()
-                .addEncodedQueryParameter("client_id", CLIENT_ID)
-                .addEncodedQueryParameter("redirect_uri", AUTH_REDIRECT)
-                .addEncodedQueryParameter("scope", Scope.all.joinToString(","))
-                .build()
-                .toString()
+            .addEncodedQueryParameter("client_id", CLIENT_ID)
+            .addEncodedQueryParameter("redirect_uri", AUTH_REDIRECT)
+            .addEncodedQueryParameter("scope", Scope.all.joinToString(","))
+            .build()
+            .toString()
     }
 
     var accessToken: String?
@@ -44,7 +44,7 @@ object AuthStore {
 
     fun setAccessToken(uri: Uri) {
         accessToken = Uri.parse("$AUTH_REDIRECT?${uri.encodedFragment}")
-                .getQueryParameter(ACCESS_TOKEN)
+            .getQueryParameter(ACCESS_TOKEN)
     }
 
     fun clear() {

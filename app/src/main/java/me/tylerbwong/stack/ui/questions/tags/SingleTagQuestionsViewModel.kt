@@ -11,7 +11,7 @@ import me.tylerbwong.stack.ui.questions.QuestionDataModel
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 
 class SingleTagQuestionsViewModel(
-        private val service: QuestionService = ServiceProvider.questionService
+    private val service: QuestionService = ServiceProvider.questionService
 ) : BaseViewModel() {
 
     internal val data: LiveData<List<DynamicDataModel>>
@@ -27,9 +27,8 @@ class SingleTagQuestionsViewModel(
         currentSort = sort
         launchRequest {
             val questions = service.getQuestionsByTags(tags = tag, sort = sort).items
-                    .map { QuestionDataModel(it) }
+                .map { QuestionDataModel(it) }
             _data.value = questions
         }
     }
 }
-

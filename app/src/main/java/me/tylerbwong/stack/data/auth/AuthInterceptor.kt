@@ -15,8 +15,8 @@ class AuthInterceptor : Interceptor {
         }
 
         val authRequest = chain.request().newBuilder()
-                .url(authUrlBuilder.build())
-                .build()
+            .url(authUrlBuilder.build())
+            .build()
         return chain.proceed(authRequest)
     }
 }

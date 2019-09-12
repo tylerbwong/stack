@@ -25,8 +25,8 @@ object ThemeManager {
     @AppCompatDelegate.NightMode
     internal val Context.delegateMode: Int
         get() = PreferenceManager.getDefaultSharedPreferences(this).getInt(
-                CURRENT_MODE,
-                defaultDelegateMode
+            CURRENT_MODE,
+            defaultDelegateMode
         )
 
     @AppCompatDelegate.NightMode
@@ -89,9 +89,9 @@ object ThemeManager {
 
     fun toggleTheme(context: Context, newMode: Int) {
         PreferenceManager.getDefaultSharedPreferences(context)
-                .edit()
-                .putInt(CURRENT_MODE, newMode)
-                .apply()
+            .edit()
+            .putInt(CURRENT_MODE, newMode)
+            .apply()
         AppCompatDelegate.setDefaultNightMode(newMode)
     }
 

@@ -51,11 +51,11 @@ class ProfileActivity : BaseActivity() {
         }
         viewModel.userData.observe(this) {
             GlideApp.with(this)
-                    .load(it.profileImage)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .placeholder(R.drawable.user_image_placeholder)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(userImage)
+                .load(it.profileImage)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .placeholder(R.drawable.user_image_placeholder)
+                .apply(RequestOptions.circleCropTransform())
+                .into(userImage)
             collapsingToolbarLayout.title = it.displayName.toHtml()
             if (it.location != null) {
                 location.text = it.location.toHtml()
@@ -83,9 +83,9 @@ class ProfileActivity : BaseActivity() {
             adapter = this@ProfileActivity.adapter
             layoutManager = LinearLayoutManager(this@ProfileActivity)
             addItemDecoration(
-                    ViewHolderItemDecoration(
-                            context.resources.getDimensionPixelSize(R.dimen.item_spacing_main)
-                    )
+                ViewHolderItemDecoration(
+                    context.resources.getDimensionPixelSize(R.dimen.item_spacing_main)
+                )
             )
         }
 
@@ -112,9 +112,9 @@ class ProfileActivity : BaseActivity() {
         private const val IS_FROM_DEEP_LINK = "isFromDeepLink"
 
         fun startActivity(
-                context: Context,
-                userId: Int,
-                isFromDeepLink: Boolean = false
+            context: Context,
+            userId: Int,
+            isFromDeepLink: Boolean = false
         ) {
             val intent = Intent(context, ProfileActivity::class.java).apply {
                 putExtra(USER_ID, userId)

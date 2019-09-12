@@ -57,11 +57,11 @@ class QuestionDetailActivity : BaseActivity() {
             adapter = this@QuestionDetailActivity.adapter
             layoutManager = LinearLayoutManager(this@QuestionDetailActivity)
             addItemDecoration(
-                    ViewHolderItemDecoration(
-                            context.resources.getDimensionPixelSize(R.dimen.item_spacing_question_detail),
-                            removeSideSpacing = true,
-                            removeTopSpacing = true
-                    )
+                ViewHolderItemDecoration(
+                    context.resources.getDimensionPixelSize(R.dimen.item_spacing_question_detail),
+                    removeSideSpacing = true,
+                    removeTopSpacing = true
+                )
             )
         }
 
@@ -81,18 +81,18 @@ class QuestionDetailActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> onBackPressed()
             R.id.share -> viewModel.startShareIntent(this)
             R.id.linked -> QuestionsActivity.startActivityForKey(
-                    this,
-                    LINKED,
-                    viewModel.questionId.toString()
+                this,
+                LINKED,
+                viewModel.questionId.toString()
             )
             R.id.related -> QuestionsActivity.startActivityForKey(
-                    this,
-                    RELATED,
-                    viewModel.questionId.toString()
+                this,
+                RELATED,
+                viewModel.questionId.toString()
             )
         }
         return super.onOptionsItemSelected(item)
@@ -106,12 +106,12 @@ class QuestionDetailActivity : BaseActivity() {
         private const val IS_FROM_DEEP_LINK = "isFromDeepLink"
 
         fun makeIntent(
-                context: Context,
-                id: Int,
-                title: String? = null,
-                body: String? = null,
-                owner: User? = null,
-                isFromDeepLink: Boolean = false
+            context: Context,
+            id: Int,
+            title: String? = null,
+            body: String? = null,
+            owner: User? = null,
+            isFromDeepLink: Boolean = false
         ) = Intent(context, QuestionDetailActivity::class.java).apply {
             putExtra(QUESTION_ID, id)
             putExtra(QUESTION_TITLE, title)
@@ -121,12 +121,12 @@ class QuestionDetailActivity : BaseActivity() {
         }
 
         fun startActivity(
-                context: Context,
-                id: Int,
-                title: String? = null,
-                body: String? = null,
-                owner: User? = null,
-                isFromDeepLink: Boolean = false
+            context: Context,
+            id: Int,
+            title: String? = null,
+            body: String? = null,
+            owner: User? = null,
+            isFromDeepLink: Boolean = false
         ) {
             context.startActivity(makeIntent(context, id, title, body, owner, isFromDeepLink))
         }

@@ -19,9 +19,14 @@ import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import timber.log.Timber
 
 class QuestionDetailViewModel(
+<<<<<<< HEAD
         private val service: QuestionService = ServiceProvider.questionService,
         private val authStore: AuthStore = AuthStore
 ) : BaseViewModel(), QuestionDetailActionHandler {
+=======
+    private val service: QuestionService = ServiceProvider.questionService
+) : BaseViewModel() {
+>>>>>>> master
 
     internal val data: LiveData<List<DynamicDataModel>>
         get() = _data
