@@ -23,8 +23,6 @@ jobs:
       - run:
           name: Run Static Analysis
           command: ./gradlew ktlintCheck
-      - store_test_results:
-          path: app/build/test-results
 
   build:
     working_directory: ~/code
