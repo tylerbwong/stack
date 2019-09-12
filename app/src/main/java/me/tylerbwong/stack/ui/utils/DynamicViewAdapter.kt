@@ -25,7 +25,8 @@ class DynamicViewAdapter : RecyclerView.Adapter<DynamicViewHolder>() {
         return viewType
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = viewCreators.get(viewType).invoke(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        viewCreators.get(viewType).invoke(parent)
 
     override fun onBindViewHolder(holder: DynamicViewHolder, position: Int) {
         holder.bind(data[position])
@@ -38,8 +39,8 @@ class DynamicViewAdapter : RecyclerView.Adapter<DynamicViewHolder>() {
         data = newData
         val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun areItemsTheSame(
-                    oldItemPosition: Int,
-                    newItemPosition: Int
+                oldItemPosition: Int,
+                newItemPosition: Int
             ) = oldData[oldItemPosition].areItemsThemSame(newData[newItemPosition])
 
             override fun getOldListSize() = oldData.size
@@ -47,8 +48,8 @@ class DynamicViewAdapter : RecyclerView.Adapter<DynamicViewHolder>() {
             override fun getNewListSize() = newData.size
 
             override fun areContentsTheSame(
-                    oldItemPosition: Int,
-                    newItemPosition: Int
+                oldItemPosition: Int,
+                newItemPosition: Int
             ) = oldData[oldItemPosition].areContentsTheSame(newData[newItemPosition])
         })
         diffResult.dispatchUpdatesTo(this)
@@ -56,7 +57,7 @@ class DynamicViewAdapter : RecyclerView.Adapter<DynamicViewHolder>() {
 }
 
 abstract class DynamicViewHolder(
-        override val containerView: View
+    override val containerView: View
 ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
     // TODO: THIS IS BAD - Figure out a better way to do this
     abstract fun bind(data: Any)

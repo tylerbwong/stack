@@ -17,14 +17,14 @@ data class AnswerHeaderDataModel(internal val answerCount: Int) : DynamicDataMod
 }
 
 class AnswerHeaderViewHolder(parent: ViewGroup) : DynamicViewHolder(
-        parent.inflateWithoutAttaching(R.layout.answer_header)
+    parent.inflateWithoutAttaching(R.layout.answer_header)
 ) {
     override fun bind(data: Any) {
         (data as? AnswerHeaderDataModel)?.let {
             answersCount.text = answersCount.context.resources.getQuantityString(
-                    R.plurals.answers,
-                    it.answerCount,
-                    it.answerCount
+                R.plurals.answers,
+                it.answerCount,
+                it.answerCount
             )
         }
     }

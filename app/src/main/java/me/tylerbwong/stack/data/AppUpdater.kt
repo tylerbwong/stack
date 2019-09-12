@@ -14,15 +14,16 @@ class AppUpdater(private val manager: AppUpdateManager) {
 
         manager.appUpdateInfo.addOnSuccessListener {
             if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
-                    it.isUpdateTypeAllowed(FLEXIBLE)) {
+                it.isUpdateTypeAllowed(FLEXIBLE)
+            ) {
                 manager.startUpdateFlowForResult(it, FLEXIBLE, activity, APP_UPDATE_REQUEST_CODE)
             }
         }
     }
 
     fun checkForPendingInstall(
-            onDownloadFinished: () -> Unit,
-            onDownloadFailed: () -> Unit
+        onDownloadFinished: () -> Unit,
+        onDownloadFailed: () -> Unit
     ) {
         manager.appUpdateInfo.addOnSuccessListener {
             when (it.installStatus()) {

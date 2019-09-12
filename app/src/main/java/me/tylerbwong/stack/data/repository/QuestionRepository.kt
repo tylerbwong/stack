@@ -24,18 +24,18 @@ class QuestionRepository(private val stackDatabase: StackDatabase = StackDatabas
 
     private suspend fun getQuestionsFromDb(@Sort sort: String): List<Question> {
         return questionDao.get(sort)
-                .map { questionEntity ->
-                    questionEntity.toQuestion(
-                            userDao.get(questionEntity.owner),
-                            questionEntity.lastEditor?.let { userDao.get(it) }
-                    )
-                }
+            .map { questionEntity ->
+                questionEntity.toQuestion(
+                    userDao.get(questionEntity.owner),
+                    questionEntity.lastEditor?.let { userDao.get(it) }
+                )
+            }
     }
 
     private suspend fun getQuestionsFromNetwork(@Sort sort: String): List<Question> {
         return ServiceProvider.questionService.getQuestions(sort = sort)
-                .items
-                .also { withContext(Dispatchers.IO) { saveQuestions(it, sort) } }
+            .items
+            .also { withContext(Dispatchers.IO) { saveQuestions(it, sort) } }
     }
 
     private suspend fun saveQuestions(questions: List<Question>, @Sort sortString: String) {
@@ -50,9 +50,9 @@ class QuestionRepository(private val stackDatabase: StackDatabase = StackDatabas
     }
 
     private suspend fun updateQuestionsAndUsers(
-            questions: List<QuestionEntity>,
-            users: List<UserEntity>,
-            sortString: String
+        questions: List<QuestionEntity>,
+        users: List<UserEntity>,
+        sortString: String
     ) {
         // TODO delete old users
         questionDao.delete(sortString)

@@ -15,12 +15,13 @@ import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
-        parent.inflateWithoutAttaching(R.layout.answer_holder)
+    parent.inflateWithoutAttaching(R.layout.answer_holder)
 ) {
     override fun bind(data: Any) {
         (data as? AnswerDataModel)?.let { dataModel ->
             val voteCount = dataModel.voteCount
-            votes.text = itemView.context.resources.getQuantityString(R.plurals.votes, voteCount, voteCount)
+            votes.text =
+                itemView.context.resources.getQuantityString(R.plurals.votes, voteCount, voteCount)
             acceptedAnswerCheck.visibility = if (dataModel.isAccepted) View.VISIBLE else View.GONE
 
             answerBody.apply {
@@ -31,11 +32,11 @@ class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
 
             username.text = dataModel.username
             GlideApp.with(itemView)
-                    .load(dataModel.userImage)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .placeholder(R.drawable.user_image_placeholder)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(userImage)
+                .load(dataModel.userImage)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .placeholder(R.drawable.user_image_placeholder)
+                .apply(RequestOptions.circleCropTransform())
+                .into(userImage)
             userImage.setThrottledOnClickListener { dataModel.onProfilePictureClicked(it.context) }
             reputation.text = dataModel.reputation
             badgeView.badgeCounts = dataModel.badgeCounts

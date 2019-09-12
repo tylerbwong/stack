@@ -15,15 +15,15 @@ object Markdown {
 
     fun init(context: Context) {
         val plugins = listOf(
-                GlideImagesPlugin.create(GlideApp.with(context)),
-                HtmlPlugin.create(),
-                StrikethroughPlugin.create(),
-                TablePlugin.create(context),
-                UrlPlugin.create()
+            GlideImagesPlugin.create(GlideApp.with(context)),
+            HtmlPlugin.create(),
+            StrikethroughPlugin.create(),
+            TablePlugin.create(context),
+            UrlPlugin.create()
         )
         markwon = Markwon.builder(context)
-                .usePlugins(plugins)
-                .build()
+            .usePlugins(plugins)
+            .build()
     }
 }
 

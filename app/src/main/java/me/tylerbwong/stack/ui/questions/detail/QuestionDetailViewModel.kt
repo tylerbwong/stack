@@ -14,7 +14,7 @@ import me.tylerbwong.stack.ui.questions.QuestionDataModel
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 
 class QuestionDetailViewModel(
-        private val service: QuestionService = ServiceProvider.questionService
+    private val service: QuestionService = ServiceProvider.questionService
 ) : BaseViewModel() {
 
     internal val data: LiveData<List<DynamicDataModel>>

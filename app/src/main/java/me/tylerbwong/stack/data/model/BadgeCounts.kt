@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class BadgeCounts(
-        val bronze: Int,
-        val silver: Int,
-        val gold: Int
+    val bronze: Int,
+    val silver: Int,
+    val gold: Int
 ) : Parcelable

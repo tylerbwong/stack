@@ -12,10 +12,10 @@ import me.tylerbwong.stack.data.toUserEntity
 import timber.log.Timber
 
 class AuthRepository(
-        private val userDao: UserDao = StackDatabase.getInstance().getUserDao(),
-        private val userService: UserService = ServiceProvider.userService,
-        private val authService: AuthService = ServiceProvider.authService,
-        private val authStore: AuthStore = AuthStore
+    private val userDao: UserDao = StackDatabase.getInstance().getUserDao(),
+    private val userService: UserService = ServiceProvider.userService,
+    private val authService: AuthService = ServiceProvider.authService,
+    private val authStore: AuthStore = AuthStore
 ) {
     suspend fun logOut(): LogOutResult {
         val accessToken = authStore.accessToken
