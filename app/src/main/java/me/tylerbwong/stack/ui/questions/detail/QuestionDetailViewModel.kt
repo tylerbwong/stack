@@ -19,14 +19,9 @@ import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import timber.log.Timber
 
 class QuestionDetailViewModel(
-<<<<<<< HEAD
-        private val service: QuestionService = ServiceProvider.questionService,
-        private val authStore: AuthStore = AuthStore
+    private val service: QuestionService = ServiceProvider.questionService,
+    private val authStore: AuthStore = AuthStore
 ) : BaseViewModel(), QuestionDetailActionHandler {
-=======
-    private val service: QuestionService = ServiceProvider.questionService
-) : BaseViewModel() {
->>>>>>> master
 
     internal val data: LiveData<List<DynamicDataModel>>
         get() = _data
@@ -60,10 +55,10 @@ class QuestionDetailViewModel(
                 add(QuestionDataModel(questionResult, isDetail = true))
                 if (isAuthenticated) {
                     add(
-                            QuestionDetailActionDataModel(
-                                    this@QuestionDetailViewModel,
-                                    questionResult
-                            )
+                        QuestionDetailActionDataModel(
+                            this@QuestionDetailViewModel,
+                            questionResult
+                        )
                     )
                 }
                 add(AnswerHeaderDataModel(questionResult.answerCount))
@@ -75,32 +70,32 @@ class QuestionDetailViewModel(
 
     override fun toggleDownvote(isSelected: Boolean) {
         toggleAction(
-                isSelected,
-                { service.downvoteQuestionById(it) },
-                { service.undoQuestionDownvoteById(it) }
+            isSelected,
+            { service.downvoteQuestionById(it) },
+            { service.undoQuestionDownvoteById(it) }
         )
     }
 
     override fun toggleFavorite(isSelected: Boolean) {
         toggleAction(
-                isSelected,
-                { service.favoriteQuestionById(it) },
-                { service.undoQuestionFavoriteById(it) }
+            isSelected,
+            { service.favoriteQuestionById(it) },
+            { service.undoQuestionFavoriteById(it) }
         )
     }
 
     override fun toggleUpvote(isSelected: Boolean) {
         toggleAction(
-                isSelected,
-                { service.upvoteQuestionById(it) },
-                { service.undoQuestionUpvoteById(it) }
+            isSelected,
+            { service.upvoteQuestionById(it) },
+            { service.undoQuestionUpvoteById(it) }
         )
     }
 
     private fun toggleAction(
-            isSelected: Boolean,
-            selectedAction: suspend (Int) -> Response<Question>,
-            unselectedAction: suspend (Int) -> Response<Question>
+        isSelected: Boolean,
+        selectedAction: suspend (Int) -> Response<Question>,
+        unselectedAction: suspend (Int) -> Response<Question>
     ) {
         viewModelScope.launch {
             try {
