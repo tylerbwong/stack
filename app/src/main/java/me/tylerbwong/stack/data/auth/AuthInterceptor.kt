@@ -6,8 +6,8 @@ import okhttp3.Request
 import okhttp3.Response
 
 class AuthInterceptor(
-        private val baseUrl: String,
-        private val authStore: AuthStore = AuthStore
+    private val baseUrl: String,
+    private val authStore: AuthStore = AuthStore
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -26,7 +26,7 @@ class AuthInterceptor(
         }
 
         val authenticatedRequestBuilder = request.newBuilder()
-                .url(authUrlBuilder.build())
+            .url(authUrlBuilder.build())
 
         // If this is a POST request, api.stackexchange.com expects the access_token in the form body
         if (!accessToken.isNullOrBlank() && request.isPost()) {

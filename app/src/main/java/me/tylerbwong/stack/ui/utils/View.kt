@@ -26,16 +26,16 @@ fun View.setThrottledOnClickListener(listener: (View) -> Unit) {
 }
 
 fun View.showSnackbar(
-        @StringRes messageId: Int,
-        @StringRes actionTextId: Int? = null,
-        @Duration duration: Int = Snackbar.LENGTH_INDEFINITE,
-        onActionClicked: ((View) -> Unit)? = null
+    @StringRes messageId: Int,
+    @StringRes actionTextId: Int? = null,
+    @Duration duration: Int = Snackbar.LENGTH_INDEFINITE,
+    onActionClicked: ((View) -> Unit)? = null
 ): Snackbar {
     val snackbar = Snackbar.make(this, messageId, duration)
 
     if (actionTextId != null && onActionClicked != null) {
         snackbar.setAction(actionTextId, onActionClicked)
-                .setActionTextColor(ContextCompat.getColor(context, R.color.colorAccent))
+            .setActionTextColor(ContextCompat.getColor(context, R.color.colorAccent))
     }
 
     return snackbar.also { it.show() }

@@ -13,7 +13,7 @@ import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 
 internal class QuestionsViewModel(
-        private val service: QuestionService = ServiceProvider.questionService
+    private val service: QuestionService = ServiceProvider.questionService
 ) : BaseViewModel() {
 
     internal val data: LiveData<List<DynamicDataModel>>
@@ -41,7 +41,7 @@ internal class QuestionsViewModel(
         currentSort = sort
         launchRequest {
             val questions = service.getQuestionsByTags(tags = key, sort = sort).items
-                    .map { QuestionDataModel(it) }
+                .map { QuestionDataModel(it) }
             _data.value = questions
         }
     }
@@ -51,7 +51,7 @@ internal class QuestionsViewModel(
         val questionId = key.toIntOrNull() ?: return
         launchRequest {
             val questions = service.getLinkedQuestions(questionId = questionId, sort = sort).items
-                    .map { QuestionDataModel(it) }
+                .map { QuestionDataModel(it) }
             _data.value = questions
         }
     }
@@ -61,9 +61,8 @@ internal class QuestionsViewModel(
         val questionId = key.toIntOrNull() ?: return
         launchRequest {
             val questions = service.getRelatedQuestions(questionId = questionId, sort = sort).items
-                    .map { QuestionDataModel(it) }
+                .map { QuestionDataModel(it) }
             _data.value = questions
         }
     }
 }
-

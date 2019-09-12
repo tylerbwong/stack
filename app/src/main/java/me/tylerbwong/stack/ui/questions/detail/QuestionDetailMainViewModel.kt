@@ -17,8 +17,8 @@ import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import me.tylerbwong.stack.ui.utils.zipWith
 
 class QuestionDetailMainViewModel(
-        authStore: AuthStore = AuthStore,
-        private val service: QuestionService = ServiceProvider.questionService
+    authStore: AuthStore = AuthStore,
+    private val service: QuestionService = ServiceProvider.questionService
 ) : BaseViewModel() {
 
     internal val data: LiveData<List<DynamicDataModel>>
@@ -34,8 +34,8 @@ class QuestionDetailMainViewModel(
     private val _clearFields = SingleLiveEvent<Unit>()
 
     internal val canAnswerQuestion = authStore.isAuthenticatedLiveData.zipWith(
-            data,
-            initialValue = false
+        data,
+        initialValue = false
     ) { isAuthenticated, data -> isAuthenticated && data.isNotEmpty() }
 
     internal var title = ""

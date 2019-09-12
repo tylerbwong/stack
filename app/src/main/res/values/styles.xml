@@ -17,8 +17,12 @@
         <item name="android:textColorHint">@color/secondaryTextColor</item>
         <item name="viewBackgroundColor">@color/viewBackgroundColor</item>
         <item name="materialAlertDialogTheme">@style/MaterialAlertDialogTheme</item>
-        <item name="materialAlertDialogTitlePanelStyle">@style/MaterialAlertDialog.MaterialComponents.Title.Panel</item>
-        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.MaterialComponents.Title.Text</item>
+        <item name="materialAlertDialogTitlePanelStyle">
+            @style/MaterialAlertDialog.MaterialComponents.Title.Panel
+        </item>
+        <item name="materialAlertDialogTitleTextStyle">
+            @style/MaterialAlertDialog.MaterialComponents.Title.Text
+        </item>
         <item name="iconColor">@color/iconColor</item>
     </style>
 

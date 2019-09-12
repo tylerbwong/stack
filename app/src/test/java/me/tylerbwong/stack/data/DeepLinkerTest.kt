@@ -9,15 +9,15 @@ import org.junit.Test
 class DeepLinkerTest : BaseTest() {
 
     private val unsupportedDeepLinks = listOf(
-            "https://stackoverflow.com/search?q=android+toolbar",
-            "https://stackoverflow.com/answers"
+        "https://stackoverflow.com/search?q=android+toolbar",
+        "https://stackoverflow.com/answers"
     ).map { Uri.parse(it) }
 
     private val supportedDeepLinks = listOf(
-            "stack://tylerbwong.me/auth/redirect#access_token=abcdefg",
-            "https://stackoverflow.com/questions/tagged/android",
-            "http://stackoverflow.com/questions/26533510/",
-            "http://stackoverflow.com/q/26533510/"
+        "stack://tylerbwong.me/auth/redirect#access_token=abcdefg",
+        "https://stackoverflow.com/questions/tagged/android",
+        "http://stackoverflow.com/questions/26533510/",
+        "http://stackoverflow.com/q/26533510/"
     ).map { Uri.parse(it) }
 
     @Test

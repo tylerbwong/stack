@@ -14,7 +14,7 @@ object ServiceProvider {
 
     private val okHttpClient by lazy {
         val okHttpClientBuilder = OkHttpClient.Builder()
-                .addInterceptor(AuthInterceptor(BASE_URL))
+            .addInterceptor(AuthInterceptor(BASE_URL))
 
         if (BuildConfig.DEBUG) {
             okHttpClientBuilder.addInterceptor(HttpLoggingInterceptor().apply {
@@ -27,10 +27,10 @@ object ServiceProvider {
 
     private val retrofit by lazy {
         Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
     val authService: AuthService by lazy {

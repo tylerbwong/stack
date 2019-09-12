@@ -45,7 +45,7 @@ import me.tylerbwong.stack.ui.utils.showKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
-        SearchView.OnQueryTextListener, InstallStateUpdatedListener {
+    SearchView.OnQueryTextListener, InstallStateUpdatedListener {
 
     private val viewModel: MainViewModel by viewModels()
     private val adapter = DynamicViewAdapter()
@@ -89,11 +89,11 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             profileIcon.apply {
                 if (it != null) {
                     GlideApp.with(this)
-                            .load(it)
-                            .transition(DrawableTransitionOptions.withCrossFade())
-                            .placeholder(R.drawable.user_image_placeholder)
-                            .apply(RequestOptions.circleCropTransform())
-                            .into(this)
+                        .load(it)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .placeholder(R.drawable.user_image_placeholder)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(this)
                 } else {
                     setImageResource(R.drawable.ic_account_circle)
                 }
@@ -104,7 +104,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             adapter = this@MainActivity.adapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
-                    ViewHolderItemDecoration(context.resources.getDimensionPixelSize(R.dimen.item_spacing_main))
+                ViewHolderItemDecoration(context.resources.getDimensionPixelSize(R.dimen.item_spacing_main))
             )
         }
         searchView.setOnQueryTextListener(this)
@@ -208,9 +208,9 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
                 RESULT_OK -> checkForPendingInstall()
                 else -> {
                     rootLayout.showSnackbar(
-                            R.string.update_not_downloaded,
-                            R.string.update,
-                            Snackbar.LENGTH_LONG
+                        R.string.update_not_downloaded,
+                        R.string.update,
+                        Snackbar.LENGTH_LONG
                     ) { appUpdater.checkForUpdate(this) }
                 }
             }
@@ -230,19 +230,19 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
     private fun checkForPendingInstall() {
         appUpdater.checkForPendingInstall(
-                onDownloadFinished = {
-                    rootLayout.showSnackbar(R.string.restart_to_install, R.string.restart) {
-                        appUpdater.apply {
-                            completeUpdate()
-                            unregisterListener(this@MainActivity)
-                        }
-                    }
-                },
-                onDownloadFailed = {
-                    rootLayout.showSnackbar(R.string.download_error, R.string.retry) {
-                        appUpdater.checkForUpdate(this)
+            onDownloadFinished = {
+                rootLayout.showSnackbar(R.string.restart_to_install, R.string.restart) {
+                    appUpdater.apply {
+                        completeUpdate()
+                        unregisterListener(this@MainActivity)
                     }
                 }
+            },
+            onDownloadFailed = {
+                rootLayout.showSnackbar(R.string.download_error, R.string.retry) {
+                    appUpdater.checkForUpdate(this)
+                }
+            }
         )
     }
 
@@ -268,28 +268,28 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
     private fun showLogOutDialog() {
         MaterialAlertDialogBuilder(this)
-                .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
-                .setTitle(R.string.log_out_title)
-                .setPositiveButton(R.string.log_out) { _, _ -> viewModel.logOut() }
-                .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-                .create()
-                .show()
+            .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
+            .setTitle(R.string.log_out_title)
+            .setPositiveButton(R.string.log_out) { _, _ -> viewModel.logOut() }
+            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+            .create()
+            .show()
     }
 
     private fun showLogInDialog() {
         MaterialAlertDialogBuilder(this)
-                .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
-                .setTitle(R.string.log_in_title)
-                .setPositiveButton(R.string.log_in) { _, _ ->
-                    launchCustomTab(this, AuthStore.authUrl)
-                }
-                .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-                .create()
-                .show()
+            .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
+            .setTitle(R.string.log_in_title)
+            .setPositiveButton(R.string.log_in) { _, _ ->
+                launchCustomTab(this, AuthStore.authUrl)
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+            .create()
+            .show()
     }
 
     companion object {
         fun makeIntentClearTop(context: Context) = Intent(context, MainActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     }
 }

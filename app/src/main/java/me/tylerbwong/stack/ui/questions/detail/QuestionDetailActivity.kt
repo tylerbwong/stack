@@ -45,18 +45,22 @@ class QuestionDetailActivity : BaseActivity() {
                 // no-op
             }
 
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
                 // no-op
             }
 
             override fun onPageSelected(position: Int) {
                 appBar.stateListAnimator = AnimatorInflater.loadStateListAnimator(
-                        this@QuestionDetailActivity,
-                        if (position == 0) {
-                            R.animator.app_bar_elevation
-                        } else {
-                            R.animator.app_bar_no_elevation
-                        }
+                    this@QuestionDetailActivity,
+                    if (position == 0) {
+                        R.animator.app_bar_elevation
+                    } else {
+                        R.animator.app_bar_no_elevation
+                    }
                 )
             }
         })
@@ -74,13 +78,13 @@ class QuestionDetailActivity : BaseActivity() {
         if (viewModel.isInAnswerMode) {
             if (viewModel.hasContent) {
                 MaterialAlertDialogBuilder(this)
-                        .setTitle(R.string.discard_answer)
-                        .setPositiveButton(R.string.discard) { _, _ ->
-                            toggleAnswerMode(isInAnswerMode = false)
-                        }
-                        .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-                        .create()
-                        .show()
+                    .setTitle(R.string.discard_answer)
+                    .setPositiveButton(R.string.discard) { _, _ ->
+                        toggleAnswerMode(isInAnswerMode = false)
+                    }
+                    .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                    .create()
+                    .show()
             } else {
                 toggleAnswerMode(isInAnswerMode = false)
             }
@@ -137,14 +141,14 @@ class QuestionDetailActivity : BaseActivity() {
         internal const val QUESTION_ID = "id"
 
         fun makeIntent(
-                context: Context,
-                id: Int
+            context: Context,
+            id: Int
         ) = Intent(context, QuestionDetailActivity::class.java)
-                .putExtra(QUESTION_ID, id)
+            .putExtra(QUESTION_ID, id)
 
         fun startActivity(
-                context: Context,
-                id: Int
+            context: Context,
+            id: Int
         ) {
             context.startActivity(makeIntent(context, id))
         }
