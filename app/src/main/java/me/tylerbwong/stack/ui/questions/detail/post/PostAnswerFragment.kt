@@ -41,7 +41,8 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        mainViewModel = ViewModelProviders.of(requireActivity()).get(QuestionDetailMainViewModel::class.java)
+        mainViewModel =
+            ViewModelProviders.of(requireActivity()).get(QuestionDetailMainViewModel::class.java)
 
         mainViewModel.clearFields.observe(this) { clearFields() }
 
@@ -100,7 +101,10 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
 
         postAnswerButton.setThrottledOnClickListener {
             if (!markdownEditText.text.isNullOrBlank()) {
-                viewModel.postAnswer(markdownEditText.text.toString(), isPreview = BuildConfig.DEBUG)
+                viewModel.postAnswer(
+                    markdownEditText.text.toString(),
+                    isPreview = BuildConfig.DEBUG
+                )
             }
         }
     }
@@ -121,18 +125,17 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
         this.menu = menu
         inflater.inflate(R.menu.menu_discard, menu)
         toggleDiscardMenuItemVisibility(isVisible = !markdownEditText.text.isNullOrBlank())
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.discard -> {
                 MaterialAlertDialogBuilder(requireContext())
-                        .setTitle(R.string.discard_answer)
-                        .setPositiveButton(R.string.discard) { _, _ -> clearFields() }
-                        .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-                        .create()
-                        .show()
+                    .setTitle(R.string.discard_answer)
+                    .setPositiveButton(R.string.discard) { _, _ -> clearFields() }
+                    .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                    .create()
+                    .show()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -175,7 +178,7 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
     }
 
     private fun togglePostAnswerButtonVisibility(
-            isVisible: Boolean = !markdownEditText.text.isNullOrBlank()
+        isVisible: Boolean = !markdownEditText.text.isNullOrBlank()
     ) = if (isVisible) {
         postAnswerButton.show()
         postAnswerButton.extend()

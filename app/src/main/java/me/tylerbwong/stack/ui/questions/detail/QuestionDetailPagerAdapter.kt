@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentPagerAdapter
 import me.tylerbwong.stack.ui.questions.detail.post.PostAnswerFragment
 
 class QuestionDetailPagerAdapter(
-        manager: FragmentManager,
-        private val questionId: Int
+    manager: FragmentManager,
+    private val questionId: Int
 ) : FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment {

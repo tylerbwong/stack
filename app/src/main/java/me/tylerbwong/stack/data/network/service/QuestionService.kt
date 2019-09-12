@@ -87,11 +87,11 @@ interface QuestionService {
     @FormUrlEncoded
     @POST("questions/{id}/answers/add")
     suspend fun postAnswer(
-            @Path("id") questionId: Int,
-            @Field(SITE_PARAM) site: String = DEFAULT_SITE,
-            @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
-            @Field(BODY_PARAM) bodyMarkdown: String,
-            @Field(PREVIEW_PARAM) preview: Boolean = false
+        @Path("id") questionId: Int,
+        @Field(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
+        @Field(BODY_PARAM) bodyMarkdown: String,
+        @Field(PREVIEW_PARAM) preview: Boolean = false
     ): Response<Answer>
 
     @GET("search/advanced")

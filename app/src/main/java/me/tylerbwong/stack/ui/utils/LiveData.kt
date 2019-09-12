@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 
 fun <T, Y, Z> LiveData<T>.zipWith(
-        source: LiveData<Y>,
-        initialValue: Z? = null,
-        zipFunction: (T, Y) -> Z
+    source: LiveData<Y>,
+    initialValue: Z? = null,
+    zipFunction: (T, Y) -> Z
 ): LiveData<Z> {
     return MediatorLiveData<Z>().apply {
         initialValue?.let {

@@ -15,7 +15,7 @@ import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import timber.log.Timber
 
 class PostAnswerViewModel(
-        private val service: QuestionService = ServiceProvider.questionService
+    private val service: QuestionService = ServiceProvider.questionService
 ) : ViewModel() {
     internal var markdownTextWatcher: TextWatcher? = null
     internal var selectedTabPosition = 0
@@ -31,9 +31,9 @@ class PostAnswerViewModel(
         viewModelScope.launch {
             try {
                 val answer = service.postAnswer(
-                        questionId,
-                        bodyMarkdown = markdown,
-                        preview = isPreview
+                    questionId,
+                    bodyMarkdown = markdown,
+                    preview = isPreview
                 ).items
 
                 _snackbar.value = if (answer.isNotEmpty()) {
