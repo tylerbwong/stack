@@ -15,7 +15,7 @@ import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class QuestionDetailActionHolder(parent: ViewGroup) : DynamicViewHolder(
-        parent.inflateWithoutAttaching(R.layout.question_detail_action_holder)
+    parent.inflateWithoutAttaching(R.layout.question_detail_action_holder)
 ) {
     override fun bind(data: Any) {
         (data as? QuestionDetailActionDataModel)?.let { dataModel ->
@@ -48,9 +48,9 @@ class QuestionDetailActionHolder(parent: ViewGroup) : DynamicViewHolder(
     }
 
     private fun TextView.renderSelectedState(
-            @ColorRes selectedColor: Int,
-            value: Int,
-            isSelected: Boolean
+        @ColorRes selectedColor: Int,
+        value: Int,
+        isSelected: Boolean
     ) {
         @ColorInt val color = if (isSelected) {
             ContextCompat.getColor(context, selectedColor)
