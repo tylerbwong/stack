@@ -47,4 +47,13 @@
         <item name="android:textColorSecondary">?attr/iconColor</item>
     </style>
 
+    <style name="TabTextAppearance" parent="@style/TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="TextInputEditTextStyle">
+        <item name="android:colorControlActivated">@color/colorAccent</item>
+    </style>
+
 </resources>

@@ -14,7 +14,7 @@ object ServiceProvider {
 
     private val okHttpClient by lazy {
         val okHttpClientBuilder = OkHttpClient.Builder()
-            .addInterceptor(AuthInterceptor())
+            .addInterceptor(AuthInterceptor(BASE_URL))
 
         if (BuildConfig.DEBUG) {
             okHttpClientBuilder.addInterceptor(HttpLoggingInterceptor().apply {

@@ -29,6 +29,7 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
     override fun bind(data: Any) {
         (data as? QuestionDataModel)?.let { dataModel ->
             if (dataModel.isDetail) {
+                rootQuestionView.elevation = 0f
                 questionBody.maxLines = Integer.MAX_VALUE
                 questionBody.ellipsize = null
             }
@@ -100,13 +101,7 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                 }
 
                 itemView.setThrottledOnClickListener {
-                    QuestionDetailActivity.startActivity(
-                        it.context,
-                        dataModel.questionId,
-                        dataModel.questionTitle,
-                        dataModel.questionBody,
-                        dataModel.owner
-                    )
+                    QuestionDetailActivity.startActivity(it.context, dataModel.questionId)
                 }
             }
         }

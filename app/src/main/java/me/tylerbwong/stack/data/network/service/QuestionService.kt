@@ -9,7 +9,10 @@ import me.tylerbwong.stack.data.model.Response
 import me.tylerbwong.stack.data.model.SORT_PARAM
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -81,6 +84,16 @@ interface QuestionService {
         @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
     ): Response<Answer>
 
+    @FormUrlEncoded
+    @POST("questions/{id}/answers/add")
+    suspend fun postAnswer(
+        @Path("id") questionId: Int,
+        @Field(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
+        @Field(BODY_PARAM) bodyMarkdown: String,
+        @Field(PREVIEW_PARAM) preview: Boolean = false
+    ): Response<Answer>
+
     @GET("search/advanced")
     suspend fun getQuestionsBySearchString(
         @Query(SITE_PARAM) site: String = DEFAULT_SITE,
@@ -94,6 +107,9 @@ interface QuestionService {
     ): Response<Question>
 
     companion object {
+        private const val BODY_PARAM = "body"
+        private const val PREVIEW_PARAM = "preview"
+
         internal const val DEFAULT_FILTER = "!-N4vhDh8TGjM*h(2reCz3exHc6q)hWsdi"
         internal const val DETAIL_FILTER =
             "!3r.zRmD4l6rHdTgXfBOo(qq6rg_D3I7uaTO)p123.RRrNwbbeBOKxJp8dch552I"
