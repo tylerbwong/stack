@@ -14,7 +14,7 @@ class AuthInterceptor(
         val request = chain.request()
 
         // We do not want to add authentication to any request not going to api.stackexchange.com
-        if (!request.isStack()) {
+        if (!request.isBaseUrl()) {
             return chain.proceed(request)
         }
 
@@ -38,7 +38,7 @@ class AuthInterceptor(
         return chain.proceed(authenticatedRequestBuilder.build())
     }
 
-    private fun Request.isStack() = baseUrl.contains(url.host, ignoreCase = true)
+    private fun Request.isBaseUrl() = baseUrl.contains(url.host, ignoreCase = true)
 
     private fun Request.isPost() = method.equals("post", ignoreCase = true)
 }
