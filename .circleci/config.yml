@@ -21,8 +21,11 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
       - run:
-          name: Run Static Analysis
+          name: Run ktlint
           command: ./gradlew ktlintCheck
+      - run:
+          name: Run detekt
+          command: ./gradlew detekt
 
   build:
     working_directory: ~/code
