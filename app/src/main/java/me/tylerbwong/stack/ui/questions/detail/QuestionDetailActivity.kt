@@ -1,134 +1,156 @@
 package me.tylerbwong.stack.ui.questions.detail
 
+import android.animation.AnimatorInflater
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_question_detail.*
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.ui.BaseActivity
-import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
-import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
-import me.tylerbwong.stack.ui.questions.QuestionsActivity
-import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
-import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
-import me.tylerbwong.stack.ui.utils.showSnackbar
+import me.tylerbwong.stack.ui.utils.hideKeyboard
+import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class QuestionDetailActivity : BaseActivity() {
 
-    private val viewModel: QuestionDetailViewModel by viewModels()
-    private val adapter = DynamicViewAdapter()
-    private var snackbar: Snackbar? = null
+    private val viewModel by viewModels<QuestionDetailMainViewModel>()
+    private lateinit var adapter: QuestionDetailPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_detail)
         setSupportActionBar(toolbar)
+        setTitle("")
 
-        viewModel.refreshing.observe(this) {
-            refreshLayout.isRefreshing = it
+        if (viewModel.questionId == -1) {
+            viewModel.questionId = intent.getIntExtra(QUESTION_ID, -1)
         }
-        viewModel.snackbar.observe(this) {
-            if (it != null) {
-                snackbar = rootLayout.showSnackbar(R.string.network_error, R.string.retry) {
-                    viewModel.getQuestionDetails()
-                }
-            } else {
-                snackbar?.dismiss()
+
+        viewModel.canAnswerQuestion.observe(this) {
+            toggleAnswerButtonVisibility(isVisible = it && !viewModel.isInAnswerMode)
+        }
+
+        postAnswerButton.setThrottledOnClickListener {
+            toggleAnswerMode(isInAnswerMode = true)
+        }
+
+        adapter = QuestionDetailPagerAdapter(supportFragmentManager, viewModel.questionId)
+        viewPager.adapter = adapter
+        viewPager.addOnPageChangeListener(object : OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+                // no-op
             }
-        }
-        viewModel.data.observe(this) {
-            adapter.update(it)
-        }
-        viewModel.voteCount.observe(this) {
-            supportActionBar?.title = resources.getQuantityString(R.plurals.votes, it, it)
-        }
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = ""
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                // no-op
+            }
 
-        recyclerView.apply {
-            adapter = this@QuestionDetailActivity.adapter
-            layoutManager = LinearLayoutManager(this@QuestionDetailActivity)
-            addItemDecoration(
-                ViewHolderItemDecoration(
-                    context.resources.getDimensionPixelSize(R.dimen.item_spacing_question_detail),
-                    removeSideSpacing = true,
-                    removeTopSpacing = true
+            override fun onPageSelected(position: Int) {
+                appBar.stateListAnimator = AnimatorInflater.loadStateListAnimator(
+                    this@QuestionDetailActivity,
+                    if (position == 0) {
+                        R.animator.app_bar_elevation
+                    } else {
+                        R.animator.app_bar_no_elevation
+                    }
                 )
-            )
-        }
-
-        viewModel.isFromDeepLink = intent.getBooleanExtra(IS_FROM_DEEP_LINK, false)
-
-        viewModel.questionId = intent.getIntExtra(QUESTION_ID, 0)
-
-        refreshLayout.setOnRefreshListener { viewModel.getQuestionDetails() }
-
-        viewModel.getQuestionDetails()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_share, menu)
-        menuInflater.inflate(R.menu.menu_question_details, menu)
-        return true
+            }
+        })
+        toggleAnswerMode(isInAnswerMode = viewModel.isInAnswerMode)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
-            R.id.share -> viewModel.startShareIntent(this)
-            R.id.linked -> QuestionsActivity.startActivityForKey(
-                this,
-                LINKED,
-                viewModel.questionId.toString()
-            )
-            R.id.related -> QuestionsActivity.startActivityForKey(
-                this,
-                RELATED,
-                viewModel.questionId.toString()
-            )
         }
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onBackPressed() {
+        if (viewModel.isInAnswerMode) {
+            if (viewModel.hasContent) {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.discard_answer)
+                    .setPositiveButton(R.string.discard) { _, _ ->
+                        toggleAnswerMode(isInAnswerMode = false)
+                    }
+                    .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                    .create()
+                    .show()
+            } else {
+                toggleAnswerMode(isInAnswerMode = false)
+            }
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    internal fun setTitle(title: String) {
+        // Save the title from other sources to use on config changes when not in answer mode
+        viewModel.title = title
+        if (!viewModel.isInAnswerMode) {
+            supportActionBar?.title = title
+        }
+    }
+
+    internal fun extendAnswerButton() = postAnswerButton.extend()
+
+    internal fun shrinkAnswerButton() = postAnswerButton.shrink()
+
+    internal fun toggleAnswerMode(isInAnswerMode: Boolean) {
+        viewModel.isInAnswerMode = isInAnswerMode
+        viewPager.apply {
+            currentItem = if (isInAnswerMode) {
+                1
+            } else {
+                0
+            }
+            isSwipeable = isInAnswerMode
+        }
+        toggleAnswerButtonVisibility(isVisible = !isInAnswerMode)
+        if (!isInAnswerMode) {
+            viewPager.hideKeyboard()
+            viewModel.clearFields()
+        }
+        supportActionBar?.apply {
+            if (isInAnswerMode) {
+                setHomeAsUpIndicator(R.drawable.ic_close)
+                setTitle(R.string.post_answer)
+            } else {
+                setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+                title = viewModel.title
+            }
+        }
+    }
+
+    private fun toggleAnswerButtonVisibility(isVisible: Boolean) = if (isVisible) {
+        postAnswerButton.show()
+    } else {
+        postAnswerButton.hide()
+    }
+
     companion object {
-        private const val QUESTION_ID = "id"
-        private const val QUESTION_TITLE = "title"
-        private const val QUESTION_BODY = "body"
-        private const val QUESTION_OWNER = "owner"
-        private const val IS_FROM_DEEP_LINK = "isFromDeepLink"
+        internal const val QUESTION_ID = "id"
 
         fun makeIntent(
             context: Context,
-            id: Int,
-            title: String? = null,
-            body: String? = null,
-            owner: User? = null,
-            isFromDeepLink: Boolean = false
-        ) = Intent(context, QuestionDetailActivity::class.java).apply {
-            putExtra(QUESTION_ID, id)
-            putExtra(QUESTION_TITLE, title)
-            putExtra(QUESTION_BODY, body)
-            putExtra(QUESTION_OWNER, owner)
-            putExtra(IS_FROM_DEEP_LINK, isFromDeepLink)
-        }
+            id: Int
+        ) = Intent(context, QuestionDetailActivity::class.java)
+            .putExtra(QUESTION_ID, id)
 
         fun startActivity(
             context: Context,
-            id: Int,
-            title: String? = null,
-            body: String? = null,
-            owner: User? = null,
-            isFromDeepLink: Boolean = false
+            id: Int
         ) {
-            context.startActivity(makeIntent(context, id, title, body, owner, isFromDeepLink))
+            context.startActivity(makeIntent(context, id))
         }
     }
 }

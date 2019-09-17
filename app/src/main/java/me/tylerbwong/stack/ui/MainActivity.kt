@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.activity.viewModels
@@ -39,8 +38,10 @@ import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import me.tylerbwong.stack.ui.utils.showKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
@@ -66,7 +67,8 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         viewModel.snackbar.observe(this) {
             if (it != null) {
                 snackbar = rootLayout.showSnackbar(R.string.network_error, R.string.retry) {
-                    viewModel.getQuestions()
+                    viewModel.fetchUser()
+                    viewModel.fetchQuestions()
                 }
             } else {
                 snackbar?.dismiss()
@@ -150,9 +152,11 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
                 }
             }
             R.id.search -> {
-                searchView.visibility = View.VISIBLE
-                searchView.requestFocus()
-                showKeyboard()
+                searchView.apply {
+                    visibility = View.VISIBLE
+                    requestFocus()
+                    showKeyboard()
+                }
             }
         }
         return true
@@ -185,7 +189,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         query?.let {
-            hideKeyboard()
+            searchView.hideKeyboard()
             viewModel.searchQuestions(it)
             return true
         }
@@ -248,20 +252,6 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
         if (fetchQuestions) {
             viewModel.fetchQuestions()
-        }
-    }
-
-    private fun hideKeyboard() {
-        currentFocus?.let {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(it.windowToken, 0)
-        }
-    }
-
-    private fun showKeyboard() {
-        currentFocus?.let {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(it, 0)
         }
     }
 

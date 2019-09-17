@@ -16,11 +16,13 @@ import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.answers.AnswerDataModel
 import me.tylerbwong.stack.ui.questions.QuestionDataModel
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
+import me.tylerbwong.stack.ui.utils.SingleLiveEvent
+import me.tylerbwong.stack.ui.utils.zipWith
 import timber.log.Timber
 
-class QuestionDetailViewModel(
-    private val service: QuestionService = ServiceProvider.questionService,
-    private val authStore: AuthStore = AuthStore
+class QuestionDetailMainViewModel(
+    private val authStore: AuthStore = AuthStore,
+    private val service: QuestionService = ServiceProvider.questionService
 ) : BaseViewModel(), QuestionDetailActionHandler {
 
     internal val data: LiveData<List<DynamicDataModel>>
@@ -31,12 +33,23 @@ class QuestionDetailViewModel(
         get() = _voteCount
     private val _voteCount = MutableLiveData<Int>()
 
+    internal val clearFields: LiveData<Unit>
+        get() = _clearFields
+    private val _clearFields = SingleLiveEvent<Unit>()
+
     private val isAuthenticated: Boolean
         get() = authStore.isAuthenticatedLiveData.value ?: false
 
-    internal var questionId: Int = 0
+    internal val canAnswerQuestion = authStore.isAuthenticatedLiveData.zipWith(
+        data,
+        initialValue = false
+    ) { isAuthenticated, data -> isAuthenticated && data.isNotEmpty() }
+
+    internal var title = ""
+    internal var isInAnswerMode = false
+    internal var hasContent = false
+    internal var questionId = -1
     internal var question: Question? = null
-    internal var isFromDeepLink = false
 
     internal fun getQuestionDetails(question: Question? = null) {
         launchRequest {
@@ -49,14 +62,14 @@ class QuestionDetailViewModel(
                 !it.isAccepted
             }
 
-            this@QuestionDetailViewModel.question = questionResult
+            this@QuestionDetailMainViewModel.question = questionResult
 
             _data.value = mutableListOf<DynamicDataModel>().apply {
                 add(QuestionDataModel(questionResult, isDetail = true))
                 if (isAuthenticated) {
                     add(
                         QuestionDetailActionDataModel(
-                            this@QuestionDetailViewModel,
+                            this@QuestionDetailMainViewModel,
                             questionResult
                         )
                     )
@@ -112,6 +125,10 @@ class QuestionDetailViewModel(
                 Timber.e(ex)
             }
         }
+    }
+
+    internal fun clearFields() {
+        _clearFields.value = Unit
     }
 
     internal fun startShareIntent(context: Context) {
