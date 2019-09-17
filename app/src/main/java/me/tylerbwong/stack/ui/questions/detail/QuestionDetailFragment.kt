@@ -6,7 +6,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +25,7 @@ import me.tylerbwong.stack.ui.utils.showSnackbar
 
 class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
 
-    private lateinit var viewModel: QuestionDetailMainViewModel
+    private val viewModel by viewModels<QuestionDetailMainViewModel>()
     private val adapter = DynamicViewAdapter()
     private var snackbar: Snackbar? = null
 
@@ -36,8 +36,6 @@ class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProviders.of(requireActivity()).get(QuestionDetailMainViewModel::class.java)
 
         viewModel.refreshing.observe(this) {
             refreshLayout.isRefreshing = it

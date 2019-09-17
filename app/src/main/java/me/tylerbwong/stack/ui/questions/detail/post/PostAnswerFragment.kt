@@ -11,7 +11,6 @@ import android.view.View
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -31,7 +30,7 @@ import me.tylerbwong.stack.ui.utils.showSnackbar
 class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
 
     private val viewModel by viewModels<PostAnswerViewModel>()
-    private lateinit var mainViewModel: QuestionDetailMainViewModel
+    private val mainViewModel by viewModels<QuestionDetailMainViewModel>()
     private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,9 +39,6 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        mainViewModel =
-            ViewModelProviders.of(requireActivity()).get(QuestionDetailMainViewModel::class.java)
 
         mainViewModel.clearFields.observe(this) { clearFields() }
 
