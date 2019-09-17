@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.activity.viewModels
@@ -39,12 +38,14 @@ import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import me.tylerbwong.stack.ui.utils.showKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
-        SearchView.OnQueryTextListener, InstallStateUpdatedListener {
+    SearchView.OnQueryTextListener, InstallStateUpdatedListener {
 
     private val viewModel: MainViewModel by viewModels()
     private val adapter = DynamicViewAdapter()
@@ -66,7 +67,8 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         viewModel.snackbar.observe(this) {
             if (it != null) {
                 snackbar = rootLayout.showSnackbar(R.string.network_error, R.string.retry) {
-                    viewModel.getQuestions()
+                    viewModel.fetchUser()
+                    viewModel.fetchQuestions()
                 }
             } else {
                 snackbar?.dismiss()
@@ -87,11 +89,11 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             profileIcon.apply {
                 if (it != null) {
                     GlideApp.with(this)
-                            .load(it)
-                            .transition(DrawableTransitionOptions.withCrossFade())
-                            .placeholder(R.drawable.user_image_placeholder)
-                            .apply(RequestOptions.circleCropTransform())
-                            .into(this)
+                        .load(it)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .placeholder(R.drawable.user_image_placeholder)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(this)
                 } else {
                     setImageResource(R.drawable.ic_account_circle)
                 }
@@ -102,7 +104,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             adapter = this@MainActivity.adapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
-                    ViewHolderItemDecoration(context.resources.getDimensionPixelSize(R.dimen.item_spacing_main))
+                ViewHolderItemDecoration(context.resources.getDimensionPixelSize(R.dimen.item_spacing_main))
             )
         }
         searchView.setOnQueryTextListener(this)
@@ -150,9 +152,11 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
                 }
             }
             R.id.search -> {
-                searchView.visibility = View.VISIBLE
-                searchView.requestFocus()
-                showKeyboard()
+                searchView.apply {
+                    visibility = View.VISIBLE
+                    requestFocus()
+                    showKeyboard()
+                }
             }
         }
         return true
@@ -185,7 +189,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         query?.let {
-            hideKeyboard()
+            searchView.hideKeyboard()
             viewModel.searchQuestions(it)
             return true
         }
@@ -204,9 +208,9 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
                 RESULT_OK -> checkForPendingInstall()
                 else -> {
                     rootLayout.showSnackbar(
-                            R.string.update_not_downloaded,
-                            R.string.update,
-                            Snackbar.LENGTH_LONG
+                        R.string.update_not_downloaded,
+                        R.string.update,
+                        Snackbar.LENGTH_LONG
                     ) { appUpdater.checkForUpdate(this) }
                 }
             }
@@ -226,19 +230,19 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
     private fun checkForPendingInstall() {
         appUpdater.checkForPendingInstall(
-                onDownloadFinished = {
-                    rootLayout.showSnackbar(R.string.restart_to_install, R.string.restart) {
-                        appUpdater.apply {
-                            completeUpdate()
-                            unregisterListener(this@MainActivity)
-                        }
-                    }
-                },
-                onDownloadFailed = {
-                    rootLayout.showSnackbar(R.string.download_error, R.string.retry) {
-                        appUpdater.checkForUpdate(this)
+            onDownloadFinished = {
+                rootLayout.showSnackbar(R.string.restart_to_install, R.string.restart) {
+                    appUpdater.apply {
+                        completeUpdate()
+                        unregisterListener(this@MainActivity)
                     }
                 }
+            },
+            onDownloadFailed = {
+                rootLayout.showSnackbar(R.string.download_error, R.string.retry) {
+                    appUpdater.checkForUpdate(this)
+                }
+            }
         )
     }
 
@@ -248,20 +252,6 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
         if (fetchQuestions) {
             viewModel.fetchQuestions()
-        }
-    }
-
-    private fun hideKeyboard() {
-        currentFocus?.let {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(it.windowToken, 0)
-        }
-    }
-
-    private fun showKeyboard() {
-        currentFocus?.let {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(it, 0)
         }
     }
 
@@ -278,28 +268,28 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
     private fun showLogOutDialog() {
         MaterialAlertDialogBuilder(this)
-                .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
-                .setTitle(R.string.log_out_title)
-                .setPositiveButton(R.string.log_out) { _, _ -> viewModel.logOut() }
-                .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-                .create()
-                .show()
+            .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
+            .setTitle(R.string.log_out_title)
+            .setPositiveButton(R.string.log_out) { _, _ -> viewModel.logOut() }
+            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+            .create()
+            .show()
     }
 
     private fun showLogInDialog() {
         MaterialAlertDialogBuilder(this)
-                .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
-                .setTitle(R.string.log_in_title)
-                .setPositiveButton(R.string.log_in) { _, _ ->
-                    launchCustomTab(this, AuthStore.authUrl)
-                }
-                .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-                .create()
-                .show()
+            .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
+            .setTitle(R.string.log_in_title)
+            .setPositiveButton(R.string.log_in) { _, _ ->
+                launchCustomTab(this, AuthStore.authUrl)
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+            .create()
+            .show()
     }
 
     companion object {
         fun makeIntentClearTop(context: Context) = Intent(context, MainActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     }
 }

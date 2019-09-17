@@ -4,6 +4,7 @@ plugins {
     id("kotlin-android-extensions")
     id("kotlin-kapt")
     id("io.fabric")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 android {
@@ -64,6 +65,7 @@ dependencies {
     implementation(Dep.androidxSwipeRefreshLayout)
     implementation(Dep.constraintLayout)
     implementation(Dep.ktxActivityExtensions)
+    implementation(Dep.ktxFragmentExtensions)
     implementation(Dep.ktxViewModelExtensions)
     implementation(Dep.ktxLiveDataExtensions)
     implementation(Dep.materialComponents)
@@ -112,6 +114,7 @@ dependencies {
     testImplementation(Dep.jUnit)
     testImplementation(Dep.mockito)
     testImplementation(Dep.mockitoKotlin)
+    testImplementation(Dep.okHttpMock)
     testImplementation(Dep.robolectric)
     androidTestImplementation(Dep.testRunner)
     androidTestImplementation(Dep.espresso)

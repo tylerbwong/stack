@@ -24,15 +24,16 @@ class AnswerDataModel(private val answer: Answer) : DynamicDataModel() {
     }
 
     override fun areItemsThemSame(
-            other: DynamicDataModel
+        other: DynamicDataModel
     ) = other is AnswerDataModel && other.answerId == answerId
 
     override fun areContentsTheSame(
-            other: DynamicDataModel
-    ) = other is AnswerDataModel && other.isAccepted == isAccepted && other.voteCount == voteCount
-            && other.answerBody == answerBody && other.userImage == userImage
-            && other.username == username && other.reputation == reputation
-            && other.badgeCounts == badgeCounts && other.creationDate == creationDate
+        other: DynamicDataModel
+    ) = other is AnswerDataModel && other.isAccepted == isAccepted &&
+            other.voteCount == voteCount && other.answerBody == answerBody &&
+            other.userImage == userImage && other.username == username &&
+            other.reputation == reputation && other.badgeCounts == badgeCounts &&
+            other.creationDate == creationDate
 
     override fun getViewCreator() = ::AnswerHolder
 }

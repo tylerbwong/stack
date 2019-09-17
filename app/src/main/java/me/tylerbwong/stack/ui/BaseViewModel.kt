@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import timber.log.Timber
 
 abstract class BaseViewModel : ViewModel() {
@@ -16,7 +17,7 @@ abstract class BaseViewModel : ViewModel() {
 
     val snackbar: LiveData<Unit?>
         get() = _snackbar
-    protected val _snackbar = MutableLiveData<Unit?>()
+    protected val _snackbar = SingleLiveEvent<Unit?>()
 
     protected fun launchRequest(block: suspend CoroutineScope.() -> Unit): Job {
         return viewModelScope.launch {

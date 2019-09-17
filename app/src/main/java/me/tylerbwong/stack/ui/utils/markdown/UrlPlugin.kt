@@ -9,8 +9,8 @@ class UrlPlugin private constructor() : AbstractMarkwonPlugin() {
 
     override fun configureConfiguration(builder: MarkwonConfiguration.Builder) {
         builder
-                .urlProcessor(urlProcessor)
-                .linkResolver(tabsResolver)
+            .urlProcessor(urlProcessor)
+            .linkResolver(tabsResolver)
     }
 
     companion object {

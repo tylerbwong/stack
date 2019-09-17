@@ -17,9 +17,9 @@ import me.tylerbwong.stack.ui.questions.QuestionDataModel
 import retrofit2.HttpException
 
 internal class MainViewModel(
-        private val authRepository: AuthRepository = AuthRepository(),
-        private val repository: QuestionRepository = QuestionRepository(),
-        private val service: QuestionService = ServiceProvider.questionService
+    private val authRepository: AuthRepository = AuthRepository(),
+    private val repository: QuestionRepository = QuestionRepository(),
+    private val service: QuestionService = ServiceProvider.questionService
 ) : BaseViewModel() {
 
     internal val questions: LiveData<List<QuestionDataModel>>
@@ -48,8 +48,8 @@ internal class MainViewModel(
         currentQuery = query
         launchRequest {
             _questions.value = service.getQuestionsBySearchString(searchString = query)
-                    .items
-                    .map { QuestionDataModel(it) }
+                .items
+                .map { QuestionDataModel(it) }
         }
     }
 

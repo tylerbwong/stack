@@ -22,10 +22,10 @@ fun launchCustomTab(context: Context, url: String) {
     val packageName = getPackageNameToUse(context, url)
     val themeColor = ThemeManager.resolveThemeAttribute(context, R.attr.viewBackgroundColor)
     val customTabsIntent = CustomTabsIntent.Builder()
-            .setNavigationBarColor(themeColor)
-            .setToolbarColor(themeColor)
-            .setSecondaryToolbarColor(themeColor)
-            .build()
+        .setNavigationBarColor(themeColor)
+        .setToolbarColor(themeColor)
+        .setSecondaryToolbarColor(themeColor)
+        .build()
     customTabsIntent.intent.`package` = packageName
     customTabsIntent.launchUrl(context, Uri.parse(url))
 }
@@ -59,9 +59,10 @@ private fun getPackageNameToUse(context: Context, url: String): String? {
     return when {
         packagesSupportingCustomTabs.isEmpty() -> null
         packagesSupportingCustomTabs.size == 1 -> packagesSupportingCustomTabs[0]
-        !TextUtils.isEmpty(defaultViewHandlerPackageName)
-                && !hasSpecializedHandlerIntents(context, activityIntent)
-                && packagesSupportingCustomTabs.contains(defaultViewHandlerPackageName) -> defaultViewHandlerPackageName
+        !TextUtils.isEmpty(defaultViewHandlerPackageName) &&
+                !hasSpecializedHandlerIntents(context, activityIntent) &&
+                packagesSupportingCustomTabs.contains(defaultViewHandlerPackageName) ->
+            defaultViewHandlerPackageName
         packagesSupportingCustomTabs.contains(STABLE_PACKAGE) -> STABLE_PACKAGE
         packagesSupportingCustomTabs.contains(BETA_PACKAGE) -> BETA_PACKAGE
         packagesSupportingCustomTabs.contains(DEV_PACKAGE) -> DEV_PACKAGE
@@ -77,8 +78,9 @@ private fun hasSpecializedHandlerIntents(context: Context, intent: Intent): Bool
     try {
         val pm = context.packageManager
         val handlers = pm.queryIntentActivities(
-                intent,
-                PackageManager.GET_RESOLVED_FILTER)
+            intent,
+            PackageManager.GET_RESOLVED_FILTER
+        )
         if (handlers.size == 0) {
             return false
         }

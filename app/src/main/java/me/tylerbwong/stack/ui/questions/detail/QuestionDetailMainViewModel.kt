@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
@@ -12,9 +13,12 @@ import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.answers.AnswerDataModel
 import me.tylerbwong.stack.ui.questions.QuestionDataModel
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
+import me.tylerbwong.stack.ui.utils.SingleLiveEvent
+import me.tylerbwong.stack.ui.utils.zipWith
 
-class QuestionDetailViewModel(
-        private val service: QuestionService = ServiceProvider.questionService
+class QuestionDetailMainViewModel(
+    authStore: AuthStore = AuthStore,
+    private val service: QuestionService = ServiceProvider.questionService
 ) : BaseViewModel() {
 
     internal val data: LiveData<List<DynamicDataModel>>
@@ -25,9 +29,20 @@ class QuestionDetailViewModel(
         get() = _voteCount
     private val _voteCount = MutableLiveData<Int>()
 
-    internal var questionId: Int = 0
+    internal val clearFields: LiveData<Unit>
+        get() = _clearFields
+    private val _clearFields = SingleLiveEvent<Unit>()
+
+    internal val canAnswerQuestion = authStore.isAuthenticatedLiveData.zipWith(
+        data,
+        initialValue = false
+    ) { isAuthenticated, data -> isAuthenticated && data.isNotEmpty() }
+
+    internal var title = ""
+    internal var isInAnswerMode = false
+    internal var hasContent = false
+    internal var questionId = -1
     internal var question: Question? = null
-    internal var isFromDeepLink = false
 
     internal fun getQuestionDetails() {
         launchRequest {
@@ -47,6 +62,10 @@ class QuestionDetailViewModel(
             _data.value = response.first
             _voteCount.value = response.second.upVoteCount - response.second.downVoteCount
         }
+    }
+
+    internal fun clearFields() {
+        _clearFields.value = Unit
     }
 
     internal fun startShareIntent(context: Context) {
