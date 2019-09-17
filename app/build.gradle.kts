@@ -1,3 +1,5 @@
+import io.gitlab.arturbosch.detekt.detekt
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -5,6 +7,7 @@ plugins {
     id("kotlin-kapt")
     id("io.fabric")
     id("org.jlleitschuh.gradle.ktlint")
+    id("io.gitlab.arturbosch.detekt") version Versions.detekt
 }
 
 android {
@@ -47,6 +50,10 @@ android {
 
 androidExtensions {
     isExperimental = true
+}
+
+detekt {
+    config = files("$rootDir/detekt.yml")
 }
 
 dependencies {
