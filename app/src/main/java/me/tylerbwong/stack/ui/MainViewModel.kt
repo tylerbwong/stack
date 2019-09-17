@@ -75,10 +75,10 @@ internal class MainViewModel(
     internal fun logOut() {
         viewModelScope.launch {
             when (authRepository.logOut()) {
-                is LogOutError -> _snackbar.value = Unit
+                is LogOutError -> mutableSnackbar.value = Unit
                 is LogOutSuccess -> {
                     _profileImage.value = null
-                    _snackbar.value = null
+                    mutableSnackbar.value = null
                     fetchQuestions()
                 }
             }

@@ -26,6 +26,7 @@ import me.tylerbwong.stack.ui.utils.toHtml
 class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
     parent.inflateWithoutAttaching(R.layout.question_holder)
 ) {
+    @Suppress("ComplexMethod")
     override fun bind(data: Any) {
         (data as? QuestionDataModel)?.let { dataModel ->
             if (dataModel.isDetail) {

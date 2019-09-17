@@ -16,18 +16,18 @@ abstract class BaseViewModel : ViewModel() {
     private val _refreshing = MutableLiveData<Boolean>()
 
     val snackbar: LiveData<Unit?>
-        get() = _snackbar
-    protected val _snackbar = SingleLiveEvent<Unit?>()
+        get() = mutableSnackbar
+    protected val mutableSnackbar = SingleLiveEvent<Unit?>()
 
     protected fun launchRequest(block: suspend CoroutineScope.() -> Unit): Job {
         return viewModelScope.launch {
             try {
                 _refreshing.value = true
-                _snackbar.value = null
+                mutableSnackbar.value = null
                 block()
             } catch (exception: Exception) {
                 Timber.e(exception)
-                _snackbar.value = Unit
+                mutableSnackbar.value = Unit
             } finally {
                 _refreshing.value = false
             }

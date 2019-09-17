@@ -59,8 +59,7 @@ class DynamicViewAdapter : RecyclerView.Adapter<DynamicViewHolder>() {
 abstract class DynamicViewHolder(
     override val containerView: View
 ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
-    // TODO: THIS IS BAD - Figure out a better way to do this
-    abstract fun bind(data: Any)
+    abstract fun bind(data: Any) // TODO Figure out a better way to do this
 }
 
 abstract class DynamicDataModel {

@@ -16,14 +16,14 @@ class BadgeView : View {
 
     // measurements
     private val iconHeight =
-        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7f, context.resources.displayMetrics)
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, ICON_HEIGHT, context.resources.displayMetrics)
     private val iconRadius = iconHeight / 2f
     private val startEndPadding =
         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, context.resources.displayMetrics)
     private val iconLabelPadding =
-        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f, context.resources.displayMetrics)
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, ICON_LABEL_PADDING, context.resources.displayMetrics)
     private val badgePadding =
-        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6f, context.resources.displayMetrics)
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, BADGE_PADDING, context.resources.displayMetrics)
 
     // colors
     private val iconColors = listOf(
@@ -38,7 +38,7 @@ class BadgeView : View {
         color = ContextCompat.getColor(context, R.color.colorTextPrimary)
         textSize = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_SP,
-            12f,
+            TEXT_SIZE,
             context.resources.displayMetrics
         )
         typeface = Typeface.DEFAULT
@@ -60,6 +60,7 @@ class BadgeView : View {
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
+    @Suppress("MagicNumber") // Only used for preview
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
         context,
         attrs,
@@ -134,5 +135,12 @@ class BadgeView : View {
                 }
             }
         }
+    }
+
+    companion object {
+        private const val ICON_HEIGHT = 7f
+        private const val ICON_LABEL_PADDING = 3f
+        private const val BADGE_PADDING = 6f
+        private const val TEXT_SIZE = 12f
     }
 }

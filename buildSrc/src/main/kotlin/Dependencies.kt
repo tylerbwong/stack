@@ -9,6 +9,7 @@ object Versions {
     const val betterLinkMovementMethod = "2.2.0"
     const val constraintLayout = "2.0.0-beta2"
     const val crashlytics = "2.10.1"
+    const val detekt = "1.0.1"
     const val espresso = "3.1.0"
     const val fabric = "1.31.0"
     const val firebaseCore = "17.2.0"

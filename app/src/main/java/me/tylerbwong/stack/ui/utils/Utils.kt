@@ -21,6 +21,7 @@ fun String.toHtml(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.
     Html.fromHtml(this)
 }
 
+@Suppress("MagicNumber")
 private val suffixes = TreeMap<Long, String>().apply {
     put(1_000L, "k")
     put(1_000_000L, "M")
@@ -30,6 +31,7 @@ private val suffixes = TreeMap<Long, String>().apply {
     put(1_000_000_000_000_000_000L, "E")
 }
 
+@Suppress("MagicNumber")
 fun Long.format(): String {
     // Long.MIN_VALUE == -Long.MIN_VALUE so we need an adjustment here
     if (this == Long.MIN_VALUE) return (Long.MIN_VALUE + 1).format()
