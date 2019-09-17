@@ -1,5 +1,5 @@
 build:
-  maxIssues: 23
+  maxIssues: 0
   weights:
     # complexity: 2
     # LongParameterList: 1
@@ -69,7 +69,7 @@ complexity:
     active: true
     excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
     thresholdInFiles: 15
-    thresholdInClasses: 15
+    thresholdInClasses: 18
     thresholdInInterfaces: 15
     thresholdInObjects: 15
     thresholdInEnums: 11

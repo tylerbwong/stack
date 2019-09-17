@@ -30,6 +30,7 @@ fun launchCustomTab(context: Context, url: String) {
     customTabsIntent.launchUrl(context, Uri.parse(url))
 }
 
+@Suppress("ComplexMethod")
 private fun getPackageNameToUse(context: Context, url: String): String? {
     if (packageName != null) return packageName
 
