@@ -6,12 +6,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.observe
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_question_detail.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.BaseActivity
+import me.tylerbwong.stack.ui.theme.showThemeChooserDialog
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
@@ -78,6 +80,7 @@ class QuestionDetailActivity : BaseActivity() {
         if (viewModel.isInAnswerMode) {
             if (viewModel.hasContent) {
                 MaterialAlertDialogBuilder(this)
+                    .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
                     .setTitle(R.string.discard_answer)
                     .setPositiveButton(R.string.discard) { _, _ ->
                         toggleAnswerMode(isInAnswerMode = false)

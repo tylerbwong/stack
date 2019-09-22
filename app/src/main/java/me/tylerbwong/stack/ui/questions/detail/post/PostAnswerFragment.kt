@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,6 +23,7 @@ import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailMainViewModel
+import me.tylerbwong.stack.ui.theme.showThemeChooserDialog
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
@@ -130,6 +132,7 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
         when (item.itemId) {
             R.id.discard -> {
                 MaterialAlertDialogBuilder(requireContext())
+                    .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.default_dialog_bg))
                     .setTitle(R.string.discard_answer)
                     .setPositiveButton(R.string.discard) { _, _ -> clearFields() }
                     .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
