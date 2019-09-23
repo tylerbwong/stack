@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <Preference
-        android:key="version_key"
-        android:summary="@string/version_name"
-        android:title="@string/version" />
-
-</androidx.preference.PreferenceScreen>
