@@ -3,9 +3,9 @@ package me.tylerbwong.stack.ui.questions
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.chip.Chip
@@ -36,12 +36,16 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
             }
 
             questionTitle.text = dataModel.questionTitle.toHtml()
-            answerCount.apply {
+            lastEditor.apply {
+                isVisible = dataModel.isDetail && dataModel.lastEditorName != null
                 if (dataModel.isDetail) {
-                    visibility = View.GONE
-                } else {
+                    text = context.getString(R.string.last_edited_by, dataModel.lastEditorName)
+                }
+            }
+            answerCount.apply {
+                isVisible = !dataModel.isDetail
+                if (!dataModel.isDetail) {
                     text = dataModel.answerCount.toString()
-                    visibility = View.VISIBLE
                 }
             }
 
@@ -70,7 +74,8 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
             badgeView.badgeCounts = dataModel.badgeCounts
             reputation.text = dataModel.reputation.toLong().format()
 
-            tagsView.visibility = if (dataModel.isDetail) {
+            tagsView.isVisible = dataModel.isDetail
+            if (dataModel.isDetail) {
                 tagsView.removeAllViews()
                 dataModel.tags?.forEach {
                     val chip = Chip(tagsView.context).apply {
@@ -81,9 +86,6 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                     }
                     tagsView.addView(chip)
                 }
-                View.VISIBLE
-            } else {
-                View.GONE
             }
 
             if (!dataModel.isDetail) {

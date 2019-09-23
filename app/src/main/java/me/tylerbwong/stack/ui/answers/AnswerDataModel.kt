@@ -17,6 +17,7 @@ class AnswerDataModel(private val answer: Answer) : DynamicDataModel() {
     internal val username = answer.owner.displayName.toHtml()
     internal val reputation = answer.owner.reputation.toLong().format()
     internal val badgeCounts = answer.owner.badgeCounts
+    internal val lastEditorName = answer.lastEditor?.displayName
 
     internal fun onProfilePictureClicked(context: Context) {
         ProfileActivity.startActivity(context, answer.owner.userId)

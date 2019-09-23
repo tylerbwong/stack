@@ -11,6 +11,8 @@ import android.widget.PopupMenu
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -43,6 +45,7 @@ import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
+import java.util.*
 
 class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
     SearchView.OnQueryTextListener, InstallStateUpdatedListener {
@@ -153,7 +156,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             }
             R.id.search -> {
                 searchView.apply {
-                    visibility = View.VISIBLE
+                    isVisible = true
                     requestFocus()
                     showKeyboard()
                 }
@@ -164,7 +167,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
     override fun onBackPressed() {
         if (searchView.visibility == View.VISIBLE) {
-            searchView.visibility = View.GONE
+            searchView.isGone = true
             viewModel.currentQuery = ""
             viewModel.getQuestions()
         } else {
@@ -248,7 +251,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
     private fun clearSearch(fetchQuestions: Boolean = true) {
         searchView.setQuery("", false)
-        searchView.visibility = View.GONE
+        searchView.isGone = true
 
         if (fetchQuestions) {
             viewModel.fetchQuestions()
@@ -259,7 +262,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         val content = questions.toMutableList<DynamicDataModel>().apply {
             val subtitle: String = when {
                 !viewModel.isQueryBlank() -> "\"${viewModel.currentQuery}\""
-                else -> viewModel.currentSort.toLowerCase().capitalize()
+                else -> viewModel.currentSort.toLowerCase(Locale.US).capitalize()
             }
             add(0, HeaderDataModel(getString(R.string.questions), subtitle))
         }

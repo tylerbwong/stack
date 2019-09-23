@@ -2,6 +2,7 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootAnswerView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,6 +10,7 @@
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp">
 
+    <!-- TODO Convert to ConstraintLayout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +19,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:id="@+id/acceptedAnswerCheck"
@@ -48,6 +51,36 @@
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="14sp" />
 
-        <include layout="@layout/user_view" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <include
+                layout="@layout/user_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="2" />
+
+            <TextView
+                android:id="@+id/lastEditor"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:gravity="bottom|end"
+                android:lines="2"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/userView"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="last edited by\ntylerbwong"
+                tools:visibility="visible" />
+        </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

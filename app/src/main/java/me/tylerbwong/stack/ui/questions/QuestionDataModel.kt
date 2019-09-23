@@ -20,6 +20,7 @@ class QuestionDataModel(
     internal val shareLink = question.shareLink
     internal val questionId = question.questionId
     internal val owner = question.owner
+    internal val lastEditorName = question.lastEditor?.displayName
     internal val tags = question.tags
 
     internal fun onProfilePictureClicked(context: Context) {

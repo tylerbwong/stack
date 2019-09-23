@@ -9,6 +9,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -65,11 +67,7 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
             }
         }
 
-        debugPreview.visibility = if (BuildConfig.DEBUG) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
+        debugPreview.isVisible = BuildConfig.DEBUG
 
         previewText.apply {
             setTextIsSelectable(true)
@@ -151,15 +149,15 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
         viewModel.selectedTabPosition = position
         when (position) {
             0 -> {
-                markdownInputLayout.visibility = View.VISIBLE
-                previewText.visibility = View.GONE
+                markdownInputLayout.isVisible = true
+                previewText.isGone = true
                 markdownEditText.requestFocus()
                 markdownEditText.showKeyboard()
             }
             1 -> {
-                markdownInputLayout.visibility = View.GONE
+                markdownInputLayout.isGone = true
                 previewText.apply {
-                    visibility = View.VISIBLE
+                    isVisible = true
                     hideKeyboard()
                     refreshPreview()
                 }

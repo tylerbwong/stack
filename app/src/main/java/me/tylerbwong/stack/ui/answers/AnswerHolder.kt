@@ -1,7 +1,7 @@
 package me.tylerbwong.stack.ui.answers
 
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.answer_holder.*
@@ -22,12 +22,17 @@ class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
             val voteCount = dataModel.voteCount
             votes.text =
                 itemView.context.resources.getQuantityString(R.plurals.votes, voteCount, voteCount)
-            acceptedAnswerCheck.visibility = if (dataModel.isAccepted) View.VISIBLE else View.GONE
+            acceptedAnswerCheck.isVisible = dataModel.isAccepted
 
             answerBody.apply {
                 setMarkdown(dataModel.answerBody)
                 setTextIsSelectable(true)
                 movementMethod = BetterLinkMovementMethod.getInstance()
+            }
+
+            lastEditor.apply {
+                isVisible = dataModel.lastEditorName != null
+                text = context.getString(R.string.last_edited_by, dataModel.lastEditorName)
             }
 
             username.text = dataModel.username

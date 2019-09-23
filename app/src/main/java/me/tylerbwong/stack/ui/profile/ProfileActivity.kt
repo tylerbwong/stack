@@ -7,6 +7,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -59,9 +61,9 @@ class ProfileActivity : BaseActivity() {
             collapsingToolbarLayout.title = it.displayName.toHtml()
             if (it.location != null) {
                 location.text = it.location.toHtml()
-                location.visibility = View.VISIBLE
+                location.isVisible = true
             } else {
-                location.visibility = View.GONE
+                location.isGone = true
             }
             reputation.text = it.reputation.toLong().format()
             badgeView.badgeCounts = it.badgeCounts
