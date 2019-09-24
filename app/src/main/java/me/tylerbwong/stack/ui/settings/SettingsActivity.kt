@@ -3,6 +3,7 @@ package me.tylerbwong.stack.ui.settings
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_settings.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.BaseActivity
@@ -14,8 +15,10 @@ class SettingsActivity : BaseActivity() {
         setContentView(R.layout.activity_settings)
         setSupportActionBar(toolbar)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = resources.getString(R.string.settings)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            title = getString(R.string.settings)
+        }
 
         supportFragmentManager
             .beginTransaction()
@@ -23,15 +26,17 @@ class SettingsActivity : BaseActivity() {
             .commit()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     companion object {
         fun startActivity(context: Context) {
             val intent = Intent(context, SettingsActivity::class.java)
             context.startActivity(intent)
         }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 }

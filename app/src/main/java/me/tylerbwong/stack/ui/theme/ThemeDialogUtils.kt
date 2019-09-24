@@ -11,7 +11,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
 
-private val nightModeOptions = mapOf(
+val nightModeOptions = mapOf(
     R.string.theme_light to MODE_NIGHT_NO,
     R.string.theme_dark to MODE_NIGHT_YES,
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

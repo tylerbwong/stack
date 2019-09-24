@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:icon="@drawable/ic_brightness_2"
+        android:key="@string/theme"
+        android:title="@string/theme" />
+
+    <Preference
+        android:icon="@drawable/ic_info"
+        android:key="@string/version"
+        android:title="@string/version" />
+
+</PreferenceScreen>

@@ -4,20 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/theme"
-        android:icon="@drawable/ic_brightness_2"
-        android:title="@string/theme"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/search"
         android:icon="@drawable/ic_search"
         android:title="@string/search"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/settings"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 </menu>

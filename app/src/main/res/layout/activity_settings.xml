@@ -9,20 +9,15 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/viewBackgroundColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:liftOnScroll="true"
-        app:liftOnScrollTargetViewId="@id/recyclerView">
+        android:background="?attr/viewBackgroundColor">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/Widget.MaterialComponents.Toolbar"
+            style="@style/MainToolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/viewBackgroundColor"
-            app:hideOnScroll="true" />
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:titleTextColor="?android:attr/textColorPrimary" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
