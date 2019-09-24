@@ -35,6 +35,7 @@ import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.ui.questions.HeaderDataModel
 import me.tylerbwong.stack.ui.questions.QuestionDataModel
+import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.theme.showThemeChooserDialog
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
@@ -160,6 +161,9 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
                     requestFocus()
                     showKeyboard()
                 }
+            }
+            R.id.settings -> {
+                SettingsActivity.startActivity(this)
             }
         }
         return true

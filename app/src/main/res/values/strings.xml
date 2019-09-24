@@ -73,4 +73,9 @@
     <string name="post_answer_error">Could not post answer</string>
     <string name="post_preview">Post as preview</string>
     <string name="last_edited_by">last edited by\n%1$s</string>
+    <string name="settings">Settings</string>
+
+    <!-- App version -->
+    <string name="version">Version</string>
+    <string name="version_name">0.0.2</string>
 </resources>
