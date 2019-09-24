@@ -9,10 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
-import java.util.*
+import java.util.TreeMap
 
-fun ViewGroup.inflateWithoutAttaching(@LayoutRes resId: Int): View =
-    LayoutInflater.from(context).inflate(resId, this, false)
+fun ViewGroup.inflate(@LayoutRes resId: Int, attachToRoot: Boolean = false): View =
+    LayoutInflater.from(context).inflate(resId, this, attachToRoot)
 
 fun String.toHtml(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
     Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)

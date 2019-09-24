@@ -11,13 +11,13 @@
         android:id="@+id/commentBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="?android:attr/textColorPrimary"
         tools:text="This is a test comment" />
 
-    <include
-        layout="@layout/user_view"
+    <me.tylerbwong.stack.ui.owners.OwnerView
+        android:id="@+id/ownerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textColor="?android:attr/textColorPrimary" />
+        android:layout_marginTop="16dp" />
 
 </LinearLayout>

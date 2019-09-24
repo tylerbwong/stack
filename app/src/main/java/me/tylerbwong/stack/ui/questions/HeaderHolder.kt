@@ -4,10 +4,10 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.header_holder.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
-import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
+import me.tylerbwong.stack.ui.utils.inflate
 
 class HeaderHolder(parent: ViewGroup) : DynamicViewHolder(
-    parent.inflateWithoutAttaching(R.layout.header_holder)
+    parent.inflate(R.layout.header_holder)
 ) {
     override fun bind(data: Any) {
         (data as? HeaderDataModel)?.let {

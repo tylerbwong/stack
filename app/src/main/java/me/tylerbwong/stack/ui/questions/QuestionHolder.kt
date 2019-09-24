@@ -6,27 +6,22 @@ import android.content.Context
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.question_holder.*
-import kotlinx.android.synthetic.main.user_view.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
-import me.tylerbwong.stack.ui.utils.GlideApp
-import me.tylerbwong.stack.ui.utils.format
-import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
+import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.toHtml
 
 class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
-    parent.inflateWithoutAttaching(R.layout.question_holder)
+    parent.inflate(R.layout.question_holder)
 ) {
-    @Suppress("ComplexMethod", "LongMethod")
+    @Suppress("ComplexMethod")
     override fun bind(data: Any) {
         (data as? QuestionDataModel)?.let { dataModel ->
             if (dataModel.isDetail) {
@@ -63,16 +58,7 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                 }
             }
 
-            username.text = dataModel.username.toHtml()
-            GlideApp.with(itemView)
-                .load(dataModel.userImage)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .placeholder(R.drawable.user_image_placeholder)
-                .apply(RequestOptions.circleCropTransform())
-                .into(userImage)
-            userImage.setThrottledOnClickListener { dataModel.onProfilePictureClicked(it.context) }
-            badgeView.badgeCounts = dataModel.badgeCounts
-            reputation.text = dataModel.reputation.toLong().format()
+            ownerView.bind(dataModel.owner)
 
             tagsView.isVisible = dataModel.isDetail
             if (dataModel.isDetail) {

@@ -62,9 +62,8 @@
             app:layout_constraintTop_toBottomOf="@id/questionBody"
             app:singleSelection="true" />
 
-        <include
-            android:id="@+id/userView"
-            layout="@layout/user_view"
+        <me.tylerbwong.stack.ui.owners.OwnerView
+            android:id="@+id/ownerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -84,7 +83,7 @@
             android:textSize="12sp"
             android:textStyle="italic"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/userView"
+            app:layout_constraintBottom_toBottomOf="@id/ownerView"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
@@ -95,7 +94,7 @@
             android:drawableStart="@drawable/ic_question_answer"
             android:drawablePadding="4dp"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/userView"
+            app:layout_constraintBottom_toBottomOf="@id/ownerView"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="22" />
 

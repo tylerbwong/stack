@@ -56,8 +56,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <include
-                layout="@layout/user_view"
+            <me.tylerbwong.stack.ui.owners.OwnerView
+                android:id="@+id/ownerView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -77,7 +77,7 @@
                 android:textSize="12sp"
                 android:textStyle="italic"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/userView"
+                app:layout_constraintBottom_toBottomOf="@id/ownerView"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="last edited by\ntylerbwong"
                 tools:visibility="visible" />

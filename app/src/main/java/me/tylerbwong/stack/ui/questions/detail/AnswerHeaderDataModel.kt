@@ -5,7 +5,7 @@ import kotlinx.android.synthetic.main.answer_header.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
-import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
+import me.tylerbwong.stack.ui.utils.inflate
 
 data class AnswerHeaderDataModel(internal val answerCount: Int) : DynamicDataModel() {
 
@@ -17,7 +17,7 @@ data class AnswerHeaderDataModel(internal val answerCount: Int) : DynamicDataMod
 }
 
 class AnswerHeaderViewHolder(parent: ViewGroup) : DynamicViewHolder(
-    parent.inflateWithoutAttaching(R.layout.answer_header)
+    parent.inflate(R.layout.answer_header)
 ) {
     override fun bind(data: Any) {
         (data as? AnswerHeaderDataModel)?.let {

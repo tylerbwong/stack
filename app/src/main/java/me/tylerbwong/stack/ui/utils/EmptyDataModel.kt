@@ -15,7 +15,7 @@ class EmptyDataModel(@StringRes internal val messageId: Int) : DynamicDataModel(
 }
 
 class EmptyHolder(parent: ViewGroup) : DynamicViewHolder(
-    parent.inflateWithoutAttaching(R.layout.empty_layout)
+    parent.inflate(R.layout.empty_layout)
 ) {
     override fun bind(data: Any) {
         (data as? EmptyDataModel)?.let {
