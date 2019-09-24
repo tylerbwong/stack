@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.comments_fragment.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.questions.HeaderDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
+import me.tylerbwong.stack.ui.utils.SpaceDataModel
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 
 class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
@@ -37,13 +39,20 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
                 ViewHolderItemDecoration(
-                    context.resources.getDimensionPixelSize(R.dimen.item_spacing_main),
-                    removeSideSpacing = true
+                    context.resources.getDimensionPixelSize(R.dimen.item_spacing_main)
                 )
             )
         }
         viewModel.data.observe(viewLifecycleOwner) {
-            adapter.update(it)
+            adapter.update(
+                listOf(
+                    SpaceDataModel(),
+                    HeaderDataModel(
+                        getString(R.string.comments),
+                        getString(R.string.comment_count, it.size)
+                    )
+                ) + it.ifEmpty { listOf(SpaceDataModel()) }
+            )
         }
 
         viewModel.fetchComments()
