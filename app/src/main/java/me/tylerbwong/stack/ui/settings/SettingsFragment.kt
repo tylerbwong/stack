@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import me.tylerbwong.stack.BuildConfig
+import me.tylerbwong.stack.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -13,12 +14,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val versionPref = Preference(context).apply {
             key = "version_key"
             summary = BuildConfig.VERSION_NAME
-            title = "Version"
+            title = getString(R.string.version)
         }
 
         screen.addPreference(versionPref)
 
         preferenceScreen = screen
     }
-
 }

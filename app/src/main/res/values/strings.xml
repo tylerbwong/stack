@@ -77,5 +77,4 @@
 
     <!-- App version -->
     <string name="version">Version</string>
-    <string name="version_name">0.0.2</string>
 </resources>
