@@ -29,7 +29,7 @@ object Versions {
     const val mockitoKotlin = "2.1.0"
     const val okHttp = "4.2.0"
     const val playCore = "1.6.3"
-    const val retrofit = "2.6.1"
+    const val retrofit = "2.6.2"
     const val robolectric = "4.3"
     const val room = "2.2.0-rc01"
     const val testRunner = "1.1.0"
