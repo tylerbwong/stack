@@ -19,4 +19,10 @@
         <item name="rippleColor">@color/colorAccent</item>
     </style>
 
+    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
 </resources>

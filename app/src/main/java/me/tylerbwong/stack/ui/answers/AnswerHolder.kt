@@ -2,12 +2,14 @@ package me.tylerbwong.stack.ui.answers
 
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.answer_holder.*
 import kotlinx.android.synthetic.main.user_view.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
 import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
@@ -45,6 +47,14 @@ class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
             userImage.setThrottledOnClickListener { dataModel.onProfilePictureClicked(it.context) }
             reputation.text = dataModel.reputation
             badgeView.badgeCounts = dataModel.badgeCounts
+
+            itemView.setOnLongClickListener {
+                CommentsBottomSheetDialogFragment.show(
+                    (it.context as FragmentActivity).supportFragmentManager,
+                    dataModel.answerId
+                )
+                true
+            }
         }
     }
 }

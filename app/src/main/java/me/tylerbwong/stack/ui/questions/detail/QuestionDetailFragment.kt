@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.question_detail_fragment.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.R.dimen
+import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
 import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
@@ -102,6 +103,10 @@ class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.share -> viewModel.startShareIntent(requireContext())
+            R.id.comments -> CommentsBottomSheetDialogFragment.show(
+                childFragmentManager,
+                viewModel.questionId
+            )
             R.id.linked -> QuestionsActivity.startActivityForKey(
                     requireContext(),
                     LINKED,
