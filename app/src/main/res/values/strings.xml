@@ -23,6 +23,27 @@
         <item quantity="other">%1$d Votes</item>
     </plurals>
 
+    <plurals name="short_time">
+        <item quantity="zero">minute ago</item>
+        <item quantity="one">minutes ago</item>
+        <item quantity="two">hour ago</item>
+        <item quantity="few">hours ago</item>
+        <item quantity="other">day ago</item>
+        <item quantity="many">days ago</item>
+    </plurals>
+
+    <plurals name="huge_time">
+        <item quantity="one">month ago</item>
+        <item quantity="other">months ago</item>
+        <item quantity="few">year ago</item>
+        <item quantity="many">years ago</item>
+    </plurals>
+
+    <plurals name="type">
+        <item quantity="one">asked</item>
+        <item quantity="two">answered</item>
+    </plurals>
+
     <!-- Theme Chooser -->
     <string name="theme_title">Choose theme</string>
     <string name="theme_light">Light</string>
