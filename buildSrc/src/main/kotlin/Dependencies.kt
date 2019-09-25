@@ -34,6 +34,7 @@ object Versions {
     const val room = "2.2.0-rc01"
     const val testRunner = "1.1.0"
     const val timber = "4.7.1"
+    const val klock = "1.7.0"
 }
 
 object Dep {
@@ -77,6 +78,7 @@ object Dep {
     const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
     const val roomProcessor = "androidx.room:room-compiler:${Versions.room}"
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
+    const val klock = "com.soywiz.korlibs.klock:klock:${Versions.klock}"
 
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
     const val jUnit = "junit:junit:${Versions.jUnit}"
