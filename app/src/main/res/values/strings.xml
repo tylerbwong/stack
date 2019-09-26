@@ -27,7 +27,7 @@
     <string name="theme_title">Choose theme</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
-    <string name="theme_follow_system">Follow system</string>
+    <string name="theme_system_default">System default</string>
     <string name="theme_battery_saver">Battery saver only</string>
 
     <!-- Sort -->

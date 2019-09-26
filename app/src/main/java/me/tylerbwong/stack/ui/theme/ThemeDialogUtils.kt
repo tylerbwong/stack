@@ -15,7 +15,7 @@ val nightModeOptions = mapOf(
     R.string.theme_light to MODE_NIGHT_NO,
     R.string.theme_dark to MODE_NIGHT_YES,
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        R.string.theme_follow_system to MODE_NIGHT_FOLLOW_SYSTEM
+        R.string.theme_system_default to MODE_NIGHT_FOLLOW_SYSTEM
     } else {
         R.string.theme_battery_saver to MODE_NIGHT_AUTO_BATTERY
     }
