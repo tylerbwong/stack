@@ -14,9 +14,9 @@ enum class UserActionType {
 
 fun type(view: View, type: UserActionType): String =
     when (type) {
-        UserActionType.ASKED -> view.resources.getQuantityString(R.plurals.type, 0)
-        UserActionType.ANSWERED -> view.resources.getQuantityString(R.plurals.type, 1)
-        UserActionType.EDITED -> view.resources.getQuantityString(R.plurals.type, 2)
+        UserActionType.ASKED -> view.resources.getQuantityString(R.plurals.action_type, 0)
+        UserActionType.ANSWERED -> view.resources.getQuantityString(R.plurals.action_type, 1)
+        UserActionType.EDITED -> view.resources.getQuantityString(R.plurals.action_type, 2)
     }
 
 fun TextView.formatTimeForActionType(actionType: UserActionType, timeStamp: Long) {
