@@ -5,17 +5,17 @@ import com.soywiz.klock.DateTime
 import com.soywiz.klock.until
 import me.tylerbwong.stack.R
 
-enum class Type {
+enum class UserActionType {
     ASKED,
     ANSWERED,
     EDITED
 }
 
-fun type(view: View, type: Type): String =
+fun type(view: View, type: UserActionType): String =
     when (type) {
-        Type.ASKED -> view.resources.getQuantityString(R.plurals.type, 0)
-        Type.ANSWERED -> view.resources.getQuantityString(R.plurals.type, 1)
-        Type.EDITED -> view.resources.getQuantityString(R.plurals.type, 2)
+        UserActionType.ASKED -> view.resources.getQuantityString(R.plurals.type, 0)
+        UserActionType.ANSWERED -> view.resources.getQuantityString(R.plurals.type, 1)
+        UserActionType.EDITED -> view.resources.getQuantityString(R.plurals.type, 2)
     }
 
 fun timeCounter(view: View, creation_date: Long): String {
