@@ -7,7 +7,7 @@ data class HeaderDataModel(
     internal val subtitle: String
 ) : DynamicDataModel() {
 
-    override fun areItemsThemSame(other: DynamicDataModel) = other == this
+    override fun areItemsThemSame(other: DynamicDataModel) = other is HeaderDataModel
 
     override fun areContentsTheSame(other: DynamicDataModel) = other == this
 
