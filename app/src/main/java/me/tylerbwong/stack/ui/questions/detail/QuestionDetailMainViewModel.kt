@@ -11,7 +11,6 @@ import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.answers.AnswerDataModel
-import me.tylerbwong.stack.ui.questions.QuestionDataModel
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import me.tylerbwong.stack.ui.utils.zipWith
@@ -52,7 +51,7 @@ class QuestionDetailMainViewModel(
             }
 
             val response = mutableListOf<DynamicDataModel>().apply {
-                add(0, QuestionDataModel(questionResult, isDetail = true))
+                add(0, QuestionDetailDataModel(questionResult))
                 add(AnswerHeaderDataModel(questionResult.answerCount))
                 addAll(answersResult.map { AnswerDataModel(it) })
             } to questionResult

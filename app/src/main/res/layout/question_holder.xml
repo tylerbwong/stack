@@ -47,21 +47,6 @@
             app:layout_constraintTop_toBottomOf="@id/questionTitle"
             tools:text="Question body" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/tagsView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="16dp"
-            android:visibility="gone"
-            app:chipSpacing="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/questionBody"
-            app:singleSelection="true" />
-
         <me.tylerbwong.stack.ui.owners.OwnerView
             android:id="@+id/ownerView"
             android:layout_width="0dp"
@@ -72,19 +57,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/answerCount"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tagsView" />
-
-        <TextView
-            android:id="@+id/lastEditor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:gravity="end"
-            android:textSize="12sp"
-            android:textStyle="italic"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/ownerView"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/questionBody" />
 
         <TextView
             android:id="@+id/answerCount"
