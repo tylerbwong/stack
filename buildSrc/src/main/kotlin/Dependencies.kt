@@ -18,6 +18,7 @@ object Versions {
     const val gradlePlugin = "3.5.0"
     const val gson = "2.8.5"
     const val jUnit = "4.12"
+    const val klock = "1.7.0"
     const val kotlin = "1.3.50"
     const val kotlinxCoroutines = "1.3.1"
     const val ktlintGradle = "8.2.0"
@@ -34,7 +35,6 @@ object Versions {
     const val room = "2.2.0-rc01"
     const val testRunner = "1.1.0"
     const val timber = "4.7.1"
-    const val klock = "1.7.0"
 }
 
 object Dep {
@@ -54,6 +54,7 @@ object Dep {
     const val glideProcessor = "com.github.bumptech.glide:compiler:${Versions.glide}"
     const val googleServicesPlugin = "com.google.gms:google-services:${Versions.googleServices}"
     const val gson = "com.google.code.gson:gson:${Versions.gson}"
+    const val klock = "com.soywiz.korlibs.klock:klock:${Versions.klock}"
     const val kotlinLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
     const val kotlinCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinxCoroutines}"
     const val kotlinCoroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinxCoroutines}"
@@ -78,7 +79,6 @@ object Dep {
     const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
     const val roomProcessor = "androidx.room:room-compiler:${Versions.room}"
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
-    const val klock = "com.soywiz.korlibs.klock:klock:${Versions.klock}"
 
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
     const val jUnit = "junit:junit:${Versions.jUnit}"
