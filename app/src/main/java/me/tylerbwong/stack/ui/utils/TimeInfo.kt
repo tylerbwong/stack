@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import com.soywiz.klock.DateTime
+import com.soywiz.klock.milliseconds
 import com.soywiz.klock.until
 import me.tylerbwong.stack.R
 
@@ -22,7 +23,7 @@ fun type(view: View, type: UserActionType) {
 }
 
 fun TextView.formatTimeForActionType(actionType: UserActionType, timeStamp: Long) {
-    val creationDate = DateTime.fromUnix(timeStamp * 1000)
+    val creationDate = DateTime.fromUnix(timeStamp.milliseconds.millisecondsLong)
     val dateCalculation = (creationDate until DateTime.now()).span
 
     when {
