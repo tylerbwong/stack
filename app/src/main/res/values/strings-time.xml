@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Type and time -->
-    <plurals name="action_type">
-        <item quantity="one">asked</item>
-        <item quantity="two">answered</item>
-        <item quantity="other">edited</item>
-    </plurals>
+    <!--  User Action Types  -->
+    <string name="asked">asked</string>
+    <string name="answered">answered</string>
+    <string name="edited">edited</string>
 
+    <!-- Timestamp setup -->
     <string name="seconds">%1$d seconds ago</string>
 
     <plurals name="min">

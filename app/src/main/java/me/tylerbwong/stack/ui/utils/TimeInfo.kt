@@ -2,22 +2,24 @@ package me.tylerbwong.stack.ui.utils
 
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.StringRes
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.until
 import me.tylerbwong.stack.R
 
-enum class UserActionType {
-    ASKED,
-    ANSWERED,
-    EDITED
+enum class UserActionType(@StringRes val labelResourceId: Int) {
+    ASKED(R.string.asked),
+    ANSWERED(R.string.answered),
+    EDITED(R.string.edited)
 }
 
-fun type(view: View, type: UserActionType): String =
+fun type(view: View, type: UserActionType) {
     when (type) {
-        UserActionType.ASKED -> view.resources.getQuantityString(R.plurals.action_type, 0)
-        UserActionType.ANSWERED -> view.resources.getQuantityString(R.plurals.action_type, 1)
-        UserActionType.EDITED -> view.resources.getQuantityString(R.plurals.action_type, 2)
+        UserActionType.ASKED -> UserActionType.ASKED.labelResourceId
+        UserActionType.ANSWERED -> UserActionType.ANSWERED.labelResourceId
+        UserActionType.EDITED -> UserActionType.EDITED.labelResourceId
     }
+}
 
 fun TextView.formatTimeForActionType(actionType: UserActionType, timeStamp: Long) {
     val creationDate = DateTime.fromUnix(timeStamp * 1000)
