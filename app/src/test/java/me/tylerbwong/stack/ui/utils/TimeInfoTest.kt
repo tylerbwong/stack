@@ -24,7 +24,7 @@ class TimeInfoTest : BaseTest() {
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        assertEquals("asked 1 day ago", textView)
+        assertEquals("asked 1 day ago", textView.text)
     }
 
     @Test
@@ -34,7 +34,7 @@ class TimeInfoTest : BaseTest() {
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        assertEquals("asked 2 days ago", textView)
+        assertEquals("asked 2 days ago", textView.text)
     }
 
     @Test
@@ -44,7 +44,7 @@ class TimeInfoTest : BaseTest() {
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        assertEquals("asked 1 year ago", textView)
+        assertEquals("asked 1 year ago", textView.text)
     }
 
     @Test
@@ -54,7 +54,7 @@ class TimeInfoTest : BaseTest() {
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        assertEquals("asked 2 years ago", textView)
+        assertEquals("asked 2 years ago", textView.text)
     }
 
     @Test
@@ -64,7 +64,7 @@ class TimeInfoTest : BaseTest() {
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        assertEquals("edited 1 month ago", textView)
+        assertEquals("edited 1 month ago", textView.text)
     }
 
     @Test
@@ -74,7 +74,7 @@ class TimeInfoTest : BaseTest() {
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        assertEquals("edited 2 months ago", textView)
+        assertEquals("edited 2 months ago", textView.text)
     }
 
     @Test
@@ -84,7 +84,7 @@ class TimeInfoTest : BaseTest() {
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        assertEquals("asked 1 week ago", textView)
+        assertEquals("asked 1 week ago", textView.text)
     }
 
     @Test
@@ -94,7 +94,7 @@ class TimeInfoTest : BaseTest() {
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        assertEquals("asked 2 weeks ago", textView)
+        assertEquals("asked 2 weeks ago", textView.text)
     }
 
     @Test
@@ -104,7 +104,7 @@ class TimeInfoTest : BaseTest() {
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        assertEquals("asked 1 hour ago", textView)
+        assertEquals("asked 1 hour ago", textView.text)
     }
 
     @Test
@@ -114,7 +114,7 @@ class TimeInfoTest : BaseTest() {
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        assertEquals("asked 2 hours ago", textView)
+        assertEquals("asked 2 hours ago", textView.text)
     }
 
     @Test
@@ -124,7 +124,7 @@ class TimeInfoTest : BaseTest() {
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        assertEquals("answered 1 minute ago", textView)
+        assertEquals("answered 1 minute ago", textView.text)
     }
 
     @Test
@@ -134,7 +134,7 @@ class TimeInfoTest : BaseTest() {
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        assertEquals("answered 2 minutes ago", textView)
+        assertEquals("answered 2 minutes ago", textView.text)
     }
 
     @Test
@@ -144,6 +144,6 @@ class TimeInfoTest : BaseTest() {
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        assertEquals("answered 2 seconds ago", textView)
+        assertEquals("answered 2 seconds ago", textView.text)
     }
 }

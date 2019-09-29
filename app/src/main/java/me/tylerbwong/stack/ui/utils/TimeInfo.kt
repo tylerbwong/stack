@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.ui.utils
 
+import android.annotation.SuppressLint
 import android.widget.TextView
 import androidx.annotation.StringRes
 import com.soywiz.klock.DateTime
@@ -13,7 +14,8 @@ enum class UserActionType(@StringRes val labelResourceId: Int) {
     EDITED(R.string.edited)
 }
 
-fun TextView.formatTimeForActionType(actionType: UserActionType, timeStamp: Long): String {
+@SuppressLint("SetTextI18n")
+fun TextView.formatTimeForActionType(actionType: UserActionType, timeStamp: Long): TextView {
     val creationDate = DateTime.fromUnix(timeStamp.milliseconds.millisecondsLong)
     val dateCalculation = (creationDate until DateTime.now()).span
 
@@ -87,6 +89,8 @@ fun TextView.formatTimeForActionType(actionType: UserActionType, timeStamp: Long
         else -> this.resources.getString(R.string.seconds, dateCalculation.seconds)
     }
 
-    return "$userAction $timeUserAction"
+    text = "$userAction $timeUserAction"
+
+    return this
 
 }
