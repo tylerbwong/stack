@@ -80,4 +80,6 @@
 
     <!-- App version -->
     <string name="version">Version</string>
+
+    <string name="link_copied">Link copied to clipboard</string>
 </resources>

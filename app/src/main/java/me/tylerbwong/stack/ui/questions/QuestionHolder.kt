@@ -33,9 +33,9 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                 val contentManager =
                     context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 contentManager.setPrimaryClip(
-                    ClipData.newPlainText("linkText", dataModel.shareLink)
+                    ClipData.newPlainText(LABEL, dataModel.shareLink)
                 )
-                Toast.makeText(context, "Link copied to clipboard", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.link_copied, Toast.LENGTH_SHORT).show()
                 true
             }
 
@@ -43,5 +43,9 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
                 QuestionDetailActivity.startActivity(it.context, dataModel.questionId)
             }
         }
+    }
+
+    companion object {
+        private const val LABEL = "linkText"
     }
 }

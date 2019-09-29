@@ -1,11 +1,10 @@
 package me.tylerbwong.stack.ui
 
 import android.app.Application
-import me.tylerbwong.stack.BuildConfig
+import me.tylerbwong.stack.data.logging.Logger
 import me.tylerbwong.stack.data.persistence.StackDatabase
 import me.tylerbwong.stack.ui.theme.ThemeManager
 import me.tylerbwong.stack.ui.utils.markdown.Markdown
-import timber.log.Timber
 
 class StackApplication : Application() {
     override fun onCreate() {
@@ -19,8 +18,6 @@ class StackApplication : Application() {
 
         Markdown.init(this)
 
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
+        Logger.init(this)
     }
 }
