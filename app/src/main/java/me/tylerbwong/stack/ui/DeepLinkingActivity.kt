@@ -14,7 +14,7 @@ class DeepLinkingActivity : BaseActivity() {
             if (resolvedIntent != null) {
                 startActivity(resolvedIntent)
             } else {
-                Toast.makeText(this, getString(R.string.deep_link_error), Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.deep_link_error, Toast.LENGTH_LONG).show()
             }
         }
         finish()
