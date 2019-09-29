@@ -21,168 +21,129 @@ class TimeInfoTest : BaseTest() {
     fun `format the date time based on stack overflow asked user actions in a day`() {
         val actionType = UserActionType.ASKED
         val fetchedDate = (now - 1.days).unixMillisLong
-        val txtView = TextView(context)
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        txtView.text = "asked 1 day ago"
-
-        assertEquals(txtView.text, textView)
+        assertEquals("asked 1 day ago", textView)
     }
 
     @Test
     fun `format the date time based on stack overflow asked user actions in a days`() {
         val actionType = UserActionType.ASKED
         val fetchedDate = (now - 2.days).unixMillisLong
-        val txtView = TextView(context)
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        txtView.text = "asked 2 days ago"
-
-        assertEquals(txtView.text, textView)
+        assertEquals("asked 2 days ago", textView)
     }
 
     @Test
     fun `format the date time based on stack overflow asked user actions in a year`() {
         val actionType = UserActionType.ASKED
         val fetchedDate = (now - 1.years).unixMillisLong
-        val txtView = TextView(context)
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        txtView.text = "asked 1 year ago"
-
-        assertEquals(textView, txtView.text)
+        assertEquals("asked 1 year ago", textView)
     }
 
     @Test
     fun `format the date time based on stack overflow asked user actions in a years`() {
         val actionType = UserActionType.ASKED
         val fetchedDate = (now - 2.years).unixMillisLong
-        val txtView = TextView(context)
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        txtView.text = "asked 2 years ago"
-
-        assertEquals(textView, txtView.text)
+        assertEquals("asked 2 years ago", textView)
     }
 
     @Test
     fun `format the date time based on stack overflow edited user actions in a month`() {
         val actionType = UserActionType.EDITED
         val fetchedDate = (now - 1.months).unixMillisLong
-        val txtView = TextView(context)
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        txtView.text = "edited 1 month ago"
-
-        assertEquals(textView, txtView.text)
+        assertEquals("edited 1 month ago", textView)
     }
 
     @Test
     fun `format the date time based on stack overflow edited user actions in a months`() {
         val actionType = UserActionType.EDITED
         val fetchedDate = (now - 2.months).unixMillisLong
-        val txtView = TextView(context)
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        txtView.text = "edited 2 months ago"
-
-        assertEquals(textView, txtView.text)
+        assertEquals("edited 2 months ago", textView)
     }
 
     @Test
     fun `format the date time based on stack overflow asked user actions in a week`() {
         val actionType = UserActionType.ASKED
         val fetchedDate = (now - 1.weeks).unixMillisLong
-        val txtView = TextView(context)
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        txtView.text = "asked 1 week ago"
-
-        assertEquals(textView, txtView.text)
+        assertEquals("asked 1 week ago", textView)
     }
 
     @Test
     fun `format the date time based on stack overflow asked user actions in a weeks`() {
         val actionType = UserActionType.ASKED
         val fetchedDate = (now - 2.weeks).unixMillisLong
-        val txtView = TextView(context)
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        txtView.text = "asked 2 weeks ago"
-
-        assertEquals(textView, txtView.text)
+        assertEquals("asked 2 weeks ago", textView)
     }
 
     @Test
     fun `format the date time based on stack overflow asked user actions in a hour`() {
         val actionType = UserActionType.ASKED
         val fetchedDate = (now - 1.hours).unixMillisLong
-        val txtView = TextView(context)
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        txtView.text = "asked 1 hour ago"
-
-        assertEquals(textView, txtView.text)
+        assertEquals("asked 1 hour ago", textView)
     }
 
     @Test
     fun `format the date time based on stack overflow asked user actions in a hours`() {
         val actionType = UserActionType.ASKED
         val fetchedDate = (now - 2.hours).unixMillisLong
-        val txtView = TextView(context)
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        txtView.text = "asked 2 hours ago"
-
-        assertEquals(textView, txtView.text)
+        assertEquals("asked 2 hours ago", textView)
     }
 
     @Test
     fun `format the date time based on stack overflow answered user actions in a minute`() {
         val actionType = UserActionType.ANSWERED
         val fetchedDate = (now - 1.minutes).unixMillisLong
-        val txtView = TextView(context)
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        txtView.text = "answered 1 minute ago"
-
-        assertEquals(textView, txtView.text)
+        assertEquals("answered 1 minute ago", textView)
     }
 
     @Test
     fun `format the date time based on stack overflow answered user actions in a minutes`() {
         val actionType = UserActionType.ANSWERED
         val fetchedDate = (now - 2.minutes).unixMillisLong
-        val txtView = TextView(context)
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        txtView.text = "answered 2 minutes ago"
-
-        assertEquals(textView, txtView.text)
+        assertEquals("answered 2 minutes ago", textView)
     }
 
     @Test
     fun `format the date time based on stack overflow answered user actions in a seconds`() {
         val actionType = UserActionType.ANSWERED
         val fetchedDate = (now - 2.seconds).unixMillisLong
-        val txtView = TextView(context)
 
         val textView = TextView(context).formatTimeForActionType(actionType, fetchedDate)
 
-        txtView.text = "answered 2 seconds ago"
-
-        assertEquals(textView, txtView.text)
+        assertEquals("answered 2 seconds ago", textView)
     }
 }
