@@ -33,6 +33,7 @@ import me.tylerbwong.stack.data.model.HOT
 import me.tylerbwong.stack.data.model.MONTH
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
+import me.tylerbwong.stack.data.model.sortResourceId
 import me.tylerbwong.stack.ui.questions.HeaderDataModel
 import me.tylerbwong.stack.ui.questions.QuestionDataModel
 import me.tylerbwong.stack.ui.settings.SettingsActivity
@@ -45,7 +46,6 @@ import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
-import java.util.*
 
 class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
     SearchView.OnQueryTextListener, InstallStateUpdatedListener {
@@ -264,7 +264,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         val content = questions.toMutableList<DynamicDataModel>().apply {
             val subtitle: String = when {
                 !viewModel.isQueryBlank() -> "\"${viewModel.currentQuery}\""
-                else -> viewModel.currentSort.toLowerCase(Locale.US).capitalize()
+                else -> getString(viewModel.currentSort.sortResourceId)
             }
             add(0, HeaderDataModel(getString(R.string.questions), subtitle))
         }
