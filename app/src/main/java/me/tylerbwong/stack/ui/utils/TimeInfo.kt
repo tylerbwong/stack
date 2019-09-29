@@ -1,96 +1,49 @@
 package me.tylerbwong.stack.ui.utils
 
 import android.annotation.SuppressLint
-import android.widget.TextView
-import androidx.annotation.StringRes
+import android.content.Context
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.milliseconds
 import com.soywiz.klock.until
 import me.tylerbwong.stack.R
 
-enum class UserActionType(@StringRes val labelResourceId: Int) {
-    ASKED(R.string.asked),
-    ANSWERED(R.string.answered),
-    EDITED(R.string.edited)
-}
-
 @SuppressLint("SetTextI18n")
-fun TextView.formatTimeForActionType(actionType: UserActionType, timeStamp: Long): TextView {
-    val creationDate = DateTime.fromUnix(timeStamp.milliseconds.millisecondsLong)
+fun Long.formatElapsedTime(context: Context): String {
+    val creationDate = DateTime.fromUnix(this.milliseconds.millisecondsLong)
     val dateCalculation = (creationDate until DateTime.now()).span
 
-    val userAction = when (actionType) {
-        UserActionType.ASKED -> context.getString(UserActionType.ASKED.labelResourceId)
-        UserActionType.ANSWERED -> context.getString(UserActionType.ANSWERED.labelResourceId)
-        UserActionType.EDITED -> context.getString(UserActionType.EDITED.labelResourceId)
-    }
-
-    val timeUserAction = when {
-        dateCalculation.years > 1 -> this.resources.getQuantityString(
+    return when {
+        dateCalculation.years >= 1 -> context.resources.getQuantityString(
             R.plurals.year,
             dateCalculation.years,
             dateCalculation.years
         )
-        dateCalculation.years == 1 -> this.resources.getQuantityString(
-            R.plurals.year,
-            dateCalculation.years,
-            dateCalculation.years
-        )
-        dateCalculation.months > 1 -> this.resources.getQuantityString(
+        dateCalculation.months >= 1 -> context.resources.getQuantityString(
             R.plurals.month,
             dateCalculation.months,
             dateCalculation.months
         )
-        dateCalculation.months == 1 -> this.resources.getQuantityString(
-            R.plurals.month,
-            dateCalculation.months,
-            dateCalculation.months
-        )
-        dateCalculation.weeks > 1 -> this.resources.getQuantityString(
+        dateCalculation.weeks >= 1 -> context.resources.getQuantityString(
             R.plurals.week,
             dateCalculation.weeks,
             dateCalculation.weeks
         )
-        dateCalculation.weeks == 1 -> this.resources.getQuantityString(
-            R.plurals.week,
-            dateCalculation.weeks,
-            dateCalculation.weeks
-        )
-        dateCalculation.days > 1 -> this.resources.getQuantityString(
+        dateCalculation.days >= 1 -> context.resources.getQuantityString(
             R.plurals.day,
             dateCalculation.days,
             dateCalculation.days
         )
-        dateCalculation.days == 1 -> this.resources.getQuantityString(
-            R.plurals.day,
-            dateCalculation.days,
-            dateCalculation.days
-        )
-        dateCalculation.hours > 1 -> this.resources.getQuantityString(
+        dateCalculation.hours >= 1 -> context.resources.getQuantityString(
             R.plurals.hour,
             dateCalculation.hours,
             dateCalculation.hours
         )
-        dateCalculation.hours == 1 -> this.resources.getQuantityString(
-            R.plurals.hour,
-            dateCalculation.hours,
-            dateCalculation.hours
-        )
-        dateCalculation.minutes > 1 -> this.resources.getQuantityString(
-            R.plurals.min,
+        dateCalculation.minutes >= 1 -> context.resources.getQuantityString(
+            R.plurals.minute,
             dateCalculation.minutes,
             dateCalculation.minutes
         )
-        dateCalculation.minutes == 1 -> this.resources.getQuantityString(
-            R.plurals.min,
-            dateCalculation.minutes,
-            dateCalculation.minutes
-        )
-        else -> this.resources.getString(R.string.seconds, dateCalculation.seconds)
+        else -> context.resources.getString(R.string.seconds, dateCalculation.seconds)
     }
-
-    text = "$userAction $timeUserAction"
-
-    return this
 
 }

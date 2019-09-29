@@ -2,14 +2,14 @@
 <resources>
 
     <!--  User Action Types  -->
-    <string name="asked">asked</string>
-    <string name="answered">answered</string>
-    <string name="edited">edited</string>
+    <string name="asked">asked %1$s</string>
+    <string name="answered">answered %1$s</string>
+    <string name="edited">edited %1$s</string>
 
     <!-- Timestamp setup -->
     <string name="seconds">%1$d seconds ago</string>
 
-    <plurals name="min">
+    <plurals name="minute">
         <item quantity="one">%1$d minute ago</item>
         <item quantity="other">%1$d minutes ago</item>
     </plurals>
