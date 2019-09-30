@@ -7,7 +7,10 @@
     <string name="edited">edited %1$s</string>
 
     <!-- Timestamp setup -->
-    <string name="seconds">%1$d seconds ago</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$d second ago</item>
+        <item quantity="other">%1$d seconds ago</item>
+    </plurals>
 
     <plurals name="minute">
         <item quantity="one">%1$d minute ago</item>

@@ -7,7 +7,7 @@ import com.soywiz.klock.until
 import me.tylerbwong.stack.R
 
 fun Long.formatElapsedTime(context: Context): String {
-    val creationDate = DateTime.fromUnix(this.milliseconds.millisecondsLong)
+    val creationDate = DateTime.fromUnix(milliseconds.millisecondsLong)
     val dateCalculation = (creationDate until DateTime.now()).span
 
     return when {
@@ -41,6 +41,10 @@ fun Long.formatElapsedTime(context: Context): String {
             dateCalculation.minutes,
             dateCalculation.minutes
         )
-        else -> context.resources.getString(R.string.seconds, dateCalculation.seconds)
+        else -> context.resources.getQuantityString(
+            R.plurals.seconds,
+            dateCalculation.seconds,
+            dateCalculation.seconds
+        )
     }
 }
