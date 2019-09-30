@@ -51,7 +51,11 @@
     </style>
 
     <style name="MainToolbarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:textColorSecondary">?attr/iconColor</item>
+        <item name="android:actionOverflowButtonStyle">@style/ActionBarOverflowButtonStyle</item>
+    </style>
+
+    <style name="ActionBarOverflowButtonStyle" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_more_vert</item>
     </style>
 
     <style name="TabTextAppearance" parent="@style/TextAppearance.Design.Tab">

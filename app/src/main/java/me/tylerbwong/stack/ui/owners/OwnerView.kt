@@ -31,6 +31,7 @@ class OwnerView @JvmOverloads constructor(
         GlideApp.with(this)
             .load(owner.profileImage)
             .transition(DrawableTransitionOptions.withCrossFade())
+            .error(R.drawable.user_image_placeholder)
             .placeholder(R.drawable.user_image_placeholder)
             .apply(RequestOptions.circleCropTransform())
             .into(userImage)

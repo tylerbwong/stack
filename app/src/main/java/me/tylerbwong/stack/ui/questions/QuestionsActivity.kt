@@ -21,7 +21,6 @@ import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
-import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
@@ -61,9 +60,6 @@ class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
         recyclerView.apply {
             adapter = this@QuestionsActivity.adapter
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(
-                ViewHolderItemDecoration(context.resources.getDimensionPixelSize(R.dimen.item_spacing_main))
-            )
         }
     }
 

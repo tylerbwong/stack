@@ -110,7 +110,7 @@ interface QuestionService {
         private const val BODY_PARAM = "body"
         private const val PREVIEW_PARAM = "preview"
 
-        internal const val DEFAULT_FILTER = "!-N4vhDh8TGjM*h(2reCz3exHc6q)hWsdi"
+        internal const val DEFAULT_FILTER = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9("
         internal const val DETAIL_FILTER =
             "!3r.zRmD4l6rHdTgXfBOo(qq6rg_D3I7uaTO)p123.RRrNwbbeBOKxJp8dch552I"
     }

@@ -17,7 +17,6 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.HeaderDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.SpaceDataModel
-import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 
 class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private val viewModel by viewModels<CommentsViewModel>()
@@ -40,11 +39,6 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         recyclerView.apply {
             adapter = this@CommentsBottomSheetDialogFragment.adapter
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(
-                ViewHolderItemDecoration(
-                    context.resources.getDimensionPixelSize(R.dimen.item_spacing_main)
-                )
-            )
         }
         viewModel.data.observe(viewLifecycleOwner) {
             adapter.update(

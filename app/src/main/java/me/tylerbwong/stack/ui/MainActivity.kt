@@ -40,7 +40,6 @@ import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.GlideApp
-import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
@@ -94,6 +93,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
                     GlideApp.with(this)
                         .load(it)
                         .transition(DrawableTransitionOptions.withCrossFade())
+                        .error(R.drawable.user_image_placeholder)
                         .placeholder(R.drawable.user_image_placeholder)
                         .apply(RequestOptions.circleCropTransform())
                         .into(this)
@@ -106,9 +106,6 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         recyclerView.apply {
             adapter = this@MainActivity.adapter
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(
-                ViewHolderItemDecoration(context.resources.getDimensionPixelSize(R.dimen.item_spacing_main))
-            )
         }
         searchView.setOnQueryTextListener(this)
         searchView.findViewById<ImageView>(R.id.search_close_btn)?.setOnClickListener {

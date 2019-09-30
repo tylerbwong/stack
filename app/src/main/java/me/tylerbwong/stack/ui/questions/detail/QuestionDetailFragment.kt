@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.question_detail_fragment.*
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.R.dimen
 import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
 import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
@@ -67,7 +66,7 @@ class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
                     ViewHolderItemDecoration(
-                            context.resources.getDimensionPixelSize(dimen.item_spacing_question_detail),
+                            context.resources.getDimensionPixelSize(R.dimen.item_spacing_question_detail),
                             removeSideSpacing = true,
                             removeTopSpacing = true
                     )

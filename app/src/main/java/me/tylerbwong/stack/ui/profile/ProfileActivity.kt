@@ -19,7 +19,6 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.GlideApp
-import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
@@ -54,6 +53,7 @@ class ProfileActivity : BaseActivity() {
             GlideApp.with(this)
                 .load(it.profileImage)
                 .transition(DrawableTransitionOptions.withCrossFade())
+                .error(R.drawable.user_image_placeholder)
                 .placeholder(R.drawable.user_image_placeholder)
                 .apply(RequestOptions.circleCropTransform())
                 .into(userImage)
@@ -83,11 +83,6 @@ class ProfileActivity : BaseActivity() {
         recyclerView.apply {
             adapter = this@ProfileActivity.adapter
             layoutManager = LinearLayoutManager(this@ProfileActivity)
-            addItemDecoration(
-                ViewHolderItemDecoration(
-                    context.resources.getDimensionPixelSize(R.dimen.item_spacing_main)
-                )
-            )
         }
 
         refreshLayout.setOnRefreshListener { viewModel.getUserQuestionsAndAnswers() }

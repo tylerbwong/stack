@@ -21,11 +21,6 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
             questionTitle.text = dataModel.questionTitle.toHtml()
             answerCount.text = dataModel.answerCount.toString()
 
-            questionBody.apply {
-                text = dataModel.questionBody?.toHtml()
-                setTextIsSelectable(false)
-            }
-
             ownerView.bind(dataModel.owner)
 
             itemView.setOnLongClickListener {
