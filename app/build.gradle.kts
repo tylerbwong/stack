@@ -77,6 +77,9 @@ dependencies {
     implementation(Dep.ktxLiveDataExtensions)
     implementation(Dep.materialComponents)
 
+    // klock date/time
+    implementation(Dep.klock)
+
     // betterlinkmovementmethod
     implementation(Dep.betterLinkMovementMethod)
 
