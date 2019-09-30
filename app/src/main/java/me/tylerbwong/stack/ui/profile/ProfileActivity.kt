@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.observe
@@ -113,13 +114,14 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
         fun startActivity(
             context: Context,
             userId: Int,
-            isFromDeepLink: Boolean = false
+            isFromDeepLink: Boolean = false,
+            aoc: ActivityOptionsCompat
         ) {
             val intent = Intent(context, ProfileActivity::class.java).apply {
                 putExtra(USER_ID, userId)
                 putExtra(IS_FROM_DEEP_LINK, isFromDeepLink)
             }
-            context.startActivity(intent)
+            context.startActivity(intent, aoc.toBundle())
         }
     }
 }
