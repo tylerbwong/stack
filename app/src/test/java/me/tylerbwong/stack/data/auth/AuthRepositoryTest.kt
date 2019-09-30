@@ -14,9 +14,11 @@ import me.tylerbwong.stack.data.persistence.dao.UserDao
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.never
@@ -40,7 +42,7 @@ class AuthRepositoryTest : BaseTest() {
 
     @Before
     fun setUp() {
-        repository = AuthRepository(userDao, userService, authService)
+        repository = AuthRepository(userService, authService)
     }
 
     @Test
@@ -93,9 +95,9 @@ class AuthRepositoryTest : BaseTest() {
                 StackResponse(listOf(testUser), false)
             )
             AuthStore.setAccessToken(testUri)
-            repository.getCurrentUser()
+            assertEquals(testUser, repository.getCurrentUser())
             verify(userService).getCurrentUser(any(), any(), any())
-            verify(userDao).insert(any())
+//            verify(userDao).insert(any())
         }
     }
 
@@ -132,16 +134,17 @@ class AuthRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `getCurrentUser with throwing db call returns null`() {
+    @Ignore("AuthRepository no longer stores the current user in the db")
+    fun `getCurrentUser with throwing db call still returns the user from the service`() {
         runBlocking {
             whenever(userService.getCurrentUser(any(), any(), any())).thenReturn(
                 StackResponse(listOf(testUser), false)
             )
             whenever(userDao.insert(any())).thenThrow(IllegalStateException("Could not insert"))
             AuthStore.setAccessToken(testUri)
-            assertNull(repository.getCurrentUser())
+            assertEquals(testUser, repository.getCurrentUser())
             verify(userService).getCurrentUser(any(), any(), any())
-            verify(userDao).insert(any())
+//            verify(userDao).insert(any())
         }
     }
 
