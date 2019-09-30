@@ -14,10 +14,9 @@ import org.junit.Test
 
 class TimeInfoTest : BaseTest() {
 
-    private val now = DateTime.now()
-
     @Test
     fun `format the date time based on stack overflow asked user actions in a day`() {
+        val now = DateTime.now()
         val fetchedDate = (now - 1.days).unixMillisLong
 
         val elapsedTime = fetchedDate.formatElapsedTime(context)
@@ -27,6 +26,7 @@ class TimeInfoTest : BaseTest() {
 
     @Test
     fun `format the date time based on stack overflow asked user actions in a days`() {
+        val now = DateTime.now()
         val fetchedDate = (now - 2.days).unixMillisLong
 
         val elapsedTime = fetchedDate.formatElapsedTime(context)
@@ -36,6 +36,7 @@ class TimeInfoTest : BaseTest() {
 
     @Test
     fun `format the date time based on stack overflow asked user actions in a year`() {
+        val now = DateTime.now()
         val fetchedDate = (now - 1.years).unixMillisLong
 
         val elapsedTime = fetchedDate.formatElapsedTime(context)
@@ -45,6 +46,7 @@ class TimeInfoTest : BaseTest() {
 
     @Test
     fun `format the date time based on stack overflow asked user actions in a years`() {
+        val now = DateTime.now()
         val fetchedDate = (now - 2.years).unixMillisLong
 
         val elapsedTime = fetchedDate.formatElapsedTime(context)
@@ -54,7 +56,8 @@ class TimeInfoTest : BaseTest() {
 
     @Test
     fun `format the date time based on stack overflow edited user actions in a month`() {
-        val fetchedDate = (now - 1.months).unixMillisLong
+        val now = DateTime.now()
+        val fetchedDate = (now - 1.months - 1.days).unixMillisLong
 
         val elapsedTime = fetchedDate.formatElapsedTime(context)
 
@@ -63,6 +66,7 @@ class TimeInfoTest : BaseTest() {
 
     @Test
     fun `format the date time based on stack overflow edited user actions in a months`() {
+        val now = DateTime.now()
         val fetchedDate = (now - 2.months).unixMillisLong
 
         val elapsedTime = fetchedDate.formatElapsedTime(context)
@@ -72,6 +76,7 @@ class TimeInfoTest : BaseTest() {
 
     @Test
     fun `format the date time based on stack overflow asked user actions in a week`() {
+        val now = DateTime.now()
         val fetchedDate = (now - 1.weeks).unixMillisLong
 
         val elapsedTime = fetchedDate.formatElapsedTime(context)
@@ -81,6 +86,7 @@ class TimeInfoTest : BaseTest() {
 
     @Test
     fun `format the date time based on stack overflow asked user actions in a weeks`() {
+        val now = DateTime.now()
         val fetchedDate = (now - 2.weeks).unixMillisLong
 
         val elapsedTime = fetchedDate.formatElapsedTime(context)
@@ -90,6 +96,7 @@ class TimeInfoTest : BaseTest() {
 
     @Test
     fun `format the date time based on stack overflow asked user actions in a hour`() {
+        val now = DateTime.now()
         val fetchedDate = (now - 1.hours).unixMillisLong
 
         val elapsedTime = fetchedDate.formatElapsedTime(context)
@@ -99,6 +106,7 @@ class TimeInfoTest : BaseTest() {
 
     @Test
     fun `format the date time based on stack overflow asked user actions in a hours`() {
+        val now = DateTime.now()
         val fetchedDate = (now - 2.hours).unixMillisLong
 
         val elapsedTime = fetchedDate.formatElapsedTime(context)
@@ -108,6 +116,7 @@ class TimeInfoTest : BaseTest() {
 
     @Test
     fun `format the date time based on stack overflow answered user actions in a minute`() {
+        val now = DateTime.now()
         val fetchedDate = (now - 1.minutes).unixMillisLong
 
         val elapsedTime = fetchedDate.formatElapsedTime(context)
@@ -117,6 +126,7 @@ class TimeInfoTest : BaseTest() {
 
     @Test
     fun `format the date time based on stack overflow answered user actions in a minutes`() {
+        val now = DateTime.now()
         val fetchedDate = (now - 2.minutes).unixMillisLong
 
         val elapsedTime = fetchedDate.formatElapsedTime(context)
@@ -126,6 +136,7 @@ class TimeInfoTest : BaseTest() {
 
     @Test
     fun `format the date time based on stack overflow answered user actions in a seconds`() {
+        val now = DateTime.now()
         val fetchedDate = (now - 2.seconds).unixMillisLong
 
         val elapsedTime = fetchedDate.formatElapsedTime(context)

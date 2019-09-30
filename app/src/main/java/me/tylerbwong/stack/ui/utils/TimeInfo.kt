@@ -1,13 +1,11 @@
 package me.tylerbwong.stack.ui.utils
 
-import android.annotation.SuppressLint
 import android.content.Context
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.milliseconds
 import com.soywiz.klock.until
 import me.tylerbwong.stack.R
 
-@SuppressLint("SetTextI18n")
 fun Long.formatElapsedTime(context: Context): String {
     val creationDate = DateTime.fromUnix(this.milliseconds.millisecondsLong)
     val dateCalculation = (creationDate until DateTime.now()).span
@@ -45,5 +43,4 @@ fun Long.formatElapsedTime(context: Context): String {
         )
         else -> context.resources.getString(R.string.seconds, dateCalculation.seconds)
     }
-
 }
