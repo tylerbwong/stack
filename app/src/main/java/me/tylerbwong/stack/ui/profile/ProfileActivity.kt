@@ -88,7 +88,7 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
 
-        include_profile_header.userImage.transitionName = "transitionComp"
+        include_profile_header.userImage.transitionName = resources.getString(R.string.transition)
 
         recyclerView.apply {
             adapter = this@ProfileActivity.adapter

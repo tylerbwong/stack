@@ -3,20 +3,20 @@ package me.tylerbwong.stack.ui.owners
 import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import coil.api.load
 import coil.transform.CircleCropTransformation
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import kotlinx.android.synthetic.main.owner_view.view.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.User
-import androidx.core.app.ActivityOptionsCompat
 import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.toHtml
-
-const val SHARED_COMPONENT_NAME = "transitionComp"
 
 class OwnerView @JvmOverloads constructor(
     context: Context,
@@ -41,8 +41,7 @@ class OwnerView @JvmOverloads constructor(
             (context as? Activity)?.let {
                 val aoc = ActivityOptionsCompat.makeSceneTransitionAnimation(
                     it,
-                    userImage,
-                    SHARED_COMPONENT_NAME
+                    Pair<View, String>(userImage, context.getString(R.string.transition))
                 )
                 ProfileActivity.startActivity(
                     context = context,
