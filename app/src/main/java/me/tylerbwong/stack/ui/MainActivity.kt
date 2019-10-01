@@ -3,6 +3,7 @@ package me.tylerbwong.stack.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.transition.Fade
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -53,6 +54,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
         ApplicationWrapper.uiComponent.inject(this)
         setSupportActionBar(toolbar)
         setupBottomNavigation()
+        setupFade()
 
         supportActionBar?.title = ""
 
@@ -88,6 +90,16 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
         appUpdater.checkForUpdate(this)
 
         populateContent(savedInstanceState)
+    }
+
+    private fun setupFade() {
+        val fade = Fade()
+        fade.excludeTarget(R.id.appBar, true)
+        fade.excludeTarget(android.R.id.statusBarBackground, true)
+        fade.excludeTarget(android.R.id.navigationBarBackground, true)
+
+        window.enterTransition = fade
+        window.exitTransition = fade
     }
 
     override fun onResume() {

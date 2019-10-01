@@ -3,6 +3,7 @@ package me.tylerbwong.stack.ui.profile
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.transition.Fade
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -41,6 +42,8 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
         super.onCreate(savedInstanceState)
         ApplicationWrapper.uiComponent.inject(this)
         setSupportActionBar(toolbar)
+
+        setupFade()
 
         viewModel.userId = intent.getIntExtra(USER_ID, 0)
         viewModel.refreshing.observe(this) {
@@ -95,6 +98,16 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
         refreshLayout.setOnRefreshListener { viewModel.getUserQuestionsAndAnswers() }
 
         viewModel.getUserQuestionsAndAnswers()
+    }
+
+    private fun setupFade() {
+        val fade = Fade()
+        fade.excludeTarget(R.id.appBar, true)
+        fade.excludeTarget(android.R.id.statusBarBackground, true)
+        fade.excludeTarget(android.R.id.navigationBarBackground, true)
+
+        window.enterTransition = fade
+        window.exitTransition = fade
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
