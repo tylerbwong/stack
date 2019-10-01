@@ -12,7 +12,6 @@
         android:layout_height="72dp"
         android:layout_marginBottom="8dp"
         android:scaleType="centerInside"
-        android:transitionName="transitionComp"
         tools:src="@drawable/user_image_placeholder" />
 
     <TextView

@@ -9,7 +9,6 @@ import coil.transform.CircleCropTransformation
 import kotlinx.android.synthetic.main.owner_view.view.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.User
-import me.tylerbwong.stack.ui.MainActivity
 import androidx.core.app.ActivityOptionsCompat
 import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.utils.format

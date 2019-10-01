@@ -16,6 +16,7 @@ import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.profile_header.*
+import kotlinx.android.synthetic.main.profile_header.view.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
@@ -83,6 +84,8 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
+
+        include_profile_header.userImage.transitionName = "transitionComp"
 
         recyclerView.apply {
             adapter = this@ProfileActivity.adapter
