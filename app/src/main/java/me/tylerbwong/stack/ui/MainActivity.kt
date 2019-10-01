@@ -6,13 +6,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import coil.api.load
-import android.view.View
 import coil.transform.CircleCropTransformation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -29,18 +27,13 @@ import me.tylerbwong.stack.ui.drafts.DraftsFragment
 import me.tylerbwong.stack.ui.home.HomeFragment
 import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.SettingsActivity
-import me.tylerbwong.stack.data.model.User
-import me.tylerbwong.stack.ui.profile.ProfileActivity
-import me.tylerbwong.stack.ui.utils.OnClickHandler
-import me.tylerbwong.stack.ui.utils.SHARED_COMPONENT_NAME
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
-class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedListener,
-    OnClickHandler {
+class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedListener {
 
     @Inject
     lateinit var mainViewModelFactory: MainViewModelFactory
@@ -208,26 +201,6 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
                 }
             }
         )
-    }
-
-    /*private fun updateContent(questions: List<Question>) {
-        val content = questions.toMutableList<DynamicDataModel>().apply {
-            val subtitle: String = when {
-                !viewModel.isQueryBlank() -> "\"${viewModel.currentQuery}\""
-                else -> getString(viewModel.currentSort.sortResourceId)
-            }
-            add(0, HeaderDataModel(getString(R.string.questions), subtitle))
-        }
-        adapter.update(content)
-    }*/
-
-    override fun onClickOpenProfilePage(owner: User, view: View) {
-        val aoc = ActivityOptionsCompat.makeSceneTransitionAnimation(
-            this,
-            view,
-            SHARED_COMPONENT_NAME
-        )
-        ProfileActivity.startActivity(this, owner.userId, false, aoc)
     }
 
     private fun showLogOutDialog() {

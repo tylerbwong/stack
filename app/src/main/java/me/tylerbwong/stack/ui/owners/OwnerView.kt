@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.ui.owners
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -9,11 +10,14 @@ import kotlinx.android.synthetic.main.owner_view.view.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.ui.MainActivity
-import me.tylerbwong.stack.ui.utils.OnClickHandler
+import androidx.core.app.ActivityOptionsCompat
+import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.toHtml
+
+const val SHARED_COMPONENT_NAME = "transitionComp"
 
 class OwnerView @JvmOverloads constructor(
     context: Context,
@@ -22,11 +26,8 @@ class OwnerView @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : ConstraintLayout(context, attrs, defStyle, defStyleRes) {
 
-    private val onClick: OnClickHandler?
-
     init {
         inflate<ConstraintLayout>(R.layout.owner_view, attachToRoot = true)
-        onClick = context as? MainActivity
     }
 
     fun bind(owner: User) {
@@ -38,7 +39,19 @@ class OwnerView @JvmOverloads constructor(
             transformations(CircleCropTransformation())
         }
         userImage.setThrottledOnClickListener {
-            onClick?.onClickOpenProfilePage(owner, it)
+            (context as? Activity)?.let {
+                val aoc = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    it,
+                    userImage,
+                    SHARED_COMPONENT_NAME
+                )
+                ProfileActivity.startActivity(
+                    context = context,
+                    userId = owner.userId,
+                    isFromDeepLink = false,
+                    aoc = aoc
+                )
+            }
         }
         badgeView.badgeCounts = owner.badgeCounts
         reputation.text = owner.reputation.toLong().format()
