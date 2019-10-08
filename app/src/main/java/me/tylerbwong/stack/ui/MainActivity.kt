@@ -206,15 +206,14 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == AppUpdater.APP_UPDATE_REQUEST_CODE) {
-            when (resultCode) {
-                RESULT_OK -> checkForPendingInstall()
-                else -> {
-                    rootLayout.showSnackbar(
-                        R.string.update_not_downloaded,
-                        R.string.update,
-                        Snackbar.LENGTH_LONG
-                    ) { appUpdater.checkForUpdate(this) }
-                }
+            if (resultCode == RESULT_OK) {
+                checkForPendingInstall()
+            } else {
+                rootLayout.showSnackbar(
+                    R.string.update_not_downloaded,
+                    R.string.update,
+                    Snackbar.LENGTH_LONG
+                ) { appUpdater.checkForUpdate(this) }
             }
         }
     }
@@ -259,9 +258,10 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
 
     private fun updateContent(questions: List<QuestionDataModel>) {
         val content = questions.toMutableList<DynamicDataModel>().apply {
-            val subtitle: String = when {
-                !viewModel.isQueryBlank() -> "\"${viewModel.currentQuery}\""
-                else -> getString(viewModel.currentSort.sortResourceId)
+            val subtitle: String = if (!viewModel.isQueryBlank()) {
+                "\"${viewModel.currentQuery}\""
+            } else {
+                getString(viewModel.currentSort.sortResourceId)
             }
             add(0, HeaderDataModel(getString(R.string.questions), subtitle))
         }
