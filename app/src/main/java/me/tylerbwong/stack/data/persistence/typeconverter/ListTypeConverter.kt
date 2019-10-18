@@ -1,20 +1,20 @@
 package me.tylerbwong.stack.data.persistence.typeconverter
 
 import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import me.tylerbwong.stack.data.network.ServiceProvider
 
-class ListTypeConverter {
-
-    private val gson by lazy { Gson() }
+class ListTypeConverter(private val moshi: Moshi = ServiceProvider.moshi) {
 
     @TypeConverter
-    fun stringListToJson(stringList: List<String>?): String? = stringList?.let { gson.toJson(it) }
+    fun stringListToJson(stringList: List<String>?): String? = stringList?.let {
+        moshi.adapter(List::class.java).toJson(it)
+    }
 
     @TypeConverter
     fun jsonToStringList(json: String?): List<String>? = json?.let {
-        with(object : TypeToken<List<String>>() {}.type) {
-            gson.fromJson(it, this)
-        }
+        val type = Types.newParameterizedType(List::class.java, String::class.java)
+        moshi.adapter<List<String>>(type).fromJson(it)
     }
 }

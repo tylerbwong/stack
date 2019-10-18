@@ -1,23 +1,25 @@
 package me.tylerbwong.stack.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class Answer(
-    @SerializedName("answer_id")
+    @Json(name = "answer_id")
     val answerId: Int,
     val owner: User,
-    @SerializedName("down_vote_count")
+    @Json(name = "down_vote_count")
     val downVoteCount: Int,
-    @SerializedName("up_vote_count")
+    @Json(name = "up_vote_count")
     val upVoteCount: Int,
-    @SerializedName("is_accepted")
+    @Json(name = "is_accepted")
     val isAccepted: Boolean,
     val score: Int,
-    @SerializedName("creation_date")
+    @Json(name = "creation_date")
     val creationDate: Long,
-    @SerializedName("body_markdown")
+    @Json(name = "body_markdown")
     val bodyMarkdown: String,
-    @SerializedName("last_editor")
+    @Json(name = "last_editor")
     val lastEditor: User?,
     val comments: List<Comment>
 )
