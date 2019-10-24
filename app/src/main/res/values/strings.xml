@@ -117,7 +117,7 @@
     <string name="experimental">Experimental</string>
 
     <!-- Transition string -->
-    <string name="transition">transition</string>
+    <string name="shared_transition_name">transition</string>
 
     <!-- App version -->
     <string name="version">Version</string>

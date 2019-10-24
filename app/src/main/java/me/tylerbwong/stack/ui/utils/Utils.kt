@@ -1,9 +1,11 @@
 package me.tylerbwong.stack.ui.utils
 
+import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
+import android.transition.Fade
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,4 +58,21 @@ fun View.hideKeyboard() {
 fun View.showKeyboard() {
     context.systemService<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
         ?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+}
+
+fun <T> Activity.setSharedTransition(vararg excludedComp: T) {
+    val fade = Fade().apply {
+        excludedComp.forEach {
+            when (it) {
+                is Int -> this.excludeTarget(it, true)
+                is View -> this.excludeTarget(it, true)
+                is String -> this.excludeTarget(it, true)
+                else -> {
+                }
+            }
+        }
+    }
+
+    window.enterTransition = fade
+    window.exitTransition = fade
 }

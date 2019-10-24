@@ -3,7 +3,6 @@ package me.tylerbwong.stack.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.transition.Fade
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -30,6 +29,7 @@ import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.setSharedTransition
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
@@ -93,13 +93,11 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
     }
 
     private fun setupFade() {
-        val fade = Fade()
-        fade.excludeTarget(R.id.appBar, true)
-        fade.excludeTarget(android.R.id.statusBarBackground, true)
-        fade.excludeTarget(android.R.id.navigationBarBackground, true)
-
-        window.enterTransition = fade
-        window.exitTransition = fade
+        this.setSharedTransition(
+            R.id.appBar,
+            android.R.id.statusBarBackground,
+            android.R.id.navigationBarBackground
+        )
     }
 
     override fun onResume() {

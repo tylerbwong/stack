@@ -3,7 +3,6 @@ package me.tylerbwong.stack.ui.profile
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.transition.Fade
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -24,6 +23,7 @@ import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.questions.QuestionAdapter
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.setSharedTransition
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
@@ -88,7 +88,8 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
 
-        include_profile_header.userImage.transitionName = resources.getString(R.string.transition)
+        includeProfileHeader.userImage.transitionName =
+            resources.getString(R.string.shared_transition_name)
 
         recyclerView.apply {
             adapter = this@ProfileActivity.adapter
@@ -101,13 +102,11 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
     }
 
     private fun setupFade() {
-        val fade = Fade()
-        fade.excludeTarget(R.id.appBar, true)
-        fade.excludeTarget(android.R.id.statusBarBackground, true)
-        fade.excludeTarget(android.R.id.navigationBarBackground, true)
-
-        window.enterTransition = fade
-        window.exitTransition = fade
+        this.setSharedTransition(
+            R.id.appBar,
+            android.R.id.statusBarBackground,
+            android.R.id.navigationBarBackground
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

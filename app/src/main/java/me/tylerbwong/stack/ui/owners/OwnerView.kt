@@ -41,7 +41,10 @@ class OwnerView @JvmOverloads constructor(
             (context as? Activity)?.let {
                 val aoc = ActivityOptionsCompat.makeSceneTransitionAnimation(
                     it,
-                    Pair<View, String>(userImage, context.getString(R.string.transition))
+                    Pair<View, String>(
+                        userImage,
+                        context.getString(R.string.shared_transition_name)
+                    )
                 )
                 ProfileActivity.startActivity(
                     context = context,
