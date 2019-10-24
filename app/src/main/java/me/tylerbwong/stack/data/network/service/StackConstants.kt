@@ -21,5 +21,5 @@ internal const val DEFAULT_SITE = "stackoverflow"
 internal const val DEFAULT_SORT = ACTIVITY
 @Order
 internal const val DEFAULT_ORDER = DESC
-internal const val DEFAULT_PAGE_SIZE = 50
+internal const val DEFAULT_PAGE_SIZE = 75
 internal const val DEFAULT_PAGE = 1
