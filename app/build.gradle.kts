@@ -94,12 +94,11 @@ dependencies {
     kapt(Dep.glideProcessor)
 
     // networking
-    implementation(Dep.moshi)
-    kapt(Dep.moshiKotlinCodegen)
+    implementation(Dep.gson)
     implementation(Dep.okHttp)
     implementation(Dep.okHttpLogger)
     implementation(Dep.retrofit)
-    implementation(Dep.retrofitMoshiConverter)
+    implementation(Dep.retrofitGsonConverter)
 
     // markdown
     implementation(Dep.apacheCommonsText)

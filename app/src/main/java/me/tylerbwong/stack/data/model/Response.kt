@@ -1,11 +1,9 @@
 package me.tylerbwong.stack.data.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
-@JsonClass(generateAdapter = true)
 data class Response<out T>(
     val items: List<T>,
-    @Json(name = "has_more")
+    @SerializedName("has_more")
     val hasMore: Boolean
 )

@@ -1,6 +1,5 @@
 package me.tylerbwong.stack.data.network
 
-import com.squareup.moshi.Moshi
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.auth.AuthInterceptor
 import me.tylerbwong.stack.data.network.service.AuthService
@@ -10,11 +9,9 @@ import me.tylerbwong.stack.data.network.service.UserService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceProvider {
-
-    internal val moshi by lazy { Moshi.Builder().build() }
 
     private val okHttpClient by lazy {
         val okHttpClientBuilder = OkHttpClient.Builder()
@@ -33,7 +30,7 @@ object ServiceProvider {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 

@@ -1,48 +1,46 @@
 package me.tylerbwong.stack.data.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
  * Question model.
  */
-@JsonClass(generateAdapter = true)
 data class Question(
-    @Json(name = "answer_count")
+    @SerializedName("answer_count")
     val answerCount: Int,
     val body: String?,
-    @Json(name = "body_markdown")
+    @SerializedName("body_markdown")
     val bodyMarkdown: String?,
-    @Json(name = "closed_date")
+    @SerializedName("closed_date")
     val closedDate: Long?,
-    @Json(name = "closed_reason")
+    @SerializedName("closed_reason")
     val closedReason: String?,
-    @Json(name = "comment_count")
+    @SerializedName("comment_count")
     val commentCount: Int?,
-    @Json(name = "creation_date")
+    @SerializedName("creation_date")
     val creationDate: Long,
-    @Json(name = "down_vote_count")
+    @SerializedName("down_vote_count")
     val downVoteCount: Int,
-    @Json(name = "favorite_count")
+    @SerializedName("favorite_count")
     val favoriteCount: Int,
-    @Json(name = "is_answered")
+    @SerializedName("is_answered")
     val isAnswered: Boolean,
-    @Json(name = "last_activity_date")
+    @SerializedName("last_activity_date")
     val lastActivityDate: Long?,
-    @Json(name = "last_edit_date")
+    @SerializedName("last_edit_date")
     val lastEditDate: Long?,
-    @Json(name = "last_editor")
+    @SerializedName("last_editor")
     val lastEditor: User?,
     val owner: User,
-    @Json(name = "question_id")
+    @SerializedName("question_id")
     val questionId: Int,
     val score: Int,
-    @Json(name = "share_link")
+    @SerializedName("share_link")
     val shareLink: String,
     val tags: List<String>?,
     val title: String,
-    @Json(name = "up_vote_count")
+    @SerializedName("up_vote_count")
     val upVoteCount: Int,
-    @Json(name = "view_count")
+    @SerializedName("view_count")
     val viewCount: Int
 )
