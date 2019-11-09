@@ -57,8 +57,6 @@ detekt {
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-
     // kotlin
     implementation(Dep.kotlinLib)
     implementation(Dep.kotlinCoroutinesCore)
