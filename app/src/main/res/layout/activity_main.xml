@@ -18,7 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="?attr/viewBackgroundColor"
             android:theme="@style/MainToolbarStyle"
             app:hideOnScroll="true">
 
