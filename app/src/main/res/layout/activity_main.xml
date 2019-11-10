@@ -24,8 +24,8 @@
 
             <ImageView
                 android:id="@+id/profileIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_account_circle" />
 
