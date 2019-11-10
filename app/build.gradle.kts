@@ -68,6 +68,7 @@ dependencies {
     implementation(Dep.androidxLifecycleExtensions)
     implementation(Dep.androidxPreference)
     implementation(Dep.androidxSwipeRefreshLayout)
+    implementation(Dep.androidxViewPager2)
     implementation(Dep.constraintLayout)
     implementation(Dep.ktxActivityExtensions)
     implementation(Dep.ktxFragmentExtensions)

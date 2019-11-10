@@ -36,7 +36,7 @@
         app:layout_anchor="@id/viewPager"
         app:layout_anchorGravity="bottom|end" />
 
-    <me.tylerbwong.stack.ui.utils.NoSwipeViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

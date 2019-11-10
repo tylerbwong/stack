@@ -8,7 +8,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.observe
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_question_detail.*
 import me.tylerbwong.stack.R
@@ -39,9 +39,9 @@ class QuestionDetailActivity : BaseActivity() {
             toggleAnswerMode(isInAnswerMode = true)
         }
 
-        adapter = QuestionDetailPagerAdapter(supportFragmentManager, viewModel.questionId)
+        adapter = QuestionDetailPagerAdapter(this, viewModel.questionId)
         viewPager.adapter = adapter
-        viewPager.addOnPageChangeListener(object : OnPageChangeListener {
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrollStateChanged(state: Int) {
                 // no-op
             }
@@ -115,7 +115,7 @@ class QuestionDetailActivity : BaseActivity() {
             } else {
                 0
             }
-            isSwipeable = isInAnswerMode
+            isUserInputEnabled = isInAnswerMode
         }
         toggleAnswerButtonVisibility(isVisible = !isInAnswerMode)
         if (!isInAnswerMode) {

@@ -1,16 +1,16 @@
 package me.tylerbwong.stack.ui.questions.detail
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import me.tylerbwong.stack.ui.questions.detail.post.PostAnswerFragment
 
 class QuestionDetailPagerAdapter(
-    manager: FragmentManager,
+    activity: FragmentActivity,
     private val questionId: Int
-) : FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+) : FragmentStateAdapter(activity) {
 
-    override fun getItem(position: Int): Fragment {
+    override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> QuestionDetailFragment.newInstance(questionId)
             1 -> PostAnswerFragment.newInstance(questionId)
@@ -18,5 +18,5 @@ class QuestionDetailPagerAdapter(
         }
     }
 
-    override fun getCount() = 2
+    override fun getItemCount() = 2
 }
