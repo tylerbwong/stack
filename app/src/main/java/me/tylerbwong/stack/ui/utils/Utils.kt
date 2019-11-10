@@ -48,11 +48,11 @@ fun Long.format(): String {
 }
 
 fun View.hideKeyboard() {
-    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.hideSoftInputFromWindow(windowToken, 0)
+    context.systemService<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
+        ?.hideSoftInputFromWindow(windowToken, 0)
 }
 
 fun View.showKeyboard() {
-    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.showSoftInput(this, 0)
+    context.systemService<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
+        ?.showSoftInput(this, 0)
 }

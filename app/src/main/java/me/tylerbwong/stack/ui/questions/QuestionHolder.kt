@@ -11,6 +11,7 @@ import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
 import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import me.tylerbwong.stack.ui.utils.systemService
 import me.tylerbwong.stack.ui.utils.toHtml
 
 class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
@@ -23,14 +24,12 @@ class QuestionHolder(parent: ViewGroup) : DynamicViewHolder(
 
             ownerView.bind(dataModel.owner)
 
-            itemView.setOnLongClickListener {
-                val context = it.context
-                val contentManager =
-                    context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                contentManager.setPrimaryClip(
-                    ClipData.newPlainText(LABEL, dataModel.shareLink)
-                )
-                Toast.makeText(context, R.string.link_copied, Toast.LENGTH_SHORT).show()
+            itemView.setOnLongClickListener { view ->
+                val context = view.context
+                context.systemService<ClipboardManager>(Context.CLIPBOARD_SERVICE)?.let {
+                    it.setPrimaryClip(ClipData.newPlainText(LABEL, dataModel.shareLink))
+                    Toast.makeText(context, R.string.link_copied, Toast.LENGTH_SHORT).show()
+                }
                 true
             }
 
