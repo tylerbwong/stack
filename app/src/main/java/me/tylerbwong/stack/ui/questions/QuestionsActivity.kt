@@ -20,13 +20,12 @@ import me.tylerbwong.stack.data.model.MONTH
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.ui.BaseActivity
-import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
 
     private val viewModel by viewModels<QuestionsViewModel>()
-    private val adapter = DynamicViewAdapter()
+    private val adapter = QuestionAdapter()
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +49,7 @@ class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
         }
 
         viewModel.data.observe(this) {
-            adapter.update(it)
+            adapter.submitList(it)
 
             if (it.isEmpty()) {
                 Snackbar.make(rootLayout, R.string.nothing_here, Snackbar.LENGTH_INDEFINITE).show()
