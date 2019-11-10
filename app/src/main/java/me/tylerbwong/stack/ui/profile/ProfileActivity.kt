@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.profile_header.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.BaseActivity
-import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
+import me.tylerbwong.stack.ui.questions.QuestionAdapter
 import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.launchCustomTab
@@ -28,7 +28,7 @@ import me.tylerbwong.stack.ui.utils.toHtml
 class ProfileActivity : BaseActivity() {
 
     private val viewModel: ProfileViewModel by viewModels()
-    private val adapter = DynamicViewAdapter()
+    private val adapter = QuestionAdapter()
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,7 +74,7 @@ class ProfileActivity : BaseActivity() {
             }
         }
         viewModel.questionsData.observe(this) {
-            adapter.update(it)
+            adapter.submitList(it)
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
