@@ -15,8 +15,8 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
+import coil.api.load
+import coil.transform.CircleCropTransformation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -39,7 +39,6 @@ import me.tylerbwong.stack.ui.questions.QuestionDataModel
 import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
-import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
@@ -90,13 +89,12 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         viewModel.profileImage.observe(this) {
             profileIcon.apply {
                 if (it != null) {
-                    GlideApp.with(this)
-                        .load(it)
-                        .transition(DrawableTransitionOptions.withCrossFade())
-                        .error(R.drawable.user_image_placeholder)
-                        .placeholder(R.drawable.user_image_placeholder)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(this)
+                    load(it) {
+                        crossfade(true)
+                        error(R.drawable.user_image_placeholder)
+                        placeholder(R.drawable.user_image_placeholder)
+                        transformations(CircleCropTransformation())
+                    }
                 } else {
                     setImageResource(R.drawable.ic_account_circle)
                 }

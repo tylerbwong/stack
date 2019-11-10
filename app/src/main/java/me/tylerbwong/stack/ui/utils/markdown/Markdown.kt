@@ -6,8 +6,6 @@ import io.noties.markwon.Markwon
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.ext.tables.TablePlugin
 import io.noties.markwon.html.HtmlPlugin
-import io.noties.markwon.image.glide.GlideImagesPlugin
-import me.tylerbwong.stack.ui.utils.GlideApp
 import org.apache.commons.text.StringEscapeUtils
 
 object Markdown {
@@ -15,7 +13,7 @@ object Markdown {
 
     fun init(context: Context) {
         val plugins = listOf(
-            GlideImagesPlugin.create(GlideApp.with(context)),
+            CoilImagePlugin.create(context),
             HtmlPlugin.create(),
             StrikethroughPlugin.create(),
             TablePlugin.create(context),

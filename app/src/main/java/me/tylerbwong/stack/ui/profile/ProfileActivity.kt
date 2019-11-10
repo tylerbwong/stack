@@ -10,15 +10,14 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
+import coil.api.load
+import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.profile_header.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.questions.QuestionAdapter
-import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
@@ -50,13 +49,12 @@ class ProfileActivity : BaseActivity() {
             }
         }
         viewModel.userData.observe(this) {
-            GlideApp.with(this)
-                .load(it.profileImage)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .error(R.drawable.user_image_placeholder)
-                .placeholder(R.drawable.user_image_placeholder)
-                .apply(RequestOptions.circleCropTransform())
-                .into(userImage)
+            userImage.load(it.profileImage) {
+                crossfade(true)
+                error(R.drawable.user_image_placeholder)
+                placeholder(R.drawable.user_image_placeholder)
+                transformations(CircleCropTransformation())
+            }
             collapsingToolbarLayout.title = it.displayName.toHtml()
             if (it.location != null) {
                 location.text = it.location.toHtml()

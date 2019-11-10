@@ -3,13 +3,12 @@ package me.tylerbwong.stack.ui.owners
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
+import coil.api.load
+import coil.transform.CircleCropTransformation
 import kotlinx.android.synthetic.main.owner_view.view.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.ui.profile.ProfileActivity
-import me.tylerbwong.stack.ui.utils.GlideApp
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
@@ -28,13 +27,12 @@ class OwnerView @JvmOverloads constructor(
 
     fun bind(owner: User) {
         username.text = owner.displayName.toHtml()
-        GlideApp.with(this)
-            .load(owner.profileImage)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .error(R.drawable.user_image_placeholder)
-            .placeholder(R.drawable.user_image_placeholder)
-            .apply(RequestOptions.circleCropTransform())
-            .into(userImage)
+        userImage.load(owner.profileImage) {
+            crossfade(true)
+            error(R.drawable.user_image_placeholder)
+            placeholder(R.drawable.user_image_placeholder)
+            transformations(CircleCropTransformation())
+        }
         userImage.setThrottledOnClickListener {
             ProfileActivity.startActivity(context, owner.userId)
         }

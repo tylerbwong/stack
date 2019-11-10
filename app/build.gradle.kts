@@ -82,15 +82,14 @@ dependencies {
     // betterlinkmovementmethod
     implementation(Dep.betterLinkMovementMethod)
 
+    // coil
+    implementation(Dep.coil)
+
     // crashlytics
     implementation(Dep.crashlytics)
 
     // firebase
     implementation(Dep.firebaseCore)
-
-    // glide
-    implementation(Dep.glide)
-    kapt(Dep.glideProcessor)
 
     // networking
     implementation(Dep.gson)
@@ -102,7 +101,6 @@ dependencies {
     // markdown
     implementation(Dep.apacheCommonsText)
     implementation(Dep.markwonCore)
-    implementation(Dep.markwonGlide)
     implementation(Dep.markwonHtml)
     implementation(Dep.markwonStrikethrough)
     implementation(Dep.markwonTables)
