@@ -1,6 +1,6 @@
 object Versions {
     const val androidxAppCompat = "1.1.0"
-    const val androidxBrowser = "1.2.0-alpha08"
+    const val androidxBrowser = "1.2.0-alpha09"
     const val androidxLifecycleExtensions = "2.2.0-beta01"
     const val androidxPreference = "1.1.0"
     const val androidxSwipeRefreshLayout = "1.1.0-alpha03"
@@ -23,8 +23,8 @@ object Versions {
     const val kotlin = "1.3.50"
     const val kotlinxCoroutines = "1.3.2"
     const val ktlintGradle = "8.2.0"
-    const val ktxActivityExtensions = "1.1.0-beta01"
-    const val ktxFragmentExtensions = "1.2.0-beta02"
+    const val ktxActivityExtensions = "1.1.0-rc01"
+    const val ktxFragmentExtensions = "1.2.0-rc02"
     const val markwon = "4.1.2"
     const val materialComponents = "1.2.0-alpha01"
     const val mockito = "3.0.0"
