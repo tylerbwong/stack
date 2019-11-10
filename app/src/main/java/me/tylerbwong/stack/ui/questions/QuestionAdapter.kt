@@ -41,7 +41,6 @@ class QuestionAdapter : ListAdapter<Question, QuestionViewHolder>(
         holder: QuestionViewHolder,
         position: Int
     ) = holder.bind(getItem(position))
-
 }
 
 class QuestionViewHolder(
