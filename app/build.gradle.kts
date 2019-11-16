@@ -102,6 +102,7 @@ dependencies {
     implementation(Dep.apacheCommonsText)
     implementation(Dep.markwonCore)
     implementation(Dep.markwonHtml)
+    implementation(Dep.markwonImageCoil)
     implementation(Dep.markwonStrikethrough)
     implementation(Dep.markwonTables)
 
