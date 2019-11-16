@@ -1,18 +1,17 @@
 package me.tylerbwong.stack.ui.utils.markdown
 
-import android.content.Context
 import android.widget.TextView
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.ext.tables.TablePlugin
 import io.noties.markwon.html.HtmlPlugin
 import io.noties.markwon.image.coil.CoilImagesPlugin
+import me.tylerbwong.stack.ui.ApplicationWrapper
 import org.apache.commons.text.StringEscapeUtils
 
 object Markdown {
-    lateinit var markwon: Markwon
-
-    fun init(context: Context) {
+    val markwon by lazy {
+        val context = ApplicationWrapper.context
         val plugins = listOf(
             CoilImagesPlugin.create(context),
             HtmlPlugin.create(),
@@ -20,7 +19,7 @@ object Markdown {
             TablePlugin.create(context),
             UrlPlugin.create()
         )
-        markwon = Markwon.builder(context)
+        Markwon.builder(context)
             .usePlugins(plugins)
             .build()
     }

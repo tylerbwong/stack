@@ -4,7 +4,7 @@ import android.app.Application
 import me.tylerbwong.stack.data.logging.Logger
 import me.tylerbwong.stack.data.persistence.StackDatabase
 import me.tylerbwong.stack.ui.theme.ThemeManager
-import me.tylerbwong.stack.ui.utils.markdown.Markdown
+import me.tylerbwong.stack.ui.utils.CoilInitializer
 
 class StackApplication : Application() {
     override fun onCreate() {
@@ -16,7 +16,7 @@ class StackApplication : Application() {
 
         StackDatabase.init(this)
 
-        Markdown.init(this)
+        CoilInitializer.init(this)
 
         Logger.init(this)
     }
