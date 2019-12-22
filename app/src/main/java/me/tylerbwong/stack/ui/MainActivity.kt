@@ -122,6 +122,16 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
     override fun onResume() {
         super.onResume()
         checkForPendingInstall()
+        if (searchView.isVisible) {
+            searchView.showKeyboard()
+        } else {
+            searchView.hideKeyboard()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        searchView.hideKeyboard()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
