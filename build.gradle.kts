@@ -21,6 +21,11 @@ allprojects {
         google()
         jcenter()
     }
+
+    // https://github.com/noties/Markwon/issues/148
+    configurations.all {
+        exclude(group = "org.jetbrains", module = "annotations-java5")
+    }
 }
 
 tasks.withType<KotlinCompile> {

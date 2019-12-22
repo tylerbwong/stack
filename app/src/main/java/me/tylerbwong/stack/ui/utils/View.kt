@@ -35,7 +35,7 @@ fun View.showSnackbar(
 
     if (actionTextId != null && onActionClicked != null) {
         snackbar.setAction(actionTextId, onActionClicked)
-            .setActionTextColor(ContextCompat.getColor(context, R.color.colorAccent))
+            .setActionTextColor(ContextCompat.getColor(context, R.color.snackbarActionTextColor))
     }
 
     return snackbar.also { it.show() }

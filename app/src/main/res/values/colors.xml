@@ -21,4 +21,5 @@
     <color name="viewBackgroundColor">@color/white</color>
     <color name="dialogBackgroundColor">@color/white</color>
     <color name="iconColor">@color/primaryTextColor</color>
+    <color name="snackbarActionTextColor">@color/colorAccent</color>
 </resources>

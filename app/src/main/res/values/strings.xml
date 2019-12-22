@@ -79,8 +79,11 @@
     <string name="comment_count">(%1$d)</string>
     <string name="no_comments">No comments found</string>
 
-    <!-- App version -->
+    <!-- Settings -->
     <string name="version">Version</string>
+    <string name="syntax_highlighting">Experimental Syntax Highlighting</string>
+    <string name="syntax_highlighting_summary">Enables syntax highlighting within any markdown body. Requires a restart to take effect.</string>
 
+    <string name="restart_toggle">Toggling this requires a restart</string>
     <string name="link_copied">Link copied to clipboard</string>
 </resources>

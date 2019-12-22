@@ -91,12 +91,8 @@ dependencies {
     // firebase
     implementation(Dep.firebaseCore)
 
-    // networking
-    implementation(Dep.gson)
-    implementation(Dep.okHttp)
-    implementation(Dep.okHttpLogger)
-    implementation(Dep.retrofit)
-    implementation(Dep.retrofitGsonConverter)
+    // logging
+    implementation(Dep.timber)
 
     // markdown
     implementation(Dep.apacheCommonsText)
@@ -104,10 +100,19 @@ dependencies {
     implementation(Dep.markwonHtml)
     implementation(Dep.markwonImageCoil)
     implementation(Dep.markwonStrikethrough)
+    implementation(Dep.markwonSyntaxHighlight)
     implementation(Dep.markwonTables)
+    kapt(Dep.prism4jBundler)
 
-    // logging
-    implementation(Dep.timber)
+    // misc
+    implementation(Dep.processPhoenix)
+
+    // networking
+    implementation(Dep.gson)
+    implementation(Dep.okHttp)
+    implementation(Dep.okHttpLogger)
+    implementation(Dep.retrofit)
+    implementation(Dep.retrofitGsonConverter)
 
     // play
     implementation(Dep.playCore)

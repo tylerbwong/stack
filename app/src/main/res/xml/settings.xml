@@ -2,6 +2,12 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <SwitchPreferenceCompat
+        android:icon="@drawable/ic_baseline_code"
+        android:key="@string/syntax_highlighting"
+        android:title="@string/syntax_highlighting"
+        android:summary="@string/syntax_highlighting_summary"/>
+
     <Preference
         android:icon="@drawable/ic_brightness_2"
         android:key="@string/theme"
