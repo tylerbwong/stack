@@ -75,6 +75,7 @@ private fun getPackageNameToUse(context: Context, url: String): String? {
     }
 }
 
+@Suppress("ComplexMethod")
 private fun hasSpecializedHandlerIntents(context: Context, intent: Intent): Boolean {
     try {
         val pm = context.packageManager
