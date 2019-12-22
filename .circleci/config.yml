@@ -90,9 +90,9 @@ workflows:
     jobs:
       - static-analysis
       - build:
-          name: build-debug
-          variant: Debug
+          - name: build-debug
+          - variant: Debug
       - build:
-          name: build-release
-          variant: Release
+          - name: build-release
+          - variant: Release
       - unit-tests
