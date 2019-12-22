@@ -1,6 +1,5 @@
 version: 2.1
 jobs:
-  executor: android
   static-analysis:
     working_directory: ~/code
     docker:
@@ -29,7 +28,6 @@ jobs:
           command: ./gradlew detekt
 
   build:
-    executor: android
     parameters:
       variant:
         type: string
@@ -61,7 +59,6 @@ jobs:
           destination: build/outputs/apk
 
   unit-tests:
-    executor: android
     working_directory: ~/code
     docker:
       - image: circleci/android:api-29
