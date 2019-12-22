@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -13,14 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.comments_fragment.*
+import kotlinx.android.synthetic.main.header_holder.*
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.ui.questions.HeaderDataModel
-import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
-import me.tylerbwong.stack.ui.utils.SpaceDataModel
 
 class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private val viewModel by viewModels<CommentsViewModel>()
-    private val adapter = DynamicViewAdapter()
+    private val adapter = CommentsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,25 +30,18 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.comments_fragment, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.comments_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView.apply {
             adapter = this@CommentsBottomSheetDialogFragment.adapter
             layoutManager = LinearLayoutManager(context)
         }
+        title.text = getString(R.string.comments)
         viewModel.data.observe(viewLifecycleOwner) {
-            adapter.update(
-                listOf(
-                    SpaceDataModel(),
-                    HeaderDataModel(
-                        getString(R.string.comments),
-                        getString(R.string.comment_count, it.size)
-                    )
-                ) + it.ifEmpty { listOf(SpaceDataModel()) }
-            )
+            adapter.submitList(it)
+            subtitle.text = getString(R.string.comment_count, it.size)
+            emptySpace.isVisible = it.isEmpty()
         }
 
         viewModel.fetchComments()

@@ -24,6 +24,7 @@ import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.InstallStatus
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.header_holder.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.AppUpdater
 import me.tylerbwong.stack.data.auth.AuthStore
@@ -31,25 +32,24 @@ import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.HOT
 import me.tylerbwong.stack.data.model.MONTH
+import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.data.model.sortResourceId
-import me.tylerbwong.stack.ui.questions.HeaderDataModel
-import me.tylerbwong.stack.ui.questions.QuestionDataModel
+import me.tylerbwong.stack.ui.questions.QuestionAdapter
 import me.tylerbwong.stack.ui.settings.SettingsActivity
-import me.tylerbwong.stack.ui.utils.DynamicDataModel
-import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
+import kotlinx.android.synthetic.main.header_holder.title as headerTitle
 
 class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
     SearchView.OnQueryTextListener, InstallStateUpdatedListener {
 
     private val viewModel: MainViewModel by viewModels()
-    private val adapter = DynamicViewAdapter()
+    private val adapter = QuestionAdapter()
     private var snackbar: Snackbar? = null
     private var menu: Menu? = null
 
@@ -75,9 +75,7 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
                 snackbar?.dismiss()
             }
         }
-        viewModel.questions.observe(this) {
-            updateContent(it)
-        }
+        viewModel.questions.observe(this, ::updateContent)
         viewModel.isAuthenticated.observe(this) {
             if (it) {
                 viewModel.fetchUser()
@@ -254,16 +252,14 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         }
     }
 
-    private fun updateContent(questions: List<QuestionDataModel>) {
-        val content = questions.toMutableList<DynamicDataModel>().apply {
-            val subtitle: String = if (!viewModel.isQueryBlank()) {
-                "\"${viewModel.currentQuery}\""
-            } else {
-                getString(viewModel.currentSort.sortResourceId)
-            }
-            add(0, HeaderDataModel(getString(R.string.questions), subtitle))
+    private fun updateContent(questions: List<Question>) {
+        headerTitle.text = getString(R.string.questions)
+        subtitle.text = if (!viewModel.isQueryBlank()) {
+            "\"${viewModel.currentQuery}\""
+        } else {
+            getString(viewModel.currentSort.sortResourceId)
         }
-        adapter.update(content)
+        adapter.submitList(questions)
     }
 
     private fun showLogOutDialog() {

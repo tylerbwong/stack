@@ -7,37 +7,55 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/viewBackgroundColor"
-        app:liftOnScroll="true"
-        app:liftOnScrollTargetViewId="@id/recyclerView">
+        android:background="?attr/viewBackgroundColor">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:theme="@style/MainToolbarStyle"
-            app:hideOnScroll="true">
+            app:contentScrim="?attr/viewBackgroundColor"
+            app:expandedTitleGravity="center|top"
+            app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextAppearance"
+            app:layout_scrollFlags="exitUntilCollapsed|scroll">
 
-            <ImageView
-                android:id="@+id/profileIcon"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_account_circle" />
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchView"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                app:iconifiedByDefault="false"
-                app:queryBackground="@android:color/transparent"
-                app:queryHint="@string/search"
-                app:searchIcon="@null" />
-        </androidx.appcompat.widget.Toolbar>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:theme="@style/MainToolbarStyle">
+
+                    <ImageView
+                        android:id="@+id/profileIcon"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_account_circle" />
+
+                    <androidx.appcompat.widget.SearchView
+                        android:id="@+id/searchView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        app:iconifiedByDefault="false"
+                        app:queryBackground="@android:color/transparent"
+                        app:queryHint="@string/search"
+                        app:searchIcon="@null" />
+                </androidx.appcompat.widget.Toolbar>
+
+                <include
+                    layout="@layout/header_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -51,4 +69,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

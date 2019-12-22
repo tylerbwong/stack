@@ -9,11 +9,11 @@ import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
 import me.tylerbwong.stack.data.model.CREATION
+import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.data.repository.QuestionRepository
-import me.tylerbwong.stack.ui.questions.QuestionDataModel
 import retrofit2.HttpException
 
 internal class MainViewModel(
@@ -22,9 +22,9 @@ internal class MainViewModel(
     private val service: QuestionService = ServiceProvider.questionService
 ) : BaseViewModel() {
 
-    internal val questions: LiveData<List<QuestionDataModel>>
+    internal val questions: LiveData<List<Question>>
         get() = _questions
-    private val _questions = MutableLiveData<List<QuestionDataModel>>()
+    private val _questions = MutableLiveData<List<Question>>()
 
     internal val profileImage: LiveData<String?>
         get() = _profileImage
@@ -40,16 +40,14 @@ internal class MainViewModel(
     internal fun getQuestions(@Sort sort: String = currentSort) {
         currentSort = sort
         launchRequest {
-            _questions.value = repository.getQuestions(sort).map { QuestionDataModel(it) }
+            _questions.value = repository.getQuestions(sort)
         }
     }
 
     internal fun searchQuestions(query: String = currentQuery) {
         currentQuery = query
         launchRequest {
-            _questions.value = service.getQuestionsBySearchString(searchString = query)
-                .items
-                .map { QuestionDataModel(it) }
+            _questions.value = service.getQuestionsBySearchString(searchString = query).items
         }
     }
 
