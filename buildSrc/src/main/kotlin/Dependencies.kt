@@ -26,7 +26,7 @@ object Versions {
     const val ktxActivityExtensions = "1.1.0-rc01"
     const val ktxFragmentExtensions = "1.2.0-rc02"
     const val markwon = "4.2.0"
-    const val materialComponents = "1.2.0-alpha01"
+    const val materialComponents = "1.2.0-alpha03"
     const val mockito = "3.0.0"
     const val mockitoKotlin = "2.1.0"
     const val okHttp = "4.2.2"

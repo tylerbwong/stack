@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Overflow.Dark</item>
+        <item name="android:popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu.ContextMenu</item>
     </style>
 
     <style name="MaterialAlertDialogTheme" parent="Theme.MaterialComponents.Dialog.Alert">
