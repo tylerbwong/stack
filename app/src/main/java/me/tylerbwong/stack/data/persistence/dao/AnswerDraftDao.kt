@@ -15,3 +15,4 @@ interface AnswerDraftDao {
    @Insert(onConflict = OnConflictStrategy.REPLACE)
    suspend fun insertAnswerDraft(answerDraftEntity: AnswerDraftEntity)
 }
+
