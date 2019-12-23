@@ -121,12 +121,21 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         this.menu = menu
-        inflater.inflate(R.menu.menu_discard, menu)
-        toggleDiscardMenuItemVisibility(isVisible = !markdownEditText.text.isNullOrBlank())
+        inflater.inflate(R.menu.menu_post, menu)
+        toggleMenuVisibility(isVisible = !markdownEditText.text.isNullOrBlank())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.save_draft -> {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.default_dialog_bg))
+                    .setTitle(R.string.save_draft)
+                    .setPositiveButton(R.string.save_draft) { _, _ -> viewModel.saveDraft(markdownEditText.text.toString()) }
+                    .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                    .create()
+                    .show()
+            }
             R.id.discard -> {
                 MaterialAlertDialogBuilder(requireContext())
                     .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.default_dialog_bg))
@@ -140,8 +149,10 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun toggleDiscardMenuItemVisibility(isVisible: Boolean) {
-        menu?.findItem(R.id.discard)?.isVisible = isVisible
+    private fun toggleMenuVisibility(isVisible: Boolean) {
+        listOf(R.id.save_draft, R.id.discard).forEach {
+            menu?.findItem(it)?.isVisible = isVisible
+        }
     }
 
     private fun onTabChanged(position: Int) {
@@ -188,7 +199,7 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
     private fun clearFields() {
         tearDownTextWatcher()
         mainViewModel.hasContent = false
-        toggleDiscardMenuItemVisibility(isVisible = false)
+        toggleMenuVisibility(isVisible = false)
         markdownEditText.text = null
         previewText.text = null
         setUpTextWatcher()
@@ -210,7 +221,7 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
             override fun afterTextChanged(text: Editable) {
                 val hasContent = text.isNotBlank()
                 mainViewModel.hasContent = hasContent
-                toggleDiscardMenuItemVisibility(isVisible = hasContent)
+                toggleMenuVisibility(isVisible = hasContent)
                 togglePostAnswerButtonVisibility(isVisible = hasContent)
             }
 

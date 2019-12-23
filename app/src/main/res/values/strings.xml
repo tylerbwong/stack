@@ -65,6 +65,7 @@
     <string name="post_answer">Post answer</string>
     <string name="discard">Discard</string>
     <string name="discard_answer">Are you sure you want to discard your changes?</string>
+    <string name="save_draft">Save Draft</string>
     <string name="markdown">Markdown</string>
     <string name="preview">Preview</string>
     <string name="post">Post</string>

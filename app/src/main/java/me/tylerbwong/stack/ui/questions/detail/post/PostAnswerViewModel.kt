@@ -7,15 +7,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.BaseTransientBottomBar.Duration
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
+import me.tylerbwong.stack.data.persistence.StackDatabase
+import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
+import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import timber.log.Timber
 
 class PostAnswerViewModel(
-    private val service: QuestionService = ServiceProvider.questionService
+    private val service: QuestionService = ServiceProvider.questionService,
+    private val draftDao: AnswerDraftDao = StackDatabase.getInstance().getAnswerDraftDao()
 ) : ViewModel() {
     internal var markdownTextWatcher: TextWatcher? = null
     internal var selectedTabPosition = 0
@@ -41,6 +46,23 @@ class PostAnswerViewModel(
                 } else {
                     throw IllegalStateException("Could not post answer")
                 }
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                _snackbar.value = PostAnswerState.Error
+            }
+        }
+    }
+
+    fun saveDraft(markdown: String) {
+        viewModelScope.launch {
+            try {
+                draftDao.insertAnswerDraft(
+                    AnswerDraftEntity(
+                        questionId,
+                        System.currentTimeMillis(),
+                        markdown
+                    )
+                )
             } catch (ex: Exception) {
                 Timber.e(ex)
                 _snackbar.value = PostAnswerState.Error
