@@ -17,4 +17,3 @@ data class AnswerDraftEntity(
     @PrimaryKey(autoGenerate = true)
     var draftId: Long? = null
 }
-

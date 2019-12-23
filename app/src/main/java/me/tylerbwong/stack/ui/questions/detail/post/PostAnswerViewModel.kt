@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.BaseTransientBottomBar.Duration
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.network.ServiceProvider

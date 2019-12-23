@@ -9,10 +9,9 @@ import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
 
 @Dao
 interface AnswerDraftDao {
-   @Query("SELECT * FROM answer_drafts ORDER BY updated_date DESC")
-   fun getAnswerDrafts(): Flow<List<AnswerDraftEntity>>
+    @Query("SELECT * FROM answer_drafts ORDER BY updated_date DESC")
+    fun getAnswerDrafts(): Flow<List<AnswerDraftEntity>>
 
-   @Insert(onConflict = OnConflictStrategy.REPLACE)
-   suspend fun insertAnswerDraft(answerDraftEntity: AnswerDraftEntity)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAnswerDraft(answerDraftEntity: AnswerDraftEntity)
 }
-
