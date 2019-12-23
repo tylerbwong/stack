@@ -131,7 +131,9 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
                 MaterialAlertDialogBuilder(requireContext())
                     .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.default_dialog_bg))
                     .setTitle(R.string.save_draft)
-                    .setPositiveButton(R.string.save_draft) { _, _ -> viewModel.saveDraft(markdownEditText.text.toString()) }
+                    .setPositiveButton(R.string.save_draft) { _, _ ->
+                        viewModel.saveDraft(markdownEditText.text.toString())
+                    }
                     .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
                     .create()
                     .show()
