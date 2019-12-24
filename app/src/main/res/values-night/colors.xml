@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorAccent">@color/lightBlue100</color>
     <color name="windowBackground">@color/black</color>
     <color name="primaryTextColor">#F4F4F6</color>
     <color name="secondaryTextColor">#96F4F4F6</color>
