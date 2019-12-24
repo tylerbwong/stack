@@ -5,6 +5,8 @@
     <color name="colorAccent">#B3E5FC</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="gray600">#757575</color>
+    <color name="gray800">#424242</color>
 
     <color name="colorTextPrimary">#83898F</color>
     <color name="colorTextPrimaryDark">#33343B</color>
@@ -22,4 +24,5 @@
     <color name="dialogBackgroundColor">@color/white</color>
     <color name="iconColor">@color/primaryTextColor</color>
     <color name="snackbarActionTextColor">@color/colorAccent</color>
+    <color name="bottomNavigationUnselectedItem">@color/gray600</color>
 </resources>

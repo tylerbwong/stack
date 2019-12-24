@@ -8,6 +8,8 @@
     <string name="linked">Linked</string>
     <string name="related">Related</string>
     <string name="comments">Comments</string>
+    <string name="home">Home</string>
+    <string name="drafts">Drafts</string>
 
     <plurals name="answers">
         <item quantity="zero">%1$d Answers</item>

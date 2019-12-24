@@ -7,4 +7,5 @@
     <color name="dialogBackgroundColor">#FF424242</color>
     <color name="iconColor">@color/white</color>
     <color name="snackbarActionTextColor">@color/colorTextPrimaryDark</color>
+    <color name="bottomNavigationUnselectedItem">@color/gray800</color>
 </resources>
