@@ -2,10 +2,13 @@ package me.tylerbwong.stack.data.persistence.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "question", foreignKeys = [
+    tableName = "question",
+    indices = [Index("owner"), Index("lastEditor")],
+    foreignKeys = [
         ForeignKey(
             entity = UserEntity::class,
             parentColumns = ["userId"],
