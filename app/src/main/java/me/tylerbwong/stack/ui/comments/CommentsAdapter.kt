@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.comment_holder.*
+import kotlinx.android.synthetic.main.comment_holder.view.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Comment
 import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
+import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 
 class CommentsAdapter : ListAdapter<Comment, CommentHolder>(
     object : DiffUtil.ItemCallback<Comment>() {
@@ -29,7 +31,9 @@ class CommentsAdapter : ListAdapter<Comment, CommentHolder>(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = CommentHolder(parent.inflate(R.layout.comment_holder))
+    ) = CommentHolder(parent.inflate(R.layout.comment_holder)).also {
+        it.containerView.commentBody.setSpannableFactory(noCopySpannableFactory)
+    }
 
     override fun onBindViewHolder(
         holder: CommentHolder,
