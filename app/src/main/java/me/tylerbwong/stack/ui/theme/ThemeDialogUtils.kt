@@ -21,7 +21,9 @@ val nightModeOptions = mapOf(
     }
 )
 
-fun Context.showThemeChooserDialog() {
+fun Context.showThemeChooserDialog(
+    onSelected: () -> Unit = {}
+) {
     MaterialAlertDialogBuilder(this)
         .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
         .setTitle(R.string.theme_title)
@@ -33,6 +35,7 @@ fun Context.showThemeChooserDialog() {
                 this,
                 nightModeOptions.values.toList()[which]
             )
+            onSelected()
             dialog.dismiss()
         }
         .create()
