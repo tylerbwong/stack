@@ -4,15 +4,19 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.answer_holder.*
+import kotlinx.android.synthetic.main.answer_holder.view.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.utils.DynamicViewHolder
 import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
+import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 
 class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
-    parent.inflate(R.layout.answer_holder)
+    parent.inflate(R.layout.answer_holder).also {
+        it.answerBody.setSpannableFactory(noCopySpannableFactory)
+    }
 ) {
     override fun bind(data: Any) {
         (data as? AnswerDataModel)?.let { dataModel ->
