@@ -47,7 +47,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         .firstOrNull() ?: R.string.theme_light
                 )
                 setOnPreferenceClickListener {
-                    context.showThemeChooserDialog()
+                    context.showThemeChooserDialog {
+                        summary = getString(
+                            nightModeOptions
+                                .filterValues { it == context.delegateMode }
+                                .keys
+                                .firstOrNull() ?: R.string.theme_light
+                        )
+                    }
                     true
                 }
             }
