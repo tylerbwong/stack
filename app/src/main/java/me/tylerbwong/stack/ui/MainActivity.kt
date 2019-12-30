@@ -9,6 +9,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.updatePadding
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import coil.api.load
 import coil.transform.CircleCropTransformation
@@ -23,7 +24,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.AppUpdater
 import me.tylerbwong.stack.data.auth.AuthStore
+import me.tylerbwong.stack.ui.drafts.DraftsFragment
 import me.tylerbwong.stack.ui.home.HomeFragment
+import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
@@ -34,10 +37,15 @@ class MainActivity : BaseActivity(), InstallStateUpdatedListener {
 
     private lateinit var appUpdater: AppUpdater
 
+    private val homeFragment by lazy { initializeFragment(HOME_FRAGMENT_TAG) { HomeFragment() } }
+    private val searchFragment by lazy { initializeFragment(SEARCH_FRAGMENT_TAG) { SearchFragment() } }
+    private val draftsFragment by lazy { initializeFragment(DRAFTS_FRAGMENT_TAG) { DraftsFragment() } }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        setupBottomNavigation()
         applyFullscreenWindowInsets()
 
         supportActionBar?.title = ""
@@ -133,14 +141,31 @@ class MainActivity : BaseActivity(), InstallStateUpdatedListener {
         }
     }
 
+    private fun setupBottomNavigation() {
+        bottomNav.setOnNavigationItemSelectedListener { menuItem ->
+            val fragment = when (menuItem.itemId) {
+                R.id.search -> searchFragment
+                R.id.drafts -> draftsFragment
+                else -> homeFragment
+            }
+            val currentFragment = supportFragmentManager.fragments.first { !it.isHidden }
+
+            supportFragmentManager
+                .beginTransaction()
+                .hide(currentFragment)
+                .show(fragment)
+                .commit()
+
+            true
+        }
+    }
+
     private fun populateContent(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) return
 
-        val homeFragment =
-            supportFragmentManager.findFragmentByTag(HOME_FRAGMENT_TAG) ?: HomeFragment()
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.contentContainer, homeFragment, HOME_FRAGMENT_TAG)
+            .show(homeFragment)
             .commit()
     }
 
@@ -192,8 +217,20 @@ class MainActivity : BaseActivity(), InstallStateUpdatedListener {
             .show()
     }
 
+    private fun initializeFragment(tag: String, createFragment: () -> Fragment): Fragment {
+        return supportFragmentManager.findFragmentByTag(tag) ?: createFragment().also { fragment ->
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.contentContainer, fragment, tag)
+                .hide(fragment)
+                .commit()
+        }
+    }
+
     companion object {
         private const val HOME_FRAGMENT_TAG = "home_fragment"
+        private const val SEARCH_FRAGMENT_TAG = "search_fragment"
+        private const val DRAFTS_FRAGMENT_TAG = "drafts_fragment"
 
         fun makeIntentClearTop(context: Context) = Intent(context, MainActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
