@@ -13,6 +13,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.header_holder.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.CREATION
@@ -98,8 +99,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClick
     }
 
     private fun updateContent(questions: List<Question>) {
-        activity?.findViewById<TextView>(R.id.title)?.text = getString(R.string.questions)
-        activity?.findViewById<TextView>(R.id.subtitle)?.text = getString(viewModel.currentSort.sortResourceId)
+        title.text = getString(R.string.questions)
+        subtitle.text = getString(viewModel.currentSort.sortResourceId)
         adapter.submitList(questions)
     }
 }

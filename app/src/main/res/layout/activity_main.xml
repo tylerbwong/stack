@@ -10,52 +10,23 @@
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/viewBackgroundColor">
+        android:background="?attr/viewBackgroundColor"
+        app:elevation="0dp">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingToolbarLayout"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:contentScrim="?attr/viewBackgroundColor"
-            app:expandedTitleGravity="center|top"
-            app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextAppearance"
-            app:layout_scrollFlags="exitUntilCollapsed|scroll">
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/MainToolbarStyle"
+            app:layout_scrollFlags="scroll">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:theme="@style/MainToolbarStyle">
-
-                    <ImageView
-                        android:id="@+id/profileIcon"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:src="@drawable/ic_account_circle" />
-
-                    <androidx.appcompat.widget.SearchView
-                        android:id="@+id/searchView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="gone"
-                        app:iconifiedByDefault="false"
-                        app:queryBackground="@android:color/transparent"
-                        app:queryHint="@string/search"
-                        app:searchIcon="@null" />
-                </androidx.appcompat.widget.Toolbar>
-
-                <include
-                    layout="@layout/header_holder"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+            <ImageView
+                android:id="@+id/profileIcon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_account_circle" />
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
