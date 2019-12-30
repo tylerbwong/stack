@@ -27,6 +27,10 @@
         <item name="iconColor">@color/iconColor</item>
     </style>
 
+    <style name="AppTheme.Base.Primary.Fullscreen">
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
     <style name="MaterialAlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="buttonBarPositiveButtonStyle">@style/MaterialAlertDialogButtonStyle</item>

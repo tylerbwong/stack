@@ -5,8 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.observe
 import coil.api.load
 import coil.transform.CircleCropTransformation
@@ -16,6 +18,7 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.InstallStatus
+import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.AppUpdater
@@ -35,6 +38,7 @@ class MainActivity : BaseActivity(), InstallStateUpdatedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        applyFullscreenWindowInsets()
 
         supportActionBar?.title = ""
 
@@ -114,6 +118,21 @@ class MainActivity : BaseActivity(), InstallStateUpdatedListener {
         appUpdater.unregisterListener(this)
     }
 
+    private fun applyFullscreenWindowInsets() {
+        rootLayout.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        bottomNav.doOnApplyWindowInsets { view, insets, initialState ->
+            view.updatePadding(
+                bottom = initialState.paddings.bottom + insets.systemWindowInsetBottom
+            )
+        }
+        appBar.doOnApplyWindowInsets { view, insets, initialState ->
+            view.updatePadding(
+                top = initialState.paddings.top + insets.systemWindowInsetTop
+            )
+        }
+    }
+
     private fun populateContent(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) return
 
@@ -128,7 +147,11 @@ class MainActivity : BaseActivity(), InstallStateUpdatedListener {
     private fun checkForPendingInstall() {
         appUpdater.checkForPendingInstall(
             onDownloadFinished = {
-                bottomNav.showSnackbar(R.string.restart_to_install, R.string.restart, shouldAnchorView = true) {
+                bottomNav.showSnackbar(
+                    R.string.restart_to_install,
+                    R.string.restart,
+                    shouldAnchorView = true
+                ) {
                     appUpdater.apply {
                         completeUpdate()
                         unregisterListener(this@MainActivity)
@@ -136,7 +159,11 @@ class MainActivity : BaseActivity(), InstallStateUpdatedListener {
                 }
             },
             onDownloadFailed = {
-                bottomNav.showSnackbar(R.string.download_error, R.string.retry, shouldAnchorView = true) {
+                bottomNav.showSnackbar(
+                    R.string.download_error,
+                    R.string.retry,
+                    shouldAnchorView = true
+                ) {
                     appUpdater.checkForUpdate(this)
                 }
             }
