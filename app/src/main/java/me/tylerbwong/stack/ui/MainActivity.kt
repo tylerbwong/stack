@@ -148,7 +148,8 @@ class MainActivity : BaseActivity(), InstallStateUpdatedListener {
                 R.id.drafts -> draftsFragment
                 else -> homeFragment
             }
-            val currentFragment = supportFragmentManager.fragments.first { !it.isHidden }
+            val currentFragment =
+                supportFragmentManager.fragments.firstOrNull { !it.isHidden } ?: homeFragment
 
             supportFragmentManager
                 .beginTransaction()
@@ -161,12 +162,12 @@ class MainActivity : BaseActivity(), InstallStateUpdatedListener {
     }
 
     private fun populateContent(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null) return
-
-        supportFragmentManager
-            .beginTransaction()
-            .show(homeFragment)
-            .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .show(homeFragment)
+                .commit()
+        }
     }
 
     private fun checkForPendingInstall() {

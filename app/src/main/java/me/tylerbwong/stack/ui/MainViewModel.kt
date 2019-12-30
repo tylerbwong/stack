@@ -10,8 +10,9 @@ import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
 import retrofit2.HttpException
 
-internal class MainViewModel(private val authRepository: AuthRepository = AuthRepository()) :
-    BaseViewModel() {
+internal class MainViewModel(
+    private val authRepository: AuthRepository = AuthRepository()
+) : BaseViewModel() {
 
     internal val profileImage: LiveData<String?>
         get() = _profileImage
