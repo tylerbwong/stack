@@ -93,10 +93,11 @@ class MainActivity : BaseActivity(), InstallStateUpdatedListener {
             if (resultCode == RESULT_OK) {
                 checkForPendingInstall()
             } else {
-                rootLayout.showSnackbar(
+                bottomNav.showSnackbar(
                     R.string.update_not_downloaded,
                     R.string.update,
-                    Snackbar.LENGTH_LONG
+                    Snackbar.LENGTH_LONG,
+                    true
                 ) { appUpdater.checkForUpdate(this) }
             }
         }
@@ -127,7 +128,7 @@ class MainActivity : BaseActivity(), InstallStateUpdatedListener {
     private fun checkForPendingInstall() {
         appUpdater.checkForPendingInstall(
             onDownloadFinished = {
-                rootLayout.showSnackbar(R.string.restart_to_install, R.string.restart) {
+                bottomNav.showSnackbar(R.string.restart_to_install, R.string.restart, shouldAnchorView = true) {
                     appUpdater.apply {
                         completeUpdate()
                         unregisterListener(this@MainActivity)
@@ -135,7 +136,7 @@ class MainActivity : BaseActivity(), InstallStateUpdatedListener {
                 }
             },
             onDownloadFailed = {
-                rootLayout.showSnackbar(R.string.download_error, R.string.retry) {
+                bottomNav.showSnackbar(R.string.download_error, R.string.retry, shouldAnchorView = true) {
                     appUpdater.checkForUpdate(this)
                 }
             }

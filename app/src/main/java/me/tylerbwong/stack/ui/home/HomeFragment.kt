@@ -30,6 +30,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClick
     private val adapter = QuestionAdapter()
     private var snackbar: Snackbar? = null
 
+    private val bottomNav by lazy { activity?.findViewById<View>(R.id.bottomNav) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -41,7 +43,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClick
         }
         viewModel.snackbar.observe(this) {
             if (it != null) {
-                snackbar = activity?.findViewById<View>(R.id.bottomNav)?.showSnackbar(R.string.network_error, R.string.retry) {
+                snackbar = bottomNav?.showSnackbar(R.string.network_error, R.string.retry, shouldAnchorView = true) {
                     viewModel.fetchQuestions()
                 }
             } else {

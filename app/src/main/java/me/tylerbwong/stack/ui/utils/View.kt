@@ -29,10 +29,14 @@ fun View.showSnackbar(
     @StringRes messageId: Int,
     @StringRes actionTextId: Int? = null,
     @Duration duration: Int = Snackbar.LENGTH_INDEFINITE,
+    shouldAnchorView: Boolean = false,
     onActionClicked: ((View) -> Unit)? = null
 ): Snackbar {
     val snackbar = Snackbar.make(this, messageId, duration)
-        .setAnchorView(this)
+
+    if (shouldAnchorView) {
+        snackbar.anchorView = this
+    }
 
     if (actionTextId != null && onActionClicked != null) {
         snackbar.setAction(actionTextId, onActionClicked)
