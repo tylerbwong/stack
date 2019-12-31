@@ -26,9 +26,8 @@ jobs:
       - run:
           name: Run detekt
           command: ./gradlew detekt
-      - store_artifacts:
+      - store_test_results:
           path: app/build/reports
-          destination: build/reports
 
   build:
     parameters:

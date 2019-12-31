@@ -1,5 +1,3 @@
-import io.gitlab.arturbosch.detekt.detekt
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -60,6 +58,11 @@ androidExtensions {
 
 detekt {
     config = files("$rootDir/detekt.yml")
+    reports {
+        html.enabled = false
+        txt.enabled = false
+        xml.enabled = true
+    }
 }
 
 dependencies {
