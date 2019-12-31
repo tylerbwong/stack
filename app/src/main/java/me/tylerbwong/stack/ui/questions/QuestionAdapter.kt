@@ -6,6 +6,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -20,18 +21,20 @@ import me.tylerbwong.stack.ui.utils.systemService
 import me.tylerbwong.stack.ui.utils.toHtml
 
 class QuestionAdapter : ListAdapter<Question, QuestionViewHolder>(
-    object : DiffUtil.ItemCallback<Question>() {
-        override fun areItemsTheSame(
-            oldItem: Question,
-            newItem: Question
-        ) = oldItem.questionId == newItem.questionId
+    AsyncDifferConfig.Builder<Question>(
+        object : DiffUtil.ItemCallback<Question>() {
+            override fun areItemsTheSame(
+                oldItem: Question,
+                newItem: Question
+            ) = oldItem.questionId == newItem.questionId
 
-        override fun areContentsTheSame(
-            oldItem: Question,
-            newItem: Question
-        ) = oldItem.title == newItem.title && oldItem.answerCount == newItem.answerCount &&
-                oldItem.owner == newItem.owner
-    }
+            override fun areContentsTheSame(
+                oldItem: Question,
+                newItem: Question
+            ) = oldItem.title == newItem.title && oldItem.answerCount == newItem.answerCount &&
+                    oldItem.owner == newItem.owner
+        }
+    ).build()
 ) {
     override fun onCreateViewHolder(
         parent: ViewGroup,

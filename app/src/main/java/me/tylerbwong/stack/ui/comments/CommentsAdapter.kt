@@ -2,6 +2,7 @@ package me.tylerbwong.stack.ui.comments
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,17 +17,19 @@ import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 
 class CommentsAdapter : ListAdapter<Comment, CommentHolder>(
-    object : DiffUtil.ItemCallback<Comment>() {
-        override fun areItemsTheSame(
-            oldItem: Comment,
-            newItem: Comment
-        ) = oldItem.commentId == newItem.commentId
+    AsyncDifferConfig.Builder<Comment>(
+        object : DiffUtil.ItemCallback<Comment>() {
+            override fun areItemsTheSame(
+                oldItem: Comment,
+                newItem: Comment
+            ) = oldItem.commentId == newItem.commentId
 
-        override fun areContentsTheSame(
-            oldItem: Comment,
-            newItem: Comment
-        ) = oldItem.bodyMarkdown == newItem.bodyMarkdown && oldItem.owner == newItem.owner
-    }
+            override fun areContentsTheSame(
+                oldItem: Comment,
+                newItem: Comment
+            ) = oldItem.bodyMarkdown == newItem.bodyMarkdown && oldItem.owner == newItem.owner
+        }
+    ).build()
 ) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
