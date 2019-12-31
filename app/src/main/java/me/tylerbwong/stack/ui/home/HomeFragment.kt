@@ -12,7 +12,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.header_holder.*
+import kotlinx.android.synthetic.main.header_holder.view.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.CREATION
@@ -23,6 +23,7 @@ import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.data.model.sortResourceId
 import me.tylerbwong.stack.ui.questions.QuestionAdapter
+import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClickListener {
@@ -31,6 +32,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClick
     private var snackbar: Snackbar? = null
 
     private val bottomNav by lazy { activity?.findViewById<View>(R.id.bottomNav) }
+    private val headerView by lazy { recyclerView.inflate(R.layout.header_holder) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +45,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClick
         }
         viewModel.snackbar.observe(this) {
             if (it != null) {
-                snackbar = bottomNav?.showSnackbar(R.string.network_error, R.string.retry, shouldAnchorView = true) {
+                snackbar = bottomNav?.showSnackbar(
+                    R.string.network_error,
+                    R.string.retry,
+                    shouldAnchorView = true
+                ) {
                     viewModel.fetchQuestions()
                 }
             } else {
@@ -55,6 +61,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClick
         recyclerView.apply {
             adapter = this@HomeFragment.adapter
             layoutManager = LinearLayoutManager(context)
+            addItemDecoration(HeaderItemDecoration(headerView))
         }
 
         refreshLayout.setOnRefreshListener {
@@ -98,8 +105,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClick
     }
 
     private fun updateContent(questions: List<Question>) {
-        title.text = getString(R.string.questions)
-        subtitle.text = getString(viewModel.currentSort.sortResourceId)
+        headerView.title.text = getString(R.string.questions)
+        headerView.subtitle.text = getString(viewModel.currentSort.sortResourceId)
         adapter.submitList(questions)
     }
 }
