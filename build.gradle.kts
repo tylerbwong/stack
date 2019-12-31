@@ -12,7 +12,6 @@ buildscript {
         classpath(Dep.gradlePlugin)
         classpath(Dep.kotlinPlugin)
         classpath(Dep.googleServicesPlugin)
-        classpath(Dep.ktlintGradle)
     }
 }
 

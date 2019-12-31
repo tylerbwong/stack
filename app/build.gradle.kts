@@ -1,10 +1,12 @@
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-kapt")
     id("io.fabric")
-    id("org.jlleitschuh.gradle.ktlint")
+    id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintGradle
     id("io.gitlab.arturbosch.detekt") version Versions.detekt
 }
 
@@ -56,13 +58,13 @@ androidExtensions {
     isExperimental = true
 }
 
+ktlint {
+    debug.set(true)
+    reporters.set(setOf(ReporterType.CHECKSTYLE))
+}
+
 detekt {
     config = files("$rootDir/detekt.yml")
-    reports {
-        html.enabled = false
-        txt.enabled = false
-        xml.enabled = true
-    }
 }
 
 dependencies {
