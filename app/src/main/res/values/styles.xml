@@ -6,7 +6,6 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu.ContextMenu</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">@color/divider</item>
         <item name="android:navigationBarColor">@android:color/white</item>
     </style>
 
@@ -26,6 +25,10 @@
             @style/MaterialAlertDialog.MaterialComponents.Title.Text
         </item>
         <item name="iconColor">@color/iconColor</item>
+    </style>
+
+    <style name="AppTheme.Base.Primary.Fullscreen">
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <style name="MaterialAlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">

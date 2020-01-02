@@ -102,6 +102,9 @@ dependencies {
     // firebase
     implementation(Dep.firebaseCore)
 
+    // insetter
+    implementation(Dep.insetter)
+
     // logging
     implementation(Dep.timber)
 

@@ -6,15 +6,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.PopupMenu
 import androidx.activity.viewModels
-import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -23,59 +19,37 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.InstallStatus
+import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.header_holder.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.AppUpdater
 import me.tylerbwong.stack.data.auth.AuthStore
-import me.tylerbwong.stack.data.model.ACTIVITY
-import me.tylerbwong.stack.data.model.CREATION
-import me.tylerbwong.stack.data.model.HOT
-import me.tylerbwong.stack.data.model.MONTH
-import me.tylerbwong.stack.data.model.Question
-import me.tylerbwong.stack.data.model.VOTES
-import me.tylerbwong.stack.data.model.WEEK
-import me.tylerbwong.stack.data.model.sortResourceId
-import me.tylerbwong.stack.ui.questions.QuestionAdapter
+import me.tylerbwong.stack.ui.drafts.DraftsFragment
+import me.tylerbwong.stack.ui.home.HomeFragment
+import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.SettingsActivity
-import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
-import me.tylerbwong.stack.ui.utils.showKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
-import kotlinx.android.synthetic.main.header_holder.title as headerTitle
 
-class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
-    SearchView.OnQueryTextListener, InstallStateUpdatedListener {
-
+class MainActivity : BaseActivity(), InstallStateUpdatedListener {
     private val viewModel: MainViewModel by viewModels()
-    private val adapter = QuestionAdapter()
-    private var snackbar: Snackbar? = null
-    private var menu: Menu? = null
 
     private lateinit var appUpdater: AppUpdater
+
+    private val homeFragment by lazy { initializeFragment(HOME_FRAGMENT_TAG) { HomeFragment() } }
+    private val searchFragment by lazy { initializeFragment(SEARCH_FRAGMENT_TAG) { SearchFragment() } }
+    private val draftsFragment by lazy { initializeFragment(DRAFTS_FRAGMENT_TAG) { DraftsFragment() } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        setupBottomNavigation()
+        applyFullscreenWindowInsets()
 
         supportActionBar?.title = ""
 
-        viewModel.refreshing.observe(this) {
-            refreshLayout.isRefreshing = it
-        }
-        viewModel.snackbar.observe(this) {
-            if (it != null) {
-                snackbar = rootLayout.showSnackbar(R.string.network_error, R.string.retry) {
-                    viewModel.fetchUser()
-                    viewModel.fetchQuestions()
-                }
-            } else {
-                snackbar?.dismiss()
-            }
-        }
-        viewModel.questions.observe(this, ::updateContent)
         viewModel.isAuthenticated.observe(this) {
             if (it) {
                 viewModel.fetchUser()
@@ -99,114 +73,30 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             }
         }
 
-        recyclerView.apply {
-            adapter = this@MainActivity.adapter
-            layoutManager = LinearLayoutManager(context)
-        }
-        searchView.setOnQueryTextListener(this)
-        searchView.findViewById<ImageView>(R.id.search_close_btn)?.setOnClickListener {
-            clearSearch()
-        }
-
-        refreshLayout.setOnRefreshListener {
-            viewModel.fetchUser()
-            viewModel.fetchQuestions()
-        }
-
-        viewModel.fetchQuestions()
-
         appUpdater = AppUpdater(AppUpdateManagerFactory.create(this))
         appUpdater.checkForUpdate(this)
+
+        populateContent(savedInstanceState)
     }
 
     override fun onResume() {
         super.onResume()
         checkForPendingInstall()
-        if (searchView.isVisible) {
-            searchView.showKeyboard()
-        } else {
-            searchView.hideKeyboard()
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        searchView.hideKeyboard()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        this.menu = menu
         menuInflater.inflate(R.menu.menu_main, menu)
-        menuInflater.inflate(R.menu.menu_sort_item, menu)
-
-        if (!viewModel.isQueryBlank()) {
-            menu.findItem(R.id.search)?.let {
-                onOptionsItemSelected(it)
-            }
-        }
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.sort -> {
-                PopupMenu(this, findViewById(R.id.sort)).also {
-                    it.inflate(R.menu.menu_sort)
-                    it.setOnMenuItemClickListener(this)
-                    it.show()
-                }
-            }
-            R.id.search -> {
-                searchView.apply {
-                    isVisible = true
-                    requestFocus()
-                    showKeyboard()
-                }
-            }
             R.id.settings -> {
                 SettingsActivity.startActivity(this)
+                return true
             }
         }
-        return true
-    }
-
-    override fun onBackPressed() {
-        if (searchView.visibility == View.VISIBLE) {
-            searchView.isGone = true
-            viewModel.currentQuery = ""
-            viewModel.getQuestions()
-        } else {
-            super.onBackPressed()
-        }
-    }
-
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-        val sort = when (item?.itemId) {
-            R.id.creation -> CREATION
-            R.id.activity -> ACTIVITY
-            R.id.votes -> VOTES
-            R.id.hot -> HOT
-            R.id.week -> WEEK
-            R.id.month -> MONTH
-            else -> CREATION
-        }
-        clearSearch(fetchQuestions = false)
-        viewModel.getQuestions(sort)
-        return true
-    }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        query?.let {
-            searchView.hideKeyboard()
-            viewModel.searchQuestions(it)
-            return true
-        }
-        return false
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        viewModel.onQueryTextChange(newText)
-        return true
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -215,10 +105,11 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             if (resultCode == RESULT_OK) {
                 checkForPendingInstall()
             } else {
-                rootLayout.showSnackbar(
+                bottomNav.showSnackbar(
                     R.string.update_not_downloaded,
                     R.string.update,
-                    Snackbar.LENGTH_LONG
+                    Snackbar.LENGTH_LONG,
+                    true
                 ) { appUpdater.checkForUpdate(this) }
             }
         }
@@ -235,10 +126,58 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
         appUpdater.unregisterListener(this)
     }
 
+    private fun applyFullscreenWindowInsets() {
+        rootLayout.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        bottomNav.doOnApplyWindowInsets { view, insets, initialState ->
+            view.updatePadding(
+                bottom = initialState.paddings.bottom + insets.systemWindowInsetBottom
+            )
+        }
+        appBar.doOnApplyWindowInsets { view, insets, initialState ->
+            view.updatePadding(
+                top = initialState.paddings.top + insets.systemWindowInsetTop
+            )
+        }
+    }
+
+    private fun setupBottomNavigation() {
+        bottomNav.setOnNavigationItemSelectedListener { menuItem ->
+            val fragment = when (menuItem.itemId) {
+                R.id.search -> searchFragment
+                R.id.drafts -> draftsFragment
+                else -> homeFragment
+            }
+            val currentFragment =
+                supportFragmentManager.fragments.firstOrNull { !it.isHidden } ?: homeFragment
+
+            supportFragmentManager
+                .beginTransaction()
+                .hide(currentFragment)
+                .show(fragment)
+                .commit()
+
+            true
+        }
+    }
+
+    private fun populateContent(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .show(homeFragment)
+                .commit()
+        }
+    }
+
     private fun checkForPendingInstall() {
         appUpdater.checkForPendingInstall(
             onDownloadFinished = {
-                rootLayout.showSnackbar(R.string.restart_to_install, R.string.restart) {
+                bottomNav.showSnackbar(
+                    R.string.restart_to_install,
+                    R.string.restart,
+                    shouldAnchorView = true
+                ) {
                     appUpdater.apply {
                         completeUpdate()
                         unregisterListener(this@MainActivity)
@@ -246,30 +185,15 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
                 }
             },
             onDownloadFailed = {
-                rootLayout.showSnackbar(R.string.download_error, R.string.retry) {
+                bottomNav.showSnackbar(
+                    R.string.download_error,
+                    R.string.retry,
+                    shouldAnchorView = true
+                ) {
                     appUpdater.checkForUpdate(this)
                 }
             }
         )
-    }
-
-    private fun clearSearch(fetchQuestions: Boolean = true) {
-        searchView.setQuery("", false)
-        searchView.isGone = true
-
-        if (fetchQuestions) {
-            viewModel.fetchQuestions()
-        }
-    }
-
-    private fun updateContent(questions: List<Question>) {
-        headerTitle.text = getString(R.string.questions)
-        subtitle.text = if (!viewModel.isQueryBlank()) {
-            "\"${viewModel.currentQuery}\""
-        } else {
-            getString(viewModel.currentSort.sortResourceId)
-        }
-        adapter.submitList(questions)
     }
 
     private fun showLogOutDialog() {
@@ -294,7 +218,21 @@ class MainActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener,
             .show()
     }
 
+    private fun initializeFragment(tag: String, createFragment: () -> Fragment): Fragment {
+        return supportFragmentManager.findFragmentByTag(tag) ?: createFragment().also { fragment ->
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.contentContainer, fragment, tag)
+                .hide(fragment)
+                .commit()
+        }
+    }
+
     companion object {
+        private const val HOME_FRAGMENT_TAG = "home_fragment"
+        private const val SEARCH_FRAGMENT_TAG = "search_fragment"
+        private const val DRAFTS_FRAGMENT_TAG = "drafts_fragment"
+
         fun makeIntentClearTop(context: Context) = Intent(context, MainActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     }
