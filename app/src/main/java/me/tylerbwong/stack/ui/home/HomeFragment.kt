@@ -12,7 +12,6 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.header_holder.view.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.CREATION
@@ -22,13 +21,12 @@ import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.data.model.sortResourceId
-import me.tylerbwong.stack.ui.questions.QuestionAdapter
 import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClickListener {
     private val viewModel: HomeViewModel by viewModels()
-    private val adapter = QuestionAdapter()
+    private val adapter = HomeAdapter()
     private var snackbar: Snackbar? = null
 
     private val bottomNav by lazy { activity?.findViewById<View>(R.id.bottomNav) }
@@ -61,7 +59,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClick
         recyclerView.apply {
             adapter = this@HomeFragment.adapter
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(HeaderItemDecoration(headerView))
         }
 
         refreshLayout.setOnRefreshListener {
@@ -105,8 +102,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClick
     }
 
     private fun updateContent(questions: List<Question>) {
-        headerView.title.text = getString(R.string.questions)
-        headerView.subtitle.text = getString(viewModel.currentSort.sortResourceId)
-        adapter.submitList(questions)
+        val homeItems: List<HomeItem> = listOf(
+            HeaderItem(
+                getString(R.string.questions),
+                getString(viewModel.currentSort.sortResourceId)
+            )
+        )
+
+        adapter.submitList(homeItems + questions.map { QuestionItem(it) })
     }
 }
