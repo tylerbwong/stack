@@ -24,7 +24,7 @@ import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
 
-class ProfileActivity : BaseActivity() {
+class ProfileActivity : BaseActivity(R.layout.activity_profile) {
 
     private val viewModel: ProfileViewModel by viewModels()
     private val adapter = QuestionAdapter()
@@ -32,7 +32,6 @@ class ProfileActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
         setSupportActionBar(toolbar)
 
         viewModel.userId = intent.getIntExtra(USER_ID, 0)

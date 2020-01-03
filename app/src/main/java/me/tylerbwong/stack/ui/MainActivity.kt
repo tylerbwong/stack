@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.updatePadding
@@ -32,7 +31,7 @@ import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
-class MainActivity : BaseActivity(), InstallStateUpdatedListener {
+class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedListener {
     private val viewModel: MainViewModel by viewModels()
 
     private lateinit var appUpdater: AppUpdater
@@ -43,10 +42,8 @@ class MainActivity : BaseActivity(), InstallStateUpdatedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         setupBottomNavigation()
-        applyFullscreenWindowInsets()
 
         supportActionBar?.title = ""
 
@@ -126,17 +123,11 @@ class MainActivity : BaseActivity(), InstallStateUpdatedListener {
         appUpdater.unregisterListener(this)
     }
 
-    private fun applyFullscreenWindowInsets() {
-        rootLayout.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+    override fun applyFullscreenWindowInsets() {
+        super.applyFullscreenWindowInsets()
         bottomNav.doOnApplyWindowInsets { view, insets, initialState ->
             view.updatePadding(
                 bottom = initialState.paddings.bottom + insets.systemWindowInsetBottom
-            )
-        }
-        appBar.doOnApplyWindowInsets { view, insets, initialState ->
-            view.updatePadding(
-                top = initialState.paddings.top + insets.systemWindowInsetTop
             )
         }
     }

@@ -24,11 +24,8 @@
         <item name="materialAlertDialogTitleTextStyle">
             @style/MaterialAlertDialog.MaterialComponents.Title.Text
         </item>
-        <item name="iconColor">@color/iconColor</item>
-    </style>
-
-    <style name="AppTheme.Base.Primary.Fullscreen">
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="iconColor">@color/iconColor</item>
     </style>
 
     <style name="MaterialAlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">

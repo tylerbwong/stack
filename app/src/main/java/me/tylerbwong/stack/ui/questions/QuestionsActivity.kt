@@ -22,7 +22,8 @@ import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
-class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
+class QuestionsActivity : BaseActivity(R.layout.activity_questions),
+    PopupMenu.OnMenuItemClickListener {
 
     private val viewModel by viewModels<QuestionsViewModel>()
     private val adapter = QuestionAdapter()
@@ -30,7 +31,6 @@ class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_questions)
         setSupportActionBar(toolbar)
 
         val key = intent.getStringExtra(KEY_EXTRA) ?: ""

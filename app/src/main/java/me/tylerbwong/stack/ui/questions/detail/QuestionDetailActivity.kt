@@ -16,14 +16,13 @@ import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
-class QuestionDetailActivity : BaseActivity() {
+class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
 
     private val viewModel by viewModels<QuestionDetailMainViewModel>()
     private lateinit var adapter: QuestionDetailPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_question_detail)
         setSupportActionBar(toolbar)
         setTitle("")
 

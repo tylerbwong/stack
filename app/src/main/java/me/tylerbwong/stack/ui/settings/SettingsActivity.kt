@@ -8,11 +8,10 @@ import kotlinx.android.synthetic.main.activity_settings.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.BaseActivity
 
-class SettingsActivity : BaseActivity() {
+class SettingsActivity : BaseActivity(R.layout.activity_settings) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
         setSupportActionBar(toolbar)
 
         supportActionBar?.apply {
