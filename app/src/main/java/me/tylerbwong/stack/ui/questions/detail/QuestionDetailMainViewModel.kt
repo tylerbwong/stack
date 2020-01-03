@@ -10,8 +10,6 @@ import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.ui.BaseViewModel
-import me.tylerbwong.stack.ui.answers.AnswerDataModel
-import me.tylerbwong.stack.ui.utils.DynamicDataModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import me.tylerbwong.stack.ui.utils.zipWith
 
@@ -20,9 +18,9 @@ class QuestionDetailMainViewModel(
     private val service: QuestionService = ServiceProvider.questionService
 ) : BaseViewModel() {
 
-    internal val data: LiveData<List<DynamicDataModel>>
+    internal val data: LiveData<List<QuestionDetailItem>>
         get() = _data
-    private val _data = MutableLiveData<List<DynamicDataModel>>()
+    private val _data = MutableLiveData<List<QuestionDetailItem>>()
 
     internal val voteCount: LiveData<Int>
         get() = _voteCount
@@ -50,10 +48,10 @@ class QuestionDetailMainViewModel(
                 !it.isAccepted
             }
 
-            val response = mutableListOf<DynamicDataModel>().apply {
-                add(0, QuestionDetailDataModel(questionResult))
-                add(AnswerHeaderDataModel(questionResult.answerCount))
-                addAll(answersResult.map { AnswerDataModel(it) })
+            val response = mutableListOf<QuestionDetailItem>().apply {
+                add(0, QuestionItem(questionResult))
+                add(AnswerHeaderItem(questionResult.answerCount))
+                addAll(answersResult.map { AnswerItem(it) })
             } to questionResult
 
             question = response.second

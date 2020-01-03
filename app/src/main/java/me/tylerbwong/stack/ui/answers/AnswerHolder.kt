@@ -1,50 +1,47 @@
 package me.tylerbwong.stack.ui.answers
 
-import android.view.ViewGroup
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.answer_holder.*
-import kotlinx.android.synthetic.main.answer_holder.view.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
-import me.tylerbwong.stack.ui.utils.DynamicViewHolder
-import me.tylerbwong.stack.ui.utils.inflate
+import me.tylerbwong.stack.ui.questions.detail.AnswerItem
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
-import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 
-class AnswerHolder(parent: ViewGroup) : DynamicViewHolder(
-    parent.inflate(R.layout.answer_holder).also {
-        it.answerBody.setSpannableFactory(noCopySpannableFactory)
-    }
-) {
-    override fun bind(data: Any) {
-        (data as? AnswerDataModel)?.let { dataModel ->
-            val voteCount = dataModel.voteCount
-            votes.text =
-                itemView.context.resources.getQuantityString(R.plurals.votes, voteCount, voteCount)
-            acceptedAnswerCheck.isVisible = dataModel.isAccepted
+class AnswerHolder(
+    override val containerView: View
+) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-            answerBody.apply {
-                setMarkdown(dataModel.answerBody)
-                setTextIsSelectable(true)
-                movementMethod = BetterLinkMovementMethod.getInstance()
-            }
+    fun bind(data: AnswerItem) {
+        val answer = data.answer
+        val voteCount = answer.upVoteCount - answer.downVoteCount
+        votes.text =
+            itemView.context.resources.getQuantityString(R.plurals.votes, voteCount, voteCount)
+        acceptedAnswerCheck.isVisible = answer.isAccepted
 
-            lastEditor.apply {
-                isVisible = dataModel.lastEditorName != null
-                text = context.getString(R.string.last_edited_by, dataModel.lastEditorName)
-            }
+        answerBody.apply {
+            setMarkdown(answer.bodyMarkdown)
+            setTextIsSelectable(true)
+            movementMethod = BetterLinkMovementMethod.getInstance()
+        }
 
-            ownerView.bind(dataModel.owner)
+        lastEditor.apply {
+            isVisible = answer.lastEditor != null
+            text = context.getString(R.string.last_edited_by, answer.lastEditor?.displayName)
+        }
 
-            itemView.setOnLongClickListener {
-                CommentsBottomSheetDialogFragment.show(
-                    (it.context as FragmentActivity).supportFragmentManager,
-                    dataModel.answerId
-                )
-                true
-            }
+        ownerView.bind(answer.owner)
+
+        itemView.setOnLongClickListener {
+            CommentsBottomSheetDialogFragment.show(
+                (it.context as FragmentActivity).supportFragmentManager,
+                answer.answerId
+            )
+            true
         }
     }
 }

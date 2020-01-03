@@ -16,11 +16,13 @@ class HomeAdapter : ListAdapter<HomeItem, RecyclerView.ViewHolder>(
         is QuestionItem -> ITEM_TYPE_QUESTION
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        when (viewType) {
-            ITEM_TYPE_HEADER -> HeaderViewHolder(parent.inflate(R.layout.header_holder))
-            else -> QuestionViewHolder(parent.inflate(R.layout.question_holder))
-        }
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder = when (viewType) {
+        ITEM_TYPE_HEADER -> HeaderViewHolder(parent.inflate(R.layout.header_holder))
+        else -> QuestionViewHolder(parent.inflate(R.layout.question_holder))
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
@@ -31,8 +33,8 @@ class HomeAdapter : ListAdapter<HomeItem, RecyclerView.ViewHolder>(
         }
     }
 
-    private companion object {
-        const val ITEM_TYPE_HEADER = 1
-        const val ITEM_TYPE_QUESTION = 2
+    companion object {
+        private const val ITEM_TYPE_HEADER = 1
+        private const val ITEM_TYPE_QUESTION = 2
     }
 }

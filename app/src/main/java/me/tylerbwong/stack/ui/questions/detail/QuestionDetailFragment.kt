@@ -18,7 +18,6 @@ import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
 import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
-import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
@@ -26,7 +25,7 @@ import me.tylerbwong.stack.ui.utils.showSnackbar
 class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
 
     private lateinit var viewModel: QuestionDetailMainViewModel
-    private val adapter = DynamicViewAdapter()
+    private val adapter = QuestionDetailAdapter()
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +52,7 @@ class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
             }
         }
         viewModel.data.observe(this) {
-            adapter.update(it)
+            adapter.submitList(it)
         }
         viewModel.voteCount.observe(this) {
             (activity as? QuestionDetailActivity)?.setTitle(

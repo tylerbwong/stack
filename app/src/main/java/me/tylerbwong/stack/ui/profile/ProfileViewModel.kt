@@ -10,7 +10,6 @@ import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.UserService
 import me.tylerbwong.stack.ui.BaseViewModel
-import me.tylerbwong.stack.ui.answers.AnswerDataModel
 
 class ProfileViewModel(
     private val service: UserService = ServiceProvider.userService
@@ -27,18 +26,10 @@ class ProfileViewModel(
         get() = _questionsData
     private val _questionsData = MutableLiveData<List<Question>>()
 
-    internal val answersData: LiveData<List<AnswerDataModel>>
-        get() = _answersData
-    private val _answersData = MutableLiveData<List<AnswerDataModel>>()
-
     internal fun getUserQuestionsAndAnswers() {
         launchRequest {
             _userData.value = service.getUser(userId).items.firstOrNull()
             _questionsData.value = service.getUserQuestionsById(userId).items
-            // TODO Show user answers
-//            _answersData.value = service.getUserAnswersById(userId).items.map {
-//                AnswerDataModel(it)
-//            }
             user = questionsData.value?.firstOrNull()?.owner
         }
     }
