@@ -22,6 +22,7 @@ class QuestionDetailItemCallback : DiffUtil.ItemCallback<QuestionDetailItem>() {
         else -> false
     }
 
+    @Suppress("ComplexMethod") // TODO Delegate to each item
     override fun areContentsTheSame(
         oldItem: QuestionDetailItem,
         newItem: QuestionDetailItem
