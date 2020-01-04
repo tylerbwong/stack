@@ -3,11 +3,14 @@ package me.tylerbwong.stack.ui.questions.detail.post
 import android.text.TextWatcher
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.BaseTransientBottomBar.Duration
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
@@ -24,6 +27,11 @@ class PostAnswerViewModel(
     internal var markdownTextWatcher: TextWatcher? = null
     internal var selectedTabPosition = 0
     internal var questionId = 0
+    internal var questionTitle = ""
+
+    val savedDraft: LiveData<String>
+        get() = _savedDraft
+    private val _savedDraft = MutableLiveData<String>()
 
     val snackbar: LiveData<PostAnswerState>
         get() = _snackbar
@@ -52,12 +60,25 @@ class PostAnswerViewModel(
         }
     }
 
+    fun fetchDraftIfExists() {
+        viewModelScope.launch {
+            try {
+                _savedDraft.value = withContext(Dispatchers.IO) {
+                    draftDao.getAnswerDraft(questionId).bodyMarkdown
+                }
+            } catch (ex: Exception) {
+                Timber.w("No draft for questionId $questionId: $ex")
+            }
+        }
+    }
+
     fun saveDraft(markdown: String) {
         viewModelScope.launch {
             try {
                 draftDao.insertAnswerDraft(
                     AnswerDraftEntity(
                         questionId,
+                        questionTitle,
                         System.currentTimeMillis(),
                         markdown
                     )

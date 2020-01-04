@@ -21,7 +21,6 @@ import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.data.model.sortResourceId
-import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClickListener {
@@ -30,7 +29,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClick
     private var snackbar: Snackbar? = null
 
     private val bottomNav by lazy { activity?.findViewById<View>(R.id.bottomNav) }
-    private val headerView by lazy { recyclerView.inflate(R.layout.header_holder) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

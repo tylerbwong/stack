@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import timber.log.Timber
@@ -30,6 +32,22 @@ abstract class BaseViewModel : ViewModel() {
                 mutableSnackbar.value = Unit
             } finally {
                 _refreshing.value = false
+            }
+        }
+    }
+
+    protected fun <T> streamRequest(source: Flow<T>, onReceive: suspend (T) -> Unit) {
+        viewModelScope.launch {
+            _refreshing.value = true
+            try {
+                _refreshing.value = true
+                source.collect {
+                    onReceive(it)
+                    _refreshing.value = false
+                }
+            } catch (exception: Exception) {
+                Timber.e(exception)
+                mutableSnackbar.value = Unit
             }
         }
     }

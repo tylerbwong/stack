@@ -12,6 +12,9 @@ interface AnswerDraftDao {
     @Query("SELECT * FROM answer_drafts ORDER BY updated_date DESC")
     fun getAnswerDrafts(): Flow<List<AnswerDraftEntity>>
 
+    @Query("SELECT * FROM answer_drafts WHERE question_id = :questionId")
+    fun getAnswerDraft(questionId: Int): AnswerDraftEntity
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAnswerDraft(answerDraftEntity: AnswerDraftEntity)
 }

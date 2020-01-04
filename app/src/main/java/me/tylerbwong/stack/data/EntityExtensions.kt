@@ -1,8 +1,10 @@
 package me.tylerbwong.stack.data
 
+import me.tylerbwong.stack.data.model.AnswerDraft
 import me.tylerbwong.stack.data.model.BadgeCounts
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.User
+import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
 import me.tylerbwong.stack.data.persistence.entity.QuestionEntity
 import me.tylerbwong.stack.data.persistence.entity.UserEntity
 
@@ -87,4 +89,12 @@ fun UserEntity.toUser(): User =
         userId = userId,
         userType = userType,
         badgeCounts = BadgeCounts(bronzeBadgeCount, silverBadgeCount, goldBadgeCount)
+    )
+
+fun AnswerDraftEntity.toAnswerDraft(): AnswerDraft =
+    AnswerDraft(
+        questionId = questionId,
+        questionTitle = questionTitle,
+        updatedDate = updatedDate,
+        bodyMarkdown = bodyMarkdown
     )

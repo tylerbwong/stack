@@ -64,7 +64,7 @@ class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
                 )
             }
         })
-        toggleAnswerMode(isInAnswerMode = viewModel.isInAnswerMode)
+        toggleAnswerMode(isInAnswerMode = intent.getBooleanExtra(IS_IN_ANSWER_MODE, false))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -140,12 +140,15 @@ class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
 
     companion object {
         internal const val QUESTION_ID = "id"
+        internal const val IS_IN_ANSWER_MODE = "is_in_answer_mode"
 
         fun makeIntent(
             context: Context,
-            id: Int
+            id: Int,
+            isInAnswerMode: Boolean = false
         ) = Intent(context, QuestionDetailActivity::class.java)
             .putExtra(QUESTION_ID, id)
+            .putExtra(IS_IN_ANSWER_MODE, isInAnswerMode)
 
         fun startActivity(
             context: Context,

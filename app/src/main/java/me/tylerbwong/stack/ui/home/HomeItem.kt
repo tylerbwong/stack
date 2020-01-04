@@ -1,17 +1,21 @@
 package me.tylerbwong.stack.ui.home
 
 import androidx.recyclerview.widget.DiffUtil
+import me.tylerbwong.stack.data.model.AnswerDraft
 import me.tylerbwong.stack.data.model.Question
 
 sealed class HomeItem
-data class HeaderItem(val title: String, val subtitle: String) : HomeItem()
+data class HeaderItem(val title: String, val subtitle: String? = null) : HomeItem()
 data class QuestionItem(val question: Question) : HomeItem()
+data class AnswerDraftItem(val draft: AnswerDraft) : HomeItem()
 
 class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
     override fun areItemsTheSame(oldItem: HomeItem, newItem: HomeItem) =
         oldItem.javaClass == newItem.javaClass &&
                 (oldItem is HeaderItem || oldItem is QuestionItem && newItem is QuestionItem &&
-                        oldItem.question.questionId == newItem.question.questionId)
+                        oldItem.question.questionId == newItem.question.questionId ||
+                        oldItem is AnswerDraftItem && newItem is AnswerDraftItem &&
+                        oldItem.draft.questionId == newItem.draft.questionId)
 
     override fun areContentsTheSame(oldItem: HomeItem, newItem: HomeItem) = when {
         oldItem is HeaderItem && newItem is HeaderItem -> oldItem == newItem
@@ -19,6 +23,10 @@ class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
             oldItem.question.title == newItem.question.title &&
                     oldItem.question.answerCount == newItem.question.answerCount &&
                     oldItem.question.owner == newItem.question.owner
+        oldItem is AnswerDraftItem && newItem is AnswerDraftItem ->
+            oldItem.draft.questionTitle == newItem.draft.questionTitle &&
+                    oldItem.draft.formattedTimestamp == newItem.draft.formattedTimestamp &&
+                    oldItem.draft.bodyMarkdown == newItem.draft.bodyMarkdown
         else -> false
     }
 }

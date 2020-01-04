@@ -9,6 +9,8 @@ data class AnswerDraftEntity(
     @ColumnInfo(name = "question_id")
     @PrimaryKey
     val questionId: Int,
+    @ColumnInfo
+    val questionTitle: String,
     @ColumnInfo(name = "updated_date")
     val updatedDate: Long,
     @ColumnInfo(name = "body_markdown")

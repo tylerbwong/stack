@@ -48,6 +48,8 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
         supportActionBar?.title = ""
 
         viewModel.isAuthenticated.observe(this) {
+            bottomNav.menu.findItem(R.id.drafts)?.isVisible = it
+
             if (it) {
                 viewModel.fetchUser()
                 profileIcon.setThrottledOnClickListener { showLogOutDialog() }

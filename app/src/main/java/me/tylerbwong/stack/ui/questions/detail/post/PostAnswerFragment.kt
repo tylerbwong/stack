@@ -49,6 +49,7 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
         mainViewModel.clearFields.observe(this) { clearFields() }
 
         viewModel.questionId = arguments?.getInt(QuestionDetailActivity.QUESTION_ID, 0) ?: 0
+        viewModel.questionTitle = mainViewModel.question?.title ?: ""
 
         viewModel.snackbar.observe(this) {
             val activity = activity as? QuestionDetailActivity
@@ -64,6 +65,10 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
                     scrollView.showSnackbar(it.messageId, duration = it.duration)
                 }
             }
+        }
+
+        viewModel.savedDraft.observe(this) {
+            markdownEditText.setText(it)
         }
 
         debugPreview.isVisible = BuildConfig.DEBUG
@@ -105,6 +110,8 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
                 )
             }
         }
+
+        viewModel.fetchDraftIfExists()
     }
 
     override fun onResume() {
