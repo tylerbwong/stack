@@ -4,6 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.answer_draft_holder.*
+import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.home.AnswerDraftItem
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
@@ -16,7 +17,7 @@ class AnswerDraftHolder(
     fun bind(data: AnswerDraftItem) {
         val draft = data.draft
         questionTitle.text = draft.questionTitle
-        timestamp.text = draft.formattedTimestamp
+        timestamp.text = itemView.context.getString(R.string.last_updated, draft.formattedTimestamp)
         draftPreview.setMarkdown(draft.bodyMarkdown)
 
         itemView.setThrottledOnClickListener {

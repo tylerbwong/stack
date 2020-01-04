@@ -9,6 +9,5 @@ data class AnswerDraft(
     private val updatedDate: Long,
     val bodyMarkdown: String
 ) {
-    val formattedTimestamp: String
-        get() = updatedDate.formatElapsedTime(ApplicationWrapper.context)
+    var formattedTimestamp = updatedDate.formatElapsedTime(ApplicationWrapper.context)
 }

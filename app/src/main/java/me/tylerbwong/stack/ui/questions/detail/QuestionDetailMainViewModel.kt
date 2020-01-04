@@ -22,6 +22,10 @@ class QuestionDetailMainViewModel(
         get() = _data
     private val _data = MutableLiveData<List<QuestionDetailItem>>()
 
+    internal val liveQuestion: LiveData<Question>
+        get() = _liveQuestion
+    private val _liveQuestion = MutableLiveData<Question>()
+
     internal val voteCount: LiveData<Int>
         get() = _voteCount
     private val _voteCount = MutableLiveData<Int>()
@@ -55,6 +59,7 @@ class QuestionDetailMainViewModel(
             } to questionResult
 
             question = response.second
+            _liveQuestion.value = response.second
 
             _data.value = response.first
             _voteCount.value = response.second.upVoteCount - response.second.downVoteCount

@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -49,7 +50,9 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
         mainViewModel.clearFields.observe(this) { clearFields() }
 
         viewModel.questionId = arguments?.getInt(QuestionDetailActivity.QUESTION_ID, 0) ?: 0
-        viewModel.questionTitle = mainViewModel.question?.title ?: ""
+        mainViewModel.liveQuestion.observe(this) {
+            viewModel.questionTitle = it.title
+        }
 
         viewModel.snackbar.observe(this) {
             val activity = activity as? QuestionDetailActivity
@@ -140,6 +143,11 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
                     .setTitle(R.string.save_draft)
                     .setPositiveButton(R.string.save_draft) { _, _ ->
                         viewModel.saveDraft(markdownEditText.text.toString())
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.draft_saved,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
                     .create()
@@ -149,7 +157,10 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
                 MaterialAlertDialogBuilder(requireContext())
                     .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.default_dialog_bg))
                     .setTitle(R.string.discard_answer)
-                    .setPositiveButton(R.string.discard) { _, _ -> clearFields() }
+                    .setPositiveButton(R.string.discard) { _, _ ->
+                        clearFields()
+                        viewModel.deleteDraft()
+                    }
                     .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
                     .create()
                     .show()

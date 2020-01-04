@@ -17,4 +17,10 @@ interface AnswerDraftDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAnswerDraft(answerDraftEntity: AnswerDraftEntity)
+
+    @Query("DELETE FROM answer_drafts WHERE question_id = :questionId")
+    suspend fun deleteDraftById(questionId: Int)
+
+    @Query("DELETE FROM answer_drafts")
+    suspend fun clearDrafts()
 }

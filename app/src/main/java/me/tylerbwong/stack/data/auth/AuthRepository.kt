@@ -6,9 +6,12 @@ import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.AuthService
 import me.tylerbwong.stack.data.network.service.UserService
+import me.tylerbwong.stack.data.persistence.StackDatabase
+import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import timber.log.Timber
 
 class AuthRepository(
+    private val answerDraftDao: AnswerDraftDao = StackDatabase.getInstance().getAnswerDraftDao(),
     private val userService: UserService = ServiceProvider.userService,
     private val authService: AuthService = ServiceProvider.authService,
     private val authStore: AuthStore = AuthStore
@@ -19,6 +22,7 @@ class AuthRepository(
         return try {
             if (!accessToken.isNullOrBlank()) {
                 authService.logOut(accessToken = accessToken)
+                answerDraftDao.clearDrafts()
                 authStore.clear()
                 LogOutSuccess
             } else {

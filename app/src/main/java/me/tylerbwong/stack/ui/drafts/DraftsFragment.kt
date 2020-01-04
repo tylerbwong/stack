@@ -56,7 +56,14 @@ class DraftsFragment : Fragment(R.layout.fragment_home) {
 
     private fun updateContent(drafts: List<AnswerDraft>) {
         val homeItems: List<HomeItem> = listOf(
-            HeaderItem(getString(R.string.drafts))
+            HeaderItem(
+                getString(R.string.drafts),
+                if (drafts.isEmpty()) {
+                    getString(R.string.nothing_here)
+                } else {
+                    null
+                }
+            )
         )
 
         adapter.submitList(homeItems + drafts.map { AnswerDraftItem(it) })

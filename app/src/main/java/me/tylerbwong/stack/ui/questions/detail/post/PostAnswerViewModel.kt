@@ -63,9 +63,11 @@ class PostAnswerViewModel(
     fun fetchDraftIfExists() {
         viewModelScope.launch {
             try {
-                _savedDraft.value = withContext(Dispatchers.IO) {
-                    draftDao.getAnswerDraft(questionId).bodyMarkdown
+                val draft = withContext(Dispatchers.IO) {
+                    draftDao.getAnswerDraft(questionId)
                 }
+                questionTitle = draft.questionTitle
+                _savedDraft.value = draft.bodyMarkdown
             } catch (ex: Exception) {
                 Timber.w("No draft for questionId $questionId: $ex")
             }
@@ -86,6 +88,16 @@ class PostAnswerViewModel(
             } catch (ex: Exception) {
                 Timber.e(ex)
                 _snackbar.value = PostAnswerState.Error
+            }
+        }
+    }
+
+    fun deleteDraft() {
+        viewModelScope.launch {
+            try {
+                draftDao.deleteDraftById(questionId)
+            } catch (ex: Exception) {
+                Timber.e(ex)
             }
         }
     }

@@ -41,12 +41,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClick
         }
         viewModel.snackbar.observe(this) {
             if (it != null) {
-                snackbar = bottomNav?.showSnackbar(
-                    R.string.network_error,
-                    R.string.retry,
-                    shouldAnchorView = true
-                ) {
-                    viewModel.fetchQuestions()
+                bottomNav?.post {
+                    snackbar = bottomNav?.showSnackbar(
+                        R.string.network_error,
+                        R.string.retry,
+                        shouldAnchorView = true
+                    ) {
+                        viewModel.fetchQuestions()
+                    }
                 }
             } else {
                 snackbar?.dismiss()

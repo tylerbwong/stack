@@ -49,6 +49,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
 
         viewModel.isAuthenticated.observe(this) {
             bottomNav.menu.findItem(R.id.drafts)?.isVisible = it
+            bottomNav.selectedItemId = R.id.home
 
             if (it) {
                 viewModel.fetchUser()
@@ -193,6 +194,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
         MaterialAlertDialogBuilder(this)
             .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
             .setTitle(R.string.log_out_title)
+            .setMessage(R.string.log_out_message)
             .setPositiveButton(R.string.log_out) { _, _ -> viewModel.logOut() }
             .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
             .create()

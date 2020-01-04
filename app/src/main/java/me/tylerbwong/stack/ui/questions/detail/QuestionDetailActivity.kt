@@ -31,6 +31,11 @@ class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
         }
 
         viewModel.canAnswerQuestion.observe(this) {
+            viewPager.offscreenPageLimit = if (it) {
+                2
+            } else {
+                1
+            }
             toggleAnswerButtonVisibility(isVisible = it && !viewModel.isInAnswerMode)
         }
 

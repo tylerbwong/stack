@@ -15,16 +15,14 @@ class SearchFragment : Fragment(R.layout.fragment_home) {
     private val adapter = HomeAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        refreshLayout.isEnabled = false
         recyclerView.apply {
             adapter = this@SearchFragment.adapter
             layoutManager = LinearLayoutManager(context)
         }
 
         val homeItems: List<HomeItem> = listOf(
-            HeaderItem(
-                getString(R.string.search),
-                "Coming soon!"
-            )
+            HeaderItem(getString(R.string.search), getString(R.string.nothing_here))
         )
 
         adapter.submitList(homeItems)

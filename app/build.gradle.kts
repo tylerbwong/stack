@@ -122,11 +122,12 @@ dependencies {
     implementation(Dep.processPhoenix)
 
     // networking
-    implementation(Dep.gson)
+    implementation(Dep.moshi)
+    kapt(Dep.moshiKotlinCodegen)
     implementation(Dep.okHttp)
     implementation(Dep.okHttpLogger)
     implementation(Dep.retrofit)
-    implementation(Dep.retrofitGsonConverter)
+    implementation(Dep.retrofitMoshiConverter)
 
     // play
     implementation(Dep.playCore)
