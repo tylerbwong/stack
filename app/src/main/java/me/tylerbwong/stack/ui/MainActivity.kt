@@ -40,6 +40,8 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
     private val searchFragment by lazy { initializeFragment(SEARCH_FRAGMENT_TAG) { SearchFragment() } }
     private val draftsFragment by lazy { initializeFragment(DRAFTS_FRAGMENT_TAG) { DraftsFragment() } }
 
+    private val authTabIds = listOf(R.id.drafts)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(toolbar)
@@ -47,11 +49,13 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
 
         supportActionBar?.title = ""
 
-        viewModel.isAuthenticated.observe(this) {
-            bottomNav.menu.findItem(R.id.drafts)?.isVisible = it
-            bottomNav.selectedItemId = R.id.home
+        viewModel.isAuthenticated.observe(this) { isAuthenticated ->
+            authTabIds.forEach { bottomNav.menu.findItem(it)?.isVisible = isAuthenticated }
+            if (bottomNav.selectedItemId in authTabIds) {
+                bottomNav.selectedItemId = R.id.home
+            }
 
-            if (it) {
+            if (isAuthenticated) {
                 viewModel.fetchUser()
                 profileIcon.setThrottledOnClickListener { showLogOutDialog() }
             } else {
