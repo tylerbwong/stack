@@ -9,6 +9,7 @@ import me.tylerbwong.stack.ui.home.AnswerDraftItem
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import me.tylerbwong.stack.ui.utils.toHtml
 
 class AnswerDraftHolder(
     override val containerView: View
@@ -16,7 +17,7 @@ class AnswerDraftHolder(
 
     fun bind(data: AnswerDraftItem) {
         val draft = data.draft
-        questionTitle.text = draft.questionTitle
+        questionTitle.text = draft.questionTitle.toHtml()
         timestamp.text = itemView.context.getString(R.string.last_updated, draft.formattedTimestamp)
         draftPreview.setMarkdown(draft.bodyMarkdown)
 
