@@ -17,6 +17,7 @@ class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
                         oldItem is AnswerDraftItem && newItem is AnswerDraftItem &&
                         oldItem.draft.questionId == newItem.draft.questionId)
 
+    @Suppress("ComplexMethod")
     override fun areContentsTheSame(oldItem: HomeItem, newItem: HomeItem) = when {
         oldItem is HeaderItem && newItem is HeaderItem -> oldItem == newItem
         oldItem is QuestionItem && newItem is QuestionItem ->
