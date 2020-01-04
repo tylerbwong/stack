@@ -10,6 +10,7 @@ import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.network.service.AuthService
 import me.tylerbwong.stack.data.network.service.UserService
+import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
@@ -30,6 +31,9 @@ import me.tylerbwong.stack.data.model.Response as StackResponse
 class AuthRepositoryTest : BaseTest() {
 
     @Mock
+    private lateinit var answerDraftDao: AnswerDraftDao
+
+    @Mock
     private lateinit var userDao: UserDao
 
     @Mock
@@ -42,7 +46,7 @@ class AuthRepositoryTest : BaseTest() {
 
     @Before
     fun setUp() {
-        repository = AuthRepository(userService, authService)
+        repository = AuthRepository(answerDraftDao, userService, authService)
     }
 
     @Test
@@ -52,6 +56,7 @@ class AuthRepositoryTest : BaseTest() {
             val result = repository.logOut()
             assertTrue(result is LogOutSuccess)
             verify(authService).logOut("test")
+            verify(answerDraftDao).clearDrafts()
             assertTrue(AuthStore.accessToken.isNullOrBlank())
         }
     }
@@ -63,13 +68,14 @@ class AuthRepositoryTest : BaseTest() {
             val result = repository.logOut()
             assertTrue(result is LogOutError)
             verify(authService, never()).logOut(any(), any())
+            verify(answerDraftDao, never()).clearDrafts()
         }
     }
 
     @Test
     fun `logOut that comes back with error returns error state`() {
         runBlocking {
-            AuthStore.clear()
+            AuthStore.setAccessToken(testUri)
             whenever(authService.logOut(any(), any()))
                 .thenThrow(
                     HttpException(
@@ -84,7 +90,6 @@ class AuthRepositoryTest : BaseTest() {
                 )
             val result = repository.logOut()
             assertTrue(result is LogOutError)
-            verify(authService, never()).logOut(any(), any())
         }
     }
 
