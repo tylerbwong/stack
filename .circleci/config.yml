@@ -86,6 +86,9 @@ jobs:
           command: ./gradlew :app:testDebugUnitTest
       - store_test_results:
           path: app/build/test-results
+      - store_artifacts:
+          path: app/build/reports/tests/testDebugUnitTest
+          destination: build/reports/tests/testDebugUnitTest
 
 workflows:
   build-test:
