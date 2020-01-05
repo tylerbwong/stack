@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
@@ -20,6 +21,7 @@ import androidx.lifecycle.observe
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
+import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import kotlinx.android.synthetic.main.post_answer_fragment.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.BuildConfig
@@ -111,6 +113,19 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
                     markdownEditText.text.toString(),
                     isPreview = BuildConfig.DEBUG
                 )
+            }
+        }
+
+        postAnswerButton.doOnApplyWindowInsets { buttonView, insets, initialState ->
+            (buttonView.layoutParams as? ViewGroup.MarginLayoutParams)?.let {
+                buttonView.layoutParams = it.apply {
+                    setMargins(
+                        leftMargin,
+                        topMargin,
+                        rightMargin,
+                        initialState.margins.bottom + insets.systemWindowInsetBottom
+                    )
+                }
             }
         }
 
