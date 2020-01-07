@@ -16,7 +16,7 @@ object Versions {
     const val fabric = "1.31.2"
     const val firebaseCore = "17.2.1"
     const val googleServices = "4.3.3"
-    const val gradlePlugin = "4.0.0-alpha07"
+    const val gradlePlugin = "4.0.0-alpha08"
     const val insetter = "0.2.0"
     const val jUnit = "4.12"
     const val klock = "1.8.6"
