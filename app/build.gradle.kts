@@ -36,6 +36,11 @@ android {
         }
     }
 
+    composeOptions {
+        kotlinCompilerVersion = "1.3.61-dev-withExperimentalGoogleExtensions-20200129"
+        kotlinCompilerExtensionVersion = Versions.compose
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -95,6 +100,14 @@ dependencies {
 
     // coil
     implementation(Dep.coil)
+
+    // compose
+    kapt(Dep.composeCompiler)
+    implementation(Dep.composeUiCore)
+    implementation(Dep.composeUiFoundation)
+    implementation(Dep.composeUiLayout)
+    implementation(Dep.composeUiMaterial)
+    implementation(Dep.composeRuntime)
 
     // crashlytics
     implementation(Dep.crashlytics)
