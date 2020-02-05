@@ -26,6 +26,7 @@ import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
 import retrofit2.HttpException
 import retrofit2.Response
+import me.tylerbwong.stack.data.model.Response as StackResponse
 
 class AuthRepositoryTest : BaseTest() {
 
