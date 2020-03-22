@@ -1,7 +1,7 @@
 package me.tylerbwong.stack.data.logging
 
 import android.util.Log
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 
 class CrashlyticsTree : Timber.Tree() {
@@ -9,14 +9,15 @@ class CrashlyticsTree : Timber.Tree() {
         when (priority) {
             Log.DEBUG, Log.INFO, Log.VERBOSE -> return
             else -> {
-                Crashlytics.setInt(KEY_PRIORITY, priority)
-                Crashlytics.setString(KEY_TAG, tag)
-                Crashlytics.setString(KEY_MESSAGE, message)
+                val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
+                firebaseCrashlytics.setCustomKey(KEY_PRIORITY, priority)
+                firebaseCrashlytics.setCustomKey(KEY_TAG, tag.orEmpty())
+                firebaseCrashlytics.setCustomKey(KEY_MESSAGE, message)
 
                 if (t == null) {
-                    Crashlytics.logException(IllegalStateException(message))
+                    firebaseCrashlytics.recordException(IllegalStateException(message))
                 } else {
-                    Crashlytics.logException(t)
+                    firebaseCrashlytics.recordException(t)
                 }
             }
         }

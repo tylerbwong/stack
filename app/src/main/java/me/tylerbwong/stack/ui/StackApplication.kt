@@ -24,6 +24,6 @@ class StackApplication : Application() {
 
         CoilInitializer.init(this)
 
-        Logger.init(this)
+        Logger.init()
     }
 }

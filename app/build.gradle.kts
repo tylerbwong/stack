@@ -2,10 +2,10 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     id("com.android.application")
+    id("com.google.firebase.crashlytics")
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-kapt")
-    id("io.fabric")
     id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintGradle
     id("io.gitlab.arturbosch.detekt") version Versions.detekt
 }
@@ -98,11 +98,9 @@ dependencies {
     // coil
     implementation(Dep.coil)
 
-    // crashlytics
-    implementation(Dep.crashlytics)
-
     // firebase
-    implementation(Dep.firebaseCore)
+    implementation(Dep.firebaseAnalytics)
+    implementation(Dep.firebaseCrashlytics)
 
     // insetter
     implementation(Dep.insetter)

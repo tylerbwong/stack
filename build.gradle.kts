@@ -4,14 +4,13 @@ buildscript {
     repositories {
         google()
         jcenter()
-        fabric()
         gradle()
     }
     dependencies {
-        classpath(Dep.fabricPlugin)
         classpath(Dep.gradlePlugin)
         classpath(Dep.kotlinPlugin)
         classpath(Dep.googleServicesPlugin)
+        classpath(Dep.firebaseCrashlyticsGradlePlugin)
     }
 }
 
