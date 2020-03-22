@@ -5,6 +5,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.search_input_holder.*
+import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.ui.home.SearchInputItem
 
 class SearchInputHolder(
@@ -13,7 +14,10 @@ class SearchInputHolder(
 
     fun bind(item: SearchInputItem) {
         searchEditText.addTextChangedListener {
-            it?.toString()?.let { result -> item.onQueryReceived(result) }
+            it?.toString()?.let { result ->
+
+                item.onQueryReceived(SearchPayload(query = result))
+            }
         }
     }
 }

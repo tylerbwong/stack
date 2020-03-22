@@ -2,7 +2,6 @@ package me.tylerbwong.stack.ui.search
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -20,6 +19,12 @@ class SearchFragment : Fragment(R.layout.fragment_home) {
     private val viewModel by viewModels<SearchViewModel>()
 
     private val adapter = HomeAdapter()
+    private val persistentItems by lazy {
+        listOf(
+            HeaderItem(getString(R.string.search)),
+            SearchInputItem { payload -> viewModel.search(payload) }
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView.apply {
@@ -32,26 +37,17 @@ class SearchFragment : Fragment(R.layout.fragment_home) {
         }
 
         viewModel.searchResults.observe(viewLifecycleOwner) {
-            val homeItems = listOf(
-                HeaderItem(getString(R.string.search)),
-                SearchInputItem { result -> viewModel.search(query = result) }
-            ) + it.map { question -> QuestionItem(question) }
-            adapter.submitList(homeItems)
+            adapter.submitList(persistentItems + it.map { question -> QuestionItem(question) })
         }
 
         viewModel.tags.observe(viewLifecycleOwner) {
-            val homeItems = listOf(
-                HeaderItem(getString(R.string.search)),
-                SearchInputItem { result -> viewModel.search(query = result) },
-                TagsItem(it)
-            )
-            adapter.submitList(homeItems)
+            adapter.submitList(persistentItems + listOf(TagsItem(it)))
         }
 
         refreshLayout.setOnRefreshListener {
-            viewModel.fetchTags()
+            viewModel.search()
         }
 
-        viewModel.fetchTags()
+        viewModel.search()
     }
 }

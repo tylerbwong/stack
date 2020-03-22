@@ -3,6 +3,7 @@ package me.tylerbwong.stack.ui.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.data.model.Question
+import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.data.model.Tag
 import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.SearchService
@@ -22,13 +23,25 @@ class SearchViewModel(
         get() = _searchResults
     private val _searchResults = MutableLiveData<List<Question>>()
 
-    internal fun search(query: String) {
-        launchRequest {
-            _searchResults.value = searchService.search(query).items
+    private var searchPayload: SearchPayload? = null
+
+    internal fun search(searchPayload: SearchPayload? = this.searchPayload) {
+        if (searchPayload != null) {
+            this.searchPayload = searchPayload
+            launchRequest {
+                _searchResults.value = searchService.search(searchPayload.query).items
+            }
+        } else {
+            fetchTags()
         }
     }
 
-    internal fun fetchTags() {
+    internal fun clearSearch() {
+        searchPayload = null
+        fetchTags()
+    }
+
+    private fun fetchTags() {
         launchRequest {
             val tagResponse = tagService.getPopularTags()
             _tags.value = tagResponse.items
