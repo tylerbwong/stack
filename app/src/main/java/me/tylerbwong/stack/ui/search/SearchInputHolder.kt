@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.ui.search
 
+import android.text.TextWatcher
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
@@ -12,12 +13,41 @@ class SearchInputHolder(
     override val containerView: View
 ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-    fun bind(item: SearchInputItem) {
-        searchEditText.addTextChangedListener {
-            it?.toString()?.let { result ->
+    private var textWatcher: TextWatcher? = null
 
-                item.onQueryReceived(SearchPayload(query = result))
-            }
+    fun bind(item: SearchInputItem) {
+        searchEditText.removeTextChangedListener(textWatcher)
+
+        when (item.searchPayload) {
+            is SearchPayload.Advanced -> bindAdvancedPayload(item.searchPayload)
+            is SearchPayload.Basic -> bindBasicPayload(item.searchPayload)
+            is SearchPayload.Empty -> bindEmptyPayload()
         }
+
+        textWatcher = searchEditText.addTextChangedListener {
+            val result = it?.toString()?.trim()
+            item.onPayloadReceived(
+                if (!result.isNullOrBlank()) {
+                    SearchPayload.Basic(query = result)
+                } else {
+                    SearchPayload.Empty
+                }
+            )
+        }
+    }
+
+    private fun bindAdvancedPayload(advancedPayload: SearchPayload.Advanced) {
+        val (query) = advancedPayload
+        bindBasicPayload(SearchPayload.Basic(query))
+    }
+
+    private fun bindBasicPayload(basicPayload: SearchPayload.Basic) {
+        val query = basicPayload.query
+        searchEditText.setText(query)
+        searchEditText.setSelection(query.length)
+    }
+
+    private fun bindEmptyPayload() {
+        searchEditText.text = null
     }
 }

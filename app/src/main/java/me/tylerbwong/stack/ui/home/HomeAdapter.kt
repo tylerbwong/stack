@@ -34,6 +34,7 @@ class HomeAdapter : ListAdapter<HomeItem, RecyclerView.ViewHolder>(
         else -> TagsHolder(parent.inflate(R.layout.tags_holder))
     }
 
+    @Suppress("ComplexMethod")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
 

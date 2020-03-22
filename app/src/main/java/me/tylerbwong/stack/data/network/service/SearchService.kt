@@ -12,6 +12,7 @@ import retrofit2.http.Query
 
 interface SearchService {
 
+    @Suppress("LongParameterList")
     @GET("search/advanced")
     suspend fun search(
         @Query(QUERY_PARAM) query: String,

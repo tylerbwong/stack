@@ -83,7 +83,7 @@
     <string name="no_comments">No comments found</string>
 
     <!-- Search -->
-    <string name="search_hint">Search by keyword or user</string>
+    <string name="search_hint">Search by keyword or tag</string>
 
     <!-- Drafts -->
     <string name="save_draft">Save Draft</string>

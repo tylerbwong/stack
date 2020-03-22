@@ -11,12 +11,14 @@ data class HeaderItem(val title: String, val subtitle: String? = null) : HomeIte
 data class QuestionItem(val question: Question) : HomeItem()
 data class AnswerDraftItem(val draft: AnswerDraft) : HomeItem()
 data class SearchInputItem(
-    val searchPayload: SearchPayload = SearchPayload(),
-    val onQueryReceived: (SearchPayload) -> Unit
+    val searchPayload: SearchPayload = SearchPayload.Empty,
+    val onPayloadReceived: (SearchPayload) -> Unit
 ) : HomeItem()
 data class TagsItem(val tags: List<Tag>) : HomeItem()
 
 class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
+
+    @Suppress("ComplexMethod")
     override fun areItemsTheSame(oldItem: HomeItem, newItem: HomeItem) =
         oldItem.javaClass == newItem.javaClass &&
                 (oldItem is HeaderItem || oldItem is QuestionItem && newItem is QuestionItem &&
@@ -37,8 +39,7 @@ class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
             oldItem.draft.questionTitle == newItem.draft.questionTitle &&
                     oldItem.draft.formattedTimestamp == newItem.draft.formattedTimestamp &&
                     oldItem.draft.bodyMarkdown == newItem.draft.bodyMarkdown
-        oldItem is SearchInputItem && newItem is SearchInputItem ->
-            oldItem.searchPayload == newItem.searchPayload
+        oldItem is SearchInputItem && newItem is SearchInputItem -> true
         oldItem is TagsItem && newItem is TagsItem ->
             oldItem.tags == newItem.tags
         else -> false

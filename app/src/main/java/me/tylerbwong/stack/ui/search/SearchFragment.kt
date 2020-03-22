@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeAdapter
+import me.tylerbwong.stack.ui.home.HomeItem
 import me.tylerbwong.stack.ui.home.QuestionItem
 import me.tylerbwong.stack.ui.home.SearchInputItem
 import me.tylerbwong.stack.ui.home.TagsItem
@@ -19,12 +20,11 @@ class SearchFragment : Fragment(R.layout.fragment_home) {
     private val viewModel by viewModels<SearchViewModel>()
 
     private val adapter = HomeAdapter()
-    private val persistentItems by lazy {
-        listOf(
+    private val persistentItems: List<HomeItem>
+        get() = listOf(
             HeaderItem(getString(R.string.search)),
-            SearchInputItem { payload -> viewModel.search(payload) }
+            SearchInputItem(viewModel.searchPayload) { payload -> viewModel.search(payload) }
         )
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView.apply {
