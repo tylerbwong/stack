@@ -82,6 +82,9 @@
     <string name="comment_count">(%1$d)</string>
     <string name="no_comments">No comments found</string>
 
+    <!-- Search -->
+    <string name="search_hint">Search by keyword, tag, or user</string>
+
     <!-- Drafts -->
     <string name="save_draft">Save Draft</string>
     <string name="draft_saved">Draft saved</string>

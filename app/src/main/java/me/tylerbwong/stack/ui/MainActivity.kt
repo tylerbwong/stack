@@ -27,6 +27,7 @@ import me.tylerbwong.stack.ui.drafts.DraftsFragment
 import me.tylerbwong.stack.ui.home.HomeFragment
 import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.SettingsActivity
+import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
@@ -154,6 +155,8 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
                 .hide(currentFragment)
                 .show(fragment)
                 .commit()
+
+            bottomNav.hideKeyboard()
 
             true
         }

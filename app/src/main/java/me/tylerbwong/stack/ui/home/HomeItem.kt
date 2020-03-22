@@ -9,6 +9,7 @@ sealed class HomeItem
 data class HeaderItem(val title: String, val subtitle: String? = null) : HomeItem()
 data class QuestionItem(val question: Question) : HomeItem()
 data class AnswerDraftItem(val draft: AnswerDraft) : HomeItem()
+object SearchInputItem : HomeItem()
 data class TagsItem(val tags: List<Tag>) : HomeItem()
 
 class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
@@ -18,6 +19,7 @@ class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
                         oldItem.question.questionId == newItem.question.questionId ||
                         oldItem is AnswerDraftItem && newItem is AnswerDraftItem &&
                         oldItem.draft.questionId == newItem.draft.questionId ||
+                        oldItem is SearchInputItem && newItem is SearchInputItem ||
                         oldItem is TagsItem && newItem is TagsItem)
 
     @Suppress("ComplexMethod")
@@ -31,6 +33,7 @@ class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
             oldItem.draft.questionTitle == newItem.draft.questionTitle &&
                     oldItem.draft.formattedTimestamp == newItem.draft.formattedTimestamp &&
                     oldItem.draft.bodyMarkdown == newItem.draft.bodyMarkdown
+        oldItem is SearchInputItem && newItem is SearchInputItem -> true
         oldItem is TagsItem && newItem is TagsItem ->
             oldItem.tags == newItem.tags
         else -> false

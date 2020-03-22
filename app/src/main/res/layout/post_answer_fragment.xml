@@ -58,8 +58,8 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:boxStrokeColor="@color/colorAccent"
-                        app:hintTextColor="@color/colorAccent">
+                        app:boxStrokeColor="@color/text_input_box_color"
+                        app:hintTextColor="@color/text_input_box_color">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/markdownEditText"

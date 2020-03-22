@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeAdapter
+import me.tylerbwong.stack.ui.home.SearchInputItem
 import me.tylerbwong.stack.ui.home.TagsItem
 
 class SearchFragment : Fragment(R.layout.fragment_home) {
@@ -31,6 +32,7 @@ class SearchFragment : Fragment(R.layout.fragment_home) {
         viewModel.tags.observe(viewLifecycleOwner) {
             val homeItems = listOf(
                 HeaderItem(getString(R.string.search)),
+                SearchInputItem,
                 TagsItem(it)
             )
             adapter.submitList(homeItems)
