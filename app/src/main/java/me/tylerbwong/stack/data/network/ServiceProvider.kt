@@ -6,6 +6,7 @@ import me.tylerbwong.stack.data.auth.AuthInterceptor
 import me.tylerbwong.stack.data.network.service.AuthService
 import me.tylerbwong.stack.data.network.service.CommentService
 import me.tylerbwong.stack.data.network.service.QuestionService
+import me.tylerbwong.stack.data.network.service.SearchService
 import me.tylerbwong.stack.data.network.service.TagService
 import me.tylerbwong.stack.data.network.service.UserService
 import okhttp3.OkHttpClient
@@ -45,6 +46,10 @@ object ServiceProvider {
 
     val userService: UserService by lazy {
         retrofit.create(UserService::class.java)
+    }
+
+    val searchService: SearchService by lazy {
+        retrofit.create(SearchService::class.java)
     }
 
     val questionService: QuestionService by lazy {

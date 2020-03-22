@@ -9,7 +9,7 @@ sealed class HomeItem
 data class HeaderItem(val title: String, val subtitle: String? = null) : HomeItem()
 data class QuestionItem(val question: Question) : HomeItem()
 data class AnswerDraftItem(val draft: AnswerDraft) : HomeItem()
-object SearchInputItem : HomeItem()
+data class SearchInputItem(val onQueryReceived: (String) -> Unit) : HomeItem()
 data class TagsItem(val tags: List<Tag>) : HomeItem()
 
 class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {

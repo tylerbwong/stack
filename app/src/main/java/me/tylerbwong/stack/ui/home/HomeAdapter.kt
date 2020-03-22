@@ -41,7 +41,7 @@ class HomeAdapter : ListAdapter<HomeItem, RecyclerView.ViewHolder>(
             holder is HeaderViewHolder && item is HeaderItem -> holder.bind(item)
             holder is QuestionViewHolder && item is QuestionItem -> holder.bind(item.question)
             holder is AnswerDraftHolder && item is AnswerDraftItem -> holder.bind(item)
-            holder is SearchInputHolder && item is SearchInputItem -> holder.bind()
+            holder is SearchInputHolder && item is SearchInputItem -> holder.bind(item)
             holder is TagsHolder && item is TagsItem -> holder.bind(item)
         }
     }

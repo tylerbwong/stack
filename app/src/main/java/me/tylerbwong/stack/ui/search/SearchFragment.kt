@@ -2,6 +2,7 @@ package me.tylerbwong.stack.ui.search
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -10,6 +11,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeAdapter
+import me.tylerbwong.stack.ui.home.QuestionItem
 import me.tylerbwong.stack.ui.home.SearchInputItem
 import me.tylerbwong.stack.ui.home.TagsItem
 
@@ -29,10 +31,18 @@ class SearchFragment : Fragment(R.layout.fragment_home) {
             refreshLayout.isRefreshing = it
         }
 
+        viewModel.searchResults.observe(viewLifecycleOwner) {
+            val homeItems = listOf(
+                HeaderItem(getString(R.string.search)),
+                SearchInputItem { result -> viewModel.search(query = result) }
+            ) + it.map { question -> QuestionItem(question) }
+            adapter.submitList(homeItems)
+        }
+
         viewModel.tags.observe(viewLifecycleOwner) {
             val homeItems = listOf(
                 HeaderItem(getString(R.string.search)),
-                SearchInputItem,
+                SearchInputItem { result -> viewModel.search(query = result) },
                 TagsItem(it)
             )
             adapter.submitList(homeItems)
