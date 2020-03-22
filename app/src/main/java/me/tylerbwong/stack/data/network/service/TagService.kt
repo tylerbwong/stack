@@ -24,7 +24,7 @@ interface TagService {
 
     companion object {
         private const val TAGS_SORT = "popular"
-        private const val TAGS_PAGE_SIZE = 20
+        private const val TAGS_PAGE_SIZE = 50
         private const val TAGS_FILTER = "!bNKX0pggz8s7xt"
     }
 }

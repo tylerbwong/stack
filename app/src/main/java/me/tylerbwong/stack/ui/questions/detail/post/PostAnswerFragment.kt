@@ -49,14 +49,14 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
 
         mainViewModel = ViewModelProvider(requireActivity()).get(QuestionDetailMainViewModel::class.java)
 
-        mainViewModel.clearFields.observe(this) { clearFields() }
+        mainViewModel.clearFields.observe(viewLifecycleOwner) { clearFields() }
 
         viewModel.questionId = arguments?.getInt(QuestionDetailActivity.QUESTION_ID, 0) ?: 0
-        mainViewModel.liveQuestion.observe(this) {
+        mainViewModel.liveQuestion.observe(viewLifecycleOwner) {
             viewModel.questionTitle = it.title
         }
 
-        viewModel.snackbar.observe(this) {
+        viewModel.snackbar.observe(viewLifecycleOwner) {
             val activity = activity as? QuestionDetailActivity
 
             when (it) {
@@ -72,7 +72,7 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
             }
         }
 
-        viewModel.savedDraft.observe(this) {
+        viewModel.savedDraft.observe(viewLifecycleOwner) {
             markdownEditText.setText(it)
         }
 

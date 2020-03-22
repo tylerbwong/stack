@@ -19,10 +19,13 @@ class SearchFragment : Fragment(R.layout.fragment_home) {
     private val adapter = HomeAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        refreshLayout.isEnabled = false
         recyclerView.apply {
             adapter = this@SearchFragment.adapter
             layoutManager = LinearLayoutManager(context)
+        }
+
+        viewModel.refreshing.observe(viewLifecycleOwner) {
+            refreshLayout.isRefreshing = it
         }
 
         viewModel.tags.observe(viewLifecycleOwner) {
@@ -31,6 +34,10 @@ class SearchFragment : Fragment(R.layout.fragment_home) {
                 TagsItem(it)
             )
             adapter.submitList(homeItems)
+        }
+
+        refreshLayout.setOnRefreshListener {
+            viewModel.fetchTags()
         }
 
         viewModel.fetchTags()

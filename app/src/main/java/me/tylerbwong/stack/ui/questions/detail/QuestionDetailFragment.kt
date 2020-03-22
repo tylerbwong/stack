@@ -38,10 +38,10 @@ class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
 
         viewModel = ViewModelProvider(requireActivity()).get(QuestionDetailMainViewModel::class.java)
 
-        viewModel.refreshing.observe(this) {
+        viewModel.refreshing.observe(viewLifecycleOwner) {
             refreshLayout.isRefreshing = it
         }
-        viewModel.snackbar.observe(this) {
+        viewModel.snackbar.observe(viewLifecycleOwner) {
             if (it != null) {
                 snackbar = refreshLayout.showSnackbar(
                         R.string.network_error,
@@ -51,10 +51,10 @@ class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
                 snackbar?.dismiss()
             }
         }
-        viewModel.data.observe(this) {
+        viewModel.data.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
-        viewModel.voteCount.observe(this) {
+        viewModel.voteCount.observe(viewLifecycleOwner) {
             (activity as? QuestionDetailActivity)?.setTitle(
                     resources.getQuantityString(R.plurals.votes, it, it)
             )

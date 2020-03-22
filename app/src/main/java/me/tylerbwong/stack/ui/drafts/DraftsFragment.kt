@@ -24,10 +24,10 @@ class DraftsFragment : Fragment(R.layout.fragment_home) {
     private val bottomNav by lazy { activity?.findViewById<View>(R.id.bottomNav) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.refreshing.observe(this) {
+        viewModel.refreshing.observe(viewLifecycleOwner) {
             refreshLayout.isRefreshing = it
         }
-        viewModel.snackbar.observe(this) {
+        viewModel.snackbar.observe(viewLifecycleOwner) {
             if (it != null) {
                 snackbar = bottomNav?.showSnackbar(
                     R.string.network_error,
@@ -40,7 +40,7 @@ class DraftsFragment : Fragment(R.layout.fragment_home) {
                 snackbar?.dismiss()
             }
         }
-        viewModel.drafts.observe(this, ::updateContent)
+        viewModel.drafts.observe(viewLifecycleOwner, ::updateContent)
 
         recyclerView.apply {
             adapter = this@DraftsFragment.adapter
