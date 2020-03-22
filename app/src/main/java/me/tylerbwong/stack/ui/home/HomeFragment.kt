@@ -36,10 +36,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClick
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.refreshing.observe(this) {
+        viewModel.refreshing.observe(viewLifecycleOwner) {
             refreshLayout.isRefreshing = it
         }
-        viewModel.snackbar.observe(this) {
+        viewModel.snackbar.observe(viewLifecycleOwner) {
             if (it != null) {
                 bottomNav?.post {
                     snackbar = bottomNav?.showSnackbar(
@@ -54,7 +54,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClick
                 snackbar?.dismiss()
             }
         }
-        viewModel.questions.observe(this, ::updateContent)
+        viewModel.questions.observe(viewLifecycleOwner, ::updateContent)
 
         recyclerView.apply {
             adapter = this@HomeFragment.adapter

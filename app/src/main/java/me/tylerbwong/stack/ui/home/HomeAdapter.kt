@@ -8,6 +8,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.HeaderViewHolder
 import me.tylerbwong.stack.ui.drafts.AnswerDraftHolder
 import me.tylerbwong.stack.ui.questions.QuestionViewHolder
+import me.tylerbwong.stack.ui.search.tags.TagsHolder
 import me.tylerbwong.stack.ui.utils.inflate
 
 class HomeAdapter : ListAdapter<HomeItem, RecyclerView.ViewHolder>(
@@ -17,6 +18,7 @@ class HomeAdapter : ListAdapter<HomeItem, RecyclerView.ViewHolder>(
         is HeaderItem -> ITEM_TYPE_HEADER
         is QuestionItem -> ITEM_TYPE_QUESTION
         is AnswerDraftItem -> ITEM_TYPE_ANSWER_DRAFT
+        is TagsItem -> ITEM_TYPE_TAGS
     }
 
     override fun onCreateViewHolder(
@@ -25,7 +27,8 @@ class HomeAdapter : ListAdapter<HomeItem, RecyclerView.ViewHolder>(
     ): RecyclerView.ViewHolder = when (viewType) {
         ITEM_TYPE_HEADER -> HeaderViewHolder(parent.inflate(R.layout.header_holder))
         ITEM_TYPE_QUESTION -> QuestionViewHolder(parent.inflate(R.layout.question_holder))
-        else -> AnswerDraftHolder(parent.inflate(R.layout.answer_draft_holder))
+        ITEM_TYPE_ANSWER_DRAFT -> AnswerDraftHolder(parent.inflate(R.layout.answer_draft_holder))
+        else -> TagsHolder(parent.inflate(R.layout.tags_holder))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -35,6 +38,7 @@ class HomeAdapter : ListAdapter<HomeItem, RecyclerView.ViewHolder>(
             holder is HeaderViewHolder && item is HeaderItem -> holder.bind(item)
             holder is QuestionViewHolder && item is QuestionItem -> holder.bind(item.question)
             holder is AnswerDraftHolder && item is AnswerDraftItem -> holder.bind(item)
+            holder is TagsHolder && item is TagsItem -> holder.bind(item)
         }
     }
 
@@ -42,5 +46,6 @@ class HomeAdapter : ListAdapter<HomeItem, RecyclerView.ViewHolder>(
         private const val ITEM_TYPE_HEADER = 1
         private const val ITEM_TYPE_QUESTION = 2
         private const val ITEM_TYPE_ANSWER_DRAFT = 3
+        private const val ITEM_TYPE_TAGS = 4
     }
 }

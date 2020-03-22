@@ -6,6 +6,7 @@ import me.tylerbwong.stack.data.auth.AuthInterceptor
 import me.tylerbwong.stack.data.network.service.AuthService
 import me.tylerbwong.stack.data.network.service.CommentService
 import me.tylerbwong.stack.data.network.service.QuestionService
+import me.tylerbwong.stack.data.network.service.TagService
 import me.tylerbwong.stack.data.network.service.UserService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -52,6 +53,10 @@ object ServiceProvider {
 
     val commentService: CommentService by lazy {
         retrofit.create(CommentService::class.java)
+    }
+
+    val tagService: TagService by lazy {
+        retrofit.create(TagService::class.java)
     }
 
     private const val BASE_URL = "https://api.stackexchange.com/2.2/"

@@ -3,11 +3,13 @@ package me.tylerbwong.stack.ui.home
 import androidx.recyclerview.widget.DiffUtil
 import me.tylerbwong.stack.data.model.AnswerDraft
 import me.tylerbwong.stack.data.model.Question
+import me.tylerbwong.stack.data.model.Tag
 
 sealed class HomeItem
 data class HeaderItem(val title: String, val subtitle: String? = null) : HomeItem()
 data class QuestionItem(val question: Question) : HomeItem()
 data class AnswerDraftItem(val draft: AnswerDraft) : HomeItem()
+data class TagsItem(val tags: List<Tag>) : HomeItem()
 
 class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
     override fun areItemsTheSame(oldItem: HomeItem, newItem: HomeItem) =
@@ -15,7 +17,8 @@ class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
                 (oldItem is HeaderItem || oldItem is QuestionItem && newItem is QuestionItem &&
                         oldItem.question.questionId == newItem.question.questionId ||
                         oldItem is AnswerDraftItem && newItem is AnswerDraftItem &&
-                        oldItem.draft.questionId == newItem.draft.questionId)
+                        oldItem.draft.questionId == newItem.draft.questionId ||
+                        oldItem is TagsItem && newItem is TagsItem)
 
     @Suppress("ComplexMethod")
     override fun areContentsTheSame(oldItem: HomeItem, newItem: HomeItem) = when {
@@ -28,6 +31,8 @@ class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
             oldItem.draft.questionTitle == newItem.draft.questionTitle &&
                     oldItem.draft.formattedTimestamp == newItem.draft.formattedTimestamp &&
                     oldItem.draft.bodyMarkdown == newItem.draft.bodyMarkdown
+        oldItem is TagsItem && newItem is TagsItem ->
+            oldItem.tags == newItem.tags
         else -> false
     }
 }
