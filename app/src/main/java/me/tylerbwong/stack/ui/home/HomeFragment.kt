@@ -97,7 +97,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClick
             R.id.month -> MONTH
             else -> CREATION
         }
-        viewModel.getQuestions(sort)
+        viewModel.fetchQuestions(sort)
         return true
     }
 

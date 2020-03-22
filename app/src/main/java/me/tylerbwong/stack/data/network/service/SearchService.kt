@@ -3,6 +3,7 @@ package me.tylerbwong.stack.data.network.service
 import me.tylerbwong.stack.data.model.ORDER_PARAM
 import me.tylerbwong.stack.data.model.Order
 import me.tylerbwong.stack.data.model.Question
+import me.tylerbwong.stack.data.model.RELEVANCE
 import me.tylerbwong.stack.data.model.Response
 import me.tylerbwong.stack.data.model.SORT_PARAM
 import me.tylerbwong.stack.data.model.Sort
@@ -23,7 +24,7 @@ interface SearchService {
         @Query(TAGGED_PARAM) tags: String? = null,
         @Query(TITLE_PARAM) titleContains: String? = null,
         @Query(SITE_PARAM) site: String = DEFAULT_SITE,
-        @Query(SORT_PARAM) @Sort sort: String = DEFAULT_SORT,
+        @Query(SORT_PARAM) @Sort sort: String = RELEVANCE,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,

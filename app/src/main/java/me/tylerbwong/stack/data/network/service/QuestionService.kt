@@ -4,7 +4,6 @@ import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.model.ORDER_PARAM
 import me.tylerbwong.stack.data.model.Order
 import me.tylerbwong.stack.data.model.Question
-import me.tylerbwong.stack.data.model.RELEVANCE
 import me.tylerbwong.stack.data.model.Response
 import me.tylerbwong.stack.data.model.SORT_PARAM
 import me.tylerbwong.stack.data.model.Sort
@@ -93,18 +92,6 @@ interface QuestionService {
         @Field(BODY_PARAM) bodyMarkdown: String,
         @Field(PREVIEW_PARAM) preview: Boolean = false
     ): Response<Answer>
-
-    @GET("search/advanced")
-    suspend fun getQuestionsBySearchString(
-        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
-        @Query(SORT_PARAM) @Sort sort: String = RELEVANCE,
-        @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
-        @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
-        @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
-        @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
-        @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
-        @Query(SEARCH_PARAM) searchString: String
-    ): Response<Question>
 
     companion object {
         private const val BODY_PARAM = "body"
