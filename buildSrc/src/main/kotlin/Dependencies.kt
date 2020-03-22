@@ -10,7 +10,7 @@ object Versions {
     const val betterLinkMovementMethod = "2.2.0"
     const val coil = "0.9.5"
     const val constraintLayout = "2.0.0-beta4"
-    const val detekt = "1.7.0-beta2"
+    const val detekt = "1.7.0"
     const val espresso = "3.1.0"
     const val firebaseAnalytics = "17.2.3"
     const val firebaseCrashlytics = "17.0.0-beta01"
