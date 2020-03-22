@@ -1,6 +1,7 @@
 package me.tylerbwong.stack.ui
 
 import android.app.Application
+import com.google.firebase.FirebaseApp
 import com.jakewharton.processphoenix.ProcessPhoenix
 import me.tylerbwong.stack.data.logging.Logger
 import me.tylerbwong.stack.data.persistence.StackDatabase
@@ -17,6 +18,8 @@ class StackApplication : Application() {
         super.onCreate()
 
         ApplicationWrapper.init(this)
+
+        FirebaseApp.initializeApp(this)
 
         ThemeManager.init(this)
 
