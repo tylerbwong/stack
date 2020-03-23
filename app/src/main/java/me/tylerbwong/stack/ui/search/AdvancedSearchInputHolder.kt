@@ -14,6 +14,7 @@ class AdvancedSearchInputHolder(
     override val containerView: View
 ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
+    @Suppress("ComplexMethod")
     fun bind(item: AdvancedSearchInputItem) {
         val advancedPayload = item.searchPayload as? SearchPayload.Advanced ?: return
         val (_, isAccepted, minNumAnswers, bodyContains, isClosed, tags, titleContains) = advancedPayload

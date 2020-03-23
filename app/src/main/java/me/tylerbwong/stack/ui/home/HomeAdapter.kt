@@ -34,7 +34,8 @@ class HomeAdapter : ListAdapter<HomeItem, RecyclerView.ViewHolder>(
         ITEM_TYPE_QUESTION -> QuestionViewHolder(parent.inflate(R.layout.question_holder))
         ITEM_TYPE_ANSWER_DRAFT -> AnswerDraftHolder(parent.inflate(R.layout.answer_draft_holder))
         ITEM_TYPE_BASIC_SEARCH_INPUT -> BasicSearchInputHolder(parent.inflate(R.layout.basic_search_input_holder))
-        ITEM_TYPE_ADVANCED_SEARCH_INPUT -> AdvancedSearchInputHolder(parent.inflate(R.layout.advanced_search_input_holder))
+        ITEM_TYPE_ADVANCED_SEARCH_INPUT ->
+            AdvancedSearchInputHolder(parent.inflate(R.layout.advanced_search_input_holder))
         ITEM_TYPE_TAGS -> TagsHolder(parent.inflate(R.layout.tags_holder))
         else -> SectionHeaderHolder(parent.inflate(R.layout.section_header_holder))
     }
