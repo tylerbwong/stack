@@ -11,8 +11,9 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import java.util.TreeMap
 
-fun ViewGroup.inflate(@LayoutRes resId: Int, attachToRoot: Boolean = false): View =
-    LayoutInflater.from(context).inflate(resId, this, attachToRoot)
+@Suppress("UNCHECKED_CAST")
+fun <T : View> ViewGroup.inflate(@LayoutRes resId: Int, attachToRoot: Boolean = false): T =
+    LayoutInflater.from(context).inflate(resId, this, attachToRoot) as T
 
 fun String.toHtml(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
     Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)

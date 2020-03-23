@@ -8,11 +8,13 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_home.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.home.AdvancedSearchInputItem
 import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeAdapter
 import me.tylerbwong.stack.ui.home.HomeItem
 import me.tylerbwong.stack.ui.home.QuestionItem
-import me.tylerbwong.stack.ui.home.SearchInputItem
+import me.tylerbwong.stack.ui.home.BasicSearchInputItem
+import me.tylerbwong.stack.ui.home.SectionHeaderItem
 import me.tylerbwong.stack.ui.home.TagsItem
 
 class SearchFragment : Fragment(R.layout.fragment_home) {
@@ -23,7 +25,8 @@ class SearchFragment : Fragment(R.layout.fragment_home) {
     private val persistentItems: List<HomeItem>
         get() = listOf(
             HeaderItem(getString(R.string.search)),
-            SearchInputItem(viewModel.searchPayload) { payload -> viewModel.search(payload) }
+            BasicSearchInputItem(viewModel.searchPayload) { payload -> viewModel.search(payload) },
+            AdvancedSearchInputItem(viewModel.searchPayload) { payload -> viewModel.search(payload) }
         )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,7 +44,12 @@ class SearchFragment : Fragment(R.layout.fragment_home) {
         }
 
         viewModel.tags.observe(viewLifecycleOwner) {
-            adapter.submitList(persistentItems + listOf(TagsItem(it)))
+            adapter.submitList(
+                persistentItems + listOf(
+                    SectionHeaderItem(getString(R.string.popular_tags)),
+                    TagsItem(it)
+                )
+            )
         }
 
         refreshLayout.setOnRefreshListener {

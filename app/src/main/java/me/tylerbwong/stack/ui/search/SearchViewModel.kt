@@ -26,7 +26,7 @@ class SearchViewModel(
     internal var searchPayload: SearchPayload = SearchPayload.Empty
 
     internal fun search(searchPayload: SearchPayload = this.searchPayload) {
-        this.searchPayload = searchPayload
+        this.searchPayload = this.searchPayload + searchPayload
         launchRequest {
             val result = when (searchPayload) {
                 is SearchPayload.Advanced -> {
@@ -36,7 +36,7 @@ class SearchViewModel(
                         minNumAnswers = searchPayload.minNumAnswers,
                         bodyContains = searchPayload.bodyContains,
                         isClosed = searchPayload.isClosed,
-                        tags = searchPayload.tags,
+                        tags = searchPayload.tags?.joinToString(";"),
                         titleContains = searchPayload.titleContains
                     ).items
                 }

@@ -10,11 +10,16 @@ sealed class HomeItem
 data class HeaderItem(val title: String, val subtitle: String? = null) : HomeItem()
 data class QuestionItem(val question: Question) : HomeItem()
 data class AnswerDraftItem(val draft: AnswerDraft) : HomeItem()
-data class SearchInputItem(
-    val searchPayload: SearchPayload = SearchPayload.Empty,
+data class BasicSearchInputItem(
+    val searchPayload: SearchPayload,
+    val onPayloadReceived: (SearchPayload) -> Unit
+) : HomeItem()
+data class AdvancedSearchInputItem(
+    val searchPayload: SearchPayload,
     val onPayloadReceived: (SearchPayload) -> Unit
 ) : HomeItem()
 data class TagsItem(val tags: List<Tag>) : HomeItem()
+data class SectionHeaderItem(val header: String) : HomeItem()
 
 class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
 
@@ -25,8 +30,10 @@ class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
                         oldItem.question.questionId == newItem.question.questionId ||
                         oldItem is AnswerDraftItem && newItem is AnswerDraftItem &&
                         oldItem.draft.questionId == newItem.draft.questionId ||
-                        oldItem is SearchInputItem && newItem is SearchInputItem ||
-                        oldItem is TagsItem && newItem is TagsItem)
+                        oldItem is BasicSearchInputItem && newItem is BasicSearchInputItem ||
+                        oldItem is AdvancedSearchInputItem && newItem is AdvancedSearchInputItem ||
+                        oldItem is TagsItem && newItem is TagsItem ||
+                        oldItem is SectionHeaderItem && newItem is SectionHeaderItem)
 
     @Suppress("ComplexMethod")
     override fun areContentsTheSame(oldItem: HomeItem, newItem: HomeItem) = when {
@@ -39,9 +46,13 @@ class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
             oldItem.draft.questionTitle == newItem.draft.questionTitle &&
                     oldItem.draft.formattedTimestamp == newItem.draft.formattedTimestamp &&
                     oldItem.draft.bodyMarkdown == newItem.draft.bodyMarkdown
-        oldItem is SearchInputItem && newItem is SearchInputItem -> true
+        oldItem is BasicSearchInputItem && newItem is BasicSearchInputItem -> true
+        oldItem is AdvancedSearchInputItem && newItem is AdvancedSearchInputItem ->
+            oldItem.searchPayload == newItem.searchPayload
         oldItem is TagsItem && newItem is TagsItem ->
             oldItem.tags == newItem.tags
+        oldItem is SectionHeaderItem && newItem is SectionHeaderItem ->
+            oldItem.header == newItem.header
         else -> false
     }
 }

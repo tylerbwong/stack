@@ -83,7 +83,21 @@
     <string name="no_comments">No comments found</string>
 
     <!-- Search -->
-    <string name="search_hint">Search by keyword or tag</string>
+    <string name="search_hint">Search by keyword or phrase</string>
+    <string name="popular_tags">Popular Tags</string>
+    <string name="has_accepted_answer">Has accepted answer</string>
+    <string name="no_accepted_answers">No accepted answers</string>
+    <plurals name="has_min_answers">
+        <item quantity="zero">Has no answers</item>
+        <item quantity="one">Has at least %1$d answer</item>
+        <item quantity="many">Has at least %1$d answers</item>
+        <item quantity="other">Has at least %1$d answers</item>
+    </plurals>
+    <string name="body_contains">Body contains \"%1$s\"</string>
+    <string name="is_closed">Closed</string>
+    <string name="is_open">Open</string>
+    <string name="tags_filter">Tags: %1$s</string>
+    <string name="title_contains">Title contains \"%1$s\"</string>
 
     <!-- Drafts -->
     <string name="save_draft">Save Draft</string>

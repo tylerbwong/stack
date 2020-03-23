@@ -12,7 +12,7 @@ import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 
 class QuestionDetailAdapter : ListAdapter<QuestionDetailItem, RecyclerView.ViewHolder>(
-    AsyncDifferConfig.Builder<QuestionDetailItem>(QuestionDetailItemCallback()).build()
+    AsyncDifferConfig.Builder(QuestionDetailItemCallback()).build()
 ) {
     override fun getItemViewType(position: Int) = when (getItem(position)) {
         is QuestionItem -> ITEM_TYPE_QUESTION
@@ -25,13 +25,13 @@ class QuestionDetailAdapter : ListAdapter<QuestionDetailItem, RecyclerView.ViewH
         viewType: Int
     ): RecyclerView.ViewHolder = when (viewType) {
         ITEM_TYPE_QUESTION -> QuestionDetailHolder(
-            parent.inflate(R.layout.question_detail_holder).also {
+            parent.inflate<ViewGroup>(R.layout.question_detail_holder).also {
                 it.questionBody.setSpannableFactory(noCopySpannableFactory)
             }
         )
         ITEM_TYPE_ANSWER_HEADER -> AnswerHeaderViewHolder(parent.inflate(R.layout.answer_header))
         else -> AnswerHolder(
-            parent.inflate(R.layout.answer_holder).also {
+            parent.inflate<ViewGroup>(R.layout.answer_holder).also {
                 it.answerBody.setSpannableFactory(noCopySpannableFactory)
             }
         )

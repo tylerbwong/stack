@@ -22,7 +22,7 @@ class OwnerView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyle, defStyleRes) {
 
     init {
-        inflate(R.layout.owner_view, attachToRoot = true)
+        inflate<ConstraintLayout>(R.layout.owner_view, attachToRoot = true)
     }
 
     fun bind(owner: User) {

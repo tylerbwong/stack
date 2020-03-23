@@ -21,7 +21,7 @@ import me.tylerbwong.stack.ui.utils.systemService
 import me.tylerbwong.stack.ui.utils.toHtml
 
 class QuestionAdapter : ListAdapter<Question, QuestionViewHolder>(
-    AsyncDifferConfig.Builder<Question>(
+    AsyncDifferConfig.Builder(
         object : DiffUtil.ItemCallback<Question>() {
             override fun areItemsTheSame(
                 oldItem: Question,

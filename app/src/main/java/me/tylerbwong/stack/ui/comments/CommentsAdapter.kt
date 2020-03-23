@@ -17,7 +17,7 @@ import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 
 class CommentsAdapter : ListAdapter<Comment, CommentHolder>(
-    AsyncDifferConfig.Builder<Comment>(
+    AsyncDifferConfig.Builder(
         object : DiffUtil.ItemCallback<Comment>() {
             override fun areItemsTheSame(
                 oldItem: Comment,
