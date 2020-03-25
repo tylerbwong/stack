@@ -10,16 +10,20 @@ sealed class HomeItem
 data class HeaderItem(val title: String, val subtitle: String? = null) : HomeItem()
 data class QuestionItem(val question: Question) : HomeItem()
 data class AnswerDraftItem(val draft: AnswerDraft) : HomeItem()
-data class BasicSearchInputItem(
+data class SearchInputItem(
     val searchPayload: SearchPayload,
     val onPayloadReceived: (SearchPayload) -> Unit
 ) : HomeItem()
-data class AdvancedSearchInputItem(
+data class FilterInputItem(
     val searchPayload: SearchPayload,
     val onPayloadReceived: (SearchPayload) -> Unit
 ) : HomeItem()
 data class TagsItem(val tags: List<Tag>) : HomeItem()
 data class SectionHeaderItem(val header: String) : HomeItem()
+data class SearchHistoryItem(
+    val searchPayload: SearchPayload,
+    val onPayloadReceived: (SearchPayload) -> Unit
+) : HomeItem()
 
 class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
 
@@ -30,10 +34,11 @@ class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
                         oldItem.question.questionId == newItem.question.questionId ||
                         oldItem is AnswerDraftItem && newItem is AnswerDraftItem &&
                         oldItem.draft.questionId == newItem.draft.questionId ||
-                        oldItem is BasicSearchInputItem && newItem is BasicSearchInputItem ||
-                        oldItem is AdvancedSearchInputItem && newItem is AdvancedSearchInputItem ||
+                        oldItem is SearchInputItem && newItem is SearchInputItem ||
+                        oldItem is FilterInputItem && newItem is FilterInputItem ||
                         oldItem is TagsItem && newItem is TagsItem ||
-                        oldItem is SectionHeaderItem && newItem is SectionHeaderItem)
+                        oldItem is SectionHeaderItem && newItem is SectionHeaderItem ||
+                        oldItem is SearchHistoryItem && newItem is SearchHistoryItem)
 
     @Suppress("ComplexMethod")
     override fun areContentsTheSame(oldItem: HomeItem, newItem: HomeItem) = when {
@@ -46,13 +51,15 @@ class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
             oldItem.draft.questionTitle == newItem.draft.questionTitle &&
                     oldItem.draft.formattedTimestamp == newItem.draft.formattedTimestamp &&
                     oldItem.draft.bodyMarkdown == newItem.draft.bodyMarkdown
-        oldItem is BasicSearchInputItem && newItem is BasicSearchInputItem -> true
-        oldItem is AdvancedSearchInputItem && newItem is AdvancedSearchInputItem ->
+        oldItem is SearchInputItem && newItem is SearchInputItem -> true
+        oldItem is FilterInputItem && newItem is FilterInputItem ->
             oldItem.searchPayload == newItem.searchPayload
         oldItem is TagsItem && newItem is TagsItem ->
             oldItem.tags == newItem.tags
         oldItem is SectionHeaderItem && newItem is SectionHeaderItem ->
             oldItem.header == newItem.header
+        oldItem is SearchHistoryItem && newItem is SearchHistoryItem ->
+            oldItem.searchPayload == newItem.searchPayload
         else -> false
     }
 }

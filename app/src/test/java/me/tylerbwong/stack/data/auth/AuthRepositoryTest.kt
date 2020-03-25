@@ -11,6 +11,7 @@ import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.network.service.AuthService
 import me.tylerbwong.stack.data.network.service.UserService
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
+import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
@@ -34,6 +35,9 @@ class AuthRepositoryTest : BaseTest() {
     private lateinit var answerDraftDao: AnswerDraftDao
 
     @Mock
+    private lateinit var searchDao: SearchDao
+
+    @Mock
     private lateinit var userDao: UserDao
 
     @Mock
@@ -46,7 +50,7 @@ class AuthRepositoryTest : BaseTest() {
 
     @Before
     fun setUp() {
-        repository = AuthRepository(answerDraftDao, userService, authService)
+        repository = AuthRepository(answerDraftDao, searchDao, userService, authService)
     }
 
     @Test
@@ -57,6 +61,7 @@ class AuthRepositoryTest : BaseTest() {
             assertTrue(result is LogOutSuccess)
             verify(authService).logOut("test")
             verify(answerDraftDao).clearDrafts()
+            verify(searchDao).clearSearches()
             assertTrue(AuthStore.accessToken.isNullOrBlank())
         }
     }
@@ -69,6 +74,7 @@ class AuthRepositoryTest : BaseTest() {
             assertTrue(result is LogOutError)
             verify(authService, never()).logOut(any(), any())
             verify(answerDraftDao, never()).clearDrafts()
+            verify(searchDao, never()).clearSearches()
         }
     }
 

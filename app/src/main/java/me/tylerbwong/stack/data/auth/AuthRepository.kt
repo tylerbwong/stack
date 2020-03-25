@@ -8,10 +8,12 @@ import me.tylerbwong.stack.data.network.service.AuthService
 import me.tylerbwong.stack.data.network.service.UserService
 import me.tylerbwong.stack.data.persistence.StackDatabase
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
+import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import timber.log.Timber
 
 class AuthRepository(
     private val answerDraftDao: AnswerDraftDao = StackDatabase.getInstance().getAnswerDraftDao(),
+    private val searchDao: SearchDao = StackDatabase.getInstance().getSearchDao(),
     private val userService: UserService = ServiceProvider.userService,
     private val authService: AuthService = ServiceProvider.authService,
     private val authStore: AuthStore = AuthStore
@@ -23,6 +25,7 @@ class AuthRepository(
             if (!accessToken.isNullOrBlank()) {
                 authService.logOut(accessToken = accessToken)
                 answerDraftDao.clearDrafts()
+                searchDao.clearSearches()
                 authStore.clear()
                 LogOutSuccess
             } else {

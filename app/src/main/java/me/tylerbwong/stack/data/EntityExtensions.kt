@@ -3,9 +3,11 @@ package me.tylerbwong.stack.data
 import me.tylerbwong.stack.data.model.AnswerDraft
 import me.tylerbwong.stack.data.model.BadgeCounts
 import me.tylerbwong.stack.data.model.Question
+import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
 import me.tylerbwong.stack.data.persistence.entity.QuestionEntity
+import me.tylerbwong.stack.data.persistence.entity.SearchEntity
 import me.tylerbwong.stack.data.persistence.entity.UserEntity
 
 fun Question.toQuestionEntity(sortString: String): QuestionEntity =
@@ -97,4 +99,15 @@ fun AnswerDraftEntity.toAnswerDraft(): AnswerDraft =
         questionTitle = questionTitle,
         updatedDate = updatedDate,
         bodyMarkdown = bodyMarkdown
+    )
+
+fun SearchEntity.toSearchPayload(): SearchPayload =
+    SearchPayload.Standard(
+        query = query,
+        isAccepted = isAccepted,
+        minNumAnswers = minNumAnswers,
+        bodyContains = bodyContains,
+        isClosed = isClosed,
+        tags = tags?.split(";"),
+        titleContains = titleContains
     )

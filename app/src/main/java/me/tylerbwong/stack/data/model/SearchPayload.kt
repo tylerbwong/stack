@@ -2,41 +2,16 @@ package me.tylerbwong.stack.data.model
 
 sealed class SearchPayload {
 
-    @Suppress("UNCHECKED_CAST")
-    open operator fun <T : SearchPayload> plus(other: SearchPayload): T = this as T
-
-    data class Advanced(
+    data class Standard(
         val query: String,
-        val isAccepted: Boolean? = null,
-        val minNumAnswers: Int? = null,
-        val bodyContains: String? = null,
-        val isClosed: Boolean? = null,
-        val tags: List<String>? = null,
-        val titleContains: String? = null
-    ) : SearchPayload() {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : SearchPayload> plus(other: SearchPayload): T {
-            return when (other) {
-                is Advanced, is Empty -> other
-                is Basic -> copy(query = other.query)
-            } as T
-        }
-    }
+        val isAccepted: Boolean? = false,
+        val minNumAnswers: Int? = 4,
+        val bodyContains: String? = "edittext",
+        val isClosed: Boolean? = false,
+        val tags: List<String>? = listOf("android"),
+        val titleContains: String? = null,
+        val searchId: Int? = null
+    ) : SearchPayload()
 
-    data class Basic(val query: String) : SearchPayload() {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : SearchPayload> plus(other: SearchPayload): T {
-            return when (other) {
-                is Advanced, is Empty -> other
-                is Basic -> copy(query = other.query)
-            } as T
-        }
-    }
-
-    object Empty : SearchPayload() {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : SearchPayload> plus(other: SearchPayload): T {
-            return other as T
-        }
-    }
+    object Empty : SearchPayload()
 }

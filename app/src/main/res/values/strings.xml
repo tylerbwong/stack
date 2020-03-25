@@ -98,6 +98,8 @@
     <string name="is_open">Open</string>
     <string name="tags_filter">Tags: %1$s</string>
     <string name="title_contains">Title contains \"%1$s\"</string>
+    <string name="past_searches">Past Searches</string>
+    <string name="search_query">\"%1$s\"</string>
 
     <!-- Drafts -->
     <string name="save_draft">Save Draft</string>

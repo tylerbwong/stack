@@ -3,11 +3,11 @@ package me.tylerbwong.stack.ui.search
 import android.content.Context
 import me.tylerbwong.stack.R
 
-sealed class AdvancedFilter {
+sealed class Filter {
 
     open fun getLabel(context: Context): String = ""
 
-    data class Accepted(val isAccepted: Boolean) : AdvancedFilter() {
+    data class Accepted(val isAccepted: Boolean) : Filter() {
         override fun getLabel(context: Context) = context.getString(
             if (isAccepted) {
                 R.string.has_accepted_answer
@@ -16,20 +16,20 @@ sealed class AdvancedFilter {
             }
         )
     }
-    data class MinAnswers(val minNumAnswers: Int) : AdvancedFilter() {
+    data class MinAnswers(val minNumAnswers: Int) : Filter() {
         override fun getLabel(context: Context) = context.resources.getQuantityString(
             R.plurals.has_min_answers,
             minNumAnswers,
             minNumAnswers
         )
     }
-    data class BodyContains(val bodyContains: String) : AdvancedFilter() {
+    data class BodyContains(val bodyContains: String) : Filter() {
         override fun getLabel(context: Context) = context.getString(
             R.string.body_contains,
             bodyContains
         )
     }
-    data class Closed(val isClosed: Boolean) : AdvancedFilter() {
+    data class Closed(val isClosed: Boolean) : Filter() {
         override fun getLabel(context: Context) = context.getString(
             if (isClosed) {
                 R.string.is_closed
@@ -38,18 +38,18 @@ sealed class AdvancedFilter {
             }
         )
     }
-    data class Tags(val tags: List<String>) : AdvancedFilter() {
+    data class Tags(val tags: List<String>) : Filter() {
         override fun getLabel(context: Context) = context.getString(
             R.string.tags_filter,
             tags.joinToString(", ")
         )
     }
-    data class TitleContains(val titleContains: String) : AdvancedFilter() {
+    data class TitleContains(val titleContains: String) : Filter() {
         override fun getLabel(context: Context) = context.getString(
             R.string.title_contains,
             titleContains
         )
     }
 
-    object None : AdvancedFilter()
+    object None : Filter()
 }
