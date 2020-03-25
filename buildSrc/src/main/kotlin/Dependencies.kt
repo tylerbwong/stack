@@ -20,7 +20,7 @@ object Versions {
     const val insetter = "0.2.1"
     const val jUnit = "4.12"
     const val klock = "1.10.0"
-    const val kotlin = "1.3.70"
+    const val kotlin = "1.3.71"
     const val kotlinxCoroutines = "1.3.5"
     const val ktlintGradle = "9.2.1"
     const val ktxActivityExtensions = "1.2.0-alpha02"

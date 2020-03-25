@@ -28,19 +28,19 @@ class SearchViewModel(
     internal fun search(searchPayload: SearchPayload = this.searchPayload) {
         this.searchPayload = this.searchPayload + searchPayload
         launchRequest {
-            val result = when (searchPayload) {
+            val result = when (val newSearchPayload = this@SearchViewModel.searchPayload) {
                 is SearchPayload.Advanced -> {
                     searchService.search(
-                        query = searchPayload.query,
-                        isAccepted = searchPayload.isAccepted,
-                        minNumAnswers = searchPayload.minNumAnswers,
-                        bodyContains = searchPayload.bodyContains,
-                        isClosed = searchPayload.isClosed,
-                        tags = searchPayload.tags?.joinToString(";"),
-                        titleContains = searchPayload.titleContains
+                        query = newSearchPayload.query,
+                        isAccepted = newSearchPayload.isAccepted,
+                        minNumAnswers = newSearchPayload.minNumAnswers,
+                        bodyContains = newSearchPayload.bodyContains,
+                        isClosed = newSearchPayload.isClosed,
+                        tags = newSearchPayload.tags?.joinToString(";"),
+                        titleContains = newSearchPayload.titleContains
                     ).items
                 }
-                is SearchPayload.Basic -> searchService.search(query = searchPayload.query).items
+                is SearchPayload.Basic -> searchService.search(query = newSearchPayload.query).items
                 is SearchPayload.Empty -> emptyList()
             }
             if (result.isEmpty()) {
