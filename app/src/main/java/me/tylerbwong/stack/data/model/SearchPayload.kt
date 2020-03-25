@@ -3,7 +3,7 @@ package me.tylerbwong.stack.data.model
 sealed class SearchPayload {
 
     @Suppress("UNCHECKED_CAST")
-    open operator fun <T : SearchPayload> plus(other: SearchPayload): T = Empty as T
+    open operator fun <T : SearchPayload> plus(other: SearchPayload): T = this as T
 
     data class Advanced(
         val query: String,
@@ -36,9 +36,7 @@ sealed class SearchPayload {
     object Empty : SearchPayload() {
         @Suppress("UNCHECKED_CAST")
         override fun <T : SearchPayload> plus(other: SearchPayload): T {
-            return when (other) {
-                is Advanced, is Basic, is Empty -> other
-            } as T
+            return other as T
         }
     }
 }
