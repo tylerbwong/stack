@@ -1,5 +1,5 @@
 object Versions {
-    const val androidxAppCompat = "1.2.0-alpha03"
+    const val androidxAppCompat = "1.2.0-alpha02"
     const val androidxBrowser = "1.3.0-alpha01"
     const val androidxLifecycleExtensions = "2.2.0"
     const val androidxPreference = "1.1.0"
