@@ -6,7 +6,7 @@ Stack is an Android application that lets you browse stackoverflow.com. It is cu
 
 # License
 
-    Copyright 2019 Tyler Wong
+    Copyright 2020 Tyler Wong
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
