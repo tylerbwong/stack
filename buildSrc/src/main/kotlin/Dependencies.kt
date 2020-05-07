@@ -16,7 +16,7 @@ object Versions {
     const val firebaseCrashlytics = "17.0.0-beta01"
     const val firebaseCrashlyticsGradlePlugin = "2.0.0-beta02"
     const val googleServices = "4.3.3"
-    const val gradlePlugin = "4.0.0-beta03"
+    const val gradlePlugin = "4.0.0-beta05"
     const val insetter = "0.2.1"
     const val jUnit = "4.12"
     const val klock = "1.10.0"
