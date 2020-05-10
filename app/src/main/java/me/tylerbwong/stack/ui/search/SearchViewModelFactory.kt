@@ -13,7 +13,7 @@ class SearchViewModelFactory @Inject constructor(
     private val searchDao: SearchDao
 ) : ViewModelProvider.Factory {
 
-    @Suppress("UNCHECKE_CAST")
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return SearchViewModel(tagService, searchService, searchDao) as T
     }
