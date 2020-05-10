@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ApplicationProvider
+import me.tylerbwong.stack.ui.ApplicationWrapper
 import org.junit.After
 import org.junit.Before
 import org.junit.runner.RunWith
@@ -22,6 +23,7 @@ abstract class BaseTest {
     @Before
     fun setUpTest() {
         MockitoAnnotations.initMocks(this)
+        ApplicationWrapper.init(context)
         lifecycleOwner = TestLifecycleOwner()
         lifecycleOwner.lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
     }
