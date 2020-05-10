@@ -14,7 +14,6 @@ import me.tylerbwong.stack.data.network.service.TagService
 import me.tylerbwong.stack.data.network.service.UserService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton

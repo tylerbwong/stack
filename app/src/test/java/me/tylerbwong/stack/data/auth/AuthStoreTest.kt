@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Test
 
 class AuthStoreTest : BaseTest() {
-    
+
     private lateinit var authStore: AuthStore
 
     @Before

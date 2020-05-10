@@ -16,7 +16,6 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
-import me.tylerbwong.stack.ui.di.DaggerUiComponent
 import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
 import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
 import me.tylerbwong.stack.ui.questions.QuestionsActivity

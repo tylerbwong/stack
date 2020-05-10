@@ -23,7 +23,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.AppUpdater
 import me.tylerbwong.stack.data.auth.AuthStore
-import me.tylerbwong.stack.ui.di.DaggerUiComponent
 import me.tylerbwong.stack.ui.drafts.DraftsFragment
 import me.tylerbwong.stack.ui.home.HomeFragment
 import me.tylerbwong.stack.ui.search.SearchFragment

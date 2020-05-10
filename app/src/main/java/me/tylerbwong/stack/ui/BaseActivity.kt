@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.updatePadding
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.ui.di.DaggerUiComponent
 import me.tylerbwong.stack.ui.theme.ThemeManager
 
 abstract class BaseActivity(

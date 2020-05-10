@@ -17,5 +17,4 @@ class SearchViewModelFactory @Inject constructor(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return SearchViewModel(tagService, searchService, searchDao) as T
     }
-
 }

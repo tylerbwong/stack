@@ -27,7 +27,6 @@ import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
-import me.tylerbwong.stack.ui.di.DaggerUiComponent
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailMainViewModel
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailMainViewModelFactory

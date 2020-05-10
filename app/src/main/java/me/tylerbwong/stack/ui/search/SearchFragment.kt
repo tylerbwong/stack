@@ -9,7 +9,6 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
-import me.tylerbwong.stack.ui.di.DaggerUiComponent
 import me.tylerbwong.stack.ui.home.FilterInputItem
 import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeAdapter

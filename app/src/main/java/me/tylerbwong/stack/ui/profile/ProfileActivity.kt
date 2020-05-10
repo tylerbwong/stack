@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.profile_header.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
-import me.tylerbwong.stack.ui.di.DaggerUiComponent
 import me.tylerbwong.stack.ui.questions.QuestionAdapter
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.launchCustomTab

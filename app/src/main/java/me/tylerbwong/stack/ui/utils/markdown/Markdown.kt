@@ -5,7 +5,6 @@ import android.widget.TextView
 import io.noties.markwon.Markwon
 import io.noties.prism4j.annotations.PrismBundle
 import me.tylerbwong.stack.ui.ApplicationWrapper
-import me.tylerbwong.stack.ui.di.DaggerUiComponent
 import org.apache.commons.text.StringEscapeUtils
 import javax.inject.Inject
 
