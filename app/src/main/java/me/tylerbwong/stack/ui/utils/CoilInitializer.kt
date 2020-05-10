@@ -8,6 +8,6 @@ object CoilInitializer {
 
     fun init(context: Context) {
         val applicationContext = context.applicationContext
-        Coil.setImageLoader(ImageLoader(applicationContext))
+        Coil.setDefaultImageLoader(ImageLoader(applicationContext))
     }
 }

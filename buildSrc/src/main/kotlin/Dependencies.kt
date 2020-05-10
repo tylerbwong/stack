@@ -8,7 +8,7 @@ object Versions {
     const val androidxViewPager2 = "1.0.0"
     const val apacheCommonsText = "1.8"
     const val betterLinkMovementMethod = "2.2.0"
-    const val coil = "0.10.1"
+    const val coil = "0.9.5"
     const val constraintLayout = "2.0.0-beta4"
     const val detekt = "1.8.0"
     const val espresso = "3.1.0"
