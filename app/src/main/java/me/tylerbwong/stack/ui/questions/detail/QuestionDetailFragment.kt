@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,15 +13,22 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.question_detail_fragment.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.ApplicationWrapper
+import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
+import me.tylerbwong.stack.ui.di.DaggerUiComponent
 import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
 import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
+import javax.inject.Inject
 
-class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
+class QuestionDetailFragment : BaseFragment(R.layout.question_detail_fragment) {
+
+    @Inject
+    lateinit var viewModelFactory: QuestionDetailMainViewModelFactory
 
     private lateinit var viewModel: QuestionDetailMainViewModel
     private val adapter = QuestionDetailAdapter()
@@ -30,13 +36,15 @@ class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ApplicationWrapper.uiComponent.inject(this)
         setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity()).get(QuestionDetailMainViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory)
+            .get(QuestionDetailMainViewModel::class.java)
 
         viewModel.refreshing.observe(viewLifecycleOwner) {
             refreshLayout.isRefreshing = it

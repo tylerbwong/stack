@@ -12,17 +12,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
-import me.tylerbwong.stack.data.persistence.StackDatabase
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import timber.log.Timber
 
 class PostAnswerViewModel(
-    private val service: QuestionService = ServiceProvider.questionService,
-    private val draftDao: AnswerDraftDao = StackDatabase.getInstance().getAnswerDraftDao()
+    private val service: QuestionService,
+    private val draftDao: AnswerDraftDao
 ) : ViewModel() {
     internal var markdownTextWatcher: TextWatcher? = null
     internal var selectedTabPosition = 0

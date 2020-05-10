@@ -9,7 +9,7 @@ import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.ui.BaseViewModel
 
 internal class HomeViewModel(
-    private val repository: QuestionRepository = QuestionRepository()
+    private val repository: QuestionRepository
 ) : BaseViewModel() {
 
     internal val questions: LiveData<List<Question>>

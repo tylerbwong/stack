@@ -3,9 +3,12 @@ package me.tylerbwong.stack.data.persistence.typeconverter
 import androidx.room.TypeConverter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import me.tylerbwong.stack.data.network.ServiceProvider
+import javax.inject.Inject
 
-class ListTypeConverter(private val moshi: Moshi = ServiceProvider.moshi) {
+class ListTypeConverter {
+
+    @Inject
+    lateinit var moshi: Moshi
 
     @TypeConverter
     fun stringListToJson(stringList: List<String>?): String? = stringList?.let {

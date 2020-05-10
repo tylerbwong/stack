@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.AppUpdater
 import me.tylerbwong.stack.data.auth.AuthStore
+import me.tylerbwong.stack.ui.di.DaggerUiComponent
 import me.tylerbwong.stack.ui.drafts.DraftsFragment
 import me.tylerbwong.stack.ui.home.HomeFragment
 import me.tylerbwong.stack.ui.search.SearchFragment
@@ -31,9 +32,14 @@ import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
+import javax.inject.Inject
 
 class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedListener {
-    private val viewModel: MainViewModel by viewModels()
+
+    @Inject
+    lateinit var mainViewModelFactory: MainViewModelFactory
+
+    private val viewModel by viewModels<MainViewModel> { mainViewModelFactory }
 
     private lateinit var appUpdater: AppUpdater
 
@@ -45,6 +51,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ApplicationWrapper.uiComponent.inject(this)
         setSupportActionBar(toolbar)
         setupBottomNavigation()
 

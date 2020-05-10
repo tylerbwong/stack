@@ -2,12 +2,14 @@ package me.tylerbwong.stack.ui.search
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_home.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.ApplicationWrapper
+import me.tylerbwong.stack.ui.BaseFragment
+import me.tylerbwong.stack.ui.di.DaggerUiComponent
 import me.tylerbwong.stack.ui.home.FilterInputItem
 import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeAdapter
@@ -17,10 +19,14 @@ import me.tylerbwong.stack.ui.home.SearchHistoryItem
 import me.tylerbwong.stack.ui.home.SearchInputItem
 import me.tylerbwong.stack.ui.home.SectionHeaderItem
 import me.tylerbwong.stack.ui.home.TagsItem
+import javax.inject.Inject
 
-class SearchFragment : Fragment(R.layout.fragment_home) {
+class SearchFragment : BaseFragment(R.layout.fragment_home) {
 
-    private val viewModel by viewModels<SearchViewModel>()
+    @Inject
+    lateinit var viewModelFactory: SearchViewModelFactory
+
+    private val viewModel by viewModels<SearchViewModel> { viewModelFactory }
 
     private val adapter = HomeAdapter()
     private val persistentItems: List<HomeItem>
@@ -29,6 +35,11 @@ class SearchFragment : Fragment(R.layout.fragment_home) {
             SearchInputItem(viewModel.searchPayload) { payload -> viewModel.search(payload) },
             FilterInputItem(viewModel.searchPayload) { payload -> viewModel.search(payload) }
         )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ApplicationWrapper.uiComponent.inject(this)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView.apply {

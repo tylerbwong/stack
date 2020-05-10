@@ -11,8 +11,9 @@ import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
+import javax.inject.Inject
 
-object DeepLinker {
+class DeepLinker @Inject constructor(private val authStore: AuthStore) {
 
     private enum class ResolvedPath(vararg val paths: String) {
         AUTH("/auth/redirect"),
@@ -33,7 +34,7 @@ object DeepLinker {
             AUTH -> {
                 // When coming back from an auth redirect, save the access token in the hash
                 // and restart MainActivity + clear top
-                AuthStore.setAccessToken(uri)
+                authStore.setAccessToken(uri)
                 MainActivity.makeIntentClearTop(context)
             }
             QUESTIONS_BY_TAG -> {

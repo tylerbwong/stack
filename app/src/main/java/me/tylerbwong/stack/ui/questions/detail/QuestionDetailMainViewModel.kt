@@ -7,15 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.model.Question
-import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import me.tylerbwong.stack.ui.utils.zipWith
 
 class QuestionDetailMainViewModel(
-    authStore: AuthStore = AuthStore,
-    private val service: QuestionService = ServiceProvider.questionService
+    authStore: AuthStore,
+    private val service: QuestionService
 ) : BaseViewModel() {
 
     internal val data: LiveData<List<QuestionDetailItem>>

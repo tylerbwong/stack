@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -26,28 +25,41 @@ import kotlinx.android.synthetic.main.post_answer_fragment.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.ApplicationWrapper
+import me.tylerbwong.stack.ui.BaseFragment
+import me.tylerbwong.stack.ui.di.DaggerUiComponent
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailMainViewModel
+import me.tylerbwong.stack.ui.questions.detail.QuestionDetailMainViewModelFactory
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
+import javax.inject.Inject
 
-class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
+class PostAnswerFragment : BaseFragment(R.layout.post_answer_fragment) {
 
-    private val viewModel by viewModels<PostAnswerViewModel>()
+    @Inject
+    lateinit var viewModelFactory: PostAnswerViewModelFactory
+
+    @Inject
+    lateinit var mainViewModelFactory: QuestionDetailMainViewModelFactory
+
+    private val viewModel by viewModels<PostAnswerViewModel> { viewModelFactory }
     private lateinit var mainViewModel: QuestionDetailMainViewModel
     private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ApplicationWrapper.uiComponent.inject(this)
         setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        mainViewModel = ViewModelProvider(requireActivity()).get(QuestionDetailMainViewModel::class.java)
+        mainViewModel = ViewModelProvider(requireActivity(), mainViewModelFactory)
+            .get(QuestionDetailMainViewModel::class.java)
 
         mainViewModel.clearFields.observe(viewLifecycleOwner) { clearFields() }
 

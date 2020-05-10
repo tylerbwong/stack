@@ -28,7 +28,7 @@ import me.tylerbwong.stack.data.persistence.typeconverter.ListTypeConverter
 abstract class StackDatabase : RoomDatabase() {
 
     companion object {
-        private const val stackDatabaseName = "stack-database"
+        private const val STACK_DATABASE_NAME = "stack-database"
 
         private lateinit var stackDatabaseInstance: StackDatabase
 
@@ -36,7 +36,7 @@ abstract class StackDatabase : RoomDatabase() {
             stackDatabaseInstance = Room.databaseBuilder(
                 context,
                 StackDatabase::class.java,
-                stackDatabaseName
+                STACK_DATABASE_NAME
             ).build()
         }
 

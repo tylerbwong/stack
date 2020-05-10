@@ -16,13 +16,20 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.comments_fragment.*
 import kotlinx.android.synthetic.main.header_holder.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.ApplicationWrapper
+import javax.inject.Inject
 
 class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
-    private val viewModel by viewModels<CommentsViewModel>()
+
+    @Inject
+    lateinit var viewModelFactory: CommentsViewModelFactory
+
+    private val viewModel by viewModels<CommentsViewModel> { viewModelFactory }
     private val adapter = CommentsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ApplicationWrapper.uiComponent.inject(this)
         viewModel.postId = arguments?.getInt(POST_ID) ?: -1
     }
 

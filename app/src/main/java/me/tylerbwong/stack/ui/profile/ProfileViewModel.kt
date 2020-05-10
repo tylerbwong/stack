@@ -7,13 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.User
-import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.UserService
 import me.tylerbwong.stack.ui.BaseViewModel
 
-class ProfileViewModel(
-    private val service: UserService = ServiceProvider.userService
-) : BaseViewModel() {
+class ProfileViewModel(private val service: UserService) : BaseViewModel() {
 
     internal var userId: Int? = null
     private var user: User? = null
