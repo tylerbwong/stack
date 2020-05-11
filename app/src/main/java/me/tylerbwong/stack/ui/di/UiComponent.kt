@@ -57,11 +57,11 @@ interface UiComponent {
 
     fun questionRepository(): QuestionRepository
 
+    fun inject(markdown: Markdown)
     fun inject(activity: BaseActivity)
     fun inject(activity: BaseFragment)
 
     // TODO Figure out how to remove all of these
-    fun inject(markdown: Markdown)
     fun inject(activity: MainActivity)
     fun inject(activity: QuestionsActivity)
     fun inject(activity: ProfileActivity)
