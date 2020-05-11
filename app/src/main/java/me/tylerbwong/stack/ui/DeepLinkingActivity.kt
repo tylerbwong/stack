@@ -14,7 +14,7 @@ class DeepLinkingActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DaggerStackComponent.create().inject(this)
+        ApplicationWrapper.stackComponent.inject(this)
         intent.data?.let {
             val resolvedIntent = deepLinker.resolvePath(this, it)
 
