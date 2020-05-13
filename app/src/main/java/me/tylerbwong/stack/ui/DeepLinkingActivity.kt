@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.Toast
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.DeepLinker
-import me.tylerbwong.stack.di.DaggerStackComponent
 import javax.inject.Inject
 
 class DeepLinkingActivity : BaseActivity() {
