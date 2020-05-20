@@ -38,7 +38,6 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
     ): View? = inflater.inflate(R.layout.filters_layout, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
