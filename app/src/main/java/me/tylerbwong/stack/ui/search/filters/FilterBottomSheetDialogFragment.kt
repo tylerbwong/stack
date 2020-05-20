@@ -15,7 +15,11 @@ import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import javax.inject.Inject
 
+typealias UpdatePayloadListener = (SearchPayload.Standard) -> Unit
+
 class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
+
+    private var updatePayload: UpdatePayloadListener? = null
 
     @Inject
     lateinit var viewModelFactory: FilterViewModelFactory
@@ -67,13 +71,18 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
     companion object {
         private const val SEARCH_PAYLOAD = "search_payload"
 
-        fun show(fragmentManager: FragmentManager, searchPayload: SearchPayload.Standard?) {
+        fun show(
+            fragmentManager: FragmentManager,
+            searchPayload: SearchPayload.Standard?,
+            updatePayload: UpdatePayloadListener
+        ) {
             val fragment = FilterBottomSheetDialogFragment()
                 .apply {
-                arguments = Bundle().apply {
-                    putParcelable(SEARCH_PAYLOAD, searchPayload)
+                    arguments = Bundle().apply {
+                        putParcelable(SEARCH_PAYLOAD, searchPayload)
+                    }
+                    this.updatePayload = updatePayload
                 }
-            }
             fragment.show(fragmentManager, FilterBottomSheetDialogFragment::class.java.simpleName)
         }
     }

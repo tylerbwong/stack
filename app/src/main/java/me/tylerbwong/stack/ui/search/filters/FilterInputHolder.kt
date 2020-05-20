@@ -30,7 +30,7 @@ class FilterInputHolder(
                         FilterBottomSheetDialogFragment.show(
                             activity.supportFragmentManager,
                             payload
-                        )
+                        ) { item.onPayloadReceived(it) }
                     }
                 }
             }
@@ -63,7 +63,7 @@ class FilterInputHolder(
                                 FilterBottomSheetDialogFragment.show(
                                     activity.supportFragmentManager,
                                     payload
-                                )
+                                ) { item.onPayloadReceived(it) }
                             }
                         }
                         setOnCloseIconClickListener {
