@@ -98,6 +98,10 @@ dependencies {
     // coil
     implementation(Dep.coil)
 
+    // dagger
+    implementation(Dep.dagger)
+    kapt(Dep.daggerCompiler)
+
     // firebase
     implementation(Dep.firebaseAnalytics)
     implementation(Dep.firebaseCrashlytics)

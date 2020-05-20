@@ -3,10 +3,8 @@ package me.tylerbwong.stack.ui.search
 import androidx.lifecycle.LiveData
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.SearchPayload
-import me.tylerbwong.stack.data.network.ServiceProvider
 import me.tylerbwong.stack.data.network.service.SearchService
 import me.tylerbwong.stack.data.network.service.TagService
-import me.tylerbwong.stack.data.persistence.StackDatabase
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import me.tylerbwong.stack.data.persistence.entity.SearchEntity
 import me.tylerbwong.stack.data.toSearchPayload
@@ -14,9 +12,9 @@ import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 
 class SearchViewModel(
-    private val tagService: TagService = ServiceProvider.tagService,
-    private val searchService: SearchService = ServiceProvider.searchService,
-    private val searchDao: SearchDao = StackDatabase.getInstance().getSearchDao()
+    private val tagService: TagService,
+    private val searchService: SearchService,
+    private val searchDao: SearchDao
 ) : BaseViewModel() {
 
     internal val emptySearchData: LiveData<EmptySearchData>

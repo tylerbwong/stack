@@ -16,6 +16,7 @@ abstract class BaseActivity(
     override fun onCreate(savedInstanceState: Bundle?) {
         ThemeManager.injectTheme(this)
         super.onCreate(savedInstanceState)
+        ApplicationWrapper.uiComponent.inject(this)
         applyFullscreenWindowInsets()
     }
 

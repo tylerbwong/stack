@@ -5,13 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.data.auth.AuthRepository
-import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
 import retrofit2.HttpException
 
 internal class MainViewModel(
-    private val authRepository: AuthRepository = AuthRepository()
+    private val authRepository: AuthRepository
 ) : BaseViewModel() {
 
     internal val profileImage: LiveData<String?>
@@ -19,7 +18,7 @@ internal class MainViewModel(
     private val _profileImage = MutableLiveData<String?>()
 
     internal val isAuthenticated: LiveData<Boolean>
-        get() = AuthStore.isAuthenticatedLiveData
+        get() = authRepository.isAuthenticated
 
     internal fun fetchUser() {
         viewModelScope.launch {

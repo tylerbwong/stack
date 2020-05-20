@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.profile_header.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.questions.QuestionAdapter
 import me.tylerbwong.stack.ui.utils.format
@@ -23,15 +24,20 @@ import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
+import javax.inject.Inject
 
 class ProfileActivity : BaseActivity(R.layout.activity_profile) {
 
-    private val viewModel: ProfileViewModel by viewModels()
+    @Inject
+    lateinit var viewModelFactory: ProfileViewModelFactory
+
+    private val viewModel by viewModels<ProfileViewModel> { viewModelFactory }
     private val adapter = QuestionAdapter()
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ApplicationWrapper.uiComponent.inject(this)
         setSupportActionBar(toolbar)
 
         viewModel.userId = intent.getIntExtra(USER_ID, 0)

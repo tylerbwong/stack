@@ -6,7 +6,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,10 +20,17 @@ import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.data.model.sortResourceId
+import me.tylerbwong.stack.ui.ApplicationWrapper
+import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.utils.showSnackbar
+import javax.inject.Inject
 
-class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClickListener {
-    private val viewModel: HomeViewModel by viewModels()
+class HomeFragment : BaseFragment(R.layout.fragment_home), PopupMenu.OnMenuItemClickListener {
+
+    @Inject
+    lateinit var viewModelFactory: HomeViewModelFactory
+
+    private val viewModel by viewModels<HomeViewModel> { viewModelFactory }
     private val adapter = HomeAdapter()
     private var snackbar: Snackbar? = null
 
@@ -32,6 +38,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), PopupMenu.OnMenuItemClick
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ApplicationWrapper.uiComponent.inject(this)
         setHasOptionsMenu(true)
     }
 

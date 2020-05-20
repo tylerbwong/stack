@@ -14,17 +14,23 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import kotlinx.android.synthetic.main.activity_question_detail.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import javax.inject.Inject
 
 class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
 
-    private val viewModel by viewModels<QuestionDetailMainViewModel>()
+    @Inject
+    lateinit var viewModelFactory: QuestionDetailMainViewModelFactory
+
+    private val viewModel by viewModels<QuestionDetailMainViewModel> { viewModelFactory }
     private lateinit var adapter: QuestionDetailPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ApplicationWrapper.uiComponent.inject(this)
         setSupportActionBar(toolbar)
         setTitle("")
 
