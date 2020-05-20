@@ -11,7 +11,7 @@ class UrlPlugin @Inject constructor(
 
     override fun configureConfiguration(builder: MarkwonConfiguration.Builder) {
         builder
-            .urlProcessor(urlProcessor)
+            .imageDestinationProcessor(urlProcessor)
             .linkResolver(tabsResolver)
     }
 }

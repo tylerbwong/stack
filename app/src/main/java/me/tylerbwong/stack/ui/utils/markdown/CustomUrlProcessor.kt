@@ -1,13 +1,8 @@
 package me.tylerbwong.stack.ui.utils.markdown
 
-import io.noties.markwon.urlprocessor.UrlProcessor
+import io.noties.markwon.image.destination.ImageDestinationProcessor
+import me.tylerbwong.stack.ui.utils.withHttps
 
-class CustomUrlProcessor : UrlProcessor {
-    override fun process(destination: String): String {
-        var url = destination
-        if (!destination.contains("http")) {
-            url = "https:$destination"
-        }
-        return url
-    }
+class CustomUrlProcessor : ImageDestinationProcessor() {
+    override fun process(destination: String): String = destination.withHttps
 }
