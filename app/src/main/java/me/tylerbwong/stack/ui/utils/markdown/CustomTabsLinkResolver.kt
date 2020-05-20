@@ -5,18 +5,20 @@ import android.view.View
 import io.noties.markwon.LinkResolver
 import me.tylerbwong.stack.data.DeepLinker
 import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.withHttps
 import timber.log.Timber
 
 class CustomTabsLinkResolver : LinkResolver {
     override fun resolve(view: View, link: String) {
+        val newLink = link.withHttps
         val context = view.context
-        val deepLinkIntent = DeepLinker.resolvePath(context, Uri.parse(link))
+        val deepLinkIntent = DeepLinker.resolvePath(context, Uri.parse(newLink))
 
         if (deepLinkIntent != null) {
-            Timber.i("Resolving internal deep link for $link")
+            Timber.i("Resolving internal deep link for $newLink")
             context.startActivity(deepLinkIntent)
         } else {
-            launchCustomTab(context, link)
+            launchCustomTab(context, newLink)
         }
     }
 }
