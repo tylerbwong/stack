@@ -56,12 +56,19 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
+        val bottomSheet = dialog.findViewById<ViewGroup>(
+            com.google.android.material.R.id.design_bottom_sheet
+        )
+        if (bottomSheet != null) {
+            BottomSheetBehavior.from(bottomSheet).apply {
+                isGestureInsetBottomIgnored = true
+            }
+        }
+
         // Prevent peeking when in landscape to avoid only showing top of bottom sheet
         if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) {
             dialog.setOnShowListener {
-                dialog.findViewById<ViewGroup>(
-                    com.google.android.material.R.id.design_bottom_sheet
-                )?.let { bottomSheet ->
+                bottomSheet?.let {
                     with(BottomSheetBehavior.from(bottomSheet)) {
                         peekHeight = bottomSheet.height
                         state = BottomSheetBehavior.STATE_EXPANDED
