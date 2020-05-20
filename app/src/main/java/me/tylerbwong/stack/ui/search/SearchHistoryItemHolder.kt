@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.search_history_item_holder.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.ui.home.SearchHistoryItem
+import me.tylerbwong.stack.ui.search.filters.Filter
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class SearchHistoryItemHolder(

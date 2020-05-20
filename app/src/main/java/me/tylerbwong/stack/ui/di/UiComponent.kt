@@ -28,6 +28,8 @@ import me.tylerbwong.stack.ui.questions.detail.post.PostAnswerFragment
 import me.tylerbwong.stack.ui.questions.detail.post.PostAnswerViewModelFactory
 import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.search.SearchViewModelFactory
+import me.tylerbwong.stack.ui.search.filters.FilterBottomSheetDialogFragment
+import me.tylerbwong.stack.ui.search.filters.FilterViewModelFactory
 import me.tylerbwong.stack.ui.utils.markdown.Markdown
 import javax.inject.Singleton
 
@@ -52,6 +54,7 @@ interface UiComponent {
     fun questionDetailMainViewModelFactory(): QuestionDetailMainViewModelFactory
     fun postAnswerViewModelFactory(): PostAnswerViewModelFactory
     fun searchViewModelFactory(): SearchViewModelFactory
+    fun filterViewModelFactory(): FilterViewModelFactory
     fun homeViewModelFactory(): HomeViewModelFactory
     fun draftsViewModelFactory(): DraftsViewModelFactory
 
@@ -72,4 +75,5 @@ interface UiComponent {
     fun inject(fragment: SearchFragment)
     fun inject(fragment: DraftsFragment)
     fun inject(fragment: CommentsBottomSheetDialogFragment)
+    fun inject(fragment: FilterBottomSheetDialogFragment)
 }

@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.ui.search
+package me.tylerbwong.stack.ui.search.filters
 
 import android.content.Context
 import me.tylerbwong.stack.R

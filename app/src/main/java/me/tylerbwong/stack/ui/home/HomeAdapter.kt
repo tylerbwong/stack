@@ -8,7 +8,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.HeaderViewHolder
 import me.tylerbwong.stack.ui.drafts.AnswerDraftHolder
 import me.tylerbwong.stack.ui.questions.QuestionViewHolder
-import me.tylerbwong.stack.ui.search.FilterInputHolder
+import me.tylerbwong.stack.ui.search.filters.FilterInputHolder
 import me.tylerbwong.stack.ui.search.SearchHistoryItemHolder
 import me.tylerbwong.stack.ui.search.SearchInputHolder
 import me.tylerbwong.stack.ui.search.tags.TagsHolder
@@ -37,7 +37,11 @@ class HomeAdapter : ListAdapter<HomeItem, RecyclerView.ViewHolder>(
         ITEM_TYPE_ANSWER_DRAFT -> AnswerDraftHolder(parent.inflate(R.layout.answer_draft_holder))
         ITEM_TYPE_BASIC_SEARCH_INPUT -> SearchInputHolder(parent.inflate(R.layout.search_input_holder))
         ITEM_TYPE_ADVANCED_SEARCH_INPUT ->
-            FilterInputHolder(parent.inflate(R.layout.filter_input_holder))
+            FilterInputHolder(
+                parent.inflate(
+                    R.layout.filter_input_holder
+                )
+            )
         ITEM_TYPE_TAGS -> TagsHolder(parent.inflate(R.layout.tags_holder))
         ITEM_TYPE_SECTION_HEADER -> SectionHeaderHolder(parent.inflate(R.layout.section_header_holder))
         else -> SearchHistoryItemHolder(parent.inflate(R.layout.search_history_item_holder))

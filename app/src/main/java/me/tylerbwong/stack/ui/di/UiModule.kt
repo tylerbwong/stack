@@ -21,6 +21,7 @@ import me.tylerbwong.stack.ui.questions.QuestionsViewModelFactory
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailMainViewModelFactory
 import me.tylerbwong.stack.ui.questions.detail.post.PostAnswerViewModelFactory
 import me.tylerbwong.stack.ui.search.SearchViewModelFactory
+import me.tylerbwong.stack.ui.search.filters.FilterViewModelFactory
 
 @Module
 class UiModule {
@@ -64,6 +65,9 @@ class UiModule {
         searchService: SearchService,
         searchDao: SearchDao
     ) = SearchViewModelFactory(tagService, searchService, searchDao)
+
+    @Provides
+    fun provideFilterViewModelFactory() = FilterViewModelFactory()
 
     @Provides
     fun provideHomeViewModelFactory(

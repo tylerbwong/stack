@@ -1,6 +1,7 @@
-package me.tylerbwong.stack.ui.search
+package me.tylerbwong.stack.ui.search.filters
 
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import kotlinx.android.extensions.LayoutContainer
@@ -19,16 +20,26 @@ class FilterInputHolder(
     fun bind(item: FilterInputItem) {
         advancedOptions.removeAllViews()
 
+        val payload = item.searchPayload as? SearchPayload.Standard
+
         // Add persistent filter button chip
         advancedOptions.addView(
             advancedOptions.inflate<Chip>(R.layout.filter_chip_button).apply {
-                setThrottledOnClickListener {
-                    // Open bottom sheet
+                setThrottledOnClickListener { view ->
+                    (view.context as? AppCompatActivity)?.let { activity ->
+                        FilterBottomSheetDialogFragment.show(
+                            activity.supportFragmentManager,
+                            payload
+                        )
+                    }
                 }
             }
         )
 
-        val payload = item.searchPayload as? SearchPayload.Standard ?: return
+        if (payload == null) {
+            return
+        }
+
         val (_, isAccepted, minNumAnswers, bodyContains, isClosed, tags, titleContains) = payload
 
         val enabledFilters = listOf(
@@ -48,7 +59,12 @@ class FilterInputHolder(
                     advancedOptions.inflate<Chip>(R.layout.advanced_filter_chip).apply {
                         text = label
                         setThrottledOnClickListener {
-                            // Open bottom sheet
+                            (it.context as? AppCompatActivity)?.let { activity ->
+                                FilterBottomSheetDialogFragment.show(
+                                    activity.supportFragmentManager,
+                                    payload
+                                )
+                            }
                         }
                         setOnCloseIconClickListener {
                             val removedFilter = enabledFilters.firstOrNull { filter ->

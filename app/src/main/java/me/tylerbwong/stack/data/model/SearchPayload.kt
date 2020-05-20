@@ -1,7 +1,11 @@
 package me.tylerbwong.stack.data.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 sealed class SearchPayload {
 
+    @Parcelize
     data class Standard(
         val query: String,
         val isAccepted: Boolean? = null,
@@ -11,7 +15,7 @@ sealed class SearchPayload {
         val tags: List<String>? = null,
         val titleContains: String? = null,
         val searchId: Int? = null
-    ) : SearchPayload()
+    ) : SearchPayload(), Parcelable
 
     object Empty : SearchPayload()
 }
