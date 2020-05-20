@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.Chip
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/add_filter"
+    android:textColor="@color/colorTextPrimary"
+    app:chipBackgroundColor="@android:color/transparent"
+    app:chipIcon="@drawable/ic_baseline_add" />

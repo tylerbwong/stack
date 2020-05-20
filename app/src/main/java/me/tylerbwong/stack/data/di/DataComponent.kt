@@ -14,7 +14,7 @@ import me.tylerbwong.stack.data.network.service.TagService
 import me.tylerbwong.stack.data.network.service.UserService
 import me.tylerbwong.stack.data.auth.di.AuthModule
 import me.tylerbwong.stack.data.network.di.NetworkModule
-import me.tylerbwong.stack.data.persistence.PersistenceModule
+import me.tylerbwong.stack.data.persistence.di.PersistenceModule
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao

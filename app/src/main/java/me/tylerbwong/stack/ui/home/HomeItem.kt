@@ -51,7 +51,8 @@ class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
             oldItem.draft.questionTitle == newItem.draft.questionTitle &&
                     oldItem.draft.formattedTimestamp == newItem.draft.formattedTimestamp &&
                     oldItem.draft.bodyMarkdown == newItem.draft.bodyMarkdown
-        oldItem is SearchInputItem && newItem is SearchInputItem -> true
+        oldItem is SearchInputItem && newItem is SearchInputItem ->
+            oldItem.searchPayload == newItem.searchPayload
         oldItem is FilterInputItem && newItem is FilterInputItem ->
             oldItem.searchPayload == newItem.searchPayload
         oldItem is TagsItem && newItem is TagsItem ->

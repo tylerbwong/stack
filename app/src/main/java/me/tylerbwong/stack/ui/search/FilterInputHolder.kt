@@ -9,6 +9,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.ui.home.FilterInputItem
 import me.tylerbwong.stack.ui.utils.inflate
+import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class FilterInputHolder(
     override val containerView: View
@@ -16,11 +17,21 @@ class FilterInputHolder(
 
     @Suppress("ComplexMethod")
     fun bind(item: FilterInputItem) {
+        advancedOptions.removeAllViews()
+
+        // Add persistent filter button chip
+        advancedOptions.addView(
+            advancedOptions.inflate<Chip>(R.layout.filter_chip_button).apply {
+                setThrottledOnClickListener {
+                    // Open bottom sheet
+                }
+            }
+        )
+
         val payload = item.searchPayload as? SearchPayload.Standard ?: return
         val (_, isAccepted, minNumAnswers, bodyContains, isClosed, tags, titleContains) = payload
 
-        advancedOptions.removeAllViews()
-        val addedFilters = listOf(
+        val enabledFilters = listOf(
             isAccepted?.let { Filter.Accepted(it) } ?: Filter.None,
             minNumAnswers?.let { Filter.MinAnswers(it) } ?: Filter.None,
             bodyContains?.let { Filter.BodyContains(it) } ?: Filter.None,
@@ -29,14 +40,18 @@ class FilterInputHolder(
             titleContains?.let { Filter.TitleContains(it) } ?: Filter.None
         ).filter { it != Filter.None }
 
-        addedFilters
+        // Add enabled filters
+        enabledFilters
             .map { it.getLabel(advancedOptions.context) }
             .forEach { label ->
                 advancedOptions.addView(
                     advancedOptions.inflate<Chip>(R.layout.advanced_filter_chip).apply {
                         text = label
+                        setThrottledOnClickListener {
+                            // Open bottom sheet
+                        }
                         setOnCloseIconClickListener {
-                            val removedFilter = addedFilters.firstOrNull { filter ->
+                            val removedFilter = enabledFilters.firstOrNull { filter ->
                                 label in filter.getLabel(it.context)
                             } ?: Filter.None
                             val newPayload = when (removedFilter) {
@@ -45,9 +60,7 @@ class FilterInputHolder(
                                 is Filter.BodyContains -> payload.copy(bodyContains = null)
                                 is Filter.Closed -> payload.copy(isClosed = null)
                                 is Filter.Tags -> payload.copy(tags = null)
-                                is Filter.TitleContains -> payload.copy(
-                                    titleContains = null
-                                )
+                                is Filter.TitleContains -> payload.copy(titleContains = null)
                                 is Filter.None -> payload.copy()
                             }
                             item.onPayloadReceived(newPayload)
