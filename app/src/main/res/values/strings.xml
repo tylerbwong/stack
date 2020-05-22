@@ -87,19 +87,24 @@
     <string name="popular_tags">Popular Tags</string>
     <string name="has_accepted_answer">Has accepted answer</string>
     <string name="no_accepted_answers">No accepted answers</string>
+    <string name="min_answers_title">Minimum answers</string>
     <plurals name="has_min_answers">
         <item quantity="zero">Has no answers</item>
         <item quantity="one">Has at least %1$d answer</item>
         <item quantity="many">Has at least %1$d answers</item>
         <item quantity="other">Has at least %1$d answers</item>
     </plurals>
+    <string name="body_contains_title">Body contains</string>
     <string name="body_contains">Body contains \"%1$s\"</string>
     <string name="is_closed">Closed</string>
     <string name="is_open">Open</string>
+    <string name="tags_title">Tags (Comma separated)</string>
     <string name="tags_filter">Tags: %1$s</string>
+    <string name="title_contains_title">Title contains</string>
     <string name="title_contains">Title contains \"%1$s\"</string>
     <string name="past_searches">Past Searches</string>
     <string name="search_query">\"%1$s\"</string>
+    <string name="filters">Filters</string>
     <string name="add_filters">Add filters</string>
 
     <!-- Drafts -->
