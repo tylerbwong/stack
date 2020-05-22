@@ -64,11 +64,10 @@ fun <T> Activity.setSharedTransition(vararg excludedComp: T) {
     val fade = Fade().apply {
         excludedComp.forEach {
             when (it) {
-                is Int -> this.excludeTarget(it, true)
-                is View -> this.excludeTarget(it, true)
-                is String -> this.excludeTarget(it, true)
-                else -> {
-                }
+                is Int -> excludeTarget(it, true)
+                is View -> excludeTarget(it, true)
+                is String -> excludeTarget(it, true)
+                else -> Unit
             }
         }
     }

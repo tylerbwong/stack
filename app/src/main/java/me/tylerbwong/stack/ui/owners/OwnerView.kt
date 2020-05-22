@@ -5,10 +5,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
-import coil.api.load
-import coil.transform.CircleCropTransformation
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import coil.api.load
+import coil.transform.CircleCropTransformation
 import kotlinx.android.synthetic.main.owner_view.view.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.User
@@ -49,8 +49,7 @@ class OwnerView @JvmOverloads constructor(
                 ProfileActivity.startActivity(
                     context = context,
                     userId = owner.userId,
-                    isFromDeepLink = false,
-                    aoc = aoc
+                    aocBundle = aoc.toBundle()
                 )
             }
         }
