@@ -135,7 +135,7 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
                 putExtra(USER_ID, userId)
                 putExtra(IS_FROM_DEEP_LINK, isFromDeepLink)
             }
-            context.startActivity(intent, aocBundle)
+            context.startActivity(intent, extras)
         }
     }
 }
