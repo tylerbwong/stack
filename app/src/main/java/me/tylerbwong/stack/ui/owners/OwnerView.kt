@@ -3,7 +3,6 @@ package me.tylerbwong.stack.ui.owners
 import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
@@ -41,7 +40,7 @@ class OwnerView @JvmOverloads constructor(
             (context as? Activity)?.let {
                 val aoc = ActivityOptionsCompat.makeSceneTransitionAnimation(
                     it,
-                    Pair<View, String>(
+                    Pair(
                         userImage,
                         context.getString(R.string.shared_transition_name)
                     )

@@ -54,7 +54,11 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
         ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(toolbar)
         setupBottomNavigation()
-        setupFade()
+
+        setSharedTransition(
+            android.R.id.statusBarBackground,
+            android.R.id.navigationBarBackground
+        )
 
         supportActionBar?.title = ""
 
@@ -90,14 +94,6 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
         appUpdater.checkForUpdate(this)
 
         populateContent(savedInstanceState)
-    }
-
-    private fun setupFade() {
-        this.setSharedTransition(
-            R.id.appBar,
-            android.R.id.statusBarBackground,
-            android.R.id.navigationBarBackground
-        )
     }
 
     override fun onResume() {

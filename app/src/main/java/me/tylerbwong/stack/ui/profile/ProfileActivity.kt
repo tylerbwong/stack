@@ -3,6 +3,7 @@ package me.tylerbwong.stack.ui.profile
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -42,7 +43,13 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
         ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(toolbar)
 
-        setupFade()
+        setSharedTransition(
+            android.R.id.statusBarBackground,
+            android.R.id.navigationBarBackground
+        )
+
+        window.sharedElementEnterTransition = TransitionInflater.from(this)
+            .inflateTransition(R.transition.shared_element_transition)
 
         viewModel.userId = intent.getIntExtra(USER_ID, 0)
         viewModel.refreshing.observe(this) {
@@ -59,6 +66,7 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
         }
         viewModel.userData.observe(this) {
             userImage.load(it.profileImage) {
+                allowHardware(false)
                 crossfade(true)
                 error(R.drawable.user_image_placeholder)
                 placeholder(R.drawable.user_image_placeholder)
@@ -98,14 +106,6 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
         refreshLayout.setOnRefreshListener { viewModel.getUserQuestionsAndAnswers() }
 
         viewModel.getUserQuestionsAndAnswers()
-    }
-
-    private fun setupFade() {
-        this.setSharedTransition(
-            R.id.appBar,
-            android.R.id.statusBarBackground,
-            android.R.id.navigationBarBackground
-        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
