@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -18,7 +19,7 @@ import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import javax.inject.Inject
 
-typealias UpdatePayloadListener = (SearchPayload.Standard) -> Unit
+typealias UpdatePayloadListener = (SearchPayload) -> Unit
 
 class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
@@ -32,20 +33,27 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ApplicationWrapper.uiComponent.inject(this)
-        viewModel.currentPayload = arguments?.getParcelable(SEARCH_PAYLOAD) ?: SearchPayload.Standard("")
+        viewModel.currentPayload = arguments?.getParcelable(SEARCH_PAYLOAD) ?: SearchPayload("")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.filters_layout, container, false)
+    ): View? {
+        val contextThemeWrapper = ContextThemeWrapper(context, R.style.AppTheme_Base)
+        return inflater.cloneInContext(contextThemeWrapper)
+            .inflate(R.layout.filters_layout, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(viewModel.currentPayload) {
             hasAcceptedAnswerSwitch.isChecked = isAccepted ?: false
             isClosedSwitch.isChecked = isClosed ?: false
-            minAnswersSlider.value = minNumAnswers?.toFloat() ?: 0f
+            val minAnswers = minNumAnswers ?: 0
+            minAnswersTitle.text = requireContext().resources
+                .getQuantityString(R.plurals.has_min_answers, minAnswers, minAnswers)
+            minAnswersSlider.value = minAnswers.toFloat()
             titleContainsEditText.setText(titleContains)
             bodyContainsEditText.setText(bodyContains)
             tagsEditText.setText(tags?.joinToString(","))
@@ -56,6 +64,11 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
         isClosedSwitch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.isClosed = isChecked
+        }
+        minAnswersSlider.addOnChangeListener { _, value, _ ->
+            val minAnswers = value.toInt()
+            minAnswersTitle.text = requireContext().resources
+                .getQuantityString(R.plurals.has_min_answers, minAnswers, minAnswers)
         }
         minAnswersSlider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: Slider) {
@@ -76,7 +89,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
             viewModel.tags = it?.toString() ?: ""
         }
         addFiltersButton.setOnClickListener {
-            viewModel.currentPayload?.let { payload -> updatePayload?.invoke(payload) }
+            updatePayload?.invoke(viewModel.currentPayload)
             dismissAllowingStateLoss()
         }
     }
@@ -89,6 +102,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         if (bottomSheet != null) {
             BottomSheetBehavior.from(bottomSheet).apply {
                 isGestureInsetBottomIgnored = true
+                state = BottomSheetBehavior.STATE_EXPANDED
             }
         }
 
@@ -113,7 +127,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
         fun show(
             fragmentManager: FragmentManager,
-            searchPayload: SearchPayload.Standard?,
+            searchPayload: SearchPayload?,
             updatePayload: UpdatePayloadListener
         ) {
             val fragment = FilterBottomSheetDialogFragment()

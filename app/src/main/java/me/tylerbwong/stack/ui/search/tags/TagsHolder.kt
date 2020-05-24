@@ -17,6 +17,7 @@ class TagsHolder(
     private val tagsViews = listOf(tagsViewTop, tagsViewMiddle, tagsViewBottom)
 
     fun bind(tagsItem: TagsItem) {
+        tagsViews.forEach { it.removeAllViews() }
         val chunkedTags = tagsItem.tags.chunked(tagsItem.tags.size / 3)
         chunkedTags.forEachIndexed { index, tags ->
             tags.forEach {

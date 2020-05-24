@@ -7,7 +7,6 @@ import com.google.android.material.chip.Chip
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.filter_input_holder.*
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.ui.home.FilterInputItem
 import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
@@ -20,7 +19,7 @@ class FilterInputHolder(
     fun bind(item: FilterInputItem) {
         advancedOptions.removeAllViews()
 
-        val payload = item.searchPayload as? SearchPayload.Standard
+        val payload = item.searchPayload
 
         // Add persistent filter button chip
         advancedOptions.addView(
@@ -35,10 +34,6 @@ class FilterInputHolder(
                 }
             }
         )
-
-        if (payload == null) {
-            return
-        }
 
         val (_, isAccepted, minNumAnswers, bodyContains, isClosed, tags, titleContains) = payload
 

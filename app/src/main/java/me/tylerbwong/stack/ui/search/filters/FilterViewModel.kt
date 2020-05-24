@@ -5,7 +5,7 @@ import me.tylerbwong.stack.data.model.SearchPayload
 
 class FilterViewModel : ViewModel() {
 
-    internal var currentPayload = SearchPayload.Standard("")
+    internal var currentPayload = SearchPayload("")
     internal var hasAcceptedAnswer = false
         set(value) {
             field = value
