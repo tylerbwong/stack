@@ -51,7 +51,7 @@ class PostAnswerFragment : BaseFragment(R.layout.post_answer_fragment) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.uiComponent.inject(this)
+        ApplicationWrapper.stackComponent.inject(this)
         setHasOptionsMenu(true)
     }
 

@@ -38,7 +38,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), PopupMenu.OnMenuItemC
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.uiComponent.inject(this)
+        ApplicationWrapper.stackComponent.inject(this)
         setHasOptionsMenu(true)
     }
 

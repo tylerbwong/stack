@@ -7,7 +7,7 @@ import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.ui.ApplicationWrapper
 
 @Module
-class StackModule {
+class DeepLinkModule {
 
     @Provides
     fun provideContext() = ApplicationWrapper.context

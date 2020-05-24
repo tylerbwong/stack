@@ -14,7 +14,7 @@ class AuthStoreTest : BaseTest() {
 
     @Before
     fun setUp() {
-        authStore = ApplicationWrapper.dataComponent.authStore()
+        authStore = ApplicationWrapper.stackComponent.authStore()
         authStore.clear()
     }
 

@@ -32,7 +32,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.uiComponent.inject(this)
+        ApplicationWrapper.stackComponent.inject(this)
         viewModel.currentPayload = arguments?.getParcelable(SEARCH_PAYLOAD) ?: SearchPayload("")
     }
 

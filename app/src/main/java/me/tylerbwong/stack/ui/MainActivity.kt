@@ -50,7 +50,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.uiComponent.inject(this)
+        ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(toolbar)
         setupBottomNavigation()
 

@@ -30,7 +30,7 @@ class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.uiComponent.inject(this)
+        ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(toolbar)
         setTitle("")
 

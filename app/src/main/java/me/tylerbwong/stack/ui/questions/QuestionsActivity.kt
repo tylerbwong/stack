@@ -36,7 +36,7 @@ class QuestionsActivity : BaseActivity(R.layout.activity_questions),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.uiComponent.inject(this)
+        ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(toolbar)
 
         val key = intent.getStringExtra(KEY_EXTRA) ?: ""

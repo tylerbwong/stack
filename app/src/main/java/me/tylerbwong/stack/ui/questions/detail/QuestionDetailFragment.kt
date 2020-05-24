@@ -35,7 +35,7 @@ class QuestionDetailFragment : BaseFragment(R.layout.question_detail_fragment) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.uiComponent.inject(this)
+        ApplicationWrapper.stackComponent.inject(this)
         setHasOptionsMenu(true)
     }
 
