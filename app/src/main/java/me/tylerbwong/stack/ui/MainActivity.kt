@@ -29,6 +29,7 @@ import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.setSharedTransition
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
@@ -53,6 +54,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
         ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(toolbar)
         setupBottomNavigation()
+        setupFade()
 
         supportActionBar?.title = ""
 
@@ -88,6 +90,14 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
         appUpdater.checkForUpdate(this)
 
         populateContent(savedInstanceState)
+    }
+
+    private fun setupFade() {
+        this.setSharedTransition(
+            R.id.appBar,
+            android.R.id.statusBarBackground,
+            android.R.id.navigationBarBackground
+        )
     }
 
     override fun onResume() {

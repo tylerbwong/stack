@@ -1,8 +1,12 @@
 package me.tylerbwong.stack.ui.owners
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import coil.api.load
 import coil.transform.CircleCropTransformation
 import kotlinx.android.synthetic.main.owner_view.view.*
@@ -34,7 +38,20 @@ class OwnerView @JvmOverloads constructor(
             transformations(CircleCropTransformation())
         }
         userImage.setThrottledOnClickListener {
-            ProfileActivity.startActivity(context, owner.userId)
+            (context as? Activity)?.let {
+                val aoc = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    it,
+                    Pair<View, String>(
+                        userImage,
+                        context.getString(R.string.shared_transition_name)
+                    )
+                )
+                ProfileActivity.startActivity(
+                    context = context,
+                    userId = owner.userId,
+                    extras = aoc.toBundle()
+                )
+            }
         }
         badgeView.badgeCounts = owner.badgeCounts
         reputation.text = owner.reputation.toLong().format()

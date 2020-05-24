@@ -15,12 +15,14 @@ import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.profile_header.*
+import kotlinx.android.synthetic.main.profile_header.view.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.questions.QuestionAdapter
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.setSharedTransition
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
@@ -39,6 +41,8 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
         super.onCreate(savedInstanceState)
         ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(toolbar)
+
+        setupFade()
 
         viewModel.userId = intent.getIntExtra(USER_ID, 0)
         viewModel.refreshing.observe(this) {
@@ -83,6 +87,9 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
 
+        includeProfileHeader.userImage.transitionName =
+            resources.getString(R.string.shared_transition_name)
+
         recyclerView.apply {
             adapter = this@ProfileActivity.adapter
             layoutManager = LinearLayoutManager(this@ProfileActivity)
@@ -91,6 +98,14 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
         refreshLayout.setOnRefreshListener { viewModel.getUserQuestionsAndAnswers() }
 
         viewModel.getUserQuestionsAndAnswers()
+    }
+
+    private fun setupFade() {
+        this.setSharedTransition(
+            R.id.appBar,
+            android.R.id.statusBarBackground,
+            android.R.id.navigationBarBackground
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -113,13 +128,14 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
         fun startActivity(
             context: Context,
             userId: Int,
-            isFromDeepLink: Boolean = false
+            isFromDeepLink: Boolean = false,
+            extras: Bundle? = null
         ) {
             val intent = Intent(context, ProfileActivity::class.java).apply {
                 putExtra(USER_ID, userId)
                 putExtra(IS_FROM_DEEP_LINK, isFromDeepLink)
             }
-            context.startActivity(intent)
+            context.startActivity(intent, extras)
         }
     }
 }

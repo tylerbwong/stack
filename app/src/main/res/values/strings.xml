@@ -115,6 +115,11 @@
     <!-- Settings -->
     <string name="app">App</string>
     <string name="experimental">Experimental</string>
+
+    <!-- Transition string -->
+    <string name="shared_transition_name">transition</string>
+
+    <!-- App version -->
     <string name="version">Version</string>
     <string name="syntax_highlighting">Syntax Highlighting</string>
     <string name="syntax_highlighting_summary">Enables syntax highlighting within any markdown body. Requires a restart to take effect.</string>
