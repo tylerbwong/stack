@@ -20,8 +20,7 @@ class QuestionDetailItemCallback : DiffUtil.ItemCallback<QuestionDetailItem>() {
     ) = when {
         oldItem is QuestionItem && newItem is QuestionItem ->
             oldItem.question.questionId == newItem.question.questionId
-        oldItem is QuestionActionItem && newItem is QuestionActionItem ->
-            oldItem.question.questionId == newItem.question.questionId
+        oldItem is QuestionActionItem && newItem is QuestionActionItem -> true
         oldItem is AnswerHeaderItem && newItem is AnswerHeaderItem -> true
         oldItem is AnswerItem && newItem is AnswerItem ->
             oldItem.answer.answerId == newItem.answer.answerId
@@ -39,9 +38,12 @@ class QuestionDetailItemCallback : DiffUtil.ItemCallback<QuestionDetailItem>() {
                     oldItem.question.owner == newItem.question.owner &&
                     oldItem.question.tags == newItem.question.tags
         oldItem is QuestionActionItem && newItem is QuestionActionItem ->
-            oldItem.question.isDownVoted == oldItem.question.isDownVoted &&
-                    oldItem.question.isFavorited && newItem.question.isFavorited &&
-                    oldItem.question.isUpVoted == newItem.question.isUpVoted
+            oldItem.question.isDownVoted == newItem.question.isDownVoted &&
+                    oldItem.question.isBookmarked == newItem.question.isBookmarked &&
+                    oldItem.question.isUpVoted == newItem.question.isUpVoted &&
+                    oldItem.question.downVoteCount == newItem.question.downVoteCount &&
+                    oldItem.question.bookmarkCount == newItem.question.bookmarkCount &&
+                    oldItem.question.upVoteCount == newItem.question.upVoteCount
         oldItem is AnswerHeaderItem && newItem is AnswerHeaderItem ->
             oldItem.answerCount == newItem.answerCount
         oldItem is AnswerItem && newItem is AnswerItem ->

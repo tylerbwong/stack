@@ -25,10 +25,10 @@ class QuestionDetailActionHolder(
             question.upVoteCount,
             isSelected = question.isUpVoted
         )
-        favorite.renderSelectedState(
+        bookmark.renderSelectedState(
             R.color.favorited,
-            question.favoriteCount,
-            isSelected = question.isFavorited
+            question.bookmarkCount,
+            isSelected = question.isBookmarked
         )
         downvote.renderSelectedState(
             R.color.downvoted,
@@ -39,8 +39,8 @@ class QuestionDetailActionHolder(
         upvote.setThrottledOnClickListener {
             handler.toggleUpvote(isSelected = !question.isUpVoted)
         }
-        favorite.setThrottledOnClickListener {
-            handler.toggleFavorite(isSelected = !question.isFavorited)
+        bookmark.setThrottledOnClickListener {
+            handler.toggleFavorite(isSelected = !question.isBookmarked)
         }
         downvote.setThrottledOnClickListener {
             handler.toggleDownvote(isSelected = !question.isDownVoted)

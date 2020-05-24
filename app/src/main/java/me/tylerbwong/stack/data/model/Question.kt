@@ -26,9 +26,9 @@ data class Question(
     @Json(name = "downvoted")
     val isDownVoted: Boolean = false,
     @Json(name = "favorited")
-    val isFavorited: Boolean = false,
+    val isBookmarked: Boolean = false,
     @Json(name = "favorite_count")
-    val favoriteCount: Int,
+    val bookmarkCount: Int,
     @Json(name = "is_answered")
     val isAnswered: Boolean,
     @Json(name = "last_activity_date")

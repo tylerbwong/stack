@@ -33,18 +33,18 @@
         android:gravity="center"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/favorite"
+        app:layout_constraintEnd_toStartOf="@id/bookmark"
         app:layout_constraintStart_toEndOf="@id/upvote"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="25k" />
 
     <TextView
-        android:id="@+id/favorite"
+        android:id="@+id/bookmark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/question_detail_action_item_bg"
         android:clickable="true"
-        android:drawableTop="@drawable/ic_star"
+        android:drawableTop="@drawable/ic_baseline_bookmark"
         android:focusable="true"
         android:gravity="center"
         android:textSize="12sp"
