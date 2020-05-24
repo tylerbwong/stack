@@ -14,6 +14,8 @@ import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.DeepLinkingActivity
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.MainViewModelFactory
+import me.tylerbwong.stack.ui.bookmarks.BookmarksFragment
+import me.tylerbwong.stack.ui.bookmarks.BookmarksViewModelFactory
 import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.comments.CommentsViewModelFactory
 import me.tylerbwong.stack.ui.drafts.DraftsFragment
@@ -62,6 +64,7 @@ interface StackComponent {
     fun filterViewModelFactory(): FilterViewModelFactory
     fun homeViewModelFactory(): HomeViewModelFactory
     fun draftsViewModelFactory(): DraftsViewModelFactory
+    fun bookmarksViewModelFactory(): BookmarksViewModelFactory
 
     fun questionRepository(): QuestionRepository
 
@@ -80,6 +83,7 @@ interface StackComponent {
     fun inject(fragment: HomeFragment)
     fun inject(fragment: SearchFragment)
     fun inject(fragment: DraftsFragment)
+    fun inject(fragment: BookmarksFragment)
     fun inject(fragment: CommentsBottomSheetDialogFragment)
     fun inject(fragment: FilterBottomSheetDialogFragment)
 }

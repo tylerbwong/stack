@@ -10,6 +10,7 @@
     <string name="comments">Comments</string>
     <string name="home">Home</string>
     <string name="drafts">Drafts</string>
+    <string name="bookmarks">Bookmarks</string>
 
     <plurals name="answers">
         <item quantity="zero">%1$d Answers</item>

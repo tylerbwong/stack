@@ -14,6 +14,9 @@ interface AnswerDao {
     @Query("SELECT * FROM answer WHERE answerId = :answerId")
     suspend fun get(answerId: Int): AnswerEntity
 
+    @Query("SELECT * FROM answer WHERE questionId = :questionId")
+    suspend fun getAnswersByQuestionId(questionId: Int): List<AnswerEntity>
+
     @Query("DELETE FROM answer WHERE answerId = :answerId")
     suspend fun delete(answerId: Int)
 }

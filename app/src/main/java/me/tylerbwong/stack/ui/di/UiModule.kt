@@ -13,6 +13,7 @@ import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.ui.MainViewModelFactory
+import me.tylerbwong.stack.ui.bookmarks.BookmarksViewModelFactory
 import me.tylerbwong.stack.ui.comments.CommentsViewModelFactory
 import me.tylerbwong.stack.ui.drafts.DraftsViewModelFactory
 import me.tylerbwong.stack.ui.home.HomeViewModelFactory
@@ -78,6 +79,11 @@ class UiModule {
     fun provideDraftsViewModelFactory(
         draftDao: AnswerDraftDao
     ) = DraftsViewModelFactory(draftDao)
+
+    @Provides
+    fun provideBookMarksViewModelFactory(
+        questionService: QuestionService
+    ) = BookmarksViewModelFactory(questionService)
 
     @Provides
     fun provideQuestionRepository(

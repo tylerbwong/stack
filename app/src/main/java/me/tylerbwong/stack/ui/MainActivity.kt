@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.AppUpdater
 import me.tylerbwong.stack.data.auth.AuthStore
+import me.tylerbwong.stack.ui.bookmarks.BookmarksFragment
 import me.tylerbwong.stack.ui.drafts.DraftsFragment
 import me.tylerbwong.stack.ui.home.HomeFragment
 import me.tylerbwong.stack.ui.search.SearchFragment
@@ -45,9 +46,10 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
 
     private val homeFragment by lazy { initializeFragment(HOME_FRAGMENT_TAG) { HomeFragment() } }
     private val searchFragment by lazy { initializeFragment(SEARCH_FRAGMENT_TAG) { SearchFragment() } }
+    private val bookmarksFragment by lazy { initializeFragment(BOOKMARKS_FRAGMENT_TAG) { BookmarksFragment() } }
     private val draftsFragment by lazy { initializeFragment(DRAFTS_FRAGMENT_TAG) { DraftsFragment() } }
 
-    private val authTabIds = listOf(R.id.drafts)
+    private val authTabIds = listOf(R.id.bookmarks, R.id.drafts)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -156,6 +158,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
         bottomNav.setOnNavigationItemSelectedListener { menuItem ->
             val fragment = when (menuItem.itemId) {
                 R.id.search -> searchFragment
+                R.id.bookmarks -> bookmarksFragment
                 R.id.drafts -> draftsFragment
                 else -> homeFragment
             }
@@ -245,6 +248,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
     companion object {
         private const val HOME_FRAGMENT_TAG = "home_fragment"
         private const val SEARCH_FRAGMENT_TAG = "search_fragment"
+        private const val BOOKMARKS_FRAGMENT_TAG = "bookmarks_fragment"
         private const val DRAFTS_FRAGMENT_TAG = "drafts_fragment"
 
         fun makeIntentClearTop(context: Context) = Intent(context, MainActivity::class.java)

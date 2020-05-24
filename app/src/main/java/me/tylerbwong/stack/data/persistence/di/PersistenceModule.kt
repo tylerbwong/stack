@@ -22,6 +22,9 @@ class PersistenceModule {
     fun provideQuestionDao(stackDatabase: StackDatabase) = stackDatabase.getQuestionDao()
 
     @Provides
+    fun provideAnswerDao(stackDatabase: StackDatabase) = stackDatabase.getAnswerDao()
+
+    @Provides
     fun provideUserDao(stackDatabase: StackDatabase) = stackDatabase.getUserDao()
 
     @Provides

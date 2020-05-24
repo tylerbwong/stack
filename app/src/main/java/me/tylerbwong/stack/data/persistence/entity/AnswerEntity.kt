@@ -11,5 +11,6 @@ data class AnswerEntity(
     val upVoteCount: Int,
     val score: Int,
     val creationDate: Long,
-    val bodyMarkdown: String
+    val bodyMarkdown: String,
+    val questionId: Int
 )

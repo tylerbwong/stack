@@ -28,6 +28,17 @@ interface QuestionService {
         @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
     ): Response<Question>
 
+    @GET("me/favorites")
+    suspend fun getBookmarks(
+        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Query(SORT_PARAM) @Sort sort: String = DEFAULT_SORT,
+        @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
+        @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
+        @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
+        @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
+        @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
+    ): Response<Question>
+
     @GET("questions")
     suspend fun getQuestionsByTags(
         @Query(SITE_PARAM) site: String = DEFAULT_SITE,
@@ -87,7 +98,7 @@ interface QuestionService {
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
-        @Query(FILTER_PARAM) filter: String = DETAIL_FILTER,
+        @Query(FILTER_PARAM) filter: String = ANSWER_FILTER,
         @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
     ): Response<Answer>
 
@@ -166,6 +177,8 @@ interface QuestionService {
         private const val PREVIEW_PARAM = "preview"
 
         internal const val DEFAULT_FILTER = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9("
+        internal const val ANSWER_FILTER =
+            "!0S8m3MqnVA0.si8ymAHCw85(QQpY3QVrrCN(n.jv(dyzoY3hJnA-ub3op0wDzhwp8dyxCg-"
         internal const val DETAIL_FILTER =
             "!3r.zRmD4l6rHdTgXfBOo(qq6rg_D3I7uaTO)p123.RRrNwbbeBOKxJp8dch552I"
         internal const val DETAIL_FILTER_AUTH =

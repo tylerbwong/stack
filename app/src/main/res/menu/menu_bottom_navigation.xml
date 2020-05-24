@@ -12,6 +12,11 @@
         android:title="@string/search" />
 
     <item
+        android:id="@+id/bookmarks"
+        android:icon="@drawable/ic_baseline_bookmark"
+        android:title="@string/bookmarks" />
+
+    <item
         android:id="@+id/drafts"
         android:icon="@drawable/ic_baseline_insert_drive_file"
         android:title="@string/drafts" />

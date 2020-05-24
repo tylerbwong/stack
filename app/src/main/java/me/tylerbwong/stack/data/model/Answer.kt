@@ -21,5 +21,7 @@ data class Answer(
     val bodyMarkdown: String,
     @Json(name = "last_editor")
     val lastEditor: User?,
+    @Json(name = "question_id")
+    val questionId: Int,
     val comments: List<Comment> = emptyList()
 )
