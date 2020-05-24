@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "e7cf1aaf07823300f18c5cb05f3b3623",
+    "identityHash": "88ce53e674f78abad01f1349d3e4024b",
     "entities": [
       {
         "tableName": "question",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `answerCount` INTEGER NOT NULL, `body` TEXT, `bodyMarkdown` TEXT, `closedDate` INTEGER, `closedReason` TEXT, `commentCount` INTEGER, `creationDate` INTEGER NOT NULL, `downVoteCount` INTEGER NOT NULL, `downvoted` INTEGER NOT NULL, `favoriteCount` INTEGER NOT NULL, `favorited` INTEGER NOT NULL, `isAnswered` INTEGER NOT NULL, `lastActivityDate` INTEGER, `lastEditDate` INTEGER, `lastEditor` INTEGER, `owner` INTEGER NOT NULL, `questionId` INTEGER NOT NULL, `score` INTEGER NOT NULL, `shareLink` TEXT NOT NULL, `tags` TEXT, `title` TEXT NOT NULL, `upVoteCount` INTEGER NOT NULL, `upvoted` INTEGER NOT NULL, `viewCount` INTEGER NOT NULL, `sortString` TEXT NOT NULL, FOREIGN KEY(`owner`) REFERENCES `user`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`lastEditor`) REFERENCES `user`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `answerCount` INTEGER NOT NULL, `body` TEXT, `bodyMarkdown` TEXT, `closedDate` INTEGER, `closedReason` TEXT, `commentCount` INTEGER, `creationDate` INTEGER NOT NULL, `downVoteCount` INTEGER NOT NULL, `favoriteCount` INTEGER NOT NULL, `isAnswered` INTEGER NOT NULL, `lastActivityDate` INTEGER, `lastEditDate` INTEGER, `lastEditor` INTEGER, `owner` INTEGER NOT NULL, `questionId` INTEGER NOT NULL, `score` INTEGER NOT NULL, `shareLink` TEXT NOT NULL, `tags` TEXT, `title` TEXT NOT NULL, `upVoteCount` INTEGER NOT NULL, `viewCount` INTEGER NOT NULL, `sortString` TEXT NOT NULL, FOREIGN KEY(`owner`) REFERENCES `user`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`lastEditor`) REFERENCES `user`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -63,20 +63,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "downvoted",
-            "columnName": "downvoted",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
             "fieldPath": "favoriteCount",
             "columnName": "favoriteCount",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "favorited",
-            "columnName": "favorited",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -143,12 +131,6 @@
           {
             "fieldPath": "upVoteCount",
             "columnName": "upVoteCount",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "upvoted",
-            "columnName": "upvoted",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -416,7 +398,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e7cf1aaf07823300f18c5cb05f3b3623')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '88ce53e674f78abad01f1349d3e4024b')"
     ]
   }
 }
