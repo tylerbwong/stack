@@ -129,7 +129,7 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
             context: Context,
             userId: Int,
             isFromDeepLink: Boolean = false,
-            aocBundle: Bundle? = null
+            extras: Bundle? = null
         ) {
             val intent = Intent(context, ProfileActivity::class.java).apply {
                 putExtra(USER_ID, userId)
