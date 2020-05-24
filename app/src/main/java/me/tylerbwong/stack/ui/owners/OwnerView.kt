@@ -49,7 +49,7 @@ class OwnerView @JvmOverloads constructor(
                 ProfileActivity.startActivity(
                     context = context,
                     userId = owner.userId,
-                    aocBundle = aoc.toBundle()
+                    extras = aoc.toBundle()
                 )
             }
         }
