@@ -12,7 +12,7 @@ object Versions {
     const val coil = "0.11.0"
     const val constraintLayout = "2.0.0-beta4"
     const val dagger = "2.27"
-    const val detekt = "1.8.0"
+    const val detekt = "1.9.1"
     const val espresso = "3.1.0"
     const val firebaseAnalytics = "17.4.1"
     const val firebaseCrashlytics = "17.0.0"
