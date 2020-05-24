@@ -2,6 +2,8 @@ package me.tylerbwong.stack.data.auth.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 import dagger.Module
 import dagger.Provides
 import me.tylerbwong.stack.data.auth.AuthInterceptor
@@ -19,7 +21,13 @@ class AuthModule {
     @Provides
     fun provideSharedPreferences(
         context: Context
-    ) = context.getSharedPreferences(AUTH_PREFERENCES, Context.MODE_PRIVATE)
+    ) = EncryptedSharedPreferences.create(
+        AUTH_PREFERENCES,
+        MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+        context,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
 
     @Singleton
     @Provides

@@ -80,6 +80,7 @@ dependencies {
     implementation(Dep.androidxBrowser)
     implementation(Dep.androidxLifecycleExtensions)
     implementation(Dep.androidxPreference)
+    implementation(Dep.androidxSecurity)
     implementation(Dep.androidxSwipeRefreshLayout)
     implementation(Dep.androidxViewPager2)
     implementation(Dep.constraintLayout)
