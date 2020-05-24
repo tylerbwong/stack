@@ -66,7 +66,6 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
         }
         viewModel.userData.observe(this) {
             userImage.load(it.profileImage) {
-                allowHardware(false)
                 crossfade(true)
                 error(R.drawable.user_image_placeholder)
                 placeholder(R.drawable.user_image_placeholder)
