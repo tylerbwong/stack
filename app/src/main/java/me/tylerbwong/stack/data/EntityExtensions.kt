@@ -20,7 +20,9 @@ fun Question.toQuestionEntity(sortString: String): QuestionEntity =
         commentCount = commentCount,
         creationDate = creationDate,
         downVoteCount = downVoteCount,
+        downvoted = isDownVoted,
         favoriteCount = favoriteCount,
+        favorited = isFavorited,
         isAnswered = isAnswered,
         lastActivityDate = lastActivityDate,
         lastEditDate = lastEditDate,
@@ -32,6 +34,7 @@ fun Question.toQuestionEntity(sortString: String): QuestionEntity =
         tags = tags,
         title = title,
         upVoteCount = upVoteCount,
+        upvoted = isUpVoted,
         viewCount = viewCount,
         sortString = sortString
     )
@@ -46,7 +49,9 @@ fun QuestionEntity.toQuestion(owner: UserEntity, lastEditor: UserEntity?): Quest
         commentCount = commentCount,
         creationDate = creationDate,
         downVoteCount = downVoteCount,
+        isDownVoted = downvoted,
         favoriteCount = favoriteCount,
+        isFavorited = favorited,
         isAnswered = isAnswered,
         lastActivityDate = lastActivityDate,
         lastEditDate = lastEditDate,
@@ -58,6 +63,7 @@ fun QuestionEntity.toQuestion(owner: UserEntity, lastEditor: UserEntity?): Quest
         tags = tags,
         title = title,
         upVoteCount = upVoteCount,
+        isUpVoted = upvoted,
         viewCount = viewCount
     )
 

@@ -23,6 +23,10 @@ data class Question(
     val creationDate: Long,
     @Json(name = "down_vote_count")
     val downVoteCount: Int,
+    @Json(name = "downvoted")
+    val isDownVoted: Boolean = false,
+    @Json(name = "favorited")
+    val isFavorited: Boolean = false,
     @Json(name = "favorite_count")
     val favoriteCount: Int,
     @Json(name = "is_answered")
@@ -43,6 +47,8 @@ data class Question(
     val title: String,
     @Json(name = "up_vote_count")
     val upVoteCount: Int,
+    @Json(name = "upvoted")
+    val isUpVoted: Boolean = false,
     @Json(name = "view_count")
     val viewCount: Int
 )

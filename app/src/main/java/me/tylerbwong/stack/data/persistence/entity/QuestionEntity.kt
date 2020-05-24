@@ -31,7 +31,9 @@ data class QuestionEntity(
     val commentCount: Int?,
     val creationDate: Long,
     val downVoteCount: Int,
+    val downvoted: Boolean,
     val favoriteCount: Int,
+    val favorited: Boolean,
     val isAnswered: Boolean,
     val lastActivityDate: Long?,
     val lastEditDate: Long?,
@@ -43,6 +45,7 @@ data class QuestionEntity(
     val tags: List<String>?,
     val title: String,
     val upVoteCount: Int,
+    val upvoted: Boolean,
     val viewCount: Int,
     val sortString: String
 ) {

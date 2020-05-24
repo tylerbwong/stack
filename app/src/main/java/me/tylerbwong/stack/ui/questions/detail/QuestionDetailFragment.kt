@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,11 +52,22 @@ class QuestionDetailFragment : BaseFragment(R.layout.question_detail_fragment) {
         viewModel.snackbar.observe(viewLifecycleOwner) {
             if (it != null) {
                 snackbar = refreshLayout.showSnackbar(
-                        R.string.network_error,
-                        R.string.retry
+                    R.string.network_error,
+                    R.string.retry
                 ) { viewModel.getQuestionDetails() }
             } else {
                 snackbar?.dismiss()
+            }
+        }
+        viewModel.messageSnackbar.observe(viewLifecycleOwner) {
+            with(Snackbar.make(refreshLayout, it, Snackbar.LENGTH_INDEFINITE)) {
+                this@with.view.findViewById<TextView>(
+                    com.google.android.material.R.id.snackbar_text
+                )?.apply {
+                    maxLines = 4
+                }
+                setAction(R.string.dismiss) { dismiss() }
+                show()
             }
         }
         viewModel.data.observe(viewLifecycleOwner) {
@@ -63,7 +75,7 @@ class QuestionDetailFragment : BaseFragment(R.layout.question_detail_fragment) {
         }
         viewModel.voteCount.observe(viewLifecycleOwner) {
             (activity as? QuestionDetailActivity)?.setTitle(
-                    resources.getQuantityString(R.plurals.votes, it, it)
+                resources.getQuantityString(R.plurals.votes, it, it)
             )
         }
 
@@ -71,11 +83,11 @@ class QuestionDetailFragment : BaseFragment(R.layout.question_detail_fragment) {
             adapter = this@QuestionDetailFragment.adapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
-                    ViewHolderItemDecoration(
-                            context.resources.getDimensionPixelSize(R.dimen.item_spacing_question_detail),
-                            removeSideSpacing = true,
-                            removeTopSpacing = true
-                    )
+                ViewHolderItemDecoration(
+                    context.resources.getDimensionPixelSize(R.dimen.item_spacing_question_detail),
+                    removeSideSpacing = true,
+                    removeTopSpacing = true
+                )
             )
             addOnScrollListener(object : OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -113,14 +125,14 @@ class QuestionDetailFragment : BaseFragment(R.layout.question_detail_fragment) {
                 viewModel.questionId
             )
             R.id.linked -> QuestionsActivity.startActivityForKey(
-                    requireContext(),
-                    LINKED,
-                    viewModel.questionId.toString()
+                requireContext(),
+                LINKED,
+                viewModel.questionId.toString()
             )
             R.id.related -> QuestionsActivity.startActivityForKey(
-                    requireContext(),
-                    RELATED,
-                    viewModel.questionId.toString()
+                requireContext(),
+                RELATED,
+                viewModel.questionId.toString()
             )
         }
         return super.onOptionsItemSelected(item)

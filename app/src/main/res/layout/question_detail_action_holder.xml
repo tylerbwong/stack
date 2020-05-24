@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/upvote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/question_detail_action_item_bg"
+        android:clickable="true"
+        android:drawableTop="@drawable/ic_arrow_upward"
+        android:focusable="true"
+        android:gravity="center"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/downvote"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="25k" />
+
+    <TextView
+        android:id="@+id/downvote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/question_detail_action_item_bg"
+        android:clickable="true"
+        android:drawableTop="@drawable/ic_arrow_downward"
+        android:focusable="true"
+        android:gravity="center"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/favorite"
+        app:layout_constraintStart_toEndOf="@id/upvote"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="25k" />
+
+    <TextView
+        android:id="@+id/favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/question_detail_action_item_bg"
+        android:clickable="true"
+        android:drawableTop="@drawable/ic_star"
+        android:focusable="true"
+        android:gravity="center"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/downvote"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="25k" />
+</androidx.constraintlayout.widget.ConstraintLayout>

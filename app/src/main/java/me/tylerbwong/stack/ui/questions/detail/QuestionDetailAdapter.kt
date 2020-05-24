@@ -16,6 +16,7 @@ class QuestionDetailAdapter : ListAdapter<QuestionDetailItem, RecyclerView.ViewH
 ) {
     override fun getItemViewType(position: Int) = when (getItem(position)) {
         is QuestionItem -> ITEM_TYPE_QUESTION
+        is QuestionActionItem -> ITEM_TYPE_ACTION
         is AnswerHeaderItem -> ITEM_TYPE_ANSWER_HEADER
         is AnswerItem -> ITEM_TYPE_ANSWER
     }
@@ -28,6 +29,9 @@ class QuestionDetailAdapter : ListAdapter<QuestionDetailItem, RecyclerView.ViewH
             parent.inflate<ViewGroup>(R.layout.question_detail_holder).also {
                 it.questionBody.setSpannableFactory(noCopySpannableFactory)
             }
+        )
+        ITEM_TYPE_ACTION -> QuestionDetailActionHolder(
+            parent.inflate<ViewGroup>(R.layout.question_detail_action_holder)
         )
         ITEM_TYPE_ANSWER_HEADER -> AnswerHeaderViewHolder(parent.inflate(R.layout.answer_header))
         else -> AnswerHolder(
@@ -42,6 +46,7 @@ class QuestionDetailAdapter : ListAdapter<QuestionDetailItem, RecyclerView.ViewH
 
         when {
             holder is QuestionDetailHolder && item is QuestionItem -> holder.bind(item)
+            holder is QuestionDetailActionHolder && item is QuestionActionItem -> holder.bind(item)
             holder is AnswerHeaderViewHolder && item is AnswerHeaderItem -> holder.bind(item)
             holder is AnswerHolder && item is AnswerItem -> holder.bind(item)
         }
@@ -49,7 +54,8 @@ class QuestionDetailAdapter : ListAdapter<QuestionDetailItem, RecyclerView.ViewH
 
     companion object {
         private const val ITEM_TYPE_QUESTION = 1
-        private const val ITEM_TYPE_ANSWER_HEADER = 2
-        private const val ITEM_TYPE_ANSWER = 3
+        private const val ITEM_TYPE_ACTION = 2
+        private const val ITEM_TYPE_ANSWER_HEADER = 3
+        private const val ITEM_TYPE_ANSWER = 4
     }
 }

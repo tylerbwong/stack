@@ -6,6 +6,10 @@ import me.tylerbwong.stack.data.model.Question
 
 sealed class QuestionDetailItem
 data class QuestionItem(internal val question: Question) : QuestionDetailItem()
+data class QuestionActionItem(
+    internal val handler: QuestionDetailActionHandler,
+    internal val question: Question
+) : QuestionDetailItem()
 data class AnswerHeaderItem(internal val answerCount: Int) : QuestionDetailItem()
 data class AnswerItem(internal val answer: Answer) : QuestionDetailItem()
 
@@ -15,6 +19,8 @@ class QuestionDetailItemCallback : DiffUtil.ItemCallback<QuestionDetailItem>() {
         newItem: QuestionDetailItem
     ) = when {
         oldItem is QuestionItem && newItem is QuestionItem ->
+            oldItem.question.questionId == newItem.question.questionId
+        oldItem is QuestionActionItem && newItem is QuestionActionItem ->
             oldItem.question.questionId == newItem.question.questionId
         oldItem is AnswerHeaderItem && newItem is AnswerHeaderItem -> true
         oldItem is AnswerItem && newItem is AnswerItem ->
@@ -32,6 +38,10 @@ class QuestionDetailItemCallback : DiffUtil.ItemCallback<QuestionDetailItem>() {
                     oldItem.question.bodyMarkdown == newItem.question.bodyMarkdown &&
                     oldItem.question.owner == newItem.question.owner &&
                     oldItem.question.tags == newItem.question.tags
+        oldItem is QuestionActionItem && newItem is QuestionActionItem ->
+            oldItem.question.isDownVoted == oldItem.question.isDownVoted &&
+                    oldItem.question.isFavorited && newItem.question.isFavorited &&
+                    oldItem.question.isUpVoted == newItem.question.isUpVoted
         oldItem is AnswerHeaderItem && newItem is AnswerHeaderItem ->
             oldItem.answerCount == newItem.answerCount
         oldItem is AnswerItem && newItem is AnswerItem ->

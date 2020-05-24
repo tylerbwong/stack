@@ -22,7 +22,7 @@ import me.tylerbwong.stack.data.persistence.typeconverter.ListTypeConverter
         AnswerDraftEntity::class,
         SearchEntity::class
     ],
-    version = 3
+    version = 4
 )
 @TypeConverters(ListTypeConverter::class)
 abstract class StackDatabase : RoomDatabase() {
