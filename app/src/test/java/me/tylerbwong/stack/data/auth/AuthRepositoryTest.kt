@@ -151,7 +151,9 @@ class AuthRepositoryTest : BaseTest() {
     @Ignore("AuthRepository no longer stores the current user in the db")
     fun `getCurrentUser with throwing db call still returns the user from the service`() {
         runBlocking {
-            whenever(userService.getCurrentUser(any(), any(), any())).thenReturn(testResponse)
+            whenever(userService.getCurrentUser(any(), any(), any())).thenReturn(
+                StackResponse(listOf(testUser), false)
+            )
             whenever(userDao.insert(any())).thenThrow(IllegalStateException("Could not insert"))
             authStore.setAccessToken(testUri)
             assertEquals(testUser, repository.getCurrentUser())
@@ -175,6 +177,5 @@ class AuthRepositoryTest : BaseTest() {
             "registered",
             null
         )
-        private val testResponse = StackResponse(listOf(testUser), false, 0, "")
     }
 }
