@@ -39,7 +39,7 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.uiComponent.inject(this)
+        ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(toolbar)
 
         setupFade()

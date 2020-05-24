@@ -52,7 +52,7 @@ class AuthRepositoryTest : BaseTest() {
 
     @Before
     fun setUp() {
-        authStore = ApplicationWrapper.dataComponent.authStore()
+        authStore = ApplicationWrapper.stackComponent.authStore()
         repository = AuthRepository(answerDraftDao, searchDao, userService, authService, authStore)
     }
 

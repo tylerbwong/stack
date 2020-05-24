@@ -29,7 +29,7 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.uiComponent.inject(this)
+        ApplicationWrapper.stackComponent.inject(this)
         viewModel.postId = arguments?.getInt(POST_ID) ?: -1
     }
 

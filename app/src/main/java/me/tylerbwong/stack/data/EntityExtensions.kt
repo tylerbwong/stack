@@ -102,7 +102,7 @@ fun AnswerDraftEntity.toAnswerDraft(): AnswerDraft =
     )
 
 fun SearchEntity.toSearchPayload(): SearchPayload =
-    SearchPayload.Standard(
+    SearchPayload(
         query = query,
         isAccepted = isAccepted,
         minNumAnswers = minNumAnswers,

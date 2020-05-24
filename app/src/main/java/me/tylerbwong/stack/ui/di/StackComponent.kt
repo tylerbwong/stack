@@ -2,13 +2,16 @@ package me.tylerbwong.stack.ui.di
 
 import dagger.Component
 import io.noties.markwon.Markwon
+import me.tylerbwong.stack.data.DeepLinker
+import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.auth.di.AuthModule
 import me.tylerbwong.stack.data.network.di.NetworkModule
 import me.tylerbwong.stack.data.persistence.di.PersistenceModule
 import me.tylerbwong.stack.data.repository.QuestionRepository
-import me.tylerbwong.stack.di.StackModule
+import me.tylerbwong.stack.di.DeepLinkModule
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.BaseFragment
+import me.tylerbwong.stack.ui.DeepLinkingActivity
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.MainViewModelFactory
 import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
@@ -40,11 +43,13 @@ import javax.inject.Singleton
         MarkdownModule::class,
         NetworkModule::class,
         PersistenceModule::class,
-        StackModule::class,
+        DeepLinkModule::class,
         UiModule::class
     ]
 )
-interface UiComponent {
+interface StackComponent {
+    fun authStore(): AuthStore
+    fun deepLinker(): DeepLinker
     fun markwon(): Markwon
 
     fun mainViewModelFactory(): MainViewModelFactory
@@ -66,6 +71,7 @@ interface UiComponent {
 
     // TODO Figure out how to remove all of these
     fun inject(activity: MainActivity)
+    fun inject(activity: DeepLinkingActivity)
     fun inject(activity: QuestionsActivity)
     fun inject(activity: ProfileActivity)
     fun inject(activity: QuestionDetailActivity)

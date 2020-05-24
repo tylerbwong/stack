@@ -25,25 +25,14 @@ class SearchViewModel(
         get() = _searchResults
     private val _searchResults = SingleLiveEvent<List<Question>>()
 
-    internal var searchPayload: SearchPayload = SearchPayload.Empty
+    internal var searchPayload: SearchPayload = SearchPayload("")
 
     internal fun search(searchPayload: SearchPayload = this.searchPayload) {
         this.searchPayload = searchPayload
         launchRequest {
-            val result = when (searchPayload) {
-                is SearchPayload.Standard -> {
-                    searchDao.insert(
-                        SearchEntity(
-                            query = searchPayload.query,
-                            isAccepted = searchPayload.isAccepted,
-                            minNumAnswers = searchPayload.minNumAnswers,
-                            bodyContains = searchPayload.bodyContains,
-                            isClosed = searchPayload.isClosed,
-                            tags = searchPayload.tags?.joinToString(";"),
-                            titleContains = searchPayload.titleContains
-                        )
-                    )
-                    searchService.search(
+            if (searchPayload.isNotEmpty()) {
+                searchDao.insert(
+                    SearchEntity(
                         query = searchPayload.query,
                         isAccepted = searchPayload.isAccepted,
                         minNumAnswers = searchPayload.minNumAnswers,
@@ -51,32 +40,34 @@ class SearchViewModel(
                         isClosed = searchPayload.isClosed,
                         tags = searchPayload.tags?.joinToString(";"),
                         titleContains = searchPayload.titleContains
-                    ).items
+                    )
+                )
+                val result = searchService.search(
+                    query = searchPayload.query,
+                    isAccepted = searchPayload.isAccepted,
+                    minNumAnswers = searchPayload.minNumAnswers,
+                    bodyContains = searchPayload.bodyContains,
+                    isClosed = searchPayload.isClosed,
+                    tags = searchPayload.tags?.joinToString(";"),
+                    titleContains = searchPayload.titleContains
+                ).items
+                if (result.isEmpty()) {
+                    fetchEmptySearchData()
+                } else {
+                    _searchResults.value = result
                 }
-                is SearchPayload.Empty -> emptyList()
-            }
-            if (result.isEmpty()) {
-                fetchEmptySearchData()
             } else {
-                _searchResults.value = result
+                fetchEmptySearchData()
             }
-        }
-    }
-
-    internal fun clearSearch() {
-        searchPayload = SearchPayload.Empty
-        launchRequest {
-            fetchEmptySearchData()
         }
     }
 
     private suspend fun fetchEmptySearchData() {
         val tags = tagService.getPopularTags().items
-        streamRequest(searchDao.getSearches()) { searchEntities ->
-            _emptySearchData.value = EmptySearchData(
-                tags = tags,
-                searchHistory = searchEntities.map { it.toSearchPayload() }
-            )
-        }
+        val searches = searchDao.getSearches()
+        _emptySearchData.value = EmptySearchData(
+            tags = tags,
+            searchHistory = searches.map { it.toSearchPayload() }
+        )
     }
 }

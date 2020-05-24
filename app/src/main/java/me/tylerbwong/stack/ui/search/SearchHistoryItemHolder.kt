@@ -6,7 +6,6 @@ import com.google.android.material.chip.Chip
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.search_history_item_holder.*
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.ui.home.SearchHistoryItem
 import me.tylerbwong.stack.ui.search.filters.Filter
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
@@ -17,8 +16,7 @@ class SearchHistoryItemHolder(
 
     @Suppress("ComplexMethod")
     fun bind(item: SearchHistoryItem) {
-        val payload = item.searchPayload as? SearchPayload.Standard ?: return
-        val (query, isAccepted, minNumAnswers, bodyContains, isClosed, tags, titleContains) = payload
+        val (query, isAccepted, minNumAnswers, bodyContains, isClosed, tags, titleContains) = item.searchPayload
 
         containerView.setThrottledOnClickListener {
             item.onPayloadReceived(item.searchPayload)

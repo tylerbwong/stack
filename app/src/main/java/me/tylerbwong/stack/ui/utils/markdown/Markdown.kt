@@ -15,7 +15,7 @@ class Markdown {
     lateinit var markwon: Markwon
 
     init {
-        ApplicationWrapper.uiComponent.inject(this)
+        ApplicationWrapper.stackComponent.inject(this)
     }
 
     companion object {
