@@ -1,13 +1,16 @@
 package me.tylerbwong.stack.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class Response<out T>(
-    val items: List<T>,
-    @SerializedName("has_more")
-    val hasMore: Boolean,
-    @SerializedName("error_id")
-    val errorId: Int,
-    @SerializedName("error_message")
-    val errorMessage: String
-)
+    @Json(name = "items")
+    val items: List<T> = emptyList(),
+    @Json(name = "has_more")
+    val hasMore: Boolean = false
+) {
+    companion object {
+        val EMPTY = Response<Unit>()
+    }
+}

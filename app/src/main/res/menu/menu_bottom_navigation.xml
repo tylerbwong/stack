@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/home" />
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search" />
+
+    <item
+        android:id="@+id/drafts"
+        android:icon="@drawable/ic_baseline_insert_drive_file"
+        android:title="@string/drafts" />
+</menu>

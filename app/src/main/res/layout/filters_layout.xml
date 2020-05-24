@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Headline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/filters"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textStyle="bold" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/hasAcceptedAnswerSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/has_accepted_answer" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/isClosedSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/is_closed" />
+
+        <TextView
+            android:id="@+id/minAnswersTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/min_answers_title"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/minAnswersSlider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:stepSize="1"
+            android:valueFrom="0"
+            android:valueTo="50"
+            app:thumbColor="@color/colorAccent"
+            app:thumbElevation="0dp"
+            app:tickColor="@color/colorPrimary"
+            app:trackColor="@color/colorAccent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/titleContainsLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:boxStrokeColor="@color/text_input_box_color"
+            app:hintTextColor="@color/text_input_box_color">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/titleContainsEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/title_contains_title"
+                android:theme="@style/TextInputEditTextStyle" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bodyContainsLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:boxStrokeColor="@color/text_input_box_color"
+            app:hintTextColor="@color/text_input_box_color">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bodyContainsEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/body_contains_title"
+                android:theme="@style/TextInputEditTextStyle" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tagsLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:boxStrokeColor="@color/text_input_box_color"
+            app:hintTextColor="@color/text_input_box_color">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tagsEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/tags_title"
+                android:theme="@style/TextInputEditTextStyle" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addFiltersButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/colorAccent"
+            android:padding="16dp"
+            android:stateListAnimator="@null"
+            android:text="@string/add_filters"
+            android:textAllCaps="false" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

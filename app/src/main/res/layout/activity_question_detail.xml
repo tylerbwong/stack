@@ -9,13 +9,13 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?attr/viewBackgroundColor">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/viewBackgroundColor"
             android:theme="@style/MainToolbarStyle"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:titleTextColor="?android:attr/textColorPrimary" />
@@ -36,7 +36,7 @@
         app:layout_anchor="@id/viewPager"
         app:layout_anchorGravity="bottom|end" />
 
-    <me.tylerbwong.stack.ui.utils.NoSwipeViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

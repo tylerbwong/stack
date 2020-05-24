@@ -10,13 +10,18 @@ import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.network.service.AuthService
 import me.tylerbwong.stack.data.network.service.UserService
+import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
+import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
+import me.tylerbwong.stack.ui.ApplicationWrapper
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.never
@@ -28,6 +33,12 @@ import me.tylerbwong.stack.data.model.Response as StackResponse
 class AuthRepositoryTest : BaseTest() {
 
     @Mock
+    private lateinit var answerDraftDao: AnswerDraftDao
+
+    @Mock
+    private lateinit var searchDao: SearchDao
+
+    @Mock
     private lateinit var userDao: UserDao
 
     @Mock
@@ -36,38 +47,44 @@ class AuthRepositoryTest : BaseTest() {
     @Mock
     private lateinit var authService: AuthService
 
+    private lateinit var authStore: AuthStore
     private lateinit var repository: AuthRepository
 
     @Before
     fun setUp() {
-        repository = AuthRepository(userDao, userService, authService)
+        authStore = ApplicationWrapper.stackComponent.authStore()
+        repository = AuthRepository(answerDraftDao, searchDao, userService, authService, authStore)
     }
 
     @Test
     fun `logOut with existing access token returns success state`() {
         runBlocking {
-            AuthStore.setAccessToken(testUri)
+            authStore.setAccessToken(testUri)
             val result = repository.logOut()
             assertTrue(result is LogOutSuccess)
             verify(authService).logOut("test")
-            assertTrue(AuthStore.accessToken.isNullOrBlank())
+            verify(answerDraftDao).clearDrafts()
+            verify(searchDao).clearSearches()
+            assertTrue(authStore.accessToken.isNullOrBlank())
         }
     }
 
     @Test
     fun `logOut with absent access token returns error state`() {
         runBlocking {
-            AuthStore.clear()
+            authStore.clear()
             val result = repository.logOut()
             assertTrue(result is LogOutError)
             verify(authService, never()).logOut(any(), any())
+            verify(answerDraftDao, never()).clearDrafts()
+            verify(searchDao, never()).clearSearches()
         }
     }
 
     @Test
     fun `logOut that comes back with error returns error state`() {
         runBlocking {
-            AuthStore.clear()
+            authStore.setAccessToken(testUri)
             whenever(authService.logOut(any(), any()))
                 .thenThrow(
                     HttpException(
@@ -82,25 +99,26 @@ class AuthRepositoryTest : BaseTest() {
                 )
             val result = repository.logOut()
             assertTrue(result is LogOutError)
-            verify(authService, never()).logOut(any(), any())
         }
     }
 
     @Test
     fun `getCurrentUser with existing access token makes service and db calls`() {
         runBlocking {
-            whenever(userService.getCurrentUser(any(), any(), any())).thenReturn(testResponse)
-            AuthStore.setAccessToken(testUri)
-            repository.getCurrentUser()
+            whenever(userService.getCurrentUser(any(), any(), any())).thenReturn(
+                StackResponse(listOf(testUser), false)
+            )
+            authStore.setAccessToken(testUri)
+            assertEquals(testUser, repository.getCurrentUser())
             verify(userService).getCurrentUser(any(), any(), any())
-            verify(userDao).insert(any())
+//            verify(userDao).insert(any())
         }
     }
 
     @Test
     fun `getCurrentUser with absent access token never makes service and db calls and returns null`() {
         runBlocking {
-            AuthStore.clear()
+            authStore.clear()
             assertNull(repository.getCurrentUser())
             verify(userService, never()).getCurrentUser(any(), any(), any())
             verify(userDao, never()).insert(any())
@@ -122,7 +140,7 @@ class AuthRepositoryTest : BaseTest() {
                         )
                     )
                 )
-            AuthStore.setAccessToken(testUri)
+            authStore.setAccessToken(testUri)
             assertNull(repository.getCurrentUser())
             verify(userService).getCurrentUser(any(), any(), any())
             verify(userDao, never()).insert(any())
@@ -130,14 +148,15 @@ class AuthRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `getCurrentUser with throwing db call returns null`() {
+    @Ignore("AuthRepository no longer stores the current user in the db")
+    fun `getCurrentUser with throwing db call still returns the user from the service`() {
         runBlocking {
             whenever(userService.getCurrentUser(any(), any(), any())).thenReturn(testResponse)
             whenever(userDao.insert(any())).thenThrow(IllegalStateException("Could not insert"))
-            AuthStore.setAccessToken(testUri)
-            assertNull(repository.getCurrentUser())
+            authStore.setAccessToken(testUri)
+            assertEquals(testUser, repository.getCurrentUser())
             verify(userService).getCurrentUser(any(), any(), any())
-            verify(userDao).insert(any())
+//            verify(userDao).insert(any())
         }
     }
 

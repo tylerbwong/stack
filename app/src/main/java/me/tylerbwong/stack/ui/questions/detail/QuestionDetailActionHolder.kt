@@ -2,48 +2,48 @@ package me.tylerbwong.stack.ui.questions.detail
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.view.ViewGroup
+import android.view.View
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.question_detail_action_holder.*
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.ui.utils.DynamicViewHolder
 import me.tylerbwong.stack.ui.utils.format
-import me.tylerbwong.stack.ui.utils.inflateWithoutAttaching
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
-class QuestionDetailActionHolder(parent: ViewGroup) : DynamicViewHolder(
-    parent.inflateWithoutAttaching(R.layout.question_detail_action_holder)
-) {
-    override fun bind(data: Any) {
-        (data as? QuestionDetailActionDataModel)?.let { dataModel ->
-            upvote.renderSelectedState(
-                    R.color.upvoted,
-                    dataModel.upVoteCount,
-                    isSelected = dataModel.upvoted
-            )
-            favorite.renderSelectedState(
-                    R.color.favorited,
-                    dataModel.favoriteCount,
-                    isSelected = dataModel.favorited
-            )
-            downvote.renderSelectedState(
-                    R.color.downvoted,
-                    dataModel.downVoteCount,
-                    isSelected = dataModel.downvoted
-            )
+class QuestionDetailActionHolder(
+    override val containerView: View
+) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-            upvote.setThrottledOnClickListener {
-                dataModel.toggleUpvote(isSelected = !dataModel.upvoted)
-            }
-            favorite.setThrottledOnClickListener {
-                dataModel.toggleFavorite(isSelected = !dataModel.favorited)
-            }
-            downvote.setThrottledOnClickListener {
-                dataModel.toggleDownvote(isSelected = !dataModel.downvoted)
-            }
+    fun bind(data: QuestionActionItem) {
+        val (handler, question) = data
+        upvote.renderSelectedState(
+            R.color.upvoted,
+            question.upVoteCount,
+            isSelected = question.isUpVoted
+        )
+        favorite.renderSelectedState(
+            R.color.favorited,
+            question.favoriteCount,
+            isSelected = question.isFavorited
+        )
+        downvote.renderSelectedState(
+            R.color.downvoted,
+            question.downVoteCount,
+            isSelected = question.isDownVoted
+        )
+
+        upvote.setThrottledOnClickListener {
+            handler.toggleUpvote(isSelected = !question.isUpVoted)
+        }
+        favorite.setThrottledOnClickListener {
+            handler.toggleFavorite(isSelected = !question.isFavorited)
+        }
+        downvote.setThrottledOnClickListener {
+            handler.toggleDownvote(isSelected = !question.isDownVoted)
         }
     }
 

@@ -1,11 +1,10 @@
 package me.tylerbwong.stack.data.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import com.squareup.moshi.JsonClass
 
-@Parcelize
+@JsonClass(generateAdapter = true)
 data class BadgeCounts(
     val bronze: Int,
     val silver: Int,
     val gold: Int
-) : Parcelable
+)

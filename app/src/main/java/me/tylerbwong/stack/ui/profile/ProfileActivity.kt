@@ -3,38 +3,53 @@ package me.tylerbwong.stack.ui.profile
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
+import coil.api.load
+import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.profile_header.*
+import kotlinx.android.synthetic.main.profile_header.view.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
-import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
-import me.tylerbwong.stack.ui.utils.GlideApp
-import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.questions.QuestionAdapter
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.setSharedTransition
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
+import javax.inject.Inject
 
-class ProfileActivity : BaseActivity() {
+class ProfileActivity : BaseActivity(R.layout.activity_profile) {
 
-    private val viewModel: ProfileViewModel by viewModels()
-    private val adapter = DynamicViewAdapter()
+    @Inject
+    lateinit var viewModelFactory: ProfileViewModelFactory
+
+    private val viewModel by viewModels<ProfileViewModel> { viewModelFactory }
+    private val adapter = QuestionAdapter()
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
+        ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(toolbar)
+
+        setSharedTransition(
+            android.R.id.statusBarBackground,
+            android.R.id.navigationBarBackground
+        )
+
+        window.sharedElementEnterTransition = TransitionInflater.from(this)
+            .inflateTransition(R.transition.shared_element_transition)
 
         viewModel.userId = intent.getIntExtra(USER_ID, 0)
         viewModel.refreshing.observe(this) {
@@ -50,18 +65,18 @@ class ProfileActivity : BaseActivity() {
             }
         }
         viewModel.userData.observe(this) {
-            GlideApp.with(this)
-                .load(it.profileImage)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .placeholder(R.drawable.user_image_placeholder)
-                .apply(RequestOptions.circleCropTransform())
-                .into(userImage)
+            userImage.load(it.profileImage) {
+                crossfade(true)
+                error(R.drawable.user_image_placeholder)
+                placeholder(R.drawable.user_image_placeholder)
+                transformations(CircleCropTransformation())
+            }
             collapsingToolbarLayout.title = it.displayName.toHtml()
             if (it.location != null) {
                 location.text = it.location.toHtml()
-                location.visibility = View.VISIBLE
+                location.isVisible = true
             } else {
-                location.visibility = View.GONE
+                location.isGone = true
             }
             reputation.text = it.reputation.toLong().format()
             badgeView.badgeCounts = it.badgeCounts
@@ -73,20 +88,18 @@ class ProfileActivity : BaseActivity() {
             }
         }
         viewModel.questionsData.observe(this) {
-            adapter.update(it)
+            adapter.submitList(it)
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
 
+        includeProfileHeader.userImage.transitionName =
+            resources.getString(R.string.shared_transition_name)
+
         recyclerView.apply {
             adapter = this@ProfileActivity.adapter
             layoutManager = LinearLayoutManager(this@ProfileActivity)
-            addItemDecoration(
-                ViewHolderItemDecoration(
-                    context.resources.getDimensionPixelSize(R.dimen.item_spacing_main)
-                )
-            )
         }
 
         refreshLayout.setOnRefreshListener { viewModel.getUserQuestionsAndAnswers() }
@@ -114,13 +127,14 @@ class ProfileActivity : BaseActivity() {
         fun startActivity(
             context: Context,
             userId: Int,
-            isFromDeepLink: Boolean = false
+            isFromDeepLink: Boolean = false,
+            extras: Bundle? = null
         ) {
             val intent = Intent(context, ProfileActivity::class.java).apply {
                 putExtra(USER_ID, userId)
                 putExtra(IS_FROM_DEEP_LINK, isFromDeepLink)
             }
-            context.startActivity(intent)
+            context.startActivity(intent, extras)
         }
     }
 }

@@ -1,18 +1,21 @@
 package me.tylerbwong.stack.ui.utils
 
+import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
+import android.transition.Fade
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
-import java.util.*
+import java.util.TreeMap
 
-fun ViewGroup.inflateWithoutAttaching(@LayoutRes resId: Int): View =
-    LayoutInflater.from(context).inflate(resId, this, false)
+@Suppress("UNCHECKED_CAST")
+fun <T : View> ViewGroup.inflate(@LayoutRes resId: Int, attachToRoot: Boolean = false): T =
+    LayoutInflater.from(context).inflate(resId, this, attachToRoot) as T
 
 fun String.toHtml(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
     Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
@@ -48,11 +51,27 @@ fun Long.format(): String {
 }
 
 fun View.hideKeyboard() {
-    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.hideSoftInputFromWindow(windowToken, 0)
+    context.systemService<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
+        ?.hideSoftInputFromWindow(windowToken, 0)
 }
 
 fun View.showKeyboard() {
-    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.showSoftInput(this, 0)
+    context.systemService<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
+        ?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+}
+
+fun <T> Activity.setSharedTransition(vararg excludedComp: T) {
+    val fade = Fade().apply {
+        excludedComp.forEach {
+            when (it) {
+                is Int -> excludeTarget(it, true)
+                is View -> excludeTarget(it, true)
+                is String -> excludeTarget(it, true)
+                else -> Unit
+            }
+        }
+    }
+
+    window.enterTransition = fade
+    window.exitTransition = fade
 }

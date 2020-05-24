@@ -2,6 +2,7 @@ package me.tylerbwong.stack.data.auth
 
 import android.net.Uri
 import me.tylerbwong.stack.BaseTest
+import me.tylerbwong.stack.ui.ApplicationWrapper
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -19,6 +20,7 @@ class AuthInterceptorTest : BaseTest() {
 
     private val mockWebServer = MockWebServer()
 
+    private lateinit var authStore: AuthStore
     private lateinit var okHttpClient: OkHttpClient
 
     @Before
@@ -26,12 +28,13 @@ class AuthInterceptorTest : BaseTest() {
         mockWebServer.start()
         mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody("{}"))
 
+        authStore = ApplicationWrapper.stackComponent.authStore()
         okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(AuthInterceptor("localhost"))
+                .addInterceptor(AuthInterceptor("localhost", authStore))
                 .build()
 
         val validUri = Uri.parse("stack://tylerbwong.me/auth/redirect#access_token=$TEST_ACCESS_TOKEN")
-        AuthStore.setAccessToken(validUri)
+        authStore.setAccessToken(validUri)
     }
 
     @Test
@@ -67,7 +70,7 @@ class AuthInterceptorTest : BaseTest() {
 
     @Test
     fun `does not append token if it is blank`() {
-        AuthStore.clear()
+        authStore.clear()
         okHttpClient.newCall(
                 Request.Builder()
                         .url(mockWebServer.url("/"))
@@ -83,7 +86,7 @@ class AuthInterceptorTest : BaseTest() {
     @Test
     fun `does not append token if request is not to baseUrl`() {
         okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(AuthInterceptor("https://google.com"))
+                .addInterceptor(AuthInterceptor("https://google.com", authStore))
                 .build()
 
         okHttpClient.newCall(

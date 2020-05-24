@@ -2,11 +2,15 @@ package me.tylerbwong.stack.data
 
 import android.net.Uri
 import me.tylerbwong.stack.BaseTest
+import me.tylerbwong.stack.ui.ApplicationWrapper
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Before
 import org.junit.Test
 
 class DeepLinkerTest : BaseTest() {
+
+    private lateinit var deepLinker: DeepLinker
 
     private val unsupportedDeepLinks = listOf(
         "https://stackoverflow.com/search?q=android+toolbar",
@@ -20,17 +24,22 @@ class DeepLinkerTest : BaseTest() {
         "http://stackoverflow.com/q/26533510/"
     ).map { Uri.parse(it) }
 
+    @Before
+    fun setUp() {
+        deepLinker = ApplicationWrapper.stackComponent.deepLinker()
+    }
+
     @Test
     fun `resolveUri returns null value for invalid deep links`() {
         unsupportedDeepLinks.forEach {
-            assertNull(DeepLinker.resolvePath(context, it))
+            assertNull(deepLinker.resolvePath(context, it))
         }
     }
 
     @Test
     fun `resolveUri returns non-null value for valid deep links`() {
         supportedDeepLinks.forEach {
-            assertNotNull(DeepLinker.resolvePath(context, it))
+            assertNotNull(deepLinker.resolvePath(context, it))
         }
     }
 }

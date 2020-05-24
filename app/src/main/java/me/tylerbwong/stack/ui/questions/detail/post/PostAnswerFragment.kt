@@ -8,43 +8,66 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
+import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import kotlinx.android.synthetic.main.post_answer_fragment.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.ApplicationWrapper
+import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailMainViewModel
+import me.tylerbwong.stack.ui.questions.detail.QuestionDetailMainViewModelFactory
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
+import javax.inject.Inject
 
-class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
+class PostAnswerFragment : BaseFragment(R.layout.post_answer_fragment) {
 
-    private val viewModel by viewModels<PostAnswerViewModel>()
-    private val mainViewModel by viewModels<QuestionDetailMainViewModel>()
+    @Inject
+    lateinit var viewModelFactory: PostAnswerViewModelFactory
+
+    @Inject
+    lateinit var mainViewModelFactory: QuestionDetailMainViewModelFactory
+
+    private val viewModel by viewModels<PostAnswerViewModel> { viewModelFactory }
+    private lateinit var mainViewModel: QuestionDetailMainViewModel
     private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ApplicationWrapper.stackComponent.inject(this)
         setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        mainViewModel.clearFields.observe(this) { clearFields() }
+        mainViewModel = ViewModelProvider(requireActivity(), mainViewModelFactory)
+            .get(QuestionDetailMainViewModel::class.java)
+
+        mainViewModel.clearFields.observe(viewLifecycleOwner) { clearFields() }
 
         viewModel.questionId = arguments?.getInt(QuestionDetailActivity.QUESTION_ID, 0) ?: 0
+        mainViewModel.liveQuestion.observe(viewLifecycleOwner) {
+            viewModel.questionTitle = it.title
+        }
 
-        viewModel.snackbar.observe(this) {
+        viewModel.snackbar.observe(viewLifecycleOwner) {
             val activity = activity as? QuestionDetailActivity
 
             when (it) {
@@ -60,11 +83,11 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
             }
         }
 
-        debugPreview.visibility = if (BuildConfig.DEBUG) {
-            View.VISIBLE
-        } else {
-            View.GONE
+        viewModel.savedDraft.observe(viewLifecycleOwner) {
+            markdownEditText.setText(it)
         }
+
+        debugPreview.isVisible = BuildConfig.DEBUG
 
         previewText.apply {
             setTextIsSelectable(true)
@@ -103,6 +126,21 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
                 )
             }
         }
+
+        postAnswerButton.doOnApplyWindowInsets { buttonView, insets, initialState ->
+            (buttonView.layoutParams as? ViewGroup.MarginLayoutParams)?.let {
+                buttonView.layoutParams = it.apply {
+                    setMargins(
+                        leftMargin,
+                        topMargin,
+                        rightMargin,
+                        initialState.margins.bottom + insets.systemWindowInsetBottom
+                    )
+                }
+            }
+        }
+
+        viewModel.fetchDraftIfExists()
     }
 
     override fun onResume() {
@@ -119,16 +157,36 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         this.menu = menu
-        inflater.inflate(R.menu.menu_discard, menu)
-        toggleDiscardMenuItemVisibility(isVisible = !markdownEditText.text.isNullOrBlank())
+        inflater.inflate(R.menu.menu_post, menu)
+        toggleMenuVisibility(isVisible = !markdownEditText.text.isNullOrBlank())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.save_draft -> {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.default_dialog_bg))
+                    .setTitle(R.string.save_draft)
+                    .setPositiveButton(R.string.save_draft) { _, _ ->
+                        viewModel.saveDraft(markdownEditText.text.toString())
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.draft_saved,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                    .create()
+                    .show()
+            }
             R.id.discard -> {
                 MaterialAlertDialogBuilder(requireContext())
+                    .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.default_dialog_bg))
                     .setTitle(R.string.discard_answer)
-                    .setPositiveButton(R.string.discard) { _, _ -> clearFields() }
+                    .setPositiveButton(R.string.discard) { _, _ ->
+                        clearFields()
+                        viewModel.deleteDraft()
+                    }
                     .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
                     .create()
                     .show()
@@ -137,23 +195,25 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun toggleDiscardMenuItemVisibility(isVisible: Boolean) {
-        menu?.findItem(R.id.discard)?.isVisible = isVisible
+    private fun toggleMenuVisibility(isVisible: Boolean) {
+        listOf(R.id.save_draft, R.id.discard).forEach {
+            menu?.findItem(it)?.isVisible = isVisible
+        }
     }
 
     private fun onTabChanged(position: Int) {
         viewModel.selectedTabPosition = position
         when (position) {
             0 -> {
-                markdownInputLayout.visibility = View.VISIBLE
-                previewText.visibility = View.GONE
+                markdownInputLayout.isVisible = true
+                previewText.isGone = true
                 markdownEditText.requestFocus()
                 markdownEditText.showKeyboard()
             }
             1 -> {
-                markdownInputLayout.visibility = View.GONE
+                markdownInputLayout.isGone = true
                 previewText.apply {
-                    visibility = View.VISIBLE
+                    isVisible = true
                     hideKeyboard()
                     refreshPreview()
                 }
@@ -185,7 +245,7 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
     private fun clearFields() {
         tearDownTextWatcher()
         mainViewModel.hasContent = false
-        toggleDiscardMenuItemVisibility(isVisible = false)
+        toggleMenuVisibility(isVisible = false)
         markdownEditText.text = null
         previewText.text = null
         setUpTextWatcher()
@@ -207,7 +267,7 @@ class PostAnswerFragment : Fragment(R.layout.post_answer_fragment) {
             override fun afterTextChanged(text: Editable) {
                 val hasContent = text.isNotBlank()
                 mainViewModel.hasContent = hasContent
-                toggleDiscardMenuItemVisibility(isVisible = hasContent)
+                toggleMenuVisibility(isVisible = hasContent)
                 togglePostAnswerButtonVisibility(isVisible = hasContent)
             }
 

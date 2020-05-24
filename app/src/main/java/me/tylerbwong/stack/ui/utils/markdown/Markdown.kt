@@ -3,32 +3,45 @@ package me.tylerbwong.stack.ui.utils.markdown
 import android.content.Context
 import android.widget.TextView
 import io.noties.markwon.Markwon
-import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
-import io.noties.markwon.ext.tables.TablePlugin
-import io.noties.markwon.html.HtmlPlugin
-import io.noties.markwon.image.glide.GlideImagesPlugin
-import me.tylerbwong.stack.ui.utils.GlideApp
+import io.noties.prism4j.annotations.PrismBundle
+import me.tylerbwong.stack.ui.ApplicationWrapper
 import org.apache.commons.text.StringEscapeUtils
+import javax.inject.Inject
 
-object Markdown {
+@PrismBundle(includeAll = true)
+class Markdown {
+
+    @Inject
     lateinit var markwon: Markwon
 
-    fun init(context: Context) {
-        val plugins = listOf(
-            GlideImagesPlugin.create(GlideApp.with(context)),
-            HtmlPlugin.create(),
-            StrikethroughPlugin.create(),
-            TablePlugin.create(context),
-            UrlPlugin.create()
-        )
-        markwon = Markwon.builder(context)
-            .usePlugins(plugins)
-            .build()
+    init {
+        ApplicationWrapper.stackComponent.inject(this)
+    }
+
+    companion object {
+        private const val MARKDOWN_SHARED_PREFS = "markdown_shared_prefs"
+        private const val MARKDOWN_SYNTAX_HIGHLIGHT = "markdown_syntax_highlight"
+
+        var experimentalSyntaxHighlightingEnabled: Boolean
+            get() {
+                val preferences = ApplicationWrapper.context.getSharedPreferences(
+                    MARKDOWN_SHARED_PREFS,
+                    Context.MODE_PRIVATE
+                )
+                return preferences.getBoolean(MARKDOWN_SYNTAX_HIGHLIGHT, false)
+            }
+            set(value) {
+                val preferences = ApplicationWrapper.context.getSharedPreferences(
+                    MARKDOWN_SHARED_PREFS,
+                    Context.MODE_PRIVATE
+                )
+                preferences.edit().putBoolean(MARKDOWN_SYNTAX_HIGHLIGHT, value).apply()
+            }
     }
 }
 
 fun TextView.setMarkdown(markdown: String) {
-    Markdown.markwon.setMarkdown(this, markdown.stripSpecials())
+    Markdown().markwon.setMarkdown(this, markdown.stripSpecials())
 }
 
 private fun String.stripSpecials() = StringEscapeUtils.unescapeHtml4(this)

@@ -2,18 +2,16 @@ package me.tylerbwong.stack.ui.utils.markdown
 
 import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.MarkwonConfiguration
+import javax.inject.Inject
 
-class UrlPlugin private constructor() : AbstractMarkwonPlugin() {
-    private val urlProcessor = CustomUrlProcessor()
-    private val tabsResolver = CustomTabsLinkResolver()
+class UrlPlugin @Inject constructor(
+    private val urlProcessor: CustomUrlProcessor,
+    private val tabsResolver: CustomTabsLinkResolver
+) : AbstractMarkwonPlugin() {
 
     override fun configureConfiguration(builder: MarkwonConfiguration.Builder) {
         builder
-            .urlProcessor(urlProcessor)
+            .imageDestinationProcessor(urlProcessor)
             .linkResolver(tabsResolver)
-    }
-
-    companion object {
-        fun create() = UrlPlugin()
     }
 }

@@ -5,6 +5,7 @@ import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType.FLEXIBLE
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.android.play.core.tasks.Task
 import me.tylerbwong.stack.ui.MainActivity
 
 class AppUpdater(private val manager: AppUpdateManager) {
@@ -33,7 +34,7 @@ class AppUpdater(private val manager: AppUpdateManager) {
         }
     }
 
-    fun completeUpdate() = manager.completeUpdate()
+    fun completeUpdate(): Task<Void> = manager.completeUpdate()
 
     fun unregisterListener(listener: InstallStateUpdatedListener) {
         manager.unregisterListener(listener)

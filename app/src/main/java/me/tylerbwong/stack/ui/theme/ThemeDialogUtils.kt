@@ -11,17 +11,19 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
 
-private val nightModeOptions = mapOf(
+val nightModeOptions = mapOf(
     R.string.theme_light to MODE_NIGHT_NO,
     R.string.theme_dark to MODE_NIGHT_YES,
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        R.string.theme_follow_system to MODE_NIGHT_FOLLOW_SYSTEM
+        R.string.theme_system_default to MODE_NIGHT_FOLLOW_SYSTEM
     } else {
         R.string.theme_battery_saver to MODE_NIGHT_AUTO_BATTERY
     }
 )
 
-fun Context.showThemeChooserDialog() {
+fun Context.showThemeChooserDialog(
+    onSelected: () -> Unit = {}
+) {
     MaterialAlertDialogBuilder(this)
         .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
         .setTitle(R.string.theme_title)
@@ -33,6 +35,7 @@ fun Context.showThemeChooserDialog() {
                 this,
                 nightModeOptions.values.toList()[which]
             )
+            onSelected()
             dialog.dismiss()
         }
         .create()

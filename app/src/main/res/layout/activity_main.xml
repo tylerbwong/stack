@@ -7,50 +7,44 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/viewBackgroundColor"
-        app:liftOnScroll="true"
-        app:liftOnScrollTargetViewId="@id/recyclerView">
+        app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/Widget.MaterialComponents.Toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="?attr/viewBackgroundColor"
+            android:layout_height="?attr/actionBarSize"
             android:theme="@style/MainToolbarStyle"
-            app:hideOnScroll="true">
+            app:layout_scrollFlags="scroll">
 
             <ImageView
                 android:id="@+id/profileIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_account_circle" />
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                app:iconifiedByDefault="false"
-                app:queryBackground="@android:color/transparent"
-                app:queryHint="@string/search"
-                app:searchIcon="@null" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refreshLayout"
+    <FrameLayout
+        android:id="@+id/contentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:backgroundTint="?attr/viewBackgroundColor"
+        app:itemIconTint="@drawable/bottom_navigation_selector"
+        app:itemTextColor="@drawable/bottom_navigation_selector"
+        app:labelVisibilityMode="unlabeled"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        app:menu="@menu/menu_bottom_navigation" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

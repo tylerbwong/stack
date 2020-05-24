@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/experimental">
+        <SwitchPreferenceCompat
+            android:icon="@drawable/ic_baseline_code"
+            android:key="@string/syntax_highlighting"
+            android:summary="@string/syntax_highlighting_summary"
+            android:title="@string/syntax_highlighting" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/app">
+        <Preference
+            android:icon="@drawable/ic_brightness_2"
+            android:key="@string/theme"
+            android:title="@string/theme" />
+
+        <Preference
+            android:icon="@drawable/ic_info"
+            android:key="@string/version"
+            android:title="@string/version" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

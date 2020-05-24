@@ -2,14 +2,17 @@
 <resources>
     <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">#BDBDBD</color>
-    <color name="colorAccent">#B3E5FC</color>
+    <color name="colorAccent">@color/lightBlue200</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="gray600">#757575</color>
+    <color name="gray800">#424242</color>
+    <color name="lightBlue100">#B3E5FC</color>
+    <color name="lightBlue200">#81D4FA</color>
 
     <color name="colorTextPrimary">#83898F</color>
     <color name="colorTextPrimaryDark">#33343B</color>
     <color name="colorUserImagePlaceholder">#E0E0E0</color>
-    <color name="divider">#1f000000</color>
 
     <color name="goldBadgeColor">#FFE082</color>
     <color name="silverBadgeColor">#BDBDBD</color>
@@ -24,5 +27,7 @@
     <color name="secondaryTextColor">#8033343B</color>
     <color name="viewBackgroundColor">@color/white</color>
     <color name="dialogBackgroundColor">@color/white</color>
-    <color name="iconColor">@color/black</color>
+    <color name="iconColor">@color/primaryTextColor</color>
+    <color name="snackbarActionTextColor">@color/colorAccent</color>
+    <color name="bottomNavigationUnselectedItem">@color/gray600</color>
 </resources>

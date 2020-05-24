@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/save_draft"
+        android:icon="@drawable/ic_baseline_save"
+        android:title="@string/save_draft"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/discard"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/discard"
+        app:showAsAction="always" />
+</menu>

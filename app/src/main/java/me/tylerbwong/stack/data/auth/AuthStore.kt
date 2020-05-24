@@ -1,35 +1,14 @@
 package me.tylerbwong.stack.data.auth
 
-import android.content.Context
+import android.content.SharedPreferences
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.data.model.Scope
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import javax.inject.Inject
 
-object AuthStore {
-    const val ACCESS_TOKEN = "access_token"
-    private const val AUTH_PREFERENCES = "auth_preferences"
-    private const val AUTH_BASE = "https://stackoverflow.com/oauth/dialog"
-    private const val AUTH_REDIRECT = "stack://tylerbwong.me/auth/redirect"
-    private const val CLIENT_ID = "12074"
-
-    private val preferences = ApplicationWrapper.context.getSharedPreferences(
-        AUTH_PREFERENCES,
-        Context.MODE_PRIVATE
-    )
-
-    val authUrl: String = run {
-        val httpUrl = AUTH_BASE.toHttpUrlOrNull() ?: return@run ""
-
-        httpUrl.newBuilder()
-            .addEncodedQueryParameter("client_id", CLIENT_ID)
-            .addEncodedQueryParameter("redirect_uri", AUTH_REDIRECT)
-            .addEncodedQueryParameter("scope", Scope.all.joinToString(","))
-            .build()
-            .toString()
-    }
+class AuthStore @Inject constructor(private val preferences: SharedPreferences) {
 
     var accessToken: String?
         get() = preferences.getString(ACCESS_TOKEN, null)
@@ -49,5 +28,23 @@ object AuthStore {
 
     fun clear() {
         accessToken = null
+    }
+
+    companion object {
+        const val ACCESS_TOKEN = "access_token"
+        private const val AUTH_BASE = "https://stackoverflow.com/oauth/dialog"
+        private const val AUTH_REDIRECT = "stack://tylerbwong.me/auth/redirect"
+        private const val CLIENT_ID = "12074"
+
+        val authUrl: String = run {
+            val httpUrl = AUTH_BASE.toHttpUrlOrNull() ?: return@run ""
+
+            httpUrl.newBuilder()
+                .addEncodedQueryParameter("client_id", CLIENT_ID)
+                .addEncodedQueryParameter("redirect_uri", AUTH_REDIRECT)
+                .addEncodedQueryParameter("scope", Scope.all.joinToString(","))
+                .build()
+                .toString()
+        }
     }
 }

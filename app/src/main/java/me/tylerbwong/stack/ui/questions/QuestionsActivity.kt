@@ -19,20 +19,24 @@ import me.tylerbwong.stack.data.model.HOT
 import me.tylerbwong.stack.data.model.MONTH
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
+import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
-import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
-import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.showSnackbar
+import javax.inject.Inject
 
-class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
+class QuestionsActivity : BaseActivity(R.layout.activity_questions),
+    PopupMenu.OnMenuItemClickListener {
 
-    private val viewModel by viewModels<QuestionsViewModel>()
-    private val adapter = DynamicViewAdapter()
+    @Inject
+    lateinit var viewModelFactory: QuestionsViewModelFactory
+
+    private val viewModel by viewModels<QuestionsViewModel> { viewModelFactory }
+    private val adapter = QuestionAdapter()
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_questions)
+        ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(toolbar)
 
         val key = intent.getStringExtra(KEY_EXTRA) ?: ""
@@ -51,7 +55,7 @@ class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
         }
 
         viewModel.data.observe(this) {
-            adapter.update(it)
+            adapter.submitList(it)
 
             if (it.isEmpty()) {
                 Snackbar.make(rootLayout, R.string.nothing_here, Snackbar.LENGTH_INDEFINITE).show()
@@ -61,9 +65,6 @@ class QuestionsActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
         recyclerView.apply {
             adapter = this@QuestionsActivity.adapter
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(
-                ViewHolderItemDecoration(context.resources.getDimensionPixelSize(R.dimen.item_spacing_main))
-            )
         }
     }
 

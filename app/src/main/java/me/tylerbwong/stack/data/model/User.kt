@@ -1,31 +1,33 @@
 package me.tylerbwong.stack.data.model
 
-import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * Shallow owner model.
  */
-@Parcelize
+@JsonClass(generateAdapter = true)
 data class User(
-    @SerializedName("about_me")
+    @Json(name = "about_me")
     val aboutMe: String?,
-    @SerializedName("accept_rate")
+    @Json(name = "accept_rate")
     val acceptRate: Int?,
-    @SerializedName("account_id")
+    @Json(name = "account_id")
     val accountId: Int?,
-    @SerializedName("display_name")
+    @Json(name = "display_name")
     val displayName: String,
+    @Json(name = "link")
     val link: String?,
+    @Json(name = "location")
     val location: String?,
-    @SerializedName("profile_image")
+    @Json(name = "profile_image")
     val profileImage: String?,
-    val reputation: Int,
-    @SerializedName("user_id")
-    val userId: Int,
-    @SerializedName("user_type")
+    @Json(name = "reputation")
+    val reputation: Int = 0,
+    @Json(name = "user_id")
+    val userId: Int = 0,
+    @Json(name = "user_type")
     val userType: String,
-    @SerializedName("badge_counts")
+    @Json(name = "badge_counts")
     val badgeCounts: BadgeCounts?
-) : Parcelable
+)

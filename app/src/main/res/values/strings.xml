@@ -7,6 +7,9 @@
     <string name="questions">Questions</string>
     <string name="linked">Linked</string>
     <string name="related">Related</string>
+    <string name="comments">Comments</string>
+    <string name="home">Home</string>
+    <string name="drafts">Drafts</string>
 
     <plurals name="answers">
         <item quantity="zero">%1$d Answers</item>
@@ -26,7 +29,7 @@
     <string name="theme_title">Choose theme</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
-    <string name="theme_follow_system">Follow system</string>
+    <string name="theme_system_default">System default</string>
     <string name="theme_battery_saver">Battery saver only</string>
 
     <!-- Sort -->
@@ -37,16 +40,19 @@
     <string name="hot">Hot</string>
     <string name="week">Week</string>
     <string name="month">Month</string>
+    <string name="relevance">Relevance</string>
 
     <!-- Error -->
     <string name="nothing_here">Nothing here!</string>
     <string name="network_error">Network error</string>
     <string name="retry">Retry</string>
+    <string name="dismiss">Dismiss</string>
     <string name="deep_link_error">Stack can\'t handle this link yet!</string>
 
     <!-- Auth -->
     <string name="log_in_title">Would you like to log in?</string>
     <string name="log_out_title">Would you like to log out?</string>
+    <string name="log_out_message">You\'ll lose all of your current session data including saved drafts</string>
     <string name="log_in">Log in</string>
     <string name="log_out">Log out</string>
     <string name="cancel">Cancel</string>
@@ -72,4 +78,53 @@
     <string name="post_answer_success">Successfully posted answer!</string>
     <string name="post_answer_error">Could not post answer</string>
     <string name="post_preview">Post as preview</string>
+    <string name="last_edited_by">last edited by\n%1$s</string>
+    <string name="settings">Settings</string>
+    <string name="comment_count">(%1$d)</string>
+    <string name="no_comments">No comments found</string>
+
+    <!-- Search -->
+    <string name="search_hint">Search by keyword or phrase</string>
+    <string name="popular_tags">Popular Tags</string>
+    <string name="has_accepted_answer">Has accepted answer</string>
+    <string name="no_accepted_answers">No accepted answers</string>
+    <string name="min_answers_title">Minimum answers</string>
+    <plurals name="has_min_answers">
+        <item quantity="zero">Has no answers</item>
+        <item quantity="one">Has at least %1$d answer</item>
+        <item quantity="many">Has at least %1$d answers</item>
+        <item quantity="other">Has at least %1$d answers</item>
+    </plurals>
+    <string name="body_contains_title">Body contains</string>
+    <string name="body_contains">Body contains \"%1$s\"</string>
+    <string name="is_closed">Closed</string>
+    <string name="is_open">Open</string>
+    <string name="tags_title">Tags (Comma separated)</string>
+    <string name="tags_filter">Tags: %1$s</string>
+    <string name="title_contains_title">Title contains</string>
+    <string name="title_contains">Title contains \"%1$s\"</string>
+    <string name="past_searches">Past Searches</string>
+    <string name="search_query">\"%1$s\"</string>
+    <string name="filters">Filters</string>
+    <string name="add_filters">Add filters</string>
+
+    <!-- Drafts -->
+    <string name="save_draft">Save Draft</string>
+    <string name="draft_saved">Draft saved</string>
+    <string name="last_updated">Last updated %1$s</string>
+
+    <!-- Settings -->
+    <string name="app">App</string>
+    <string name="experimental">Experimental</string>
+
+    <!-- Transition string -->
+    <string name="shared_transition_name">transition</string>
+
+    <!-- App version -->
+    <string name="version">Version</string>
+    <string name="syntax_highlighting">Syntax Highlighting</string>
+    <string name="syntax_highlighting_summary">Enables syntax highlighting within any markdown body. Requires a restart to take effect.</string>
+
+    <string name="restart_toggle">Toggling this requires a restart</string>
+    <string name="link_copied">Link copied to clipboard</string>
 </resources>

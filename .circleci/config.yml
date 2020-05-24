@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   static-analysis:
     working_directory: ~/code
@@ -26,8 +26,15 @@ jobs:
       - run:
           name: Run detekt
           command: ./gradlew detekt
+      - store_artifacts:
+          path: app/build/reports
+          destination: build/reports
 
   build:
+    parameters:
+      variant:
+        type: string
+        description: The variant to assemble.
     working_directory: ~/code
     docker:
       - image: circleci/android:api-29
@@ -49,7 +56,7 @@ jobs:
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
       - run:
           name: Run Build
-          command: ./gradlew :app:assembleDebug
+          command: ./gradlew :app:assemble<< parameters.variant>>
       - store_artifacts:
           path: app/build/outputs/apk
           destination: build/outputs/apk
@@ -79,11 +86,18 @@ jobs:
           command: ./gradlew :app:testDebugUnitTest
       - store_test_results:
           path: app/build/test-results
+      - store_artifacts:
+          path: app/build/reports/tests/testDebugUnitTest
+          destination: build/reports/tests/testDebugUnitTest
 
 workflows:
-  version: 2
-  build_and_test:
+  build-test:
     jobs:
       - static-analysis
-      - build
       - unit-tests
+      - build:
+          name: build-debug
+          variant: Debug
+      - build:
+          name: build-release
+          variant: Release

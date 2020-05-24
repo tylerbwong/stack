@@ -50,8 +50,8 @@
 
         <activity
             android:name=".ui.questions.detail.QuestionDetailActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppTheme.Base.Primary" />
+            android:theme="@style/AppTheme.Base.Primary"
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".ui.profile.ProfileActivity"
@@ -59,6 +59,10 @@
 
         <activity
             android:name=".ui.questions.QuestionsActivity"
+            android:theme="@style/AppTheme.Base.Primary" />
+
+        <activity
+            android:name=".ui.settings.SettingsActivity"
             android:theme="@style/AppTheme.Base.Primary" />
     </application>
 

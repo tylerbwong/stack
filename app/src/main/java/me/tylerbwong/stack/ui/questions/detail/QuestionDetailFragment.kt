@@ -5,8 +5,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,48 +14,68 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.question_detail_fragment.*
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.R.dimen
+import me.tylerbwong.stack.ui.ApplicationWrapper
+import me.tylerbwong.stack.ui.BaseFragment
+import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
 import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
-import me.tylerbwong.stack.ui.utils.DynamicViewAdapter
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
+import javax.inject.Inject
 
-class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
+class QuestionDetailFragment : BaseFragment(R.layout.question_detail_fragment) {
 
-    private val viewModel by viewModels<QuestionDetailMainViewModel>()
-    private val adapter = DynamicViewAdapter()
+    @Inject
+    lateinit var viewModelFactory: QuestionDetailMainViewModelFactory
+
+    private lateinit var viewModel: QuestionDetailMainViewModel
+    private val adapter = QuestionDetailAdapter()
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ApplicationWrapper.stackComponent.inject(this)
         setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.refreshing.observe(this) {
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory)
+            .get(QuestionDetailMainViewModel::class.java)
+
+        viewModel.refreshing.observe(viewLifecycleOwner) {
             refreshLayout.isRefreshing = it
         }
-        viewModel.snackbar.observe(this) {
+        viewModel.snackbar.observe(viewLifecycleOwner) {
             if (it != null) {
                 snackbar = refreshLayout.showSnackbar(
-                        R.string.network_error,
-                        R.string.retry
+                    R.string.network_error,
+                    R.string.retry
                 ) { viewModel.getQuestionDetails() }
             } else {
                 snackbar?.dismiss()
             }
         }
-        viewModel.data.observe(this) {
-            adapter.update(it)
+        viewModel.messageSnackbar.observe(viewLifecycleOwner) {
+            with(Snackbar.make(refreshLayout, it, Snackbar.LENGTH_INDEFINITE)) {
+                this@with.view.findViewById<TextView>(
+                    com.google.android.material.R.id.snackbar_text
+                )?.apply {
+                    maxLines = 4
+                }
+                setAction(R.string.dismiss) { dismiss() }
+                show()
+            }
         }
-        viewModel.voteCount.observe(this) {
+        viewModel.data.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
+        viewModel.voteCount.observe(viewLifecycleOwner) {
             (activity as? QuestionDetailActivity)?.setTitle(
-                    resources.getQuantityString(R.plurals.votes, it, it)
+                resources.getQuantityString(R.plurals.votes, it, it)
             )
         }
 
@@ -63,11 +83,11 @@ class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
             adapter = this@QuestionDetailFragment.adapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
-                    ViewHolderItemDecoration(
-                            context.resources.getDimensionPixelSize(dimen.item_spacing_question_detail),
-                            removeSideSpacing = true,
-                            removeTopSpacing = true
-                    )
+                ViewHolderItemDecoration(
+                    context.resources.getDimensionPixelSize(R.dimen.item_spacing_question_detail),
+                    removeSideSpacing = true,
+                    removeTopSpacing = true
+                )
             )
             addOnScrollListener(object : OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -100,15 +120,19 @@ class QuestionDetailFragment : Fragment(R.layout.question_detail_fragment) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.share -> viewModel.startShareIntent(requireContext())
+            R.id.comments -> CommentsBottomSheetDialogFragment.show(
+                childFragmentManager,
+                viewModel.questionId
+            )
             R.id.linked -> QuestionsActivity.startActivityForKey(
-                    requireContext(),
-                    LINKED,
-                    viewModel.questionId.toString()
+                requireContext(),
+                LINKED,
+                viewModel.questionId.toString()
             )
             R.id.related -> QuestionsActivity.startActivityForKey(
-                    requireContext(),
-                    RELATED,
-                    viewModel.questionId.toString()
+                requireContext(),
+                RELATED,
+                viewModel.questionId.toString()
             )
         }
         return super.onOptionsItemSelected(item)

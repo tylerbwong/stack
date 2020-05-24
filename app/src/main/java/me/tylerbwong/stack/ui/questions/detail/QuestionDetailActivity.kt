@@ -5,24 +5,32 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.ViewGroup
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.observe
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import kotlinx.android.synthetic.main.activity_question_detail.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import javax.inject.Inject
 
-class QuestionDetailActivity : BaseActivity() {
+class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
 
-    private val viewModel by viewModels<QuestionDetailMainViewModel>()
+    @Inject
+    lateinit var viewModelFactory: QuestionDetailMainViewModelFactory
+
+    private val viewModel by viewModels<QuestionDetailMainViewModel> { viewModelFactory }
     private lateinit var adapter: QuestionDetailPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_question_detail)
+        ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(toolbar)
         setTitle("")
 
@@ -31,6 +39,11 @@ class QuestionDetailActivity : BaseActivity() {
         }
 
         viewModel.canAnswerQuestion.observe(this) {
+            viewPager.offscreenPageLimit = if (it) {
+                2
+            } else {
+                1
+            }
             toggleAnswerButtonVisibility(isVisible = it && !viewModel.isInAnswerMode)
         }
 
@@ -38,9 +51,9 @@ class QuestionDetailActivity : BaseActivity() {
             toggleAnswerMode(isInAnswerMode = true)
         }
 
-        adapter = QuestionDetailPagerAdapter(supportFragmentManager, viewModel.questionId)
+        adapter = QuestionDetailPagerAdapter(this, viewModel.questionId)
         viewPager.adapter = adapter
-        viewPager.addOnPageChangeListener(object : OnPageChangeListener {
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrollStateChanged(state: Int) {
                 // no-op
             }
@@ -64,7 +77,23 @@ class QuestionDetailActivity : BaseActivity() {
                 )
             }
         })
-        toggleAnswerMode(isInAnswerMode = viewModel.isInAnswerMode)
+        toggleAnswerMode(isInAnswerMode = intent.getBooleanExtra(IS_IN_ANSWER_MODE, false))
+    }
+
+    override fun applyFullscreenWindowInsets() {
+        super.applyFullscreenWindowInsets()
+        postAnswerButton.doOnApplyWindowInsets { view, insets, initialState ->
+            (view.layoutParams as? ViewGroup.MarginLayoutParams)?.let {
+                view.layoutParams = it.apply {
+                    setMargins(
+                        leftMargin,
+                        topMargin,
+                        rightMargin,
+                        initialState.margins.bottom + insets.systemWindowInsetBottom
+                    )
+                }
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -78,6 +107,7 @@ class QuestionDetailActivity : BaseActivity() {
         if (viewModel.isInAnswerMode) {
             if (viewModel.hasContent) {
                 MaterialAlertDialogBuilder(this)
+                    .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
                     .setTitle(R.string.discard_answer)
                     .setPositiveButton(R.string.discard) { _, _ ->
                         toggleAnswerMode(isInAnswerMode = false)
@@ -113,7 +143,7 @@ class QuestionDetailActivity : BaseActivity() {
             } else {
                 0
             }
-            isSwipeable = isInAnswerMode
+            isUserInputEnabled = isInAnswerMode
         }
         toggleAnswerButtonVisibility(isVisible = !isInAnswerMode)
         if (!isInAnswerMode) {
@@ -139,12 +169,15 @@ class QuestionDetailActivity : BaseActivity() {
 
     companion object {
         internal const val QUESTION_ID = "id"
+        internal const val IS_IN_ANSWER_MODE = "is_in_answer_mode"
 
         fun makeIntent(
             context: Context,
-            id: Int
+            id: Int,
+            isInAnswerMode: Boolean = false
         ) = Intent(context, QuestionDetailActivity::class.java)
             .putExtra(QUESTION_ID, id)
+            .putExtra(IS_IN_ANSWER_MODE, isInAnswerMode)
 
         fun startActivity(
             context: Context,

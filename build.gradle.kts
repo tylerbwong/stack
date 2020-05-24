@@ -4,15 +4,13 @@ buildscript {
     repositories {
         google()
         jcenter()
-        fabric()
         gradle()
     }
     dependencies {
-        classpath(Dep.fabricPlugin)
         classpath(Dep.gradlePlugin)
         classpath(Dep.kotlinPlugin)
         classpath(Dep.googleServicesPlugin)
-        classpath(Dep.ktlintGradle)
+        classpath(Dep.firebaseCrashlyticsGradlePlugin)
     }
 }
 
@@ -20,6 +18,11 @@ allprojects {
     repositories {
         google()
         jcenter()
+    }
+
+    // https://github.com/noties/Markwon/issues/148
+    configurations.all {
+        exclude(group = "org.jetbrains", module = "annotations-java5")
     }
 }
 
