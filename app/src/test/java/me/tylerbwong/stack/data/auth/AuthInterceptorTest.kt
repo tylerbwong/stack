@@ -2,7 +2,6 @@ package me.tylerbwong.stack.data.auth
 
 import android.net.Uri
 import me.tylerbwong.stack.BaseTest
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -28,7 +27,7 @@ class AuthInterceptorTest : BaseTest() {
         mockWebServer.start()
         mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody("{}"))
 
-        authStore = ApplicationWrapper.stackComponent.authStore()
+        authStore = stackComponent.authStore()
         okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(AuthInterceptor("localhost", authStore))
                 .build()

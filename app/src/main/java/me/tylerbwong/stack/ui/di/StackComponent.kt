@@ -5,6 +5,7 @@ import io.noties.markwon.Markwon
 import me.tylerbwong.stack.data.DeepLinker
 import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.auth.di.AuthModule
+import me.tylerbwong.stack.data.auth.di.SharedPreferencesModule
 import me.tylerbwong.stack.data.network.di.NetworkModule
 import me.tylerbwong.stack.data.persistence.di.PersistenceModule
 import me.tylerbwong.stack.data.repository.QuestionRepository
@@ -42,6 +43,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AuthModule::class,
+        SharedPreferencesModule::class,
         MarkdownModule::class,
         NetworkModule::class,
         PersistenceModule::class,

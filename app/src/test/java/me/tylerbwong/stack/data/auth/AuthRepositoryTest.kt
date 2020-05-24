@@ -13,7 +13,6 @@ import me.tylerbwong.stack.data.network.service.UserService
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -52,7 +51,7 @@ class AuthRepositoryTest : BaseTest() {
 
     @Before
     fun setUp() {
-        authStore = ApplicationWrapper.stackComponent.authStore()
+        authStore = stackComponent.authStore()
         repository = AuthRepository(answerDraftDao, searchDao, userService, authService, authStore)
     }
 

@@ -2,7 +2,6 @@ package me.tylerbwong.stack.data
 
 import android.net.Uri
 import me.tylerbwong.stack.BaseTest
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
@@ -26,7 +25,7 @@ class DeepLinkerTest : BaseTest() {
 
     @Before
     fun setUp() {
-        deepLinker = ApplicationWrapper.stackComponent.deepLinker()
+        deepLinker = stackComponent.deepLinker()
     }
 
     @Test

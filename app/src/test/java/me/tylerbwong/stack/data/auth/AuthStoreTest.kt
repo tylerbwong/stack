@@ -2,7 +2,6 @@ package me.tylerbwong.stack.data.auth
 
 import android.net.Uri
 import me.tylerbwong.stack.BaseTest
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
@@ -14,7 +13,7 @@ class AuthStoreTest : BaseTest() {
 
     @Before
     fun setUp() {
-        authStore = ApplicationWrapper.stackComponent.authStore()
+        authStore = stackComponent.authStore()
         authStore.clear()
     }
 
