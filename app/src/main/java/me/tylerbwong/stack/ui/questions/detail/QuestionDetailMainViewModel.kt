@@ -5,13 +5,9 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.squareup.moshi.Moshi
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.auth.AuthStore
-import me.tylerbwong.stack.data.model.ErrorResponse
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Response
 import me.tylerbwong.stack.data.network.service.QuestionService
