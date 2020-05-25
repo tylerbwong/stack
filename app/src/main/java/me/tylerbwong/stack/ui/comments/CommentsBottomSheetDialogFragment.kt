@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.ui.comments
 
 import android.app.Dialog
-import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -59,24 +58,13 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         val bottomSheet = dialog.findViewById<ViewGroup>(
             com.google.android.material.R.id.design_bottom_sheet
         )
-        if (bottomSheet != null) {
-            BottomSheetBehavior.from(bottomSheet).apply {
-                isGestureInsetBottomIgnored = true
-            }
-        }
-
-        // Prevent peeking when in landscape to avoid only showing top of bottom sheet
-        if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) {
-            dialog.setOnShowListener {
-                bottomSheet?.let {
-                    with(BottomSheetBehavior.from(bottomSheet)) {
-                        peekHeight = bottomSheet.height
-                        state = BottomSheetBehavior.STATE_EXPANDED
-                    }
+        dialog.setOnShowListener {
+            bottomSheet?.let {
+                with(BottomSheetBehavior.from(bottomSheet)) {
+                    peekHeight = bottomSheet.height
+                    state = BottomSheetBehavior.STATE_EXPANDED
                 }
             }
-        } else {
-            dialog.setOnShowListener(null)
         }
         return dialog
     }

@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.ui.search.filters
 
 import android.app.Dialog
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -105,27 +104,13 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         val bottomSheet = dialog.findViewById<ViewGroup>(
             com.google.android.material.R.id.design_bottom_sheet
         )
-        if (bottomSheet != null) {
-            BottomSheetBehavior.from(bottomSheet).apply {
-                isGestureInsetBottomIgnored = true
-                peekHeight = bottomSheet.height
-                skipCollapsed = true
-                state = BottomSheetBehavior.STATE_EXPANDED
-            }
-        }
-
-        // Prevent peeking when in landscape to avoid only showing top of bottom sheet
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            dialog.setOnShowListener {
-                bottomSheet?.let {
-                    with(BottomSheetBehavior.from(bottomSheet)) {
-                        peekHeight = bottomSheet.height
-                        state = BottomSheetBehavior.STATE_EXPANDED
-                    }
+        dialog.setOnShowListener {
+            bottomSheet?.let {
+                with(BottomSheetBehavior.from(bottomSheet)) {
+                    peekHeight = bottomSheet.height
+                    state = BottomSheetBehavior.STATE_EXPANDED
                 }
             }
-        } else {
-            dialog.setOnShowListener(null)
         }
         return dialog
     }
