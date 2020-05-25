@@ -76,19 +76,18 @@ dependencies {
     implementation(Dep.kotlinCoroutinesAndroid)
 
     // androidx
+    implementation(Dep.androidxActivity)
     implementation(Dep.androidxAppCompat)
     implementation(Dep.androidxBrowser)
     implementation(Dep.androidxCore)
-    implementation(Dep.androidxLifecycleExtensions)
+    implementation(Dep.androidxFragment)
+    implementation(Dep.androidxLiveData)
     implementation(Dep.androidxPreference)
     implementation(Dep.androidxSecurity)
     implementation(Dep.androidxSwipeRefreshLayout)
+    implementation(Dep.androidxViewModel)
     implementation(Dep.androidxViewPager2)
     implementation(Dep.constraintLayout)
-    implementation(Dep.ktxActivityExtensions)
-    implementation(Dep.ktxFragmentExtensions)
-    implementation(Dep.ktxViewModelExtensions)
-    implementation(Dep.ktxLiveDataExtensions)
     implementation(Dep.materialComponents)
 
     // klock date/time
