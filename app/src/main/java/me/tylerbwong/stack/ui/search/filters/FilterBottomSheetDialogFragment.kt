@@ -108,6 +108,8 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         if (bottomSheet != null) {
             BottomSheetBehavior.from(bottomSheet).apply {
                 isGestureInsetBottomIgnored = true
+                peekHeight = bottomSheet.height
+                skipCollapsed = true
                 state = BottomSheetBehavior.STATE_EXPANDED
             }
         }
