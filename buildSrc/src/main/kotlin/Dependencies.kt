@@ -1,6 +1,7 @@
 object Versions {
     const val androidxAppCompat = "1.2.0-alpha02"
     const val androidxBrowser = "1.3.0-alpha01"
+    const val androidxCore = "1.3.0-rc01"
     const val androidxLifecycleExtensions = "2.2.0"
     const val androidxPreference = "1.1.0"
     const val androidxSecurity = "1.0.0-rc02"
@@ -47,6 +48,7 @@ object Versions {
 object Dep {
     const val androidxAppCompat = "androidx.appcompat:appcompat:${Versions.androidxAppCompat}"
     const val androidxBrowser = "androidx.browser:browser:${Versions.androidxBrowser}"
+    const val androidxCore = "androidx.core:core-ktx:${Versions.androidxCore}"
     const val androidxLifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.androidxLifecycleExtensions}"
     const val androidxPreference = "androidx.preference:preference:${Versions.androidxPreference}"
     const val androidxSecurity = "androidx.security:security-crypto:${Versions.androidxSecurity}"

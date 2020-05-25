@@ -78,6 +78,7 @@ dependencies {
     // androidx
     implementation(Dep.androidxAppCompat)
     implementation(Dep.androidxBrowser)
+    implementation(Dep.androidxCore)
     implementation(Dep.androidxLifecycleExtensions)
     implementation(Dep.androidxPreference)
     implementation(Dep.androidxSecurity)

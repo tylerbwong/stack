@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import io.noties.markwon.Markwon
+import io.noties.markwon.PrecomputedFutureTextSetterCompat
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.ext.tables.TablePlugin
 import io.noties.markwon.html.HtmlPlugin
@@ -18,6 +19,8 @@ import me.tylerbwong.stack.ui.utils.markdown.CustomUrlProcessor
 import me.tylerbwong.stack.ui.utils.markdown.GrammarLocatorDef
 import me.tylerbwong.stack.ui.utils.markdown.Markdown
 import me.tylerbwong.stack.ui.utils.markdown.UrlPlugin
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 @Module
@@ -62,6 +65,14 @@ class MarkdownModule {
         prism4jThemeDarkula: Prism4jThemeDarkula
     ) = SyntaxHighlightPlugin.create(prism4j, prism4jThemeDarkula)
 
+    @Provides
+    fun provideExecutor(): Executor = Executors.newCachedThreadPool()
+
+    @Provides
+    fun provideTextSetter(
+        executor: Executor
+    ): Markwon.TextSetter = PrecomputedFutureTextSetterCompat.create(executor)
+
     @Singleton
     @Provides
     fun provideMarkwon(
@@ -72,7 +83,8 @@ class MarkdownModule {
         strikethroughPlugin: StrikethroughPlugin,
         tablePlugin: TablePlugin,
         urlPlugin: UrlPlugin,
-        syntaxHighlightPlugin: SyntaxHighlightPlugin
+        syntaxHighlightPlugin: SyntaxHighlightPlugin,
+        textSetter: Markwon.TextSetter
     ): Markwon {
         val plugins = listOf(
             coilImagesPlugin,
@@ -90,6 +102,7 @@ class MarkdownModule {
 
         return Markwon.builder(context)
             .usePlugins(plugins + experimentalPlugins)
+            .textSetter(textSetter)
             .build()
     }
 }
