@@ -8,7 +8,7 @@ import me.tylerbwong.stack.data.auth.di.AuthModule
 import me.tylerbwong.stack.data.auth.di.SharedPreferencesModule
 
 @Module
-class TestSharedPreferenceModule : SharedPreferencesModule() {
+class TestSharedPreferencesModule : SharedPreferencesModule() {
 
     @Provides
     override fun provideSharedPreferences(

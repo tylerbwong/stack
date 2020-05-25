@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Build
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ApplicationProvider
-import me.tylerbwong.stack.data.auth.TestSharedPreferenceModule
+import me.tylerbwong.stack.data.auth.TestSharedPreferencesModule
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.di.DaggerStackComponent
 import me.tylerbwong.stack.ui.di.StackComponent
@@ -30,7 +30,7 @@ abstract class BaseTest {
         MockitoAnnotations.initMocks(this)
         ApplicationWrapper.init(context)
         stackComponent = DaggerStackComponent.builder()
-            .sharedPreferencesModule(TestSharedPreferenceModule())
+            .sharedPreferencesModule(TestSharedPreferencesModule())
             .build()
         lifecycleOwner = TestLifecycleOwner()
         lifecycleOwner.lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
