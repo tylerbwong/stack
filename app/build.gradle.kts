@@ -118,6 +118,7 @@ dependencies {
     implementation(Dep.markwonCore)
     implementation(Dep.markwonHtml)
     implementation(Dep.markwonImageCoil)
+    implementation(Dep.markwonLinkify)
     implementation(Dep.markwonStrikethrough)
     implementation(Dep.markwonSyntaxHighlight)
     implementation(Dep.markwonTables)

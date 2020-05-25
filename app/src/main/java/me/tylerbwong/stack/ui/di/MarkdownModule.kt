@@ -8,6 +8,7 @@ import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.ext.tables.TablePlugin
 import io.noties.markwon.html.HtmlPlugin
 import io.noties.markwon.image.coil.CoilImagesPlugin
+import io.noties.markwon.linkify.LinkifyPlugin
 import io.noties.markwon.syntax.Prism4jThemeDarkula
 import io.noties.markwon.syntax.SyntaxHighlightPlugin
 import io.noties.prism4j.Prism4j
@@ -27,6 +28,9 @@ class MarkdownModule {
 
     @Provides
     fun provideHtmlPlugin() = HtmlPlugin.create()
+
+    @Provides
+    fun provideLinkifyPlugin() = LinkifyPlugin.create()
 
     @Provides
     fun provideStrikethroughPlugin() = StrikethroughPlugin.create()
@@ -64,6 +68,7 @@ class MarkdownModule {
         context: Context,
         coilImagesPlugin: CoilImagesPlugin,
         htmlPlugin: HtmlPlugin,
+        linkifyPlugin: LinkifyPlugin,
         strikethroughPlugin: StrikethroughPlugin,
         tablePlugin: TablePlugin,
         urlPlugin: UrlPlugin,
@@ -72,6 +77,7 @@ class MarkdownModule {
         val plugins = listOf(
             coilImagesPlugin,
             htmlPlugin,
+            linkifyPlugin,
             strikethroughPlugin,
             tablePlugin,
             urlPlugin
