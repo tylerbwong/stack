@@ -108,6 +108,8 @@
     <string name="search_query">\"%1$s\"</string>
     <string name="filters">Filters</string>
     <string name="add_filters">Add filters</string>
+    <string name="apply_filters">Apply filters</string>
+    <string name="clear_filters">Clear</string>
 
     <!-- Drafts -->
     <string name="save_draft">Save Draft</string>

@@ -17,13 +17,14 @@ import kotlinx.android.synthetic.main.filters_layout.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.ui.ApplicationWrapper
+import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import javax.inject.Inject
 
 typealias UpdatePayloadListener = (SearchPayload) -> Unit
 
 class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
-    private var updatePayload: UpdatePayloadListener? = null
+    private var updatePayloadListener: UpdatePayloadListener? = null
 
     @Inject
     lateinit var viewModelFactory: FilterViewModelFactory
@@ -33,7 +34,8 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ApplicationWrapper.stackComponent.inject(this)
-        viewModel.currentPayload = arguments?.getParcelable(SEARCH_PAYLOAD) ?: SearchPayload("")
+        viewModel.updatePayloadListener = updatePayloadListener
+        viewModel.currentPayload = arguments?.getParcelable(SEARCH_PAYLOAD)
     }
 
     override fun onCreateView(
@@ -47,16 +49,16 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with(viewModel.currentPayload) {
-            hasAcceptedAnswerSwitch.isChecked = isAccepted ?: false
-            isClosedSwitch.isChecked = isClosed ?: false
-            val minAnswers = minNumAnswers ?: 0
+        viewModel.currentPayload?.let { payload ->
+            hasAcceptedAnswerSwitch.isChecked = payload.isAccepted ?: false
+            isClosedSwitch.isChecked = payload.isClosed ?: false
+            val minAnswers = payload.minNumAnswers ?: 0
             minAnswersTitle.text = requireContext().resources
                 .getQuantityString(R.plurals.has_min_answers, minAnswers, minAnswers)
             minAnswersSlider.value = minAnswers.toFloat()
-            titleContainsEditText.setText(titleContains)
-            bodyContainsEditText.setText(bodyContains)
-            tagsEditText.setText(tags?.joinToString(","))
+            titleContainsEditText.setText(payload.titleContains)
+            bodyContainsEditText.setText(payload.bodyContains)
+            tagsEditText.setText(payload.tags?.joinToString(","))
         }
 
         hasAcceptedAnswerSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -80,16 +82,20 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
             }
         })
         titleContainsEditText.addTextChangedListener {
-            viewModel.titleContains = it?.toString() ?: ""
+            viewModel.titleContains = it?.toString()
         }
         bodyContainsEditText.addTextChangedListener {
-            viewModel.bodyContains = it?.toString() ?: ""
+            viewModel.bodyContains = it?.toString()
         }
         tagsEditText.addTextChangedListener {
-            viewModel.tags = it?.toString() ?: ""
+            viewModel.tags = it?.toString()
         }
-        addFiltersButton.setOnClickListener {
-            updatePayload?.invoke(viewModel.currentPayload)
+        applyFiltersButton.setThrottledOnClickListener {
+            viewModel.applyFilters()
+            dismissAllowingStateLoss()
+        }
+        clearFiltersButton.setThrottledOnClickListener {
+            viewModel.clearFilters()
             dismissAllowingStateLoss()
         }
     }
@@ -128,14 +134,14 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         fun show(
             fragmentManager: FragmentManager,
             searchPayload: SearchPayload?,
-            updatePayload: UpdatePayloadListener
+            updatePayloadListener: UpdatePayloadListener
         ) {
             val fragment = FilterBottomSheetDialogFragment()
                 .apply {
                     arguments = Bundle().apply {
                         putParcelable(SEARCH_PAYLOAD, searchPayload)
                     }
-                    this.updatePayload = updatePayload
+                    this.updatePayloadListener = updatePayloadListener
                 }
             fragment.show(fragmentManager, FilterBottomSheetDialogFragment::class.java.simpleName)
         }

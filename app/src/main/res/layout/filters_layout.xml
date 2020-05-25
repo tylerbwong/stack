@@ -117,14 +117,28 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/addFiltersButton"
+            android:id="@+id/applyFiltersButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:backgroundTint="@color/colorAccent"
             android:padding="16dp"
             android:stateListAnimator="@null"
-            android:text="@string/add_filters"
+            android:text="@string/apply_filters"
             android:textAllCaps="false" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/clearFiltersButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:padding="16dp"
+            android:stateListAnimator="@null"
+            android:text="@string/clear_filters"
+            android:textAllCaps="false"
+            android:textColor="@color/colorAccent" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

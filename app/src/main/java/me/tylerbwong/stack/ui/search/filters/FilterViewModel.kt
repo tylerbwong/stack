@@ -5,35 +5,62 @@ import me.tylerbwong.stack.data.model.SearchPayload
 
 class FilterViewModel : ViewModel() {
 
-    internal var currentPayload = SearchPayload("")
-    internal var hasAcceptedAnswer = false
+    internal var updatePayloadListener: UpdatePayloadListener? = null
+        set(value) {
+            if (value != null) {
+                field = value
+            }
+        }
+    internal var currentPayload: SearchPayload? = null
+        set(value) {
+            if (value != null) {
+                field = value
+            }
+        }
+    internal var hasAcceptedAnswer: Boolean? = null
         set(value) {
             field = value
-            currentPayload = currentPayload.copy(isAccepted = field)
+            currentPayload = currentPayload?.copy(isAccepted = field)
         }
-    internal var isClosed = false
+    internal var isClosed: Boolean? = null
         set(value) {
             field = value
-            currentPayload = currentPayload.copy(isClosed = field)
+            currentPayload = currentPayload?.copy(isClosed = field)
         }
-    internal var minimumAnswers = 0
+    internal var minimumAnswers: Int? = null
         set(value) {
             field = value
-            currentPayload = currentPayload.copy(minNumAnswers = field)
+            currentPayload = currentPayload?.copy(minNumAnswers = field)
         }
-    internal var titleContains = ""
+    internal var titleContains: String? = null
         set(value) {
-            field = value
-            currentPayload = currentPayload.copy(titleContains = field)
+            field = if (value.isNullOrEmpty()) null else value
+            currentPayload = currentPayload?.copy(titleContains = field)
         }
-    internal var bodyContains = ""
+    internal var bodyContains: String? = null
         set(value) {
-            field = value
-            currentPayload = currentPayload.copy(bodyContains = field)
+            field = if (value.isNullOrEmpty()) null else value
+            currentPayload = currentPayload?.copy(bodyContains = field)
         }
-    internal var tags = ""
+    internal var tags: String? = null
         set(value) {
-            field = value
-            currentPayload = currentPayload.copy(tags = field.split(","))
+            field = if (value.isNullOrEmpty()) null else value
+            currentPayload = currentPayload?.copy(tags = field?.split(","))
         }
+
+    fun applyFilters() {
+        currentPayload?.let {
+            updatePayloadListener?.invoke(it)
+        }
+    }
+
+    fun clearFilters() {
+        hasAcceptedAnswer = null
+        isClosed = null
+        minimumAnswers = null
+        titleContains = null
+        bodyContains = null
+        tags = null
+        applyFilters()
+    }
 }
