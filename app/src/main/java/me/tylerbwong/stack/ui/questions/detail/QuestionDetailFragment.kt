@@ -6,7 +6,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,7 +30,7 @@ class QuestionDetailFragment : BaseFragment(R.layout.question_detail_fragment) {
     @Inject
     lateinit var viewModelFactory: QuestionDetailMainViewModelFactory
 
-    private lateinit var viewModel: QuestionDetailMainViewModel
+    private val viewModel by activityViewModels<QuestionDetailMainViewModel> { viewModelFactory }
     private val adapter = QuestionDetailAdapter()
     private var snackbar: Snackbar? = null
 
@@ -42,9 +42,6 @@ class QuestionDetailFragment : BaseFragment(R.layout.question_detail_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(requireActivity(), viewModelFactory)
-            .get(QuestionDetailMainViewModel::class.java)
 
         viewModel.refreshing.observe(viewLifecycleOwner) {
             refreshLayout.isRefreshing = it

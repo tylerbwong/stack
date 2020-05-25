@@ -14,8 +14,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -46,7 +46,7 @@ class PostAnswerFragment : BaseFragment(R.layout.post_answer_fragment) {
     lateinit var mainViewModelFactory: QuestionDetailMainViewModelFactory
 
     private val viewModel by viewModels<PostAnswerViewModel> { viewModelFactory }
-    private lateinit var mainViewModel: QuestionDetailMainViewModel
+    private val mainViewModel by activityViewModels<QuestionDetailMainViewModel> { mainViewModelFactory }
     private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,9 +56,7 @@ class PostAnswerFragment : BaseFragment(R.layout.post_answer_fragment) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        mainViewModel = ViewModelProvider(requireActivity(), mainViewModelFactory)
-            .get(QuestionDetailMainViewModel::class.java)
+        super.onViewCreated(view, savedInstanceState)
 
         mainViewModel.clearFields.observe(viewLifecycleOwner) { clearFields() }
 
