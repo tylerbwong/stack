@@ -6,7 +6,7 @@ jobs:
       - image: circleci/android:api-29
     environment:
       JVM_OPTS: -Xms512m -Xmx3072m
-      GRADLE_OPTS: -Xmx1536m -XX+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
     steps:
       - checkout
       - restore_cache:
@@ -41,7 +41,7 @@ jobs:
       - image: circleci/android:api-29
     environment:
       JVM_OPTS: -Xms512m -Xmx3072m
-      GRADLE_OPTS: -Xmx1536m -XX+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
     steps:
       - checkout
       - restore_cache:
@@ -69,7 +69,7 @@ jobs:
       - image: circleci/android:api-29
     environment:
       JVM_OPTS: -Xms512m -Xmx3072m
-      GRADLE_OPTS: -Xmx1536m -XX+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
     steps:
       - checkout
       - restore_cache:
