@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.comments_fragment.*
 import kotlinx.android.synthetic.main.header_holder.*
@@ -54,17 +55,10 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
-        val bottomSheet = dialog.findViewById<ViewGroup>(
-            com.google.android.material.R.id.design_bottom_sheet
-        )
-        dialog.setOnShowListener {
-            bottomSheet?.let {
-                with(BottomSheetBehavior.from(bottomSheet)) {
-                    peekHeight = bottomSheet.height
-                    state = BottomSheetBehavior.STATE_EXPANDED
-                }
-            }
+        val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        dialog.behavior.apply {
+            state = BottomSheetBehavior.STATE_EXPANDED
+            skipCollapsed = true
         }
         return dialog
     }
