@@ -8,42 +8,46 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.question_detail_action_holder.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.databinding.QuestionDetailActionHolderBinding
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
-class QuestionDetailActionHolder(
-    override val containerView: View
-) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+class QuestionDetailActionHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
+
+    private val binding = QuestionDetailActionHolderBinding.bind(itemView)
 
     fun bind(data: QuestionActionItem) {
         val (handler, question) = data
-        upvote.renderSelectedState(
-            R.color.upvoted,
-            question.upVoteCount,
-            isSelected = question.isUpVoted
-        )
-        bookmark.renderSelectedState(
-            R.color.favorited,
-            question.bookmarkCount,
-            isSelected = question.isBookmarked
-        )
-        downvote.renderSelectedState(
-            R.color.downvoted,
-            question.downVoteCount,
-            isSelected = question.isDownVoted
-        )
-
-        upvote.setThrottledOnClickListener {
-            handler.toggleUpvote(isSelected = !question.isUpVoted)
+        binding.upvote.apply {
+            renderSelectedState(
+                R.color.upvoted,
+                question.upVoteCount,
+                isSelected = question.isUpVoted
+            )
+            setThrottledOnClickListener {
+                handler.toggleUpvote(isSelected = !question.isUpVoted)
+            }
         }
-        bookmark.setThrottledOnClickListener {
-            handler.toggleFavorite(isSelected = !question.isBookmarked)
+        binding.bookmark.apply {
+            renderSelectedState(
+                R.color.favorited,
+                question.bookmarkCount,
+                isSelected = question.isBookmarked
+            )
+            setThrottledOnClickListener {
+                handler.toggleFavorite(isSelected = !question.isBookmarked)
+            }
         }
-        downvote.setThrottledOnClickListener {
-            handler.toggleDownvote(isSelected = !question.isDownVoted)
+        binding.downvote.apply {
+            renderSelectedState(
+                R.color.downvoted,
+                question.downVoteCount,
+                isSelected = question.isDownVoted
+            )
+            setThrottledOnClickListener {
+                handler.toggleDownvote(isSelected = !question.isDownVoted)
+            }
         }
     }
 

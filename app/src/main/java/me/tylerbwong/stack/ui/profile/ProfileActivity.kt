@@ -14,10 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.profile_header.*
-import kotlinx.android.synthetic.main.profile_header.view.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.databinding.ActivityProfileBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.questions.QuestionAdapter
@@ -29,7 +27,7 @@ import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
 import javax.inject.Inject
 
-class ProfileActivity : BaseActivity(R.layout.activity_profile) {
+class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBinding::inflate) {
 
     @Inject
     lateinit var viewModelFactory: ProfileViewModelFactory
@@ -41,7 +39,7 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ApplicationWrapper.stackComponent.inject(this)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
 
         setSharedTransition(
             android.R.id.statusBarBackground,
@@ -53,33 +51,36 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
 
         viewModel.userId = intent.getIntExtra(USER_ID, 0)
         viewModel.refreshing.observe(this) {
-            refreshLayout.isRefreshing = it
+            binding.refreshLayout.isRefreshing = it
         }
         viewModel.snackbar.observe(this) {
             if (it != null) {
-                snackbar = rootLayout.showSnackbar(R.string.network_error, R.string.retry) {
+                snackbar = binding.rootLayout.showSnackbar(R.string.network_error, R.string.retry) {
                     viewModel.getUserQuestionsAndAnswers()
                 }
             } else {
                 snackbar?.dismiss()
             }
         }
+
         viewModel.userData.observe(this) {
+            val userImage = binding.includeProfileHeader.userImage
             userImage.load(it.profileImage) {
                 crossfade(true)
                 error(R.drawable.user_image_placeholder)
                 placeholder(R.drawable.user_image_placeholder)
                 transformations(CircleCropTransformation())
             }
-            collapsingToolbarLayout.title = it.displayName.toHtml()
+            binding.collapsingToolbarLayout.title = it.displayName.toHtml()
+            val location = binding.includeProfileHeader.location
             if (it.location != null) {
                 location.text = it.location.toHtml()
                 location.isVisible = true
             } else {
                 location.isGone = true
             }
-            reputation.text = it.reputation.toLong().format()
-            badgeView.badgeCounts = it.badgeCounts
+            binding.includeProfileHeader.reputation.text = it.reputation.toLong().format()
+            binding.includeProfileHeader.badgeView.badgeCounts = it.badgeCounts
 
             it.link?.let { link ->
                 userImage.setThrottledOnClickListener {
@@ -94,15 +95,15 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
 
-        includeProfileHeader.userImage.transitionName =
+        binding.includeProfileHeader.userImage.transitionName =
             resources.getString(R.string.shared_transition_name)
 
-        recyclerView.apply {
+        binding.recyclerView.apply {
             adapter = this@ProfileActivity.adapter
             layoutManager = LinearLayoutManager(this@ProfileActivity)
         }
 
-        refreshLayout.setOnRefreshListener { viewModel.getUserQuestionsAndAnswers() }
+        binding.refreshLayout.setOnRefreshListener { viewModel.getUserQuestionsAndAnswers() }
 
         viewModel.getUserQuestionsAndAnswers()
     }

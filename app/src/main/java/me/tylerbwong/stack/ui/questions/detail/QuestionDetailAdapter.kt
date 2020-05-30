@@ -4,8 +4,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.answer_holder.view.*
-import kotlinx.android.synthetic.main.question_detail_holder.view.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.answers.AnswerHolder
 import me.tylerbwong.stack.ui.utils.inflate
@@ -26,19 +24,17 @@ class QuestionDetailAdapter : ListAdapter<QuestionDetailItem, RecyclerView.ViewH
         viewType: Int
     ): RecyclerView.ViewHolder = when (viewType) {
         ITEM_TYPE_QUESTION -> QuestionDetailHolder(
-            parent.inflate<ViewGroup>(R.layout.question_detail_holder).also {
-                it.questionBody.setSpannableFactory(noCopySpannableFactory)
-            }
-        )
+            parent.inflate<ViewGroup>(R.layout.question_detail_holder)
+        ).also {
+            it.binding.questionBody.setSpannableFactory(noCopySpannableFactory)
+        }
         ITEM_TYPE_ACTION -> QuestionDetailActionHolder(
             parent.inflate<ViewGroup>(R.layout.question_detail_action_holder)
         )
         ITEM_TYPE_ANSWER_HEADER -> AnswerHeaderViewHolder(parent.inflate(R.layout.answer_header))
-        else -> AnswerHolder(
-            parent.inflate<ViewGroup>(R.layout.answer_holder).also {
-                it.answerBody.setSpannableFactory(noCopySpannableFactory)
-            }
-        )
+        else -> AnswerHolder(parent.inflate<ViewGroup>(R.layout.answer_holder)).also {
+            it.binding.answerBody.setSpannableFactory(noCopySpannableFactory)
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

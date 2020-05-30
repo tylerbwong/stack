@@ -5,8 +5,8 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_home.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.databinding.FragmentHomeBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.home.FilterInputItem
@@ -20,7 +20,7 @@ import me.tylerbwong.stack.ui.home.SectionHeaderItem
 import me.tylerbwong.stack.ui.home.TagsItem
 import javax.inject.Inject
 
-class SearchFragment : BaseFragment(R.layout.fragment_home) {
+class SearchFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     @Inject
     lateinit var viewModelFactory: SearchViewModelFactory
@@ -41,13 +41,14 @@ class SearchFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recyclerView.apply {
+        super.onViewCreated(view, savedInstanceState)
+        binding.recyclerView.apply {
             adapter = this@SearchFragment.adapter
             layoutManager = LinearLayoutManager(context)
         }
 
         viewModel.refreshing.observe(viewLifecycleOwner) {
-            refreshLayout.isRefreshing = it
+            binding.refreshLayout.isRefreshing = it
         }
 
         viewModel.searchResults.observe(viewLifecycleOwner) {
@@ -71,7 +72,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_home) {
             )
         }
 
-        refreshLayout.setOnRefreshListener {
+        binding.refreshLayout.setOnRefreshListener {
             viewModel.search()
         }
 

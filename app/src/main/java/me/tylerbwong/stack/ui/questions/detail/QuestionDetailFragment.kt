@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.question_detail_fragment.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.databinding.QuestionDetailFragmentBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
@@ -25,7 +25,9 @@ import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
-class QuestionDetailFragment : BaseFragment(R.layout.question_detail_fragment) {
+class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
+    QuestionDetailFragmentBinding::inflate
+) {
 
     @Inject
     lateinit var viewModelFactory: QuestionDetailMainViewModelFactory
@@ -44,11 +46,11 @@ class QuestionDetailFragment : BaseFragment(R.layout.question_detail_fragment) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.refreshing.observe(viewLifecycleOwner) {
-            refreshLayout.isRefreshing = it
+            binding.refreshLayout.isRefreshing = it
         }
         viewModel.snackbar.observe(viewLifecycleOwner) {
             if (it != null) {
-                snackbar = refreshLayout.showSnackbar(
+                snackbar = binding.refreshLayout.showSnackbar(
                     R.string.network_error,
                     R.string.retry
                 ) { viewModel.getQuestionDetails() }
@@ -57,7 +59,7 @@ class QuestionDetailFragment : BaseFragment(R.layout.question_detail_fragment) {
             }
         }
         viewModel.messageSnackbar.observe(viewLifecycleOwner) {
-            with(Snackbar.make(refreshLayout, it, Snackbar.LENGTH_INDEFINITE)) {
+            with(Snackbar.make(binding.refreshLayout, it, Snackbar.LENGTH_INDEFINITE)) {
                 this@with.view.findViewById<TextView>(
                     com.google.android.material.R.id.snackbar_text
                 )?.apply {
@@ -76,7 +78,7 @@ class QuestionDetailFragment : BaseFragment(R.layout.question_detail_fragment) {
             )
         }
 
-        recyclerView.apply {
+        binding.recyclerView.apply {
             adapter = this@QuestionDetailFragment.adapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
@@ -100,13 +102,13 @@ class QuestionDetailFragment : BaseFragment(R.layout.question_detail_fragment) {
 
         viewModel.questionId = arguments?.getInt(QuestionDetailActivity.QUESTION_ID, 0) ?: 0
 
-        refreshLayout.setOnRefreshListener { viewModel.getQuestionDetails() }
+        binding.refreshLayout.setOnRefreshListener { viewModel.getQuestionDetails() }
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.getQuestionDetails()
-        refreshLayout.hideKeyboard()
+        binding.refreshLayout.hideKeyboard()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

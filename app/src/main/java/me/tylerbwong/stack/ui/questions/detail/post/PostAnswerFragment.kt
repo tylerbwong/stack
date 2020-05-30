@@ -21,10 +21,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
-import kotlinx.android.synthetic.main.post_answer_fragment.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.databinding.PostAnswerFragmentBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
@@ -37,7 +37,9 @@ import me.tylerbwong.stack.ui.utils.showKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
-class PostAnswerFragment : BaseFragment(R.layout.post_answer_fragment) {
+class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
+    PostAnswerFragmentBinding::inflate
+) {
 
     @Inject
     lateinit var viewModelFactory: PostAnswerViewModelFactory
@@ -72,35 +74,35 @@ class PostAnswerFragment : BaseFragment(R.layout.post_answer_fragment) {
                 is PostAnswerState.Success -> {
                     clearFields()
                     activity?.toggleAnswerMode(isInAnswerMode = false)
-                    rootLayout.showSnackbar(it.messageId, duration = it.duration)
+                    binding.rootLayout.showSnackbar(it.messageId, duration = it.duration)
                 }
                 is PostAnswerState.Loading, is PostAnswerState.Error -> {
                     togglePostAnswerButtonVisibility(isVisible = it is PostAnswerState.Error)
-                    scrollView.showSnackbar(it.messageId, duration = it.duration)
+                    binding.scrollView.showSnackbar(it.messageId, duration = it.duration)
                 }
             }
         }
 
         viewModel.savedDraft.observe(viewLifecycleOwner) {
-            markdownEditText.setText(it)
+            binding.markdownEditText.setText(it)
         }
 
-        debugPreview.isVisible = BuildConfig.DEBUG
+        binding.debugPreview.isVisible = BuildConfig.DEBUG
 
-        previewText.apply {
+        binding.previewText.apply {
             setTextIsSelectable(true)
             movementMethod = BetterLinkMovementMethod.getInstance()
         }
 
-        scrollView.setOnScrollChangeListener(OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+        binding.scrollView.setOnScrollChangeListener(OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if (scrollY > oldScrollY) {
-                postAnswerButton.shrink()
+                binding.postAnswerButton.shrink()
             } else {
-                postAnswerButton.extend()
+                binding.postAnswerButton.extend()
             }
         })
 
-        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+        binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabReselected(tab: Tab) {
                 // no-op
             }
@@ -114,18 +116,18 @@ class PostAnswerFragment : BaseFragment(R.layout.post_answer_fragment) {
             }
         })
 
-        tabLayout.selectTab(tabLayout.getTabAt(viewModel.selectedTabPosition))
+        binding.tabLayout.selectTab(binding.tabLayout.getTabAt(viewModel.selectedTabPosition))
 
-        postAnswerButton.setThrottledOnClickListener {
-            if (!markdownEditText.text.isNullOrBlank()) {
+        binding.postAnswerButton.setThrottledOnClickListener {
+            if (!binding.markdownEditText.text.isNullOrBlank()) {
                 viewModel.postAnswer(
-                    markdownEditText.text.toString(),
+                    binding.markdownEditText.text.toString(),
                     isPreview = BuildConfig.DEBUG
                 )
             }
         }
 
-        postAnswerButton.doOnApplyWindowInsets { buttonView, insets, initialState ->
+        binding.postAnswerButton.doOnApplyWindowInsets { buttonView, insets, initialState ->
             (buttonView.layoutParams as? ViewGroup.MarginLayoutParams)?.let {
                 buttonView.layoutParams = it.apply {
                     setMargins(
@@ -156,7 +158,7 @@ class PostAnswerFragment : BaseFragment(R.layout.post_answer_fragment) {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         this.menu = menu
         inflater.inflate(R.menu.menu_post, menu)
-        toggleMenuVisibility(isVisible = !markdownEditText.text.isNullOrBlank())
+        toggleMenuVisibility(isVisible = !binding.markdownEditText.text.isNullOrBlank())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -166,7 +168,7 @@ class PostAnswerFragment : BaseFragment(R.layout.post_answer_fragment) {
                     .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.default_dialog_bg))
                     .setTitle(R.string.save_draft)
                     .setPositiveButton(R.string.save_draft) { _, _ ->
-                        viewModel.saveDraft(markdownEditText.text.toString())
+                        viewModel.saveDraft(binding.markdownEditText.text.toString())
                         Toast.makeText(
                             requireContext(),
                             R.string.draft_saved,
@@ -203,14 +205,14 @@ class PostAnswerFragment : BaseFragment(R.layout.post_answer_fragment) {
         viewModel.selectedTabPosition = position
         when (position) {
             0 -> {
-                markdownInputLayout.isVisible = true
-                previewText.isGone = true
-                markdownEditText.requestFocus()
-                markdownEditText.showKeyboard()
+                binding.markdownInputLayout.isVisible = true
+                binding.previewText.isGone = true
+                binding.markdownEditText.requestFocus()
+                binding.markdownEditText.showKeyboard()
             }
             1 -> {
-                markdownInputLayout.isGone = true
-                previewText.apply {
+                binding.markdownInputLayout.isGone = true
+                binding.previewText.apply {
                     isVisible = true
                     hideKeyboard()
                     refreshPreview()
@@ -220,10 +222,10 @@ class PostAnswerFragment : BaseFragment(R.layout.post_answer_fragment) {
     }
 
     private fun refreshPreview() {
-        previewText.apply {
-            if (!markdownEditText.text.isNullOrBlank()) {
+        binding.previewText.apply {
+            if (!binding.markdownEditText.text.isNullOrBlank()) {
                 gravity = Gravity.START or Gravity.TOP
-                setMarkdown(markdownEditText.text.toString())
+                setMarkdown(binding.markdownEditText.text.toString())
             } else {
                 gravity = Gravity.CENTER
                 setText(R.string.no_preview)
@@ -232,30 +234,30 @@ class PostAnswerFragment : BaseFragment(R.layout.post_answer_fragment) {
     }
 
     private fun togglePostAnswerButtonVisibility(
-        isVisible: Boolean = !markdownEditText.text.isNullOrBlank()
+        isVisible: Boolean = !binding.markdownEditText.text.isNullOrBlank()
     ) = if (isVisible) {
-        postAnswerButton.show()
-        postAnswerButton.extend()
+        binding.postAnswerButton.show()
+        binding.postAnswerButton.extend()
     } else {
-        postAnswerButton.hide()
+        binding.postAnswerButton.hide()
     }
 
     private fun clearFields() {
         tearDownTextWatcher()
         mainViewModel.hasContent = false
         toggleMenuVisibility(isVisible = false)
-        markdownEditText.text = null
-        previewText.text = null
+        binding.markdownEditText.text = null
+        binding.previewText.text = null
         setUpTextWatcher()
         togglePostAnswerButtonVisibility(isVisible = false)
-        debugPreview.isChecked = BuildConfig.DEBUG
-        tabLayout.selectTab(tabLayout.getTabAt(0))
+        binding.debugPreview.isChecked = BuildConfig.DEBUG
+        binding.tabLayout.selectTab(binding.tabLayout.getTabAt(0))
     }
 
     private fun tearDownTextWatcher() {
         // Fix TextInputLayout error message crash
         if (viewModel.markdownTextWatcher != null) {
-            markdownEditText.removeTextChangedListener(viewModel.markdownTextWatcher)
+            binding.markdownEditText.removeTextChangedListener(viewModel.markdownTextWatcher)
             viewModel.markdownTextWatcher = null
         }
     }
@@ -274,14 +276,14 @@ class PostAnswerFragment : BaseFragment(R.layout.post_answer_fragment) {
             }
 
             override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
-                markdownInputLayout.error = if (text.isBlank()) {
+                binding.markdownInputLayout.error = if (text.isBlank()) {
                     getString(R.string.answer_error)
                 } else {
                     null
                 }
             }
         }
-        markdownEditText.addTextChangedListener(viewModel.markdownTextWatcher)
+        binding.markdownEditText.addTextChangedListener(viewModel.markdownTextWatcher)
     }
 
     companion object {

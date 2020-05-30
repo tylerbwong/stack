@@ -2,14 +2,13 @@ package me.tylerbwong.stack.ui.home
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.section_header_holder.*
+import me.tylerbwong.stack.databinding.SectionHeaderHolderBinding
 
-class SectionHeaderHolder(
-    override val containerView: View
-) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+class SectionHeaderHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
+
+    private val binding = SectionHeaderHolderBinding.bind(itemView)
 
     fun bind(item: SectionHeaderItem) {
-        sectionHeader.text = item.header
+        binding.sectionHeader.text = item.header
     }
 }

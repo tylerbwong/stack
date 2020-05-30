@@ -10,8 +10,6 @@ import me.tylerbwong.stack.data.network.di.NetworkModule
 import me.tylerbwong.stack.data.persistence.di.PersistenceModule
 import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.di.DeepLinkModule
-import me.tylerbwong.stack.ui.BaseActivity
-import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.DeepLinkingActivity
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.MainViewModelFactory
@@ -71,8 +69,6 @@ interface StackComponent {
     fun questionRepository(): QuestionRepository
 
     fun inject(markdown: Markdown)
-    fun inject(activity: BaseActivity)
-    fun inject(activity: BaseFragment)
 
     // TODO Figure out how to remove all of these
     fun inject(activity: MainActivity)

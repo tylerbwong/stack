@@ -12,15 +12,17 @@ import androidx.lifecycle.observe
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
-import kotlinx.android.synthetic.main.activity_question_detail.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.databinding.ActivityQuestionDetailBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import javax.inject.Inject
 
-class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
+class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
+    ActivityQuestionDetailBinding::inflate
+) {
 
     @Inject
     lateinit var viewModelFactory: QuestionDetailMainViewModelFactory
@@ -31,7 +33,7 @@ class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ApplicationWrapper.stackComponent.inject(this)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         setTitle("")
 
         if (viewModel.questionId == -1) {
@@ -39,7 +41,7 @@ class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
         }
 
         viewModel.canAnswerQuestion.observe(this) {
-            viewPager.offscreenPageLimit = if (it) {
+            binding.viewPager.offscreenPageLimit = if (it) {
                 2
             } else {
                 1
@@ -47,13 +49,13 @@ class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
             toggleAnswerButtonVisibility(isVisible = it && !viewModel.isInAnswerMode)
         }
 
-        postAnswerButton.setThrottledOnClickListener {
+        binding.postAnswerButton.setThrottledOnClickListener {
             toggleAnswerMode(isInAnswerMode = true)
         }
 
         adapter = QuestionDetailPagerAdapter(this, viewModel.questionId)
-        viewPager.adapter = adapter
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        binding.viewPager.adapter = adapter
+        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrollStateChanged(state: Int) {
                 // no-op
             }
@@ -67,7 +69,7 @@ class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
             }
 
             override fun onPageSelected(position: Int) {
-                appBar.stateListAnimator = AnimatorInflater.loadStateListAnimator(
+                binding.appBar.stateListAnimator = AnimatorInflater.loadStateListAnimator(
                     this@QuestionDetailActivity,
                     if (position == 0) {
                         R.animator.app_bar_elevation
@@ -82,7 +84,7 @@ class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
 
     override fun applyFullscreenWindowInsets() {
         super.applyFullscreenWindowInsets()
-        postAnswerButton.doOnApplyWindowInsets { view, insets, initialState ->
+        binding.postAnswerButton.doOnApplyWindowInsets { view, insets, initialState ->
             (view.layoutParams as? ViewGroup.MarginLayoutParams)?.let {
                 view.layoutParams = it.apply {
                     setMargins(
@@ -131,13 +133,13 @@ class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
         }
     }
 
-    internal fun extendAnswerButton() = postAnswerButton.extend()
+    internal fun extendAnswerButton() = binding.postAnswerButton.extend()
 
-    internal fun shrinkAnswerButton() = postAnswerButton.shrink()
+    internal fun shrinkAnswerButton() = binding.postAnswerButton.shrink()
 
     internal fun toggleAnswerMode(isInAnswerMode: Boolean) {
         viewModel.isInAnswerMode = isInAnswerMode
-        viewPager.apply {
+        binding.viewPager.apply {
             currentItem = if (isInAnswerMode) {
                 1
             } else {
@@ -147,7 +149,7 @@ class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
         }
         toggleAnswerButtonVisibility(isVisible = !isInAnswerMode)
         if (!isInAnswerMode) {
-            viewPager.hideKeyboard()
+            binding.viewPager.hideKeyboard()
             viewModel.clearFields()
         }
         supportActionBar?.apply {
@@ -162,9 +164,9 @@ class QuestionDetailActivity : BaseActivity(R.layout.activity_question_detail) {
     }
 
     private fun toggleAnswerButtonVisibility(isVisible: Boolean) = if (isVisible) {
-        postAnswerButton.show()
+        binding.postAnswerButton.show()
     } else {
-        postAnswerButton.hide()
+        binding.postAnswerButton.hide()
     }
 
     companion object {

@@ -28,6 +28,7 @@ allprojects {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
+        apiVersion = "1.3"
         jvmTarget = "1.8"
     }
 }

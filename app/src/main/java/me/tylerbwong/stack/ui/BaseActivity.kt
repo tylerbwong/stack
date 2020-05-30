@@ -1,22 +1,29 @@
 package me.tylerbwong.stack.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.CallSuper
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.updatePadding
+import androidx.viewbinding.ViewBinding
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.theme.ThemeManager
 
-abstract class BaseActivity(
-    @LayoutRes contentLayoutId: Int = 0
-) : AppCompatActivity(contentLayoutId) {
+abstract class BaseActivity<T : ViewBinding>(
+    private val bindingProvider: ((LayoutInflater) -> T)? = null
+) : AppCompatActivity() {
+
+    protected lateinit var binding: T
+
     override fun onCreate(savedInstanceState: Bundle?) {
         ThemeManager.injectTheme(this)
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.stackComponent.inject(this)
+        if (bindingProvider != null) {
+            binding = bindingProvider.invoke(layoutInflater)
+            setContentView(binding.root)
+        }
         applyFullscreenWindowInsets()
     }
 

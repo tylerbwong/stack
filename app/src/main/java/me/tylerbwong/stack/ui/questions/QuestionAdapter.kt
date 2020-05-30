@@ -10,10 +10,9 @@ import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.question_holder.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
+import me.tylerbwong.stack.databinding.QuestionHolderBinding
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
@@ -47,15 +46,15 @@ class QuestionAdapter : ListAdapter<Question, QuestionViewHolder>(
     ) = holder.bind(getItem(position))
 }
 
-class QuestionViewHolder(
-    override val containerView: View
-) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+class QuestionViewHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
+
+    private val binding = QuestionHolderBinding.bind(itemView)
 
     fun bind(question: Question) {
-        questionTitle.text = question.title.toHtml()
-        answerCount.text = question.answerCount.toString()
+        binding.questionTitle.text = question.title.toHtml()
+        binding.answerCount.text = question.answerCount.toString()
 
-        ownerView.bind(question.owner)
+        binding.ownerView.bind(question.owner)
 
         itemView.setOnLongClickListener { view ->
             val context = view.context

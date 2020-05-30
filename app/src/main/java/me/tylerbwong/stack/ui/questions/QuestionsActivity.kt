@@ -11,7 +11,6 @@ import androidx.activity.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_questions.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.CREATION
@@ -19,13 +18,15 @@ import me.tylerbwong.stack.data.model.HOT
 import me.tylerbwong.stack.data.model.MONTH
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
+import me.tylerbwong.stack.databinding.ActivityQuestionsBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
-class QuestionsActivity : BaseActivity(R.layout.activity_questions),
-    PopupMenu.OnMenuItemClickListener {
+class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
+    ActivityQuestionsBinding::inflate
+), PopupMenu.OnMenuItemClickListener {
 
     @Inject
     lateinit var viewModelFactory: QuestionsViewModelFactory
@@ -37,7 +38,7 @@ class QuestionsActivity : BaseActivity(R.layout.activity_questions),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ApplicationWrapper.stackComponent.inject(this)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
 
         val key = intent.getStringExtra(KEY_EXTRA) ?: ""
 
@@ -51,18 +52,18 @@ class QuestionsActivity : BaseActivity(R.layout.activity_questions),
         setUpPageForKey(page, key)
 
         viewModel.refreshing.observe(this) {
-            refreshLayout.isRefreshing = it
+            binding.refreshLayout.isRefreshing = it
         }
 
         viewModel.data.observe(this) {
             adapter.submitList(it)
 
             if (it.isEmpty()) {
-                Snackbar.make(rootLayout, R.string.nothing_here, Snackbar.LENGTH_INDEFINITE).show()
+                Snackbar.make(binding.rootLayout, R.string.nothing_here, Snackbar.LENGTH_INDEFINITE).show()
             }
         }
 
-        recyclerView.apply {
+        binding.recyclerView.apply {
             adapter = this@QuestionsActivity.adapter
             layoutManager = LinearLayoutManager(context)
         }
@@ -120,7 +121,7 @@ class QuestionsActivity : BaseActivity(R.layout.activity_questions),
 
         viewModel.snackbar.observe(this) {
             if (it != null) {
-                snackbar = rootLayout.showSnackbar(
+                snackbar = binding.rootLayout.showSnackbar(
                     R.string.network_error,
                     R.string.retry
                 ) { viewModel.getQuestions() }
@@ -129,7 +130,7 @@ class QuestionsActivity : BaseActivity(R.layout.activity_questions),
             }
         }
 
-        refreshLayout.setOnRefreshListener { viewModel.getQuestions() }
+        binding.refreshLayout.setOnRefreshListener { viewModel.getQuestions() }
 
         viewModel.getQuestions()
     }

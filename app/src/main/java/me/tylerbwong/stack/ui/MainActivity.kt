@@ -19,10 +19,10 @@ import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.InstallStatus
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
-import kotlinx.android.synthetic.main.activity_main.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.AppUpdater
 import me.tylerbwong.stack.data.auth.AuthStore
+import me.tylerbwong.stack.databinding.ActivityMainBinding
 import me.tylerbwong.stack.ui.bookmarks.BookmarksFragment
 import me.tylerbwong.stack.ui.drafts.DraftsFragment
 import me.tylerbwong.stack.ui.home.HomeFragment
@@ -35,7 +35,9 @@ import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
-class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedListener {
+class MainActivity : BaseActivity<ActivityMainBinding>(
+    ActivityMainBinding::inflate
+), InstallStateUpdatedListener {
 
     @Inject
     lateinit var mainViewModelFactory: MainViewModelFactory
@@ -54,7 +56,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ApplicationWrapper.stackComponent.inject(this)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         setupBottomNavigation()
 
         setSharedTransition(
@@ -65,11 +67,13 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
         supportActionBar?.title = ""
 
         viewModel.isAuthenticated.observe(this) { isAuthenticated ->
+            val bottomNav = binding.bottomNav
             authTabIds.forEach { bottomNav.menu.findItem(it)?.isVisible = isAuthenticated }
             if (bottomNav.selectedItemId in authTabIds) {
                 bottomNav.selectedItemId = R.id.home
             }
 
+            val profileIcon = binding.profileIcon
             if (isAuthenticated) {
                 viewModel.fetchUser()
                 profileIcon.setThrottledOnClickListener { showLogOutDialog() }
@@ -78,7 +82,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
             }
         }
         viewModel.profileImage.observe(this) {
-            profileIcon.apply {
+            binding.profileIcon.apply {
                 if (it != null) {
                     load(it) {
                         crossfade(true)
@@ -124,7 +128,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
             if (resultCode == RESULT_OK) {
                 checkForPendingInstall()
             } else {
-                bottomNav.showSnackbar(
+                binding.bottomNav.showSnackbar(
                     R.string.update_not_downloaded,
                     R.string.update,
                     Snackbar.LENGTH_LONG,
@@ -147,7 +151,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
 
     override fun applyFullscreenWindowInsets() {
         super.applyFullscreenWindowInsets()
-        bottomNav.doOnApplyWindowInsets { view, insets, initialState ->
+        binding.bottomNav.doOnApplyWindowInsets { view, insets, initialState ->
             view.updatePadding(
                 bottom = initialState.paddings.bottom + insets.systemWindowInsetBottom
             )
@@ -155,7 +159,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
     }
 
     private fun setupBottomNavigation() {
-        bottomNav.setOnNavigationItemSelectedListener { menuItem ->
+        binding.bottomNav.setOnNavigationItemSelectedListener { menuItem ->
             val fragment = when (menuItem.itemId) {
                 R.id.search -> searchFragment
                 R.id.bookmarks -> bookmarksFragment
@@ -171,7 +175,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
                 .show(fragment)
                 .commit()
 
-            bottomNav.hideKeyboard()
+            binding.bottomNav.hideKeyboard()
 
             true
         }
@@ -189,7 +193,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
     private fun checkForPendingInstall() {
         appUpdater.checkForPendingInstall(
             onDownloadFinished = {
-                bottomNav.showSnackbar(
+                binding.bottomNav.showSnackbar(
                     R.string.restart_to_install,
                     R.string.restart,
                     shouldAnchorView = true
@@ -201,7 +205,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), InstallStateUpdatedLi
                 }
             },
             onDownloadFailed = {
-                bottomNav.showSnackbar(
+                binding.bottomNav.showSnackbar(
                     R.string.download_error,
                     R.string.retry,
                     shouldAnchorView = true

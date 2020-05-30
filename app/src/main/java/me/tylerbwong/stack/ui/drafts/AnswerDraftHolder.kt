@@ -2,24 +2,23 @@ package me.tylerbwong.stack.ui.drafts
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.answer_draft_holder.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.databinding.AnswerDraftHolderBinding
 import me.tylerbwong.stack.ui.home.AnswerDraftItem
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.toHtml
 
-class AnswerDraftHolder(
-    override val containerView: View
-) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+class AnswerDraftHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
+
+    private val binding = AnswerDraftHolderBinding.bind(itemView)
 
     fun bind(data: AnswerDraftItem) {
         val draft = data.draft
-        questionTitle.text = draft.questionTitle.toHtml()
-        timestamp.text = itemView.context.getString(R.string.last_updated, draft.formattedTimestamp)
-        draftPreview.setMarkdown(draft.bodyMarkdown)
+        binding.questionTitle.text = draft.questionTitle.toHtml()
+        binding.timestamp.text = itemView.context.getString(R.string.last_updated, draft.formattedTimestamp)
+        binding.draftPreview.setMarkdown(draft.bodyMarkdown)
 
         itemView.setThrottledOnClickListener {
             val intent = QuestionDetailActivity.makeIntent(

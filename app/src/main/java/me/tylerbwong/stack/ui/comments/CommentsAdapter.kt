@@ -6,12 +6,10 @@ import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.comment_holder.*
-import kotlinx.android.synthetic.main.comment_holder.view.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Comment
+import me.tylerbwong.stack.databinding.CommentHolderBinding
 import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
@@ -35,7 +33,7 @@ class CommentsAdapter : ListAdapter<Comment, CommentHolder>(
         parent: ViewGroup,
         viewType: Int
     ) = CommentHolder(parent.inflate(R.layout.comment_holder)).also {
-        it.containerView.commentBody.setSpannableFactory(noCopySpannableFactory)
+        it.binding.commentBody.setSpannableFactory(noCopySpannableFactory)
     }
 
     override fun onBindViewHolder(
@@ -44,15 +42,16 @@ class CommentsAdapter : ListAdapter<Comment, CommentHolder>(
     ) = holder.bind(getItem(position))
 }
 
-class CommentHolder(
-    override val containerView: View
-) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+class CommentHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
+
+    internal val binding = CommentHolderBinding.bind(itemView)
+
     fun bind(comment: Comment) {
-        commentBody.apply {
+        binding.commentBody.apply {
             setMarkdown(comment.bodyMarkdown)
             setTextIsSelectable(true)
             movementMethod = BetterLinkMovementMethod.getInstance()
         }
-        ownerView.bind(comment.owner)
+        binding.ownerView.bind(comment.owner)
     }
 }

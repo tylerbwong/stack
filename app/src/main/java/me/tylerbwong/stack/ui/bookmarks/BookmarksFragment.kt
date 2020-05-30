@@ -6,9 +6,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_home.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
+import me.tylerbwong.stack.databinding.FragmentHomeBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.home.HeaderItem
@@ -18,7 +18,7 @@ import me.tylerbwong.stack.ui.home.QuestionItem
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
-class BookmarksFragment : BaseFragment(R.layout.fragment_home) {
+class BookmarksFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
     @Inject
     lateinit var viewModelFactory: BookmarksViewModelFactory
 
@@ -34,8 +34,9 @@ class BookmarksFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel.refreshing.observe(viewLifecycleOwner) {
-            refreshLayout.isRefreshing = it
+            binding.refreshLayout.isRefreshing = it
         }
         viewModel.snackbar.observe(viewLifecycleOwner) {
             if (it != null) {
@@ -52,12 +53,12 @@ class BookmarksFragment : BaseFragment(R.layout.fragment_home) {
         }
         viewModel.bookmarks.observe(viewLifecycleOwner, ::updateContent)
 
-        recyclerView.apply {
+        binding.recyclerView.apply {
             adapter = this@BookmarksFragment.adapter
             layoutManager = LinearLayoutManager(context)
         }
 
-        refreshLayout.setOnRefreshListener {
+        binding.refreshLayout.setOnRefreshListener {
             viewModel.fetchBookmarks()
         }
     }

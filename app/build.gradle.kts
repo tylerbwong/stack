@@ -4,7 +4,6 @@ plugins {
     id("com.android.application")
     id("com.google.firebase.crashlytics")
     id("kotlin-android")
-    id("kotlin-android-extensions")
     id("kotlin-kapt")
     id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintGradle
     id("io.gitlab.arturbosch.detekt") version Versions.detekt
@@ -29,6 +28,11 @@ android {
         }
     }
 
+    buildFeatures {
+        compose = true
+        viewBinding = true
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
@@ -41,7 +45,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    composeOptions {
+        kotlinCompilerVersion = Versions.composeKotlinCompiler
+        kotlinCompilerExtensionVersion = Versions.compose
+    }
+
     kotlinOptions {
+        apiVersion = "1.3"
         jvmTarget = "1.8"
     }
 
@@ -52,10 +62,6 @@ android {
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }
-}
-
-androidExtensions {
-    isExperimental = true
 }
 
 ktlint {
@@ -89,6 +95,13 @@ dependencies {
     implementation(Dep.androidxViewPager2)
     implementation(Dep.constraintLayout)
     implementation(Dep.materialComponents)
+
+    // compose
+    implementation(Dep.composeCore)
+    implementation(Dep.composeFoundation)
+    implementation(Dep.composeLayout)
+    implementation(Dep.composeMaterial)
+    implementation(Dep.composeRuntime)
 
     // klock date/time
     implementation(Dep.klock)

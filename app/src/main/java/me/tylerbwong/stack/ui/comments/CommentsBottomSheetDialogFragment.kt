@@ -13,9 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.comments_fragment.*
-import kotlinx.android.synthetic.main.header_holder.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.databinding.CommentsFragmentBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import javax.inject.Inject
 
@@ -40,15 +39,16 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     ): View? = inflater.inflate(R.layout.comments_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recyclerView.apply {
+        val binding = CommentsFragmentBinding.bind(view)
+        binding.recyclerView.apply {
             adapter = this@CommentsBottomSheetDialogFragment.adapter
             layoutManager = LinearLayoutManager(context)
         }
-        title.text = getString(R.string.comments)
+        binding.header.title.text = getString(R.string.comments)
         viewModel.data.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-            subtitle.text = getString(R.string.comment_count, it.size)
-            emptySpace.isVisible = it.isEmpty()
+            binding.header.subtitle.text = getString(R.string.comment_count, it.size)
+            binding.emptySpace.isVisible = it.isEmpty()
         }
 
         viewModel.fetchComments()

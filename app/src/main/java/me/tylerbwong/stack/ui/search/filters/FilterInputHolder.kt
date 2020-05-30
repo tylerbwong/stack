@@ -4,26 +4,25 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.filter_input_holder.*
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.databinding.FilterInputHolderBinding
 import me.tylerbwong.stack.ui.home.FilterInputItem
 import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
-class FilterInputHolder(
-    override val containerView: View
-) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+class FilterInputHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
+
+    private val binding = FilterInputHolderBinding.bind(itemView)
 
     @Suppress("ComplexMethod")
     fun bind(item: FilterInputItem) {
-        advancedOptions.removeAllViews()
+        binding.advancedOptions.removeAllViews()
 
         val payload = item.searchPayload
 
         // Add persistent filter button chip
-        advancedOptions.addView(
-            advancedOptions.inflate<Chip>(R.layout.filter_chip_button).apply {
+        binding.advancedOptions.addView(
+            binding.advancedOptions.inflate<Chip>(R.layout.filter_chip_button).apply {
                 setThrottledOnClickListener { view ->
                     (view.context as? AppCompatActivity)?.let { activity ->
                         FilterBottomSheetDialogFragment.show(
@@ -48,10 +47,10 @@ class FilterInputHolder(
 
         // Add enabled filters
         enabledFilters
-            .map { it.getLabel(advancedOptions.context) }
+            .map { it.getLabel(binding.advancedOptions.context) }
             .forEach { label ->
-                advancedOptions.addView(
-                    advancedOptions.inflate<Chip>(R.layout.advanced_filter_chip).apply {
+                binding.advancedOptions.addView(
+                    binding.advancedOptions.inflate<Chip>(R.layout.advanced_filter_chip).apply {
                         text = label
                         setThrottledOnClickListener {
                             (it.context as? AppCompatActivity)?.let { activity ->

@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_home.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.CREATION
@@ -20,12 +19,15 @@ import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.data.model.sortResourceId
+import me.tylerbwong.stack.databinding.FragmentHomeBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
-class HomeFragment : BaseFragment(R.layout.fragment_home), PopupMenu.OnMenuItemClickListener {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(
+    FragmentHomeBinding::inflate
+), PopupMenu.OnMenuItemClickListener {
 
     @Inject
     lateinit var viewModelFactory: HomeViewModelFactory
@@ -43,8 +45,9 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), PopupMenu.OnMenuItemC
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel.refreshing.observe(viewLifecycleOwner) {
-            refreshLayout.isRefreshing = it
+            binding.refreshLayout.isRefreshing = it
         }
         viewModel.snackbar.observe(viewLifecycleOwner) {
             if (it != null) {
@@ -63,12 +66,12 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), PopupMenu.OnMenuItemC
         }
         viewModel.questions.observe(viewLifecycleOwner, ::updateContent)
 
-        recyclerView.apply {
+        binding.recyclerView.apply {
             adapter = this@HomeFragment.adapter
             layoutManager = LinearLayoutManager(context)
         }
 
-        refreshLayout.setOnRefreshListener {
+        binding.refreshLayout.setOnRefreshListener {
             viewModel.fetchQuestions()
         }
 

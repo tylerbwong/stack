@@ -3,18 +3,17 @@ package me.tylerbwong.stack.ui.search
 import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.search_input_holder.*
+import me.tylerbwong.stack.databinding.SearchInputHolderBinding
 import me.tylerbwong.stack.ui.home.SearchInputItem
 
-class SearchInputHolder(
-    override val containerView: View
-) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+class SearchInputHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
+
+    private val binding = SearchInputHolderBinding.bind(itemView)
 
     fun bind(item: SearchInputItem) {
         val payload = item.searchPayload
         bindQuery(payload.query)
-        searchEditText.setOnEditorActionListener { view, actionId, _ ->
+        binding.searchEditText.setOnEditorActionListener { view, actionId, _ ->
             when (actionId) {
                 IME_ACTION_SEARCH -> {
                     val result = view.text.toString()
@@ -27,9 +26,9 @@ class SearchInputHolder(
     }
 
     private fun bindQuery(query: String) {
-        searchEditText.setText(query)
+        binding.searchEditText.setText(query)
         if (query.isNotEmpty()) {
-            searchEditText.setSelection(query.length)
+            binding.searchEditText.setSelection(query.length)
         }
     }
 }

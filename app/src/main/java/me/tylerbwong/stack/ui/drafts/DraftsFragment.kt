@@ -6,9 +6,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_home.*
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.AnswerDraft
+import me.tylerbwong.stack.databinding.FragmentHomeBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.home.AnswerDraftItem
@@ -18,7 +18,7 @@ import me.tylerbwong.stack.ui.home.HomeItem
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
-class DraftsFragment : BaseFragment(R.layout.fragment_home) {
+class DraftsFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     @Inject
     lateinit var viewModelFactory: DraftsViewModelFactory
@@ -35,8 +35,9 @@ class DraftsFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel.refreshing.observe(viewLifecycleOwner) {
-            refreshLayout.isRefreshing = it
+            binding.refreshLayout.isRefreshing = it
         }
         viewModel.snackbar.observe(viewLifecycleOwner) {
             if (it != null) {
@@ -53,12 +54,12 @@ class DraftsFragment : BaseFragment(R.layout.fragment_home) {
         }
         viewModel.drafts.observe(viewLifecycleOwner, ::updateContent)
 
-        recyclerView.apply {
+        binding.recyclerView.apply {
             adapter = this@DraftsFragment.adapter
             layoutManager = LinearLayoutManager(context)
         }
 
-        refreshLayout.setOnRefreshListener {
+        binding.refreshLayout.setOnRefreshListener {
             viewModel.fetchDrafts()
         }
 

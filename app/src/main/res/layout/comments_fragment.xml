@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <include
+        android:id="@+id/header"
         layout="@layout/header_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
