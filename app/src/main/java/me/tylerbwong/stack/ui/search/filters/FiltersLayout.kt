@@ -1,4 +1,4 @@
-@file:Suppress("FunctionNaming", "MagicNumber", )
+@file:Suppress("FunctionNaming", "MagicNumber")
 package me.tylerbwong.stack.ui.search.filters
 
 import androidx.compose.Composable
