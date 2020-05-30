@@ -1,4 +1,5 @@
 object Versions {
+    const val androidGradlePlugin = "4.1.0-alpha10"
     const val androidxActivity = "1.2.0-alpha05"
     const val androidxAppCompat = "1.2.0-alpha02"
     const val androidxBrowser = "1.3.0-alpha01"
@@ -14,14 +15,13 @@ object Versions {
     const val betterLinkMovementMethod = "2.2.0"
     const val coil = "0.11.0"
     const val constraintLayout = "2.0.0-beta6"
-    const val dagger = "2.27"
+    const val dagger = "2.28"
     const val detekt = "1.9.1"
     const val espresso = "3.1.0"
     const val firebaseAnalytics = "17.4.1"
     const val firebaseCrashlytics = "17.0.0"
     const val firebaseCrashlyticsGradlePlugin = "2.1.0"
     const val googleServices = "4.3.3"
-    const val gradlePlugin = "4.0.0"
     const val insetter = "0.2.2"
     const val jUnit = "4.12"
     const val klock = "1.10.0"
@@ -102,6 +102,6 @@ object Dep {
     const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
     const val testRunner = "androidx.test:runner:${Versions.testRunner}"
 
+    const val androidGradlePlugin = "com.android.tools.build:gradle:${Versions.androidGradlePlugin}"
     const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-    const val gradlePlugin = "com.android.tools.build:gradle:${Versions.gradlePlugin}"
 }
