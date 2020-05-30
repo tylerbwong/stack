@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.view.ContextThemeWrapper
-import androidx.core.widget.addTextChangedListener
+import androidx.compose.Recomposer
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import androidx.ui.core.setContent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -52,10 +54,14 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment(), Slider.OnCh
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with (binding) {
+        with(binding) {
             viewModel.currentPayload?.let { payload ->
-                hasAcceptedAnswerSwitch.isChecked = payload.isAccepted ?: false
-                isClosedSwitch.isChecked = payload.isClosed ?: false
+                binding.composeContent.setContent(Recomposer.current()) {
+                    FiltersLayout(
+                        initialPayload = payload,
+                        onUpdateFilters = { viewModel.currentPayload = it }
+                    )
+                }
                 val minAnswers = payload.minNumAnswers ?: 0
                 minAnswersTitle.text = requireContext().resources
                     .getQuantityString(R.plurals.has_min_answers, minAnswers, minAnswers)
@@ -65,12 +71,6 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment(), Slider.OnCh
                 tagsEditText.setText(payload.tags?.joinToString(","))
             }
 
-            hasAcceptedAnswerSwitch.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.hasAcceptedAnswer = isChecked
-            }
-            isClosedSwitch.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.isClosed = isChecked
-            }
             minAnswersSlider.addOnChangeListener(this@FilterBottomSheetDialogFragment)
             minAnswersSlider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
                 override fun onStartTrackingTouch(slider: Slider) {
@@ -81,13 +81,13 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment(), Slider.OnCh
                     viewModel.minimumAnswers = slider.value.toInt()
                 }
             })
-            titleContainsEditText.addTextChangedListener {
+            titleContainsEditText.doAfterTextChanged {
                 viewModel.titleContains = it?.toString()
             }
-            bodyContainsEditText.addTextChangedListener {
+            bodyContainsEditText.doAfterTextChanged {
                 viewModel.bodyContains = it?.toString()
             }
-            tagsEditText.addTextChangedListener {
+            tagsEditText.doAfterTextChanged {
                 viewModel.tags = it?.toString()
             }
             applyFiltersButton.setThrottledOnClickListener {

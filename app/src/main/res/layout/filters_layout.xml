@@ -10,28 +10,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            style="@style/TextAppearance.MaterialComponents.Headline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/filters"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textStyle="bold" />
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/hasAcceptedAnswerSwitch"
+        <FrameLayout
+            android:id="@+id/composeContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="@string/has_accepted_answer" />
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/isClosedSwitch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="@string/is_closed" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/minAnswersTitle"

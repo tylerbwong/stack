@@ -101,7 +101,7 @@ dependencies {
     implementation(Dep.composeFoundation)
     implementation(Dep.composeLayout)
     implementation(Dep.composeMaterial)
-    implementation(Dep.composeRuntime)
+    implementation(Dep.composeTooling)
 
     // klock date/time
     implementation(Dep.klock)

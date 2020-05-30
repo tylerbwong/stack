@@ -29,7 +29,7 @@ class OwnerView @JvmOverloads constructor(
     )
 
     fun bind(owner: User) {
-        with (binding) {
+        with(binding) {
             username.text = owner.displayName.toHtml()
             userImage.load(owner.profileImage) {
                 crossfade(true)

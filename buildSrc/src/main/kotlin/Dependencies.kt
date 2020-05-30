@@ -66,7 +66,7 @@ object Dep {
     const val composeFoundation = "androidx.ui:ui-foundation:${Versions.compose}"
     const val composeLayout = "androidx.ui:ui-layout:${Versions.compose}"
     const val composeMaterial = "androidx.ui:ui-material:${Versions.compose}"
-    const val composeRuntime = "androidx.compose:compose-runtime:${Versions.compose}"
+    const val composeTooling = "androidx.ui:ui-tooling:${Versions.compose}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     const val dagger = "com.google.dagger:dagger:${Versions.dagger}"
     const val daggerCompiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
