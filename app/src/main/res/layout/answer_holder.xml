@@ -46,6 +46,8 @@
             android:id="@+id/answerBody"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:breakStrategy="simple"
+            android:hyphenationFrequency="none"
             android:padding="16dp"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="14sp"
