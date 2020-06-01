@@ -29,7 +29,7 @@ import me.tylerbwong.stack.ui.utils.colorAttribute
 @Preview
 @Composable
 fun FiltersLayout(
-    initialPayload: SearchPayload = SearchPayload(""),
+    initialPayload: SearchPayload = SearchPayload.empty(),
     onUpdateFilters: (SearchPayload) -> Unit = {}
 ) {
     val payload = state { initialPayload }

@@ -17,4 +17,8 @@ data class SearchPayload(
         tags,
         titleContains
     ).any { it != null }
+
+    companion object {
+        fun empty() = SearchPayload("")
+    }
 }

@@ -30,7 +30,7 @@ class SearchViewModel(
     internal val siteLiveData: LiveData<String>
         get() = siteStore.siteLiveData
 
-    internal var searchPayload: SearchPayload = SearchPayload("")
+    internal var searchPayload = SearchPayload.empty()
 
     internal fun search(searchPayload: SearchPayload = this.searchPayload) {
         this.searchPayload = searchPayload
