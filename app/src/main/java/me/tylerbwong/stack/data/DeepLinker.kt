@@ -13,6 +13,12 @@ import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 
+sealed class DeepLinkResult {
+    class Success(val intent: Intent) : DeepLinkResult()
+    class SiteMismatchError(val site: String) : DeepLinkResult()
+    object PathNotSupportedError : DeepLinkResult()
+}
+
 class DeepLinker(
     private val authStore: AuthStore,
     private val siteStore: SiteStore
@@ -29,37 +35,39 @@ class DeepLinker(
         }
     }
 
-    fun resolvePath(context: Context, uri: Uri): Intent? {
+    fun resolvePath(context: Context, uri: Uri): DeepLinkResult {
         val host = uri.host
         val site = (knownHosts.firstOrNull { it == host }?.replace(".com", "")
             ?: host?.replaceAll(knownHosts, ""))?.removeSuffix(".")
 
-        val path = uri.path ?: return null
+        val path = uri.path ?: return DeepLinkResult.PathNotSupportedError
 
         return when (ResolvedPath.fromPath(path)) {
             AUTH -> {
                 // When coming back from an auth redirect, save the access token in the hash
                 // and restart MainActivity + clear top
                 authStore.setAccessToken(uri)
-                MainActivity.makeIntentClearTop(context)
+                DeepLinkResult.Success(MainActivity.makeIntentClearTop(context))
             }
-            QUESTIONS_BY_TAG -> if (site == siteStore.site) {
-                // Format is /questions/tagged/{tag} so use the last segment
-                QuestionsActivity.makeIntentForKey(
-                    context,
-                    TAGS,
-                    uri.lastPathSegment ?: "",
-                    site
+            QUESTIONS_BY_TAG -> when (site) {
+                siteStore.site -> DeepLinkResult.Success(
+                    QuestionsActivity.makeIntentForKey(
+                        context,
+                        TAGS,
+                        uri.lastPathSegment ?: "",
+                        site
+                    )
                 )
-            } else {
-                null
+                null -> DeepLinkResult.PathNotSupportedError
+                else -> DeepLinkResult.SiteMismatchError(site)
             }
             QUESTION_DETAILS -> {
                 // Format is /questions/{id}/title so get the second segment
-                val id = uri.pathSegments.getOrNull(1)?.toIntOrNull() ?: return null
-                QuestionDetailActivity.makeIntent(context, id, site)
+                val id = uri.pathSegments.getOrNull(1)?.toIntOrNull()
+                    ?: return DeepLinkResult.PathNotSupportedError
+                DeepLinkResult.Success(QuestionDetailActivity.makeIntent(context, id, site))
             }
-            else -> null
+            else -> DeepLinkResult.PathNotSupportedError
         }
     }
 

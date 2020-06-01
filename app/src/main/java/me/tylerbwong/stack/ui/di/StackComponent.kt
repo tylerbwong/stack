@@ -15,6 +15,7 @@ import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.data.work.WorkModule
 import me.tylerbwong.stack.di.DeepLinkModule
 import me.tylerbwong.stack.ui.DeepLinkingActivity
+import me.tylerbwong.stack.ui.DeepLinkingViewModelFactory
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.MainViewModelFactory
 import me.tylerbwong.stack.ui.bookmarks.BookmarksFragment
@@ -79,6 +80,7 @@ interface StackComponent {
     fun bookmarksViewModelFactory(): BookmarksViewModelFactory
     fun settingsViewModelFactory(): SettingsViewModelFactory
     fun sitesViewModelFactory(): SitesViewModelFactory
+    fun deepLinkingViewModelFactory(): DeepLinkingViewModelFactory
 
     fun questionRepository(): QuestionRepository
 

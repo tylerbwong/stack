@@ -21,6 +21,7 @@ import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import me.tylerbwong.stack.ui.utils.toHtml
 import javax.inject.Inject
 
 class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
@@ -52,7 +53,7 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
                 with(
                     Snackbar.make(
                         binding.rootLayout,
-                        getString(R.string.not_current_site, site.name),
+                        getString(R.string.not_current_site, site.name.toHtml()),
                         Snackbar.LENGTH_INDEFINITE
                     )
                 ) {

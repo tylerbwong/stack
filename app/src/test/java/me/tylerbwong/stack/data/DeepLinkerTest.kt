@@ -4,8 +4,7 @@ import android.net.Uri
 import me.tylerbwong.stack.BaseTest
 import me.tylerbwong.stack.data.network.service.SITE_PARAM
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -41,31 +40,34 @@ class DeepLinkerTest : BaseTest() {
     }
 
     @Test
-    fun `resolveUri returns null value for invalid deep links`() {
+    fun `resolveUri returns path not supported error for invalid deep links`() {
         unsupportedDeepLinks.forEach {
-            assertNull(deepLinker.resolvePath(context, it))
+            val result = deepLinker.resolvePath(context, it)
+            assertEquals(DeepLinkResult.PathNotSupportedError, result)
         }
     }
 
     @Test
-    fun `resolveUri returns non-null value for valid deep links`() {
+    fun `resolveUri returns success for valid deep links`() {
         supportedDeepLinks.forEach {
-            assertNotNull(deepLinker.resolvePath(context, it))
+            val result = deepLinker.resolvePath(context, it)
+            assertTrue(result is DeepLinkResult.Success)
         }
     }
 
     @Test
-    fun `resolveUri returns non-null value for valid deep links and correct site`() {
+    fun `resolveUri returns success for valid deep links and correct site`() {
         supportedDeepLinksWithSites.forEach { (site, uri) ->
-            val intent = deepLinker.resolvePath(context, uri)
-            assertNotNull(intent)
-            assertEquals(site, intent!!.getStringExtra(SITE_PARAM))
+            val result = deepLinker.resolvePath(context, uri)
+            assertTrue(result is DeepLinkResult.Success)
+            assertEquals(site, (result as DeepLinkResult.Success).intent.getStringExtra(SITE_PARAM))
         }
     }
 
     @Test
-    fun `resolveUri with tagged path returns null if site is not current site`() {
+    fun `resolveUri with tagged path returns site mismatch error if site is not current site`() {
         val uri = Uri.parse("https://superuser.com/questions/tagged/android")
-        assertNull(deepLinker.resolvePath(context, uri))
+        val result = deepLinker.resolvePath(context, uri)
+        assertEquals(DeepLinkResult.SiteMismatchError, result)
     }
 }

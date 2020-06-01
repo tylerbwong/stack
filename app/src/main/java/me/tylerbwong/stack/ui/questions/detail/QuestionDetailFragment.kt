@@ -23,6 +23,7 @@ import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
+import me.tylerbwong.stack.ui.utils.toHtml
 import javax.inject.Inject
 
 class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
@@ -82,7 +83,7 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
             menu?.findItem(R.id.changeSites)?.apply {
                 isVisible = site != null
                 if (site != null) {
-                    title = getString(R.string.change_site, site.name)
+                    title = getString(R.string.change_site, site.name.toHtml())
                 }
             }
         }

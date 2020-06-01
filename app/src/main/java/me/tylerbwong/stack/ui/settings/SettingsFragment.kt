@@ -23,6 +23,7 @@ import me.tylerbwong.stack.ui.theme.nightModeOptions
 import me.tylerbwong.stack.ui.theme.showThemeChooserDialog
 import me.tylerbwong.stack.ui.utils.markdown.Markdown
 import me.tylerbwong.stack.ui.utils.showSnackbar
+import me.tylerbwong.stack.ui.utils.toHtml
 import javax.inject.Inject
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -92,8 +93,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.currentSite.observe(viewLifecycleOwner) { site ->
             findPreference<Preference>(getString(R.string.current_site))?.apply {
-                title = site.name
-                summary = site.audience.capitalize()
+                title = site.name.toHtml()
+                summary = site.audience.capitalize().toHtml()
                 setOnPreferenceClickListener {
                     SitesActivity.startActivity(requireContext())
                     true

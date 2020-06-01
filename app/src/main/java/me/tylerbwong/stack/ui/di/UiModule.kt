@@ -18,6 +18,7 @@ import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import me.tylerbwong.stack.data.persistence.dao.SiteDao
 import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.data.repository.SiteRepository
+import me.tylerbwong.stack.ui.DeepLinkingViewModelFactory
 import me.tylerbwong.stack.ui.MainViewModelFactory
 import me.tylerbwong.stack.ui.bookmarks.BookmarksViewModelFactory
 import me.tylerbwong.stack.ui.comments.CommentsViewModelFactory
@@ -114,6 +115,11 @@ class UiModule {
     fun provideSitesViewModelFactor(
         siteRepository: SiteRepository
     ) = SitesViewModelFactory(siteRepository)
+
+    @Provides
+    fun provideDeepLinkingViewModelFactory(
+        siteRepository: SiteRepository
+    ) = DeepLinkingViewModelFactory(siteRepository)
 
     @Provides
     fun provideQuestionRepository(
