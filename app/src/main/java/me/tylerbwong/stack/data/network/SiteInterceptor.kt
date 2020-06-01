@@ -22,21 +22,19 @@ class SiteInterceptor @Inject constructor(
             return chain.proceed(request)
         }
 
-        val siteUrlBuilder = request.url.newBuilder()
-        if (!request.isPost) {
-            siteUrlBuilder.addEncodedQueryParameter(SITE_PARAM, siteStore.site)
-        }
-
         val siteRequestBuilder = request.newBuilder()
-            .url(siteUrlBuilder.build())
-
-        if (request.isPost) {
-            request.body?.addField(SITE_PARAM, siteStore.site)?.let {
-                siteRequestBuilder.post(it)
+        return chain.proceed(
+            if (request.isPost) {
+                request.body?.addField(SITE_PARAM, siteStore.site)?.let {
+                    siteRequestBuilder.post(it)
+                }
+                siteRequestBuilder.build()
+            } else {
+                val siteUrlBuilder = request.url.newBuilder()
+                siteUrlBuilder.addEncodedQueryParameter(SITE_PARAM, siteStore.site)
+                siteRequestBuilder.url(siteUrlBuilder.build()).build()
             }
-        }
-
-        return chain.proceed(siteRequestBuilder.build())
+        )
     }
 
     private val Request.isBaseUrl get() = baseUrl.contains(url.host, ignoreCase = true)
