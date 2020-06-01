@@ -4,11 +4,15 @@ import android.content.Context
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
+import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.persistence.StackDatabase
 import javax.inject.Singleton
 
 @Module
 class PersistenceModule {
+
+    @Provides
+    fun provideSiteStore() = SiteStore
 
     @Singleton
     @Provides
@@ -32,6 +36,9 @@ class PersistenceModule {
 
     @Provides
     fun provideSearchDao(stackDatabase: StackDatabase) = stackDatabase.getSearchDao()
+
+    @Provides
+    fun provideSiteDao(stackDatabase: StackDatabase) = stackDatabase.getSiteDao()
 
     companion object {
         private const val STACK_DATABASE_NAME = "stack-database"

@@ -7,7 +7,8 @@ data class AnswerDraft(
     val questionId: Int,
     val questionTitle: String,
     private val updatedDate: Long,
-    val bodyMarkdown: String
+    val bodyMarkdown: String,
+    val site: String
 ) {
     var formattedTimestamp = updatedDate.formatElapsedTime(ApplicationWrapper.context)
 }

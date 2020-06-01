@@ -2,6 +2,8 @@ package me.tylerbwong.stack.data
 
 import android.net.Uri
 import me.tylerbwong.stack.BaseTest
+import me.tylerbwong.stack.data.network.service.SITE_PARAM
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
@@ -20,8 +22,18 @@ class DeepLinkerTest : BaseTest() {
         "stack://tylerbwong.me/auth/redirect#access_token=abcdefg",
         "https://stackoverflow.com/questions/tagged/android",
         "http://stackoverflow.com/questions/26533510/",
-        "http://stackoverflow.com/q/26533510/"
+        "http://stackoverflow.com/q/26533510/",
+        "https://sustainability.meta.stackexchange.com/questions/371/",
+        "https://superuser.com/q/1491979/"
     ).map { Uri.parse(it) }
+
+    private val supportedDeepLinksWithSites = mapOf(
+        "stackoverflow" to "https://stackoverflow.com/questions/tagged/android",
+        "stackoverflow" to "http://stackoverflow.com/questions/26533510/",
+        "stackoverflow" to "http://stackoverflow.com/q/26533510/",
+        "sustainability.meta" to "https://sustainability.meta.stackexchange.com/questions/371/",
+        "superuser" to "https://superuser.com/q/1491979/"
+    ).entries.associate { it.key to Uri.parse(it.value) }
 
     @Before
     fun setUp() {
@@ -39,6 +51,15 @@ class DeepLinkerTest : BaseTest() {
     fun `resolveUri returns non-null value for valid deep links`() {
         supportedDeepLinks.forEach {
             assertNotNull(deepLinker.resolvePath(context, it))
+        }
+    }
+
+    @Test
+    fun `resolveUri returns non-null value for valid deep links and correct site`() {
+        supportedDeepLinksWithSites.forEach { (site, uri) ->
+            val intent = deepLinker.resolvePath(context, uri)
+            assertNotNull(intent)
+            assertEquals(site, intent!!.getStringExtra(SITE_PARAM))
         }
     }
 }

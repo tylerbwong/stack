@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.data.network.service
 
+import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.model.ORDER_PARAM
 import me.tylerbwong.stack.data.model.Order
@@ -19,7 +20,7 @@ interface QuestionService {
 
     @GET("questions")
     suspend fun getQuestions(
-        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Query(SITE_PARAM) site: String = SiteStore.site,
         @Query(SORT_PARAM) @Sort sort: String = DEFAULT_SORT,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
@@ -30,7 +31,7 @@ interface QuestionService {
 
     @GET("me/favorites")
     suspend fun getBookmarks(
-        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Query(SITE_PARAM) site: String = SiteStore.site,
         @Query(SORT_PARAM) @Sort sort: String = DEFAULT_SORT,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
@@ -41,7 +42,7 @@ interface QuestionService {
 
     @GET("questions")
     suspend fun getQuestionsByTags(
-        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Query(SITE_PARAM) site: String = SiteStore.site,
         @Query(SORT_PARAM) @Sort sort: String = DEFAULT_SORT,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
@@ -54,7 +55,7 @@ interface QuestionService {
     @GET("questions/{id}")
     suspend fun getQuestionDetails(
         @Path("id") questionId: Int,
-        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Query(SITE_PARAM) site: String = SiteStore.site,
         @Query(FILTER_PARAM) filter: String = DETAIL_FILTER,
         @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
     ): Response<Question>
@@ -62,7 +63,7 @@ interface QuestionService {
     @GET("questions/{id}")
     suspend fun getQuestionDetailsAuth(
         @Path("id") questionId: Int,
-        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Query(SITE_PARAM) site: String = SiteStore.site,
         @Query(FILTER_PARAM) filter: String = DETAIL_FILTER_AUTH,
         @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
     ): Response<Question>
@@ -70,7 +71,7 @@ interface QuestionService {
     @GET("questions/{id}/linked")
     suspend fun getLinkedQuestions(
         @Path("id") questionId: Int,
-        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Query(SITE_PARAM) site: String = SiteStore.site,
         @Query(SORT_PARAM) @Sort sort: String = DEFAULT_SORT,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
@@ -82,7 +83,7 @@ interface QuestionService {
     @GET("questions/{id}/related")
     suspend fun getRelatedQuestions(
         @Path("id") questionId: Int,
-        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Query(SITE_PARAM) site: String = SiteStore.site,
         @Query(SORT_PARAM) @Sort sort: String = DEFAULT_SORT,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
@@ -94,7 +95,7 @@ interface QuestionService {
     @GET("questions/{id}/answers")
     suspend fun getQuestionAnswers(
         @Path("id") questionId: Int,
-        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Query(SITE_PARAM) site: String = SiteStore.site,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
@@ -106,7 +107,7 @@ interface QuestionService {
     @POST("questions/{id}/answers/add")
     suspend fun postAnswer(
         @Path("id") questionId: Int,
-        @Field(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Field(SITE_PARAM) site: String = SiteStore.site,
         @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
         @Field(BODY_PARAM) bodyMarkdown: String,
         @Field(PREVIEW_PARAM) preview: Boolean = false
@@ -116,7 +117,7 @@ interface QuestionService {
     @POST("questions/{id}/downvote")
     suspend fun downvoteQuestionById(
         @Path("id") questionId: Int,
-        @Field(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Field(SITE_PARAM) site: String = SiteStore.site,
         @Field(FILTER_PARAM) filter: String = DETAIL_FILTER_AUTH,
         @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
         @Field(PREVIEW_PARAM) preview: Boolean = false
@@ -126,7 +127,7 @@ interface QuestionService {
     @POST("questions/{id}/downvote/undo")
     suspend fun undoQuestionDownvoteById(
         @Path("id") questionId: Int,
-        @Field(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Field(SITE_PARAM) site: String = SiteStore.site,
         @Field(FILTER_PARAM) filter: String = DETAIL_FILTER_AUTH,
         @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
         @Field(PREVIEW_PARAM) preview: Boolean = false
@@ -136,7 +137,7 @@ interface QuestionService {
     @POST("questions/{id}/favorite")
     suspend fun favoriteQuestionById(
         @Path("id") questionId: Int,
-        @Field(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Field(SITE_PARAM) site: String = SiteStore.site,
         @Field(FILTER_PARAM) filter: String = DETAIL_FILTER_AUTH,
         @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
         @Field(PREVIEW_PARAM) preview: Boolean = false
@@ -146,7 +147,7 @@ interface QuestionService {
     @POST("questions/{id}/favorite/undo")
     suspend fun undoQuestionFavoriteById(
         @Path("id") questionId: Int,
-        @Field(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Field(SITE_PARAM) site: String = SiteStore.site,
         @Field(FILTER_PARAM) filter: String = DETAIL_FILTER_AUTH,
         @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
         @Field(PREVIEW_PARAM) preview: Boolean = false
@@ -156,7 +157,7 @@ interface QuestionService {
     @POST("questions/{id}/upvote")
     suspend fun upvoteQuestionById(
         @Path("id") questionId: Int,
-        @Field(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Field(SITE_PARAM) site: String = SiteStore.site,
         @Field(FILTER_PARAM) filter: String = DETAIL_FILTER_AUTH,
         @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
         @Field(PREVIEW_PARAM) preview: Boolean = false
@@ -166,7 +167,7 @@ interface QuestionService {
     @POST("questions/{id}/upvote/undo")
     suspend fun undoQuestionUpvoteById(
         @Path("id") questionId: Int,
-        @Field(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Field(SITE_PARAM) site: String = SiteStore.site,
         @Field(FILTER_PARAM) filter: String = DETAIL_FILTER_AUTH,
         @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
         @Field(PREVIEW_PARAM) preview: Boolean = false

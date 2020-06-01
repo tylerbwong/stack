@@ -114,6 +114,11 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_share, menu)
         inflater.inflate(R.menu.menu_question_details, menu)
+
+        // We do not want to allow the user to visit other questions when another site is being used
+        // for deep linking purposes
+        menu.findItem(R.id.linked)?.isVisible = viewModel.isInCurrentSite
+        menu.findItem(R.id.related)?.isVisible = viewModel.isInCurrentSite
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

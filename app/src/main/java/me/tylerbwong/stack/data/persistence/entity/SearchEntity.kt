@@ -11,7 +11,8 @@ data class SearchEntity(
     val bodyContains: String?,
     val isClosed: Boolean?,
     val tags: String?,
-    val titleContains: String?
+    val titleContains: String?,
+    val site: String
 ) {
     @PrimaryKey
     var queryKey = hashCode()

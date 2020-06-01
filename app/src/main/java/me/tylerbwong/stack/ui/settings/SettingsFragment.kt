@@ -1,22 +1,44 @@
 package me.tylerbwong.stack.ui.settings
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.TwoStatePreference
+import coil.ImageLoader
+import coil.request.LoadRequest
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.processphoenix.ProcessPhoenix
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.MainActivity
+import me.tylerbwong.stack.ui.settings.sites.SitesActivity
 import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
 import me.tylerbwong.stack.ui.theme.nightModeOptions
 import me.tylerbwong.stack.ui.theme.showThemeChooserDialog
 import me.tylerbwong.stack.ui.utils.markdown.Markdown
 import me.tylerbwong.stack.ui.utils.showSnackbar
+import javax.inject.Inject
 
 class SettingsFragment : PreferenceFragmentCompat() {
+
+    @Inject
+    lateinit var imageLoader: ImageLoader
+
+    @Inject
+    lateinit var settingsViewModelFactory: SettingsViewModelFactory
+
+    private val viewModel by viewModels<SettingsViewModel> { settingsViewModelFactory }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        ApplicationWrapper.stackComponent.inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         if (savedInstanceState == null) {
@@ -63,5 +85,31 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 summary = BuildConfig.VERSION_NAME
             }
         }
+    }
+
+    @SuppressLint("DefaultLocale")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.currentSite.observe(viewLifecycleOwner) { site ->
+            findPreference<Preference>(getString(R.string.current_site))?.apply {
+                title = site.name
+                summary = site.audience.capitalize()
+                setOnPreferenceClickListener {
+                    SitesActivity.startActivity(requireContext())
+                    true
+                }
+                val request = LoadRequest.Builder(requireContext())
+                    .crossfade(true)
+                    .data(site.iconUrl)
+                    .target { icon = it }
+                    .build()
+                imageLoader.execute(request)
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchCurrentSite()
     }
 }

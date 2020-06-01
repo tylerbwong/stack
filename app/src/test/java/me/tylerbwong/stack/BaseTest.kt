@@ -5,7 +5,6 @@ import android.os.Build
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ApplicationProvider
 import me.tylerbwong.stack.data.auth.TestSharedPreferencesModule
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.di.DaggerStackComponent
 import me.tylerbwong.stack.ui.di.StackComponent
 import org.junit.After
@@ -16,7 +15,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.P])
+@Config(sdk = [Build.VERSION_CODES.P], application = TestApplication::class)
 abstract class BaseTest {
     protected val context: Context
         get() = ApplicationProvider.getApplicationContext()
@@ -28,7 +27,6 @@ abstract class BaseTest {
     @Before
     fun setUpTest() {
         MockitoAnnotations.initMocks(this)
-        ApplicationWrapper.init(context)
         stackComponent = DaggerStackComponent.builder()
             .sharedPreferencesModule(TestSharedPreferencesModule())
             .build()

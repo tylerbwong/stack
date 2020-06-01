@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface AuthService {
 
-    @GET("apps/{accessToken}/de-authenticate")
+    @GET("access-tokens/{accessToken}/invalidate")
     suspend fun logOut(
         @Path(ACCESS_TOKEN) accessToken: String,
         @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY

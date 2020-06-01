@@ -4,10 +4,12 @@ import me.tylerbwong.stack.data.model.AnswerDraft
 import me.tylerbwong.stack.data.model.BadgeCounts
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.SearchPayload
+import me.tylerbwong.stack.data.model.Site
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
 import me.tylerbwong.stack.data.persistence.entity.QuestionEntity
 import me.tylerbwong.stack.data.persistence.entity.SearchEntity
+import me.tylerbwong.stack.data.persistence.entity.SiteEntity
 import me.tylerbwong.stack.data.persistence.entity.UserEntity
 
 fun Question.toQuestionEntity(sortString: String): QuestionEntity =
@@ -104,7 +106,8 @@ fun AnswerDraftEntity.toAnswerDraft(): AnswerDraft =
         questionId = questionId,
         questionTitle = questionTitle,
         updatedDate = updatedDate,
-        bodyMarkdown = bodyMarkdown
+        bodyMarkdown = bodyMarkdown,
+        site = site
     )
 
 fun SearchEntity.toSearchPayload(): SearchPayload =
@@ -116,4 +119,22 @@ fun SearchEntity.toSearchPayload(): SearchPayload =
         isClosed = isClosed,
         tags = tags?.split(";"),
         titleContains = titleContains
+    )
+
+fun SiteEntity.toSite(): Site =
+    Site(
+        name = name,
+        parameter = parameter,
+        url = url,
+        audience = audience,
+        iconUrl = iconUrl
+    )
+
+fun Site.toSiteEntity(): SiteEntity =
+    SiteEntity(
+        name = name,
+        parameter = parameter,
+        url = url,
+        audience = audience,
+        iconUrl = iconUrl
     )

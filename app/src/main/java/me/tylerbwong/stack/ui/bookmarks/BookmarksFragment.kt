@@ -35,6 +35,9 @@ class BookmarksFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding:
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.siteLiveData.observe(viewLifecycleOwner) {
+            viewModel.fetchBookmarks()
+        }
         viewModel.refreshing.observe(viewLifecycleOwner) {
             binding.refreshLayout.isRefreshing = it
         }

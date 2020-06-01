@@ -119,6 +119,8 @@
     <!-- Settings -->
     <string name="app">App</string>
     <string name="experimental">Experimental</string>
+    <string name="current_site">Current Site</string>
+    <string name="sites">Sites</string>
 
     <!-- Transition string -->
     <string name="shared_transition_name">transition</string>

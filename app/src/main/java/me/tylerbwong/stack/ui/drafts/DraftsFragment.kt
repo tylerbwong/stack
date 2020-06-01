@@ -36,6 +36,9 @@ class DraftsFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.siteLiveData.observe(viewLifecycleOwner) {
+            viewModel.fetchDrafts()
+        }
         viewModel.refreshing.observe(viewLifecycleOwner) {
             binding.refreshLayout.isRefreshing = it
         }

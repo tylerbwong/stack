@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.data.network.service
 
+import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.model.ORDER_PARAM
 import me.tylerbwong.stack.data.model.Order
 import me.tylerbwong.stack.data.model.Response
@@ -14,7 +15,7 @@ interface TagService {
     @GET("tags")
     suspend fun getPopularTags(
         @Query(SORT_PARAM) sort: String = TAGS_SORT,
-        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Query(SITE_PARAM) site: String = SiteStore.site,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = TAGS_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
@@ -25,6 +26,6 @@ interface TagService {
     companion object {
         private const val TAGS_SORT = "popular"
         private const val TAGS_PAGE_SIZE = 50
-        private const val TAGS_FILTER = "!bNKX0pggz8s7xt"
+        private const val TAGS_FILTER = "!0XrIP(5mCa0R7ys-I*Wa36*Jm"
     }
 }

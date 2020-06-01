@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.data.network.service
 
+import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.model.Comment
 import me.tylerbwong.stack.data.model.ORDER_PARAM
 import me.tylerbwong.stack.data.model.Order
@@ -14,7 +15,7 @@ interface CommentService {
     @GET("posts/{id}/comments")
     suspend fun getPostComments(
         @Path("id") postId: Int,
-        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Query(SITE_PARAM) site: String = SiteStore.site,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
@@ -25,7 +26,7 @@ interface CommentService {
     @GET("posts/{id}/comments")
     suspend fun getPostCommentsAuth(
         @Path("id") postId: Int,
-        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
+        @Query(SITE_PARAM) site: String = SiteStore.site,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,

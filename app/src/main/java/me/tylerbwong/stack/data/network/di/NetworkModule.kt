@@ -10,6 +10,7 @@ import me.tylerbwong.stack.data.network.service.AuthService
 import me.tylerbwong.stack.data.network.service.CommentService
 import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.data.network.service.SearchService
+import me.tylerbwong.stack.data.network.service.SiteService
 import me.tylerbwong.stack.data.network.service.TagService
 import me.tylerbwong.stack.data.network.service.UserService
 import okhttp3.OkHttpClient
@@ -92,6 +93,10 @@ class NetworkModule {
     @Singleton
     @Provides
     fun provideTagService(retrofit: Retrofit) = retrofit.create(TagService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideSiteService(retrofit: Retrofit) = retrofit.create(SiteService::class.java)
 
     companion object {
         private const val BASE_URL = "https://api.stackexchange.com/2.2/"

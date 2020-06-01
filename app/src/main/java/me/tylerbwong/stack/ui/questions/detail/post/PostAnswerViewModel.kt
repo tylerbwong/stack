@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
@@ -20,12 +21,14 @@ import timber.log.Timber
 
 class PostAnswerViewModel(
     private val service: QuestionService,
-    private val draftDao: AnswerDraftDao
+    private val draftDao: AnswerDraftDao,
+    private val siteStore: SiteStore
 ) : ViewModel() {
     internal var markdownTextWatcher: TextWatcher? = null
     internal var selectedTabPosition = 0
     internal var questionId = 0
     internal var questionTitle = ""
+    internal var site: String? = null
 
     val savedDraft: LiveData<String>
         get() = _savedDraft
@@ -36,12 +39,14 @@ class PostAnswerViewModel(
     private val _snackbar = SingleLiveEvent<PostAnswerState>()
 
     fun postAnswer(markdown: String, isPreview: Boolean = false) {
+        val site = site ?: siteStore.site
         _snackbar.value = PostAnswerState.Loading
 
         viewModelScope.launch {
             try {
                 val answer = service.postAnswer(
                     questionId,
+                    site = site,
                     bodyMarkdown = markdown,
                     preview = isPreview
                 ).items
@@ -62,7 +67,7 @@ class PostAnswerViewModel(
         viewModelScope.launch {
             try {
                 val draft = withContext(Dispatchers.IO) {
-                    draftDao.getAnswerDraft(questionId)
+                    draftDao.getAnswerDraft(questionId, site ?: siteStore.site)
                 }
                 questionTitle = draft.questionTitle
                 _savedDraft.value = draft.bodyMarkdown
@@ -80,7 +85,8 @@ class PostAnswerViewModel(
                         questionId,
                         questionTitle,
                         System.currentTimeMillis(),
-                        markdown
+                        markdown,
+                        site ?: siteStore.site
                     )
                 )
             } catch (ex: Exception) {
@@ -93,7 +99,7 @@ class PostAnswerViewModel(
     fun deleteDraft() {
         viewModelScope.launch {
             try {
-                draftDao.deleteDraftById(questionId)
+                draftDao.deleteDraftById(questionId, siteStore.site)
             } catch (ex: Exception) {
                 Timber.e(ex)
             }

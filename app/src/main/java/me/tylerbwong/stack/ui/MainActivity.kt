@@ -105,6 +105,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
     override fun onResume() {
         super.onResume()
         checkForPendingInstall()
+        viewModel.fetchUser()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
