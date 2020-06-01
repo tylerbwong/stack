@@ -14,5 +14,7 @@ data class AnswerDraftEntity(
     @ColumnInfo(name = "updated_date")
     val updatedDate: Long,
     @ColumnInfo(name = "body_markdown")
-    val bodyMarkdown: String
+    val bodyMarkdown: String,
+    @ColumnInfo(name = "site")
+    val site: String
 )

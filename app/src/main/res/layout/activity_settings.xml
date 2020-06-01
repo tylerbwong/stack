@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/MainToolbarStyle"
+            app:collapseIcon="@drawable/ic_arrow_back"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:titleTextColor="?android:attr/textColorPrimary" />
     </com.google.android.material.appbar.AppBarLayout>

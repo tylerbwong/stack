@@ -93,6 +93,7 @@ dependencies {
     implementation(Dep.androidxSwipeRefreshLayout)
     implementation(Dep.androidxViewModel)
     implementation(Dep.androidxViewPager2)
+    implementation(Dep.androidxWork)
     implementation(Dep.constraintLayout)
     implementation(Dep.materialComponents)
 

@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.databinding.FragmentHomeBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
@@ -45,6 +46,10 @@ class SearchFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
         binding.recyclerView.apply {
             adapter = this@SearchFragment.adapter
             layoutManager = LinearLayoutManager(context)
+        }
+
+        viewModel.siteLiveData.observe(viewLifecycleOwner) {
+            viewModel.search(SearchPayload(""))
         }
 
         viewModel.refreshing.observe(viewLifecycleOwner) {

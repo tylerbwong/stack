@@ -9,11 +9,13 @@ import me.tylerbwong.stack.data.persistence.dao.AnswerDao
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
+import me.tylerbwong.stack.data.persistence.dao.SiteDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
 import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
 import me.tylerbwong.stack.data.persistence.entity.AnswerEntity
 import me.tylerbwong.stack.data.persistence.entity.QuestionEntity
 import me.tylerbwong.stack.data.persistence.entity.SearchEntity
+import me.tylerbwong.stack.data.persistence.entity.SiteEntity
 import me.tylerbwong.stack.data.persistence.entity.UserEntity
 import me.tylerbwong.stack.data.persistence.typeconverter.ListTypeConverter
 
@@ -23,9 +25,10 @@ import me.tylerbwong.stack.data.persistence.typeconverter.ListTypeConverter
         AnswerEntity::class,
         UserEntity::class,
         AnswerDraftEntity::class,
-        SearchEntity::class
+        SearchEntity::class,
+        SiteEntity::class
     ],
-    version = 5
+    version = 6
 )
 @TypeConverters(ListTypeConverter::class)
 abstract class StackDatabase : RoomDatabase() {
@@ -56,4 +59,6 @@ abstract class StackDatabase : RoomDatabase() {
     abstract fun getAnswerDraftDao(): AnswerDraftDao
 
     abstract fun getSearchDao(): SearchDao
+
+    abstract fun getSiteDao(): SiteDao
 }

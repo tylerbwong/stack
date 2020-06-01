@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.auth.AuthStore
+import me.tylerbwong.stack.data.auth.AuthRepository
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Response
 import me.tylerbwong.stack.data.network.service.QuestionService
@@ -19,7 +19,7 @@ import retrofit2.HttpException
 import timber.log.Timber
 
 class QuestionDetailMainViewModel(
-    private val authStore: AuthStore,
+    private val authRepository: AuthRepository,
     private val service: QuestionService
 ) : BaseViewModel(), QuestionDetailActionHandler {
 
@@ -44,9 +44,9 @@ class QuestionDetailMainViewModel(
     private val mutableMessageSnackbar = SingleLiveEvent<String>()
 
     private val isAuthenticated: Boolean
-        get() = authStore.isAuthenticatedLiveData.value ?: false
+        get() = authRepository.isAuthenticated.value ?: false
 
-    internal val canAnswerQuestion = authStore.isAuthenticatedLiveData.zipWith(
+    internal val canAnswerQuestion = authRepository.isAuthenticated.zipWith(
         data,
         initialValue = false
     ) { isAuthenticated, data -> isAuthenticated && data.isNotEmpty() }

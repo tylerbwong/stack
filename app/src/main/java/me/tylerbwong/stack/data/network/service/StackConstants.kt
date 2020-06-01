@@ -13,7 +13,6 @@ internal const val PAGE_PARAM = "page"
 internal const val FILTER_PARAM = "filter"
 internal const val TAGGED_PARAM = "tagged"
 internal const val KEY_PARAM = "key"
-internal const val SEARCH_PARAM = "q"
 
 // defaults
 internal const val DEFAULT_SITE = "stackoverflow"

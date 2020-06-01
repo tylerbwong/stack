@@ -9,8 +9,8 @@ import me.tylerbwong.stack.data.persistence.entity.SearchEntity
 @Dao
 interface SearchDao {
 
-    @Query("SELECT * FROM search ORDER BY timestamp desc")
-    suspend fun getSearches(): List<SearchEntity>
+    @Query("SELECT * FROM search WHERE site = :site ORDER BY timestamp desc")
+    suspend fun getSearches(site: String): List<SearchEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(searchEntity: SearchEntity)

@@ -46,6 +46,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.siteLiveData.observe(viewLifecycleOwner) {
+            viewModel.fetchQuestions()
+        }
         viewModel.refreshing.observe(viewLifecycleOwner) {
             binding.refreshLayout.isRefreshing = it
         }

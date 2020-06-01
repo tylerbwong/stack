@@ -14,7 +14,6 @@ interface TagService {
     @GET("tags")
     suspend fun getPopularTags(
         @Query(SORT_PARAM) sort: String = TAGS_SORT,
-        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = TAGS_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,

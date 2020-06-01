@@ -14,7 +14,6 @@ interface CommentService {
     @GET("posts/{id}/comments")
     suspend fun getPostComments(
         @Path("id") postId: Int,
-        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
@@ -25,7 +24,6 @@ interface CommentService {
     @GET("posts/{id}/comments")
     suspend fun getPostCommentsAuth(
         @Path("id") postId: Int,
-        @Query(SITE_PARAM) site: String = DEFAULT_SITE,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
