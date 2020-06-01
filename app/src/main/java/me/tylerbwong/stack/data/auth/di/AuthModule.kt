@@ -10,6 +10,7 @@ import me.tylerbwong.stack.data.network.service.AuthService
 import me.tylerbwong.stack.data.network.service.UserService
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -17,7 +18,10 @@ class AuthModule {
 
     @Singleton
     @Provides
-    fun provideAuthStore(preferences: SharedPreferences) = AuthStore(preferences)
+    fun provideAuthStore(
+        @Named("authSharedPreferences")
+        preferences: SharedPreferences
+    ) = AuthStore(preferences)
 
     @Singleton
     @Provides

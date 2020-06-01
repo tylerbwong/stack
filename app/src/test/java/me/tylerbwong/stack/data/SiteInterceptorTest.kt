@@ -21,6 +21,7 @@ class SiteInterceptorTest : BaseTest() {
 
     private val mockWebServer = MockWebServer()
 
+    private lateinit var siteStore: SiteStore
     private lateinit var okHttpClient: OkHttpClient
 
     @Before
@@ -28,8 +29,9 @@ class SiteInterceptorTest : BaseTest() {
         mockWebServer.start()
         mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody("{}"))
 
+        siteStore = stackComponent.siteStore()
         okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(SiteInterceptor("localhost"))
+            .addInterceptor(SiteInterceptor("localhost", siteStore))
             .build()
     }
 
@@ -67,7 +69,7 @@ class SiteInterceptorTest : BaseTest() {
     @Test
     fun `does not append site if request is not to baseUrl`() {
         okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(SiteInterceptor("https://google.com"))
+            .addInterceptor(SiteInterceptor("https://google.com", siteStore))
             .build()
 
         okHttpClient.newCall(
