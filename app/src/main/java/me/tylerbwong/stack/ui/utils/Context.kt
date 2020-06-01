@@ -15,6 +15,6 @@ inline fun <reified T : Context> Context.ofType(): T? {
         }
 
         currentContext = (currentContext as? ContextWrapper)?.baseContext
-    } while(currentContext != null)
+    } while (currentContext != null)
     return null
 }
