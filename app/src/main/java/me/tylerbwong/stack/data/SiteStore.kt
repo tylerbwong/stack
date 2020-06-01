@@ -12,7 +12,8 @@ object SiteStore {
     private const val SITE_KEY = "site"
 
     private val preferences = ApplicationWrapper.context.getSharedPreferences(
-        SITE_PREFERENCES, Context.MODE_PRIVATE
+        SITE_PREFERENCES,
+        Context.MODE_PRIVATE
     )
 
     var site: String
