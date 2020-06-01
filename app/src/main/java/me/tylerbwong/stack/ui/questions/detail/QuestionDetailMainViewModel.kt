@@ -10,9 +10,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.auth.AuthRepository
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Response
-import me.tylerbwong.stack.data.model.Site
 import me.tylerbwong.stack.data.network.service.QuestionService
-import me.tylerbwong.stack.data.repository.SiteRepository
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import me.tylerbwong.stack.ui.utils.toErrorResponse
@@ -22,7 +20,6 @@ import timber.log.Timber
 
 class QuestionDetailMainViewModel(
     private val authRepository: AuthRepository,
-    private val siteRepository: SiteRepository,
     private val service: QuestionService
 ) : BaseViewModel(), QuestionDetailActionHandler {
 
@@ -42,10 +39,6 @@ class QuestionDetailMainViewModel(
         get() = _clearFields
     private val _clearFields = SingleLiveEvent<Unit>()
 
-    internal val siteLiveData: LiveData<Site?>
-        get() = _siteLiveData
-    private val _siteLiveData = MutableLiveData<Site?>()
-
     val messageSnackbar: LiveData<String>
         get() = mutableMessageSnackbar
     private val mutableMessageSnackbar = SingleLiveEvent<String>()
@@ -58,42 +51,30 @@ class QuestionDetailMainViewModel(
         initialValue = false
     ) { isAuthenticated, data -> isAuthenticated && data.isNotEmpty() }
 
-    internal val isInCurrentSite: Boolean
-        get() = site == null || site == siteRepository.site
-
     internal var title = ""
     internal var isInAnswerMode = false
     internal var hasContent = false
     internal var questionId = -1
-    internal var site: String? = null
     internal var question: Question? = null
 
     internal fun getQuestionDetails(question: Question? = null) {
-        site?.let {
-            if (!isInCurrentSite) {
-                viewModelScope.launch {
-                    _siteLiveData.value = siteRepository.getSite(it)
-                }
-            }
-        }
-        val site = site ?: siteRepository.site
         launchRequest {
             val questionResult = question ?: if (isAuthenticated) {
-                service.getQuestionDetailsAuth(questionId, site).items.first()
+                service.getQuestionDetailsAuth(questionId).items.first()
             } else {
-                service.getQuestionDetails(questionId, site).items.first()
+                service.getQuestionDetails(questionId).items.first()
             }
-            val answersResult = service.getQuestionAnswers(questionId, site).items.sortedBy {
+            val answersResult = service.getQuestionAnswers(questionId).items.sortedBy {
                 !it.isAccepted
             }
 
             val response = mutableListOf<QuestionDetailItem>().apply {
-                add(0, QuestionItem(questionResult, isInCurrentSite))
+                add(0, QuestionItem(questionResult))
                 if (isAuthenticated) {
                     add(QuestionActionItem(this@QuestionDetailMainViewModel, questionResult))
                 }
                 add(AnswerHeaderItem(questionResult.answerCount))
-                addAll(answersResult.map { AnswerItem(it, site, isInCurrentSite) })
+                addAll(answersResult.map { AnswerItem(it) })
             } to questionResult
 
             this@QuestionDetailMainViewModel.question = response.second
@@ -108,12 +89,6 @@ class QuestionDetailMainViewModel(
         _clearFields.value = Unit
     }
 
-    internal fun changeSite(site: String) {
-        siteRepository.changeSite(site)
-        _siteLiveData.value = null
-        this.site = null
-    }
-
     internal fun startShareIntent(context: Context) {
         question?.let {
             val intent = Intent(Intent.ACTION_SEND).apply {
@@ -126,29 +101,26 @@ class QuestionDetailMainViewModel(
     }
 
     override fun toggleDownvote(isSelected: Boolean) {
-        val site = site ?: siteRepository.site
         toggleAction(
             isSelected,
-            { service.downvoteQuestionById(it, site) },
-            { service.undoQuestionDownvoteById(it, site) }
+            { service.downvoteQuestionById(it) },
+            { service.undoQuestionDownvoteById(it) }
         )
     }
 
     override fun toggleFavorite(isSelected: Boolean) {
-        val site = site ?: siteRepository.site
         toggleAction(
             isSelected,
-            { service.favoriteQuestionById(it, site) },
-            { service.undoQuestionFavoriteById(it, site) }
+            { service.favoriteQuestionById(it) },
+            { service.undoQuestionFavoriteById(it) }
         )
     }
 
     override fun toggleUpvote(isSelected: Boolean) {
-        val site = site ?: siteRepository.site
         toggleAction(
             isSelected,
-            { service.upvoteQuestionById(it, site) },
-            { service.undoQuestionUpvoteById(it, site) }
+            { service.upvoteQuestionById(it) },
+            { service.undoQuestionUpvoteById(it) }
         )
     }
 

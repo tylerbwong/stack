@@ -6,22 +6,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.observe
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.network.service.SITE_PARAM
 import me.tylerbwong.stack.databinding.ActivityQuestionDetailBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
-import me.tylerbwong.stack.ui.utils.toHtml
 import javax.inject.Inject
 
 class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
@@ -42,32 +38,6 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
 
         if (viewModel.questionId == -1) {
             viewModel.questionId = intent.getIntExtra(QUESTION_ID, -1)
-        }
-
-        if (viewModel.site == null) {
-            viewModel.site = intent.getStringExtra(SITE_PARAM)
-        }
-
-        viewModel.siteLiveData.observe(this) { site ->
-            if (site != null) {
-                with(
-                    Snackbar.make(
-                        binding.rootLayout,
-                        getString(R.string.not_current_site, site.name.toHtml()),
-                        Snackbar.LENGTH_INDEFINITE
-                    )
-                ) {
-                    view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-                        ?.apply {
-                            maxLines = 4
-                        }
-                    setAction(R.string.change) {
-                        viewModel.changeSite(site.parameter)
-                        recreate()
-                    }
-                    show()
-                }
-            }
         }
 
         viewModel.canAnswerQuestion.observe(this) {
@@ -206,17 +176,12 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
         fun makeIntent(
             context: Context,
             id: Int,
-            site: String? = null,
             isInAnswerMode: Boolean = false
         ) = Intent(context, QuestionDetailActivity::class.java)
             .putExtra(QUESTION_ID, id)
-            .putExtra(SITE_PARAM, site)
             .putExtra(IS_IN_ANSWER_MODE, isInAnswerMode)
 
-        fun startActivity(
-            context: Context,
-            id: Int
-        ) {
+        fun startActivity(context: Context, id: Int) {
             context.startActivity(makeIntent(context, id))
         }
     }

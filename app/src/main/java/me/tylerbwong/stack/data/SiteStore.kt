@@ -17,10 +17,18 @@ object SiteStore {
     )
 
     var site: String
-        get() = preferences.getString(SITE_KEY, DEFAULT_SITE) ?: DEFAULT_SITE
+        get() = deepLinkSite ?: preferences.getString(SITE_KEY, DEFAULT_SITE) ?: DEFAULT_SITE
         set(value) {
             preferences.edit().putString(SITE_KEY, value).apply()
             mutableSiteLiveData.value = value
+        }
+
+    /**
+     * Used to determine the current site for the deep link session only.
+     */
+    internal var deepLinkSite: String? = null
+        set(value) {
+            if (value != site) field = value
         }
 
     private val mutableSiteLiveData = MutableLiveData(site)

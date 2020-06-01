@@ -33,16 +33,14 @@ class QuestionDetailHolder(containerView: View) : RecyclerView.ViewHolder(contai
             movementMethod = BetterLinkMovementMethod.getInstance()
         }
 
-        binding.ownerView.bind(question.owner, isInCurrentSite = data.isInCurrentSite)
+        binding.ownerView.bind(question.owner)
 
         binding.tagsView.removeAllViews()
         question.tags?.forEach {
             val chip = Chip(itemView.context).apply {
                 text = it
-                if (data.isInCurrentSite) {
-                    setThrottledOnClickListener { view ->
-                        QuestionsActivity.startActivityForKey(view.context, TAGS, it)
-                    }
+                setThrottledOnClickListener { view ->
+                    QuestionsActivity.startActivityForKey(view.context, TAGS, it)
                 }
             }
             binding.tagsView.addView(chip)

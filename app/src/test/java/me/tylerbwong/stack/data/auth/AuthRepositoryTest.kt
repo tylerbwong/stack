@@ -104,12 +104,12 @@ class AuthRepositoryTest : BaseTest() {
     @Test
     fun `getCurrentUser with existing access token makes service and db calls`() {
         runBlocking {
-            whenever(userService.getCurrentUser(any(), any(), any())).thenReturn(
+            whenever(userService.getCurrentUser(any(), any())).thenReturn(
                 StackResponse(listOf(testUser), false)
             )
             authStore.setAccessToken(testUri)
             assertEquals(testUser, repository.getCurrentUser())
-            verify(userService).getCurrentUser(any(), any(), any())
+            verify(userService).getCurrentUser(any(), any())
 //            verify(userDao).insert(any())
         }
     }
@@ -119,7 +119,7 @@ class AuthRepositoryTest : BaseTest() {
         runBlocking {
             authStore.clear()
             assertNull(repository.getCurrentUser())
-            verify(userService, never()).getCurrentUser(any(), any(), any())
+            verify(userService, never()).getCurrentUser(any(), any())
             verify(userDao, never()).insert(any())
         }
     }
@@ -127,7 +127,7 @@ class AuthRepositoryTest : BaseTest() {
     @Test
     fun `getCurrentUser with throwing service call returns null`() {
         runBlocking {
-            whenever(userService.getCurrentUser(any(), any(), any()))
+            whenever(userService.getCurrentUser(any(), any()))
                 .thenThrow(
                     HttpException(
                         Response.error<ResponseBody>(
@@ -141,7 +141,7 @@ class AuthRepositoryTest : BaseTest() {
                 )
             authStore.setAccessToken(testUri)
             assertNull(repository.getCurrentUser())
-            verify(userService).getCurrentUser(any(), any(), any())
+            verify(userService).getCurrentUser(any(), any())
             verify(userDao, never()).insert(any())
         }
     }
@@ -150,13 +150,13 @@ class AuthRepositoryTest : BaseTest() {
     @Ignore("AuthRepository no longer stores the current user in the db")
     fun `getCurrentUser with throwing db call still returns the user from the service`() {
         runBlocking {
-            whenever(userService.getCurrentUser(any(), any(), any())).thenReturn(
+            whenever(userService.getCurrentUser(any(), any())).thenReturn(
                 StackResponse(listOf(testUser), false)
             )
             whenever(userDao.insert(any())).thenThrow(IllegalStateException("Could not insert"))
             authStore.setAccessToken(testUri)
             assertEquals(testUser, repository.getCurrentUser())
-            verify(userService).getCurrentUser(any(), any(), any())
+            verify(userService).getCurrentUser(any(), any())
 //            verify(userDao).insert(any())
         }
     }

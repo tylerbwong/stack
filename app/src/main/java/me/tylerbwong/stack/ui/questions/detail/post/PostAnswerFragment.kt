@@ -63,7 +63,6 @@ class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
         mainViewModel.clearFields.observe(viewLifecycleOwner) { clearFields() }
 
         viewModel.questionId = arguments?.getInt(QuestionDetailActivity.QUESTION_ID, 0) ?: 0
-        viewModel.site = mainViewModel.site
         mainViewModel.liveQuestion.observe(viewLifecycleOwner) {
             viewModel.questionTitle = it.title
         }

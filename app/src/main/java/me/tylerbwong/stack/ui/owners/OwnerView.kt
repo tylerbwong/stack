@@ -29,7 +29,7 @@ class OwnerView @JvmOverloads constructor(
         inflate<ConstraintLayout>(R.layout.owner_view, attachToRoot = true)
     )
 
-    fun bind(owner: User, isInCurrentSite: Boolean = true) {
+    fun bind(owner: User) {
         with(binding) {
             username.text = owner.displayName.toHtml()
             userImage.load(owner.profileImage) {
@@ -39,23 +39,21 @@ class OwnerView @JvmOverloads constructor(
                 transformations(CircleCropTransformation())
             }
 
-            if (isInCurrentSite) {
-                userImage.setThrottledOnClickListener {
-                    val aoc = context.ofType<Activity>()?.let {
-                        ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            it,
-                            Pair(
-                                userImage,
-                                context.getString(R.string.shared_transition_name)
-                            )
+            userImage.setThrottledOnClickListener {
+                val aoc = context.ofType<Activity>()?.let {
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        it,
+                        Pair(
+                            userImage,
+                            context.getString(R.string.shared_transition_name)
                         )
-                    }
-                    ProfileActivity.startActivity(
-                        context = context,
-                        userId = owner.userId,
-                        extras = aoc?.toBundle()
                     )
                 }
+                ProfileActivity.startActivity(
+                    context = context,
+                    userId = owner.userId,
+                    extras = aoc?.toBundle()
+                )
             }
             badgeView.badgeCounts = owner.badgeCounts
             reputation.text = owner.reputation.toLong().format()

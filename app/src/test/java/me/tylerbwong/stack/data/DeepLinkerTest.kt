@@ -2,7 +2,6 @@ package me.tylerbwong.stack.data
 
 import android.net.Uri
 import me.tylerbwong.stack.BaseTest
-import me.tylerbwong.stack.data.network.service.SITE_PARAM
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -11,6 +10,7 @@ import org.junit.Test
 class DeepLinkerTest : BaseTest() {
 
     private lateinit var deepLinker: DeepLinker
+    private lateinit var siteStore: SiteStore
 
     private val unsupportedDeepLinks = listOf(
         "https://stackoverflow.com/search?q=android+toolbar",
@@ -37,6 +37,7 @@ class DeepLinkerTest : BaseTest() {
     @Before
     fun setUp() {
         deepLinker = stackComponent.deepLinker()
+        siteStore = stackComponent.siteStore()
     }
 
     @Test
@@ -60,7 +61,6 @@ class DeepLinkerTest : BaseTest() {
         supportedDeepLinksWithSites.forEach { (site, uri) ->
             val result = deepLinker.resolvePath(context, uri)
             assertTrue(result is DeepLinkResult.Success)
-            assertEquals(site, (result as DeepLinkResult.Success).intent.getStringExtra(SITE_PARAM))
         }
     }
 
@@ -68,7 +68,7 @@ class DeepLinkerTest : BaseTest() {
     fun `resolveUri with tagged path returns site mismatch error if site is not current site`() {
         val uri = Uri.parse("https://superuser.com/questions/tagged/android")
         val result = deepLinker.resolvePath(context, uri)
-        assertTrue(result is DeepLinkResult.SiteMismatchError)
-        assertEquals("superuser", (result as DeepLinkResult.SiteMismatchError).site)
+        assertTrue(result is DeepLinkResult.Success)
+        assertEquals("superuser", siteStore.site)
     }
 }

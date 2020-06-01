@@ -23,7 +23,6 @@ import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
-import me.tylerbwong.stack.ui.utils.toHtml
 import javax.inject.Inject
 
 class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
@@ -36,7 +35,6 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
     private val viewModel by activityViewModels<QuestionDetailMainViewModel> { viewModelFactory }
     private val adapter = QuestionDetailAdapter()
     private var snackbar: Snackbar? = null
-    private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,14 +77,6 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
                 resources.getQuantityString(R.plurals.votes, it, it)
             )
         }
-        viewModel.siteLiveData.observe(viewLifecycleOwner) { site ->
-            menu?.findItem(R.id.changeSites)?.apply {
-                isVisible = site != null
-                if (site != null) {
-                    title = getString(R.string.change_site, site.name.toHtml())
-                }
-            }
-        }
 
         binding.recyclerView.apply {
             adapter = this@QuestionDetailFragment.adapter
@@ -122,14 +112,8 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        this.menu = menu
         inflater.inflate(R.menu.menu_share, menu)
         inflater.inflate(R.menu.menu_question_details, menu)
-
-        // We do not want to allow the user to visit other questions when another site is being used
-        // for deep linking purposes
-        menu.findItem(R.id.linked)?.isVisible = viewModel.isInCurrentSite
-        menu.findItem(R.id.related)?.isVisible = viewModel.isInCurrentSite
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -137,8 +121,7 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
             R.id.share -> viewModel.startShareIntent(requireContext())
             R.id.comments -> CommentsBottomSheetDialogFragment.show(
                 childFragmentManager,
-                viewModel.questionId,
-                viewModel.site
+                viewModel.questionId
             )
             R.id.linked -> QuestionsActivity.startActivityForKey(
                 requireContext(),
@@ -150,12 +133,6 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
                 RELATED,
                 viewModel.questionId.toString()
             )
-            R.id.changeSites -> {
-                viewModel.site?.let {
-                    viewModel.changeSite(it)
-                    requireActivity().recreate()
-                }
-            }
         }
         return super.onOptionsItemSelected(item)
     }

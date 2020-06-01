@@ -1,6 +1,5 @@
 package me.tylerbwong.stack.data.network.service
 
-import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.model.ORDER_PARAM
 import me.tylerbwong.stack.data.model.Order
 import me.tylerbwong.stack.data.model.Question
@@ -24,7 +23,6 @@ interface SearchService {
         @Query(CLOSED_PARAM) isClosed: Boolean? = null,
         @Query(TAGGED_PARAM) tags: String? = null,
         @Query(TITLE_PARAM) titleContains: String? = null,
-        @Query(SITE_PARAM) site: String = SiteStore.site,
         @Query(SORT_PARAM) @Sort sort: String = RELEVANCE,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,

@@ -14,22 +14,18 @@ import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 
-data class CommentItem(internal val comment: Comment, internal val isInCurrentSite: Boolean)
-
-class CommentsAdapter : ListAdapter<CommentItem, CommentHolder>(
+class CommentsAdapter : ListAdapter<Comment, CommentHolder>(
     AsyncDifferConfig.Builder(
-        object : DiffUtil.ItemCallback<CommentItem>() {
+        object : DiffUtil.ItemCallback<Comment>() {
             override fun areItemsTheSame(
-                oldItem: CommentItem,
-                newItem: CommentItem
-            ) = oldItem.comment.commentId == newItem.comment.commentId
+                oldItem: Comment,
+                newItem: Comment
+            ) = oldItem.commentId == newItem.commentId
 
             override fun areContentsTheSame(
-                oldItem: CommentItem,
-                newItem: CommentItem
-            ) = oldItem.comment.bodyMarkdown == newItem.comment.bodyMarkdown &&
-                    oldItem.comment.owner == newItem.comment.owner &&
-                    oldItem.isInCurrentSite == newItem.isInCurrentSite
+                oldItem: Comment,
+                newItem: Comment
+            ) = oldItem.bodyMarkdown == newItem.bodyMarkdown && oldItem.owner == newItem.owner
         }
     ).build()
 ) {
@@ -50,12 +46,12 @@ class CommentHolder(containerView: View) : RecyclerView.ViewHolder(containerView
 
     internal val binding = CommentHolderBinding.bind(itemView)
 
-    fun bind(data: CommentItem) {
+    fun bind(data: Comment) {
         binding.commentBody.apply {
-            setMarkdown(data.comment.bodyMarkdown)
+            setMarkdown(data.bodyMarkdown)
             setTextIsSelectable(true)
             movementMethod = BetterLinkMovementMethod.getInstance()
         }
-        binding.ownerView.bind(data.comment.owner, isInCurrentSite = data.isInCurrentSite)
+        binding.ownerView.bind(data.owner)
     }
 }

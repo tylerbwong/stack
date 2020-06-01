@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.auth.AuthInterceptor
+import me.tylerbwong.stack.data.network.SiteInterceptor
 import me.tylerbwong.stack.data.network.UnitConverterFactory
 import me.tylerbwong.stack.data.network.service.AuthService
 import me.tylerbwong.stack.data.network.service.CommentService
@@ -40,14 +41,19 @@ class NetworkModule {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
+    @Provides
+    fun provideSiteInterceptor(baseUrl: String) = SiteInterceptor(baseUrl)
+
     @Singleton
     @Provides
     fun provideOkHttpClient(
         authInterceptor: AuthInterceptor,
-        httpLoggingInterceptor: HttpLoggingInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        siteInterceptor: SiteInterceptor
     ): OkHttpClient {
         val okHttpClientBuilder = OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
+            .addInterceptor(siteInterceptor)
 
         if (BuildConfig.DEBUG) {
             okHttpClientBuilder.addInterceptor(httpLoggingInterceptor)

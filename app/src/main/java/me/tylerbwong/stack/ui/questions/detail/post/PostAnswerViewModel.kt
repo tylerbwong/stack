@@ -28,7 +28,6 @@ class PostAnswerViewModel(
     internal var selectedTabPosition = 0
     internal var questionId = 0
     internal var questionTitle = ""
-    internal var site: String? = null
 
     val savedDraft: LiveData<String>
         get() = _savedDraft
@@ -39,14 +38,12 @@ class PostAnswerViewModel(
     private val _snackbar = SingleLiveEvent<PostAnswerState>()
 
     fun postAnswer(markdown: String, isPreview: Boolean = false) {
-        val site = site ?: siteStore.site
         _snackbar.value = PostAnswerState.Loading
 
         viewModelScope.launch {
             try {
                 val answer = service.postAnswer(
                     questionId,
-                    site = site,
                     bodyMarkdown = markdown,
                     preview = isPreview
                 ).items
@@ -67,7 +64,7 @@ class PostAnswerViewModel(
         viewModelScope.launch {
             try {
                 val draft = withContext(Dispatchers.IO) {
-                    draftDao.getAnswerDraft(questionId, site ?: siteStore.site)
+                    draftDao.getAnswerDraft(questionId, siteStore.site)
                 }
                 questionTitle = draft.questionTitle
                 _savedDraft.value = draft.bodyMarkdown
@@ -86,7 +83,7 @@ class PostAnswerViewModel(
                         questionTitle,
                         System.currentTimeMillis(),
                         markdown,
-                        site ?: siteStore.site
+                        siteStore.site
                     )
                 )
             } catch (ex: Exception) {

@@ -2,7 +2,6 @@ package me.tylerbwong.stack.ui.questions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.model.CREATION
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Sort
@@ -13,8 +12,7 @@ import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
 import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 
 internal class QuestionsViewModel(
-    private val service: QuestionService,
-    private val siteStore: SiteStore
+    private val service: QuestionService
 ) : BaseViewModel() {
 
     internal val data: LiveData<List<Question>>
@@ -26,7 +24,6 @@ internal class QuestionsViewModel(
 
     internal lateinit var page: QuestionPage
     internal var key: String = ""
-    internal var site: String? = null
 
     @Sort
     private var currentSort: String = CREATION
@@ -42,11 +39,7 @@ internal class QuestionsViewModel(
     private fun getQuestionsByTag(@Sort sort: String = currentSort) {
         currentSort = sort
         launchRequest {
-            val questions = service.getQuestionsByTags(
-                site = site ?: siteStore.site,
-                tags = key,
-                sort = sort
-            ).items
+            val questions = service.getQuestionsByTags(tags = key, sort = sort).items
             _data.value = questions
         }
     }
@@ -55,11 +48,7 @@ internal class QuestionsViewModel(
         currentSort = sort
         val questionId = key.toIntOrNull() ?: return
         launchRequest {
-            val questions = service.getLinkedQuestions(
-                site = site ?: siteStore.site,
-                questionId = questionId,
-                sort = sort
-            ).items
+            val questions = service.getLinkedQuestions(questionId = questionId, sort = sort).items
             _data.value = questions
         }
     }
@@ -68,11 +57,7 @@ internal class QuestionsViewModel(
         currentSort = sort
         val questionId = key.toIntOrNull() ?: return
         launchRequest {
-            val questions = service.getRelatedQuestions(
-                site = site ?: siteStore.site,
-                questionId = questionId,
-                sort = sort
-            ).items
+            val questions = service.getRelatedQuestions(questionId = questionId, sort = sort).items
             _data.value = questions
         }
     }

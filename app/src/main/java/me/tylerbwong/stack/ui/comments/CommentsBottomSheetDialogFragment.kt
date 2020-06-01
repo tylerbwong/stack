@@ -14,7 +14,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.network.service.SITE_PARAM
 import me.tylerbwong.stack.databinding.CommentsFragmentBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import javax.inject.Inject
@@ -31,7 +30,6 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         super.onCreate(savedInstanceState)
         ApplicationWrapper.stackComponent.inject(this)
         viewModel.postId = arguments?.getInt(POST_ID) ?: -1
-        viewModel.site = arguments?.getString(SITE_PARAM)
     }
 
     override fun onCreateView(
@@ -68,11 +66,10 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     companion object {
         private const val POST_ID = "post_id"
 
-        fun show(fragmentManager: FragmentManager, postId: Int, site: String?) {
+        fun show(fragmentManager: FragmentManager, postId: Int) {
             val fragment = CommentsBottomSheetDialogFragment().apply {
                 arguments = Bundle().apply {
                     putInt(POST_ID, postId)
-                    putString(SITE_PARAM, site)
                 }
             }
             fragment.show(fragmentManager, CommentsBottomSheetDialogFragment::class.java.simpleName)

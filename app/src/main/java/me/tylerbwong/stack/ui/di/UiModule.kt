@@ -18,7 +18,6 @@ import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import me.tylerbwong.stack.data.persistence.dao.SiteDao
 import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.data.repository.SiteRepository
-import me.tylerbwong.stack.ui.DeepLinkingViewModelFactory
 import me.tylerbwong.stack.ui.MainViewModelFactory
 import me.tylerbwong.stack.ui.bookmarks.BookmarksViewModelFactory
 import me.tylerbwong.stack.ui.comments.CommentsViewModelFactory
@@ -47,9 +46,8 @@ class UiModule {
     @Provides
     fun provideCommentsViewModelFactory(
         commentService: CommentService,
-        authStore: AuthStore,
-        siteStore: SiteStore
-    ) = CommentsViewModelFactory(commentService, authStore, siteStore)
+        authStore: AuthStore
+    ) = CommentsViewModelFactory(commentService, authStore)
 
     @Provides
     fun provideProfileViewModelFactory(
@@ -58,16 +56,14 @@ class UiModule {
 
     @Provides
     fun provideQuestionsViewModelFactory(
-        questionService: QuestionService,
-        siteStore: SiteStore
-    ) = QuestionsViewModelFactory(questionService, siteStore)
+        questionService: QuestionService
+    ) = QuestionsViewModelFactory(questionService)
 
     @Provides
     fun provideQuestionDetailMainViewModelFactory(
         authRepository: AuthRepository,
-        siteRepository: SiteRepository,
         questionService: QuestionService
-    ) = QuestionDetailMainViewModelFactory(authRepository, siteRepository, questionService)
+    ) = QuestionDetailMainViewModelFactory(authRepository, questionService)
 
     @Provides
     fun providePostAnswerViewModelFactory(
@@ -115,11 +111,6 @@ class UiModule {
     fun provideSitesViewModelFactor(
         siteRepository: SiteRepository
     ) = SitesViewModelFactory(siteRepository)
-
-    @Provides
-    fun provideDeepLinkingViewModelFactory(
-        siteRepository: SiteRepository
-    ) = DeepLinkingViewModelFactory(siteRepository)
 
     @Provides
     fun provideQuestionRepository(

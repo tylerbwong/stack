@@ -17,10 +17,4 @@
         android:id="@+id/related"
         android:title="@string/related"
         app:showAsAction="never" />
-
-    <item
-        android:id="@+id/changeSites"
-        android:title="@string/change_site"
-        android:visible="false"
-        app:showAsAction="never" />
 </menu>

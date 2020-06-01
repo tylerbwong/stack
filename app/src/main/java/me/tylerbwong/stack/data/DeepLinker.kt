@@ -15,7 +15,6 @@ import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 
 sealed class DeepLinkResult {
     class Success(val intent: Intent) : DeepLinkResult()
-    class SiteMismatchError(val site: String) : DeepLinkResult()
     object PathNotSupportedError : DeepLinkResult()
 }
 
@@ -49,23 +48,22 @@ class DeepLinker(
                 authStore.setAccessToken(uri)
                 DeepLinkResult.Success(MainActivity.makeIntentClearTop(context))
             }
-            QUESTIONS_BY_TAG -> when (site) {
-                siteStore.site -> DeepLinkResult.Success(
+            QUESTIONS_BY_TAG -> {
+                siteStore.deepLinkSite = site
+                DeepLinkResult.Success(
                     QuestionsActivity.makeIntentForKey(
                         context,
                         TAGS,
-                        uri.lastPathSegment ?: "",
-                        site
+                        uri.lastPathSegment ?: ""
                     )
                 )
-                null -> DeepLinkResult.PathNotSupportedError
-                else -> DeepLinkResult.SiteMismatchError(site)
             }
             QUESTION_DETAILS -> {
+                siteStore.deepLinkSite = site
                 // Format is /questions/{id}/title so get the second segment
                 val id = uri.pathSegments.getOrNull(1)?.toIntOrNull()
                     ?: return DeepLinkResult.PathNotSupportedError
-                DeepLinkResult.Success(QuestionDetailActivity.makeIntent(context, id, site))
+                DeepLinkResult.Success(QuestionDetailActivity.makeIntent(context, id))
             }
             else -> DeepLinkResult.PathNotSupportedError
         }

@@ -48,7 +48,6 @@
     <string name="network_error">Network error</string>
     <string name="retry">Retry</string>
     <string name="dismiss">Dismiss</string>
-    <string name="deep_link_site_mismatch">This link is unresolvable due to a site mismatch</string>
     <string name="deep_link_path_not_supported">Stack can\'t handle this link yet!</string>
 
     <!-- Auth -->
@@ -133,9 +132,4 @@
 
     <string name="restart_toggle">Toggling this requires a restart</string>
     <string name="link_copied">Link copied to clipboard</string>
-
-    <string name="not_current_site">Navigation is limited because %1$s is not the current site. Would you like to change sites?</string>
-    <string name="change">Change</string>
-    <string name="change_site_title">Change site</string>
-    <string name="change_site">Change site to %1$s</string>
 </resources>
