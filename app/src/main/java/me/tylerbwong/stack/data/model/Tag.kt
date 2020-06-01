@@ -7,8 +7,6 @@ import com.squareup.moshi.JsonClass
 data class Tag(
     @Json(name = "name")
     val name: String,
-    @Json(name = "last_activity_date")
-    val lastActivityDate: Long? = 0L,
     @Json(name = "count")
     val count: Int
 )
