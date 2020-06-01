@@ -5,9 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
-import javax.inject.Inject
 
-class PostAnswerViewModelFactory @Inject constructor(
+class PostAnswerViewModelFactory(
     private val service: QuestionService,
     private val draftDao: AnswerDraftDao,
     private val siteStore: SiteStore

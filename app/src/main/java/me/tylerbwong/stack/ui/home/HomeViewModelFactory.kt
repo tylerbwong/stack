@@ -4,9 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.data.repository.SiteRepository
-import javax.inject.Inject
 
-class HomeViewModelFactory @Inject constructor(
+class HomeViewModelFactory(
     private val questionRepository: QuestionRepository,
     private val siteRepository: SiteRepository
 ) : ViewModelProvider.Factory {

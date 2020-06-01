@@ -5,12 +5,8 @@ import me.tylerbwong.stack.data.utils.isPost
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
-import javax.inject.Inject
 
-class AuthInterceptor @Inject constructor(
-    private val baseUrl: String,
-    private val authStore: AuthStore
-) : Interceptor {
+class AuthInterceptor(private val baseUrl: String, private val authStore: AuthStore) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()

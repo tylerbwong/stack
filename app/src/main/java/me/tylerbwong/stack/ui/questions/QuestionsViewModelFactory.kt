@@ -4,9 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.network.service.QuestionService
-import javax.inject.Inject
 
-class QuestionsViewModelFactory @Inject constructor(
+class QuestionsViewModelFactory(
     private val questionService: QuestionService,
     private val siteStore: SiteStore
 ) : ViewModelProvider.Factory {

@@ -3,9 +3,8 @@ package me.tylerbwong.stack.ui.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import me.tylerbwong.stack.data.repository.SiteRepository
-import javax.inject.Inject
 
-class SettingsViewModelFactory @Inject constructor(
+class SettingsViewModelFactory(
     private val siteRepository: SiteRepository
 ) : ViewModelProvider.Factory {
 

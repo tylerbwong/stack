@@ -11,7 +11,7 @@ import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import timber.log.Timber
 import javax.inject.Inject
 
-class AuthRepository @Inject constructor(
+class AuthRepository(
     private val answerDraftDao: AnswerDraftDao,
     private val searchDao: SearchDao,
     private val userService: UserService,
