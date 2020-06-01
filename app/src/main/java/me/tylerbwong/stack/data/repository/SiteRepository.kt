@@ -16,7 +16,16 @@ class SiteRepository(
     internal val siteLiveData: LiveData<String>
         get() = siteStore.siteLiveData
 
-    internal suspend fun getCurrentSite() = siteDao.getSite(siteStore.site).toSite()
+    internal val site: String
+        get() = siteStore.site
+
+    internal suspend fun getCurrentSite() = getSite(siteStore.site)
+
+    internal suspend fun getSite(site: String) = siteDao.getSite(site).toSite()
+
+    internal fun changeSite(site: String) {
+        siteStore.site = site
+    }
 
     internal fun getSites() = siteDao.getSites()
 

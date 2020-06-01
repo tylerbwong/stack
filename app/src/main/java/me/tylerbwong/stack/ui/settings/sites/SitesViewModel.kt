@@ -17,6 +17,8 @@ class SitesViewModel(
 
     internal var currentQuery: String? = null
 
+    internal fun changeSite(site: String) = siteRepository.changeSite(site)
+
     internal fun fetchSites() {
         launchRequest { siteRepository.fetchSitesIfNecessary() }
         streamRequest(siteRepository.getSites()) { results ->

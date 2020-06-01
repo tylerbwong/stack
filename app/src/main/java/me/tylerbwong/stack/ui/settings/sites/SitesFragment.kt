@@ -19,7 +19,6 @@ import androidx.preference.PreferenceFragmentCompat
 import coil.ImageLoader
 import coil.request.LoadRequest
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.utils.toHtml
 import javax.inject.Inject
@@ -28,9 +27,6 @@ class SitesFragment : PreferenceFragmentCompat(), SearchView.OnQueryTextListener
 
     @Inject
     lateinit var imageLoader: ImageLoader
-
-    @Inject
-    lateinit var siteStore: SiteStore
 
     @Inject
     lateinit var sitesViewModelFactory: SitesViewModelFactory
@@ -63,7 +59,7 @@ class SitesFragment : PreferenceFragmentCompat(), SearchView.OnQueryTextListener
                     title = site.name.toHtml()
                     summary = site.audience.capitalize().toHtml()
                     setOnPreferenceClickListener {
-                        siteStore.site = site.parameter
+                        viewModel.changeSite(site.parameter)
                         requireActivity().finish()
                         true
                     }

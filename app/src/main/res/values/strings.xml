@@ -132,4 +132,8 @@
 
     <string name="restart_toggle">Toggling this requires a restart</string>
     <string name="link_copied">Link copied to clipboard</string>
+
+    <string name="not_current_site">Navigation is limited because %1$s is not the current site. Would you like to change sites?</string>
+    <string name="change">Change</string>
+    <string name="change_site">Change site to %1$s</string>
 </resources>

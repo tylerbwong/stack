@@ -6,11 +6,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.observe
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.network.service.SITE_PARAM
@@ -43,6 +45,28 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
 
         if (viewModel.site == null) {
             viewModel.site = intent.getStringExtra(SITE_PARAM)
+        }
+
+        viewModel.siteLiveData.observe(this) { site ->
+            if (site != null) {
+                with(
+                    Snackbar.make(
+                        binding.rootLayout,
+                        getString(R.string.not_current_site, site.name),
+                        Snackbar.LENGTH_INDEFINITE
+                    )
+                ) {
+                    view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+                        ?.apply {
+                            maxLines = 4
+                        }
+                    setAction(R.string.change) {
+                        viewModel.changeSite(site.parameter)
+                        recreate()
+                    }
+                    show()
+                }
+            }
         }
 
         viewModel.canAnswerQuestion.observe(this) {
