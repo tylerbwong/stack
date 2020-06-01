@@ -64,13 +64,4 @@ class DeepLinker(
             else -> DeepLinkResult.PathNotSupportedError
         }
     }
-
-    companion object {
-        private val knownHosts = listOf(
-            "stackoverflow.com",
-            "serverfault.com",
-            "superuser.com",
-            "stackexchange.com"
-        )
-    }
 }
