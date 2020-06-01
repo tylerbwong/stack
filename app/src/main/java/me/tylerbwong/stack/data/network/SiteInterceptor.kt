@@ -10,7 +10,7 @@ import okhttp3.Response
 
 class SiteInterceptor(
     private val baseUrl: String,
-    private val siteStore: SiteStore = SiteStore
+    private val siteStore: SiteStore
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

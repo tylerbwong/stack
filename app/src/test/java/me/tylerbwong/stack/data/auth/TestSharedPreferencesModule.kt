@@ -11,7 +11,7 @@ import me.tylerbwong.stack.data.auth.di.SharedPreferencesModule
 class TestSharedPreferencesModule : SharedPreferencesModule() {
 
     @Provides
-    override fun provideSharedPreferences(
+    override fun provideAuthSharedPreferences(
         context: Context
     ): SharedPreferences = context.getSharedPreferences(
         AuthModule.AUTH_PREFERENCES,

@@ -4,6 +4,7 @@ import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import me.tylerbwong.stack.BuildConfig
+import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.auth.AuthInterceptor
 import me.tylerbwong.stack.data.network.SiteInterceptor
 import me.tylerbwong.stack.data.network.UnitConverterFactory
@@ -28,7 +29,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideMoshi() = Moshi.Builder().build()
+    fun provideMoshi(): Moshi = Moshi.Builder().build()
 
     @Provides
     fun provideUnitConverterFactory() = UnitConverterFactory
@@ -42,7 +43,10 @@ class NetworkModule {
     }
 
     @Provides
-    fun provideSiteInterceptor(baseUrl: String) = SiteInterceptor(baseUrl)
+    fun provideSiteInterceptor(
+        baseUrl: String,
+        siteStore: SiteStore
+    ) = SiteInterceptor(baseUrl, siteStore)
 
     @Singleton
     @Provides
