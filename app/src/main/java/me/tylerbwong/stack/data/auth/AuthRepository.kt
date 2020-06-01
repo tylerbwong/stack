@@ -9,7 +9,6 @@ import me.tylerbwong.stack.data.network.service.UserService
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import timber.log.Timber
-import javax.inject.Inject
 
 class AuthRepository(
     private val answerDraftDao: AnswerDraftDao,
