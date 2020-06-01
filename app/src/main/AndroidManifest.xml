@@ -47,12 +47,32 @@
                     android:scheme="https" />
 
                 <data
+                    android:host="*.stackoverflow.com"
+                    android:pathPrefix="/questions"
+                    android:scheme="https" />
+
+                <data
+                    android:host="*.stackoverflow.com"
+                    android:pathPrefix="/q"
+                    android:scheme="https" />
+
+                <data
                     android:host="serverfault.com"
                     android:pathPrefix="/questions"
                     android:scheme="https" />
 
                 <data
                     android:host="serverfault.com"
+                    android:pathPrefix="/q"
+                    android:scheme="https" />
+
+                <data
+                    android:host="*.serverfault.com"
+                    android:pathPrefix="/questions"
+                    android:scheme="https" />
+
+                <data
+                    android:host="*.serverfault.com"
                     android:pathPrefix="/q"
                     android:scheme="https" />
 
@@ -67,12 +87,32 @@
                     android:scheme="https" />
 
                 <data
+                    android:host="*.superuser.com"
+                    android:pathPrefix="/questions"
+                    android:scheme="https" />
+
+                <data
+                    android:host="*.superuser.com"
+                    android:pathPrefix="/q"
+                    android:scheme="https" />
+
+                <data
                     android:host="askubuntu.com"
                     android:pathPrefix="/questions"
                     android:scheme="https" />
 
                 <data
                     android:host="askubuntu.com"
+                    android:pathPrefix="/q"
+                    android:scheme="https" />
+
+                <data
+                    android:host="*.askubuntu.com"
+                    android:pathPrefix="/questions"
+                    android:scheme="https" />
+
+                <data
+                    android:host="*.askubuntu.com"
                     android:pathPrefix="/q"
                     android:scheme="https" />
 

@@ -7,7 +7,6 @@ import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.AUTH
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTIONS_BY_TAG
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTION_DETAILS
 import me.tylerbwong.stack.data.auth.AuthStore
-import me.tylerbwong.stack.data.utils.replaceAll
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
@@ -35,10 +34,7 @@ class DeepLinker(
     }
 
     fun resolvePath(context: Context, uri: Uri): DeepLinkResult {
-        val host = uri.host
-        val site = (knownHosts.firstOrNull { it == host }?.replace(".com", "")
-            ?: host?.replaceAll(knownHosts, ""))?.removeSuffix(".")
-
+        val site = uri.host
         val path = uri.path ?: return DeepLinkResult.PathNotSupportedError
 
         return when (ResolvedPath.fromPath(path)) {
