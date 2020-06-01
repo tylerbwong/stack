@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.data.network.service
 
+import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Response
@@ -13,6 +14,7 @@ interface UserService {
 
     @GET("me")
     suspend fun getCurrentUser(
+        @Query(SITE_PARAM) site: String = SiteStore.site,
         @Query(FILTER_PARAM) filter: String = USER_FILTER,
         @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
     ): Response<User>
@@ -20,6 +22,7 @@ interface UserService {
     @GET("users/{userId}")
     suspend fun getUser(
         @Path(USER_ID) userId: Int?,
+        @Query(SITE_PARAM) site: String = SiteStore.site,
         @Query(FILTER_PARAM) filter: String = USER_FILTER,
         @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
     ): Response<User>
@@ -27,6 +30,7 @@ interface UserService {
     @GET("users/{userId}/questions")
     suspend fun getUserQuestionsById(
         @Path(USER_ID) userId: Int?,
+        @Query(SITE_PARAM) site: String = SiteStore.site,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
         @Query(FILTER_PARAM) filter: String = QuestionService.DEFAULT_FILTER,

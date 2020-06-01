@@ -36,7 +36,6 @@
                     android:pathPrefix="/auth/redirect"
                     android:scheme="stack" />
 
-                <!-- Accepts URIs that begin with "https://www.stackoverflow.com/questions” -->
                 <data
                     android:host="stackoverflow.com"
                     android:pathPrefix="/questions"
@@ -44,6 +43,36 @@
 
                 <data
                     android:host="stackoverflow.com"
+                    android:pathPrefix="/q"
+                    android:scheme="https" />
+
+                <data
+                    android:host="serverfault.com"
+                    android:pathPrefix="/questions"
+                    android:scheme="https" />
+
+                <data
+                    android:host="serverfault.com"
+                    android:pathPrefix="/q"
+                    android:scheme="https" />
+
+                <data
+                    android:host="superuser.com"
+                    android:pathPrefix="/questions"
+                    android:scheme="https" />
+
+                <data
+                    android:host="superuser.com"
+                    android:pathPrefix="/q"
+                    android:scheme="https" />
+
+                <data
+                    android:host="*.stackexchange.com"
+                    android:pathPrefix="/questions"
+                    android:scheme="https" />
+
+                <data
+                    android:host="*.stackexchange.com"
                     android:pathPrefix="/q"
                     android:scheme="https" />
             </intent-filter>

@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.network.service.SITE_PARAM
 import me.tylerbwong.stack.databinding.ActivityQuestionDetailBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
@@ -38,6 +39,10 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
 
         if (viewModel.questionId == -1) {
             viewModel.questionId = intent.getIntExtra(QUESTION_ID, -1)
+        }
+
+        if (viewModel.site == null) {
+            viewModel.site = intent.getStringExtra(SITE_PARAM)
         }
 
         viewModel.canAnswerQuestion.observe(this) {
@@ -176,9 +181,11 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
         fun makeIntent(
             context: Context,
             id: Int,
+            site: String? = null,
             isInAnswerMode: Boolean = false
         ) = Intent(context, QuestionDetailActivity::class.java)
             .putExtra(QUESTION_ID, id)
+            .putExtra(SITE_PARAM, site)
             .putExtra(IS_IN_ANSWER_MODE, isInAnswerMode)
 
         fun startActivity(

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.auth.AuthRepository
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Response
@@ -20,6 +21,7 @@ import timber.log.Timber
 
 class QuestionDetailMainViewModel(
     private val authRepository: AuthRepository,
+    private val siteStore: SiteStore,
     private val service: QuestionService
 ) : BaseViewModel(), QuestionDetailActionHandler {
 
@@ -51,20 +53,25 @@ class QuestionDetailMainViewModel(
         initialValue = false
     ) { isAuthenticated, data -> isAuthenticated && data.isNotEmpty() }
 
+    internal val isInCurrentSite: Boolean
+        get() = site == null || site == siteStore.site
+
     internal var title = ""
     internal var isInAnswerMode = false
     internal var hasContent = false
     internal var questionId = -1
+    internal var site: String? = null
     internal var question: Question? = null
 
     internal fun getQuestionDetails(question: Question? = null) {
+        val site = site ?: siteStore.site
         launchRequest {
             val questionResult = question ?: if (isAuthenticated) {
-                service.getQuestionDetailsAuth(questionId).items.first()
+                service.getQuestionDetailsAuth(questionId, site).items.first()
             } else {
-                service.getQuestionDetails(questionId).items.first()
+                service.getQuestionDetails(questionId, site).items.first()
             }
-            val answersResult = service.getQuestionAnswers(questionId).items.sortedBy {
+            val answersResult = service.getQuestionAnswers(questionId, site).items.sortedBy {
                 !it.isAccepted
             }
 
@@ -101,26 +108,29 @@ class QuestionDetailMainViewModel(
     }
 
     override fun toggleDownvote(isSelected: Boolean) {
+        val site = site ?: siteStore.site
         toggleAction(
             isSelected,
-            { service.downvoteQuestionById(it) },
-            { service.undoQuestionDownvoteById(it) }
+            { service.downvoteQuestionById(it, site) },
+            { service.undoQuestionDownvoteById(it, site) }
         )
     }
 
     override fun toggleFavorite(isSelected: Boolean) {
+        val site = site ?: siteStore.site
         toggleAction(
             isSelected,
-            { service.favoriteQuestionById(it) },
-            { service.undoQuestionFavoriteById(it) }
+            { service.favoriteQuestionById(it, site) },
+            { service.undoQuestionFavoriteById(it, site) }
         )
     }
 
     override fun toggleUpvote(isSelected: Boolean) {
+        val site = site ?: siteStore.site
         toggleAction(
             isSelected,
-            { service.upvoteQuestionById(it) },
-            { service.undoQuestionUpvoteById(it) }
+            { service.upvoteQuestionById(it, site) },
+            { service.undoQuestionUpvoteById(it, site) }
         )
     }
 

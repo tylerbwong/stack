@@ -18,6 +18,7 @@ import me.tylerbwong.stack.data.model.HOT
 import me.tylerbwong.stack.data.model.MONTH
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
+import me.tylerbwong.stack.data.network.service.SITE_PARAM
 import me.tylerbwong.stack.databinding.ActivityQuestionsBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
@@ -41,6 +42,7 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
         setSupportActionBar(binding.toolbar)
 
         val key = intent.getStringExtra(KEY_EXTRA) ?: ""
+        val site = intent.getStringExtra(SITE_PARAM)
 
         if (key.isBlank()) {
             Toast.makeText(this, R.string.network_error, Toast.LENGTH_LONG).show()
@@ -49,7 +51,7 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
 
         val page = intent.getSerializableExtra(PAGE_EXTRA) as QuestionPage
 
-        setUpPageForKey(page, key)
+        setUpPageForKey(page, key, site)
 
         viewModel.refreshing.observe(this) {
             binding.refreshLayout.isRefreshing = it
@@ -109,7 +111,7 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
         return true
     }
 
-    private fun setUpPageForKey(page: QuestionPage, key: String) {
+    private fun setUpPageForKey(page: QuestionPage, key: String, site: String?) {
         supportActionBar?.title = if (page.titleRes != null) {
             getString(page.titleRes)
         } else {
@@ -118,6 +120,7 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
 
         viewModel.page = page
         viewModel.key = key
+        viewModel.site = site
 
         viewModel.snackbar.observe(this) {
             if (it != null) {
@@ -142,10 +145,12 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
         fun makeIntentForKey(
             context: Context,
             page: QuestionPage,
-            key: String
+            key: String,
+            site: String? = null
         ) = Intent(context, QuestionsActivity::class.java)
             .putExtra(PAGE_EXTRA, page)
             .putExtra(KEY_EXTRA, key)
+            .putExtra(SITE_PARAM, site)
 
         fun startActivityForKey(context: Context, page: QuestionPage, key: String) {
             context.startActivity(makeIntentForKey(context, page, key))

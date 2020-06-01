@@ -7,6 +7,7 @@ import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.AUTH
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTIONS_BY_TAG
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTION_DETAILS
 import me.tylerbwong.stack.data.auth.AuthStore
+import me.tylerbwong.stack.data.utils.replaceAll
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
@@ -28,6 +29,10 @@ class DeepLinker @Inject constructor(private val authStore: AuthStore) {
     }
 
     fun resolvePath(context: Context, uri: Uri): Intent? {
+        val host = uri.host
+        val site = (knownHosts.firstOrNull { it == host }?.replace(".com", "")
+            ?: host?.replaceAll(knownHosts, ""))?.removeSuffix(".")
+
         val path = uri.path ?: return null
 
         return when (ResolvedPath.fromPath(path)) {
@@ -39,14 +44,23 @@ class DeepLinker @Inject constructor(private val authStore: AuthStore) {
             }
             QUESTIONS_BY_TAG -> {
                 // Format is /questions/tagged/{tag} so use the last segment
-                QuestionsActivity.makeIntentForKey(context, TAGS, uri.lastPathSegment ?: "")
+                QuestionsActivity.makeIntentForKey(context, TAGS, uri.lastPathSegment ?: "", site)
             }
             QUESTION_DETAILS -> {
                 // Format is /questions/{id}/title so get the second segment
                 val id = uri.pathSegments.getOrNull(1)?.toIntOrNull() ?: return null
-                QuestionDetailActivity.makeIntent(context, id)
+                QuestionDetailActivity.makeIntent(context, id, site)
             }
             else -> null
         }
+    }
+
+    companion object {
+        private val knownHosts = listOf(
+            "stackoverflow.com",
+            "serverfault.com",
+            "superuser.com",
+            "stackexchange.com"
+        )
     }
 }

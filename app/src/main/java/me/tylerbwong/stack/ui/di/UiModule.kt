@@ -56,14 +56,16 @@ class UiModule {
 
     @Provides
     fun provideQuestionsViewModelFactory(
-        questionService: QuestionService
-    ) = QuestionsViewModelFactory(questionService)
+        questionService: QuestionService,
+        siteStore: SiteStore
+    ) = QuestionsViewModelFactory(questionService, siteStore)
 
     @Provides
     fun provideQuestionDetailMainViewModelFactory(
         authRepository: AuthRepository,
+        siteStore: SiteStore,
         questionService: QuestionService
-    ) = QuestionDetailMainViewModelFactory(authRepository, questionService)
+    ) = QuestionDetailMainViewModelFactory(authRepository, siteStore, questionService)
 
     @Provides
     fun providePostAnswerViewModelFactory(
