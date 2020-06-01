@@ -17,6 +17,6 @@ interface SiteService {
 
     companion object {
         private const val DEFAULT_SITE_PAGE_SIZE = 500 // Get all sites
-        private const val DEFAULT_SITE_FILTER = "!FmOlfAlxIKzxseAE9fn4_UPMXe"
+        private const val DEFAULT_SITE_FILTER = "!Fn4IB7S7W()0gcwcuHN16kFhm9"
     }
 }
