@@ -62,4 +62,10 @@ class DeepLinkerTest : BaseTest() {
             assertEquals(site, intent!!.getStringExtra(SITE_PARAM))
         }
     }
+
+    @Test
+    fun `resolveUri with tagged path returns null if site is not current site`() {
+        val uri = Uri.parse("https://superuser.com/questions/tagged/android")
+        assertNull(deepLinker.resolvePath(context, uri))
+    }
 }

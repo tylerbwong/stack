@@ -5,13 +5,20 @@ import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.model.Question
 
 sealed class QuestionDetailItem
-data class QuestionItem(internal val question: Question) : QuestionDetailItem()
+data class QuestionItem(
+    internal val question: Question,
+    internal val isInCurrentSite: Boolean
+) : QuestionDetailItem()
 data class QuestionActionItem(
     internal val handler: QuestionDetailActionHandler,
     internal val question: Question
 ) : QuestionDetailItem()
 data class AnswerHeaderItem(internal val answerCount: Int) : QuestionDetailItem()
-data class AnswerItem(internal val answer: Answer) : QuestionDetailItem()
+data class AnswerItem(
+    internal val answer: Answer,
+    internal val site: String,
+    internal val isInCurrentSite: Boolean
+) : QuestionDetailItem()
 
 class QuestionDetailItemCallback : DiffUtil.ItemCallback<QuestionDetailItem>() {
     override fun areItemsTheSame(
@@ -36,7 +43,8 @@ class QuestionDetailItemCallback : DiffUtil.ItemCallback<QuestionDetailItem>() {
             oldItem.question.title == newItem.question.title &&
                     oldItem.question.bodyMarkdown == newItem.question.bodyMarkdown &&
                     oldItem.question.owner == newItem.question.owner &&
-                    oldItem.question.tags == newItem.question.tags
+                    oldItem.question.tags == newItem.question.tags &&
+                    oldItem.isInCurrentSite == newItem.isInCurrentSite
         oldItem is QuestionActionItem && newItem is QuestionActionItem ->
             oldItem.question.isDownVoted == newItem.question.isDownVoted &&
                     oldItem.question.isBookmarked == newItem.question.isBookmarked &&
@@ -51,7 +59,8 @@ class QuestionDetailItemCallback : DiffUtil.ItemCallback<QuestionDetailItem>() {
                     oldItem.answer.upVoteCount == newItem.answer.upVoteCount &&
                     oldItem.answer.downVoteCount == newItem.answer.downVoteCount &&
                     oldItem.answer.bodyMarkdown == newItem.answer.bodyMarkdown &&
-                    oldItem.answer.owner == newItem.answer.owner
+                    oldItem.answer.owner == newItem.answer.owner &&
+                    oldItem.isInCurrentSite == newItem.isInCurrentSite
         else -> false
     }
 }

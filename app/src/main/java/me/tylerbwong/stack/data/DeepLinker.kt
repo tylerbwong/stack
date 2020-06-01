@@ -13,8 +13,10 @@ import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 
-class DeepLinker(private val authStore: AuthStore) {
-
+class DeepLinker(
+    private val authStore: AuthStore,
+    private val siteStore: SiteStore
+) {
     private enum class ResolvedPath(vararg val paths: String) {
         AUTH("/auth/redirect"),
         QUESTIONS_BY_TAG("/questions/tagged/"),
@@ -41,9 +43,16 @@ class DeepLinker(private val authStore: AuthStore) {
                 authStore.setAccessToken(uri)
                 MainActivity.makeIntentClearTop(context)
             }
-            QUESTIONS_BY_TAG -> {
+            QUESTIONS_BY_TAG -> if (site == siteStore.site) {
                 // Format is /questions/tagged/{tag} so use the last segment
-                QuestionsActivity.makeIntentForKey(context, TAGS, uri.lastPathSegment ?: "", site)
+                QuestionsActivity.makeIntentForKey(
+                    context,
+                    TAGS,
+                    uri.lastPathSegment ?: "",
+                    site
+                )
+            } else {
+                null
             }
             QUESTION_DETAILS -> {
                 // Format is /questions/{id}/title so get the second segment

@@ -33,12 +33,13 @@ class AnswerHolder(containerView: View) : RecyclerView.ViewHolder(containerView)
             text = context.getString(R.string.last_edited_by, answer.lastEditor?.displayName)
         }
 
-        binding.ownerView.bind(answer.owner)
+        binding.ownerView.bind(answer.owner, isInCurrentSite = data.isInCurrentSite)
 
         itemView.setOnLongClickListener {
             CommentsBottomSheetDialogFragment.show(
                 (it.context as FragmentActivity).supportFragmentManager,
-                answer.answerId
+                answer.answerId,
+                data.site
             )
             true
         }

@@ -14,18 +14,22 @@ import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 
-class CommentsAdapter : ListAdapter<Comment, CommentHolder>(
+data class CommentItem(internal val comment: Comment, internal val isInCurrentSite: Boolean)
+
+class CommentsAdapter : ListAdapter<CommentItem, CommentHolder>(
     AsyncDifferConfig.Builder(
-        object : DiffUtil.ItemCallback<Comment>() {
+        object : DiffUtil.ItemCallback<CommentItem>() {
             override fun areItemsTheSame(
-                oldItem: Comment,
-                newItem: Comment
-            ) = oldItem.commentId == newItem.commentId
+                oldItem: CommentItem,
+                newItem: CommentItem
+            ) = oldItem.comment.commentId == newItem.comment.commentId
 
             override fun areContentsTheSame(
-                oldItem: Comment,
-                newItem: Comment
-            ) = oldItem.bodyMarkdown == newItem.bodyMarkdown && oldItem.owner == newItem.owner
+                oldItem: CommentItem,
+                newItem: CommentItem
+            ) = oldItem.comment.bodyMarkdown == newItem.comment.bodyMarkdown &&
+                    oldItem.comment.owner == newItem.comment.owner &&
+                    oldItem.isInCurrentSite == newItem.isInCurrentSite
         }
     ).build()
 ) {
@@ -46,12 +50,12 @@ class CommentHolder(containerView: View) : RecyclerView.ViewHolder(containerView
 
     internal val binding = CommentHolderBinding.bind(itemView)
 
-    fun bind(comment: Comment) {
+    fun bind(data: CommentItem) {
         binding.commentBody.apply {
-            setMarkdown(comment.bodyMarkdown)
+            setMarkdown(data.comment.bodyMarkdown)
             setTextIsSelectable(true)
             movementMethod = BetterLinkMovementMethod.getInstance()
         }
-        binding.ownerView.bind(comment.owner)
+        binding.ownerView.bind(data.comment.owner, isInCurrentSite = data.isInCurrentSite)
     }
 }

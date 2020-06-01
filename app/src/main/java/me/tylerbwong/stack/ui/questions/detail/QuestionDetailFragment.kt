@@ -126,7 +126,8 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
             R.id.share -> viewModel.startShareIntent(requireContext())
             R.id.comments -> CommentsBottomSheetDialogFragment.show(
                 childFragmentManager,
-                viewModel.questionId
+                viewModel.questionId,
+                viewModel.site
             )
             R.id.linked -> QuestionsActivity.startActivityForKey(
                 requireContext(),

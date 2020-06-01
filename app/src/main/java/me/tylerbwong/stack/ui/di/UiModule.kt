@@ -46,8 +46,9 @@ class UiModule {
     @Provides
     fun provideCommentsViewModelFactory(
         commentService: CommentService,
-        authStore: AuthStore
-    ) = CommentsViewModelFactory(commentService, authStore)
+        authStore: AuthStore,
+        siteStore: SiteStore
+    ) = CommentsViewModelFactory(commentService, authStore, siteStore)
 
     @Provides
     fun provideProfileViewModelFactory(

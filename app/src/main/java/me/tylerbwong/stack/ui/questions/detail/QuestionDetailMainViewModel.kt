@@ -76,12 +76,12 @@ class QuestionDetailMainViewModel(
             }
 
             val response = mutableListOf<QuestionDetailItem>().apply {
-                add(0, QuestionItem(questionResult))
+                add(0, QuestionItem(questionResult, isInCurrentSite))
                 if (isAuthenticated) {
                     add(QuestionActionItem(this@QuestionDetailMainViewModel, questionResult))
                 }
                 add(AnswerHeaderItem(questionResult.answerCount))
-                addAll(answersResult.map { AnswerItem(it) })
+                addAll(answersResult.map { AnswerItem(it, site, isInCurrentSite) })
             } to questionResult
 
             this@QuestionDetailMainViewModel.question = response.second

@@ -14,6 +14,7 @@ import me.tylerbwong.stack.databinding.OwnerViewBinding
 import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.inflate
+import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.toHtml
 
@@ -28,7 +29,7 @@ class OwnerView @JvmOverloads constructor(
         inflate<ConstraintLayout>(R.layout.owner_view, attachToRoot = true)
     )
 
-    fun bind(owner: User) {
+    fun bind(owner: User, isInCurrentSite: Boolean = true) {
         with(binding) {
             username.text = owner.displayName.toHtml()
             userImage.load(owner.profileImage) {
@@ -37,19 +38,22 @@ class OwnerView @JvmOverloads constructor(
                 placeholder(R.drawable.user_image_placeholder)
                 transformations(CircleCropTransformation())
             }
-            userImage.setThrottledOnClickListener {
-                (context as? Activity)?.let {
-                    val aoc = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        it,
-                        Pair(
-                            userImage,
-                            context.getString(R.string.shared_transition_name)
+
+            if (isInCurrentSite) {
+                userImage.setThrottledOnClickListener {
+                    val aoc = context.ofType<Activity>()?.let {
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            it,
+                            Pair(
+                                userImage,
+                                context.getString(R.string.shared_transition_name)
+                            )
                         )
-                    )
+                    }
                     ProfileActivity.startActivity(
                         context = context,
                         userId = owner.userId,
-                        extras = aoc.toBundle()
+                        extras = aoc?.toBundle()
                     )
                 }
             }
