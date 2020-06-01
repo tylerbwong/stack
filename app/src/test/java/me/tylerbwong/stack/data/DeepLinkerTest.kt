@@ -26,14 +26,6 @@ class DeepLinkerTest : BaseTest() {
         "https://superuser.com/q/1491979/"
     ).map { Uri.parse(it) }
 
-    private val supportedDeepLinksWithSites = mapOf(
-        "stackoverflow" to "https://stackoverflow.com/questions/tagged/android",
-        "stackoverflow" to "http://stackoverflow.com/questions/26533510/",
-        "stackoverflow" to "http://stackoverflow.com/q/26533510/",
-        "sustainability.meta" to "https://sustainability.meta.stackexchange.com/questions/371/",
-        "superuser" to "https://superuser.com/q/1491979/"
-    ).entries.associate { it.key to Uri.parse(it.value) }
-
     @Before
     fun setUp() {
         deepLinker = stackComponent.deepLinker()
@@ -57,18 +49,10 @@ class DeepLinkerTest : BaseTest() {
     }
 
     @Test
-    fun `resolveUri returns success for valid deep links and correct site`() {
-        supportedDeepLinksWithSites.forEach { (site, uri) ->
-            val result = deepLinker.resolvePath(context, uri)
-            assertTrue(result is DeepLinkResult.Success)
-        }
-    }
-
-    @Test
     fun `resolveUri with tagged path returns site mismatch error if site is not current site`() {
         val uri = Uri.parse("https://superuser.com/questions/tagged/android")
         val result = deepLinker.resolvePath(context, uri)
         assertTrue(result is DeepLinkResult.Success)
-        assertEquals("superuser", siteStore.site)
+        assertEquals("superuser.com", siteStore.site)
     }
 }
