@@ -68,6 +68,7 @@ class DeepLinkerTest : BaseTest() {
     fun `resolveUri with tagged path returns site mismatch error if site is not current site`() {
         val uri = Uri.parse("https://superuser.com/questions/tagged/android")
         val result = deepLinker.resolvePath(context, uri)
-        assertEquals(DeepLinkResult.SiteMismatchError, result)
+        assertTrue(result is DeepLinkResult.SiteMismatchError)
+        assertEquals("superuser", (result as DeepLinkResult.SiteMismatchError).site)
     }
 }
