@@ -117,6 +117,36 @@
                     android:scheme="https" />
 
                 <data
+                    android:host="mathoverflow.net"
+                    android:pathPrefix="/questions"
+                    android:scheme="https" />
+
+                <data
+                    android:host="mathoverflow.net"
+                    android:pathPrefix="/q"
+                    android:scheme="https" />
+
+                <data
+                    android:host="*.mathoverflow.net"
+                    android:pathPrefix="/questions"
+                    android:scheme="https" />
+
+                <data
+                    android:host="*.mathoverflow.net"
+                    android:pathPrefix="/q"
+                    android:scheme="https" />
+
+                <data
+                    android:host="stackapps.com"
+                    android:pathPrefix="/questions"
+                    android:scheme="https" />
+
+                <data
+                    android:host="stackapps.com"
+                    android:pathPrefix="/q"
+                    android:scheme="https" />
+
+                <data
                     android:host="*.stackexchange.com"
                     android:pathPrefix="/questions"
                     android:scheme="https" />
