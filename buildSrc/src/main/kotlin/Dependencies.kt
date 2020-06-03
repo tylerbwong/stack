@@ -32,7 +32,7 @@ object Versions {
     const val kotlinxCoroutines = "1.3.5"
     const val ktlintGradle = "9.2.1"
     const val markwon = "4.4.0"
-    const val materialComponents = "1.2.0-beta01"
+    const val materialComponents = "1.3.0-alpha01"
     const val mockito = "3.0.0"
     const val mockitoKotlin = "2.2.0"
     const val moshi = "1.9.2"
