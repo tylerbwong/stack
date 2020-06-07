@@ -3,14 +3,24 @@ package me.tylerbwong.adapter
 import android.util.SparseArray
 import android.view.ViewGroup
 import androidx.core.util.set
+import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
 typealias ViewHolderProvider = (ViewGroup) -> DynamicHolder<*>
 
-class DynamicListAdapter(
-    diffUtilCallback: DiffUtil.ItemCallback<DynamicItem>
-) : ListAdapter<DynamicItem, DynamicHolder<*>>(diffUtilCallback) {
+private val noOpDiffUtilCallback = object : DiffUtil.ItemCallback<DynamicItem>() {
+    override fun areItemsTheSame(oldItem: DynamicItem, newItem: DynamicItem) = false
+    override fun areContentsTheSame(oldItem: DynamicItem, newItem: DynamicItem) = false
+}
+
+private val noOpAsyncDifferConfig = AsyncDifferConfig.Builder(noOpDiffUtilCallback).build()
+
+class DynamicListAdapter : ListAdapter<DynamicItem, DynamicHolder<*>> {
+
+    constructor(diffUtilCallback: DiffUtil.ItemCallback<DynamicItem> = noOpDiffUtilCallback) : super(diffUtilCallback)
+    constructor(asyncDifferConfig: AsyncDifferConfig<DynamicItem> = noOpAsyncDifferConfig) : super(asyncDifferConfig)
+
     private val viewHolderProviders = SparseArray<ViewHolderProvider>()
 
     override fun getItemViewType(position: Int): Int {
