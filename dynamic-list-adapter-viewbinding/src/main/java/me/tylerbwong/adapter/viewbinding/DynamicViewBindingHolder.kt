@@ -6,7 +6,7 @@ import androidx.viewbinding.ViewBinding
 import me.tylerbwong.adapter.DynamicHolder
 import me.tylerbwong.adapter.DynamicItem
 
-abstract class DynamicViewBindingHolder<T : DynamicItem, VB : ViewBinding>(
+abstract class DynamicViewBindingHolder<in T : DynamicItem, VB : ViewBinding>(
     container: ViewGroup,
     viewBindingProvider: (LayoutInflater, ViewGroup, Boolean) -> VB,
     protected val binding: VB = viewBindingProvider(LayoutInflater.from(container.context), container, false)
