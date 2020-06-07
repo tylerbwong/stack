@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.CREATION
@@ -22,7 +23,6 @@ import me.tylerbwong.stack.data.model.sortResourceId
 import me.tylerbwong.stack.databinding.FragmentHomeBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
-import me.tylerbwong.stack.ui.adapter.DelegatedListAdapter
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
@@ -34,7 +34,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
     lateinit var viewModelFactory: HomeViewModelFactory
 
     private val viewModel by viewModels<HomeViewModel> { viewModelFactory }
-    private val adapter = DelegatedListAdapter(HomeItemDiffCallback)
+    private val adapter = DynamicListAdapter(HomeItemDiffCallback)
     private var snackbar: Snackbar? = null
 
     private val bottomNav by lazy { activity?.findViewById<View>(R.id.bottomNav) }

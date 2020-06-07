@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.ACTIVITY
 import me.tylerbwong.stack.data.model.CREATION
@@ -21,7 +22,6 @@ import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.databinding.ActivityQuestionsBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
-import me.tylerbwong.stack.ui.adapter.DelegatedListAdapter
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
@@ -33,7 +33,7 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
     lateinit var viewModelFactory: QuestionsViewModelFactory
 
     private val viewModel by viewModels<QuestionsViewModel> { viewModelFactory }
-    private val adapter = DelegatedListAdapter(QuestionItemCallback)
+    private val adapter = DynamicListAdapter(QuestionItemCallback)
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

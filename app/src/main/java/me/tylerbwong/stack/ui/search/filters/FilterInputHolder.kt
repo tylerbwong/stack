@@ -3,16 +3,16 @@ package me.tylerbwong.stack.ui.search.filters
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.chip.Chip
+import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.FilterInputHolderBinding
-import me.tylerbwong.stack.ui.adapter.ViewBindingViewHolder
 import me.tylerbwong.stack.ui.home.FilterInputItem
 import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class FilterInputHolder(
     container: ViewGroup
-) : ViewBindingViewHolder<FilterInputItem, FilterInputHolderBinding>(
+) : DynamicViewBindingHolder<FilterInputItem, FilterInputHolderBinding>(
     container,
     FilterInputHolderBinding::inflate
 ) {
@@ -37,6 +37,7 @@ class FilterInputHolder(
         setFilters(item)
     }
 
+    @Suppress("ComplexMethod")
     private fun FilterInputHolderBinding.setFilters(item: FilterInputItem) {
         val payload = item.searchPayload
         val (_, isAccepted, minNumAnswers, bodyContains, isClosed, tags, titleContains) = payload

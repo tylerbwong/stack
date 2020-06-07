@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
+    val kotlin_version by extra("1.3.72")
     repositories {
         google()
         jcenter()
@@ -11,6 +12,7 @@ buildscript {
         classpath(Dep.kotlinPlugin)
         classpath(Dep.googleServicesPlugin)
         classpath(Dep.firebaseCrashlyticsGradlePlugin)
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
     }
 }
 

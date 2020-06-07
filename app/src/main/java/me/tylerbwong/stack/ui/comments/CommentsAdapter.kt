@@ -3,33 +3,33 @@ package me.tylerbwong.stack.ui.comments
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
+import me.tylerbwong.adapter.DynamicItem
+import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.data.model.Comment
 import me.tylerbwong.stack.databinding.CommentHolderBinding
-import me.tylerbwong.stack.ui.adapter.DelegatedItem
-import me.tylerbwong.stack.ui.adapter.ViewBindingViewHolder
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 
-object CommentItemCallback : DiffUtil.ItemCallback<DelegatedItem>() {
+object CommentItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
     override fun areItemsTheSame(
-        oldItem: DelegatedItem,
-        newItem: DelegatedItem
+        oldItem: DynamicItem,
+        newItem: DynamicItem
     ) = oldItem is CommentItem && newItem is CommentItem &&
             oldItem.comment.commentId == newItem.comment.commentId
 
     override fun areContentsTheSame(
-        oldItem: DelegatedItem,
-        newItem: DelegatedItem
+        oldItem: DynamicItem,
+        newItem: DynamicItem
     ) = oldItem is CommentItem && newItem is CommentItem &&
             oldItem.comment.bodyMarkdown == newItem.comment.bodyMarkdown &&
             oldItem.comment.owner == newItem.comment.owner
 }
 
-class CommentItem(internal val comment: Comment) : DelegatedItem(::CommentHolder)
+class CommentItem(internal val comment: Comment) : me.tylerbwong.adapter.DynamicItem(::CommentHolder)
 
 class CommentHolder(
     container: ViewGroup
-) : ViewBindingViewHolder<CommentItem, CommentHolderBinding>(
+) : DynamicViewBindingHolder<CommentItem, CommentHolderBinding>(
     container,
     CommentHolderBinding::inflate
 ) {

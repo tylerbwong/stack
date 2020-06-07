@@ -89,6 +89,7 @@ dependencies {
     implementation(Dep.androidxFragment)
     implementation(Dep.androidxLiveData)
     implementation(Dep.androidxPreference)
+    implementation(Dep.androidxRecyclerView)
     implementation(Dep.androidxSecurity)
     implementation(Dep.androidxSwipeRefreshLayout)
     implementation(Dep.androidxViewModel)
@@ -103,6 +104,10 @@ dependencies {
     implementation(Dep.composeLayout)
     implementation(Dep.composeMaterial)
     implementation(Dep.composeTooling)
+
+    // dynamic-list-adapter
+    implementation(project(":dynamic-list-adapter"))
+    implementation(project(":dynamic-list-adapter-viewbinding"))
 
     // klock date/time
     implementation(Dep.klock)

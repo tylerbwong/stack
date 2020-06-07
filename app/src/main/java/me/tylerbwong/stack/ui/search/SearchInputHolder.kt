@@ -2,13 +2,13 @@ package me.tylerbwong.stack.ui.search
 
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH
+import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.databinding.SearchInputHolderBinding
-import me.tylerbwong.stack.ui.adapter.ViewBindingViewHolder
 import me.tylerbwong.stack.ui.home.SearchInputItem
 
 class SearchInputHolder(
     container: ViewGroup
-) : ViewBindingViewHolder<SearchInputItem, SearchInputHolderBinding>(
+) : DynamicViewBindingHolder<SearchInputItem, SearchInputHolderBinding>(
     container,
     SearchInputHolderBinding::inflate
 ) {

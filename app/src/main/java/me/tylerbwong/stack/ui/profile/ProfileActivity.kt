@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
+import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.ActivityProfileBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
-import me.tylerbwong.stack.ui.adapter.DelegatedListAdapter
 import me.tylerbwong.stack.ui.questions.QuestionItemCallback
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.launchCustomTab
@@ -34,7 +34,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
     lateinit var viewModelFactory: ProfileViewModelFactory
 
     private val viewModel by viewModels<ProfileViewModel> { viewModelFactory }
-    private val adapter = DelegatedListAdapter(QuestionItemCallback)
+    private val adapter = DynamicListAdapter(QuestionItemCallback)
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

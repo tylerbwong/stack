@@ -7,15 +7,15 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.QuestionDetailActionHolderBinding
-import me.tylerbwong.stack.ui.adapter.ViewBindingViewHolder
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class QuestionDetailActionHolder(
     container: ViewGroup
-) : ViewBindingViewHolder<QuestionActionItem, QuestionDetailActionHolderBinding>(
+) : DynamicViewBindingHolder<QuestionActionItem, QuestionDetailActionHolderBinding>(
     container,
     QuestionDetailActionHolderBinding::inflate
 ) {

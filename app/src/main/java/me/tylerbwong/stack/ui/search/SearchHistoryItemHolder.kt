@@ -2,16 +2,16 @@ package me.tylerbwong.stack.ui.search
 
 import android.view.ViewGroup
 import com.google.android.material.chip.Chip
+import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.SearchHistoryItemHolderBinding
-import me.tylerbwong.stack.ui.adapter.ViewBindingViewHolder
 import me.tylerbwong.stack.ui.home.SearchHistoryItem
 import me.tylerbwong.stack.ui.search.filters.Filter
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class SearchHistoryItemHolder(
     container: ViewGroup
-) : ViewBindingViewHolder<SearchHistoryItem, SearchHistoryItemHolderBinding>(
+) : DynamicViewBindingHolder<SearchHistoryItem, SearchHistoryItemHolderBinding>(
     container,
     SearchHistoryItemHolderBinding::inflate
 ) {

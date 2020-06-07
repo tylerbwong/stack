@@ -1,9 +1,9 @@
 package me.tylerbwong.stack.ui.drafts
 
 import android.view.ViewGroup
+import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.AnswerDraftHolderBinding
-import me.tylerbwong.stack.ui.adapter.ViewBindingViewHolder
 import me.tylerbwong.stack.ui.home.AnswerDraftItem
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
@@ -12,7 +12,7 @@ import me.tylerbwong.stack.ui.utils.toHtml
 
 class AnswerDraftHolder(
     container: ViewGroup
-) : ViewBindingViewHolder<AnswerDraftItem, AnswerDraftHolderBinding>(
+) : DynamicViewBindingHolder<AnswerDraftItem, AnswerDraftHolderBinding>(
     container,
     AnswerDraftHolderBinding::inflate
 ) {

@@ -4,9 +4,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
+import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.AnswerHolderBinding
-import me.tylerbwong.stack.ui.adapter.ViewBindingViewHolder
 import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.questions.detail.AnswerItem
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
@@ -15,7 +15,7 @@ import me.tylerbwong.stack.ui.utils.ofType
 
 class AnswerHolder(
     container: ViewGroup
-) : ViewBindingViewHolder<AnswerItem, AnswerHolderBinding>(container, AnswerHolderBinding::inflate) {
+) : DynamicViewBindingHolder<AnswerItem, AnswerHolderBinding>(container, AnswerHolderBinding::inflate) {
 
     init {
         binding.answerBody.setSpannableFactory(noCopySpannableFactory)

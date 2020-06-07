@@ -4,9 +4,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.google.android.material.chip.Chip
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
+import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.QuestionDetailHolderBinding
-import me.tylerbwong.stack.ui.adapter.ViewBindingViewHolder
 import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
@@ -16,7 +16,7 @@ import me.tylerbwong.stack.ui.utils.toHtml
 
 class QuestionDetailHolder(
     container: ViewGroup
-) : ViewBindingViewHolder<QuestionMainItem, QuestionDetailHolderBinding>(
+) : DynamicViewBindingHolder<QuestionMainItem, QuestionDetailHolderBinding>(
     container,
     QuestionDetailHolderBinding::inflate
 ) {

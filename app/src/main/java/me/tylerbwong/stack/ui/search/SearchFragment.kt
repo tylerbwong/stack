@@ -5,12 +5,12 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.databinding.FragmentHomeBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
-import me.tylerbwong.stack.ui.adapter.DelegatedListAdapter
 import me.tylerbwong.stack.ui.home.FilterInputItem
 import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeItem
@@ -29,7 +29,7 @@ class SearchFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
 
     private val viewModel by viewModels<SearchViewModel> { viewModelFactory }
 
-    private val adapter = DelegatedListAdapter(HomeItemDiffCallback)
+    private val adapter = DynamicListAdapter(HomeItemDiffCallback)
     private val persistentItems: List<HomeItem>
         get() = listOf(
             HeaderItem(getString(R.string.search)),

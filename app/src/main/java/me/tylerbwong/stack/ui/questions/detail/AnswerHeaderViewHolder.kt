@@ -1,13 +1,13 @@
 package me.tylerbwong.stack.ui.questions.detail
 
 import android.view.ViewGroup
+import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.AnswerHeaderBinding
-import me.tylerbwong.stack.ui.adapter.ViewBindingViewHolder
 
 class AnswerHeaderViewHolder(
     container: ViewGroup
-) : ViewBindingViewHolder<AnswerHeaderItem, AnswerHeaderBinding>(
+) : DynamicViewBindingHolder<AnswerHeaderItem, AnswerHeaderBinding>(
     container,
     AnswerHeaderBinding::inflate
 ) {
