@@ -14,6 +14,7 @@ import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import me.tylerbwong.stack.ui.utils.toErrorResponse
+import me.tylerbwong.stack.ui.utils.toHtml
 import me.tylerbwong.stack.ui.utils.zipWith
 import retrofit2.HttpException
 import timber.log.Timber
@@ -93,7 +94,7 @@ class QuestionDetailMainViewModel(
         question?.let {
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = SHARE_TEXT_TYPE
-                putExtra(Intent.EXTRA_SUBJECT, it.title)
+                putExtra(Intent.EXTRA_SUBJECT, it.title.toHtml())
                 putExtra(Intent.EXTRA_TEXT, it.shareLink)
             }
             context.startActivity(Intent.createChooser(intent, context.getString(R.string.share)))
