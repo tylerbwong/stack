@@ -1,29 +1,30 @@
 package me.tylerbwong.stack.ui.search
 
-import android.view.View
-import androidx.recyclerview.widget.RecyclerView
+import android.view.ViewGroup
 import com.google.android.material.chip.Chip
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.SearchHistoryItemHolderBinding
+import me.tylerbwong.stack.ui.adapter.ViewBindingViewHolder
 import me.tylerbwong.stack.ui.home.SearchHistoryItem
 import me.tylerbwong.stack.ui.search.filters.Filter
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
-class SearchHistoryItemHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
-
-    private val binding = SearchHistoryItemHolderBinding.bind(itemView)
-
+class SearchHistoryItemHolder(
+    container: ViewGroup
+) : ViewBindingViewHolder<SearchHistoryItem, SearchHistoryItemHolderBinding>(
+    container,
+    SearchHistoryItemHolderBinding::inflate
+) {
     @Suppress("ComplexMethod")
-    fun bind(item: SearchHistoryItem) {
+    override fun SearchHistoryItemHolderBinding.bind(item: SearchHistoryItem) {
         val (query, isAccepted, minNumAnswers, bodyContains, isClosed, tags, titleContains) = item.searchPayload
 
         itemView.setThrottledOnClickListener {
             item.onPayloadReceived(item.searchPayload)
         }
 
-        binding.searchQuery.text = binding.searchQuery.context.getString(R.string.search_query, query)
+        searchQuery.text = binding.searchQuery.context.getString(R.string.search_query, query)
 
-        val filtersView = binding.filtersView
         filtersView.removeAllViews()
         val addedFilters = listOf(
             isAccepted?.let { Filter.Accepted(it) } ?: Filter.None,

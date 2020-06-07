@@ -1,28 +1,29 @@
 package me.tylerbwong.stack.ui.search.filters
 
-import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.FilterInputHolderBinding
+import me.tylerbwong.stack.ui.adapter.ViewBindingViewHolder
 import me.tylerbwong.stack.ui.home.FilterInputItem
 import me.tylerbwong.stack.ui.utils.inflate
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
-class FilterInputHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
-
-    private val binding = FilterInputHolderBinding.bind(itemView)
-
-    @Suppress("ComplexMethod")
-    fun bind(item: FilterInputItem) {
-        binding.advancedOptions.removeAllViews()
+class FilterInputHolder(
+    container: ViewGroup
+) : ViewBindingViewHolder<FilterInputItem, FilterInputHolderBinding>(
+    container,
+    FilterInputHolderBinding::inflate
+) {
+    override fun FilterInputHolderBinding.bind(item: FilterInputItem) {
+        advancedOptions.removeAllViews()
 
         val payload = item.searchPayload
 
         // Add persistent filter button chip
-        binding.advancedOptions.addView(
-            binding.advancedOptions.inflate<Chip>(R.layout.filter_chip_button).apply {
+        advancedOptions.addView(
+            advancedOptions.inflate<Chip>(R.layout.filter_chip_button).apply {
                 setThrottledOnClickListener { view ->
                     (view.context as? AppCompatActivity)?.let { activity ->
                         FilterBottomSheetDialogFragment.show(
@@ -33,7 +34,11 @@ class FilterInputHolder(containerView: View) : RecyclerView.ViewHolder(container
                 }
             }
         )
+        setFilters(item)
+    }
 
+    private fun FilterInputHolderBinding.setFilters(item: FilterInputItem) {
+        val payload = item.searchPayload
         val (_, isAccepted, minNumAnswers, bodyContains, isClosed, tags, titleContains) = payload
 
         val enabledFilters = listOf(
@@ -47,10 +52,10 @@ class FilterInputHolder(containerView: View) : RecyclerView.ViewHolder(container
 
         // Add enabled filters
         enabledFilters
-            .map { it.getLabel(binding.advancedOptions.context) }
+            .map { it.getLabel(advancedOptions.context) }
             .forEach { label ->
-                binding.advancedOptions.addView(
-                    binding.advancedOptions.inflate<Chip>(R.layout.advanced_filter_chip).apply {
+                advancedOptions.addView(
+                    advancedOptions.inflate<Chip>(R.layout.advanced_filter_chip).apply {
                         text = label
                         setThrottledOnClickListener {
                             (it.context as? AppCompatActivity)?.let { activity ->

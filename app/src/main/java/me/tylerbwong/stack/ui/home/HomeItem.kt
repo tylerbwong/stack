@@ -5,30 +5,38 @@ import me.tylerbwong.stack.data.model.AnswerDraft
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.data.model.Tag
+import me.tylerbwong.stack.ui.HeaderViewHolder
+import me.tylerbwong.stack.ui.adapter.DelegatedItem
+import me.tylerbwong.stack.ui.adapter.ViewHolderProvider
+import me.tylerbwong.stack.ui.drafts.AnswerDraftHolder
+import me.tylerbwong.stack.ui.questions.QuestionViewHolder
+import me.tylerbwong.stack.ui.search.SearchHistoryItemHolder
+import me.tylerbwong.stack.ui.search.SearchInputHolder
+import me.tylerbwong.stack.ui.search.filters.FilterInputHolder
+import me.tylerbwong.stack.ui.search.tags.TagsHolder
 
-sealed class HomeItem
-data class HeaderItem(val title: String, val subtitle: String? = null) : HomeItem()
-data class QuestionItem(val question: Question) : HomeItem()
-data class AnswerDraftItem(val draft: AnswerDraft) : HomeItem()
+sealed class HomeItem(viewHolderProvider: ViewHolderProvider) : DelegatedItem(viewHolderProvider)
+data class HeaderItem(val title: String, val subtitle: String? = null) : HomeItem(::HeaderViewHolder)
+data class QuestionItem(val question: Question) : HomeItem(::QuestionViewHolder)
+data class AnswerDraftItem(val draft: AnswerDraft) : HomeItem(::AnswerDraftHolder)
 data class SearchInputItem(
     val searchPayload: SearchPayload,
     val onPayloadReceived: (SearchPayload) -> Unit
-) : HomeItem()
+) : HomeItem(::SearchInputHolder)
 data class FilterInputItem(
     val searchPayload: SearchPayload,
     val onPayloadReceived: (SearchPayload) -> Unit
-) : HomeItem()
-data class TagsItem(val tags: List<Tag>) : HomeItem()
-data class SectionHeaderItem(val header: String) : HomeItem()
+) : HomeItem(::FilterInputHolder)
+data class TagsItem(val tags: List<Tag>) : HomeItem(::TagsHolder)
+data class SectionHeaderItem(val header: String) : HomeItem(::SectionHeaderHolder)
 data class SearchHistoryItem(
     val searchPayload: SearchPayload,
     val onPayloadReceived: (SearchPayload) -> Unit
-) : HomeItem()
+) : HomeItem(::SearchHistoryItemHolder)
 
-class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
-
+object HomeItemDiffCallback : DiffUtil.ItemCallback<DelegatedItem>() {
     @Suppress("ComplexMethod")
-    override fun areItemsTheSame(oldItem: HomeItem, newItem: HomeItem) =
+    override fun areItemsTheSame(oldItem: DelegatedItem, newItem: DelegatedItem) =
         oldItem.javaClass == newItem.javaClass &&
                 (oldItem is HeaderItem || oldItem is QuestionItem && newItem is QuestionItem &&
                         oldItem.question.questionId == newItem.question.questionId ||
@@ -41,8 +49,9 @@ class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {
                         oldItem is SearchHistoryItem && newItem is SearchHistoryItem)
 
     @Suppress("ComplexMethod")
-    override fun areContentsTheSame(oldItem: HomeItem, newItem: HomeItem) = when {
-        oldItem is HeaderItem && newItem is HeaderItem -> oldItem == newItem
+    override fun areContentsTheSame(oldItem: DelegatedItem, newItem: DelegatedItem) = when {
+        oldItem is HeaderItem && newItem is HeaderItem ->
+            oldItem.title == newItem.title && oldItem.subtitle == newItem.subtitle
         oldItem is QuestionItem && newItem is QuestionItem ->
             oldItem.question.title == newItem.question.title &&
                     oldItem.question.answerCount == newItem.question.answerCount &&

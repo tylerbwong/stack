@@ -3,7 +3,6 @@ package me.tylerbwong.stack.ui.comments
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.data.auth.AuthStore
-import me.tylerbwong.stack.data.model.Comment
 import me.tylerbwong.stack.data.network.service.CommentService
 import me.tylerbwong.stack.ui.BaseViewModel
 
@@ -12,9 +11,9 @@ class CommentsViewModel(
     private val authStore: AuthStore
 ) : BaseViewModel() {
 
-    internal val data: LiveData<List<Comment>>
+    internal val data: LiveData<List<CommentItem>>
         get() = _data
-    private val _data = MutableLiveData<List<Comment>>()
+    private val _data = MutableLiveData<List<CommentItem>>()
 
     private val isAuthenticated: Boolean
         get() = authStore.isAuthenticatedLiveData.value ?: false
@@ -29,7 +28,7 @@ class CommentsViewModel(
                 service.getPostComments(postId)
             }
 
-            _data.value = commentsResponse.items
+            _data.value = commentsResponse.items.map { CommentItem(it) }
         }
     }
 }

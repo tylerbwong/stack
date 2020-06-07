@@ -1,19 +1,21 @@
 package me.tylerbwong.stack.ui.search
 
-import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH
-import androidx.recyclerview.widget.RecyclerView
 import me.tylerbwong.stack.databinding.SearchInputHolderBinding
+import me.tylerbwong.stack.ui.adapter.ViewBindingViewHolder
 import me.tylerbwong.stack.ui.home.SearchInputItem
 
-class SearchInputHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
-
-    private val binding = SearchInputHolderBinding.bind(itemView)
-
-    fun bind(item: SearchInputItem) {
+class SearchInputHolder(
+    container: ViewGroup
+) : ViewBindingViewHolder<SearchInputItem, SearchInputHolderBinding>(
+    container,
+    SearchInputHolderBinding::inflate
+) {
+    override fun SearchInputHolderBinding.bind(item: SearchInputItem) {
         val payload = item.searchPayload
         bindQuery(payload.query)
-        binding.searchEditText.setOnEditorActionListener { view, actionId, _ ->
+        searchEditText.setOnEditorActionListener { view, actionId, _ ->
             when (actionId) {
                 IME_ACTION_SEARCH -> {
                     val result = view.text.toString()
@@ -25,10 +27,10 @@ class SearchInputHolder(containerView: View) : RecyclerView.ViewHolder(container
         }
     }
 
-    private fun bindQuery(query: String) {
-        binding.searchEditText.setText(query)
+    private fun SearchInputHolderBinding.bindQuery(query: String) {
+        searchEditText.setText(query)
         if (query.isNotEmpty()) {
-            binding.searchEditText.setSelection(query.length)
+            searchEditText.setSelection(query.length)
         }
     }
 }

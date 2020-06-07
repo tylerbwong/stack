@@ -1,19 +1,21 @@
 package me.tylerbwong.stack.ui.questions.detail
 
-import android.view.View
-import androidx.recyclerview.widget.RecyclerView
+import android.view.ViewGroup
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.AnswerHeaderBinding
+import me.tylerbwong.stack.ui.adapter.ViewBindingViewHolder
 
-class AnswerHeaderViewHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
-
-    private val binding = AnswerHeaderBinding.bind(itemView)
-
-    fun bind(data: AnswerHeaderItem) {
+class AnswerHeaderViewHolder(
+    container: ViewGroup
+) : ViewBindingViewHolder<AnswerHeaderItem, AnswerHeaderBinding>(
+    container,
+    AnswerHeaderBinding::inflate
+) {
+    override fun AnswerHeaderBinding.bind(item: AnswerHeaderItem) {
         binding.answersCount.text = itemView.context.resources.getQuantityString(
             R.plurals.answers,
-            data.answerCount,
-            data.answerCount
+            item.answerCount,
+            item.answerCount
         )
     }
 }

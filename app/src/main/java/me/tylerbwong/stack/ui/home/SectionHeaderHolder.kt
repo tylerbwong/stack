@@ -1,14 +1,16 @@
 package me.tylerbwong.stack.ui.home
 
-import android.view.View
-import androidx.recyclerview.widget.RecyclerView
+import android.view.ViewGroup
 import me.tylerbwong.stack.databinding.SectionHeaderHolderBinding
+import me.tylerbwong.stack.ui.adapter.ViewBindingViewHolder
 
-class SectionHeaderHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
-
-    private val binding = SectionHeaderHolderBinding.bind(itemView)
-
-    fun bind(item: SectionHeaderItem) {
-        binding.sectionHeader.text = item.header
+class SectionHeaderHolder(
+    container: ViewGroup
+) : ViewBindingViewHolder<SectionHeaderItem, SectionHeaderHolderBinding>(
+    container,
+    SectionHeaderHolderBinding::inflate
+) {
+    override fun SectionHeaderHolderBinding.bind(item: SectionHeaderItem) {
+        sectionHeader.text = item.header
     }
 }

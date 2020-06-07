@@ -11,10 +11,11 @@ import me.tylerbwong.stack.data.model.AnswerDraft
 import me.tylerbwong.stack.databinding.FragmentHomeBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
+import me.tylerbwong.stack.ui.adapter.DelegatedListAdapter
 import me.tylerbwong.stack.ui.home.AnswerDraftItem
 import me.tylerbwong.stack.ui.home.HeaderItem
-import me.tylerbwong.stack.ui.home.HomeAdapter
 import me.tylerbwong.stack.ui.home.HomeItem
+import me.tylerbwong.stack.ui.home.HomeItemDiffCallback
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ class DraftsFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
     lateinit var viewModelFactory: DraftsViewModelFactory
 
     private val viewModel by viewModels<DraftsViewModel> { viewModelFactory }
-    private val adapter = HomeAdapter()
+    private val adapter = DelegatedListAdapter(HomeItemDiffCallback)
     private var snackbar: Snackbar? = null
 
     private val bottomNav by lazy { activity?.findViewById<View>(R.id.bottomNav) }

@@ -3,22 +3,22 @@ package me.tylerbwong.stack.ui.questions.detail
 import androidx.recyclerview.widget.DiffUtil
 import me.tylerbwong.stack.data.model.Answer
 import me.tylerbwong.stack.data.model.Question
+import me.tylerbwong.stack.ui.adapter.DelegatedItem
+import me.tylerbwong.stack.ui.adapter.ViewHolderProvider
+import me.tylerbwong.stack.ui.answers.AnswerHolder
 
-sealed class QuestionDetailItem
-data class QuestionItem(internal val question: Question) : QuestionDetailItem()
+sealed class QuestionDetailItem(viewHolderProvider: ViewHolderProvider) : DelegatedItem(viewHolderProvider)
+data class QuestionMainItem(internal val question: Question) : QuestionDetailItem(::QuestionDetailHolder)
 data class QuestionActionItem(
     internal val handler: QuestionDetailActionHandler,
     internal val question: Question
-) : QuestionDetailItem()
-data class AnswerHeaderItem(internal val answerCount: Int) : QuestionDetailItem()
-data class AnswerItem(internal val answer: Answer) : QuestionDetailItem()
+) : QuestionDetailItem(::QuestionDetailActionHolder)
+data class AnswerHeaderItem(internal val answerCount: Int) : QuestionDetailItem(::AnswerHeaderViewHolder)
+data class AnswerItem(internal val answer: Answer) : QuestionDetailItem(::AnswerHolder)
 
-class QuestionDetailItemCallback : DiffUtil.ItemCallback<QuestionDetailItem>() {
-    override fun areItemsTheSame(
-        oldItem: QuestionDetailItem,
-        newItem: QuestionDetailItem
-    ) = when {
-        oldItem is QuestionItem && newItem is QuestionItem ->
+object QuestionDetailItemCallback : DiffUtil.ItemCallback<DelegatedItem>() {
+    override fun areItemsTheSame(oldItem: DelegatedItem, newItem: DelegatedItem) = when {
+        oldItem is QuestionMainItem && newItem is QuestionMainItem ->
             oldItem.question.questionId == newItem.question.questionId
         oldItem is QuestionActionItem && newItem is QuestionActionItem -> true
         oldItem is AnswerHeaderItem && newItem is AnswerHeaderItem -> true
@@ -28,11 +28,8 @@ class QuestionDetailItemCallback : DiffUtil.ItemCallback<QuestionDetailItem>() {
     }
 
     @Suppress("ComplexMethod") // TODO Delegate to each item
-    override fun areContentsTheSame(
-        oldItem: QuestionDetailItem,
-        newItem: QuestionDetailItem
-    ) = when {
-        oldItem is QuestionItem && newItem is QuestionItem ->
+    override fun areContentsTheSame(oldItem: DelegatedItem, newItem: DelegatedItem) = when {
+        oldItem is QuestionMainItem && newItem is QuestionMainItem ->
             oldItem.question.title == newItem.question.title &&
                     oldItem.question.bodyMarkdown == newItem.question.bodyMarkdown &&
                     oldItem.question.owner == newItem.question.owner &&

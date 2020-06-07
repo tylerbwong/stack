@@ -10,10 +10,11 @@ import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.databinding.FragmentHomeBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
+import me.tylerbwong.stack.ui.adapter.DelegatedListAdapter
 import me.tylerbwong.stack.ui.home.FilterInputItem
 import me.tylerbwong.stack.ui.home.HeaderItem
-import me.tylerbwong.stack.ui.home.HomeAdapter
 import me.tylerbwong.stack.ui.home.HomeItem
+import me.tylerbwong.stack.ui.home.HomeItemDiffCallback
 import me.tylerbwong.stack.ui.home.QuestionItem
 import me.tylerbwong.stack.ui.home.SearchHistoryItem
 import me.tylerbwong.stack.ui.home.SearchInputItem
@@ -28,7 +29,7 @@ class SearchFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
 
     private val viewModel by viewModels<SearchViewModel> { viewModelFactory }
 
-    private val adapter = HomeAdapter()
+    private val adapter = DelegatedListAdapter(HomeItemDiffCallback)
     private val persistentItems: List<HomeItem>
         get() = listOf(
             HeaderItem(getString(R.string.search)),

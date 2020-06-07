@@ -16,6 +16,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.QuestionDetailFragmentBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
+import me.tylerbwong.stack.ui.adapter.DelegatedListAdapter
 import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
 import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
@@ -33,7 +34,7 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
     lateinit var viewModelFactory: QuestionDetailMainViewModelFactory
 
     private val viewModel by activityViewModels<QuestionDetailMainViewModel> { viewModelFactory }
-    private val adapter = QuestionDetailAdapter()
+    private val adapter = DelegatedListAdapter(QuestionDetailItemCallback)
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

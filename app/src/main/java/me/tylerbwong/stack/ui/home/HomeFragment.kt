@@ -22,6 +22,7 @@ import me.tylerbwong.stack.data.model.sortResourceId
 import me.tylerbwong.stack.databinding.FragmentHomeBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
+import me.tylerbwong.stack.ui.adapter.DelegatedListAdapter
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
@@ -33,7 +34,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
     lateinit var viewModelFactory: HomeViewModelFactory
 
     private val viewModel by viewModels<HomeViewModel> { viewModelFactory }
-    private val adapter = HomeAdapter()
+    private val adapter = DelegatedListAdapter(HomeItemDiffCallback)
     private var snackbar: Snackbar? = null
 
     private val bottomNav by lazy { activity?.findViewById<View>(R.id.bottomNav) }

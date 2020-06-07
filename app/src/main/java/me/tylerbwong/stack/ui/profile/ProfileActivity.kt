@@ -18,7 +18,8 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.ActivityProfileBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
-import me.tylerbwong.stack.ui.questions.QuestionAdapter
+import me.tylerbwong.stack.ui.adapter.DelegatedListAdapter
+import me.tylerbwong.stack.ui.questions.QuestionItemCallback
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setSharedTransition
@@ -33,7 +34,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
     lateinit var viewModelFactory: ProfileViewModelFactory
 
     private val viewModel by viewModels<ProfileViewModel> { viewModelFactory }
-    private val adapter = QuestionAdapter()
+    private val adapter = DelegatedListAdapter(QuestionItemCallback)
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

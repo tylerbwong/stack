@@ -5,10 +5,10 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.network.service.UserService
 import me.tylerbwong.stack.ui.BaseViewModel
+import me.tylerbwong.stack.ui.home.QuestionItem
 
 class ProfileViewModel(private val service: UserService) : BaseViewModel() {
 
@@ -19,15 +19,15 @@ class ProfileViewModel(private val service: UserService) : BaseViewModel() {
         get() = _userData
     private val _userData = MutableLiveData<User>()
 
-    internal val questionsData: LiveData<List<Question>>
+    internal val questionsData: LiveData<List<QuestionItem>>
         get() = _questionsData
-    private val _questionsData = MutableLiveData<List<Question>>()
+    private val _questionsData = MutableLiveData<List<QuestionItem>>()
 
     internal fun getUserQuestionsAndAnswers() {
         launchRequest {
             _userData.value = service.getUser(userId).items.firstOrNull()
-            _questionsData.value = service.getUserQuestionsById(userId).items
-            user = questionsData.value?.firstOrNull()?.owner
+            _questionsData.value = service.getUserQuestionsById(userId).items.map { QuestionItem(it) }
+            user = questionsData.value?.firstOrNull()?.question?.owner
         }
     }
 

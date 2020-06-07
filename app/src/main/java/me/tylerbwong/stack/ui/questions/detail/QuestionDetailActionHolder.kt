@@ -2,24 +2,26 @@ package me.tylerbwong.stack.ui.questions.detail
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.QuestionDetailActionHolderBinding
+import me.tylerbwong.stack.ui.adapter.ViewBindingViewHolder
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
-class QuestionDetailActionHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
-
-    private val binding = QuestionDetailActionHolderBinding.bind(itemView)
-
-    fun bind(data: QuestionActionItem) {
-        val (handler, question) = data
-        binding.upvote.apply {
+class QuestionDetailActionHolder(
+    container: ViewGroup
+) : ViewBindingViewHolder<QuestionActionItem, QuestionDetailActionHolderBinding>(
+    container,
+    QuestionDetailActionHolderBinding::inflate
+) {
+    override fun QuestionDetailActionHolderBinding.bind(item: QuestionActionItem) {
+        val (handler, question) = item
+        upvote.apply {
             renderSelectedState(
                 R.color.upvoted,
                 question.upVoteCount,
@@ -29,7 +31,7 @@ class QuestionDetailActionHolder(containerView: View) : RecyclerView.ViewHolder(
                 handler.toggleUpvote(isSelected = !question.isUpVoted)
             }
         }
-        binding.bookmark.apply {
+        bookmark.apply {
             renderSelectedState(
                 R.color.favorited,
                 question.bookmarkCount,
@@ -39,7 +41,7 @@ class QuestionDetailActionHolder(containerView: View) : RecyclerView.ViewHolder(
                 handler.toggleFavorite(isSelected = !question.isBookmarked)
             }
         }
-        binding.downvote.apply {
+        downvote.apply {
             renderSelectedState(
                 R.color.downvoted,
                 question.downVoteCount,

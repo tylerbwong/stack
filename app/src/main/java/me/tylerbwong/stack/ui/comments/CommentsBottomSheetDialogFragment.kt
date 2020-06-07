@@ -16,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.CommentsFragmentBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
+import me.tylerbwong.stack.ui.adapter.DelegatedListAdapter
 import javax.inject.Inject
 
 class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
@@ -24,7 +25,7 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     lateinit var viewModelFactory: CommentsViewModelFactory
 
     private val viewModel by viewModels<CommentsViewModel> { viewModelFactory }
-    private val adapter = CommentsAdapter()
+    private val adapter = DelegatedListAdapter(CommentItemCallback)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
