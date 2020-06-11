@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.observe
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dev.chrisbanes.insetter.doOnApplyWindowInsets
+import dev.chrisbanes.insetter.Insetter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.ActivityQuestionDetailBinding
 import me.tylerbwong.stack.ui.ApplicationWrapper
@@ -84,7 +84,7 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
 
     override fun applyFullscreenWindowInsets() {
         super.applyFullscreenWindowInsets()
-        binding.postAnswerButton.doOnApplyWindowInsets { view, insets, initialState ->
+        Insetter.builder().setOnApplyInsetsListener { view, insets, initialState ->
             (view.layoutParams as? ViewGroup.MarginLayoutParams)?.let {
                 view.layoutParams = it.apply {
                     setMargins(
@@ -95,7 +95,7 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
                     )
                 }
             }
-        }
+        }.applyToView(binding.postAnswerButton)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

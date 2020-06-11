@@ -20,7 +20,7 @@ import androidx.lifecycle.observe
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
-import dev.chrisbanes.insetter.doOnApplyWindowInsets
+import dev.chrisbanes.insetter.Insetter
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
@@ -127,7 +127,7 @@ class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
             }
         }
 
-        binding.postAnswerButton.doOnApplyWindowInsets { buttonView, insets, initialState ->
+        Insetter.builder().setOnApplyInsetsListener { buttonView, insets, initialState ->
             (buttonView.layoutParams as? ViewGroup.MarginLayoutParams)?.let {
                 buttonView.layoutParams = it.apply {
                     setMargins(
@@ -138,7 +138,7 @@ class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
                     )
                 }
             }
-        }
+        }.applyToView(binding.postAnswerButton)
 
         viewModel.fetchDraftIfExists()
     }

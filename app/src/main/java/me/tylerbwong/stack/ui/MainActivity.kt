@@ -18,7 +18,7 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.InstallStatus
-import dev.chrisbanes.insetter.doOnApplyWindowInsets
+import dev.chrisbanes.insetter.Insetter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.AppUpdater
 import me.tylerbwong.stack.data.auth.AuthStore
@@ -152,11 +152,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 
     override fun applyFullscreenWindowInsets() {
         super.applyFullscreenWindowInsets()
-        binding.bottomNav.doOnApplyWindowInsets { view, insets, initialState ->
+        Insetter.builder().setOnApplyInsetsListener { view, insets, initialState ->
             view.updatePadding(
                 bottom = initialState.paddings.bottom + insets.systemWindowInsetBottom
             )
-        }
+        }.applyToView(binding.bottomNav)
     }
 
     private fun setupBottomNavigation() {
