@@ -1,5 +1,5 @@
 object Versions {
-    const val androidGradlePlugin = "4.1.0-alpha10"
+    const val androidGradlePlugin = "4.2.0-alpha01"
     const val androidxActivity = "1.2.0-alpha05"
     const val androidxAppCompat = "1.2.0-alpha02"
     const val androidxBrowser = "1.3.0-alpha01"
@@ -16,7 +16,7 @@ object Versions {
     const val apacheCommonsText = "1.8"
     const val betterLinkMovementMethod = "2.2.0"
     const val coil = "0.11.0"
-    const val compose = "0.1.0-dev12"
+    const val compose = "0.1.0-dev13"
     const val composeKotlinCompiler = "1.3.70-dev-withExperimentalGoogleExtensions-20200424"
     const val constraintLayout = "2.0.0-beta6"
     const val dagger = "2.28"
