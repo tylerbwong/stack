@@ -26,7 +26,7 @@ object Versions {
     const val firebaseCrashlytics = "17.0.0"
     const val firebaseCrashlyticsGradlePlugin = "2.1.0"
     const val googleServices = "4.3.3"
-    const val insetter = "0.2.2"
+    const val insetter = "0.3.0"
     const val jUnit = "4.12"
     const val klock = "1.10.0"
     const val kotlin = "1.3.72"
@@ -49,6 +49,7 @@ object Versions {
 }
 
 object Dep {
+    const val androidGradlePlugin = "com.android.tools.build:gradle:${Versions.androidGradlePlugin}"
     const val androidxActivity = "androidx.activity:activity-ktx:${Versions.androidxActivity}"
     const val androidxAppCompat = "androidx.appcompat:appcompat:${Versions.androidxAppCompat}"
     const val androidxBrowser = "androidx.browser:browser:${Versions.androidxBrowser}"
@@ -80,6 +81,7 @@ object Dep {
     const val googleServicesPlugin = "com.google.gms:google-services:${Versions.googleServices}"
     const val insetter = "dev.chrisbanes:insetter-ktx:${Versions.insetter}"
     const val klock = "com.soywiz.korlibs.klock:klock:${Versions.klock}"
+    const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val kotlinLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
     const val kotlinCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinxCoroutines}"
     const val kotlinCoroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinxCoroutines}"
@@ -112,7 +114,4 @@ object Dep {
     const val mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockitoKotlin}"
     const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
     const val testRunner = "androidx.test:runner:${Versions.testRunner}"
-
-    const val androidGradlePlugin = "com.android.tools.build:gradle:${Versions.androidGradlePlugin}"
-    const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
 }
