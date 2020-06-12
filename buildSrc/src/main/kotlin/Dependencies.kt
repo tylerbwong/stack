@@ -30,7 +30,7 @@ object Versions {
     const val jUnit = "4.12"
     const val klock = "1.10.0"
     const val kotlin = "1.3.72"
-    const val kotlinxCoroutines = "1.3.5"
+    const val kotlinxCoroutines = "1.3.7"
     const val ktlintGradle = "9.2.1"
     const val markwon = "4.4.0"
     const val materialComponents = "1.3.0-alpha01"
