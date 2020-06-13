@@ -17,7 +17,7 @@ class SiteInterceptor(
         val request = chain.request()
 
         // We do not want to add site to any request not going to api.stackexchange.com
-        if (!request.isBaseUrl || request.url.encodedPathSegments.any { it in blacklist }) {
+        if (!request.isBaseUrl || request.url.encodedPathSegments.any { it in unsupportedEndpoints }) {
             return chain.proceed(request)
         }
 
@@ -40,7 +40,7 @@ class SiteInterceptor(
 
     companion object {
         // These endpoints do not accept a site parameter
-        private val blacklist = listOf(
+        private val unsupportedEndpoints = listOf(
             "access-tokens",
             "sites"
         )
