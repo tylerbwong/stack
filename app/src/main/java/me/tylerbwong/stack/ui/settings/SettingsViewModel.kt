@@ -13,6 +13,9 @@ class SettingsViewModel(private val siteRepository: SiteRepository) : BaseViewMo
     private val mutableCurrentSite = MutableLiveData<Site>()
 
     internal fun fetchCurrentSite() {
-        launchRequest { mutableCurrentSite.value = siteRepository.getCurrentSite() }
+        launchRequest {
+            siteRepository.fetchSitesIfNecessary()
+            mutableCurrentSite.value = siteRepository.getCurrentSite()
+        }
     }
 }
