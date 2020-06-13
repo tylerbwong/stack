@@ -6,8 +6,9 @@ import me.tylerbwong.stack.data.network.service.SiteService
 import me.tylerbwong.stack.data.persistence.dao.SiteDao
 import me.tylerbwong.stack.data.toSite
 import me.tylerbwong.stack.data.toSiteEntity
+import javax.inject.Inject
 
-class SiteRepository(
+class SiteRepository @Inject constructor(
     private val siteDao: SiteDao,
     private val siteService: SiteService,
     private val siteStore: SiteStore

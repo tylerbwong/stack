@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
+import javax.inject.Inject
 
-class DraftsViewModelFactory(
+class DraftsViewModelFactory @Inject constructor(
     private val draftsDao: AnswerDraftDao,
     private val siteStore: SiteStore
 ) : ViewModelProvider.Factory {

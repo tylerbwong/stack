@@ -3,8 +3,9 @@ package me.tylerbwong.stack.data.repository
 import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.Sort
 import me.tylerbwong.stack.data.network.service.QuestionService
+import javax.inject.Inject
 
-class QuestionRepository(private val questionService: QuestionService) {
+class QuestionRepository @Inject constructor(private val questionService: QuestionService) {
 
     suspend fun getQuestions(@Sort sort: String): List<Question> {
         return getQuestionsFromNetwork(sort)

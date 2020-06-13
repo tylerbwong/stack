@@ -5,8 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import me.tylerbwong.stack.data.auth.AuthRepository
 import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.data.repository.SiteRepository
+import javax.inject.Inject
 
-class BookmarksViewModelFactory(
+class BookmarksViewModelFactory @Inject constructor(
     private val authRepository: AuthRepository,
     private val siteRepository: SiteRepository,
     private val questionService: QuestionService

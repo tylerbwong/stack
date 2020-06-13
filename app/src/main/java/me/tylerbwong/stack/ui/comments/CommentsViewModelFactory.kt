@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.network.service.CommentService
+import javax.inject.Inject
 
-class CommentsViewModelFactory(
+class CommentsViewModelFactory @Inject constructor(
     private val service: CommentService,
     private val authStore: AuthStore
 ) : ViewModelProvider.Factory {

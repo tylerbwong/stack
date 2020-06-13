@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.data.repository.SiteRepository
 import timber.log.Timber
+import javax.inject.Inject
 
 class SitesWorker(
     context: Context,
@@ -26,7 +27,9 @@ class SitesWorker(
         Result.failure()
     }
 
-    class SitesWorkerFactory(private val siteRepository: SiteRepository) : WorkerFactory() {
+    class SitesWorkerFactory @Inject constructor(
+        private val siteRepository: SiteRepository
+    ) : WorkerFactory() {
 
         override fun createWorker(
             appContext: Context,

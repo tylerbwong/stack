@@ -26,10 +26,14 @@ open class SharedPreferencesModule {
     open fun provideAuthSharedPreferences(
         context: Context
     ): SharedPreferences = EncryptedSharedPreferences.create(
-        AuthModule.AUTH_PREFERENCES,
+        AUTH_PREFERENCES,
         MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
         context,
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
+
+    companion object {
+        internal const val AUTH_PREFERENCES = "auth_preferences"
+    }
 }

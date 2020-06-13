@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
-import me.tylerbwong.stack.data.auth.di.AuthModule
 import me.tylerbwong.stack.data.auth.di.SharedPreferencesModule
 
 @Module
@@ -14,7 +13,7 @@ class TestSharedPreferencesModule : SharedPreferencesModule() {
     override fun provideAuthSharedPreferences(
         context: Context
     ): SharedPreferences = context.getSharedPreferences(
-        AuthModule.AUTH_PREFERENCES,
+        AUTH_PREFERENCES,
         Context.MODE_PRIVATE
     )
 }

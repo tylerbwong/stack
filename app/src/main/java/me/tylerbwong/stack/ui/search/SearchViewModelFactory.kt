@@ -6,8 +6,9 @@ import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.network.service.SearchService
 import me.tylerbwong.stack.data.network.service.TagService
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
+import javax.inject.Inject
 
-class SearchViewModelFactory(
+class SearchViewModelFactory @Inject constructor(
     private val tagService: TagService,
     private val searchService: SearchService,
     private val searchDao: SearchDao,

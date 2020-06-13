@@ -4,9 +4,14 @@ import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.data.network.service.DEFAULT_SITE
+import javax.inject.Inject
+import javax.inject.Named
+import javax.inject.Singleton
 
-class SiteStore(private val preferences: SharedPreferences) {
-
+@Singleton
+class SiteStore @Inject constructor(
+    @Named("siteSharedPreferences") private val preferences: SharedPreferences
+) {
     var site: String
         @Synchronized
         get() = deepLinkSite ?: preferences.getString(SITE_KEY, DEFAULT_SITE) ?: DEFAULT_SITE

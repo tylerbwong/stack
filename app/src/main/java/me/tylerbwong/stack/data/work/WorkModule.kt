@@ -9,16 +9,10 @@ import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import dagger.Module
 import dagger.Provides
-import me.tylerbwong.stack.data.repository.SiteRepository
 import javax.inject.Singleton
 
 @Module
 class WorkModule {
-
-    @Provides
-    fun provideWorkerFactory(
-        siteRepository: SiteRepository
-    ) = SitesWorker.SitesWorkerFactory(siteRepository)
 
     @Provides
     fun provideWorkerConstraints(): Constraints = Constraints.Builder()

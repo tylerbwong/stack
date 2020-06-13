@@ -3,8 +3,9 @@ package me.tylerbwong.stack.ui.questions
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import me.tylerbwong.stack.data.network.service.QuestionService
+import javax.inject.Inject
 
-class QuestionsViewModelFactory(
+class QuestionsViewModelFactory @Inject constructor(
     private val questionService: QuestionService
 ) : ViewModelProvider.Factory {
 

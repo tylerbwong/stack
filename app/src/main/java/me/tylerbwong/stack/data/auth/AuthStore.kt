@@ -6,9 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.data.model.Scope
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import javax.inject.Inject
+import javax.inject.Named
+import javax.inject.Singleton
 
-class AuthStore(private val preferences: SharedPreferences) {
-
+@Singleton
+class AuthStore @Inject constructor(
+    @Named("authSharedPreferences") private val preferences: SharedPreferences
+) {
     var accessToken: String?
         get() = preferences.getString(ACCESS_TOKEN, null)
         private set(value) {

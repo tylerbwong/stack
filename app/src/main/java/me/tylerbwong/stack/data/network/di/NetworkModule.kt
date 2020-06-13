@@ -35,7 +35,9 @@ class NetworkModule {
     fun provideUnitConverterFactory() = UnitConverterFactory
 
     @Provides
-    fun provideMoshiConverterFactory(moshi: Moshi) = MoshiConverterFactory.create(moshi)
+    fun provideMoshiConverterFactory(
+        moshi: Moshi
+    ): MoshiConverterFactory = MoshiConverterFactory.create(moshi)
 
     @Provides
     fun provideHttpLoggingInterceptor() = HttpLoggingInterceptor().apply {
@@ -73,7 +75,7 @@ class NetworkModule {
         okHttpClient: OkHttpClient,
         unitConverterFactory: UnitConverterFactory,
         moshiConverterFactory: MoshiConverterFactory
-    ) = Retrofit.Builder()
+    ): Retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(okHttpClient)
         .addConverterFactory(unitConverterFactory)
@@ -82,31 +84,45 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideAuthService(retrofit: Retrofit) = retrofit.create(AuthService::class.java)
+    fun provideAuthService(
+        retrofit: Retrofit
+    ): AuthService = retrofit.create(AuthService::class.java)
 
     @Singleton
     @Provides
-    fun provideUserService(retrofit: Retrofit) = retrofit.create(UserService::class.java)
+    fun provideUserService(
+        retrofit: Retrofit
+    ): UserService = retrofit.create(UserService::class.java)
 
     @Singleton
     @Provides
-    fun provideSearchService(retrofit: Retrofit) = retrofit.create(SearchService::class.java)
+    fun provideSearchService(
+        retrofit: Retrofit
+    ): SearchService = retrofit.create(SearchService::class.java)
 
     @Singleton
     @Provides
-    fun provideQuestionService(retrofit: Retrofit) = retrofit.create(QuestionService::class.java)
+    fun provideQuestionService(
+        retrofit: Retrofit
+    ): QuestionService = retrofit.create(QuestionService::class.java)
 
     @Singleton
     @Provides
-    fun provideCommentService(retrofit: Retrofit) = retrofit.create(CommentService::class.java)
+    fun provideCommentService(
+        retrofit: Retrofit
+    ): CommentService = retrofit.create(CommentService::class.java)
 
     @Singleton
     @Provides
-    fun provideTagService(retrofit: Retrofit) = retrofit.create(TagService::class.java)
+    fun provideTagService(
+        retrofit: Retrofit
+    ): TagService = retrofit.create(TagService::class.java)
 
     @Singleton
     @Provides
-    fun provideSiteService(retrofit: Retrofit) = retrofit.create(SiteService::class.java)
+    fun provideSiteService(
+        retrofit: Retrofit
+    ): SiteService = retrofit.create(SiteService::class.java)
 
     companion object {
         private const val BASE_URL = "https://api.stackexchange.com/2.2/"

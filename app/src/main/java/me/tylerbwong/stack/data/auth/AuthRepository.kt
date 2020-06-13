@@ -9,8 +9,11 @@ import me.tylerbwong.stack.data.network.service.UserService
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AuthRepository(
+@Singleton
+class AuthRepository @Inject constructor(
     private val answerDraftDao: AnswerDraftDao,
     private val searchDao: SearchDao,
     private val userService: UserService,
