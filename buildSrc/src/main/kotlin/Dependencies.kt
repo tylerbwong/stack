@@ -36,7 +36,7 @@ object Versions {
     const val materialComponents = "1.3.0-alpha01"
     const val mockito = "3.0.0"
     const val mockitoKotlin = "2.2.0"
-    const val moshi = "1.9.2"
+    const val moshi = "1.9.3"
     const val okHttp = "4.7.2"
     const val playCore = "1.7.3"
     const val prism4j = "2.0.0"
