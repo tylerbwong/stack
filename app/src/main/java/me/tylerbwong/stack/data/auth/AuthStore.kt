@@ -15,6 +15,7 @@ class AuthStore @Inject constructor(
     @Named("authSharedPreferences") private val preferences: SharedPreferences
 ) {
     var accessToken: String?
+        @Synchronized
         get() = preferences.getString(ACCESS_TOKEN, null)
         private set(value) {
             preferences.edit().putString(ACCESS_TOKEN, value).apply()
@@ -30,9 +31,7 @@ class AuthStore @Inject constructor(
             .getQueryParameter(ACCESS_TOKEN)
     }
 
-    fun clear() {
-        accessToken = null
-    }
+    fun clear() = preferences.edit().clear().apply()
 
     companion object {
         const val ACCESS_TOKEN = "access_token"

@@ -34,4 +34,15 @@ class AuthStoreTest : BaseTest() {
         assertNull(authStore.accessToken)
         assertEquals(false, authStore.isAuthenticatedLiveData.value)
     }
+
+    @Test
+    fun `clear() removes accessToken`() {
+        assertEquals(false, authStore.isAuthenticatedLiveData.value)
+        val validUri = Uri.parse("stack://tylerbwong.me/auth/redirect#access_token=1234567")
+        authStore.setAccessToken(validUri)
+        assertEquals("1234567", authStore.accessToken)
+        assertEquals(true, authStore.isAuthenticatedLiveData.value)
+        authStore.clear()
+        assertNull(authStore.accessToken)
+    }
 }
