@@ -105,6 +105,10 @@ dependencies {
     implementation(Dep.composeMaterial)
     implementation(Dep.composeTooling)
 
+    // debug
+    debugImplementation(Dep.chucker)
+    releaseImplementation(Dep.chuckerNoOp)
+
     // dynamic-list-adapter
     implementation(project(":dynamic-list-adapter"))
     implementation(project(":dynamic-list-adapter-viewbinding"))

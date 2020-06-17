@@ -1,5 +1,8 @@
 package me.tylerbwong.stack.data.network.di
 
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -45,6 +48,12 @@ class NetworkModule {
     }
 
     @Provides
+    fun provideChuckerInterceptor(context: Context): ChuckerInterceptor {
+        val collector = ChuckerCollector(context, showNotification = false)
+        return ChuckerInterceptor(context, collector)
+    }
+
+    @Provides
     fun provideSiteInterceptor(
         baseUrl: String,
         siteStore: SiteStore
@@ -55,14 +64,17 @@ class NetworkModule {
     fun provideOkHttpClient(
         authInterceptor: AuthInterceptor,
         httpLoggingInterceptor: HttpLoggingInterceptor,
-        siteInterceptor: SiteInterceptor
+        siteInterceptor: SiteInterceptor,
+        chuckerInterceptor: ChuckerInterceptor
     ): OkHttpClient {
         val okHttpClientBuilder = OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
             .addInterceptor(siteInterceptor)
 
         if (BuildConfig.DEBUG) {
-            okHttpClientBuilder.addInterceptor(httpLoggingInterceptor)
+            okHttpClientBuilder
+                .addInterceptor(httpLoggingInterceptor)
+                .addInterceptor(chuckerInterceptor)
         }
 
         return okHttpClientBuilder.build()

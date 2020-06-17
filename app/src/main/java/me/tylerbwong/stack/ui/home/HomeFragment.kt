@@ -78,8 +78,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         binding.refreshLayout.setOnRefreshListener {
             viewModel.fetchQuestions()
         }
-
-        viewModel.fetchQuestions()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

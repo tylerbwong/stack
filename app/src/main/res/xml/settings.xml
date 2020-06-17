@@ -16,6 +16,16 @@
             android:title="@string/syntax_highlighting" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="@string/debug"
+        android:title="@string/debug">
+
+        <Preference
+            android:icon="@drawable/ic_baseline_traffic"
+            android:key="@string/inspect_network_traffic"
+            android:title="@string/inspect_network_traffic" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/app">
         <Preference
             android:icon="@drawable/ic_brightness_2"

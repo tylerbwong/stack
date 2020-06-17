@@ -7,10 +7,12 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.TwoStatePreference
 import coil.ImageLoader
 import coil.request.LoadRequest
+import com.chuckerteam.chucker.api.Chucker
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.processphoenix.ProcessPhoenix
 import me.tylerbwong.stack.BuildConfig
@@ -84,6 +86,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             findPreference<Preference>(getString(R.string.version))?.apply {
                 summary = BuildConfig.VERSION_NAME
+            }
+
+            findPreference<PreferenceCategory>(getString(R.string.debug))?.isVisible = BuildConfig.DEBUG
+            if (BuildConfig.DEBUG) {
+                findPreference<Preference>(getString(R.string.inspect_network_traffic))?.apply {
+                    setOnPreferenceClickListener {
+                        val context = requireContext()
+                        val intent = Chucker.getLaunchIntent(context, Chucker.SCREEN_HTTP)
+                        context.startActivity(intent)
+                        true
+                    }
+                }
             }
         }
     }

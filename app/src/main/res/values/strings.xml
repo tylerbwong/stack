@@ -121,6 +121,10 @@
     <string name="experimental">Experimental</string>
     <string name="current_site">Current Site</string>
     <string name="sites">Sites</string>
+    <string name="debug">Debug</string>
+
+    <!-- Debug -->
+    <string name="inspect_network_traffic">Inspect Network Traffic</string>
 
     <!-- Transition string -->
     <string name="shared_transition_name">transition</string>
