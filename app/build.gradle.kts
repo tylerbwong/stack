@@ -106,6 +106,12 @@ dependencies {
     implementation(Dep.composeTooling)
 
     // debug
+    debugImplementation(Dep.hyperionAttr)
+    debugImplementation(Dep.hyperionCore)
+    debugImplementation(Dep.hyperionDisk)
+    debugImplementation(Dep.hyperionMeasure)
+    debugImplementation(Dep.hyperionSharedPref)
+    debugImplementation(Dep.hyperionTimber)
     debugImplementation(Dep.chucker)
     releaseImplementation(Dep.chuckerNoOp)
 
