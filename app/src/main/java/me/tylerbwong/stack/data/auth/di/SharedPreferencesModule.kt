@@ -7,13 +7,21 @@ import androidx.security.crypto.MasterKeys
 import dagger.Module
 import dagger.Provides
 import me.tylerbwong.stack.data.SiteStore
-import javax.inject.Named
+import javax.inject.Qualifier
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class SiteSharedPreferences
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AuthSharedPreferences
 
 @Module
 open class SharedPreferencesModule {
 
     @Provides
-    @Named("siteSharedPreferences")
+    @SiteSharedPreferences
     fun provideSiteSharedPreferences(
         context: Context
     ): SharedPreferences = context.getSharedPreferences(
@@ -22,7 +30,7 @@ open class SharedPreferencesModule {
     )
 
     @Provides
-    @Named("authSharedPreferences")
+    @AuthSharedPreferences
     open fun provideAuthSharedPreferences(
         context: Context
     ): SharedPreferences = EncryptedSharedPreferences.create(

@@ -3,14 +3,14 @@ package me.tylerbwong.stack.data
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import me.tylerbwong.stack.data.auth.di.SiteSharedPreferences
 import me.tylerbwong.stack.data.network.service.DEFAULT_SITE
 import javax.inject.Inject
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
 class SiteStore @Inject constructor(
-    @Named("siteSharedPreferences") private val preferences: SharedPreferences
+    @SiteSharedPreferences private val preferences: SharedPreferences
 ) {
     var site: String
         @Synchronized

@@ -12,12 +12,14 @@ import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import javax.inject.Inject
+import javax.inject.Singleton
 
 sealed class DeepLinkResult {
     class Success(val intent: Intent) : DeepLinkResult()
     object PathNotSupportedError : DeepLinkResult()
 }
 
+@Singleton
 class DeepLinker @Inject constructor(
     private val authStore: AuthStore,
     private val siteStore: SiteStore

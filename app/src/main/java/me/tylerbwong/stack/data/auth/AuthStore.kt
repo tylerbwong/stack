@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import me.tylerbwong.stack.data.auth.di.AuthSharedPreferences
 import me.tylerbwong.stack.data.model.Scope
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import javax.inject.Inject
@@ -12,7 +13,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AuthStore @Inject constructor(
-    @Named("authSharedPreferences") private val preferences: SharedPreferences
+    @AuthSharedPreferences private val preferences: SharedPreferences
 ) {
     var accessToken: String?
         @Synchronized
