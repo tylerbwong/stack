@@ -98,6 +98,7 @@ object Dep {
     const val markwonStrikethrough = "io.noties.markwon:ext-strikethrough:${Versions.markwon}"
     const val markwonSyntaxHighlight = "io.noties.markwon:syntax-highlight:${Versions.markwon}"
     const val markwonTables = "io.noties.markwon:ext-tables:${Versions.markwon}"
+    const val markwonTaskList = "io.noties.markwon:ext-tasklist:${Versions.markwon}"
     const val materialComponents = "com.google.android.material:material:${Versions.materialComponents}"
     const val moshi = "com.squareup.moshi:moshi:${Versions.moshi}"
     const val moshiKotlinCodegen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"

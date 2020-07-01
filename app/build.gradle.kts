@@ -148,6 +148,7 @@ dependencies {
     implementation(Dep.markwonStrikethrough)
     implementation(Dep.markwonSyntaxHighlight)
     implementation(Dep.markwonTables)
+    implementation(Dep.markwonTaskList)
     kapt(Dep.prism4jBundler)
 
     // misc

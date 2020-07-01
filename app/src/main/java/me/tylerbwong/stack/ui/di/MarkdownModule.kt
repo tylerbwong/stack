@@ -7,6 +7,7 @@ import io.noties.markwon.Markwon
 import io.noties.markwon.PrecomputedFutureTextSetterCompat
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.ext.tables.TablePlugin
+import io.noties.markwon.ext.tasklist.TaskListPlugin
 import io.noties.markwon.html.HtmlPlugin
 import io.noties.markwon.image.coil.CoilImagesPlugin
 import io.noties.markwon.linkify.LinkifyPlugin
@@ -15,6 +16,7 @@ import io.noties.markwon.syntax.Prism4jThemeDarkula
 import io.noties.markwon.syntax.Prism4jThemeDefault
 import io.noties.markwon.syntax.SyntaxHighlightPlugin
 import io.noties.prism4j.Prism4j
+import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.DeepLinker
 import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled
 import me.tylerbwong.stack.ui.utils.markdown.CustomTabsLinkResolver
@@ -43,6 +45,13 @@ class MarkdownModule {
 
     @Provides
     fun provideTablePlugin(context: Context) = TablePlugin.create(context)
+
+    @Provides
+    fun provideTaskListPlugin(context: Context) = TaskListPlugin.create(
+        context.getColor(R.color.colorAccent),
+        context.getColor(R.color.colorAccent),
+        context.getColor(R.color.white)
+    )
 
     @Provides
     fun provideUrlProcessor() = CustomUrlProcessor()
@@ -83,6 +92,7 @@ class MarkdownModule {
         linkifyPlugin: LinkifyPlugin,
         strikethroughPlugin: StrikethroughPlugin,
         tablePlugin: TablePlugin,
+        taskListPlugin: TaskListPlugin,
         urlPlugin: UrlPlugin,
         syntaxHighlightPlugin: SyntaxHighlightPlugin,
         textSetter: Markwon.TextSetter
@@ -93,6 +103,7 @@ class MarkdownModule {
             linkifyPlugin,
             strikethroughPlugin,
             tablePlugin,
+            taskListPlugin,
             urlPlugin
         )
         val experimentalPlugins = if (Markdown.experimentalSyntaxHighlightingEnabled) {
