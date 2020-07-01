@@ -2,7 +2,6 @@ package me.tylerbwong.stack.data.auth
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.security.crypto.MasterKey
 import dagger.Module
 import dagger.Provides
 import me.tylerbwong.stack.data.auth.di.SharedPreferencesModule
@@ -12,8 +11,7 @@ class TestSharedPreferencesModule : SharedPreferencesModule() {
 
     @Provides
     override fun provideAuthSharedPreferences(
-        context: Context,
-        masterKey: MasterKey
+        context: Context
     ): SharedPreferences = context.getSharedPreferences(
         AUTH_PREFERENCES,
         Context.MODE_PRIVATE

@@ -21,11 +21,6 @@ annotation class AuthSharedPreferences
 open class SharedPreferencesModule {
 
     @Provides
-    fun provideMasterKey(context: Context) = MasterKey.Builder(context)
-        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-        .build()
-
-    @Provides
     @SiteSharedPreferences
     fun provideSiteSharedPreferences(
         context: Context
@@ -37,12 +32,13 @@ open class SharedPreferencesModule {
     @Provides
     @AuthSharedPreferences
     open fun provideAuthSharedPreferences(
-        context: Context,
-        masterKey: MasterKey
+        context: Context
     ): SharedPreferences = EncryptedSharedPreferences.create(
         context,
         AUTH_PREFERENCES,
-        masterKey,
+        MasterKey.Builder(context)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build(),
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
