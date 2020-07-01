@@ -4,6 +4,7 @@ import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.squareup.moshi.Moshi
+import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import me.tylerbwong.stack.BuildConfig
@@ -18,7 +19,9 @@ import me.tylerbwong.stack.data.network.service.SearchService
 import me.tylerbwong.stack.data.network.service.SiteService
 import me.tylerbwong.stack.data.network.service.TagService
 import me.tylerbwong.stack.data.network.service.UserService
+import okhttp3.Call
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -82,14 +85,22 @@ class NetworkModule {
 
     @Singleton
     @Provides
+    fun provideCallFactory(
+        okHttpClient: Lazy<OkHttpClient>
+    ) = object : Call.Factory {
+        override fun newCall(request: Request) = okHttpClient.get().newCall(request)
+    }
+
+    @Singleton
+    @Provides
     fun provideRetrofit(
         baseUrl: String,
-        okHttpClient: OkHttpClient,
+        callFactory: Call.Factory,
         unitConverterFactory: UnitConverterFactory,
         moshiConverterFactory: MoshiConverterFactory
     ): Retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
-        .client(okHttpClient)
+        .callFactory(callFactory)
         .addConverterFactory(unitConverterFactory)
         .addConverterFactory(moshiConverterFactory)
         .build()
