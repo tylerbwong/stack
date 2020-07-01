@@ -3,7 +3,7 @@ package me.tylerbwong.stack.data.auth.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
+import androidx.security.crypto.MasterKey
 import dagger.Module
 import dagger.Provides
 import me.tylerbwong.stack.data.SiteStore
@@ -21,6 +21,11 @@ annotation class AuthSharedPreferences
 open class SharedPreferencesModule {
 
     @Provides
+    fun provideMasterKey(context: Context) = MasterKey.Builder(context)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
+
+    @Provides
     @SiteSharedPreferences
     fun provideSiteSharedPreferences(
         context: Context
@@ -32,11 +37,12 @@ open class SharedPreferencesModule {
     @Provides
     @AuthSharedPreferences
     open fun provideAuthSharedPreferences(
-        context: Context
+        context: Context,
+        masterKey: MasterKey
     ): SharedPreferences = EncryptedSharedPreferences.create(
-        AUTH_PREFERENCES,
-        MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
         context,
+        AUTH_PREFERENCES,
+        masterKey,
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )

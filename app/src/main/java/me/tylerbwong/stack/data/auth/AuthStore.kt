@@ -31,7 +31,10 @@ class AuthStore @Inject constructor(
             .getQueryParameter(ACCESS_TOKEN)
     }
 
-    fun clear() = preferences.edit().clear().apply()
+    fun clear() {
+        accessToken = null
+        preferences.edit().clear().apply()
+    }
 
     companion object {
         const val ACCESS_TOKEN = "access_token"

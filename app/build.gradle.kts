@@ -90,6 +90,9 @@ dependencies {
     implementation(Dep.androidxLiveData)
     implementation(Dep.androidxPreference)
     implementation(Dep.androidxRecyclerView)
+    implementation(Dep.androidxRoomRuntime)
+    implementation(Dep.androidxRoomKtx)
+    kapt(Dep.androidxRoomProcessor)
     implementation(Dep.androidxSecurity)
     implementation(Dep.androidxSwipeRefreshLayout)
     implementation(Dep.androidxViewModel)
@@ -160,11 +163,6 @@ dependencies {
 
     // play
     implementation(Dep.playCore)
-
-    // room
-    implementation(Dep.roomRuntime)
-    implementation(Dep.roomKtx)
-    kapt(Dep.roomProcessor)
 
     // testing
     testImplementation(Dep.androidxTestCore)
