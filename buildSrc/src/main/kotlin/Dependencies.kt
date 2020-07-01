@@ -29,7 +29,7 @@ object Versions {
     const val googleServices = "4.3.3"
     const val insetter = "0.3.0"
     const val jUnit = "4.12"
-    const val klock = "1.10.0"
+    const val klock = "1.11.12"
     const val kotlin = "1.3.72"
     const val kotlinxCoroutines = "1.3.7"
     const val ktlintGradle = "9.2.1"

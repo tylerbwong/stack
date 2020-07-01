@@ -7,7 +7,7 @@ import com.soywiz.klock.until
 import me.tylerbwong.stack.R
 
 fun Long.formatElapsedTime(context: Context): String {
-    val creationDate = DateTime.fromUnix(milliseconds.millisecondsLong)
+    val creationDate = DateTime.fromUnix(toDouble().milliseconds.millisecondsLong)
     val dateCalculation = (creationDate until DateTime.now()).span
 
     return when {
