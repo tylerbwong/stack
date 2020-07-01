@@ -10,10 +10,13 @@ import io.noties.markwon.ext.tables.TablePlugin
 import io.noties.markwon.html.HtmlPlugin
 import io.noties.markwon.image.coil.CoilImagesPlugin
 import io.noties.markwon.linkify.LinkifyPlugin
+import io.noties.markwon.syntax.Prism4jThemeBase
 import io.noties.markwon.syntax.Prism4jThemeDarkula
+import io.noties.markwon.syntax.Prism4jThemeDefault
 import io.noties.markwon.syntax.SyntaxHighlightPlugin
 import io.noties.prism4j.Prism4j
 import me.tylerbwong.stack.data.DeepLinker
+import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled
 import me.tylerbwong.stack.ui.utils.markdown.CustomTabsLinkResolver
 import me.tylerbwong.stack.ui.utils.markdown.CustomUrlProcessor
 import me.tylerbwong.stack.ui.utils.markdown.GrammarLocatorDef
@@ -51,13 +54,17 @@ class MarkdownModule {
     fun providePrism4j() = Prism4j(GrammarLocatorDef())
 
     @Provides
-    fun providePrism4jThemeDarkula() = Prism4jThemeDarkula.create()
+    fun providePrism4jTheme(context: Context): Prism4jThemeBase = if (context.isNightModeEnabled) {
+        Prism4jThemeDarkula.create()
+    } else {
+        Prism4jThemeDefault.create()
+    }
 
     @Provides
     fun provideSyntaxHighlightPlugin(
         prism4j: Prism4j,
-        prism4jThemeDarkula: Prism4jThemeDarkula
-    ) = SyntaxHighlightPlugin.create(prism4j, prism4jThemeDarkula)
+        prism4jTheme: Prism4jThemeBase
+    ) = SyntaxHighlightPlugin.create(prism4j, prism4jTheme)
 
     @Provides
     fun provideExecutor(): Executor = Executors.newCachedThreadPool()

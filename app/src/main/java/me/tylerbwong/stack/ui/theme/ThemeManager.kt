@@ -16,7 +16,7 @@ import me.tylerbwong.stack.R
 
 object ThemeManager {
 
-    private val Context.isNightModeEnabled: Boolean
+    val Context.isNightModeEnabled: Boolean
         get() = configurationMode == Configuration.UI_MODE_NIGHT_YES
 
     private val Context.configurationMode: Int
