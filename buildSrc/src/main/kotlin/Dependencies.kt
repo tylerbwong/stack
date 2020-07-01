@@ -21,7 +21,7 @@ object Versions {
     const val composeKotlinCompiler = "1.3.70-dev-withExperimentalGoogleExtensions-20200424"
     const val constraintLayout = "2.0.0-beta7"
     const val dagger = "2.28"
-    const val detekt = "1.9.1"
+    const val detekt = "1.10.0"
     const val espresso = "3.1.0"
     const val firebaseAnalytics = "17.4.1"
     const val firebaseCrashlytics = "17.0.0"
