@@ -17,7 +17,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.processphoenix.ProcessPhoenix
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.Leaks
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
@@ -96,13 +95,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         val context = requireContext()
                         val intent = Chucker.getLaunchIntent(context, Chucker.SCREEN_HTTP)
                         context.startActivity(intent)
-                        true
-                    }
-                }
-                findPreference<TwoStatePreference>(getString(R.string.enable_leak_canary))?.apply {
-                    isChecked = Leaks.isLeakCanaryEnabled
-                    setOnPreferenceChangeListener { _, newValue ->
-                        Leaks.initialize(isEnabled = newValue as Boolean)
                         true
                     }
                 }

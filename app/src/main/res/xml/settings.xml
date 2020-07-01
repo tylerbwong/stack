@@ -24,12 +24,6 @@
             android:icon="@drawable/ic_baseline_traffic"
             android:key="@string/inspect_network_traffic"
             android:title="@string/inspect_network_traffic" />
-
-        <SwitchPreferenceCompat
-            android:icon="@drawable/ic_baseline_memory"
-            android:key="@string/enable_leak_canary"
-            android:summary="@string/enable_leak_canary_summary"
-            android:title="@string/enable_leak_canary" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/app">

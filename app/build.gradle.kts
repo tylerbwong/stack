@@ -136,9 +136,6 @@ dependencies {
     // insetter
     implementation(Dep.insetter)
 
-    // leakcanary
-    debugImplementation(Dep.leakCanary)
-
     // logging
     implementation(Dep.timber)
 

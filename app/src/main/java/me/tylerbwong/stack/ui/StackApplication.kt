@@ -3,7 +3,6 @@ package me.tylerbwong.stack.ui
 import android.app.Application
 import com.google.firebase.FirebaseApp
 import com.jakewharton.processphoenix.ProcessPhoenix
-import me.tylerbwong.stack.data.Leaks
 import me.tylerbwong.stack.data.logging.Logger
 import me.tylerbwong.stack.data.work.Work
 import me.tylerbwong.stack.ui.theme.ThemeManager
@@ -25,8 +24,6 @@ class StackApplication : Application() {
         ThemeManager.init(this)
 
         CoilInitializer.init(this)
-
-        Leaks.initialize()
 
         Logger.init()
 

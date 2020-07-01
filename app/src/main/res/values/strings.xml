@@ -125,8 +125,6 @@
 
     <!-- Debug -->
     <string name="inspect_network_traffic">Inspect Network Traffic</string>
-    <string name="enable_leak_canary">Enable Leak Canary</string>
-    <string name="enable_leak_canary_summary">Enables heap dump analysis. Will show the Leak Canary app icon in the system tray.</string>
 
     <!-- Transition string -->
     <string name="shared_transition_name">transition</string>
