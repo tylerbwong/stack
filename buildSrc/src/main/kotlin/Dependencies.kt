@@ -13,7 +13,7 @@ object Versions {
     const val androidxSwipeRefreshLayout = "1.1.0-rc01"
     const val androidxTestCore = "1.3.0-alpha05"
     const val androidxViewPager2 = "1.1.0-alpha01"
-    const val androidxWork = "2.4.0-beta01"
+    const val androidxWork = "2.4.0-rc01"
     const val apacheCommonsText = "1.8"
     const val betterLinkMovementMethod = "2.2.0"
     const val chucker = "3.2.0"
