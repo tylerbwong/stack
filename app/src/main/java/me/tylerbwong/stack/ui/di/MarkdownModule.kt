@@ -83,6 +83,7 @@ class MarkdownModule {
         executor: Executor
     ): Markwon.TextSetter = PrecomputedFutureTextSetterCompat.create(executor)
 
+    @Suppress("LongParameterList")
     @Singleton
     @Provides
     fun provideMarkwon(
