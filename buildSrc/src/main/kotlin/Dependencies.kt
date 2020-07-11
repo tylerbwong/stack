@@ -39,7 +39,7 @@ object Versions {
     const val mockito = "3.3.3"
     const val mockitoKotlin = "2.2.0"
     const val moshi = "1.9.3"
-    const val okHttp = "4.7.2"
+    const val okHttp = "4.8.0"
     const val playCore = "1.7.3"
     const val prism4j = "2.0.0"
     const val processPhoenix = "2.0.0"
