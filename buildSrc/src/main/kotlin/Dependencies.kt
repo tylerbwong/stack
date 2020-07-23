@@ -33,7 +33,7 @@ object Versions {
     const val klock = "1.11.14"
     const val kotlin = "1.3.72"
     const val kotlinxCoroutines = "1.3.8"
-    const val ktlintGradle = "9.3.0"
+    const val ktlintGradle = "9.2.1"
     const val markwon = "4.4.0"
     const val materialComponents = "1.3.0-alpha01"
     const val mockito = "3.3.3"
