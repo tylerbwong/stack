@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
@@ -52,8 +53,7 @@ android {
     }
 
     kotlinOptions {
-        apiVersion = "1.3"
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
     lintOptions {
@@ -175,6 +175,13 @@ dependencies {
     testImplementation(Dep.robolectric)
     androidTestImplementation(Dep.testRunner)
     androidTestImplementation(Dep.espresso)
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs = listOf("-Xallow-jvm-ir-dependencies", "-Xskip-prerelease-check")
+    }
 }
 
 apply(plugin = "com.google.gms.google-services")
