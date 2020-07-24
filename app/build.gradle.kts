@@ -2,9 +2,9 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     id("com.android.application")
+    kotlin("android")
+    kotlin("kapt")
     id("com.google.firebase.crashlytics")
-    id("kotlin-android")
-    id("kotlin-kapt")
     id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintGradle
     id("io.gitlab.arturbosch.detekt") version Versions.detekt
 }
@@ -23,6 +23,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
+                argument("room.incremental", "true")
                 argument("room.schemaLocation", "$projectDir/schemas")
             }
         }

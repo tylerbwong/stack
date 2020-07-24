@@ -2,7 +2,7 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     id("com.android.library")
-    id("kotlin-android")
+    kotlin("android")
     id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintGradle
     id("io.gitlab.arturbosch.detekt") version Versions.detekt
 }
