@@ -36,8 +36,7 @@ android {
     }
 
     kotlinOptions {
-        apiVersion = "1.3"
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
     lintOptions {
