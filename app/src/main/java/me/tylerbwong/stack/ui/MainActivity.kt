@@ -122,6 +122,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
         return super.onOptionsItemSelected(item)
     }
 
+    @Suppress("deprecation") // Until play core supports new activity result API
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == AppUpdater.APP_UPDATE_REQUEST_CODE) {
