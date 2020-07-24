@@ -31,7 +31,7 @@ object Versions {
     const val insetter = "0.3.1"
     const val jUnit = "4.12"
     const val klock = "1.11.14"
-    const val kotlin = "1.4-M3"
+    const val kotlin = "1.4.0-rc"
     const val kotlinxCoroutines = "1.3.8"
     const val ktlintGradle = "9.2.1"
     const val markwon = "4.4.0"
