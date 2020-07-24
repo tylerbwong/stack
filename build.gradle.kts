@@ -20,9 +20,13 @@ allprojects {
         jcenter()
     }
 
-    // https://github.com/noties/Markwon/issues/148
     configurations.all {
+        // https://github.com/noties/Markwon/issues/148
         exclude(group = "org.jetbrains", module = "annotations-java5")
+
+        resolutionStrategy {
+            force(Dep.androidxAppCompat) // Pin version for night mode bug
+        }
     }
 }
 
