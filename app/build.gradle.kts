@@ -1,27 +1,15 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
     id("com.google.firebase.crashlytics")
-    id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintGradle
-    id("io.gitlab.arturbosch.detekt") version Versions.detekt
+    StackPlugin
 }
 
 android {
-    compileSdkVersion(AndroidConfig.COMPILE_SDK)
-
     defaultConfig {
-        applicationId = AndroidConfig.APPLICATION_ID
-        minSdkVersion(AndroidConfig.MIN_SDK)
-        targetSdkVersion(AndroidConfig.TARGET_SDK)
-        versionCode = AndroidConfig.VERSION_CODE
-        versionName = AndroidConfig.VERSION_NAME
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary = true
-
         javaCompileOptions {
             annotationProcessorOptions {
                 argument("room.incremental", "true")
@@ -35,18 +23,6 @@ android {
         viewBinding = true
     }
 
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
     composeOptions {
         kotlinCompilerVersion = Versions.composeKotlinCompiler
         kotlinCompilerExtensionVersion = Versions.compose
@@ -55,25 +31,6 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-
-    lintOptions {
-        isAbortOnError = false
-    }
-
-    testOptions {
-        unitTests.isIncludeAndroidResources = true
-    }
-}
-
-ktlint {
-    debug.set(true)
-    reporters {
-        reporter(ReporterType.CHECKSTYLE)
-    }
-}
-
-detekt {
-    config = files("$rootDir/detekt.yml")
 }
 
 dependencies {

@@ -10,6 +10,8 @@ buildscript {
         classpath(Dep.firebaseCrashlyticsGradlePlugin)
         classpath(Dep.googleServicesPlugin)
         classpath(Dep.kotlinPlugin)
+        classpath(Dep.ktlintGradlePlugin)
+        classpath(Dep.detektGradlePlugin)
     }
 }
 
