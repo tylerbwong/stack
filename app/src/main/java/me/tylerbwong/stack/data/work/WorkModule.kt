@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.data.work
 
 import android.content.Context
-import androidx.work.Configuration
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
