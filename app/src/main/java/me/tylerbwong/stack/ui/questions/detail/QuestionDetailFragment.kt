@@ -22,6 +22,7 @@ import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.hideKeyboard
+import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
@@ -68,7 +69,7 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
             adapter.submitList(it)
         }
         viewModel.voteCount.observe(viewLifecycleOwner) {
-            (activity as? QuestionDetailActivity)?.setTitle(
+            activity?.ofType<QuestionDetailActivity>()?.setTitle(
                 resources.getQuantityString(R.plurals.votes, it, it)
             )
         }
@@ -85,7 +86,7 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
             )
             addOnScrollListener(object : OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    val activity = activity as? QuestionDetailActivity
+                    val activity = activity?.ofType<QuestionDetailActivity>()
                     if (dy > 0) {
                         activity?.shrinkAnswerButton()
                     } else if (dy < 0) {

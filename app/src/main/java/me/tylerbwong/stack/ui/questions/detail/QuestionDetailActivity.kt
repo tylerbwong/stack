@@ -14,11 +14,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.ActivityQuestionDetailBinding
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(

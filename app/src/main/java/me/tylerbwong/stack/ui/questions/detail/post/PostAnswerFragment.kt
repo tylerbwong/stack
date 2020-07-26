@@ -30,6 +30,7 @@ import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailMainViewModel
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
+import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
@@ -58,7 +59,7 @@ class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
         }
 
         viewModel.snackbar.observe(viewLifecycleOwner) {
-            val activity = activity as? QuestionDetailActivity
+            val activity = activity?.ofType<QuestionDetailActivity>()
 
             when (it) {
                 is PostAnswerState.Success -> {
