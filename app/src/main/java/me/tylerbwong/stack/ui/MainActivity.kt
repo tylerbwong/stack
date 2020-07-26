@@ -1,12 +1,15 @@
 package me.tylerbwong.stack.ui
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
+import androidx.core.util.Pair
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import coil.api.load
@@ -27,10 +30,12 @@ import me.tylerbwong.stack.databinding.ActivityMainBinding
 import me.tylerbwong.stack.ui.bookmarks.BookmarksFragment
 import me.tylerbwong.stack.ui.drafts.DraftsFragment
 import me.tylerbwong.stack.ui.home.HomeFragment
+import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.setSharedTransition
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
@@ -74,25 +79,40 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
                 bottomNav.selectedItemId = R.id.home
             }
 
-            val profileIcon = binding.profileIcon
             if (isAuthenticated) {
                 viewModel.fetchUser()
-                profileIcon.setThrottledOnClickListener { showLogOutDialog() }
             } else {
-                profileIcon.setThrottledOnClickListener { showLogInDialog() }
+                with(binding.profileIcon) {
+                    setImageResource(R.drawable.ic_account_circle)
+                    setThrottledOnClickListener { showLogInDialog() }
+                }
             }
         }
-        viewModel.profileImage.observe(this) {
+        viewModel.user.observe(this) { user ->
             binding.profileIcon.apply {
-                if (it != null) {
-                    load(it) {
+                if (user != null) {
+                    load(user.profileImage) {
                         crossfade(true)
                         error(R.drawable.user_image_placeholder)
                         placeholder(R.drawable.user_image_placeholder)
                         transformations(CircleCropTransformation())
                     }
+                    setThrottledOnClickListener {
+                        val aoc = context.ofType<Activity>()?.let {
+                            ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                it,
+                                Pair(this, context.getString(R.string.shared_transition_name))
+                            )
+                        }
+                        ProfileActivity.startActivity(
+                            this@MainActivity,
+                            userId = user.userId,
+                            extras = aoc?.toBundle()
+                        )
+                    }
                 } else {
                     setImageResource(R.drawable.ic_account_circle)
+                    setThrottledOnClickListener { showLogInDialog() }
                 }
             }
         }
@@ -216,17 +236,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
                 }
             }
         )
-    }
-
-    private fun showLogOutDialog() {
-        MaterialAlertDialogBuilder(this)
-            .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
-            .setTitle(R.string.log_out_title)
-            .setMessage(R.string.log_out_message)
-            .setPositiveButton(R.string.log_out) { _, _ -> viewModel.logOut() }
-            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-            .create()
-            .show()
     }
 
     private fun showLogInDialog() {
