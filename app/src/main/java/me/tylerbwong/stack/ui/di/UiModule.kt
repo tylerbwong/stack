@@ -4,9 +4,12 @@ import android.content.Context
 import coil.Coil
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import me.tylerbwong.stack.ui.ApplicationWrapper
 
 @Module
+@InstallIn(SingletonComponent::class)
 class UiModule {
 
     @Provides

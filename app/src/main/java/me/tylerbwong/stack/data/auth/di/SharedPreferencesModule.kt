@@ -6,6 +6,8 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import me.tylerbwong.stack.data.SiteStore
 import javax.inject.Qualifier
 
@@ -18,6 +20,7 @@ annotation class SiteSharedPreferences
 annotation class AuthSharedPreferences
 
 @Module
+@InstallIn(SingletonComponent::class)
 open class SharedPreferencesModule {
 
     @Provides

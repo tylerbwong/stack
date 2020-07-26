@@ -12,7 +12,8 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.theme.ThemeManager
 
 abstract class BaseActivity<T : ViewBinding>(
-    private val bindingProvider: ((LayoutInflater) -> T)? = null
+    // TODO Enable when Hilt supports default constructor arguments
+    private val bindingProvider: ((LayoutInflater) -> T)? // = null
 ) : AppCompatActivity() {
 
     protected lateinit var binding: T

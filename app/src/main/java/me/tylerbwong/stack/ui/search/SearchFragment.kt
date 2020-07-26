@@ -3,13 +3,12 @@ package me.tylerbwong.stack.ui.search
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.databinding.FragmentHomeBinding
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.home.FilterInputItem
 import me.tylerbwong.stack.ui.home.HeaderItem
@@ -20,14 +19,11 @@ import me.tylerbwong.stack.ui.home.SearchHistoryItem
 import me.tylerbwong.stack.ui.home.SearchInputItem
 import me.tylerbwong.stack.ui.home.SectionHeaderItem
 import me.tylerbwong.stack.ui.home.TagsItem
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
-    @Inject
-    lateinit var viewModelFactory: SearchViewModelFactory
-
-    private val viewModel by viewModels<SearchViewModel> { viewModelFactory }
+    private val viewModel by viewModels<SearchViewModel>()
 
     private val adapter = DynamicListAdapter(HomeItemDiffCallback)
     private val persistentItems: List<HomeItem>
@@ -36,11 +32,6 @@ class SearchFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
             SearchInputItem(viewModel.searchPayload) { payload -> viewModel.search(payload) },
             FilterInputItem(viewModel.searchPayload) { payload -> viewModel.search(payload) }
         )
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        ApplicationWrapper.stackComponent.inject(this)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

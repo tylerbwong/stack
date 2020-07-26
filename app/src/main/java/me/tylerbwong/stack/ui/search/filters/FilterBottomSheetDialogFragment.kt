@@ -15,30 +15,26 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.slider.Slider
+import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.databinding.FiltersLayoutBinding
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
-import javax.inject.Inject
 
 typealias UpdatePayloadListener = (SearchPayload) -> Unit
 
+@AndroidEntryPoint
 class FilterBottomSheetDialogFragment : BottomSheetDialogFragment(), Slider.OnChangeListener {
 
     private var updatePayloadListener: UpdatePayloadListener? = null
     private var searchPayload: SearchPayload? = null
 
-    @Inject
-    lateinit var viewModelFactory: FilterViewModelFactory
-
     private lateinit var binding: FiltersLayoutBinding
 
-    private val viewModel by viewModels<FilterViewModel> { viewModelFactory }
+    private val viewModel by viewModels<FilterViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.stackComponent.inject(this)
         viewModel.updatePayloadListener = updatePayloadListener
         viewModel.currentPayload = searchPayload
     }

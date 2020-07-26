@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.ui.questions
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.data.model.CREATION
@@ -11,7 +12,7 @@ import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
 import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
 import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 
-internal class QuestionsViewModel(
+internal class QuestionsViewModel @ViewModelInject constructor(
     private val service: QuestionService
 ) : BaseViewModel() {
 

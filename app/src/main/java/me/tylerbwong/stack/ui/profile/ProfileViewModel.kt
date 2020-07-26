@@ -2,6 +2,7 @@ package me.tylerbwong.stack.ui.profile
 
 import android.content.Context
 import android.content.Intent
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.R
@@ -10,7 +11,9 @@ import me.tylerbwong.stack.data.network.service.UserService
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.home.QuestionItem
 
-class ProfileViewModel(private val service: UserService) : BaseViewModel() {
+class ProfileViewModel @ViewModelInject constructor(
+    private val service: UserService
+) : BaseViewModel() {
 
     internal var userId: Int? = null
     private var user: User? = null

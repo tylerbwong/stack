@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.ui.home
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.data.model.CREATION
@@ -9,7 +10,7 @@ import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.data.repository.SiteRepository
 import me.tylerbwong.stack.ui.BaseViewModel
 
-internal class HomeViewModel(
+internal class HomeViewModel @ViewModelInject constructor(
     private val repository: QuestionRepository,
     private val siteRepository: SiteRepository
 ) : BaseViewModel() {

@@ -7,6 +7,8 @@ import com.squareup.moshi.Moshi
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.auth.AuthInterceptor
@@ -28,6 +30,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class NetworkModule {
 
     @Provides

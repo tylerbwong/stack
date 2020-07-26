@@ -8,9 +8,9 @@ import android.view.MenuItem
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.ACTIVITY
@@ -20,25 +20,20 @@ import me.tylerbwong.stack.data.model.MONTH
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.databinding.ActivityQuestionsBinding
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.showSnackbar
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
     ActivityQuestionsBinding::inflate
 ), PopupMenu.OnMenuItemClickListener {
 
-    @Inject
-    lateinit var viewModelFactory: QuestionsViewModelFactory
-
-    private val viewModel by viewModels<QuestionsViewModel> { viewModelFactory }
+    private val viewModel by viewModels<QuestionsViewModel>()
     private val adapter = DynamicListAdapter(QuestionItemCallback)
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(binding.toolbar)
 
         val key = intent.getStringExtra(KEY_EXTRA) ?: ""

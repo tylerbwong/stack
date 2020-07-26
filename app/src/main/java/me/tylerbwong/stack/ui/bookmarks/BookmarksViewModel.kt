@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.ui.bookmarks
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.data.auth.AuthRepository
@@ -9,7 +10,7 @@ import me.tylerbwong.stack.data.repository.SiteRepository
 import me.tylerbwong.stack.ui.BaseViewModel
 
 // TODO Fetch bookmarks from QuestionDao for offline
-class BookmarksViewModel(
+class BookmarksViewModel @ViewModelInject constructor(
     private val authRepository: AuthRepository,
     private val siteRepository: SiteRepository,
     private val questionService: QuestionService

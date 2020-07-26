@@ -18,6 +18,7 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.InstallStatus
+import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.AppUpdater
@@ -35,14 +36,12 @@ import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(
     ActivityMainBinding::inflate
 ), InstallStateUpdatedListener {
 
-    @Inject
-    lateinit var mainViewModelFactory: MainViewModelFactory
-
-    private val viewModel by viewModels<MainViewModel> { mainViewModelFactory }
+    private val viewModel by viewModels<MainViewModel>()
 
     private lateinit var appUpdater: AppUpdater
 
@@ -55,7 +54,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(binding.toolbar)
         setupBottomNavigation()
 

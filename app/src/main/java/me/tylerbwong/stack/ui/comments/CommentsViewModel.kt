@@ -1,12 +1,13 @@
 package me.tylerbwong.stack.ui.comments
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.network.service.CommentService
 import me.tylerbwong.stack.ui.BaseViewModel
 
-class CommentsViewModel(
+class CommentsViewModel @ViewModelInject constructor(
     private val service: CommentService,
     private val authStore: AuthStore
 ) : BaseViewModel() {

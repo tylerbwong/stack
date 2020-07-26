@@ -3,6 +3,8 @@ package me.tylerbwong.stack.ui.di
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import io.noties.markwon.Markwon
 import io.noties.markwon.PrecomputedFutureTextSetterCompat
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
@@ -29,6 +31,7 @@ import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class MarkdownModule {
 
     @Provides
