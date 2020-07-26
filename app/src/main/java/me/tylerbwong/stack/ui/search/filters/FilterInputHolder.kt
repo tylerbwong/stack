@@ -59,8 +59,8 @@ class FilterInputHolder(
                 advancedOptions.addView(
                     advancedOptions.inflate<Chip>(R.layout.advanced_filter_chip).apply {
                         text = label
-                        setThrottledOnClickListener {
-                            it.context.ofType<AppCompatActivity>()?.let { activity ->
+                        setThrottledOnClickListener { view ->
+                            view.context.ofType<AppCompatActivity>()?.let { activity ->
                                 FilterBottomSheetDialogFragment.show(
                                     activity.supportFragmentManager,
                                     payload
