@@ -1,6 +1,5 @@
 package me.tylerbwong.stack.data.auth
 
-import android.content.Context
 import android.net.Uri
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.whenever
