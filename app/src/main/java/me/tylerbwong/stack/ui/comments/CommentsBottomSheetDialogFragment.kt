@@ -8,28 +8,23 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.CommentsFragmentBinding
-import me.tylerbwong.stack.ui.ApplicationWrapper
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
-    @Inject
-    lateinit var viewModelFactory: CommentsViewModelFactory
-
-    private val viewModel by viewModels<CommentsViewModel> { viewModelFactory }
+    private val viewModel by viewModels<CommentsViewModel>()
     private val adapter = DynamicListAdapter(CommentItemCallback)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.stackComponent.inject(this)
         viewModel.postId = arguments?.getInt(POST_ID) ?: -1
     }
 

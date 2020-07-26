@@ -7,15 +7,14 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.QuestionDetailFragmentBinding
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
@@ -23,23 +22,19 @@ import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.hideKeyboard
+import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.showSnackbar
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
     QuestionDetailFragmentBinding::inflate
 ) {
-
-    @Inject
-    lateinit var viewModelFactory: QuestionDetailMainViewModelFactory
-
-    private val viewModel by activityViewModels<QuestionDetailMainViewModel> { viewModelFactory }
+    private val viewModel by activityViewModels<QuestionDetailMainViewModel>()
     private val adapter = DynamicListAdapter(QuestionDetailItemCallback)
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.stackComponent.inject(this)
         setHasOptionsMenu(true)
     }
 
@@ -74,7 +69,7 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
             adapter.submitList(it)
         }
         viewModel.voteCount.observe(viewLifecycleOwner) {
-            (activity as? QuestionDetailActivity)?.setTitle(
+            activity?.ofType<QuestionDetailActivity>()?.setTitle(
                 resources.getQuantityString(R.plurals.votes, it, it)
             )
         }
@@ -91,7 +86,7 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
             )
             addOnScrollListener(object : OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    val activity = activity as? QuestionDetailActivity
+                    val activity = activity?.ofType<QuestionDetailActivity>()
                     if (dy > 0) {
                         activity?.shrinkAnswerButton()
                     } else if (dy < 0) {

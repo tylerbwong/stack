@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.ui.settings.sites
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.data.model.Site
@@ -7,7 +8,7 @@ import me.tylerbwong.stack.data.repository.SiteRepository
 import me.tylerbwong.stack.data.toSite
 import me.tylerbwong.stack.ui.BaseViewModel
 
-class SitesViewModel(
+class SitesViewModel @ViewModelInject constructor(
     private val siteRepository: SiteRepository
 ) : BaseViewModel() {
 

@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import me.tylerbwong.stack.data.persistence.StackDatabase
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class PersistenceModule {
 
     @Singleton

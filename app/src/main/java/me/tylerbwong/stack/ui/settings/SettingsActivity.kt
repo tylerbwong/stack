@@ -4,10 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.ActivitySettingsBinding
 import me.tylerbwong.stack.ui.BaseActivity
 
+@AndroidEntryPoint
 class SettingsActivity : BaseActivity<ActivitySettingsBinding>(ActivitySettingsBinding::inflate) {
 
     override fun onCreate(savedInstanceState: Bundle?) {

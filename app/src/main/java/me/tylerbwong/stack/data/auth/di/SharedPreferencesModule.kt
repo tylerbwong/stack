@@ -6,6 +6,8 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import me.tylerbwong.stack.data.SiteStore
 import javax.inject.Qualifier
 
@@ -18,7 +20,8 @@ annotation class SiteSharedPreferences
 annotation class AuthSharedPreferences
 
 @Module
-open class SharedPreferencesModule {
+@InstallIn(SingletonComponent::class)
+class SharedPreferencesModule {
 
     @Provides
     @SiteSharedPreferences
@@ -31,7 +34,7 @@ open class SharedPreferencesModule {
 
     @Provides
     @AuthSharedPreferences
-    open fun provideAuthSharedPreferences(
+    fun provideAuthSharedPreferences(
         context: Context
     ): SharedPreferences = EncryptedSharedPreferences.create(
         context,

@@ -4,6 +4,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
+    id("dagger.hilt.android.plugin")
     id("com.google.firebase.crashlytics")
     StackPlugin
 }
@@ -45,6 +46,9 @@ dependencies {
     implementation(Dep.androidxBrowser)
     implementation(Dep.androidxCore)
     implementation(Dep.androidxFragment)
+    kapt(Dep.androidxHiltCompiler)
+    implementation(Dep.androidxHiltViewModel)
+    implementation(Dep.androidxHiltWork)
     implementation(Dep.androidxLiveData)
     implementation(Dep.androidxPreference)
     implementation(Dep.androidxRecyclerView)
@@ -84,8 +88,8 @@ dependencies {
     implementation(Dep.coil)
 
     // dagger
-    implementation(Dep.dagger)
-    kapt(Dep.daggerCompiler)
+    implementation(Dep.daggerHiltAndroid)
+    kapt(Dep.daggerHiltAndroidCompiler)
 
     // firebase
     implementation(Dep.firebaseAnalytics)

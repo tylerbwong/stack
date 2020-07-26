@@ -8,6 +8,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.FilterInputHolderBinding
 import me.tylerbwong.stack.ui.home.FilterInputItem
 import me.tylerbwong.stack.ui.utils.inflate
+import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class FilterInputHolder(
@@ -25,7 +26,7 @@ class FilterInputHolder(
         advancedOptions.addView(
             advancedOptions.inflate<Chip>(R.layout.filter_chip_button).apply {
                 setThrottledOnClickListener { view ->
-                    (view.context as? AppCompatActivity)?.let { activity ->
+                    view.context.ofType<AppCompatActivity>()?.let { activity ->
                         FilterBottomSheetDialogFragment.show(
                             activity.supportFragmentManager,
                             payload
@@ -58,8 +59,8 @@ class FilterInputHolder(
                 advancedOptions.addView(
                     advancedOptions.inflate<Chip>(R.layout.advanced_filter_chip).apply {
                         text = label
-                        setThrottledOnClickListener {
-                            (it.context as? AppCompatActivity)?.let { activity ->
+                        setThrottledOnClickListener { view ->
+                            view.context.ofType<AppCompatActivity>()?.let { activity ->
                                 FilterBottomSheetDialogFragment.show(
                                     activity.supportFragmentManager,
                                     payload

@@ -8,31 +8,25 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.observe
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.ActivityQuestionDetailBinding
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
     ActivityQuestionDetailBinding::inflate
 ) {
-
-    @Inject
-    lateinit var viewModelFactory: QuestionDetailMainViewModelFactory
-
-    private val viewModel by viewModels<QuestionDetailMainViewModel> { viewModelFactory }
+    private val viewModel by viewModels<QuestionDetailMainViewModel>()
     private lateinit var adapter: QuestionDetailPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(binding.toolbar)
         setTitle("")
 

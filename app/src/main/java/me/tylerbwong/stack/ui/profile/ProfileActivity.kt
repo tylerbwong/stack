@@ -9,15 +9,14 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.ActivityProfileBinding
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.questions.QuestionItemCallback
 import me.tylerbwong.stack.ui.utils.format
@@ -26,20 +25,16 @@ import me.tylerbwong.stack.ui.utils.setSharedTransition
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBinding::inflate) {
 
-    @Inject
-    lateinit var viewModelFactory: ProfileViewModelFactory
-
-    private val viewModel by viewModels<ProfileViewModel> { viewModelFactory }
+    private val viewModel by viewModels<ProfileViewModel>()
     private val adapter = DynamicListAdapter(QuestionItemCallback)
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(binding.toolbar)
 
         setSharedTransition(

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
@@ -15,9 +14,9 @@ import coil.request.LoadRequest
 import com.chuckerteam.chucker.api.Chucker
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.processphoenix.ProcessPhoenix
+import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
 import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
@@ -28,20 +27,13 @@ import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var imageLoader: ImageLoader
 
-    @Inject
-    lateinit var settingsViewModelFactory: SettingsViewModelFactory
-
-    private val viewModel by viewModels<SettingsViewModel> { settingsViewModelFactory }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        ApplicationWrapper.stackComponent.inject(this)
-        super.onCreate(savedInstanceState)
-    }
+    private val viewModel by viewModels<SettingsViewModel>()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         if (savedInstanceState == null) {

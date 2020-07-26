@@ -7,9 +7,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.ACTIVITY
@@ -21,19 +21,15 @@ import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.data.model.sortResourceId
 import me.tylerbwong.stack.databinding.FragmentHomeBinding
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.utils.showSnackbar
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(
     FragmentHomeBinding::inflate
 ), PopupMenu.OnMenuItemClickListener {
 
-    @Inject
-    lateinit var viewModelFactory: HomeViewModelFactory
-
-    private val viewModel by viewModels<HomeViewModel> { viewModelFactory }
+    private val viewModel by viewModels<HomeViewModel>()
     private val adapter = DynamicListAdapter(HomeItemDiffCallback)
     private var snackbar: Snackbar? = null
 
@@ -41,7 +37,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.stackComponent.inject(this)
         setHasOptionsMenu(true)
     }
 

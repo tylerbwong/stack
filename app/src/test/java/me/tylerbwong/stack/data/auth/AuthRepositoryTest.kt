@@ -51,7 +51,7 @@ class AuthRepositoryTest : BaseTest() {
 
     @Before
     fun setUp() {
-        authStore = stackComponent.authStore()
+        authStore = AuthStore(testSharedPreferences)
         repository = AuthRepository(answerDraftDao, searchDao, userService, authService, authStore)
     }
 

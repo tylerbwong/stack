@@ -2,6 +2,7 @@ package me.tylerbwong.stack.ui.questions.detail
 
 import android.content.Context
 import android.content.Intent
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -19,7 +20,7 @@ import me.tylerbwong.stack.ui.utils.zipWith
 import retrofit2.HttpException
 import timber.log.Timber
 
-class QuestionDetailMainViewModel(
+class QuestionDetailMainViewModel @ViewModelInject constructor(
     private val authRepository: AuthRepository,
     private val service: QuestionService
 ) : BaseViewModel(), QuestionDetailActionHandler {

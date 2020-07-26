@@ -29,7 +29,7 @@ class SiteInterceptorTest : BaseTest() {
         mockWebServer.start()
         mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody("{}"))
 
-        siteStore = stackComponent.siteStore()
+        siteStore = SiteStore(testSharedPreferences)
         okHttpClient = OkHttpClient.Builder()
             .addInterceptor(SiteInterceptor("localhost", siteStore))
             .build()

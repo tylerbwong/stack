@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.observe
 import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -18,10 +17,12 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.InstallStatus
+import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.AppUpdater
 import me.tylerbwong.stack.data.auth.AuthStore
+import me.tylerbwong.stack.data.work.WorkScheduler
 import me.tylerbwong.stack.databinding.ActivityMainBinding
 import me.tylerbwong.stack.ui.bookmarks.BookmarksFragment
 import me.tylerbwong.stack.ui.drafts.DraftsFragment
@@ -35,14 +36,15 @@ import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(
     ActivityMainBinding::inflate
 ), InstallStateUpdatedListener {
 
     @Inject
-    lateinit var mainViewModelFactory: MainViewModelFactory
+    lateinit var workScheduler: WorkScheduler
 
-    private val viewModel by viewModels<MainViewModel> { mainViewModelFactory }
+    private val viewModel by viewModels<MainViewModel>()
 
     private lateinit var appUpdater: AppUpdater
 
@@ -55,7 +57,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.stackComponent.inject(this)
         setSupportActionBar(binding.toolbar)
         setupBottomNavigation()
 
@@ -98,7 +99,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 
         appUpdater = AppUpdater(AppUpdateManagerFactory.create(this))
         appUpdater.checkForUpdate(this)
-
+        workScheduler.schedule()
         populateContent(savedInstanceState)
     }
 

@@ -2,6 +2,7 @@ package me.tylerbwong.stack.ui.questions.detail.post
 
 import android.text.TextWatcher
 import androidx.annotation.StringRes
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,7 +20,7 @@ import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import timber.log.Timber
 
-class PostAnswerViewModel(
+class PostAnswerViewModel @ViewModelInject constructor(
     private val service: QuestionService,
     private val draftDao: AnswerDraftDao,
     private val siteStore: SiteStore

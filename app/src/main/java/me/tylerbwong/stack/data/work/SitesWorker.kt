@@ -1,19 +1,18 @@
 package me.tylerbwong.stack.data.work
 
 import android.content.Context
+import androidx.hilt.Assisted
+import androidx.hilt.work.WorkerInject
 import androidx.work.CoroutineWorker
-import androidx.work.ListenableWorker
-import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.data.repository.SiteRepository
 import timber.log.Timber
-import javax.inject.Inject
 
-class SitesWorker(
-    context: Context,
-    params: WorkerParameters,
+class SitesWorker @WorkerInject constructor(
+    @Assisted context: Context,
+    @Assisted params: WorkerParameters,
     private val siteRepository: SiteRepository
 ) : CoroutineWorker(context, params) {
 
@@ -25,16 +24,5 @@ class SitesWorker(
     } catch (ex: Exception) {
         Timber.e(ex, "Failed to sync sites")
         Result.failure()
-    }
-
-    class SitesWorkerFactory @Inject constructor(
-        private val siteRepository: SiteRepository
-    ) : WorkerFactory() {
-
-        override fun createWorker(
-            appContext: Context,
-            workerClassName: String,
-            workerParameters: WorkerParameters
-        ): ListenableWorker = SitesWorker(appContext, workerParameters, siteRepository)
     }
 }

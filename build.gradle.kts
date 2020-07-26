@@ -7,11 +7,12 @@ buildscript {
     }
     dependencies {
         classpath(Dep.androidGradlePlugin)
+        classpath(Dep.daggerHiltGradlePlugin)
+        classpath(Dep.detektGradlePlugin)
         classpath(Dep.firebaseCrashlyticsGradlePlugin)
         classpath(Dep.googleServicesPlugin)
         classpath(Dep.kotlinPlugin)
         classpath(Dep.ktlintGradlePlugin)
-        classpath(Dep.detektGradlePlugin)
     }
 }
 

@@ -13,32 +13,28 @@ import androidx.core.text.clearSpans
 import androidx.core.text.set
 import androidx.core.text.toSpannable
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import coil.ImageLoader
 import coil.request.LoadRequest
+import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.utils.toHtml
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SitesFragment : PreferenceFragmentCompat(), SearchView.OnQueryTextListener {
 
     @Inject
     lateinit var imageLoader: ImageLoader
 
-    @Inject
-    lateinit var sitesViewModelFactory: SitesViewModelFactory
-
-    private val viewModel by viewModels<SitesViewModel> { sitesViewModelFactory }
+    private val viewModel by viewModels<SitesViewModel>()
 
     private var searchView: SearchView? = null
 
     private var searchCatalog = listOf<Preference>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ApplicationWrapper.stackComponent.inject(this)
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }

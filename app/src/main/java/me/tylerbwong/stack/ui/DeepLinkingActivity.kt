@@ -3,19 +3,22 @@ package me.tylerbwong.stack.ui
 import android.os.Bundle
 import android.widget.Toast
 import androidx.viewbinding.ViewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.DeepLinkResult
 import me.tylerbwong.stack.data.DeepLinker
 import javax.inject.Inject
 
-class DeepLinkingActivity : BaseActivity<ViewBinding>() {
+@AndroidEntryPoint
+class DeepLinkingActivity : BaseActivity<ViewBinding>(
+    bindingProvider = null // TODO Remove when Hilt supports default constructor values
+) {
 
     @Inject
     lateinit var deepLinker: DeepLinker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.stackComponent.inject(this)
         intent.data?.let {
             when (val result = deepLinker.resolvePath(this, it)) {
                 is DeepLinkResult.Success -> startActivity(result.intent)

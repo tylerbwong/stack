@@ -1,12 +1,10 @@
 package me.tylerbwong.stack
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Build
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ApplicationProvider
-import me.tylerbwong.stack.data.auth.TestSharedPreferencesModule
-import me.tylerbwong.stack.ui.di.DaggerStackComponent
-import me.tylerbwong.stack.ui.di.StackComponent
 import org.junit.After
 import org.junit.Before
 import org.junit.runner.RunWith
@@ -20,22 +18,26 @@ abstract class BaseTest {
     protected val context: Context
         get() = ApplicationProvider.getApplicationContext()
 
-    protected lateinit var stackComponent: StackComponent
-
     protected lateinit var lifecycleOwner: TestLifecycleOwner
+    protected lateinit var testSharedPreferences: SharedPreferences
 
     @Before
     fun setUpTest() {
         MockitoAnnotations.initMocks(this)
-        stackComponent = DaggerStackComponent.builder()
-            .sharedPreferencesModule(TestSharedPreferencesModule())
-            .build()
         lifecycleOwner = TestLifecycleOwner()
         lifecycleOwner.lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        testSharedPreferences = context.getSharedPreferences(
+            TEST_SHARED_PREFS,
+            Context.MODE_PRIVATE
+        )
     }
 
     @After
     fun tearDownTest() {
         lifecycleOwner.lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    }
+
+    companion object {
+        private const val TEST_SHARED_PREFS = "test_preferences"
     }
 }

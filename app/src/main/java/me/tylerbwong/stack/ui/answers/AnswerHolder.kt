@@ -9,7 +9,6 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.AnswerHolderBinding
 import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.questions.detail.AnswerItem
-import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 import me.tylerbwong.stack.ui.utils.ofType
 

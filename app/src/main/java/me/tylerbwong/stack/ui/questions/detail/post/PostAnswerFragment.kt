@@ -16,44 +16,34 @@ import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
+import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.PostAnswerFragmentBinding
-import me.tylerbwong.stack.ui.ApplicationWrapper
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailMainViewModel
-import me.tylerbwong.stack.ui.questions.detail.QuestionDetailMainViewModelFactory
 import me.tylerbwong.stack.ui.utils.hideKeyboard
-import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
+import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
     PostAnswerFragmentBinding::inflate
 ) {
-
-    @Inject
-    lateinit var viewModelFactory: PostAnswerViewModelFactory
-
-    @Inject
-    lateinit var mainViewModelFactory: QuestionDetailMainViewModelFactory
-
-    private val viewModel by viewModels<PostAnswerViewModel> { viewModelFactory }
-    private val mainViewModel by activityViewModels<QuestionDetailMainViewModel> { mainViewModelFactory }
+    private val viewModel by viewModels<PostAnswerViewModel>()
+    private val mainViewModel by activityViewModels<QuestionDetailMainViewModel>()
     private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApplicationWrapper.stackComponent.inject(this)
         setHasOptionsMenu(true)
     }
 
@@ -68,7 +58,7 @@ class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
         }
 
         viewModel.snackbar.observe(viewLifecycleOwner) {
-            val activity = activity as? QuestionDetailActivity
+            val activity = activity?.ofType<QuestionDetailActivity>()
 
             when (it) {
                 is PostAnswerState.Success -> {

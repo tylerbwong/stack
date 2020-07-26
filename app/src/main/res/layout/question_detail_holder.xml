@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Question title" />
 
-    <TextView
+    <me.tylerbwong.stack.ui.utils.markdown.MarkdownTextView
         android:id="@+id/questionBody"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
