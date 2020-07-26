@@ -27,7 +27,7 @@ class AuthInterceptorTest : BaseTest() {
         mockWebServer.start()
         mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody("{}"))
 
-        authStore = stackComponent.authStore()
+        authStore = AuthStore(testSharedPreferences)
         okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(AuthInterceptor("localhost", authStore))
                 .build()

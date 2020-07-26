@@ -22,6 +22,7 @@ import dev.chrisbanes.insetter.Insetter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.AppUpdater
 import me.tylerbwong.stack.data.auth.AuthStore
+import me.tylerbwong.stack.data.work.WorkScheduler
 import me.tylerbwong.stack.databinding.ActivityMainBinding
 import me.tylerbwong.stack.ui.bookmarks.BookmarksFragment
 import me.tylerbwong.stack.ui.drafts.DraftsFragment
@@ -33,11 +34,15 @@ import me.tylerbwong.stack.ui.utils.launchCustomTab
 import me.tylerbwong.stack.ui.utils.setSharedTransition
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(
     ActivityMainBinding::inflate
 ), InstallStateUpdatedListener {
+
+    @Inject
+    lateinit var workScheduler: WorkScheduler
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -94,7 +99,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 
         appUpdater = AppUpdater(AppUpdateManagerFactory.create(this))
         appUpdater.checkForUpdate(this)
-
+        workScheduler.schedule()
         populateContent(savedInstanceState)
     }
 

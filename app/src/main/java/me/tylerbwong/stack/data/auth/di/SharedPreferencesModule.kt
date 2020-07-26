@@ -21,7 +21,7 @@ annotation class AuthSharedPreferences
 
 @Module
 @InstallIn(SingletonComponent::class)
-open class SharedPreferencesModule {
+class SharedPreferencesModule {
 
     @Provides
     @SiteSharedPreferences
@@ -34,7 +34,7 @@ open class SharedPreferencesModule {
 
     @Provides
     @AuthSharedPreferences
-    open fun provideAuthSharedPreferences(
+    fun provideAuthSharedPreferences(
         context: Context
     ): SharedPreferences = EncryptedSharedPreferences.create(
         context,

@@ -88,8 +88,6 @@ dependencies {
     implementation(Dep.coil)
 
     // dagger
-    implementation(Dep.dagger)
-    kapt(Dep.daggerCompiler)
     implementation(Dep.daggerHiltAndroid)
     kapt(Dep.daggerHiltAndroidCompiler)
 

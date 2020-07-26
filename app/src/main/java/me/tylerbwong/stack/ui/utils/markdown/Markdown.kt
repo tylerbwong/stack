@@ -7,16 +7,17 @@ import io.noties.prism4j.annotations.PrismBundle
 import me.tylerbwong.stack.ui.ApplicationWrapper
 import org.apache.commons.text.StringEscapeUtils
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 @PrismBundle(includeAll = true)
-class Markdown {
+class Markdown @Inject constructor(private val markwon: Markwon) {
 
-    @Inject
-    lateinit var markwon: Markwon
-
-    init {
-        ApplicationWrapper.stackComponent.inject(this)
+    fun setMarkdown(textView: TextView, markdown: String) {
+        markwon.setMarkdown(textView, markdown.stripSpecials())
     }
+
+    private fun String.stripSpecials() = StringEscapeUtils.unescapeHtml4(this)
 
     companion object {
         private const val MARKDOWN_SHARED_PREFS = "markdown_shared_prefs"
@@ -39,9 +40,3 @@ class Markdown {
             }
     }
 }
-
-fun TextView.setMarkdown(markdown: String) {
-    Markdown().markwon.setMarkdown(this, markdown.stripSpecials())
-}
-
-private fun String.stripSpecials() = StringEscapeUtils.unescapeHtml4(this)

@@ -7,7 +7,6 @@ import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.data.model.Comment
 import me.tylerbwong.stack.databinding.CommentHolderBinding
-import me.tylerbwong.stack.ui.utils.markdown.setMarkdown
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 
 object CommentItemCallback : DiffUtil.ItemCallback<DynamicItem>() {

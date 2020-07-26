@@ -13,7 +13,7 @@ class AuthStoreTest : BaseTest() {
 
     @Before
     fun setUp() {
-        authStore = stackComponent.authStore()
+        authStore = AuthStore(testSharedPreferences)
         authStore.clear()
     }
 

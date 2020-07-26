@@ -1,6 +1,7 @@
 package me.tylerbwong.stack.data
 
 import android.net.Uri
+import com.nhaarman.mockitokotlin2.mock
 import me.tylerbwong.stack.BaseTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -28,8 +29,8 @@ class DeepLinkerTest : BaseTest() {
 
     @Before
     fun setUp() {
-        deepLinker = stackComponent.deepLinker()
-        siteStore = stackComponent.siteStore()
+        siteStore = SiteStore(testSharedPreferences)
+        deepLinker = DeepLinker(mock(), siteStore)
     }
 
     @Test
