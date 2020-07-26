@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.ui.utils
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.observe
 import me.tylerbwong.stack.BaseTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
