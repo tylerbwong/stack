@@ -32,16 +32,5 @@ class WorkModule {
 
     @Singleton
     @Provides
-    fun provideWorkerManager(
-        context: Context,
-        sitesWorkerFactory: SitesWorker.SitesWorkerFactory
-    ): WorkManager {
-        WorkManager.initialize(
-            context,
-            Configuration.Builder()
-                .setWorkerFactory(sitesWorkerFactory)
-                .build()
-        )
-        return WorkManager.getInstance(context)
-    }
+    fun provideWorkerManager(context: Context): WorkManager = WorkManager.getInstance(context)
 }

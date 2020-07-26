@@ -60,7 +60,7 @@ object Dep {
     const val androidxFragment = "androidx.fragment:fragment-ktx:${Versions.androidxFragment}"
     const val androidxHiltCompiler = "androidx.hilt:hilt-compiler:${Versions.androidxHilt}"
     const val androidxHiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.androidxHilt}"
-    const val androidxHiltWork = "androidx.hilt:hilt-compiler:${Versions.androidxHilt}"
+    const val androidxHiltWork = "androidx.hilt:hilt-work:${Versions.androidxHilt}"
     const val androidxLiveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.androidxLifecycle}"
     const val androidxPreference = "androidx.preference:preference:${Versions.androidxPreference}"
     const val androidxRecyclerView = "androidx.recyclerview:recyclerview:${Versions.androidxRecyclerView}"
