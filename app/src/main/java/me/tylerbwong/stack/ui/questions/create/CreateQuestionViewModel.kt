@@ -10,7 +10,7 @@ class CreateQuestionViewModel @ViewModelInject constructor(
 
     fun createQuestion(title: String, body: String, tags: String, isPreview: Boolean) {
         launchRequest {
-            questionService.addQuestion(title, body, tags.split(","), preview = isPreview)
+            questionService.addQuestion(title, body, tags, preview = isPreview)
         }
     }
 }

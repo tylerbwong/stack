@@ -9,6 +9,7 @@ import androidx.ui.core.Modifier
 import androidx.ui.core.gesture.tapGestureFilter
 import androidx.ui.foundation.Icon
 import androidx.ui.foundation.Text
+import androidx.ui.graphics.Color
 import androidx.ui.input.TextFieldValue
 import androidx.ui.layout.Column
 import androidx.ui.layout.Row
@@ -43,11 +44,15 @@ fun CreateQuestionLayout(
     val primaryTextColor = colorResource(R.color.primaryTextColor)
     val iconColor = colorResource(R.color.iconColor)
     val colorAccent = colorResource(R.color.colorAccent)
+    val colorError = colorResource(R.color.colorError)
 
     var title by savedInstanceState(saver = TextFieldValue.Saver) { TextFieldValue() }
     var body by savedInstanceState(saver = TextFieldValue.Saver) { TextFieldValue() }
     var tags by savedInstanceState(saver = TextFieldValue.Saver) { TextFieldValue() }
     var isPreview by savedInstanceState { false }
+
+    fun isValidTitle() = title.text.isNotBlank() && title.text.length >= 15
+    fun isValidBody() = body.text.isNotBlank() && body.text.length >= 30
 
     Scaffold(
         topBar = {
@@ -73,7 +78,7 @@ fun CreateQuestionLayout(
             )
         },
         floatingActionButton = {
-            if (title.text.isNotEmpty() && body.text.isNotEmpty()) {
+            if (isValidTitle() && isValidBody()) {
                 ExtendedFloatingActionButton(
                     text = {
                         Text(
@@ -106,8 +111,10 @@ fun CreateQuestionLayout(
                 onValueChange = { title = it },
                 label = { Text(text = stringResource(R.string.title)) },
                 modifier = Modifier.fillMaxWidth(),
+                isErrorValue = !isValidTitle(),
                 activeColor = colorAccent,
-                inactiveColor = primaryTextColor
+                inactiveColor = primaryTextColor,
+                errorColor = colorError
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -118,8 +125,10 @@ fun CreateQuestionLayout(
                 label = { Text(text = stringResource(R.string.body)) },
                 modifier = Modifier.fillMaxWidth()
                     .height(dimensionResource(R.dimen.body_height)),
+                isErrorValue = !isValidBody(),
                 activeColor = colorAccent,
-                inactiveColor = primaryTextColor
+                inactiveColor = primaryTextColor,
+                errorColor = colorError
             )
 
             Spacer(modifier = Modifier.height(8.dp))
