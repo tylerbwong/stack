@@ -5,7 +5,7 @@ object Versions {
     const val androidxBrowser = "1.3.0-alpha04"
     const val androidxCore = "1.4.0-alpha01"
     const val androidxFragment = "1.3.0-alpha07"
-    const val androidxHilt = "1.0.0-alpha01"
+    const val androidxHilt = "1.0.0-alpha02"
     const val androidxLifecycle = "2.3.0-alpha06"
     const val androidxPreference = "1.1.1"
     const val androidxRecyclerView = "1.2.0-alpha05"
