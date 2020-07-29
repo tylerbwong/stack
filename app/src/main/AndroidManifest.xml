@@ -165,7 +165,8 @@
 
         <activity
             android:name=".ui.questions.create.CreateQuestionActivity"
-            android:theme="@style/AppTheme.Base.Primary" />
+            android:theme="@style/AppTheme.Base.Primary"
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".ui.profile.ProfileActivity"

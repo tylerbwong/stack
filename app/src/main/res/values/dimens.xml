@@ -3,6 +3,6 @@
     <dimen name="user_image_placeholder_size">36dp</dimen>
     <dimen name="item_spacing_main">8dp</dimen>
     <dimen name="item_spacing_question_detail">16dp</dimen>
-    <dimen name="answer_markdown_height">512dp</dimen>
+    <dimen name="body_height">512dp</dimen>
     <dimen name="default_app_bar_elevation">4dp</dimen>
 </resources>

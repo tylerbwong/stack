@@ -68,6 +68,7 @@ dependencies {
     implementation(Dep.composeFoundation)
     implementation(Dep.composeLayout)
     implementation(Dep.composeMaterial)
+    implementation(Dep.composeMaterialIcons)
     implementation(Dep.composeTooling)
 
     // debug

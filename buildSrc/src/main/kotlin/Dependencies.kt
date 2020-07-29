@@ -81,6 +81,7 @@ object Dep {
     const val composeFoundation = "androidx.compose.foundation:foundation:${Versions.compose}"
     const val composeLayout = "androidx.compose.foundation:foundation-layout:${Versions.compose}"
     const val composeMaterial = "androidx.compose.material:material:${Versions.compose}"
+    const val composeMaterialIcons = "androidx.compose.material:material-icons-core:${Versions.compose}"
     const val composeTooling = "androidx.ui:ui-tooling:${Versions.compose}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     const val daggerHiltAndroid = "com.google.dagger:hilt-android:${Versions.daggerHilt}"

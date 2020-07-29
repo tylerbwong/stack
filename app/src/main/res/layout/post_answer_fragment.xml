@@ -65,7 +65,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="start|top"
                             android:imeOptions="flagNoExtractUi"
-                            android:minHeight="@dimen/answer_markdown_height"
+                            android:minHeight="@dimen/body_height"
                             android:theme="@style/TextInputEditTextStyle" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -77,7 +77,7 @@
                         android:layout_marginTop="4dp"
                         android:background="@drawable/answer_preview_background"
                         android:gravity="start|top"
-                        android:minHeight="@dimen/answer_markdown_height"
+                        android:minHeight="@dimen/body_height"
                         android:visibility="gone" />
 
                 </FrameLayout>

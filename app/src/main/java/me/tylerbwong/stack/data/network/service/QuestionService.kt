@@ -104,6 +104,16 @@ interface QuestionService {
     ): Response<Answer>
 
     @FormUrlEncoded
+    @POST("questions/add")
+    suspend fun addQuestion(
+        @Field(TITLE_PARAM) title: String,
+        @Field(BODY_PARAM) body: String,
+        @Field(TAGS_PARAM) tags: List<String> = emptyList(),
+        @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
+        @Field(PREVIEW_PARAM) preview: Boolean = false
+    ): Response<Question>
+
+    @FormUrlEncoded
     @POST("questions/{id}/downvote")
     suspend fun downvoteQuestionById(
         @Path("id") questionId: Int,
@@ -158,7 +168,9 @@ interface QuestionService {
     ): Response<Question>
 
     companion object {
+        private const val TITLE_PARAM = "title"
         private const val BODY_PARAM = "body"
+        private const val TAGS_PARAM = "tags"
         private const val PREVIEW_PARAM = "preview"
 
         internal const val DEFAULT_FILTER = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9("

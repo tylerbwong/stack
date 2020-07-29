@@ -85,6 +85,11 @@
     <string name="comment_count">(%1$d)</string>
     <string name="no_comments">No comments found</string>
 
+    <!-- Create Question -->
+    <string name="create_question">Create Question (Alpha)</string>
+    <string name="title">Title</string>
+    <string name="body">Body</string>
+
     <!-- Search -->
     <string name="search_hint">Search by keyword or phrase</string>
     <string name="popular_tags">Popular Tags</string>

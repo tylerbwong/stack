@@ -20,13 +20,11 @@ import androidx.ui.material.Switch
 import androidx.ui.material.TextButton
 import androidx.ui.res.colorResource
 import androidx.ui.res.stringResource
-import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.ui.utils.colorAttribute
 
-@Preview
 @Composable
 fun FiltersLayout(
     initialPayload: SearchPayload = SearchPayload.empty(),

@@ -30,9 +30,10 @@ abstract class BaseActivity<T : ViewBinding>(
 
     @CallSuper
     protected open fun applyFullscreenWindowInsets() {
-        findViewById<View>(R.id.rootLayout)?.systemUiVisibility =
+        val rootLayout = findViewById<View>(R.id.rootLayout)
+        rootLayout?.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-        val appBar = findViewById<View>(R.id.appBar)
+        val appBar = findViewById(R.id.appBar) ?: rootLayout
         if (appBar != null) {
             Insetter.builder().setOnApplyInsetsListener { view, insets, initialState ->
                 view.updatePadding(top = initialState.paddings.top + insets.systemWindowInsetTop)

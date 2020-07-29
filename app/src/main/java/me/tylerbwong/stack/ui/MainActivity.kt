@@ -3,17 +3,13 @@ package me.tylerbwong.stack.ui
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
-import androidx.core.view.forEach
-import androidx.core.view.iterator
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import coil.api.load
