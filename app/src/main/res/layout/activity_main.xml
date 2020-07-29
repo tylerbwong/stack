@@ -41,8 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:backgroundTint="?attr/viewBackgroundColor"
-        app:itemIconTint="@drawable/bottom_navigation_selector"
-        app:itemTextColor="@drawable/bottom_navigation_selector"
+        app:itemIconTint="@color/bottom_navigation_selector"
         app:labelVisibilityMode="unlabeled"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:menu="@menu/menu_bottom_navigation" />
