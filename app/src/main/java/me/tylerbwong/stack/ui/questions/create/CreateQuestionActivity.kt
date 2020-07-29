@@ -13,17 +13,13 @@ import me.tylerbwong.stack.ui.BaseActivity
 class CreateQuestionActivity : BaseActivity<ActivityCreateQuestionBinding>(
     ActivityCreateQuestionBinding::inflate
 ) {
-
-    private val createQuestionFragment by lazy {
-        initializeFragment(FRAGMENT_TAG, ::CreateQuestionFragment)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val id = intent.getIntExtra(DRAFT_ID, -1)
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-                .show(createQuestionFragment)
+                .show(initializeFragment(FRAGMENT_TAG) { CreateQuestionFragment.newInstance(id) })
                 .commit()
         }
     }
@@ -41,9 +37,13 @@ class CreateQuestionActivity : BaseActivity<ActivityCreateQuestionBinding>(
     companion object {
 
         private const val FRAGMENT_TAG = "create_question_fragment"
+        internal const val DRAFT_ID = "draft_id"
 
-        fun startActivity(context: Context) {
-            context.startActivity(Intent(context, CreateQuestionActivity::class.java))
+        fun startActivity(context: Context, id: Int? = null) {
+            context.startActivity(
+                Intent(context, CreateQuestionActivity::class.java)
+                    .putExtra(DRAFT_ID, id)
+            )
         }
     }
 }

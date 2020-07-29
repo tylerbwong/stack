@@ -4,6 +4,7 @@ package me.tylerbwong.stack.ui.questions.create
 import androidx.compose.Composable
 import androidx.compose.getValue
 import androidx.compose.setValue
+import androidx.lifecycle.LiveData
 import androidx.ui.core.Alignment
 import androidx.ui.core.Modifier
 import androidx.ui.core.gesture.tapGestureFilter
@@ -17,6 +18,7 @@ import androidx.ui.layout.fillMaxWidth
 import androidx.ui.layout.height
 import androidx.ui.layout.padding
 import androidx.ui.layout.width
+import androidx.ui.livedata.observeAsState
 import androidx.ui.material.Checkbox
 import androidx.ui.material.ExtendedFloatingActionButton
 import androidx.ui.material.IconButton
@@ -25,6 +27,7 @@ import androidx.ui.material.Scaffold
 import androidx.ui.material.TopAppBar
 import androidx.ui.material.icons.Icons
 import androidx.ui.material.icons.filled.ArrowBack
+import androidx.ui.material.icons.filled.Delete
 import androidx.ui.res.colorResource
 import androidx.ui.res.dimensionResource
 import androidx.ui.res.stringResource
@@ -33,10 +36,13 @@ import androidx.ui.savedinstancestate.savedInstanceState
 import androidx.ui.unit.dp
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.model.QuestionDraft
 
 @Composable
 fun CreateQuestionLayout(
-    onCreateQuestion: (String, String, String, Boolean) -> Unit = { _, _, _, _ -> },
+    draftLiveData: LiveData<QuestionDraft>,
+    createQuestion: (String, String, String, Boolean) -> Unit = { _, _, _, _ -> },
+    saveDraft: (String, String, String) -> Unit = { _, _, _ -> },
     onBackPressed: () -> Unit = {}
 ) {
     val viewBackgroundColor = colorResource(R.color.viewBackgroundColor)
@@ -45,9 +51,18 @@ fun CreateQuestionLayout(
     val colorAccent = colorResource(R.color.colorAccent)
     val colorError = colorResource(R.color.colorError)
 
-    var title by savedInstanceState(saver = TextFieldValue.Saver) { TextFieldValue() }
-    var body by savedInstanceState(saver = TextFieldValue.Saver) { TextFieldValue() }
-    var tags by savedInstanceState(saver = TextFieldValue.Saver) { TextFieldValue() }
+    val draft by draftLiveData.observeAsState(
+        initial = QuestionDraft(0, "", 0L, "", "", "")
+    )
+    var title by savedInstanceState(saver = TextFieldValue.Saver) {
+        TextFieldValue(text = draft.title)
+    }
+    var body by savedInstanceState(saver = TextFieldValue.Saver) {
+        TextFieldValue(text = draft.body)
+    }
+    var tags by savedInstanceState(saver = TextFieldValue.Saver) {
+        TextFieldValue(text = draft.tags)
+    }
     var isPreview by savedInstanceState { false }
 
     fun isValidTitle() = title.text.isNotBlank() && title.text.length >= 15
@@ -73,6 +88,33 @@ fun CreateQuestionLayout(
                         }
                     )
                 },
+                actions = {
+                    if (listOf(title.text, body.text, tags.text).any { it.isNotBlank() }) {
+                        IconButton(
+                            onClick = { saveDraft(title.text, body.text, tags.text) },
+                            icon = {
+                                Icon(
+                                    asset = vectorResource(R.drawable.ic_baseline_save),
+                                    tint = iconColor
+                                )
+                            }
+                        )
+                        IconButton(
+                            onClick = {
+                                title = TextFieldValue()
+                                body = TextFieldValue()
+                                tags = TextFieldValue()
+                                isPreview = false
+                            },
+                            icon = {
+                                Icon(
+                                    asset = Icons.Filled.Delete,
+                                    tint = iconColor
+                                )
+                            }
+                        )
+                    }
+                },
                 backgroundColor = viewBackgroundColor
             )
         },
@@ -85,7 +127,7 @@ fun CreateQuestionLayout(
                             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
                         )
                     },
-                    onClick = { onCreateQuestion(title.text, body.text, tags.text, isPreview) },
+                    onClick = { createQuestion(title.text, body.text, tags.text, isPreview) },
                     icon = {
                         Icon(
                             asset = vectorResource(R.drawable.ic_send),

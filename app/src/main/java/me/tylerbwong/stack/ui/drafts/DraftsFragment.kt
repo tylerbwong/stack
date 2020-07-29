@@ -47,7 +47,7 @@ class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
                 snackbar?.dismiss()
             }
         }
-        viewModel.drafts.observe(viewLifecycleOwner, ::updateContent)
+        viewModel.answerDrafts.observe(viewLifecycleOwner, ::updateContent)
 
         binding.recyclerView.apply {
             adapter = this@DraftsFragment.adapter
