@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.android.tools.build:gradle:4.2.0-alpha05")
+    implementation("com.android.tools.build:gradle:4.2.0-alpha06")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.0-rc")
     implementation("org.jlleitschuh.gradle:ktlint-gradle:9.2.1")
     implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.10.0")
