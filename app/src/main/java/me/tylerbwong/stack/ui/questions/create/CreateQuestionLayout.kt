@@ -38,6 +38,9 @@ import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.QuestionDraft
 
+private const val MIN_TITLE_LENGTH = 15
+private const val MIN_BODY_LENGTH = 30
+
 @Composable
 fun CreateQuestionLayout(
     draftLiveData: LiveData<QuestionDraft>,
@@ -65,8 +68,8 @@ fun CreateQuestionLayout(
     }
     var isPreview by savedInstanceState { false }
 
-    fun isValidTitle() = title.text.isNotBlank() && title.text.length >= 15
-    fun isValidBody() = body.text.isNotBlank() && body.text.length >= 30
+    fun isValidTitle() = title.text.isNotBlank() && title.text.length >= MIN_TITLE_LENGTH
+    fun isValidBody() = body.text.isNotBlank() && body.text.length >= MIN_BODY_LENGTH
 
     Scaffold(
         topBar = {
