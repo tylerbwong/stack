@@ -39,6 +39,9 @@ class PersistenceModule {
     @Provides
     fun provideSiteDao(stackDatabase: StackDatabase) = stackDatabase.getSiteDao()
 
+    @Provides
+    fun provideQuestionDraftDao(stackDatabase: StackDatabase) = stackDatabase.getQuestionDraftDao()
+
     companion object {
         private const val STACK_DATABASE_NAME = "stack-database"
     }

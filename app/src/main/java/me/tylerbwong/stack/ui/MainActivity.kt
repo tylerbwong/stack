@@ -31,6 +31,7 @@ import me.tylerbwong.stack.ui.bookmarks.BookmarksFragment
 import me.tylerbwong.stack.ui.drafts.DraftsFragment
 import me.tylerbwong.stack.ui.home.HomeFragment
 import me.tylerbwong.stack.ui.profile.ProfileActivity
+import me.tylerbwong.stack.ui.questions.create.CreateQuestionActivity
 import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
@@ -58,7 +59,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
     private val bookmarksFragment by lazy { initializeFragment(BOOKMARKS_FRAGMENT_TAG) { BookmarksFragment() } }
     private val draftsFragment by lazy { initializeFragment(DRAFTS_FRAGMENT_TAG) { DraftsFragment() } }
 
-    private val authTabIds = listOf(R.id.bookmarks, R.id.drafts)
+    private val authTabIds = listOf(R.id.create, R.id.bookmarks, R.id.drafts)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -181,25 +182,33 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
     }
 
     private fun setupBottomNavigation() {
-        binding.bottomNav.setOnNavigationItemSelectedListener { menuItem ->
-            val fragment = when (menuItem.itemId) {
-                R.id.search -> searchFragment
-                R.id.bookmarks -> bookmarksFragment
-                R.id.drafts -> draftsFragment
-                else -> homeFragment
+        with(binding.bottomNav) {
+            setOnNavigationItemSelectedListener { menuItem ->
+                if (menuItem.itemId == R.id.create) {
+                    CreateQuestionActivity.startActivity(this@MainActivity)
+                    return@setOnNavigationItemSelectedListener false
+                }
+
+                val fragment = when (menuItem.itemId) {
+                    R.id.search -> searchFragment
+                    R.id.bookmarks -> bookmarksFragment
+                    R.id.drafts -> draftsFragment
+                    else -> homeFragment
+                }
+                val currentFragment = supportFragmentManager.fragments
+                    .firstOrNull { !it.isHidden }
+                    ?: homeFragment
+
+                supportFragmentManager
+                    .beginTransaction()
+                    .hide(currentFragment)
+                    .show(fragment)
+                    .commit()
+
+                hideKeyboard()
+
+                true
             }
-            val currentFragment =
-                supportFragmentManager.fragments.firstOrNull { !it.isHidden } ?: homeFragment
-
-            supportFragmentManager
-                .beginTransaction()
-                .hide(currentFragment)
-                .show(fragment)
-                .commit()
-
-            binding.bottomNav.hideKeyboard()
-
-            true
         }
     }
 

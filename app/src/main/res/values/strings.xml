@@ -9,6 +9,7 @@
     <string name="related">Related</string>
     <string name="comments">Comments</string>
     <string name="home">Home</string>
+    <string name="create">Create</string>
     <string name="drafts">Drafts</string>
     <string name="bookmarks">Bookmarks</string>
 
@@ -83,6 +84,12 @@
     <string name="settings">Settings</string>
     <string name="comment_count">(%1$d)</string>
     <string name="no_comments">No comments found</string>
+
+    <!-- Create Question -->
+    <string name="create_question">Create Question</string>
+    <string name="title">Title</string>
+    <string name="body">Body</string>
+    <string name="preview_success">Successfully posted as preview</string>
 
     <!-- Search -->
     <string name="search_hint">Search by keyword or phrase</string>

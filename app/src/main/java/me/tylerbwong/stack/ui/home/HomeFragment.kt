@@ -20,13 +20,13 @@ import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.VOTES
 import me.tylerbwong.stack.data.model.WEEK
 import me.tylerbwong.stack.data.model.sortResourceId
-import me.tylerbwong.stack.databinding.FragmentHomeBinding
+import me.tylerbwong.stack.databinding.HomeFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(
-    FragmentHomeBinding::inflate
+class HomeFragment : BaseFragment<HomeFragmentBinding>(
+    HomeFragmentBinding::inflate
 ), PopupMenu.OnMenuItemClickListener {
 
     private val viewModel by viewModels<HomeViewModel>()

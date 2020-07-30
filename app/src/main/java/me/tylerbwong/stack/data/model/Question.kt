@@ -9,7 +9,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Question(
     @Json(name = "answer_count")
-    val answerCount: Int,
+    val answerCount: Int = 0,
     val body: String?,
     @Json(name = "body_markdown")
     val bodyMarkdown: String?,
@@ -22,13 +22,13 @@ data class Question(
     @Json(name = "creation_date")
     val creationDate: Long,
     @Json(name = "down_vote_count")
-    val downVoteCount: Int,
+    val downVoteCount: Int = 0,
     @Json(name = "downvoted")
     val isDownVoted: Boolean = false,
     @Json(name = "favorited")
     val isBookmarked: Boolean = false,
     @Json(name = "favorite_count")
-    val bookmarkCount: Int,
+    val bookmarkCount: Int = 0,
     @Json(name = "is_answered")
     val isAnswered: Boolean,
     @Json(name = "last_activity_date")
@@ -39,16 +39,16 @@ data class Question(
     val lastEditor: User?,
     val owner: User,
     @Json(name = "question_id")
-    val questionId: Int,
+    val questionId: Int = -1,
     val score: Int,
     @Json(name = "share_link")
-    val shareLink: String,
+    val shareLink: String = "",
     val tags: List<String>?,
     val title: String,
     @Json(name = "up_vote_count")
-    val upVoteCount: Int,
+    val upVoteCount: Int = 0,
     @Json(name = "upvoted")
     val isUpVoted: Boolean = false,
     @Json(name = "view_count")
-    val viewCount: Int
+    val viewCount: Int = 0
 )

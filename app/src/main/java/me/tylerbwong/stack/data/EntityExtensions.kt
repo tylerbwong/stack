@@ -3,10 +3,12 @@ package me.tylerbwong.stack.data
 import me.tylerbwong.stack.data.model.AnswerDraft
 import me.tylerbwong.stack.data.model.BadgeCounts
 import me.tylerbwong.stack.data.model.Question
+import me.tylerbwong.stack.data.model.QuestionDraft
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.data.model.Site
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
+import me.tylerbwong.stack.data.persistence.entity.QuestionDraftEntity
 import me.tylerbwong.stack.data.persistence.entity.QuestionEntity
 import me.tylerbwong.stack.data.persistence.entity.SearchEntity
 import me.tylerbwong.stack.data.persistence.entity.SiteEntity
@@ -107,6 +109,16 @@ fun AnswerDraftEntity.toAnswerDraft(): AnswerDraft =
         questionTitle = questionTitle,
         updatedDate = updatedDate,
         bodyMarkdown = bodyMarkdown,
+        site = site
+    )
+
+fun QuestionDraftEntity.toQuestionDraft(): QuestionDraft =
+    QuestionDraft(
+        id = id,
+        title = title,
+        updatedDate = updatedDate,
+        body = body,
+        tags = tags,
         site = site
     )
 

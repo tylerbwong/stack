@@ -12,6 +12,11 @@
         android:title="@string/search" />
 
     <item
+        android:id="@+id/create"
+        android:icon="@drawable/ic_baseline_add_circle"
+        android:title="@string/create" />
+
+    <item
         android:id="@+id/bookmarks"
         android:icon="@drawable/ic_baseline_bookmark"
         android:title="@string/bookmarks" />

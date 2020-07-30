@@ -9,7 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Question
-import me.tylerbwong.stack.databinding.FragmentHomeBinding
+import me.tylerbwong.stack.databinding.HomeFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeItem
@@ -18,7 +18,7 @@ import me.tylerbwong.stack.ui.home.QuestionItem
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
-class BookmarksFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+class BookmarksFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::inflate) {
 
     private val viewModel by viewModels<BookmarksViewModel>()
     private val adapter = DynamicListAdapter(HomeItemDiffCallback)
