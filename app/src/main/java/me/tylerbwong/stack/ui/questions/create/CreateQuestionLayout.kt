@@ -46,6 +46,7 @@ fun CreateQuestionLayout(
     draftLiveData: LiveData<QuestionDraft>,
     createQuestion: (String, String, String, Boolean) -> Unit = { _, _, _, _ -> },
     saveDraft: (String, String, String) -> Unit = { _, _, _ -> },
+    deleteDraft: (Int) -> Unit = { _ -> },
     onBackPressed: () -> Unit = {}
 ) {
     val viewBackgroundColor = colorResource(R.color.viewBackgroundColor)
@@ -66,7 +67,7 @@ fun CreateQuestionLayout(
     var tags by savedInstanceState(saver = TextFieldValue.Saver) {
         TextFieldValue(text = draft.tags)
     }
-    var isPreview by savedInstanceState { false }
+    var isPreview by savedInstanceState { BuildConfig.DEBUG }
 
     fun isValidTitle() = title.text.isNotBlank() && title.text.length >= MIN_TITLE_LENGTH
     fun isValidBody() = body.text.isNotBlank() && body.text.length >= MIN_BODY_LENGTH
@@ -108,6 +109,7 @@ fun CreateQuestionLayout(
                                 body = TextFieldValue()
                                 tags = TextFieldValue()
                                 isPreview = false
+                                deleteDraft(draft.id)
                             },
                             icon = {
                                 Icon(

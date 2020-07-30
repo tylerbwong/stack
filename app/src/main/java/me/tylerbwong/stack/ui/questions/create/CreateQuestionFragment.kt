@@ -22,6 +22,7 @@ class CreateQuestionFragment : BaseFragment<CreateQuestionFragmentBinding>(
                 draftLiveData = viewModel.questionDraft,
                 createQuestion = viewModel::createQuestion,
                 saveDraft = viewModel::saveDraft,
+                deleteDraft = viewModel::deleteDraft,
                 onBackPressed = { requireActivity().onBackPressed() }
             )
         }

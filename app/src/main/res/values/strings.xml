@@ -86,7 +86,7 @@
     <string name="no_comments">No comments found</string>
 
     <!-- Create Question -->
-    <string name="create_question">Create Question (Alpha)</string>
+    <string name="create_question">Create Question</string>
     <string name="title">Title</string>
     <string name="body">Body</string>
 

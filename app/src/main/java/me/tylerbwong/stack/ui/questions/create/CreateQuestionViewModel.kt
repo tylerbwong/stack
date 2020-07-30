@@ -25,7 +25,12 @@ class CreateQuestionViewModel @ViewModelInject constructor(
 
     fun createQuestion(title: String, body: String, tags: String, isPreview: Boolean) {
         launchRequest {
-            questionService.addQuestion(title, body, tags, preview = isPreview)
+            questionService.addQuestion(
+                title,
+                body,
+                tags.replace(",", ";"),
+                preview = isPreview
+            )
         }
     }
 
@@ -35,6 +40,12 @@ class CreateQuestionViewModel @ViewModelInject constructor(
                 QuestionDraftEntity(title, System.currentTimeMillis(), body, tags, siteStore.site)
             )
             fetchDraft(id.toInt())
+        }
+    }
+
+    fun deleteDraft(id: Int) {
+        launchRequest {
+            questionDraftDao.deleteDraftById(id, siteStore.site)
         }
     }
 
