@@ -21,7 +21,7 @@ object Versions {
     const val coil = "0.11.0"
     const val compose = "0.1.0-dev15"
     const val composeKotlinCompiler = "1.4.0-dev-withExperimentalGoogleExtensions-20200720"
-    const val constraintLayout = "2.0.0-beta8"
+    const val constraintLayout = "2.0.0-rc1"
     const val daggerHilt = "2.28.3-alpha"
     const val detekt = "1.10.0"
     const val espresso = "3.1.0"
