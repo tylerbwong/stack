@@ -89,6 +89,7 @@
     <string name="create_question">Create Question</string>
     <string name="title">Title</string>
     <string name="body">Body</string>
+    <string name="preview_success">Successfully posted as preview</string>
 
     <!-- Search -->
     <string name="search_hint">Search by keyword or phrase</string>

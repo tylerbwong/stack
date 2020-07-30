@@ -71,6 +71,7 @@ fun CreateQuestionLayout(
 
     fun isValidTitle() = title.text.isNotBlank() && title.text.length >= MIN_TITLE_LENGTH
     fun isValidBody() = body.text.isNotBlank() && body.text.length >= MIN_BODY_LENGTH
+    fun isValidTags() = tags.text.isNotBlank() && tags.text.split(",").isNotEmpty()
 
     Scaffold(
         topBar = {
@@ -124,7 +125,7 @@ fun CreateQuestionLayout(
             )
         },
         floatingActionButton = {
-            if (isValidTitle() && isValidBody()) {
+            if (isValidTitle() && isValidBody() && isValidTags()) {
                 ExtendedFloatingActionButton(
                     text = {
                         Text(
@@ -132,7 +133,14 @@ fun CreateQuestionLayout(
                             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
                         )
                     },
-                    onClick = { createQuestion(title.text, body.text, tags.text, isPreview) },
+                    onClick = {
+                        createQuestion(
+                            title.text,
+                            body.text,
+                            tags.text,
+                            isPreview
+                        )
+                    },
                     icon = {
                         Icon(
                             asset = vectorResource(R.drawable.ic_send),
@@ -184,8 +192,10 @@ fun CreateQuestionLayout(
                 onValueChange = { tags = it },
                 label = { Text(text = stringResource(R.string.tags_title)) },
                 modifier = Modifier.fillMaxWidth(),
+                isErrorValue = !isValidTags(),
                 activeColor = colorAccent,
-                inactiveColor = primaryTextColor
+                inactiveColor = primaryTextColor,
+                errorColor = colorError
             )
 
             Spacer(modifier = Modifier.height(8.dp))

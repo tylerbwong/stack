@@ -108,7 +108,7 @@ interface QuestionService {
     suspend fun addQuestion(
         @Field(TITLE_PARAM) title: String,
         @Field(BODY_PARAM) body: String,
-        @Field(TAGS_PARAM) tags: String? = null,
+        @Field(TAGS_PARAM) tags: String,
         @Field(FILTER_PARAM) filter: String = DEFAULT_FILTER,
         @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
         @Field(PREVIEW_PARAM) preview: Boolean = false
