@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.data.auth
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
@@ -23,22 +24,33 @@ class AuthRepository @Inject constructor(
     internal val isAuthenticated: LiveData<Boolean>
         get() = authStore.isAuthenticatedLiveData
 
+    suspend fun logIn(uri: Uri): LoginResult {
+        authStore.setAccessToken(uri)
+        return if (authStore.accessToken != null && getCurrentUser() != null) {
+            authStore.updateAuthenticatedState(isAuthenticated = true)
+            LoginResult.LoginSuccess
+        } else {
+            authStore.clear()
+            LoginResult.LoginError
+        }
+    }
+
     suspend fun logOut(): LogOutResult {
         val accessToken = authStore.accessToken
 
         return try {
             if (!accessToken.isNullOrBlank()) {
-                authService.logOut(accessToken = accessToken)
                 answerDraftDao.clearDrafts()
                 searchDao.clearSearches()
+                authService.logOut(accessToken = accessToken)
                 authStore.clear()
-                LogOutSuccess
+                LogOutResult.LogOutSuccess
             } else {
                 throw IllegalStateException("Could not log user out for null access token")
             }
         } catch (ex: Exception) {
             Timber.e(ex)
-            LogOutError
+            LogOutResult.LogOutError
         }
     }
 
@@ -49,7 +61,7 @@ class AuthRepository @Inject constructor(
      */
     suspend fun getCurrentUser(): User? {
         return try {
-            if (authStore.isAuthenticatedLiveData.value == true) {
+            if (authStore.accessToken != null) {
                 userService.getCurrentUser().items.firstOrNull()
             } else {
                 null
@@ -59,6 +71,11 @@ class AuthRepository @Inject constructor(
             null
         }
     }
+}
+
+sealed class LoginResult {
+    object LoginSuccess : LoginResult()
+    object LoginError : LoginResult()
 }
 
 sealed class LogOutResult {

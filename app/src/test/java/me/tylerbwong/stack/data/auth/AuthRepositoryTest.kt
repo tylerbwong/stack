@@ -2,11 +2,14 @@ package me.tylerbwong.stack.data.auth
 
 import android.net.Uri
 import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.runBlocking
 import me.tylerbwong.stack.BaseTest
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
+import me.tylerbwong.stack.data.auth.LoginResult.LoginError
+import me.tylerbwong.stack.data.auth.LoginResult.LoginSuccess
 import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.network.service.AuthService
 import me.tylerbwong.stack.data.network.service.UserService
@@ -17,10 +20,10 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.never
@@ -56,14 +59,59 @@ class AuthRepositoryTest : BaseTest() {
     }
 
     @Test
+    fun `logIn with valid user returns success state`() {
+        runBlocking {
+            val validUri = Uri.parse("stack://tylerbwong.me/auth/redirect#access_token=1234567")
+            whenever(userService.getCurrentUser(any(), any())).thenReturn(
+                StackResponse(listOf(testUser), false)
+            )
+            val result = repository.logIn(validUri)
+            assertTrue(result is LoginSuccess)
+            verify(userService, times(1)).getCurrentUser(any(), any())
+            assertEquals(true, authStore.isAuthenticatedLiveData.value)
+            assertNotNull(authStore.accessToken)
+        }
+    }
+
+    @Test
+    fun `logIn with invalid user returns error state`() {
+        runBlocking {
+            val invalidUri = Uri.parse("stack://tylerbwong.me/auth/redirect#access_token=1234567")
+            whenever(userService.getCurrentUser(any(), any())).thenReturn(
+                StackResponse(emptyList(), false)
+            )
+            val result = repository.logIn(invalidUri)
+            assertTrue(result is LoginError)
+            verify(userService, times(1)).getCurrentUser(any(), any())
+            assertEquals(false, authStore.isAuthenticatedLiveData.value)
+            assertNull(authStore.accessToken)
+        }
+    }
+
+    @Test
+    fun `logIn with invalid uri returns error state`() {
+        runBlocking {
+            val invalidUri = Uri.parse("stack://tylerbwong.me/auth?access_token=1234567")
+            whenever(userService.getCurrentUser(any(), any())).thenReturn(
+                StackResponse(emptyList(), false)
+            )
+            val result = repository.logIn(invalidUri)
+            assertTrue(result is LoginError)
+            verify(userService, never()).getCurrentUser(any(), any())
+            assertEquals(false, authStore.isAuthenticatedLiveData.value)
+            assertNull(authStore.accessToken)
+        }
+    }
+
+    @Test
     fun `logOut with existing access token returns success state`() {
         runBlocking {
             authStore.setAccessToken(testUri)
             val result = repository.logOut()
             assertTrue(result is LogOutSuccess)
-            verify(authService).logOut("test")
-            verify(answerDraftDao).clearDrafts()
-            verify(searchDao).clearSearches()
+            verify(authService, times(1)).logOut("test")
+            verify(answerDraftDao, times(1)).clearDrafts()
+            verify(searchDao, times(1)).clearSearches()
             assertTrue(authStore.accessToken.isNullOrBlank())
         }
     }
@@ -109,8 +157,7 @@ class AuthRepositoryTest : BaseTest() {
             )
             authStore.setAccessToken(testUri)
             assertEquals(testUser, repository.getCurrentUser())
-            verify(userService).getCurrentUser(any(), any())
-//            verify(userDao).insert(any())
+            verify(userService, times(1)).getCurrentUser(any(), any())
         }
     }
 
@@ -141,23 +188,8 @@ class AuthRepositoryTest : BaseTest() {
                 )
             authStore.setAccessToken(testUri)
             assertNull(repository.getCurrentUser())
-            verify(userService).getCurrentUser(any(), any())
+            verify(userService, times(1)).getCurrentUser(any(), any())
             verify(userDao, never()).insert(any())
-        }
-    }
-
-    @Test
-    @Ignore("AuthRepository no longer stores the current user in the db")
-    fun `getCurrentUser with throwing db call still returns the user from the service`() {
-        runBlocking {
-            whenever(userService.getCurrentUser(any(), any())).thenReturn(
-                StackResponse(listOf(testUser), false)
-            )
-            whenever(userDao.insert(any())).thenThrow(IllegalStateException("Could not insert"))
-            authStore.setAccessToken(testUri)
-            assertEquals(testUser, repository.getCurrentUser())
-            verify(userService).getCurrentUser(any(), any())
-//            verify(userDao).insert(any())
         }
     }
 

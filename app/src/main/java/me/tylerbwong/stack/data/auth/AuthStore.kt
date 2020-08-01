@@ -18,8 +18,7 @@ class AuthStore @Inject constructor(
         @Synchronized
         get() = preferences.getString(ACCESS_TOKEN, null)
         private set(value) {
-            preferences.edit().putString(ACCESS_TOKEN, value).apply()
-            mutableIsAuthenticatedLiveData.postValue(!value.isNullOrBlank())
+            preferences.edit().putString(ACCESS_TOKEN, value).commit()
         }
 
     private val mutableIsAuthenticatedLiveData = MutableLiveData(!accessToken.isNullOrBlank())
@@ -34,6 +33,11 @@ class AuthStore @Inject constructor(
     fun clear() {
         accessToken = null
         preferences.edit().clear().apply()
+        updateAuthenticatedState(isAuthenticated = false)
+    }
+
+    internal fun updateAuthenticatedState(isAuthenticated: Boolean) {
+        mutableIsAuthenticatedLiveData.value = isAuthenticated
     }
 
     companion object {

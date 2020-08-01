@@ -50,12 +50,13 @@
     <string name="retry">Retry</string>
     <string name="dismiss">Dismiss</string>
     <string name="deep_link_path_not_supported">Stack can\'t handle this link yet!</string>
+    <string name="deep_link_user_not_found">User not found on this site</string>
 
     <!-- Auth -->
     <string name="log_in_title">Would you like to log in?</string>
     <string name="log_out_title">Would you like to log out?</string>
     <string name="log_out_site_switch">Switching sites requires logging out</string>
-    <string name="log_out_message">You\'ll lose all of your current session data</string>
+    <string name="log_out_message">You\'ll lose all of your current session data including saved drafts</string>
     <string name="log_in">Log in</string>
     <string name="log_out">Log out</string>
     <string name="cancel">Cancel</string>

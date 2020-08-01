@@ -6,8 +6,6 @@ import android.net.Uri
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.AUTH
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTIONS_BY_TAG
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTION_DETAILS
-import me.tylerbwong.stack.data.auth.AuthStore
-import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
@@ -16,14 +14,12 @@ import javax.inject.Singleton
 
 sealed class DeepLinkResult {
     class Success(val intent: Intent) : DeepLinkResult()
+    object RequestingAuth : DeepLinkResult()
     object PathNotSupportedError : DeepLinkResult()
 }
 
 @Singleton
-class DeepLinker @Inject constructor(
-    private val authStore: AuthStore,
-    private val siteStore: SiteStore
-) {
+class DeepLinker @Inject constructor(private val siteStore: SiteStore) {
     private enum class ResolvedPath(vararg val paths: String) {
         AUTH("/auth/redirect"),
         QUESTIONS_BY_TAG("/questions/tagged/"),
@@ -41,12 +37,7 @@ class DeepLinker @Inject constructor(
         val path = uri.path ?: return DeepLinkResult.PathNotSupportedError
 
         return when (ResolvedPath.fromPath(path)) {
-            AUTH -> {
-                // When coming back from an auth redirect, save the access token in the hash
-                // and restart MainActivity + clear top
-                authStore.setAccessToken(uri)
-                DeepLinkResult.Success(MainActivity.makeIntentClearTop(context))
-            }
+            AUTH -> DeepLinkResult.RequestingAuth
             QUESTIONS_BY_TAG -> {
                 siteStore.deepLinkSite = site
                 DeepLinkResult.Success(

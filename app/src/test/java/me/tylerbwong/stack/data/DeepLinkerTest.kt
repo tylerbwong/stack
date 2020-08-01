@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.data
 
 import android.net.Uri
-import com.nhaarman.mockitokotlin2.mock
 import me.tylerbwong.stack.BaseTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -19,7 +18,6 @@ class DeepLinkerTest : BaseTest() {
     ).map { Uri.parse(it) }
 
     private val supportedDeepLinks = listOf(
-        "stack://tylerbwong.me/auth/redirect#access_token=abcdefg",
         "https://stackoverflow.com/questions/tagged/android",
         "http://stackoverflow.com/questions/26533510/",
         "http://stackoverflow.com/q/26533510/",
@@ -27,10 +25,14 @@ class DeepLinkerTest : BaseTest() {
         "https://superuser.com/q/1491979/"
     ).map { Uri.parse(it) }
 
+    private val supportedAuthUrls = listOf(
+        "stack://tylerbwong.me/auth/redirect#access_token=abcdefg"
+    ).map { Uri.parse(it) }
+
     @Before
     fun setUp() {
         siteStore = SiteStore(testSharedPreferences)
-        deepLinker = DeepLinker(mock(), siteStore)
+        deepLinker = DeepLinker(siteStore)
     }
 
     @Test
@@ -46,6 +48,14 @@ class DeepLinkerTest : BaseTest() {
         supportedDeepLinks.forEach {
             val result = deepLinker.resolvePath(context, it)
             assertTrue(result is DeepLinkResult.Success)
+        }
+    }
+
+    @Test
+    fun `resolveUri returns requesting auth for valid auth deep links`() {
+        supportedAuthUrls.forEach {
+            val result = deepLinker.resolvePath(context, it)
+            assertTrue(result is DeepLinkResult.RequestingAuth)
         }
     }
 
