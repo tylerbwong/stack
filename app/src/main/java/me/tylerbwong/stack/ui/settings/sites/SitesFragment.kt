@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.text.clearSpans
 import androidx.core.text.set
 import androidx.core.text.toSpannable
@@ -17,8 +18,11 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import coil.ImageLoader
 import coil.request.LoadRequest
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
 import javax.inject.Inject
 
@@ -31,6 +35,8 @@ class SitesFragment : PreferenceFragmentCompat(), SearchView.OnQueryTextListener
     private val viewModel by viewModels<SitesViewModel>()
 
     private var searchView: SearchView? = null
+
+    private var snackbar: Snackbar? = null
 
     private var searchCatalog = listOf<Preference>()
 
@@ -48,6 +54,24 @@ class SitesFragment : PreferenceFragmentCompat(), SearchView.OnQueryTextListener
     @SuppressLint("DefaultLocale")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.snackbar.observe(viewLifecycleOwner) {
+            if (it != null) {
+                view.post {
+                    snackbar = view.showSnackbar(
+                        R.string.network_error,
+                        duration = Snackbar.LENGTH_LONG
+                    )
+                }
+            } else {
+                snackbar?.dismiss()
+            }
+        }
+        viewModel.logOutState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is SiteLogOutResult.SiteLogOutSuccess -> changeSite(state.siteParameter)
+                else -> Unit // No-op
+            }
+        }
         viewModel.sites.observe(viewLifecycleOwner) { sites ->
             searchCatalog = emptyList()
             searchCatalog = sites.map { site ->
@@ -55,8 +79,23 @@ class SitesFragment : PreferenceFragmentCompat(), SearchView.OnQueryTextListener
                     title = site.name.toHtml()
                     summary = site.audience.capitalize().toHtml()
                     setOnPreferenceClickListener {
-                        viewModel.changeSite(site.parameter)
-                        requireActivity().finish()
+                        if (viewModel.isAuthenticated) {
+                            MaterialAlertDialogBuilder(requireContext())
+                                .setBackground(
+                                    ContextCompat.getDrawable(
+                                        requireContext(),
+                                        R.drawable.default_dialog_bg
+                                    )
+                                )
+                                .setTitle(R.string.log_out_title)
+                                .setMessage(R.string.log_out_site_switch)
+                                .setPositiveButton(R.string.log_out) { _, _ -> viewModel.logOut(site.parameter) }
+                                .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                                .create()
+                                .show()
+                        } else {
+                            changeSite(site.parameter)
+                        }
                         true
                     }
                     val request = LoadRequest.Builder(requireContext())
@@ -132,6 +171,11 @@ class SitesFragment : PreferenceFragmentCompat(), SearchView.OnQueryTextListener
             }
             preferenceScreen?.addPreference(preference)
         }
+    }
+
+    private fun changeSite(siteParameter: String) {
+        viewModel.changeSite(siteParameter)
+        requireActivity().finish()
     }
 
     companion object {
