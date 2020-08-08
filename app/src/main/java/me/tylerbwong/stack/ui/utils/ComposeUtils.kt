@@ -2,9 +2,9 @@ package me.tylerbwong.stack.ui.utils
 
 import android.util.TypedValue
 import androidx.annotation.AttrRes
-import androidx.compose.Composable
-import androidx.ui.core.ContextAmbient
-import androidx.ui.graphics.Color
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ContextAmbient
 
 @Composable
 fun colorAttribute(@AttrRes id: Int): Color {

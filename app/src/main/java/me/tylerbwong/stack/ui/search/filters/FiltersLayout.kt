@@ -1,26 +1,26 @@
 @file:Suppress("FunctionNaming") // TODO Remove when detekt supports ignoreAnnotated option
 package me.tylerbwong.stack.ui.search.filters
 
-import androidx.compose.Composable
-import androidx.compose.state
-import androidx.ui.core.Modifier
-import androidx.ui.foundation.Box
-import androidx.ui.foundation.Text
-import androidx.ui.foundation.TextField
-import androidx.ui.input.TextFieldValue
-import androidx.ui.layout.Arrangement
-import androidx.ui.layout.Column
-import androidx.ui.layout.Row
-import androidx.ui.layout.fillMaxWidth
-import androidx.ui.layout.padding
-import androidx.ui.material.Button
-import androidx.ui.material.MaterialTheme
-import androidx.ui.material.Slider
-import androidx.ui.material.Switch
-import androidx.ui.material.TextButton
-import androidx.ui.res.colorResource
-import androidx.ui.res.stringResource
-import androidx.ui.unit.dp
+import androidx.compose.foundation.Box
+import androidx.compose.foundation.Text
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Slider
+import androidx.compose.material.Switch
+import androidx.compose.material.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.state
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.ui.utils.colorAttribute
@@ -74,7 +74,7 @@ private fun SwitchItem(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier.plus(Modifier.fillMaxWidth()),
+        modifier = modifier.then(Modifier.fillMaxWidth()),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
@@ -136,9 +136,10 @@ private fun TextFieldItem(
     onValueChanged: (TextFieldValue) -> Unit
 ) {
     Box(modifier = modifier) {
-        TextField(
+        OutlinedTextField(
             value = TextFieldValue(text = text),
-            onValueChange = onValueChanged
+            onValueChange = onValueChanged,
+            label = {}
         )
     }
 }

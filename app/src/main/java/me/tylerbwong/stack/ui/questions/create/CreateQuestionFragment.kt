@@ -3,9 +3,9 @@ package me.tylerbwong.stack.ui.questions.create
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.compose.Recomposer
+import androidx.compose.runtime.Recomposer
+import androidx.compose.ui.platform.setContent
 import androidx.fragment.app.viewModels
-import androidx.ui.core.setContent
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
