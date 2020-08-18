@@ -7,7 +7,7 @@ import com.soywiz.klock.until
 import me.tylerbwong.stack.R
 
 /**
- * Receiver [Long] is in seconds.
+ * Receiver [Long] is in milliseconds.
  */
 fun Long.formatElapsedTime(context: Context): String {
     val startDate = DateTime.fromUnix(toDouble().milliseconds.millisecondsLong)
