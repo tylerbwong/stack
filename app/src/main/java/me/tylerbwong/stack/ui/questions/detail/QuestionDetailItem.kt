@@ -49,7 +49,8 @@ object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
                     oldItem.answer.upVoteCount == newItem.answer.upVoteCount &&
                     oldItem.answer.downVoteCount == newItem.answer.downVoteCount &&
                     oldItem.answer.bodyMarkdown == newItem.answer.bodyMarkdown &&
-                    oldItem.answer.owner == newItem.answer.owner
+                    oldItem.answer.owner == newItem.answer.owner &&
+                    oldItem.answer.creationDate == newItem.answer.creationDate
         else -> false
     }
 }
