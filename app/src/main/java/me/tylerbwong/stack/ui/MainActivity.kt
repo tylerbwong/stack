@@ -33,6 +33,7 @@ import me.tylerbwong.stack.ui.home.HomeFragment
 import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.questions.create.CreateQuestionActivity
 import me.tylerbwong.stack.ui.search.SearchFragment
+import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchCustomTab
@@ -49,6 +50,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 
     @Inject
     lateinit var workScheduler: WorkScheduler
+
+    @Inject
+    lateinit var experimental: Experimental
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -183,8 +187,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 
     private fun setupBottomNavigation() {
         with(binding.bottomNav) {
+            post { menu.findItem(R.id.create)?.isVisible = experimental.createQuestionEnabled }
             setOnNavigationItemSelectedListener { menuItem ->
-                if (menuItem.itemId == R.id.create) {
+                if (experimental.createQuestionEnabled && menuItem.itemId == R.id.create) {
                     CreateQuestionActivity.startActivity(this@MainActivity)
                     return@setOnNavigationItemSelectedListener false
                 }

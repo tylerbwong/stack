@@ -142,7 +142,8 @@
     <!-- App version -->
     <string name="version">Version</string>
     <string name="syntax_highlighting">Syntax Highlighting</string>
-    <string name="syntax_highlighting_summary">Enables syntax highlighting within any markdown body. Requires a restart to take effect.</string>
+    <string name="syntax_highlighting_summary">Enables syntax highlighting within any markdown body.</string>
+    <string name="create_question_summary">Enables create question support if logged in.</string>
 
     <string name="restart_toggle">Toggling this requires a restart</string>
     <string name="link_copied">Link copied to clipboard</string>

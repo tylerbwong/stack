@@ -63,6 +63,22 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 }
             }
 
+            findPreference<TwoStatePreference>(getString(R.string.create_question))?.apply {
+                isChecked = experimental.createQuestionEnabled
+                setOnPreferenceChangeListener { _, newValue ->
+                    experimental.createQuestionEnabled = newValue as Boolean
+                    view?.showSnackbar(
+                        messageId = R.string.restart_toggle,
+                        actionTextId = R.string.restart,
+                        duration = Snackbar.LENGTH_INDEFINITE
+                    ) {
+                        val intent = Intent(it.context, MainActivity::class.java)
+                        ProcessPhoenix.triggerRebirth(it.context, intent)
+                    }
+                    true
+                }
+            }
+
             findPreference<Preference>(getString(R.string.theme))?.apply {
                 summary = getString(
                     nightModeOptions
