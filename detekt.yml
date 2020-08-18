@@ -357,7 +357,7 @@ naming:
     functionPattern: '^([a-z$][a-zA-Z$0-9]*)|(`.*`)$'
     excludeClassPattern: '$^'
     ignoreOverridden: true
-#    ignoreAnnotated: ['Composable']
+    ignoreAnnotated: ['Composable']
   FunctionParameterNaming:
     active: true
     excludes: ['**/test/**', '**/androidTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt']
@@ -433,11 +433,14 @@ potential-bugs:
   HasPlatformType:
     active: false
   IgnoredReturnValue:
-    active: false
+    active: true
     restrictToAnnotatedMethods: true
     returnValueAnnotations: ['*.CheckReturnValue', '*.CheckResult']
   ImplicitDefaultLocale:
     active: false
+  ImplicitUnitReturnType:
+    active: false
+    allowExplicitReturnType: true
   InvalidRange:
     active: true
   IteratorHasNextCallsNextMethod:
@@ -453,6 +456,8 @@ potential-bugs:
     active: false
   MissingWhenCase:
     active: true
+  NullableToStringCall:
+    active: false
   RedundantElseInWhen:
     active: true
   UnconditionalJumpStatementInLoop:
@@ -516,6 +521,8 @@ style:
     excludedFunctions: 'describeContents'
     excludeAnnotatedFunction: ['dagger.Provides']
   LibraryCodeMustSpecifyReturnType:
+    active: true
+  LibraryEntitiesShouldNotBePublic:
     active: true
   LoopWithTooManyJumpStatements:
     active: false
