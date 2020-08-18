@@ -53,6 +53,22 @@
         app:layout_constraintTop_toBottomOf="@id/questionBody"
         app:singleSelection="true" />
 
+    <TextView
+        android:id="@+id/askedDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="2dp"
+        android:gravity="start"
+        android:lines="1"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@id/ownerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tagsView"
+        tools:text="asked 2 hours ago" />
+
     <me.tylerbwong.stack.ui.owners.OwnerView
         android:id="@+id/ownerView"
         android:layout_width="0dp"
@@ -63,7 +79,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/lastEditor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tagsView" />
+        app:layout_constraintTop_toBottomOf="@id/askedDate" />
 
     <TextView
         android:id="@+id/lastEditor"

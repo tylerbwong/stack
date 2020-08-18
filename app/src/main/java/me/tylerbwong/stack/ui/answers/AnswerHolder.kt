@@ -3,12 +3,14 @@ package me.tylerbwong.stack.ui.answers
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
+import com.soywiz.klock.seconds
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.AnswerHolderBinding
 import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.questions.detail.AnswerItem
+import me.tylerbwong.stack.ui.utils.formatElapsedTime
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 import me.tylerbwong.stack.ui.utils.ofType
 
@@ -31,6 +33,13 @@ class AnswerHolder(
             setMarkdown(answer.bodyMarkdown)
             setTextIsSelectable(true)
             movementMethod = BetterLinkMovementMethod.getInstance()
+        }
+
+        answeredDate.apply {
+            text = context.getString(
+                R.string.answered,
+                answer.creationDate.seconds.millisecondsLong.formatElapsedTime(context)
+            )
         }
 
         lastEditor.apply {

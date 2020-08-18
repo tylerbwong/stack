@@ -48,6 +48,22 @@
         app:layout_constraintTop_toBottomOf="@id/votes"
         tools:text="This is the answer body" />
 
+    <TextView
+        android:id="@+id/answeredDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="2dp"
+        android:gravity="start"
+        android:lines="1"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@id/ownerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/answerBody"
+        tools:text="answered 2 hours ago" />
+
     <me.tylerbwong.stack.ui.owners.OwnerView
         android:id="@+id/ownerView"
         android:layout_width="0dp"
@@ -58,7 +74,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/lastEditor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/answerBody" />
+        app:layout_constraintTop_toBottomOf="@id/answeredDate" />
 
     <TextView
         android:id="@+id/lastEditor"

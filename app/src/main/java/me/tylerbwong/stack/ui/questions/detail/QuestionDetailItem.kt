@@ -33,7 +33,8 @@ object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
             oldItem.question.title == newItem.question.title &&
                     oldItem.question.bodyMarkdown == newItem.question.bodyMarkdown &&
                     oldItem.question.owner == newItem.question.owner &&
-                    oldItem.question.tags == newItem.question.tags
+                    oldItem.question.tags == newItem.question.tags &&
+                    oldItem.question.creationDate == newItem.question.creationDate
         oldItem is QuestionActionItem && newItem is QuestionActionItem ->
             oldItem.question.isDownVoted == newItem.question.isDownVoted &&
                     oldItem.question.isBookmarked == newItem.question.isBookmarked &&

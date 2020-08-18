@@ -6,45 +6,49 @@ import com.soywiz.klock.milliseconds
 import com.soywiz.klock.until
 import me.tylerbwong.stack.R
 
+/**
+ * Receiver [Long] is in seconds.
+ */
 fun Long.formatElapsedTime(context: Context): String {
-    val creationDate = DateTime.fromUnix(toDouble().milliseconds.millisecondsLong)
-    val dateCalculation = (creationDate until DateTime.now()).span
+    val startDate = DateTime.fromUnix(toDouble().milliseconds.millisecondsLong)
+    val elapsedTime = (startDate until DateTime.now()).span
+    val resources = context.resources
 
     return when {
-        dateCalculation.years >= 1 -> context.resources.getQuantityString(
+        elapsedTime.years >= 1 -> resources.getQuantityString(
             R.plurals.year,
-            dateCalculation.years,
-            dateCalculation.years
+            elapsedTime.years,
+            elapsedTime.years
         )
-        dateCalculation.months >= 1 -> context.resources.getQuantityString(
+        elapsedTime.months >= 1 -> resources.getQuantityString(
             R.plurals.month,
-            dateCalculation.months,
-            dateCalculation.months
+            elapsedTime.months,
+            elapsedTime.months
         )
-        dateCalculation.weeks >= 1 -> context.resources.getQuantityString(
+        elapsedTime.weeks >= 1 -> resources.getQuantityString(
             R.plurals.week,
-            dateCalculation.weeks,
-            dateCalculation.weeks
+            elapsedTime.weeks,
+            elapsedTime.weeks
         )
-        dateCalculation.days >= 1 -> context.resources.getQuantityString(
+        elapsedTime.days >= 1 -> resources.getQuantityString(
             R.plurals.day,
-            dateCalculation.days,
-            dateCalculation.days
+            elapsedTime.days,
+            elapsedTime.days
         )
-        dateCalculation.hours >= 1 -> context.resources.getQuantityString(
+        elapsedTime.hours >= 1 -> resources.getQuantityString(
             R.plurals.hour,
-            dateCalculation.hours,
-            dateCalculation.hours
+            elapsedTime.hours,
+            elapsedTime.hours
         )
-        dateCalculation.minutes >= 1 -> context.resources.getQuantityString(
+        elapsedTime.minutes >= 1 -> resources.getQuantityString(
             R.plurals.minute,
-            dateCalculation.minutes,
-            dateCalculation.minutes
+            elapsedTime.minutes,
+            elapsedTime.minutes
         )
-        else -> context.resources.getQuantityString(
+        else -> resources.getQuantityString(
             R.plurals.seconds,
-            dateCalculation.seconds,
-            dateCalculation.seconds
+            elapsedTime.seconds,
+            elapsedTime.seconds
         )
     }
 }
