@@ -2,11 +2,14 @@ package me.tylerbwong.stack.ui.comments
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import com.soywiz.klock.seconds
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
+import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.Comment
 import me.tylerbwong.stack.databinding.CommentHolderBinding
+import me.tylerbwong.stack.ui.utils.formatElapsedTime
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 
 object CommentItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
@@ -21,7 +24,8 @@ object CommentItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
         newItem: DynamicItem
     ) = oldItem is CommentItem && newItem is CommentItem &&
             oldItem.comment.bodyMarkdown == newItem.comment.bodyMarkdown &&
-            oldItem.comment.owner == newItem.comment.owner
+            oldItem.comment.owner == newItem.comment.owner &&
+            oldItem.comment.creationDate == newItem.comment.creationDate
 }
 
 class CommentItem(internal val comment: Comment) : me.tylerbwong.adapter.DynamicItem(::CommentHolder)
@@ -38,11 +42,17 @@ class CommentHolder(
     }
 
     override fun CommentHolderBinding.bind(item: CommentItem) {
-        val (bodyMarkdown, _, _, _, owner, _) = item.comment
+        val (bodyMarkdown, _, creationDate, _, owner, _) = item.comment
         commentBody.apply {
             setMarkdown(bodyMarkdown)
             setTextIsSelectable(true)
             movementMethod = BetterLinkMovementMethod.getInstance()
+        }
+        commentedDate.apply {
+            text = context.getString(
+                R.string.commented,
+                creationDate.seconds.millisecondsLong.formatElapsedTime(context)
+            )
         }
         ownerView.bind(owner)
     }

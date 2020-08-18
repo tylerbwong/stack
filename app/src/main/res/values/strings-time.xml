@@ -4,6 +4,7 @@
     <!--  User Action Types  -->
     <string name="asked">asked %1$s</string>
     <string name="answered">answered %1$s</string>
+    <string name="commented">commented %1$s</string>
     <string name="edited">edited %1$s</string>
 
     <!-- Timestamp setup -->
