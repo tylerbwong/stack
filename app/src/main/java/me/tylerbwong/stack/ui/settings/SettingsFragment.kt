@@ -27,7 +27,6 @@ import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
 import me.tylerbwong.stack.ui.theme.nightModeOptions
 import me.tylerbwong.stack.ui.theme.showThemeChooserDialog
 import me.tylerbwong.stack.ui.utils.launchCustomTab
-import me.tylerbwong.stack.ui.utils.markdown.Markdown
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
 import javax.inject.Inject
@@ -38,6 +37,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
     @Inject
     lateinit var imageLoader: ImageLoader
 
+    @Inject
+    lateinit var experimental: Experimental
+
     private val viewModel by viewModels<SettingsViewModel>()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -46,9 +48,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
         with(preferenceManager) {
             findPreference<TwoStatePreference>(getString(R.string.syntax_highlighting))?.apply {
-                isChecked = Markdown.experimentalSyntaxHighlightingEnabled
+                isChecked = experimental.syntaxHighlightingEnabled
                 setOnPreferenceChangeListener { _, newValue ->
-                    Markdown.experimentalSyntaxHighlightingEnabled = newValue as Boolean
+                    experimental.syntaxHighlightingEnabled = newValue as Boolean
                     view?.showSnackbar(
                         messageId = R.string.restart_toggle,
                         actionTextId = R.string.restart,
