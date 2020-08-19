@@ -26,7 +26,7 @@ object Versions {
     const val detekt = "1.11.1"
     const val espresso = "3.1.0"
     const val firebaseAnalytics = "17.4.4"
-    const val firebaseCrashlytics = "17.1.1"
+    const val firebaseCrashlytics = "17.2.1"
     const val firebaseCrashlyticsGradlePlugin = "2.2.0"
     const val googleServices = "4.3.3"
     const val insetter = "0.3.1"
