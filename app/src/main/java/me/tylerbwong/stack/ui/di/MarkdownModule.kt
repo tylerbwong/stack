@@ -57,12 +57,6 @@ class MarkdownModule {
     )
 
     @Provides
-    fun provideUrlProcessor() = CustomUrlProcessor()
-
-    @Provides
-    fun provideTabsLinkResolver(deepLinker: DeepLinker) = CustomTabsLinkResolver(deepLinker)
-
-    @Provides
     fun providePrism4j() = Prism4j(GrammarLocatorDef())
 
     @Provides
