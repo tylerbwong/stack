@@ -23,7 +23,7 @@ object Versions {
     const val composeKotlinCompiler = "1.4.0-rc"
     const val constraintLayout = "2.0.0-rc1"
     const val daggerHilt = "2.28.3-alpha"
-    const val detekt = "1.11.0"
+    const val detekt = "1.11.1"
     const val espresso = "3.1.0"
     const val firebaseAnalytics = "17.4.4"
     const val firebaseCrashlytics = "17.1.1"
