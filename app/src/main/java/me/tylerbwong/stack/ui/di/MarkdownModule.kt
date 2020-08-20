@@ -19,11 +19,8 @@ import io.noties.markwon.syntax.Prism4jThemeDefault
 import io.noties.markwon.syntax.SyntaxHighlightPlugin
 import io.noties.prism4j.Prism4j
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.DeepLinker
 import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled
-import me.tylerbwong.stack.ui.utils.markdown.CustomTabsLinkResolver
-import me.tylerbwong.stack.ui.utils.markdown.CustomUrlProcessor
 import me.tylerbwong.stack.ui.utils.markdown.GrammarLocatorDef
 import me.tylerbwong.stack.ui.utils.markdown.UrlPlugin
 import java.util.concurrent.Executor

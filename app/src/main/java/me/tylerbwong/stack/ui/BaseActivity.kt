@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.ui
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,11 +30,16 @@ abstract class BaseActivity<T : ViewBinding>(
         applyFullscreenWindowInsets()
     }
 
+    @Suppress("deprecation")
     @CallSuper
     protected open fun applyFullscreenWindowInsets() {
         val rootLayout = findViewById<View>(R.id.rootLayout)
-        rootLayout?.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.setDecorFitsSystemWindows(false)
+        } else {
+            rootLayout?.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        }
         val appBar = findViewById(R.id.appBar) ?: rootLayout
         if (appBar != null) {
             Insetter.builder().setOnApplyInsetsListener { view, insets, initialState ->

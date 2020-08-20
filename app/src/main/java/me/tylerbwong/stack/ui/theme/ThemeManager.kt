@@ -6,6 +6,8 @@ import android.content.res.Configuration
 import android.os.Build
 import android.util.TypedValue
 import android.view.View
+import android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import androidx.annotation.AttrRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
@@ -53,34 +55,62 @@ object ThemeManager {
         }
     }
 
+    @Suppress("deprecation")
     private fun setLightStatusBarIfSupported(activity: Activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            activity.window.insetsController?.setSystemBarsAppearance(
+                APPEARANCE_LIGHT_STATUS_BARS,
+                APPEARANCE_LIGHT_STATUS_BARS
+            )
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             var flags = activity.window.decorView.systemUiVisibility
             flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             activity.window.decorView.systemUiVisibility = flags
         }
     }
 
+    @Suppress("deprecation")
     private fun removeLightStatusBarIfSupported(activity: Activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            activity.window.insetsController?.setSystemBarsAppearance(
+                0,
+                APPEARANCE_LIGHT_STATUS_BARS
+            )
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             var flags = activity.window.decorView.systemUiVisibility
             flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
             activity.window.decorView.systemUiVisibility = flags
         }
     }
 
+    @Suppress("deprecation")
     private fun setLightNavigationBarIfSupported(activity: Activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            var flags = activity.window.decorView.systemUiVisibility
-            flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-            activity.window.decorView.systemUiVisibility = flags
-        } else {
-            activity.window.navigationBarColor = ContextCompat.getColor(activity, R.color.black)
+        when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> {
+                activity.window.insetsController?.setSystemBarsAppearance(
+                    APPEARANCE_LIGHT_NAVIGATION_BARS,
+                    APPEARANCE_LIGHT_NAVIGATION_BARS
+                )
+            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
+                var flags = activity.window.decorView.systemUiVisibility
+                flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                activity.window.decorView.systemUiVisibility = flags
+            }
+            else -> {
+                activity.window.navigationBarColor = ContextCompat.getColor(activity, R.color.black)
+            }
         }
     }
 
+    @Suppress("deprecation")
     private fun removeLightNavigationBarIfSupported(activity: Activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            activity.window.insetsController?.setSystemBarsAppearance(
+                0,
+                APPEARANCE_LIGHT_NAVIGATION_BARS
+            )
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             var flags = activity.window.decorView.systemUiVisibility
             flags = flags and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
             activity.window.decorView.systemUiVisibility = flags
