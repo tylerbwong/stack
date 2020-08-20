@@ -14,7 +14,8 @@ import androidx.compose.material.Slider
 import androidx.compose.material.Switch
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.state
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -29,7 +30,7 @@ fun FiltersLayout(
     initialPayload: SearchPayload = SearchPayload.empty(),
     onUpdateFilters: (SearchPayload) -> Unit = {}
 ) {
-    val payload = state { initialPayload }
+    val payload = remember { mutableStateOf(initialPayload) }
     MaterialTheme {
         Column(
             modifier = Modifier.fillMaxWidth(),

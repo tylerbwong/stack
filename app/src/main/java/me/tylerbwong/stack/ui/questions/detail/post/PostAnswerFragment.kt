@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
@@ -124,7 +125,9 @@ class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
                         leftMargin,
                         topMargin,
                         rightMargin,
-                        initialState.margins.bottom + insets.systemWindowInsetBottom
+                        initialState.margins.bottom + insets.getInsets(
+                            WindowInsetsCompat.Type.systemBars()
+                        ).bottom
                     )
                 }
             }

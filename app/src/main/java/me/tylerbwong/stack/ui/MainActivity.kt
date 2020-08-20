@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import coil.api.load
@@ -180,7 +181,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
         super.applyFullscreenWindowInsets()
         Insetter.builder().setOnApplyInsetsListener { view, insets, initialState ->
             view.updatePadding(
-                bottom = initialState.paddings.bottom + insets.systemWindowInsetBottom
+                bottom = initialState.paddings.bottom + insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+                ).bottom
             )
         }.applyToView(binding.bottomNav)
     }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.viewbinding.ViewBinding
 import dev.chrisbanes.insetter.Insetter
@@ -36,7 +37,11 @@ abstract class BaseActivity<T : ViewBinding>(
         val appBar = findViewById(R.id.appBar) ?: rootLayout
         if (appBar != null) {
             Insetter.builder().setOnApplyInsetsListener { view, insets, initialState ->
-                view.updatePadding(top = initialState.paddings.top + insets.systemWindowInsetTop)
+                view.updatePadding(
+                    top = initialState.paddings.top + insets.getInsets(
+                        WindowInsetsCompat.Type.systemBars()
+                    ).top
+                )
             }.applyToView(appBar)
         }
     }

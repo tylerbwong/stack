@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,7 +86,9 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
                         leftMargin,
                         topMargin,
                         rightMargin,
-                        initialState.margins.bottom + insets.systemWindowInsetBottom
+                        initialState.margins.bottom + insets.getInsets(
+                            WindowInsetsCompat.Type.systemBars()
+                        ).bottom
                     )
                 }
             }
