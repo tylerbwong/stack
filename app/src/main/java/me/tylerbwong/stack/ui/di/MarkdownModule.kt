@@ -18,13 +18,14 @@ import io.noties.markwon.syntax.Prism4jThemeDarkula
 import io.noties.markwon.syntax.Prism4jThemeDefault
 import io.noties.markwon.syntax.SyntaxHighlightPlugin
 import io.noties.prism4j.Prism4j
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asExecutor
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled
 import me.tylerbwong.stack.ui.utils.markdown.GrammarLocatorDef
 import me.tylerbwong.stack.ui.utils.markdown.UrlPlugin
 import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 @Module
@@ -70,7 +71,7 @@ class MarkdownModule {
     ) = SyntaxHighlightPlugin.create(prism4j, prism4jTheme)
 
     @Provides
-    fun provideExecutor(): Executor = Executors.newCachedThreadPool()
+    fun provideExecutor(): Executor = Dispatchers.Default.asExecutor()
 
     @Provides
     fun provideTextSetter(
