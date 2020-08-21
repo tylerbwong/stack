@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.noties.markwon.Markwon
-import io.noties.markwon.PrecomputedFutureTextSetterCompat
+import io.noties.markwon.PrecomputedTextSetterCompat
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.ext.tables.TablePlugin
 import io.noties.markwon.ext.tasklist.TaskListPlugin
@@ -75,7 +75,7 @@ class MarkdownModule {
     @Provides
     fun provideTextSetter(
         executor: Executor
-    ): Markwon.TextSetter = PrecomputedFutureTextSetterCompat.create(executor)
+    ): Markwon.TextSetter = PrecomputedTextSetterCompat.create(executor)
 
     @Suppress("LongParameterList")
     @Singleton
