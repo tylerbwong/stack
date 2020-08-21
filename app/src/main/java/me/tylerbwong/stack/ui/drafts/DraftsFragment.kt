@@ -26,6 +26,11 @@ class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
 
     private val bottomNav by lazy { activity?.findViewById<View>(R.id.bottomNav) }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(false)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.siteLiveData.observe(viewLifecycleOwner) {

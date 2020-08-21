@@ -24,6 +24,12 @@ android {
         viewBinding = true
     }
 
+    buildTypes {
+        getByName("release") {
+            isShrinkResources = true
+        }
+    }
+
     composeOptions {
         kotlinCompilerVersion = Versions.kotlin
         kotlinCompilerExtensionVersion = Versions.compose

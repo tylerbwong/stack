@@ -213,6 +213,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
                     .show(fragment)
                     .commit()
 
+                invalidateOptionsMenu()
+
                 hideKeyboard()
 
                 true
