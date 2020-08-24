@@ -10,7 +10,7 @@ The goal of this project is to provide examples for the latest Android libraries
 
 * [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) for networking and asynchronous code
 * [Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt-android) for dependency injection
-* [Jetpack Compose](https://developer.android.com/jetpack/compose) for declarative UI code written in Kotlin
+* [Jetpack Compose](https://developer.android.com/jetpack/compose) for declarative UI code written in Kotlin (Slowly being introduced)
 * [Room](https://developer.android.com/jetpack/androidx/releases/room) for local data persistence
 * [Markwon](https://github.com/noties/Markwon) for rendering markdown
 
