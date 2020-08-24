@@ -3,10 +3,9 @@ jobs:
   static-analysis:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-29
+      - image: circleci/android:api-30
     environment:
-      JVM_OPTS: -Xms512m -Xmx3072m
-      GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      JVM_OPTS: -Xmx3g
     steps:
       - checkout
       - restore_cache:
@@ -38,10 +37,9 @@ jobs:
         description: The variant to assemble.
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-29
+      - image: circleci/android:api-30
     environment:
-      JVM_OPTS: -Xms512m -Xmx3072m
-      GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      JVM_OPTS: -Xmx3g
     steps:
       - checkout
       - restore_cache:
@@ -66,10 +64,9 @@ jobs:
   unit-tests:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-29
+      - image: circleci/android:api-30
     environment:
-      JVM_OPTS: -Xms512m -Xmx3072m
-      GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      JVM_OPTS: -Xmx3g
     steps:
       - checkout
       - restore_cache:
