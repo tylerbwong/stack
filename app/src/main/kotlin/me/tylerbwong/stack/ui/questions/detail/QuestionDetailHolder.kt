@@ -4,7 +4,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.google.android.material.chip.Chip
 import com.soywiz.klock.seconds
-import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.QuestionDetailHolderBinding
@@ -40,12 +39,8 @@ class QuestionDetailHolder(
             text = context.getString(R.string.last_edited_by, question.lastEditor?.displayName)
         }
 
-        questionBody.apply {
-            question.bodyMarkdown?.let { body ->
-                setMarkdown(body)
-            }
-            setTextIsSelectable(true)
-            movementMethod = BetterLinkMovementMethod.getInstance()
+        question.bodyMarkdown?.let { body ->
+            questionBody.setMarkdown(body)
         }
 
         ownerView.bind(question.owner)

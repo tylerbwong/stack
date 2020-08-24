@@ -3,10 +3,10 @@ package me.tylerbwong.stack.ui.home
 import androidx.recyclerview.widget.DiffUtil
 import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.adapter.ViewHolderProvider
+import me.tylerbwong.stack.api.model.Question
+import me.tylerbwong.stack.api.model.Tag
 import me.tylerbwong.stack.data.model.AnswerDraft
-import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.SearchPayload
-import me.tylerbwong.stack.data.model.Tag
 import me.tylerbwong.stack.ui.HeaderHolder
 import me.tylerbwong.stack.ui.drafts.AnswerDraftHolder
 import me.tylerbwong.stack.ui.questions.QuestionHolder

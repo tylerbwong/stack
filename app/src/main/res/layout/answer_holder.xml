@@ -34,7 +34,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="1234 Votes" />
 
-    <me.tylerbwong.stack.ui.utils.markdown.MarkdownTextView
+    <me.tylerbwong.stack.markdown.MarkdownTextView
         android:id="@+id/answerBody"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

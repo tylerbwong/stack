@@ -2,11 +2,11 @@ package me.tylerbwong.stack.ui.search
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
+import me.tylerbwong.stack.api.model.Question
+import me.tylerbwong.stack.api.service.SearchService
+import me.tylerbwong.stack.api.service.TagService
 import me.tylerbwong.stack.data.SiteStore
-import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.SearchPayload
-import me.tylerbwong.stack.data.network.service.SearchService
-import me.tylerbwong.stack.data.network.service.TagService
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import me.tylerbwong.stack.data.persistence.entity.SearchEntity
 import me.tylerbwong.stack.data.toSearchPayload

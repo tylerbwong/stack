@@ -31,10 +31,7 @@ fun Context.showThemeChooserDialog(
             nightModeOptions.keys.map { getString(it) }.toTypedArray(),
             nightModeOptions.values.indexOf(delegateMode)
         ) { dialog, which ->
-            ThemeManager.toggleTheme(
-                this,
-                nightModeOptions.values.toList()[which]
-            )
+            ThemeManager.toggleTheme(this, nightModeOptions.values.toList()[which])
             onSelected()
             dialog.dismiss()
         }

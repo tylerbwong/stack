@@ -6,8 +6,8 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.User
-import me.tylerbwong.stack.data.network.service.UserService
+import me.tylerbwong.stack.api.model.User
+import me.tylerbwong.stack.api.service.UserService
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.home.QuestionItem
 

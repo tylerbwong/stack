@@ -10,7 +10,7 @@ import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.BadgeCounts
+import me.tylerbwong.stack.api.model.BadgeCounts
 
 class BadgeView : View {
 

@@ -1,8 +1,8 @@
 package me.tylerbwong.stack.data.repository
 
 import androidx.lifecycle.LiveData
+import me.tylerbwong.stack.api.service.SiteService
 import me.tylerbwong.stack.data.SiteStore
-import me.tylerbwong.stack.data.network.service.SiteService
 import me.tylerbwong.stack.data.persistence.dao.SiteDao
 import me.tylerbwong.stack.data.toSite
 import me.tylerbwong.stack.data.toSiteEntity

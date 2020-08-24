@@ -5,15 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import me.tylerbwong.stack.api.service.QuestionService
+import me.tylerbwong.stack.api.utils.toErrorResponse
 import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.model.QuestionDraft
-import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.data.persistence.dao.QuestionDraftDao
 import me.tylerbwong.stack.data.persistence.entity.QuestionDraftEntity
 import me.tylerbwong.stack.data.toQuestionDraft
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
-import me.tylerbwong.stack.ui.utils.toErrorResponse
 import retrofit2.HttpException
 import java.lang.Exception
 

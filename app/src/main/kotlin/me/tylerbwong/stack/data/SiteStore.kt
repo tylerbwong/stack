@@ -3,8 +3,8 @@ package me.tylerbwong.stack.data
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import me.tylerbwong.stack.api.service.DEFAULT_SITE
 import me.tylerbwong.stack.data.auth.di.SiteSharedPreferences
-import me.tylerbwong.stack.data.network.service.DEFAULT_SITE
 import javax.inject.Inject
 import javax.inject.Singleton
 

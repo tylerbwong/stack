@@ -8,13 +8,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.api.model.Question
+import me.tylerbwong.stack.api.model.Response
+import me.tylerbwong.stack.api.service.QuestionService
+import me.tylerbwong.stack.api.utils.toErrorResponse
 import me.tylerbwong.stack.data.auth.AuthRepository
-import me.tylerbwong.stack.data.model.Question
-import me.tylerbwong.stack.data.model.Response
-import me.tylerbwong.stack.data.network.service.QuestionService
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
-import me.tylerbwong.stack.ui.utils.toErrorResponse
 import me.tylerbwong.stack.ui.utils.toHtml
 import me.tylerbwong.stack.ui.utils.zipWith
 import retrofit2.HttpException

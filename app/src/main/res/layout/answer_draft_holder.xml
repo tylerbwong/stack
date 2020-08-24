@@ -30,7 +30,7 @@
         android:paddingBottom="8dp"
         android:textColor="?android:attr/textColorSecondary" />
 
-    <me.tylerbwong.stack.ui.utils.markdown.MarkdownTextView
+    <me.tylerbwong.stack.markdown.MarkdownTextView
         android:id="@+id/draftPreview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

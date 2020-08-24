@@ -9,6 +9,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import me.tylerbwong.stack.data.SiteStore
+import me.tylerbwong.stack.ui.settings.Experimental
 import javax.inject.Qualifier
 
 @Qualifier
@@ -18,6 +19,10 @@ annotation class SiteSharedPreferences
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class AuthSharedPreferences
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ExperimentalSharedPreferences
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -29,6 +34,15 @@ class SharedPreferencesModule {
         context: Context
     ): SharedPreferences = context.getSharedPreferences(
         SiteStore.SITE_PREFERENCES,
+        Context.MODE_PRIVATE
+    )
+
+    @Provides
+    @ExperimentalSharedPreferences
+    fun provideExperimentalSharedPreferences(
+        context: Context
+    ): SharedPreferences = context.getSharedPreferences(
+        Experimental.EXPERIMENTAL_SHARED_PREFS,
         Context.MODE_PRIVATE
     )
 

@@ -2,13 +2,14 @@ package me.tylerbwong.stack.data.network
 
 import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.auth.utils.addField
-import me.tylerbwong.stack.data.network.service.SITE_PARAM
+import me.tylerbwong.stack.api.service.SITE_PARAM
 import me.tylerbwong.stack.data.utils.isPost
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
+import javax.inject.Inject
 
-class SiteInterceptor(
+class SiteInterceptor @Inject constructor(
     private val baseUrl: String,
     private val siteStore: SiteStore
 ) : Interceptor {

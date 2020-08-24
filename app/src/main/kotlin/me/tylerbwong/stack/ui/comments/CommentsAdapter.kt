@@ -3,11 +3,10 @@ package me.tylerbwong.stack.ui.comments
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.soywiz.klock.seconds
-import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.Comment
+import me.tylerbwong.stack.api.model.Comment
 import me.tylerbwong.stack.databinding.CommentHolderBinding
 import me.tylerbwong.stack.ui.utils.formatElapsedTime
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
@@ -28,7 +27,7 @@ object CommentItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
             oldItem.comment.creationDate == newItem.comment.creationDate
 }
 
-class CommentItem(internal val comment: Comment) : me.tylerbwong.adapter.DynamicItem(::CommentHolder)
+class CommentItem(internal val comment: Comment) : DynamicItem(::CommentHolder)
 
 class CommentHolder(
     container: ViewGroup
@@ -43,11 +42,7 @@ class CommentHolder(
 
     override fun CommentHolderBinding.bind(item: CommentItem) {
         val (bodyMarkdown, _, creationDate, _, owner, _) = item.comment
-        commentBody.apply {
-            setMarkdown(bodyMarkdown)
-            setTextIsSelectable(true)
-            movementMethod = BetterLinkMovementMethod.getInstance()
-        }
+        commentBody.setMarkdown(bodyMarkdown)
         commentedDate.apply {
             text = context.getString(
                 R.string.commented,

@@ -4,7 +4,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import com.soywiz.klock.seconds
-import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.AnswerHolderBinding
@@ -29,11 +28,7 @@ class AnswerHolder(
             itemView.context.resources.getQuantityString(R.plurals.votes, voteCount, voteCount)
         acceptedAnswerCheck.isVisible = answer.isAccepted
 
-        answerBody.apply {
-            setMarkdown(answer.bodyMarkdown)
-            setTextIsSelectable(true)
-            movementMethod = BetterLinkMovementMethod.getInstance()
-        }
+        answerBody.setMarkdown(answer.bodyMarkdown)
 
         answeredDate.apply {
             text = context.getString(

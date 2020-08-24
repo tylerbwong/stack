@@ -42,9 +42,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:drawableStart="@drawable/ic_question_answer"
         android:drawablePadding="4dp"
         android:textSize="12sp"
+        app:drawableStartCompat="@drawable/ic_question_answer"
         app:layout_constraintBottom_toBottomOf="@id/ownerView"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="22" />

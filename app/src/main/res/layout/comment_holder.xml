@@ -7,7 +7,7 @@
     android:layout_margin="16dp"
     android:orientation="vertical">
 
-    <me.tylerbwong.stack.ui.utils.markdown.MarkdownTextView
+    <me.tylerbwong.stack.markdown.MarkdownTextView
         android:id="@+id/commentBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

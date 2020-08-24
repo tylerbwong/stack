@@ -3,9 +3,9 @@ package me.tylerbwong.stack.ui.questions
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import me.tylerbwong.stack.data.model.CREATION
-import me.tylerbwong.stack.data.model.Sort
-import me.tylerbwong.stack.data.network.service.QuestionService
+import me.tylerbwong.stack.api.model.CREATION
+import me.tylerbwong.stack.api.model.Sort
+import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.home.QuestionItem
 import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED

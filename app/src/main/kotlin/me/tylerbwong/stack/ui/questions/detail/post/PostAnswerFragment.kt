@@ -22,7 +22,6 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
-import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.PostAnswerFragmentBinding
@@ -79,11 +78,6 @@ class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
         }
 
         binding.debugPreview.isVisible = BuildConfig.DEBUG
-
-        binding.previewText.apply {
-            setTextIsSelectable(true)
-            movementMethod = BetterLinkMovementMethod.getInstance()
-        }
 
         binding.scrollView.setOnScrollChangeListener(OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if (scrollY > oldScrollY) {

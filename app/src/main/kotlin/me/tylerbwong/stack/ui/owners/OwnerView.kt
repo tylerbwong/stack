@@ -9,7 +9,7 @@ import androidx.core.util.Pair
 import coil.api.load
 import coil.transform.CircleCropTransformation
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.User
+import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.databinding.OwnerViewBinding
 import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.utils.format

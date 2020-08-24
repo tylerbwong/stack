@@ -21,9 +21,9 @@ import io.noties.prism4j.Prism4j
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.ui.settings.Experimental
+import me.tylerbwong.stack.markdown.GrammarLocatorDef
 import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled
-import me.tylerbwong.stack.ui.utils.markdown.GrammarLocatorDef
+import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.utils.markdown.UrlPlugin
 import java.util.concurrent.Executor
 import javax.inject.Singleton

@@ -70,7 +70,7 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <me.tylerbwong.stack.ui.utils.markdown.MarkdownTextView
+                    <me.tylerbwong.stack.markdown.MarkdownTextView
                         android:id="@+id/previewText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

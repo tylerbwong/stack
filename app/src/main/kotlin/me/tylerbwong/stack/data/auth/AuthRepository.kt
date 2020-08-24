@@ -2,11 +2,9 @@ package me.tylerbwong.stack.data.auth
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
-import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
-import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
-import me.tylerbwong.stack.data.model.User
-import me.tylerbwong.stack.data.network.service.AuthService
-import me.tylerbwong.stack.data.network.service.UserService
+import me.tylerbwong.stack.api.model.User
+import me.tylerbwong.stack.api.service.AuthService
+import me.tylerbwong.stack.api.service.UserService
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import timber.log.Timber

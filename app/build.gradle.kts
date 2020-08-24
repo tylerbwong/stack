@@ -89,9 +89,6 @@ dependencies {
     // klock date/time
     implementation(Dep.klock)
 
-    // betterlinkmovementmethod
-    implementation(Dep.betterLinkMovementMethod)
-
     // coil
     implementation(Dep.coil)
 
@@ -110,7 +107,7 @@ dependencies {
     implementation(Dep.timber)
 
     // markdown
-    implementation(Dep.apacheCommonsText)
+    implementation(project(":markdown"))
     implementation(Dep.markwonCore)
     implementation(Dep.markwonHtml)
     implementation(Dep.markwonImageCoil)
@@ -119,12 +116,12 @@ dependencies {
     implementation(Dep.markwonSyntaxHighlight)
     implementation(Dep.markwonTables)
     implementation(Dep.markwonTaskList)
-    kapt(Dep.prism4jBundler)
 
     // misc
     implementation(Dep.processPhoenix)
 
     // networking
+    implementation(project(":stackexchange-api"))
     implementation(Dep.moshi)
     kapt(Dep.moshiKotlinCodegen)
     implementation(Dep.okHttp)

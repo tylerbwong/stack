@@ -70,7 +70,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
             binding.collapsingToolbarLayout.title = it.displayName.toHtml()
             val location = binding.includeProfileHeader.location
             if (it.location != null) {
-                location.text = it.location.toHtml()
+                location.text = it.location?.toHtml()
                 location.isVisible = true
             } else {
                 location.isGone = true

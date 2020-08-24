@@ -1,9 +1,9 @@
 package me.tylerbwong.stack.data
 
 import me.tylerbwong.stack.BaseTest
+import me.tylerbwong.stack.api.service.DEFAULT_SITE
+import me.tylerbwong.stack.api.service.SITE_PARAM
 import me.tylerbwong.stack.data.network.SiteInterceptor
-import me.tylerbwong.stack.data.network.service.DEFAULT_SITE
-import me.tylerbwong.stack.data.network.service.SITE_PARAM
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request

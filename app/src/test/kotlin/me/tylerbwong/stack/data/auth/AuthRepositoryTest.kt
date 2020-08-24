@@ -6,13 +6,13 @@ import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.runBlocking
 import me.tylerbwong.stack.BaseTest
+import me.tylerbwong.stack.api.model.User
+import me.tylerbwong.stack.api.service.AuthService
+import me.tylerbwong.stack.api.service.UserService
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
 import me.tylerbwong.stack.data.auth.LoginResult.LoginError
 import me.tylerbwong.stack.data.auth.LoginResult.LoginSuccess
-import me.tylerbwong.stack.data.model.User
-import me.tylerbwong.stack.data.network.service.AuthService
-import me.tylerbwong.stack.data.network.service.UserService
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
@@ -30,7 +30,7 @@ import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
 import retrofit2.HttpException
 import retrofit2.Response
-import me.tylerbwong.stack.data.model.Response as StackResponse
+import me.tylerbwong.stack.api.model.Response as StackResponse
 
 class AuthRepositoryTest : BaseTest() {
 

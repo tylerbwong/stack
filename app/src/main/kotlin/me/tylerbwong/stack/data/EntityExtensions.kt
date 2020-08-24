@@ -1,12 +1,12 @@
 package me.tylerbwong.stack.data
 
+import me.tylerbwong.stack.api.model.BadgeCounts
+import me.tylerbwong.stack.api.model.Question
+import me.tylerbwong.stack.api.model.Site
+import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.data.model.AnswerDraft
-import me.tylerbwong.stack.data.model.BadgeCounts
-import me.tylerbwong.stack.data.model.Question
 import me.tylerbwong.stack.data.model.QuestionDraft
 import me.tylerbwong.stack.data.model.SearchPayload
-import me.tylerbwong.stack.data.model.Site
-import me.tylerbwong.stack.data.model.User
 import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
 import me.tylerbwong.stack.data.persistence.entity.QuestionDraftEntity
 import me.tylerbwong.stack.data.persistence.entity.QuestionEntity

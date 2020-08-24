@@ -2,5 +2,7 @@ include(
     ":app",
     ":dynamic-list-adapter",
     ":dynamic-list-adapter-extensions",
-    ":dynamic-list-adapter-viewbinding"
+    ":dynamic-list-adapter-viewbinding",
+    ":markdown",
+    ":stackexchange-api"
 )

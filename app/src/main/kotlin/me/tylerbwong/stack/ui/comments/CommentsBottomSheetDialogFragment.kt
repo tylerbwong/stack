@@ -43,7 +43,11 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         binding.header.title.text = getString(R.string.comments)
         viewModel.data.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-            binding.header.subtitle.text = getString(R.string.comment_count, it.size)
+            binding.header.subtitle.text = if (it.isNotEmpty()) {
+                getString(R.string.comment_count, it.size)
+            } else {
+                getString(R.string.no_comments)
+            }
             binding.emptySpace.isVisible = it.isEmpty()
         }
 
