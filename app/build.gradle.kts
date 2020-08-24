@@ -34,10 +34,6 @@ android {
         kotlinCompilerVersion = Versions.kotlin
         kotlinCompilerExtensionVersion = Versions.compose
     }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
 }
 
 dependencies {
@@ -141,13 +137,6 @@ dependencies {
     testImplementation(Dep.robolectric)
     androidTestImplementation(Dep.testRunner)
     androidTestImplementation(Dep.espresso)
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-        freeCompilerArgs = listOf("-Xallow-jvm-ir-dependencies", "-Xskip-prerelease-check")
-    }
 }
 
 apply(plugin = "com.google.gms.google-services")

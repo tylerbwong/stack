@@ -12,6 +12,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getByType
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
@@ -28,13 +29,13 @@ class StackPlugin : Plugin<Project> {
 
     private fun configureLibraryPlugin(project: Project) {
         project.extensions.getByType(LibraryExtension::class).apply {
-            configureCommonOptions()
+            configureCommonOptions(project)
         }
     }
 
     private fun configureAppPlugin(project: Project) {
         project.extensions.getByType(BaseAppModuleExtension::class).apply {
-            configureCommonOptions()
+            configureCommonOptions(project)
             defaultConfig {
                 applicationId = AndroidConfig.APPLICATION_ID
                 versionCode = AndroidConfig.VERSION_CODE
@@ -43,7 +44,7 @@ class StackPlugin : Plugin<Project> {
         }
     }
 
-    private fun TestedExtension.configureCommonOptions() {
+    private fun TestedExtension.configureCommonOptions(project: Project) {
         compileSdkVersion(AndroidConfig.COMPILE_SDK)
 
         defaultConfig {
@@ -71,6 +72,13 @@ class StackPlugin : Plugin<Project> {
 
         testOptions {
             unitTests.isIncludeAndroidResources = true
+        }
+
+        project.tasks.withType(KotlinCompile::class.java).configureEach {
+            kotlinOptions {
+                jvmTarget = JavaVersion.VERSION_1_8.toString()
+                freeCompilerArgs = listOf("-Xallow-jvm-ir-dependencies", "-Xskip-prerelease-check")
+            }
         }
 
         sourceSets["main"].java.srcDir("src/main/kotlin")
