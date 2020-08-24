@@ -17,7 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import coil.ImageLoader
-import coil.request.LoadRequest
+import coil.request.ImageRequest
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -98,12 +98,12 @@ class SitesFragment : PreferenceFragmentCompat(), SearchView.OnQueryTextListener
                         }
                         true
                     }
-                    val request = LoadRequest.Builder(requireContext())
+                    val request = ImageRequest.Builder(requireContext())
                         .crossfade(true)
                         .data(site.iconUrl)
                         .target { icon = it }
                         .build()
-                    imageLoader.execute(request)
+                    imageLoader.enqueue(request)
                 }
             }
             refreshPreferences(searchCatalog)

@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
-import coil.api.load
+import coil.load
 import coil.transform.CircleCropTransformation
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.User
