@@ -22,12 +22,6 @@ android {
         viewBinding = true
     }
 
-    buildTypes {
-        getByName("release") {
-            isShrinkResources = true
-        }
-    }
-
     composeOptions {
         kotlinCompilerVersion = Versions.kotlin
         kotlinCompilerExtensionVersion = Versions.compose
@@ -77,8 +71,8 @@ dependencies {
     releaseImplementation(Dep.chuckerNoOp)
 
     // dynamic-list-adapter
-    implementation(project(":dynamic-list-adapter"))
-    implementation(project(":dynamic-list-adapter-viewbinding"))
+    implementation(dynamicListAdapter())
+    implementation(dynamicListAdapterViewBinding())
 
     // klock date/time
     implementation(Dep.klock)
@@ -101,7 +95,7 @@ dependencies {
     implementation(Dep.timber)
 
     // markdown
-    implementation(project(":markdown"))
+    implementation(markdown())
     implementation(Dep.markwonCore)
     implementation(Dep.markwonHtml)
     implementation(Dep.markwonImageCoil)
@@ -115,7 +109,7 @@ dependencies {
     implementation(Dep.processPhoenix)
 
     // networking
-    implementation(project(":stackexchange-api"))
+    implementation(stackExchangeApi())
     implementation(Dep.moshi)
     kapt(Dep.moshiKotlinCodegen)
     implementation(Dep.okHttp)

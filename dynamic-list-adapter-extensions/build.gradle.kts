@@ -18,7 +18,7 @@ androidExtensions {
 }
 
 dependencies {
-    implementation(project(":dynamic-list-adapter"))
+    implementation(dynamicListAdapter())
     implementation(Dep.kotlinLib)
     implementation(Dep.androidxRecyclerView)
 }

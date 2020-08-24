@@ -24,6 +24,7 @@ class StackPlugin : Plugin<Project> {
                 is AppPlugin -> configureAppPlugin(target)
             }
         }
+
         configureStaticAnalysis(target)
     }
 
@@ -36,10 +37,17 @@ class StackPlugin : Plugin<Project> {
     private fun configureAppPlugin(project: Project) {
         project.extensions.getByType(BaseAppModuleExtension::class).apply {
             configureCommonOptions(project)
+
             defaultConfig {
                 applicationId = AndroidConfig.APPLICATION_ID
                 versionCode = AndroidConfig.VERSION_CODE
                 versionName = AndroidConfig.VERSION_NAME
+            }
+
+            buildTypes {
+                getByName("release") {
+                    isShrinkResources = true
+                }
             }
         }
     }
