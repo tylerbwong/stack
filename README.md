@@ -21,8 +21,8 @@ The goal of this project is to provide examples for the latest Android libraries
 * Log in to vote for questions, bookmark questions, or post new questions and answers (Saving drafts supported)
 * Search for questions with advanced filter controls
 * View other users' profiles
-* Dark mode supported
-* Question deep links supported
+* Dark mode
+* Question deep linking
 
 # License
 
