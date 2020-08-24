@@ -8,7 +8,6 @@ import android.text.TextUtils
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsService
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.ui.theme.ThemeManager
 import timber.log.Timber
 
 private const val STABLE_PACKAGE = "com.android.chrome"
@@ -20,7 +19,7 @@ private var packageName: String? = null
 
 fun launchCustomTab(context: Context, url: String) {
     val packageName = getPackageNameToUse(context, url)
-    val themeColor = ThemeManager.resolveThemeAttribute(context, R.attr.viewBackgroundColor)
+    val themeColor = context.resolveThemeAttribute(R.attr.viewBackgroundColor)
     val customTabsIntent = CustomTabsIntent.Builder()
         .setNavigationBarColor(themeColor)
         .setToolbarColor(themeColor)

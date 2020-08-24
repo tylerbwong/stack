@@ -4,11 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
-import android.util.TypedValue
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-import androidx.annotation.AttrRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
@@ -123,12 +121,5 @@ object ThemeManager {
             .putInt(CURRENT_MODE, newMode)
             .apply()
         AppCompatDelegate.setDefaultNightMode(newMode)
-    }
-
-    fun resolveThemeAttribute(context: Context, @AttrRes attr: Int): Int {
-        val typedValue = TypedValue()
-        val theme = context.theme
-        theme.resolveAttribute(attr, typedValue, true)
-        return typedValue.data
     }
 }

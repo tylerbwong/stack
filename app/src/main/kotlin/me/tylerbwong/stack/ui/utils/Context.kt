@@ -2,6 +2,8 @@ package me.tylerbwong.stack.ui.utils
 
 import android.content.Context
 import android.content.ContextWrapper
+import android.util.TypedValue
+import androidx.annotation.AttrRes
 
 inline fun <reified T : Any> Context.systemService(
     systemService: String
@@ -17,4 +19,10 @@ inline fun <reified T : Context> Context.ofType(): T? {
         currentContext = (currentContext as? ContextWrapper)?.baseContext
     } while (currentContext != null)
     return null
+}
+
+fun Context.resolveThemeAttribute(@AttrRes attr: Int): Int {
+    val typedValue = TypedValue()
+    theme.resolveAttribute(attr, typedValue, true)
+    return typedValue.data
 }
