@@ -1,6 +1,5 @@
 buildscript {
     repositories {
-        kotlinEap()
         google()
         jcenter()
         gradle()
@@ -18,7 +17,6 @@ buildscript {
 
 allprojects {
     repositories {
-        kotlinEap()
         google()
         jcenter()
     }
