@@ -73,7 +73,6 @@ class SitesFragment : PreferenceFragmentCompat(), SearchView.OnQueryTextListener
             }
         }
         viewModel.sites.observe(viewLifecycleOwner) { sites ->
-            searchCatalog = emptyList()
             searchCatalog = sites.map { site ->
                 Preference(requireContext()).apply {
                     title = site.name.toHtml()

@@ -79,6 +79,7 @@ dependencies {
 
     // coil
     implementation(Dep.coil)
+    implementation(Dep.coilAccompanist)
 
     // dagger
     implementation(Dep.daggerHiltAndroid)
