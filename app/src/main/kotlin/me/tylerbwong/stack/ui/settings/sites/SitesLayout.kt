@@ -1,3 +1,4 @@
+@file:Suppress("MagicNumber")
 package me.tylerbwong.stack.ui.settings.sites
 
 import android.annotation.SuppressLint
