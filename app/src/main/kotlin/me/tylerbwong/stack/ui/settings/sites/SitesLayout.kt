@@ -32,7 +32,7 @@ import me.tylerbwong.stack.ui.utils.toHtml
 @Composable
 fun SitesLayout(
     sitesLiveData: LiveData<List<Site>>,
-    onSiteSelected: (Site) -> Unit,
+    onSiteSelected: (Site) -> Unit
 ) {
     val sites by sitesLiveData.observeAsState(initial = emptyList())
     LazyColumnFor(items = sites) { site -> SiteItem(site, onSiteSelected) }
@@ -42,7 +42,7 @@ fun SitesLayout(
 @Composable
 fun SiteItem(
     site: Site,
-    onSiteSelected: (Site) -> Unit,
+    onSiteSelected: (Site) -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth()
@@ -53,26 +53,26 @@ fun SiteItem(
                     RippleIndication()
                 }
             ) { onSiteSelected(site) },
-        verticalGravity = Alignment.CenterVertically,
+        verticalGravity = Alignment.CenterVertically
     ) {
         CoilImage(
             data = site.iconUrl,
             modifier = Modifier.width(64.dp).height(64.dp)
-                .padding(start = 8.dp, top = 8.dp, end = 4.dp, bottom = 8.dp),
+                .padding(start = 8.dp, top = 8.dp, end = 4.dp, bottom = 8.dp)
         )
         Column(
             modifier = Modifier.padding(start = 4.dp, top = 16.dp, end = 16.dp, bottom = 16.dp),
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = site.name.toHtml().toString(),
                 color = colorResource(R.color.primaryTextColor),
-                style = MaterialTheme.typography.body1,
+                style = MaterialTheme.typography.body1
             )
             Text(
                 text = site.audience.capitalize().toHtml().toString(),
                 color = colorResource(R.color.secondaryTextColor),
-                style = MaterialTheme.typography.body2,
+                style = MaterialTheme.typography.body2
             )
         }
     }
