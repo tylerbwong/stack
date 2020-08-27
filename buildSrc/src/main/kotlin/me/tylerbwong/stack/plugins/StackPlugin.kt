@@ -85,7 +85,7 @@ class StackPlugin : Plugin<Project> {
         project.tasks.withType(KotlinCompile::class.java).configureEach {
             kotlinOptions {
                 jvmTarget = JavaVersion.VERSION_1_8.toString()
-                freeCompilerArgs = listOf("-Xallow-jvm-ir-dependencies", "-Xskip-prerelease-check")
+                useIR = true
             }
         }
 

@@ -1,5 +1,5 @@
 object Versions {
-    const val androidGradlePlugin = "4.2.0-alpha07"
+    const val androidGradlePlugin = "4.2.0-alpha08"
     const val androidxActivity = "1.2.0-alpha08"
     const val androidxAppCompat = "1.3.0-alpha02"
     const val androidxBrowser = "1.3.0-alpha05"
@@ -20,7 +20,7 @@ object Versions {
     const val chucker = "3.2.0"
     const val coil = "0.12.0"
     const val coilAccompanist = "0.1.9"
-    const val compose = "0.1.0-dev17"
+    const val compose = "1.0.0-alpha01"
     const val constraintLayout = "2.0.0"
     const val daggerHilt = "2.28.3-alpha"
     const val detekt = "1.11.2"

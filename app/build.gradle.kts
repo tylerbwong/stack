@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
-    kotlin("android")
-    kotlin("kapt")
+    `kotlin-android`
+    `kotlin-kapt`
     id("dagger.hilt.android.plugin")
     id("com.google.firebase.crashlytics")
     StackPlugin

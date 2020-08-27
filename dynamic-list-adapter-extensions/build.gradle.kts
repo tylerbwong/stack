@@ -2,7 +2,8 @@ import org.jetbrains.kotlin.android.synthetic.AndroidExtensionsFeature
 
 plugins {
     id("com.android.library")
-    kotlin("android")
+    `kotlin-android`
+    `kotlin-android-extensions`
     kotlin("android.extensions")
     StackPlugin
 }
