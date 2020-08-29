@@ -11,7 +11,7 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.TwoStatePreference
 import coil.ImageLoader
-import coil.request.ImageRequest
+import coil.request.LoadRequest
 import coil.transform.CircleCropTransformation
 import com.chuckerteam.chucker.api.Chucker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -125,14 +125,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 if (user != null) {
                     title = user.displayName
                     summary = user.location
-                    val request = ImageRequest.Builder(requireContext())
+                    val request = LoadRequest.Builder(requireContext())
                         .crossfade(true)
                         .data(user.profileImage)
                         .transformations(CircleCropTransformation())
                         .size(resources.getDimensionPixelSize(R.dimen.user_image_placeholder_size))
                         .target { icon = it }
                         .build()
-                    imageLoader.enqueue(request)
+                    imageLoader.execute(request)
                     setOnPreferenceClickListener {
                         showLogOutDialog()
                         true
@@ -156,12 +156,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     SitesActivity.startActivity(requireContext())
                     true
                 }
-                val request = ImageRequest.Builder(requireContext())
+                val request = LoadRequest.Builder(requireContext())
                     .crossfade(true)
                     .data(site.iconUrl)
                     .target { icon = it }
                     .build()
-                imageLoader.enqueue(request)
+                imageLoader.execute(request)
             }
         }
     }
