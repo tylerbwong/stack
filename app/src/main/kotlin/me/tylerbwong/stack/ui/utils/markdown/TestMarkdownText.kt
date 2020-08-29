@@ -18,13 +18,7 @@ fun TestMarkdownText() {
             This is a **full** on test with some _markdown_!
             What's really cool is the `code snippets` that show up too.
             
-            Here is a `code block` example:
-            
-            ```
-                fun main(args: Array<String>) {
-                    println("Hello world!")
-                }
-            ```
+            ~~Strikethrough is also supported~~
         """.trimIndent()
     )
 }

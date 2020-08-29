@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.sp
 import me.tylerbwong.markdown.compose.builder.buildMarkdown
 import org.intellij.markdown.IElementType
 import org.intellij.markdown.MarkdownElementTypes
+import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.ast.ASTNode
 
 internal class HeaderVisitor(
@@ -20,6 +21,7 @@ internal class HeaderVisitor(
         builder.withStyle(SpanStyle(fontSize = resolveHeaderTextSize())) {
             node.children
                 .drop(1) // Drop the header token
+                .dropWhile { it.type == MarkdownTokenTypes.WHITE_SPACE }
                 .forEach { buildMarkdown(it, content) }
         }
     }
