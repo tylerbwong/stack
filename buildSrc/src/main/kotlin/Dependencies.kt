@@ -46,7 +46,7 @@ object Versions {
     const val prism4j = "2.0.0"
     const val processPhoenix = "2.0.0"
     const val retrofit = "2.9.0"
-    const val robolectric = "4.3.1"
+    const val robolectric = "4.4"
     const val testRunner = "1.1.0"
     const val timber = "4.7.1"
 }
