@@ -19,6 +19,8 @@ fun TestMarkdownText() {
             What's really cool is the `code snippets` that show up too.
             
             ~~Strikethrough is also supported~~
+            
+            # _~~**`This is a test with every kind of formatting`**~~_
         """.trimIndent()
     )
 }
