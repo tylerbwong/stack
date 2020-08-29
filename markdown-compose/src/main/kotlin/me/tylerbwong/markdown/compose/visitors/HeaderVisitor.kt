@@ -24,12 +24,12 @@ internal object HeaderVisitor : Visitor {
     }
 
     private fun resolveHeaderTextSize(nodeType: IElementType) = when (nodeType) {
-        MarkdownElementTypes.SETEXT_1, MarkdownElementTypes.ATX_1 -> 28.sp
-        MarkdownElementTypes.SETEXT_2, MarkdownElementTypes.ATX_2 -> 24.sp
-        MarkdownElementTypes.ATX_3 -> 20.sp
-        MarkdownElementTypes.ATX_4 -> 18.sp
-        MarkdownElementTypes.ATX_5 -> 16.sp
-        MarkdownElementTypes.ATX_6 -> 14.sp
+        MarkdownElementTypes.SETEXT_1, MarkdownElementTypes.ATX_1 -> 32.sp
+        MarkdownElementTypes.SETEXT_2, MarkdownElementTypes.ATX_2 -> 28.sp
+        MarkdownElementTypes.ATX_3 -> 24.sp
+        MarkdownElementTypes.ATX_4 -> 20.sp
+        MarkdownElementTypes.ATX_5 -> 18.sp
+        MarkdownElementTypes.ATX_6 -> 16.sp
         else -> TextUnit.Inherit
     }
 }

@@ -9,11 +9,12 @@ import me.tylerbwong.markdown.compose.MarkdownText
 fun TestMarkdownText() {
     MarkdownText(
         markdown = """
-            # This is a test
-            ## This is another test
-            ### This is **another** test
-            #### This is _another_ test
-            ##### `code`
+            # This is an h1 header
+            ## This is an h2 header
+            ### This is an **h3** header
+            #### This is an _h4_ header
+            ##### This is an `h5` header
+            ###### This is an ~~h6~~ header
             
             This is a **full** on test with some _markdown_!
             What's really cool is the `code snippets` that show up too.
