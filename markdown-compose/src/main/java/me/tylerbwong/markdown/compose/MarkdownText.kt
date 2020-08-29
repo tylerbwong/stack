@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import me.tylerbwong.markdown.compose.parser.toMarkdownAnnotatedString
+import me.tylerbwong.markdown.compose.builder.toMarkdownAnnotatedString
 
 @Composable
 fun MarkdownText(

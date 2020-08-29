@@ -1,7 +1,7 @@
 package me.tylerbwong.markdown.compose.visitors
 
 import androidx.compose.ui.text.AnnotatedString
-import me.tylerbwong.markdown.compose.parser.buildMarkdown
+import me.tylerbwong.markdown.compose.builder.buildMarkdown
 import org.intellij.markdown.ast.ASTNode
 
 internal class EmptyVisitor(content: String) : Visitor(content) {
