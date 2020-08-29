@@ -50,20 +50,8 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
 
         adapter = QuestionDetailPagerAdapter(this, viewModel.questionId)
         binding.viewPager.adapter = adapter
-        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageScrollStateChanged(state: Int) {
-                // no-op
-            }
-
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-                // no-op
-            }
-
-            override fun onPageSelected(position: Int) {
+        binding.viewPager.registerOnPageChangeCallback(
+            QuestionDetailPageChangeCallback { position ->
                 binding.appBar.stateListAnimator = AnimatorInflater.loadStateListAnimator(
                     this@QuestionDetailActivity,
                     if (position == 0) {
@@ -73,7 +61,7 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
                     }
                 )
             }
-        })
+        )
         toggleAnswerMode(isInAnswerMode = intent.getBooleanExtra(IS_IN_ANSWER_MODE, false))
     }
 

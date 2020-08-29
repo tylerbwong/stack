@@ -8,8 +8,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.adapter.DynamicListAdapter
@@ -84,8 +82,8 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
                     removeTopSpacing = true
                 )
             )
-            addOnScrollListener(object : OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            addOnScrollListener(
+                QuestionDetailOnScrollListener { dy ->
                     val activity = activity?.ofType<QuestionDetailActivity>()
                     if (dy > 0) {
                         activity?.shrinkAnswerButton()
@@ -93,7 +91,7 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
                         activity?.extendAnswerButton()
                     }
                 }
-            })
+            )
         }
 
         viewModel.questionId = arguments?.getInt(QuestionDetailActivity.QUESTION_ID, 0) ?: 0
