@@ -12,13 +12,10 @@ import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.ast.ASTNode
 
-internal class HeaderVisitor(
-    content: String,
-    private val headerType: IElementType
-) : Visitor(content) {
+internal object HeaderVisitor : Visitor {
 
-    override fun accept(node: ASTNode, builder: AnnotatedString.Builder) {
-        builder.withStyle(SpanStyle(fontSize = resolveHeaderTextSize())) {
+    override fun accept(node: ASTNode, builder: AnnotatedString.Builder, content: String) {
+        builder.withStyle(SpanStyle(fontSize = resolveHeaderTextSize(node.type))) {
             node.children
                 .drop(1) // Drop the header token
                 .dropWhile { it.type == MarkdownTokenTypes.WHITE_SPACE }
@@ -26,13 +23,13 @@ internal class HeaderVisitor(
         }
     }
 
-    private fun resolveHeaderTextSize() = when (headerType) {
-        MarkdownElementTypes.SETEXT_1, MarkdownElementTypes.ATX_1 -> 24.sp
-        MarkdownElementTypes.SETEXT_2, MarkdownElementTypes.ATX_2 -> 20.sp
-        MarkdownElementTypes.ATX_3 -> 18.sp
-        MarkdownElementTypes.ATX_4 -> 16.sp
-        MarkdownElementTypes.ATX_5 -> 14.sp
-        MarkdownElementTypes.ATX_6 -> 12.sp
+    private fun resolveHeaderTextSize(nodeType: IElementType) = when (nodeType) {
+        MarkdownElementTypes.SETEXT_1, MarkdownElementTypes.ATX_1 -> 28.sp
+        MarkdownElementTypes.SETEXT_2, MarkdownElementTypes.ATX_2 -> 24.sp
+        MarkdownElementTypes.ATX_3 -> 20.sp
+        MarkdownElementTypes.ATX_4 -> 18.sp
+        MarkdownElementTypes.ATX_5 -> 16.sp
+        MarkdownElementTypes.ATX_6 -> 14.sp
         else -> TextUnit.Inherit
     }
 }

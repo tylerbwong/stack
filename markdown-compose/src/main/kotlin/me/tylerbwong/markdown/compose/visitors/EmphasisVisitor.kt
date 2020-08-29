@@ -7,9 +7,9 @@ import androidx.compose.ui.text.withStyle
 import me.tylerbwong.markdown.compose.builder.buildMarkdown
 import org.intellij.markdown.ast.ASTNode
 
-internal class EmphasisVisitor(content: String) : Visitor(content) {
+internal object EmphasisVisitor : Visitor {
 
-    override fun accept(node: ASTNode, builder: AnnotatedString.Builder) {
+    override fun accept(node: ASTNode, builder: AnnotatedString.Builder, content: String) {
         builder.withStyle(SpanStyle(fontStyle = FontStyle.Italic)) {
             node.children
                 // Drop "_" token before and after

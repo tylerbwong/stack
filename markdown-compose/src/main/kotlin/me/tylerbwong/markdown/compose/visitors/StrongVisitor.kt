@@ -7,9 +7,9 @@ import androidx.compose.ui.text.withStyle
 import me.tylerbwong.markdown.compose.builder.buildMarkdown
 import org.intellij.markdown.ast.ASTNode
 
-internal class StrongVisitor(content: String) : Visitor(content) {
+internal object StrongVisitor : Visitor {
 
-    override fun accept(node: ASTNode, builder: AnnotatedString.Builder) {
+    override fun accept(node: ASTNode, builder: AnnotatedString.Builder, content: String) {
         builder.withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
             node.children
                 // Drop "**" tokens before and after
