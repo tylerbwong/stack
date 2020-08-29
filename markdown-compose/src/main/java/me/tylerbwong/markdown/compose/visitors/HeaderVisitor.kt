@@ -1,3 +1,4 @@
+@file:Suppress("MagicNumber")
 package me.tylerbwong.markdown.compose.visitors
 
 import androidx.compose.ui.text.AnnotatedString
