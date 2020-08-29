@@ -5,10 +5,10 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.withStyle
-import me.tylerbwong.markdown.compose.buildMarkdown
+import me.tylerbwong.markdown.compose.parser.buildMarkdown
 import org.intellij.markdown.ast.ASTNode
 
-class CodeSpanVisitor(fullMarkdownContent: String) : Visitor(fullMarkdownContent) {
+class CodeSpanVisitor(content: String) : Visitor(content) {
 
     override fun accept(node: ASTNode, builder: AnnotatedString.Builder) {
         builder.withStyle(
@@ -21,7 +21,7 @@ class CodeSpanVisitor(fullMarkdownContent: String) : Visitor(fullMarkdownContent
                 // Drop "`" token before and after
                 .drop(1)
                 .dropLast(1)
-                .forEach { buildMarkdown(it, fullMarkdownContent) }
+                .forEach { buildMarkdown(it, content) }
         }
     }
 }

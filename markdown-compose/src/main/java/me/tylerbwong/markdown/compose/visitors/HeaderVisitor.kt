@@ -6,21 +6,18 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import me.tylerbwong.markdown.compose.buildMarkdown
+import me.tylerbwong.markdown.compose.parser.buildMarkdown
 import org.intellij.markdown.IElementType
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 
-class HeaderVisitor(
-    fullMarkdownContent: String,
-    private val headerType: IElementType
-) : Visitor(fullMarkdownContent) {
+class HeaderVisitor(content: String, private val headerType: IElementType) : Visitor(content) {
 
     override fun accept(node: ASTNode, builder: AnnotatedString.Builder) {
         builder.withStyle(SpanStyle(fontSize = resolveHeaderTextSize())) {
             node.children
                 .drop(1) // Drop the header token
-                .forEach { buildMarkdown(it, fullMarkdownContent) }
+                .forEach { buildMarkdown(it, content) }
         }
     }
 

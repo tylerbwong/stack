@@ -1,4 +1,4 @@
-package me.tylerbwong.markdown.compose
+package me.tylerbwong.markdown.compose.parser
 
 import androidx.compose.ui.text.AnnotatedString
 import me.tylerbwong.markdown.compose.visitors.CodeSpanVisitor
