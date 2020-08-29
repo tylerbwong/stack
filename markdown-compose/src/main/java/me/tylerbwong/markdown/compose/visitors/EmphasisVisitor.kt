@@ -7,7 +7,7 @@ import androidx.compose.ui.text.withStyle
 import me.tylerbwong.markdown.compose.parser.buildMarkdown
 import org.intellij.markdown.ast.ASTNode
 
-class EmphasisVisitor(content: String) : Visitor(content) {
+internal class EmphasisVisitor(content: String) : Visitor(content) {
 
     override fun accept(node: ASTNode, builder: AnnotatedString.Builder) {
         builder.withStyle(SpanStyle(fontStyle = FontStyle.Italic)) {

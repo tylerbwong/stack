@@ -8,7 +8,7 @@ import androidx.compose.ui.text.withStyle
 import me.tylerbwong.markdown.compose.parser.buildMarkdown
 import org.intellij.markdown.ast.ASTNode
 
-class CodeSpanVisitor(content: String) : Visitor(content) {
+internal class CodeSpanVisitor(content: String) : Visitor(content) {
 
     override fun accept(node: ASTNode, builder: AnnotatedString.Builder) {
         builder.withStyle(

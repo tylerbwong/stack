@@ -4,7 +4,7 @@ import androidx.compose.ui.text.AnnotatedString
 import me.tylerbwong.markdown.compose.parser.buildMarkdown
 import org.intellij.markdown.ast.ASTNode
 
-class EmptyVisitor(content: String) : Visitor(content) {
+internal class EmptyVisitor(content: String) : Visitor(content) {
 
     override fun accept(node: ASTNode, builder: AnnotatedString.Builder) {
         node.children.forEach { builder.buildMarkdown(it, content) }

@@ -11,7 +11,10 @@ import org.intellij.markdown.IElementType
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 
-class HeaderVisitor(content: String, private val headerType: IElementType) : Visitor(content) {
+internal class HeaderVisitor(
+    content: String,
+    private val headerType: IElementType
+) : Visitor(content) {
 
     override fun accept(node: ASTNode, builder: AnnotatedString.Builder) {
         builder.withStyle(SpanStyle(fontSize = resolveHeaderTextSize())) {
