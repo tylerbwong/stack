@@ -33,7 +33,6 @@ class OwnerView @JvmOverloads constructor(
         with(binding) {
             username.text = owner.displayName.toHtml()
             userImage.load(owner.profileImage) {
-                crossfade(true)
                 error(R.drawable.user_image_placeholder)
                 placeholder(R.drawable.user_image_placeholder)
                 transformations(CircleCropTransformation())

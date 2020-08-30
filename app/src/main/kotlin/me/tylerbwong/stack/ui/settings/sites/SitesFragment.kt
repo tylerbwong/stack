@@ -98,7 +98,6 @@ class SitesFragment : PreferenceFragmentCompat(), SearchView.OnQueryTextListener
                         true
                     }
                     val request = LoadRequest.Builder(requireContext())
-                        .crossfade(true)
                         .data(site.iconUrl)
                         .target { icon = it }
                         .build()

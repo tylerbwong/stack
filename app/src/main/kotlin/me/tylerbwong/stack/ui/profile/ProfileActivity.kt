@@ -62,7 +62,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
         viewModel.userData.observe(this) {
             val userImage = binding.includeProfileHeader.userImage
             userImage.load(it.profileImage) {
-                crossfade(true)
                 error(R.drawable.user_image_placeholder)
                 placeholder(R.drawable.user_image_placeholder)
                 transformations(CircleCropTransformation())

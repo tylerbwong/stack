@@ -126,7 +126,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     title = user.displayName
                     summary = user.location
                     val request = LoadRequest.Builder(requireContext())
-                        .crossfade(true)
                         .data(user.profileImage)
                         .transformations(CircleCropTransformation())
                         .size(resources.getDimensionPixelSize(R.dimen.user_image_placeholder_size))
@@ -157,7 +156,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     true
                 }
                 val request = LoadRequest.Builder(requireContext())
-                    .crossfade(true)
                     .data(site.iconUrl)
                     .target { icon = it }
                     .build()

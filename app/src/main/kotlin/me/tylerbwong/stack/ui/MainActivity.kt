@@ -98,7 +98,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
             binding.profileIcon.apply {
                 if (user != null) {
                     load(user.profileImage) {
-                        crossfade(true)
                         error(R.drawable.user_image_placeholder)
                         placeholder(R.drawable.user_image_placeholder)
                         transformations(CircleCropTransformation())
