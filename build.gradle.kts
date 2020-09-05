@@ -27,6 +27,7 @@ allprojects {
 
         resolutionStrategy {
             force(Dep.androidxAppCompat) // Pin version for night mode bug
+            force(Dep.coil)
         }
     }
 }
