@@ -136,11 +136,12 @@ class AuthRepositoryTest : BaseTest() {
                 .thenThrow(
                     HttpException(
                         Response.error<ResponseBody>(
-                            403, """
-                        {
-                            "errorCode": 403
-                        }
-                    """.trimIndent().toResponseBody("application/json".toMediaTypeOrNull())
+                            403,
+                            """
+                                {
+                                    "errorCode": 403
+                                }
+                            """.trimIndent().toResponseBody("application/json".toMediaTypeOrNull())
                         )
                     )
                 )
@@ -178,11 +179,12 @@ class AuthRepositoryTest : BaseTest() {
                 .thenThrow(
                     HttpException(
                         Response.error<ResponseBody>(
-                            403, """
-                        {
-                            "errorCode": 403
-                        }
-                    """.trimIndent().toResponseBody("application/json".toMediaTypeOrNull())
+                            403,
+                            """
+                                {
+                                    "errorCode": 403
+                                }
+                            """.trimIndent().toResponseBody("application/json".toMediaTypeOrNull())
                         )
                     )
                 )

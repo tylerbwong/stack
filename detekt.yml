@@ -373,6 +373,8 @@ naming:
   MemberNameEqualsClassName:
     active: true
     ignoreOverridden: true
+  NonBooleanPropertyPrefixedWithIs:
+    active: true
   ObjectPropertyNaming:
     active: true
     excludes: ['**/test/**', '**/androidTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt']
@@ -617,6 +619,8 @@ style:
     allowedNames: '(_|ignored|expected|serialVersionUID)'
   UseArrayLiteralsInAnnotations:
     active: false
+  UseCheckNotNull:
+    active: false
   UseCheckOrError:
     active: false
   UseDataClass:
@@ -626,6 +630,8 @@ style:
   UseIfInsteadOfWhen:
     active: false
   UseRequire:
+    active: false
+  UseRequireNotNull:
     active: false
   UselessCallOnNotNull:
     active: true

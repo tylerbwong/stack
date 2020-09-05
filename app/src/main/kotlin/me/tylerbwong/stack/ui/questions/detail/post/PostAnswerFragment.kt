@@ -79,27 +79,31 @@ class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
 
         binding.debugPreview.isVisible = BuildConfig.DEBUG
 
-        binding.scrollView.setOnScrollChangeListener(OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-            if (scrollY > oldScrollY) {
-                binding.postAnswerButton.shrink()
-            } else {
-                binding.postAnswerButton.extend()
+        binding.scrollView.setOnScrollChangeListener(
+            OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+                if (scrollY > oldScrollY) {
+                    binding.postAnswerButton.shrink()
+                } else {
+                    binding.postAnswerButton.extend()
+                }
             }
-        })
+        )
 
-        binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
-            override fun onTabReselected(tab: Tab) {
-                // no-op
-            }
+        binding.tabLayout.addOnTabSelectedListener(
+            object : OnTabSelectedListener {
+                override fun onTabReselected(tab: Tab) {
+                    // no-op
+                }
 
-            override fun onTabUnselected(tab: Tab) {
-                // no-op
-            }
+                override fun onTabUnselected(tab: Tab) {
+                    // no-op
+                }
 
-            override fun onTabSelected(tab: Tab) {
-                onTabChanged(tab.position)
+                override fun onTabSelected(tab: Tab) {
+                    onTabChanged(tab.position)
+                }
             }
-        })
+        )
 
         binding.tabLayout.selectTab(binding.tabLayout.getTabAt(viewModel.selectedTabPosition))
 

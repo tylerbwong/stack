@@ -99,6 +99,7 @@ class StackPlugin : Plugin<Project> {
             apply(plugin = "io.gitlab.arturbosch.detekt")
 
             extensions.getByType(KtlintExtension::class).apply {
+                version.set(Versions.ktlint)
                 debug.set(true)
                 reporters {
                     reporter(ReporterType.CHECKSTYLE)

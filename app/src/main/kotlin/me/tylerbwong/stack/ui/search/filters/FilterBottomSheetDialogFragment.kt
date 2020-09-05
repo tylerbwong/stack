@@ -68,15 +68,17 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment(), Slider.OnCh
             }
 
             minAnswersSlider.addOnChangeListener(this@FilterBottomSheetDialogFragment)
-            minAnswersSlider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
-                override fun onStartTrackingTouch(slider: Slider) {
-                    // No-op
-                }
+            minAnswersSlider.addOnSliderTouchListener(
+                object : Slider.OnSliderTouchListener {
+                    override fun onStartTrackingTouch(slider: Slider) {
+                        // No-op
+                    }
 
-                override fun onStopTrackingTouch(slider: Slider) {
-                    viewModel.minimumAnswers = slider.value.toInt()
+                    override fun onStopTrackingTouch(slider: Slider) {
+                        viewModel.minimumAnswers = slider.value.toInt()
+                    }
                 }
-            })
+            )
             titleContainsEditText.doAfterTextChanged {
                 viewModel.titleContains = it?.toString()
             }

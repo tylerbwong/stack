@@ -29,20 +29,21 @@ class AuthInterceptorTest : BaseTest() {
 
         authStore = AuthStore(testSharedPreferences)
         okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(AuthInterceptor("localhost", authStore))
-                .build()
+            .addInterceptor(AuthInterceptor("localhost", authStore))
+            .build()
 
-        val validUri = Uri.parse("stack://tylerbwong.me/auth/redirect#access_token=$TEST_ACCESS_TOKEN")
+        val validUri =
+            Uri.parse("stack://tylerbwong.me/auth/redirect#access_token=$TEST_ACCESS_TOKEN")
         authStore.setAccessToken(validUri)
     }
 
     @Test
     fun `appends token for get request`() {
         okHttpClient.newCall(
-                Request.Builder()
-                        .url(mockWebServer.url("/"))
-                        .get()
-                        .build()
+            Request.Builder()
+                .url(mockWebServer.url("/"))
+                .get()
+                .build()
         ).execute()
 
         val request = mockWebServer.takeRequest()
@@ -53,12 +54,12 @@ class AuthInterceptorTest : BaseTest() {
     @Test
     fun `adds token to request body and does not append token as query parameter for post request`() {
         val testRequestBody = """{}""".trimIndent()
-                .toRequestBody("application/x-www-form-urlencoded;charset=UTF-8".toMediaTypeOrNull())
+            .toRequestBody("application/x-www-form-urlencoded;charset=UTF-8".toMediaTypeOrNull())
         okHttpClient.newCall(
-                Request.Builder()
-                        .url(mockWebServer.url("/"))
-                        .post(testRequestBody)
-                        .build()
+            Request.Builder()
+                .url(mockWebServer.url("/"))
+                .post(testRequestBody)
+                .build()
         ).execute()
 
         val request = mockWebServer.takeRequest()
@@ -71,10 +72,10 @@ class AuthInterceptorTest : BaseTest() {
     fun `does not append token if it is blank`() {
         authStore.clear()
         okHttpClient.newCall(
-                Request.Builder()
-                        .url(mockWebServer.url("/"))
-                        .get()
-                        .build()
+            Request.Builder()
+                .url(mockWebServer.url("/"))
+                .get()
+                .build()
         ).execute()
 
         val request = mockWebServer.takeRequest()
@@ -85,14 +86,14 @@ class AuthInterceptorTest : BaseTest() {
     @Test
     fun `does not append token if request is not to baseUrl`() {
         okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(AuthInterceptor("https://google.com", authStore))
-                .build()
+            .addInterceptor(AuthInterceptor("https://google.com", authStore))
+            .build()
 
         okHttpClient.newCall(
-                Request.Builder()
-                        .url(mockWebServer.url("/"))
-                        .get()
-                        .build()
+            Request.Builder()
+                .url(mockWebServer.url("/"))
+                .get()
+                .build()
         ).execute()
 
         val request = mockWebServer.takeRequest()
