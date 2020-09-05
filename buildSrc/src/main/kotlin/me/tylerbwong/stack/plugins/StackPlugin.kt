@@ -12,6 +12,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
@@ -29,13 +30,13 @@ class StackPlugin : Plugin<Project> {
     }
 
     private fun configureLibraryPlugin(project: Project) {
-        project.extensions.getByType(LibraryExtension::class).apply {
+        project.extensions.getByType<LibraryExtension>().apply {
             configureCommonOptions(project)
         }
     }
 
     private fun configureAppPlugin(project: Project) {
-        project.extensions.getByType(BaseAppModuleExtension::class).apply {
+        project.extensions.getByType<BaseAppModuleExtension>().apply {
             configureCommonOptions(project)
 
             defaultConfig {
@@ -82,7 +83,7 @@ class StackPlugin : Plugin<Project> {
             unitTests.isIncludeAndroidResources = true
         }
 
-        project.tasks.withType(KotlinCompile::class.java).configureEach {
+        project.tasks.withType<KotlinCompile>().configureEach {
             kotlinOptions {
                 jvmTarget = JavaVersion.VERSION_1_8.toString()
                 useIR = true
@@ -98,7 +99,7 @@ class StackPlugin : Plugin<Project> {
             apply(plugin = "org.jlleitschuh.gradle.ktlint")
             apply(plugin = "io.gitlab.arturbosch.detekt")
 
-            extensions.getByType(KtlintExtension::class).apply {
+            extensions.getByType<KtlintExtension>().apply {
                 version.set(Versions.ktlint)
                 debug.set(true)
                 reporters {
@@ -106,7 +107,7 @@ class StackPlugin : Plugin<Project> {
                 }
             }
 
-            extensions.getByType(DetektExtension::class).apply {
+            extensions.getByType<DetektExtension>().apply {
                 config = files("$rootDir/detekt.yml")
             }
         }
