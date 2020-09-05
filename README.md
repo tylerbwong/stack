@@ -24,6 +24,16 @@ The goal of this project is to provide examples for the latest Android libraries
 * Dark mode
 * Question deep linking
 
+### Subprojects
+
+Here you can also find a few useful Gradle modules as well:
+
+* [buildSrc](./buildSrc) - A Gradle module for common build logic with a custom plugin example.
+* [dynamic-list-adapter](./dynamic-list-adapter) - An abstraction around `RecyclerView` built on `ListAdapter` for asynchronous list diffing.
+* [dynamic-list-adapter-viewbinding](./dynamic-list-adapter-viewbinding) - View Binding support for `DynamicListAdapter`.
+* [dynamic-list-adapter-extensions](./dynamic-list-adapter-extensions) - Android View Extensions support for `DynamicListAdapter`.
+* [markdown-compose](./markdown-compose) - A Jetpack Compose Markdown component using [intellij-markdown](https://github.com/valich/intellij-markdown) for parsing.
+
 # License
 
     Copyright 2020 Tyler Wong
