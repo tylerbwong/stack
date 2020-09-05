@@ -97,7 +97,6 @@ dependencies {
 
     // markdown
     implementation(markdown())
-    implementation(markdownCompose())
     implementation(Dep.markwonCore)
     implementation(Dep.markwonHtml)
     implementation(Dep.markwonImageCoil)
