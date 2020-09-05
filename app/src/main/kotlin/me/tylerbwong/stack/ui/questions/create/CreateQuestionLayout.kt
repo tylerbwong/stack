@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.Checkbox
 import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
@@ -165,6 +166,7 @@ fun CreateQuestionLayout(
                 onValueChange = { title = it },
                 label = { Text(text = stringResource(R.string.title)) },
                 modifier = Modifier.fillMaxWidth(),
+                textStyle = MaterialTheme.typography.body2,
                 isErrorValue = !isValidTitle(),
                 activeColor = colorAccent,
                 inactiveColor = primaryTextColor,
@@ -177,8 +179,8 @@ fun CreateQuestionLayout(
                 value = body,
                 onValueChange = { body = it },
                 label = { Text(text = stringResource(R.string.body)) },
-                modifier = Modifier.fillMaxWidth()
-                    .height(dimensionResource(R.dimen.body_height)),
+                modifier = Modifier.fillMaxWidth().height(dimensionResource(R.dimen.body_height)),
+                textStyle = MaterialTheme.typography.body2,
                 isErrorValue = !isValidBody(),
                 activeColor = colorAccent,
                 inactiveColor = primaryTextColor,
@@ -192,6 +194,7 @@ fun CreateQuestionLayout(
                 onValueChange = { tags = it },
                 label = { Text(text = stringResource(R.string.tags_title)) },
                 modifier = Modifier.fillMaxWidth(),
+                textStyle = MaterialTheme.typography.body2,
                 isErrorValue = !isValidTags(),
                 activeColor = colorAccent,
                 inactiveColor = primaryTextColor,

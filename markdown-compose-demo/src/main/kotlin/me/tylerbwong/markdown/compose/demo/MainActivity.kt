@@ -1,12 +1,25 @@
-package me.tylerbwong.stack.ui.utils.markdown
+@file:Suppress("MaxLineLength")
+package me.tylerbwong.markdown.compose.demo
 
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.setContent
 import androidx.ui.tooling.preview.Preview
 import me.tylerbwong.markdown.compose.MarkdownText
 
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MarkdownTextDemo()
+        }
+    }
+}
+
 @Preview
 @Composable
-fun TestMarkdownText() {
+fun MarkdownTextDemo() {
     MarkdownText(
         markdown = """
             # This is an h1 header
@@ -22,6 +35,10 @@ fun TestMarkdownText() {
             ~~Strikethrough is also supported~~
             
             # _~~**`This is a test with every kind of formatting`**~~_
+            
+            Inline images are supported as well ![Kotlin](https://developer.android.com/images/jetpack/info-bytes-compose-less-code.png)!
+            Reference images are coming soon!
+            
         """.trimIndent()
     )
 }

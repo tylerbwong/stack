@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.library")
+    id("com.android.application")
     `kotlin-android`
     StackPlugin
 }
@@ -7,7 +7,6 @@ plugins {
 android {
     buildFeatures {
         compose = true
-        buildConfig = false
     }
 
     composeOptions {
@@ -17,21 +16,18 @@ android {
 }
 
 dependencies {
+    // kotlin
     implementation(Dep.kotlinLib)
 
     // androidx
-    implementation(Dep.androidxCore)
-
-    // coil
-    implementation(Dep.coil)
-    implementation(Dep.coilAccompanist)
+    implementation(Dep.androidxAppCompat)
+    implementation(Dep.materialComponents)
 
     // compose
     implementation(Dep.composeCore)
     implementation(Dep.composeFoundation)
-    implementation(Dep.composeText)
     implementation(Dep.composeTooling)
 
     // markdown
-    implementation(Dep.intellijMarkdown)
+    implementation(markdownCompose())
 }

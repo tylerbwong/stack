@@ -1,12 +1,11 @@
-@file:Suppress("MagicNumber")
 package me.tylerbwong.markdown.compose.visitors
 
+import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import me.tylerbwong.markdown.compose.builder.buildMarkdown
 import org.intellij.markdown.IElementType
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.MarkdownTokenTypes
@@ -14,15 +13,22 @@ import org.intellij.markdown.ast.ASTNode
 
 internal object HeaderVisitor : Visitor {
 
-    override fun accept(node: ASTNode, builder: AnnotatedString.Builder, content: String) {
+    override fun accept(
+        node: ASTNode,
+        builder: AnnotatedString.Builder,
+        content: String,
+        inlineTextContent: MutableMap<String, InlineTextContent>,
+        continuation: Continuation
+    ) {
         builder.withStyle(SpanStyle(fontSize = resolveHeaderTextSize(node.type))) {
             node.children
                 .drop(1) // Drop the header token
                 .dropWhile { it.type == MarkdownTokenTypes.WHITE_SPACE }
-                .forEach { buildMarkdown(it, content) }
+                .forEach { continuation(it, content) }
         }
     }
 
+    @Suppress("MagicNumber")
     private fun resolveHeaderTextSize(nodeType: IElementType) = when (nodeType) {
         MarkdownElementTypes.SETEXT_1, MarkdownElementTypes.ATX_1 -> 32.sp
         MarkdownElementTypes.SETEXT_2, MarkdownElementTypes.ATX_2 -> 28.sp

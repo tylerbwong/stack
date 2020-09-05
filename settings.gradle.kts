@@ -5,5 +5,6 @@ include(
     ":dynamic-list-adapter-viewbinding",
     ":markdown",
     ":markdown-compose",
+    ":markdown-compose-demo",
     ":stackexchange-api"
 )
