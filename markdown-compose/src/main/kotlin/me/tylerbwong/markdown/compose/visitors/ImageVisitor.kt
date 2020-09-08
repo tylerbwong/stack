@@ -14,7 +14,7 @@ import org.intellij.markdown.ast.getTextInNode
 
 internal object ImageVisitor : Visitor {
 
-    override val supportedTypes = listOf(MarkdownElementTypes.IMAGE)
+    override val supportedTypes = setOf(MarkdownElementTypes.IMAGE)
 
     @Suppress("MagicNumber")
     override fun accept(

@@ -13,7 +13,7 @@ internal object OrderedListItemVisitor : Visitor {
 
     private const val ORDER_SUFFIX = '.'
 
-    override val supportedTypes = listOf(MarkdownTokenTypes.LIST_NUMBER)
+    override val supportedTypes = setOf(MarkdownTokenTypes.LIST_NUMBER)
 
     override fun accept(
         node: ASTNode,

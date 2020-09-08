@@ -14,7 +14,7 @@ import org.intellij.markdown.ast.getTextInNode
 
 internal object BlockQuoteVisitor : Visitor {
 
-    override val supportedTypes = listOf(MarkdownElementTypes.BLOCK_QUOTE)
+    override val supportedTypes = setOf(MarkdownElementTypes.BLOCK_QUOTE)
 
     override fun accept(
         node: ASTNode,

@@ -7,7 +7,7 @@ import org.intellij.markdown.ast.ASTNode
 
 internal object EmptyVisitor : Visitor {
 
-    override val supportedTypes = listOf(
+    override val supportedTypes = setOf(
         MarkdownElementTypes.MARKDOWN_FILE,
         MarkdownElementTypes.PARAGRAPH,
         MarkdownElementTypes.UNORDERED_LIST,
