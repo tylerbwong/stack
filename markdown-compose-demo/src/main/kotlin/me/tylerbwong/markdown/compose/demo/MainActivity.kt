@@ -33,6 +33,18 @@ class MainActivity : AppCompatActivity() {
                     
                     Inline [links](https://google.com) are now also supported! Here is an example of
                     [another link](https://tylerbwong.me).
+                    
+                    ##### Unordered lists
+                    
+                    * This is an `unordered` list item
+                    - This is another **unordered** list item
+                    * This is yet another [unordered](https://tylerbwong.me) list item
+                    
+                    ##### Ordered lists
+                    
+                    1. This is an `ordered` list item
+                    2. This is another **ordered** list item
+                    3) This is yet another [ordered](https://tylerbwong.me) list item
                 """.trimIndent(),
                 onLinkClicked = { link ->
                     Toast.makeText(this, "Link clicked: $link", Toast.LENGTH_LONG).show()

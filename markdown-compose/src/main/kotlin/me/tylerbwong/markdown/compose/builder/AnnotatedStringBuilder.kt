@@ -1,4 +1,5 @@
 @file:Suppress("LongMethod")
+
 package me.tylerbwong.markdown.compose.builder
 
 import androidx.compose.foundation.text.InlineTextContent
@@ -10,8 +11,10 @@ import me.tylerbwong.markdown.compose.visitors.HeaderContentVisitor
 import me.tylerbwong.markdown.compose.visitors.HeaderVisitor
 import me.tylerbwong.markdown.compose.visitors.ImageVisitor
 import me.tylerbwong.markdown.compose.visitors.LinkVisitor
+import me.tylerbwong.markdown.compose.visitors.OrderedListItemVisitor
 import me.tylerbwong.markdown.compose.visitors.StrikethroughVisitor
 import me.tylerbwong.markdown.compose.visitors.StrongVisitor
+import me.tylerbwong.markdown.compose.visitors.UnorderedListItemVisitor
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.ast.ASTNode
@@ -32,15 +35,16 @@ internal fun String.toMarkdownTextContent(): MarkdownTextContent {
     ): AnnotatedString.Builder {
         val continuation = AnnotatedString.Builder::buildMarkdown
         when (node.type) {
-            MarkdownElementTypes.MARKDOWN_FILE, MarkdownElementTypes.PARAGRAPH ->
-                EmptyVisitor.accept(
-                    node,
-                    this,
-                    content,
-                    inlineTextContent,
-                    linkPositions,
-                    continuation
-                )
+            MarkdownElementTypes.MARKDOWN_FILE, MarkdownElementTypes.PARAGRAPH,
+            MarkdownElementTypes.UNORDERED_LIST, MarkdownElementTypes.ORDERED_LIST,
+            MarkdownElementTypes.LIST_ITEM -> EmptyVisitor.accept(
+                node,
+                this,
+                content,
+                inlineTextContent,
+                linkPositions,
+                continuation
+            )
             MarkdownElementTypes.SETEXT_1, MarkdownElementTypes.ATX_1,
             MarkdownElementTypes.SETEXT_2, MarkdownElementTypes.ATX_2, MarkdownElementTypes.ATX_3,
             MarkdownElementTypes.ATX_4, MarkdownElementTypes.ATX_5, MarkdownElementTypes.ATX_6 ->
@@ -101,6 +105,22 @@ internal fun String.toMarkdownTextContent(): MarkdownTextContent {
                 continuation
             )
             GFMElementTypes.STRIKETHROUGH -> StrikethroughVisitor.accept(
+                node,
+                this,
+                content,
+                inlineTextContent,
+                linkPositions,
+                continuation
+            )
+            MarkdownTokenTypes.LIST_BULLET -> UnorderedListItemVisitor.accept(
+                node,
+                this,
+                content,
+                inlineTextContent,
+                linkPositions,
+                continuation
+            )
+            MarkdownTokenTypes.LIST_NUMBER -> OrderedListItemVisitor.accept(
                 node,
                 this,
                 content,
