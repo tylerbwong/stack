@@ -2,6 +2,7 @@ package me.tylerbwong.markdown.compose.visitors
 
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.ui.text.AnnotatedString
+import org.intellij.markdown.IElementType
 import org.intellij.markdown.ast.ASTNode
 
 internal typealias Continuation = AnnotatedString.Builder.(
@@ -10,6 +11,9 @@ internal typealias Continuation = AnnotatedString.Builder.(
 ) -> AnnotatedString.Builder
 
 internal interface Visitor {
+
+    val supportedTypes: List<IElementType>
+
     fun accept(
         node: ASTNode,
         builder: AnnotatedString.Builder,
@@ -18,4 +22,6 @@ internal interface Visitor {
         linkPositions: MutableMap<IntRange, String>,
         continuation: Continuation
     )
+
+    fun shouldVisit(node: ASTNode) = node.type in supportedTypes
 }

@@ -9,8 +9,11 @@ import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.unit.sp
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.ast.getTextInNode
+import org.intellij.markdown.flavours.gfm.GFMElementTypes
 
-object TableVisitor : Visitor {
+internal object TableVisitor : Visitor {
+
+    override val supportedTypes = listOf(GFMElementTypes.TABLE)
 
     override fun accept(
         node: ASTNode,

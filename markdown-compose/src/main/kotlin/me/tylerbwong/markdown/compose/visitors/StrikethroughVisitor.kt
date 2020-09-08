@@ -6,8 +6,11 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import org.intellij.markdown.ast.ASTNode
+import org.intellij.markdown.flavours.gfm.GFMElementTypes
 
 internal object StrikethroughVisitor : Visitor {
+
+    override val supportedTypes = listOf(GFMElementTypes.STRIKETHROUGH)
 
     override fun accept(
         node: ASTNode,

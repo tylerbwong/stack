@@ -13,6 +13,17 @@ import org.intellij.markdown.ast.ASTNode
 
 internal object HeaderVisitor : Visitor {
 
+    override val supportedTypes = listOf(
+        MarkdownElementTypes.SETEXT_1,
+        MarkdownElementTypes.SETEXT_2,
+        MarkdownElementTypes.ATX_1,
+        MarkdownElementTypes.ATX_2,
+        MarkdownElementTypes.ATX_3,
+        MarkdownElementTypes.ATX_4,
+        MarkdownElementTypes.ATX_5,
+        MarkdownElementTypes.ATX_6
+    )
+
     override fun accept(
         node: ASTNode,
         builder: AnnotatedString.Builder,

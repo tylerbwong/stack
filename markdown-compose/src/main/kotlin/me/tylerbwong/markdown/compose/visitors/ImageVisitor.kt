@@ -8,10 +8,13 @@ import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.unit.sp
 import dev.chrisbanes.accompanist.coil.CoilImageWithCrossfade
+import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.ast.getTextInNode
 
 internal object ImageVisitor : Visitor {
+
+    override val supportedTypes = listOf(MarkdownElementTypes.IMAGE)
 
     @Suppress("MagicNumber")
     override fun accept(

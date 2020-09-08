@@ -5,12 +5,15 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.ast.getTextInNode
 
-object OrderedListItemVisitor : Visitor {
+internal object OrderedListItemVisitor : Visitor {
 
     private const val ORDER_SUFFIX = '.'
+
+    override val supportedTypes = listOf(MarkdownTokenTypes.LIST_NUMBER)
 
     override fun accept(
         node: ASTNode,

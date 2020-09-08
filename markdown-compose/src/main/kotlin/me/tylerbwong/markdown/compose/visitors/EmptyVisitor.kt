@@ -2,9 +2,18 @@ package me.tylerbwong.markdown.compose.visitors
 
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.ui.text.AnnotatedString
+import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 
 internal object EmptyVisitor : Visitor {
+
+    override val supportedTypes = listOf(
+        MarkdownElementTypes.MARKDOWN_FILE,
+        MarkdownElementTypes.PARAGRAPH,
+        MarkdownElementTypes.UNORDERED_LIST,
+        MarkdownElementTypes.ORDERED_LIST,
+        MarkdownElementTypes.LIST_ITEM
+    )
 
     override fun accept(
         node: ASTNode,

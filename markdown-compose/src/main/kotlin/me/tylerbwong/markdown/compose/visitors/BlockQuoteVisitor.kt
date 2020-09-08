@@ -7,10 +7,13 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.unit.sp
+import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.ast.getTextInNode
 
-object BlockQuoteVisitor : Visitor {
+internal object BlockQuoteVisitor : Visitor {
+
+    override val supportedTypes = listOf(MarkdownElementTypes.BLOCK_QUOTE)
 
     override fun accept(
         node: ASTNode,

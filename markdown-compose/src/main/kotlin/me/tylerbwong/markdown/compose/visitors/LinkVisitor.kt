@@ -12,6 +12,8 @@ import org.intellij.markdown.ast.getTextInNode
 
 object LinkVisitor : Visitor {
 
+    override val supportedTypes = listOf(MarkdownElementTypes.INLINE_LINK)
+
     override fun accept(
         node: ASTNode,
         builder: AnnotatedString.Builder,

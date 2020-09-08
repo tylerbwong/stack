@@ -7,6 +7,8 @@ import org.intellij.markdown.ast.ASTNode
 
 internal object HeaderContentVisitor : Visitor {
 
+    override val supportedTypes = listOf(MarkdownTokenTypes.ATX_CONTENT)
+
     override fun accept(
         node: ASTNode,
         builder: AnnotatedString.Builder,
