@@ -12,6 +12,7 @@ internal object HeaderContentVisitor : Visitor {
         builder: AnnotatedString.Builder,
         content: String,
         inlineTextContent: MutableMap<String, InlineTextContent>,
+        linkPositions: MutableMap<IntRange, String>,
         continuation: Continuation
     ) {
         node.children

@@ -5,5 +5,6 @@ import androidx.compose.ui.text.AnnotatedString
 
 internal data class MarkdownTextContent(
     val annotatedString: AnnotatedString,
-    val inlineTextContent: Map<String, InlineTextContent>
+    val inlineTextContent: Map<String, InlineTextContent>,
+    val linkPositions: Map<IntRange, String>
 )

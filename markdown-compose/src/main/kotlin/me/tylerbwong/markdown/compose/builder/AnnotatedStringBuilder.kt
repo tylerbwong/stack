@@ -1,3 +1,4 @@
+@file:Suppress("LongMethod")
 package me.tylerbwong.markdown.compose.builder
 
 import androidx.compose.foundation.text.InlineTextContent
@@ -8,6 +9,7 @@ import me.tylerbwong.markdown.compose.visitors.EmptyVisitor
 import me.tylerbwong.markdown.compose.visitors.HeaderContentVisitor
 import me.tylerbwong.markdown.compose.visitors.HeaderVisitor
 import me.tylerbwong.markdown.compose.visitors.ImageVisitor
+import me.tylerbwong.markdown.compose.visitors.LinkVisitor
 import me.tylerbwong.markdown.compose.visitors.StrikethroughVisitor
 import me.tylerbwong.markdown.compose.visitors.StrongVisitor
 import org.intellij.markdown.MarkdownElementTypes
@@ -22,6 +24,7 @@ internal fun String.toMarkdownTextContent(): MarkdownTextContent {
     val flavour = GFMFlavourDescriptor()
     val rootNode = MarkdownParser(flavour).buildMarkdownTreeFromString(this)
     val inlineTextContent = mutableMapOf<String, InlineTextContent>()
+    val linkPositions = mutableMapOf<IntRange, String>()
 
     fun AnnotatedString.Builder.buildMarkdown(
         node: ASTNode,
@@ -30,23 +33,81 @@ internal fun String.toMarkdownTextContent(): MarkdownTextContent {
         val continuation = AnnotatedString.Builder::buildMarkdown
         when (node.type) {
             MarkdownElementTypes.MARKDOWN_FILE, MarkdownElementTypes.PARAGRAPH ->
-                EmptyVisitor.accept(node, this, content, inlineTextContent, continuation)
+                EmptyVisitor.accept(
+                    node,
+                    this,
+                    content,
+                    inlineTextContent,
+                    linkPositions,
+                    continuation
+                )
             MarkdownElementTypes.SETEXT_1, MarkdownElementTypes.ATX_1,
             MarkdownElementTypes.SETEXT_2, MarkdownElementTypes.ATX_2, MarkdownElementTypes.ATX_3,
             MarkdownElementTypes.ATX_4, MarkdownElementTypes.ATX_5, MarkdownElementTypes.ATX_6 ->
-                HeaderVisitor.accept(node, this, content, inlineTextContent, continuation)
-            MarkdownTokenTypes.ATX_CONTENT ->
-                HeaderContentVisitor.accept(node, this, content, inlineTextContent, continuation)
-            MarkdownElementTypes.STRONG ->
-                StrongVisitor.accept(node, this, content, inlineTextContent, continuation)
-            MarkdownElementTypes.EMPH ->
-                EmphasisVisitor.accept(node, this, content, inlineTextContent, continuation)
-            MarkdownElementTypes.CODE_SPAN ->
-                CodeSpanVisitor.accept(node, this, content, inlineTextContent, continuation)
-            MarkdownElementTypes.IMAGE ->
-                ImageVisitor.accept(node, this, content, inlineTextContent, continuation)
-            GFMElementTypes.STRIKETHROUGH ->
-                StrikethroughVisitor.accept(node, this, content, inlineTextContent, continuation)
+                HeaderVisitor.accept(
+                    node,
+                    this,
+                    content,
+                    inlineTextContent,
+                    linkPositions,
+                    continuation
+                )
+            MarkdownTokenTypes.ATX_CONTENT -> HeaderContentVisitor.accept(
+                node,
+                this,
+                content,
+                inlineTextContent,
+                linkPositions,
+                continuation
+            )
+            MarkdownElementTypes.STRONG -> StrongVisitor.accept(
+                node,
+                this,
+                content,
+                inlineTextContent,
+                linkPositions,
+                continuation
+            )
+            MarkdownElementTypes.EMPH -> EmphasisVisitor.accept(
+                node,
+                this,
+                content,
+                inlineTextContent,
+                linkPositions,
+                continuation
+            )
+            MarkdownElementTypes.CODE_SPAN -> CodeSpanVisitor.accept(
+                node,
+                this,
+                content,
+                inlineTextContent,
+                linkPositions,
+                continuation
+            )
+            MarkdownElementTypes.IMAGE -> ImageVisitor.accept(
+                node,
+                this,
+                content,
+                inlineTextContent,
+                linkPositions,
+                continuation
+            )
+            MarkdownElementTypes.INLINE_LINK -> LinkVisitor.accept(
+                node,
+                this,
+                content,
+                inlineTextContent,
+                linkPositions,
+                continuation
+            )
+            GFMElementTypes.STRIKETHROUGH -> StrikethroughVisitor.accept(
+                node,
+                this,
+                content,
+                inlineTextContent,
+                linkPositions,
+                continuation
+            )
             else -> append(text = node.getTextInNode(content).toString())
         }
         return this
@@ -55,5 +116,5 @@ internal fun String.toMarkdownTextContent(): MarkdownTextContent {
     val annotatedString = AnnotatedString.Builder()
         .buildMarkdown(rootNode, this)
         .toAnnotatedString()
-    return MarkdownTextContent(annotatedString, inlineTextContent)
+    return MarkdownTextContent(annotatedString, inlineTextContent, linkPositions)
 }

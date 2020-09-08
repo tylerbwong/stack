@@ -19,13 +19,14 @@ internal object ImageVisitor : Visitor {
         builder: AnnotatedString.Builder,
         content: String,
         inlineTextContent: MutableMap<String, InlineTextContent>,
+        linkPositions: MutableMap<IntRange, String>,
         continuation: Continuation
     ) {
-        val imageUrlNode = node.children[node.children.size - 1]
+        val imageUrlNode = node.children.getOrNull(node.children.size - 1) ?: return
         if (imageUrlNode.children.size > 2) {
-            val imageUrl = imageUrlNode.children[imageUrlNode.children.size - 2]
-                .getTextInNode(content)
-                .toString()
+            val imageUrl = imageUrlNode.children.getOrNull(imageUrlNode.children.size - 2)
+                ?.getTextInNode(content)
+                ?.toString() ?: return
             inlineTextContent[imageUrl] = InlineTextContent(
                 placeholder = Placeholder(
                     width = 64.sp,

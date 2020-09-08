@@ -15,6 +15,7 @@ internal interface Visitor {
         builder: AnnotatedString.Builder,
         content: String,
         inlineTextContent: MutableMap<String, InlineTextContent>,
+        linkPositions: MutableMap<IntRange, String>,
         continuation: Continuation
     )
 }

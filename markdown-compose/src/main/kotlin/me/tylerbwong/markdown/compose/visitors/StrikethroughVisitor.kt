@@ -14,6 +14,7 @@ internal object StrikethroughVisitor : Visitor {
         builder: AnnotatedString.Builder,
         content: String,
         inlineTextContent: MutableMap<String, InlineTextContent>,
+        linkPositions: MutableMap<IntRange, String>,
         continuation: Continuation
     ) {
         builder.withStyle(SpanStyle(textDecoration = TextDecoration.LineThrough)) {

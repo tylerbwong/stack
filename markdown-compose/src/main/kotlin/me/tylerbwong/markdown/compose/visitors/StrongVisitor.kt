@@ -14,6 +14,7 @@ internal object StrongVisitor : Visitor {
         builder: AnnotatedString.Builder,
         content: String,
         inlineTextContent: MutableMap<String, InlineTextContent>,
+        linkPositions: MutableMap<IntRange, String>,
         continuation: Continuation
     ) {
         builder.withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
