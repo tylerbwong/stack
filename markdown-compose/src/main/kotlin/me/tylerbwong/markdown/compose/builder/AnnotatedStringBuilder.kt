@@ -1,9 +1,9 @@
 @file:Suppress("LongMethod")
-
 package me.tylerbwong.markdown.compose.builder
 
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.ui.text.AnnotatedString
+import me.tylerbwong.markdown.compose.visitors.BlockQuoteVisitor
 import me.tylerbwong.markdown.compose.visitors.CodeSpanVisitor
 import me.tylerbwong.markdown.compose.visitors.EmphasisVisitor
 import me.tylerbwong.markdown.compose.visitors.EmptyVisitor
@@ -14,6 +14,7 @@ import me.tylerbwong.markdown.compose.visitors.LinkVisitor
 import me.tylerbwong.markdown.compose.visitors.OrderedListItemVisitor
 import me.tylerbwong.markdown.compose.visitors.StrikethroughVisitor
 import me.tylerbwong.markdown.compose.visitors.StrongVisitor
+import me.tylerbwong.markdown.compose.visitors.TableVisitor
 import me.tylerbwong.markdown.compose.visitors.UnorderedListItemVisitor
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.MarkdownTokenTypes
@@ -121,6 +122,22 @@ internal fun String.toMarkdownTextContent(): MarkdownTextContent {
                 continuation
             )
             MarkdownTokenTypes.LIST_NUMBER -> OrderedListItemVisitor.accept(
+                node,
+                this,
+                content,
+                inlineTextContent,
+                linkPositions,
+                continuation
+            )
+            MarkdownElementTypes.BLOCK_QUOTE -> BlockQuoteVisitor.accept(
+                node,
+                this,
+                content,
+                inlineTextContent,
+                linkPositions,
+                continuation
+            )
+            GFMElementTypes.TABLE -> TableVisitor.accept(
                 node,
                 this,
                 content,

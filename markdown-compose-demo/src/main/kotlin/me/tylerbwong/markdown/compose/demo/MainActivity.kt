@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity() {
                     1. This is an `ordered` list item
                     2. This is another **ordered** list item
                     3) This is yet another [ordered](https://tylerbwong.me) list item
+                    
+                    > I am a block quote!
                 """.trimIndent(),
                 onLinkClicked = { link ->
                     Toast.makeText(this, "Link clicked: $link", Toast.LENGTH_LONG).show()
