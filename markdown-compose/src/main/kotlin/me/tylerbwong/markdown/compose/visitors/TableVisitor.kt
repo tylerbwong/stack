@@ -14,7 +14,7 @@ import org.intellij.markdown.flavours.gfm.GFMElementTypes
 
 internal object TableVisitor : Visitor {
 
-    override val supportedTypes = setOf(GFMElementTypes.TABLE)
+    override val acceptedTypes = setOf(GFMElementTypes.TABLE)
 
     override fun accept(
         node: ASTNode,

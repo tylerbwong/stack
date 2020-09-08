@@ -12,7 +12,7 @@ internal typealias Continuation = AnnotatedString.Builder.(
 
 internal interface Visitor {
 
-    val supportedTypes: Set<IElementType>
+    val acceptedTypes: Set<IElementType>
 
     fun accept(
         node: ASTNode,
@@ -23,5 +23,5 @@ internal interface Visitor {
         continuation: Continuation
     )
 
-    fun shouldVisit(node: ASTNode) = node.type in supportedTypes
+    fun shouldVisit(node: ASTNode) = node.type in acceptedTypes
 }

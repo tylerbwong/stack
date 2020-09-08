@@ -13,7 +13,7 @@ import org.intellij.markdown.ast.ASTNode
 
 internal object HeaderVisitor : Visitor {
 
-    override val supportedTypes = setOf(
+    override val acceptedTypes = setOf(
         MarkdownElementTypes.SETEXT_1,
         MarkdownElementTypes.SETEXT_2,
         MarkdownElementTypes.ATX_1,

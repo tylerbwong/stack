@@ -12,7 +12,7 @@ internal object UnorderedListItemVisitor : Visitor {
 
     private const val BULLET_CHAR = '•'
 
-    override val supportedTypes = setOf(MarkdownTokenTypes.LIST_BULLET)
+    override val acceptedTypes = setOf(MarkdownTokenTypes.LIST_BULLET)
 
     override fun accept(
         node: ASTNode,

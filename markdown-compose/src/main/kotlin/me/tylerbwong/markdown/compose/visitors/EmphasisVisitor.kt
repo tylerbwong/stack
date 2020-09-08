@@ -10,7 +10,7 @@ import org.intellij.markdown.ast.ASTNode
 
 internal object EmphasisVisitor : Visitor {
 
-    override val supportedTypes = setOf(MarkdownElementTypes.EMPH)
+    override val acceptedTypes = setOf(MarkdownElementTypes.EMPH)
 
     override fun accept(
         node: ASTNode,

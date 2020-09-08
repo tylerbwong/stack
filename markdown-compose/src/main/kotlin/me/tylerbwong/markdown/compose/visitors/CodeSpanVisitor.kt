@@ -11,7 +11,7 @@ import org.intellij.markdown.ast.ASTNode
 
 internal object CodeSpanVisitor : Visitor {
 
-    override val supportedTypes = setOf(MarkdownElementTypes.CODE_SPAN)
+    override val acceptedTypes = setOf(MarkdownElementTypes.CODE_SPAN)
 
     override fun accept(
         node: ASTNode,

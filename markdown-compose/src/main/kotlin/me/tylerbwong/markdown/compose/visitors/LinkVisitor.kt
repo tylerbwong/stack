@@ -12,7 +12,7 @@ import org.intellij.markdown.ast.getTextInNode
 
 object LinkVisitor : Visitor {
 
-    override val supportedTypes = setOf(MarkdownElementTypes.INLINE_LINK)
+    override val acceptedTypes = setOf(MarkdownElementTypes.INLINE_LINK)
 
     override fun accept(
         node: ASTNode,

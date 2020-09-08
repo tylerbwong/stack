@@ -10,7 +10,7 @@ import org.intellij.markdown.flavours.gfm.GFMElementTypes
 
 internal object StrikethroughVisitor : Visitor {
 
-    override val supportedTypes = setOf(GFMElementTypes.STRIKETHROUGH)
+    override val acceptedTypes = setOf(GFMElementTypes.STRIKETHROUGH)
 
     override fun accept(
         node: ASTNode,

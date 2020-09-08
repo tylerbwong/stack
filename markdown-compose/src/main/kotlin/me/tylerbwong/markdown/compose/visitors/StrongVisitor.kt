@@ -10,7 +10,7 @@ import org.intellij.markdown.ast.ASTNode
 
 internal object StrongVisitor : Visitor {
 
-    override val supportedTypes = setOf(MarkdownElementTypes.STRONG)
+    override val acceptedTypes = setOf(MarkdownElementTypes.STRONG)
 
     override fun accept(
         node: ASTNode,
