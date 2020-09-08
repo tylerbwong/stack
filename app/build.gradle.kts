@@ -29,6 +29,12 @@ android {
 }
 
 dependencies {
+    configurations.all {
+        resolutionStrategy {
+            force(Dep.coil) // TODO Delete once Markwon is updated with new Coil version
+        }
+    }
+
     // kotlin
     implementation(Dep.kotlinLib)
     implementation(Dep.kotlinCoroutinesCore)

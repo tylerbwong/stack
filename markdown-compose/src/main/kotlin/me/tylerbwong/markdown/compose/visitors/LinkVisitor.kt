@@ -23,11 +23,8 @@ object LinkVisitor : Visitor {
         val linkDestination = node.children
             .firstOrNull { it.type == MarkdownElementTypes.LINK_DESTINATION }
             ?.getTextInNode(content) ?: return
-        val linkText = node.children
-            .firstOrNull { it.type == MarkdownElementTypes.LINK_TEXT }
-            ?.getTextInNode(content)
-            ?.drop(1) // Drop "[]"
-            ?.dropLast(1) ?: return
+        val linkTextNode = node.children
+            .firstOrNull { it.type == MarkdownElementTypes.LINK_TEXT } ?: return
         val linkTextStart = builder.length
         builder.withStyle(
             SpanStyle(
@@ -35,7 +32,10 @@ object LinkVisitor : Visitor {
                 textDecoration = TextDecoration.Underline
             )
         ) {
-            append(text = linkText.toString())
+            linkTextNode.children
+                .drop(1) // Drop "[]"
+                .dropLast(1)
+                .forEach { continuation(it, content) }
         }
         val linkTextEnd = builder.length
         linkPositions[linkTextStart..linkTextEnd] = linkDestination.toString()

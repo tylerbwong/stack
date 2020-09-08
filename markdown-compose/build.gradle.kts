@@ -23,7 +23,6 @@ dependencies {
     implementation(Dep.androidxCore)
 
     // coil
-    implementation(Dep.coil)
     implementation(Dep.coilAccompanist)
 
     // compose
