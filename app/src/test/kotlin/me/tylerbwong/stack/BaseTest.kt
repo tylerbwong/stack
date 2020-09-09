@@ -21,9 +21,11 @@ abstract class BaseTest {
     protected lateinit var lifecycleOwner: TestLifecycleOwner
     protected lateinit var testSharedPreferences: SharedPreferences
 
+    private lateinit var mockCloseable: AutoCloseable
+
     @Before
     fun setUpTest() {
-        MockitoAnnotations.initMocks(this)
+        mockCloseable = MockitoAnnotations.openMocks(this)
         lifecycleOwner = TestLifecycleOwner()
         lifecycleOwner.lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
         testSharedPreferences = context.getSharedPreferences(
@@ -34,6 +36,7 @@ abstract class BaseTest {
 
     @After
     fun tearDownTest() {
+        mockCloseable.close()
         lifecycleOwner.lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     }
 
