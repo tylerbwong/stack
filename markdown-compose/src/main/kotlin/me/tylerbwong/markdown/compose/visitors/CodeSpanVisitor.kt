@@ -24,7 +24,7 @@ internal object CodeSpanVisitor : Visitor {
         builder.withStyle(
             SpanStyle(
                 fontFamily = FontFamily.Monospace,
-                background = Color.LightGray
+                background = Color.LightGray.copy(alpha = 0.5f)
             )
         ) {
             node.children

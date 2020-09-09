@@ -45,13 +45,13 @@ object CodeBlockVisitor : Visitor {
         inlineTextContent[codeBlockKey] = InlineTextContent(
             placeholder = Placeholder(
                 width = 400.sp,
-                height = 400.sp,
+                height = 72.sp,
                 placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter
             )
         ) {
             Box(
                 modifier = Modifier.fillMaxWidth(),
-                backgroundColor = Color.LightGray
+                backgroundColor = Color.LightGray.copy(alpha = 0.5f)
             ) {
                 Text(
                     text = codeBlockContent,
