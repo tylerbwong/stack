@@ -28,7 +28,7 @@ internal object TableVisitor : Visitor {
         inlineTextContent[inlineContentKey] = InlineTextContent(
             placeholder = Placeholder(250.sp, 250.sp, PlaceholderVerticalAlign.AboveBaseline)
         ) {
-            // TODO draw block quote text here
+            // TODO draw table here
             Text(text = node.getTextInNode(content).toString())
         }
         builder.appendInlineContent(inlineContentKey, inlineContentKey)
