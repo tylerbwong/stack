@@ -3,6 +3,7 @@ package me.tylerbwong.markdown.compose.builder
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.ui.text.AnnotatedString
 import me.tylerbwong.markdown.compose.visitors.BlockQuoteVisitor
+import me.tylerbwong.markdown.compose.visitors.CodeBlockVisitor
 import me.tylerbwong.markdown.compose.visitors.CodeSpanVisitor
 import me.tylerbwong.markdown.compose.visitors.EmphasisVisitor
 import me.tylerbwong.markdown.compose.visitors.EmptyVisitor
@@ -32,6 +33,7 @@ internal fun String.toMarkdownTextContent(): MarkdownTextContent {
         StrongVisitor,
         EmphasisVisitor,
         CodeSpanVisitor,
+        CodeBlockVisitor,
         ImageVisitor,
         LinkVisitor,
         StrikethroughVisitor,
