@@ -32,7 +32,7 @@ Here you can also find a few useful Gradle modules as well:
 * [dynamic-list-adapter](./dynamic-list-adapter) - An abstraction around `RecyclerView` built on `ListAdapter` for asynchronous list diffing.
 * [dynamic-list-adapter-viewbinding](./dynamic-list-adapter-viewbinding) - View Binding support for `DynamicListAdapter`.
 * [dynamic-list-adapter-extensions](./dynamic-list-adapter-extensions) - Android View Extensions support for `DynamicListAdapter`.
-* [markdown-compose](./markdown-compose) - A Jetpack Compose Markdown component using [intellij-markdown](https://github.com/valich/intellij-markdown) for parsing.
+* [markdown-compose](./markdown-compose) - A Jetpack Compose Text component that can render markdown content using [intellij-markdown](https://github.com/valich/intellij-markdown) for parsing.
 
 # License
 
