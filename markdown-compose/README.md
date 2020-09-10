@@ -5,3 +5,5 @@ This library provides a Jetpack Compose Text component `MarkdownText` for render
 It uses [intellij-markdown](https://github.com/valich/intellij-markdown) under the hood for parsing markdown content into an abstract syntax tree and then uses the [`AnnotatedString`](https://developer.android.com/reference/kotlin/androidx/compose/ui/text/AnnotatedString.html) API to display the parsed content onto a `Text` composable.
 
 In order to display inline content such as images, links, block quotes, checkboxes, etc. this library uses the [`InlineTextContent`](https://developer.android.com/reference/kotlin/androidx/compose/foundation/text/InlineTextContent) API to insert `@Composable` hierarchies within a `Text` composable itself.
+
+Check out [markdown-compose-demo](https://github.com/tylerbwong/stack/tree/master/markdown-compose-demo) for examples usages!
