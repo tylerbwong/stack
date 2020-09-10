@@ -1,5 +1,4 @@
 @file:Suppress("MagicNumber", "MaxLineLength")
-
 package me.tylerbwong.markdown.compose.demo
 
 import android.os.Bundle
