@@ -22,7 +22,7 @@ object Versions {
     const val coilAccompanist = "0.2.1"
     const val compose = "1.0.0-alpha02"
     const val constraintLayout = "2.0.0"
-    const val daggerHilt = "2.28.3-alpha"
+    const val daggerHilt = "2.29-alpha"
     const val detekt = "1.12.0"
     const val espresso = "3.1.0"
     const val firebaseAnalytics = "17.5.0"
