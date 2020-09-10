@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
                         
                         ~~Strikethrough is also supported~~
                         
-                        # _~~**`This is a test with every kind of formatting`**~~_
+                        ###### _~~**`This is a test with every kind of formatting`**~~_
                         
                         Inline images are supported as well ![Kotlin](https://developer.android.com/images/jetpack/info-bytes-compose-less-code.png)!
                         Reference images are coming soon!

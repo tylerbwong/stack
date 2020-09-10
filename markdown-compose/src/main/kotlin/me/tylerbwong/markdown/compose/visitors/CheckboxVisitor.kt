@@ -42,8 +42,7 @@ internal object CheckboxVisitor : Visitor {
             Row {
                 Checkbox(
                     checked = node.isChecked(nodeText),
-                    onCheckedChange = {},
-                    modifier = Modifier.clickable(enabled = false, onClick = {})
+                    onCheckedChange = {}
                 )
                 Spacer(modifier = Modifier.width(2.dp))
             }
