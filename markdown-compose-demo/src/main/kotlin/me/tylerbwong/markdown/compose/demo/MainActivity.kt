@@ -58,6 +58,9 @@ class MainActivity : AppCompatActivity() {
                             println("I am a code block!")
                         }
                         ```
+                        
+                        - [ ] I am an ~~unchecked~~ checkbox
+                        - [x] I am a [checked checkbox](https://google.com)
                     """.trimIndent(),
                     onLinkClicked = { link -> Toast.makeText(this@MainActivity, "Link clicked: $link", Toast.LENGTH_LONG).show() }
                 )

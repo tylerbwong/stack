@@ -7,6 +7,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.ast.ASTNode
+import org.intellij.markdown.flavours.gfm.GFMTokenTypes
 
 internal object UnorderedListItemVisitor : Visitor {
 
@@ -22,8 +23,14 @@ internal object UnorderedListItemVisitor : Visitor {
         linkPositions: MutableMap<IntRange, String>,
         continuation: Continuation
     ) {
-        builder.withStyle(SpanStyle(fontWeight = FontWeight.ExtraBold)) {
-            append("    $BULLET_CHAR ")
+        val isCheckboxItem = node.parent?.children?.any {
+            it.type == GFMTokenTypes.CHECK_BOX
+        } ?: false
+        // Only append bullet if this isn't a Checkbox item
+        if (!isCheckboxItem) {
+            builder.withStyle(SpanStyle(fontWeight = FontWeight.ExtraBold)) {
+                append("    $BULLET_CHAR ")
+            }
         }
     }
 }

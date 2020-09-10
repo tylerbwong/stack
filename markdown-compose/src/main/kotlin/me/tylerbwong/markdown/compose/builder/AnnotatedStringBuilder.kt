@@ -4,6 +4,7 @@ import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.AnnotatedString
 import me.tylerbwong.markdown.compose.visitors.BlockQuoteVisitor
+import me.tylerbwong.markdown.compose.visitors.CheckboxVisitor
 import me.tylerbwong.markdown.compose.visitors.CodeBlockVisitor
 import me.tylerbwong.markdown.compose.visitors.CodeSpanVisitor
 import me.tylerbwong.markdown.compose.visitors.EmphasisVisitor
@@ -41,7 +42,8 @@ internal fun String.toMarkdownTextContent(typography: Typography): MarkdownTextC
         UnorderedListItemVisitor,
         OrderedListItemVisitor,
         BlockQuoteVisitor,
-        TableVisitor
+        TableVisitor,
+        CheckboxVisitor
     )
 
     fun AnnotatedString.Builder.buildMarkdown(

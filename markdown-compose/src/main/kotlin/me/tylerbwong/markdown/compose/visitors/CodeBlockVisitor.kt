@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 
-object CodeBlockVisitor : Visitor {
+internal object CodeBlockVisitor : Visitor {
 
     override val acceptedTypes = setOf(
         MarkdownElementTypes.CODE_FENCE,
