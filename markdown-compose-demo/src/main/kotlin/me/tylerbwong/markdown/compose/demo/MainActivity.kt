@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
                         Inline images are supported as well ![Kotlin](https://developer.android.com/images/jetpack/info-bytes-compose-less-code.png)!
                         Reference images are coming soon!
                         
-                        Inline [links](https://google.com) are now also supported! Here is an example of
+                        Inline [`links`](https://google.com) are now also supported! Here is an example of
                         [another link](https://tylerbwong.me).
                         
                         ##### Unordered lists
