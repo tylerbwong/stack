@@ -9,7 +9,7 @@ internal object HeaderContentVisitor : Visitor {
 
     override val acceptedTypes = setOf(MarkdownTokenTypes.ATX_CONTENT)
 
-    override fun accept(
+    override fun visit(
         node: ASTNode,
         builder: AnnotatedString.Builder,
         content: String,

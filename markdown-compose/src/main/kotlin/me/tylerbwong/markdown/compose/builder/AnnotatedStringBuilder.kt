@@ -1,6 +1,7 @@
 package me.tylerbwong.markdown.compose.builder
 
 import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.material.Typography
 import androidx.compose.ui.text.AnnotatedString
 import me.tylerbwong.markdown.compose.visitors.BlockQuoteVisitor
 import me.tylerbwong.markdown.compose.visitors.CodeBlockVisitor
@@ -21,14 +22,14 @@ import org.intellij.markdown.ast.getTextInNode
 import org.intellij.markdown.flavours.gfm.GFMFlavourDescriptor
 import org.intellij.markdown.parser.MarkdownParser
 
-internal fun String.toMarkdownTextContent(): MarkdownTextContent {
+internal fun String.toMarkdownTextContent(typography: Typography): MarkdownTextContent {
     val flavour = GFMFlavourDescriptor()
     val rootNode = MarkdownParser(flavour).buildMarkdownTreeFromString(this)
     val inlineTextContent = mutableMapOf<String, InlineTextContent>()
     val linkPositions = mutableMapOf<IntRange, String>()
     val visitors = listOf(
         EmptyVisitor,
-        HeaderVisitor,
+        HeaderVisitor(typography),
         HeaderContentVisitor,
         StrongVisitor,
         EmphasisVisitor,
@@ -49,7 +50,7 @@ internal fun String.toMarkdownTextContent(): MarkdownTextContent {
     ): AnnotatedString.Builder {
         val visitor = visitors.firstOrNull { it.shouldVisit(node) }
         if (visitor != null) {
-            visitor.accept(
+            visitor.visit(
                 node,
                 this,
                 content,

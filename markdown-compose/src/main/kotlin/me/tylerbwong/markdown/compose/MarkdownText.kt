@@ -1,6 +1,7 @@
 package me.tylerbwong.markdown.compose
 
 import androidx.compose.foundation.Text
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,7 +28,11 @@ fun MarkdownText(
 ) {
     val content by remember(markdown) { mutableStateOf(markdown) }
     var layoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
-    val (annotatedString, inlineContent, linkPositions) = content.toMarkdownTextContent()
+    val (
+        annotatedString,
+        inlineContent,
+        linkPositions
+    ) = content.toMarkdownTextContent(MaterialTheme.typography)
     val tapGestureFilter = Modifier.tapGestureFilter { offset ->
         layoutResult?.let { result ->
             val offsetForPosition = result.getOffsetForPosition(offset)

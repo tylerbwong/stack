@@ -25,7 +25,7 @@ object CodeBlockVisitor : Visitor {
         MarkdownElementTypes.CODE_BLOCK
     )
 
-    override fun accept(
+    override fun visit(
         node: ASTNode,
         builder: AnnotatedString.Builder,
         content: String,

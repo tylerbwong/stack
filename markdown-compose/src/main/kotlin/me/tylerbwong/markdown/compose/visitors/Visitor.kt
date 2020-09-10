@@ -14,7 +14,7 @@ internal interface Visitor {
 
     val acceptedTypes: Set<IElementType>
 
-    fun accept(
+    fun visit(
         node: ASTNode,
         builder: AnnotatedString.Builder,
         content: String,

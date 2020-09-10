@@ -14,7 +14,7 @@ object LinkVisitor : Visitor {
 
     override val acceptedTypes = setOf(MarkdownElementTypes.INLINE_LINK)
 
-    override fun accept(
+    override fun visit(
         node: ASTNode,
         builder: AnnotatedString.Builder,
         content: String,

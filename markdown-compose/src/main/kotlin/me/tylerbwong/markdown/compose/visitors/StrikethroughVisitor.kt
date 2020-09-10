@@ -12,7 +12,7 @@ internal object StrikethroughVisitor : Visitor {
 
     override val acceptedTypes = setOf(GFMElementTypes.STRIKETHROUGH)
 
-    override fun accept(
+    override fun visit(
         node: ASTNode,
         builder: AnnotatedString.Builder,
         content: String,

@@ -15,7 +15,7 @@ internal object OrderedListItemVisitor : Visitor {
 
     override val acceptedTypes = setOf(MarkdownTokenTypes.LIST_NUMBER)
 
-    override fun accept(
+    override fun visit(
         node: ASTNode,
         builder: AnnotatedString.Builder,
         content: String,

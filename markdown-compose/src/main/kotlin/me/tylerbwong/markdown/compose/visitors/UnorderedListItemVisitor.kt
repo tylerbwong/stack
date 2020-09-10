@@ -14,7 +14,7 @@ internal object UnorderedListItemVisitor : Visitor {
 
     override val acceptedTypes = setOf(MarkdownTokenTypes.LIST_BULLET)
 
-    override fun accept(
+    override fun visit(
         node: ASTNode,
         builder: AnnotatedString.Builder,
         content: String,

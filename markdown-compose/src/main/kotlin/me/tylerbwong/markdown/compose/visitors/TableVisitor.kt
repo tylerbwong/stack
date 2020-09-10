@@ -16,7 +16,7 @@ internal object TableVisitor : Visitor {
 
     override val acceptedTypes = setOf(GFMElementTypes.TABLE)
 
-    override fun accept(
+    override fun visit(
         node: ASTNode,
         builder: AnnotatedString.Builder,
         content: String,

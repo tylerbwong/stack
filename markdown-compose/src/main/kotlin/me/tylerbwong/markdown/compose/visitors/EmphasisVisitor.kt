@@ -12,7 +12,7 @@ internal object EmphasisVisitor : Visitor {
 
     override val acceptedTypes = setOf(MarkdownElementTypes.EMPH)
 
-    override fun accept(
+    override fun visit(
         node: ASTNode,
         builder: AnnotatedString.Builder,
         content: String,

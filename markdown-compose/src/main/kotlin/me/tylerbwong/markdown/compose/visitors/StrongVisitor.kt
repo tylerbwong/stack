@@ -12,7 +12,7 @@ internal object StrongVisitor : Visitor {
 
     override val acceptedTypes = setOf(MarkdownElementTypes.STRONG)
 
-    override fun accept(
+    override fun visit(
         node: ASTNode,
         builder: AnnotatedString.Builder,
         content: String,

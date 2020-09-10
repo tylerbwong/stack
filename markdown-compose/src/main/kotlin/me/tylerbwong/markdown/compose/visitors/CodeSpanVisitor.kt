@@ -13,7 +13,7 @@ internal object CodeSpanVisitor : Visitor {
 
     override val acceptedTypes = setOf(MarkdownElementTypes.CODE_SPAN)
 
-    override fun accept(
+    override fun visit(
         node: ASTNode,
         builder: AnnotatedString.Builder,
         content: String,

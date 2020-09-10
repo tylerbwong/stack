@@ -26,7 +26,7 @@ internal object BlockQuoteVisitor : Visitor {
 
     override val acceptedTypes = setOf(MarkdownElementTypes.BLOCK_QUOTE)
 
-    override fun accept(
+    override fun visit(
         node: ASTNode,
         builder: AnnotatedString.Builder,
         content: String,

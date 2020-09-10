@@ -15,7 +15,7 @@ internal object EmptyVisitor : Visitor {
         MarkdownElementTypes.LIST_ITEM
     )
 
-    override fun accept(
+    override fun visit(
         node: ASTNode,
         builder: AnnotatedString.Builder,
         content: String,
