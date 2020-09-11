@@ -7,6 +7,7 @@ plugins {
 android {
     buildFeatures {
         compose = true
+        buildConfig = false
     }
 
     composeOptions {
