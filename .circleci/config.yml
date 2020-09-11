@@ -83,15 +83,15 @@ workflows:
       - unit-tests:
           name: unit-tests-stack
           target: app
-      - build:
-          name: build-stack-debug
+      - build-apk:
+          name: build-apk-stack-debug
           target: app
           variant: Debug
-      - build:
-          name: build-stack-release
+      - build-apk:
+          name: build-apk-stack-release
           target: app
           variant: Release
-      - build:
-          name: build-markdown-compose-debug
+      - build-apk:
+          name: build-apk-markdown-compose-debug
           target: markdown-compose-demo
           variant: Debug
