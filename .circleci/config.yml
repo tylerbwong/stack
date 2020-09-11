@@ -10,6 +10,9 @@ jobs:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
@@ -38,6 +41,9 @@ jobs:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "<< parameters.target >>/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
@@ -63,6 +69,9 @@ jobs:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "<< parameters.target >>/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
