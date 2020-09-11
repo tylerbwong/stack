@@ -10,12 +10,6 @@ jobs:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
-      - run:
-          name: Accept Android licenses
-          command: sdkmanager --licenses
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
@@ -32,6 +26,9 @@ jobs:
 
   build:
     parameters:
+      target:
+        type: string
+        description: The target to assemble.
       variant:
         type: string
         description: The variant to assemble.
@@ -43,25 +40,23 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
-      - run:
-          name: Accept Android licenses
-          command: sdkmanager --licenses
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "<< parameters.target >>/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "<< parameters.target >>/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
       - run:
           name: Run Build
-          command: ./gradlew :app:assemble<< parameters.variant>>
+          command: ./gradlew :<< parameters.target >>:assemble<< parameters.variant>>
       - store_artifacts:
-          path: app/build/outputs/apk
-          destination: build/outputs/apk
+          path: << parameters.target >>/build/outputs/apk
+          destination: << parameters.target >>/build/outputs/apk
 
   unit-tests:
+    parameters:
+      target:
+        type: string
+        description: The target to assemble.
     working_directory: ~/code
     docker:
       - image: circleci/android:api-30
@@ -70,34 +65,40 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
-      - run:
-          name: Accept Android licenses
-          command: sdkmanager --licenses
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "<< parameters.target >>/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "<< parameters.target >>/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
       - run:
           name: Run Unit Tests
-          command: ./gradlew :app:testDebugUnitTest
+          command: ./gradlew :<< parameters.target >>:testDebugUnitTest
       - store_test_results:
           path: app/build/test-results
       - store_artifacts:
-          path: app/build/reports/tests/testDebugUnitTest
-          destination: build/reports/tests/testDebugUnitTest
+          path: << parameters.target >>/build/reports/tests/testDebugUnitTest
+          destination: << parameters.target >>/build/reports/tests/testDebugUnitTest
 
 workflows:
   build-test:
     jobs:
       - static-analysis
-      - unit-tests
+      - unit-tests:
+          name: unit-tests-stack
+          target: app
       - build:
-          name: build-debug
+          name: build-stack-debug
+          target: app
           variant: Debug
       - build:
-          name: build-release
+          name: build-stack-release
+          target: app
+          variant: Release
+      - build:
+          name: build-markdown-compose-debug
+          target: markdown-compose-demo
+          variant: Debug
+      - build:
+          name: build-markdown-compose-release
+          target: markdown-compose-demo
           variant: Release

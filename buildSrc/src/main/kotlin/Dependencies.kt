@@ -33,7 +33,7 @@ object Versions {
     const val intellijMarkdown = "0.1.45"
     const val jUnit = "4.13"
     const val klock = "2.0.0-alpha-1.4.0-rc"
-    const val kotlin = "1.4.0"
+    const val kotlin = "1.4.10"
     const val kotlinxCoroutines = "1.3.9"
     const val ktlint = "0.38.1"
     const val ktlintGradle = "9.3.0"
