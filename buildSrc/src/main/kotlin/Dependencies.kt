@@ -21,7 +21,7 @@ object Versions {
     const val coil = "0.11.0"
     const val coilAccompanist = "0.2.1"
     const val compose = "1.0.0-alpha02"
-    const val constraintLayout = "2.0.0"
+    const val constraintLayout = "2.0.1"
     const val daggerHilt = "2.29.1-alpha"
     const val detekt = "1.12.0"
     const val espresso = "3.1.0"
