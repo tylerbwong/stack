@@ -13,7 +13,6 @@ import me.tylerbwong.stack.data.auth.AuthInterceptor
 import me.tylerbwong.stack.data.network.SiteInterceptor
 import okhttp3.Call
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Singleton
 
@@ -57,7 +56,5 @@ class NetworkModule {
     @Provides
     fun provideCallFactory(
         okHttpClient: Lazy<OkHttpClient>
-    ) = object : Call.Factory {
-        override fun newCall(request: Request) = okHttpClient.get().newCall(request)
-    }
+    ) = Call.Factory { request -> okHttpClient.get().newCall(request) }
 }
