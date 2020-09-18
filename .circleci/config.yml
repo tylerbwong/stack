@@ -92,6 +92,9 @@ workflows:
       - unit-tests:
           name: unit-tests-stack
           target: app
+      - unit-tests:
+          name: unit-tests-markdown-compose
+          target: markdown-compose
       - build-apk:
           name: build-apk-stack-debug
           target: app
