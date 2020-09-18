@@ -28,9 +28,8 @@ class ProfileViewModel @ViewModelInject constructor(
 
     internal fun getUserQuestionsAndAnswers() {
         launchRequest {
-            _userData.value = service.getUser(userId).items.firstOrNull()
+            user = service.getUser(userId).items.firstOrNull()?.also { _userData.value = it }
             _questionsData.value = service.getUserQuestionsById(userId).items.map { QuestionItem(it) }
-            user = questionsData.value?.firstOrNull()?.question?.owner
         }
     }
 
