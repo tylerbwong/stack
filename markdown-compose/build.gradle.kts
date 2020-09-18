@@ -34,4 +34,9 @@ dependencies {
 
     // markdown
     implementation(Dep.intellijMarkdown)
+
+    // testing
+    testImplementation(Dep.jUnit)
+    testImplementation(Dep.mockito)
+    testImplementation(Dep.mockitoKotlin)
 }

@@ -20,12 +20,16 @@ import me.tylerbwong.markdown.compose.visitors.TableVisitor
 import me.tylerbwong.markdown.compose.visitors.UnorderedListItemVisitor
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.ast.getTextInNode
+import org.intellij.markdown.flavours.MarkdownFlavourDescriptor
 import org.intellij.markdown.flavours.gfm.GFMFlavourDescriptor
 import org.intellij.markdown.parser.MarkdownParser
 
+internal fun String.toAstNode(
+    flavourDescriptor: MarkdownFlavourDescriptor = GFMFlavourDescriptor()
+): ASTNode = MarkdownParser(flavourDescriptor).buildMarkdownTreeFromString(this)
+
 internal fun String.toMarkdownTextContent(typography: Typography): MarkdownTextContent {
-    val flavour = GFMFlavourDescriptor()
-    val rootNode = MarkdownParser(flavour).buildMarkdownTreeFromString(this)
+    val rootNode = toAstNode()
     val inlineTextContent = mutableMapOf<String, InlineTextContent>()
     val linkPositions = mutableMapOf<IntRange, String>()
     val visitors = listOf(

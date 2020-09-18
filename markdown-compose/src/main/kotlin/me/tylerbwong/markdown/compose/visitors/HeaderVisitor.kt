@@ -40,7 +40,6 @@ internal class HeaderVisitor(private val typography: Typography) : Visitor {
         }
     }
 
-    @Suppress("MagicNumber")
     private fun resolveHeaderTextStyle(nodeType: IElementType): TextStyle {
         return with(typography) {
             when (nodeType) {
