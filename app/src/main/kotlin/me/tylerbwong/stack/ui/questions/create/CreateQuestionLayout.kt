@@ -223,7 +223,7 @@ private fun LabeledCheckbox(
     val primaryTextColor = colorResource(R.color.primaryTextColor)
     val colorAccent = colorResource(R.color.colorAccent)
 
-    Row(verticalGravity = Alignment.CenterVertically) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(
             checked = checked,
             onCheckedChange = onCheckedChange,

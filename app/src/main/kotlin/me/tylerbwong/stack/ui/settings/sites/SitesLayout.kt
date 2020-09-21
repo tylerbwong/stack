@@ -54,7 +54,7 @@ fun SiteItem(
                     RippleIndication()
                 }
             ) { onSiteSelected(site) },
-        verticalGravity = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically
     ) {
         CoilImage(
             data = site.iconUrl,
