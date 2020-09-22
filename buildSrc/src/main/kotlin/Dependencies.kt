@@ -18,7 +18,7 @@ object Versions {
     const val apacheCommonsText = "1.9"
     const val betterLinkMovementMethod = "2.2.0"
     const val chucker = "3.2.0"
-    const val coil = "1.0.0-rc2"
+    const val coil = "1.0.0-rc3"
     const val coilAccompanist = "0.2.2"
     const val compose = "1.0.0-alpha03"
     const val constraintLayout = "2.0.1"
