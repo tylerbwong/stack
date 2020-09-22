@@ -85,7 +85,6 @@ class StackPlugin : Plugin<Project> {
 
         project.tasks.withType<KotlinCompile>().configureEach {
             kotlinOptions {
-                freeCompilerArgs = listOf("-Xjvm-default=all")
                 jvmTarget = JavaVersion.VERSION_1_8.toString()
                 useIR = true
             }
