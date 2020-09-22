@@ -5,13 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.insetter.Insetter
+import dev.chrisbanes.insetter.applySystemWindowInsetsToMargin
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.ActivityQuestionDetailBinding
 import me.tylerbwong.stack.ui.BaseActivity
@@ -66,20 +64,12 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
 
     override fun applyFullscreenWindowInsets() {
         super.applyFullscreenWindowInsets()
-        Insetter.builder().setOnApplyInsetsListener { view, insets, initialState ->
-            (view.layoutParams as? ViewGroup.MarginLayoutParams)?.let {
-                view.layoutParams = it.apply {
-                    setMargins(
-                        leftMargin,
-                        topMargin,
-                        rightMargin,
-                        initialState.margins.bottom + insets.getInsets(
-                            WindowInsetsCompat.Type.systemBars()
-                        ).bottom
-                    )
-                }
-            }
-        }.applyToView(binding.postAnswerButton)
+        binding.postAnswerButton.applySystemWindowInsetsToMargin(
+            left = true,
+            top = true,
+            right = true,
+            bottom = true
+        )
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

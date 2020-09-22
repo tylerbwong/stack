@@ -23,7 +23,7 @@ class SitesActivity : BaseActivity<ActivitySettingsBinding>(ActivitySettingsBind
 
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.frameContainer, SitesFragment())
+            .replace(R.id.frameContainer, SitesFragment())
             .commit()
     }
 

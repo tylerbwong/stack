@@ -23,6 +23,7 @@ import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.InstallStatus
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
+import dev.chrisbanes.insetter.applySystemGestureInsetsToPadding
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.AppUpdater
 import me.tylerbwong.stack.data.auth.AuthStore
