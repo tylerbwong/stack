@@ -55,63 +55,74 @@ object ThemeManager {
 
     @Suppress("deprecation")
     private fun setLightStatusBarIfSupported(activity: Activity) {
+        val window = activity.window
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            activity.window.insetsController?.setSystemBarsAppearance(
-                APPEARANCE_LIGHT_STATUS_BARS,
-                APPEARANCE_LIGHT_STATUS_BARS
-            )
+            window.decorView.viewTreeObserver.addOnGlobalLayoutListener {
+                window.insetsController?.setSystemBarsAppearance(
+                    APPEARANCE_LIGHT_STATUS_BARS,
+                    APPEARANCE_LIGHT_STATUS_BARS
+                )
+            }
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            var flags = activity.window.decorView.systemUiVisibility
+            val decorView = window.decorView
+            var flags = decorView.systemUiVisibility
             flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            activity.window.decorView.systemUiVisibility = flags
+            decorView.systemUiVisibility = flags
         }
     }
 
     @Suppress("deprecation")
     private fun removeLightStatusBarIfSupported(activity: Activity) {
+        val window = activity.window
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            activity.window.insetsController?.setSystemBarsAppearance(
-                0,
-                APPEARANCE_LIGHT_STATUS_BARS
-            )
+            window.decorView.viewTreeObserver.addOnGlobalLayoutListener {
+                window.insetsController?.setSystemBarsAppearance(0, APPEARANCE_LIGHT_STATUS_BARS)
+            }
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            var flags = activity.window.decorView.systemUiVisibility
+            val decorView = window.decorView
+            var flags = decorView.systemUiVisibility
             flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-            activity.window.decorView.systemUiVisibility = flags
+            decorView.systemUiVisibility = flags
         }
     }
 
     @Suppress("deprecation")
     private fun setLightNavigationBarIfSupported(activity: Activity) {
+        val window = activity.window
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> {
-                activity.window.insetsController?.setSystemBarsAppearance(
-                    APPEARANCE_LIGHT_NAVIGATION_BARS,
-                    APPEARANCE_LIGHT_NAVIGATION_BARS
-                )
+                window.decorView.viewTreeObserver.addOnGlobalLayoutListener {
+                    window.insetsController?.setSystemBarsAppearance(
+                        APPEARANCE_LIGHT_NAVIGATION_BARS,
+                        APPEARANCE_LIGHT_NAVIGATION_BARS
+                    )
+                }
             }
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
-                var flags = activity.window.decorView.systemUiVisibility
+                val decorView = window.decorView
+                var flags = decorView.systemUiVisibility
                 flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-                activity.window.decorView.systemUiVisibility = flags
+                decorView.systemUiVisibility = flags
             }
-            else -> {
-                activity.window.navigationBarColor = ContextCompat.getColor(activity, R.color.black)
-            }
+            else -> window.navigationBarColor = ContextCompat.getColor(activity, R.color.black)
         }
     }
 
     @Suppress("deprecation")
     private fun removeLightNavigationBarIfSupported(activity: Activity) {
+        val window = activity.window
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            activity.window.insetsController?.setSystemBarsAppearance(
-                0,
-                APPEARANCE_LIGHT_NAVIGATION_BARS
-            )
+            window.decorView.viewTreeObserver.addOnGlobalLayoutListener {
+                window.insetsController?.setSystemBarsAppearance(
+                    0,
+                    APPEARANCE_LIGHT_NAVIGATION_BARS
+                )
+            }
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            var flags = activity.window.decorView.systemUiVisibility
+            val decorView = window.decorView
+            var flags = decorView.systemUiVisibility
             flags = flags and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
-            activity.window.decorView.systemUiVisibility = flags
+            decorView.systemUiVisibility = flags
         }
     }
 
