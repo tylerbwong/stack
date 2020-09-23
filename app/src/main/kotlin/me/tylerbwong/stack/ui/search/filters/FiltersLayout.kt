@@ -1,11 +1,13 @@
 package me.tylerbwong.stack.ui.search.filters
 
-import androidx.compose.foundation.Box
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -14,6 +16,8 @@ import androidx.compose.material.Slider
 import androidx.compose.material.Switch
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -24,44 +28,143 @@ import androidx.compose.ui.unit.dp
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.ui.utils.colorAttribute
+import me.tylerbwong.stack.ui.utils.quantityResource
 
 @Composable
 fun FiltersLayout(
-    initialPayload: SearchPayload = SearchPayload.empty(),
-    onUpdateFilters: (SearchPayload) -> Unit = {}
+    initialPayload: SearchPayload,
+    onUpdateFilters: (SearchPayload) -> Unit,
+    onApplyClicked: () -> Unit,
+    onClearClicked: () -> Unit
 ) {
-    val payload = remember { mutableStateOf(initialPayload) }
-    MaterialTheme {
-        Column(
+    val colorAccent = colorResource(R.color.colorAccent)
+    var isAccepted by remember { mutableStateOf(initialPayload.isAccepted) }
+    var isClosed by remember { mutableStateOf(initialPayload.isClosed) }
+    var sliderValue by remember {
+        mutableStateOf(initialPayload.minNumAnswers?.toFloat())
+    }
+    var titleContainsValue by remember {
+        mutableStateOf(initialPayload.titleContains?.let { TextFieldValue(it) })
+    }
+    var bodyContainsValue by remember {
+        mutableStateOf(initialPayload.bodyContains?.let { TextFieldValue(it) })
+    }
+    var tagsValue by remember {
+        mutableStateOf(initialPayload.tags?.joinToString(",")?.let { TextFieldValue(it) })
+    }
+
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(16.dp),
+        verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Text(
+            text = stringResource(R.string.filters),
+            color = colorAttribute(android.R.attr.textColorPrimary),
+            style = MaterialTheme.typography.h4
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        SwitchItem(
+            text = stringResource(R.string.has_accepted_answer),
+            isChecked = isAccepted ?: false,
+            onCheckedChange = { isChecked ->
+                isAccepted = isChecked
+                onUpdateFilters(initialPayload.copy(isAccepted = isAccepted))
+            }
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        SwitchItem(
+            text = stringResource(R.string.is_closed),
+            isChecked = isClosed ?: false,
+            onCheckedChange = { isChecked ->
+                isClosed = isChecked
+                onUpdateFilters(initialPayload.copy(isClosed = isClosed))
+            }
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = quantityResource(R.plurals.has_min_answers, sliderValue?.toInt() ?: 0),
+            color = colorAttribute(android.R.attr.textColorPrimary),
+            style = MaterialTheme.typography.caption
+        )
+        Slider(
+            value = sliderValue ?: 0f,
+            onValueChange = {
+                sliderValue = it
+                onUpdateFilters(initialPayload.copy(minNumAnswers = it.toInt()))
+            },
+            valueRange = 0f..50f,
+            thumbColor = colorAccent,
+            activeTrackColor = colorAccent,
+            inactiveTrackColor = colorAccent,
+            activeTickColor = colorAccent,
+            inactiveTickColor = colorAccent
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        FilterTextField(
+            textValue = titleContainsValue ?: TextFieldValue(),
+            onValueChanged = {
+                titleContainsValue = it
+                onUpdateFilters(initialPayload.copy(titleContains = it.text))
+            },
+            label = {
+                Text(
+                    text = stringResource(R.string.title_contains_title),
+                    color = colorAccent
+                )
+            }
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        FilterTextField(
+            textValue = bodyContainsValue ?: TextFieldValue(),
+            onValueChanged = {
+                bodyContainsValue = it
+                onUpdateFilters(initialPayload.copy(bodyContains = it.text))
+            },
+            label = {
+                Text(
+                    text = stringResource(R.string.body_contains_title),
+                    color = colorAccent
+                )
+            }
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        FilterTextField(
+            textValue = tagsValue ?: TextFieldValue(),
+            onValueChanged = {
+                tagsValue = it
+                onUpdateFilters(
+                    initialPayload.copy(
+                        tags = it.text.split(",").map { tag -> tag.trim() }
+                    )
+                )
+            },
+            label = {
+                Text(
+                    text = stringResource(R.string.tags_title),
+                    color = colorAccent
+                )
+            }
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = { onApplyClicked() },
             modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.SpaceEvenly
+            backgroundColor = colorAccent,
+            contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp)
         ) {
             Text(
-                modifier = Modifier.padding(16.dp),
-                text = stringResource(R.string.filters),
-                style = MaterialTheme.typography.h4,
-                color = colorAttribute(android.R.attr.textColorPrimary)
+                text = stringResource(R.string.apply_filters),
+                color = colorResource(R.color.viewBackgroundColor)
             )
-            SwitchItem(
-                text = stringResource(R.string.has_accepted_answer),
-                isChecked = payload.value.isAccepted ?: false,
-                onCheckedChange = { isChecked ->
-                    val newPayload = payload.value.copy(isAccepted = isChecked)
-                    payload.value = newPayload
-                    onUpdateFilters(newPayload)
-                },
-                modifier = Modifier.padding(16.dp)
-            )
-            SwitchItem(
-                text = stringResource(R.string.is_closed),
-                isChecked = payload.value.isClosed ?: false,
-                onCheckedChange = { isChecked ->
-                    val newPayload = payload.value.copy(isClosed = isChecked)
-                    payload.value = newPayload
-                    onUpdateFilters(newPayload)
-                },
-                modifier = Modifier.padding(16.dp)
-            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        TextButton(
+            onClick = { onClearClicked() },
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp),
+            contentColor = colorAccent
+        ) {
+            Text(text = stringResource(R.string.clear_filters))
         }
     }
 }
@@ -70,11 +173,10 @@ fun FiltersLayout(
 private fun SwitchItem(
     text: String,
     isChecked: Boolean = false,
-    onCheckedChange: (Boolean) -> Unit = {},
-    modifier: Modifier = Modifier
+    onCheckedChange: (Boolean) -> Unit = {}
 ) {
     Row(
-        modifier = modifier.then(Modifier.fillMaxWidth()),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
@@ -89,89 +191,24 @@ private fun SwitchItem(
     }
 }
 
-@Suppress("unused")
 @Composable
-private fun WorkInProgress() {
-    Text(
-        modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
-        text = "Has at least 0 answers"
-    )
-    Slider(
-        value = 0f,
-        onValueChange = {},
-        modifier = Modifier.padding(16.dp),
-        steps = 50
-    )
-    TextFieldItem(
-        text = stringResource(R.string.title_contains_title),
-        modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
-        onValueChanged = {}
-    )
-    TextFieldItem(
-        text = stringResource(R.string.body_contains_title),
-        modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
-        onValueChanged = {}
-    )
-    TextFieldItem(
-        text = stringResource(R.string.tags_title),
-        modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
-        onValueChanged = {}
-    )
-    ButtonItem(
-        text = stringResource(R.string.apply_filters),
-        modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
-        onClick = {}
-    )
-    TextButtonItem(
-        text = stringResource(R.string.clear_filters),
-        modifier = Modifier.padding(16.dp),
-        onClick = {}
-    )
-}
-
-@Composable
-private fun TextFieldItem(
-    text: String,
-    modifier: Modifier = Modifier,
-    onValueChanged: (TextFieldValue) -> Unit
+private fun FilterTextField(
+    textValue: TextFieldValue,
+    onValueChanged: (TextFieldValue) -> Unit,
+    label: @Composable () -> Unit
 ) {
-    Box(modifier = modifier) {
-        OutlinedTextField(
-            value = TextFieldValue(text = text),
-            onValueChange = onValueChanged,
-            label = {}
-        )
-    }
-}
-
-@Composable
-private fun ButtonItem(
-    text: String,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    Box(modifier = modifier) {
-        Button(
-            onClick = onClick,
-            modifier = Modifier.fillMaxWidth().padding(16.dp)
-        ) {
-            Text(text = text)
-        }
-    }
-}
-
-@Composable
-private fun TextButtonItem(
-    text: String,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    Box(modifier = modifier) {
-        TextButton(
-            onClick = onClick,
-            modifier = Modifier.fillMaxWidth().padding(16.dp)
-        ) {
-            Text(text = text)
-        }
-    }
+    OutlinedTextField(
+        value = textValue,
+        onValueChange = {
+            // Single line hack
+            if (!it.text.contains("\n")) {
+                onValueChanged(it)
+            }
+        },
+        modifier = Modifier.fillMaxWidth(),
+        textStyle = MaterialTheme.typography.body2,
+        label = label,
+        activeColor = colorResource(R.color.colorAccent),
+        inactiveColor = colorResource(R.color.iconColor)
+    )
 }
