@@ -1,5 +1,5 @@
 object Versions {
-    const val androidGradlePlugin = "4.2.0-alpha11"
+    const val androidGradlePlugin = "4.2.0-alpha12"
     const val androidxActivity = "1.2.0-alpha08"
     const val androidxAppCompat = "1.3.0-alpha02"
     const val androidxBrowser = "1.3.0-alpha05"
