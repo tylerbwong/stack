@@ -24,6 +24,12 @@ The goal of this project is to provide examples for the latest Android libraries
 * Dark mode
 * Question deep linking
 
+### Open testing
+
+Stack is currently in open testing. You can enroll on Google Play by clicking the badge below.
+
+<a href="https://play.google.com/apps/testing/me.tylerbwong.stack"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height=80px /></a>
+
 ### Subprojects
 
 Here you can also find a few useful Gradle modules as well:
