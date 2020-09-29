@@ -45,18 +45,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.content.setContent(Recomposer.current()) {
-            FiltersLayout(
-                initialPayload = viewModel.currentPayload,
-                onUpdateFilters = { viewModel.currentPayload = it },
-                onApplyClicked = {
-                    viewModel.applyFilters()
-                    dismissAllowingStateLoss()
-                },
-                onClearClicked = {
-                    viewModel.clearFilters()
-                    dismissAllowingStateLoss()
-                }
-            )
+            FiltersLayout(::dismissAllowingStateLoss)
         }
     }
 

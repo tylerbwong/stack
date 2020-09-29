@@ -46,7 +46,7 @@ class SearchFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
         }
 
         viewModel.siteLiveData.observe(viewLifecycleOwner) {
-            viewModel.search(SearchPayload.empty())
+            viewModel.search()
         }
 
         viewModel.refreshing.observe(viewLifecycleOwner) {
