@@ -13,6 +13,7 @@ import me.tylerbwong.stack.data.persistence.entity.QuestionEntity
 import me.tylerbwong.stack.data.persistence.entity.SearchEntity
 import me.tylerbwong.stack.data.persistence.entity.SiteEntity
 import me.tylerbwong.stack.data.persistence.entity.UserEntity
+import me.tylerbwong.stack.ui.utils.toHtml
 
 fun Question.toQuestionEntity(sortString: String): QuestionEntity =
     QuestionEntity(
@@ -106,7 +107,7 @@ fun UserEntity.toUser(): User =
 fun AnswerDraftEntity.toAnswerDraft(): AnswerDraft =
     AnswerDraft(
         questionId = questionId,
-        questionTitle = questionTitle,
+        questionTitle = questionTitle.toHtml().toString(),
         updatedDate = updatedDate,
         bodyMarkdown = bodyMarkdown,
         site = site

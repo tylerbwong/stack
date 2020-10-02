@@ -2,26 +2,21 @@ package me.tylerbwong.stack.ui.drafts
 
 import android.os.Bundle
 import android.view.View
+import androidx.compose.runtime.Recomposer
+import androidx.compose.ui.platform.setContent
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.AnswerDraft
-import me.tylerbwong.stack.databinding.HomeFragmentBinding
+import me.tylerbwong.stack.databinding.HomeComposeFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
-import me.tylerbwong.stack.ui.home.AnswerDraftItem
-import me.tylerbwong.stack.ui.home.HeaderItem
-import me.tylerbwong.stack.ui.home.HomeItem
-import me.tylerbwong.stack.ui.home.HomeItemDiffCallback
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
-class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::inflate) {
-
+class DraftsFragment : BaseFragment<HomeComposeFragmentBinding>(
+    HomeComposeFragmentBinding::inflate
+) {
     private val viewModel by viewModels<DraftsViewModel>()
-    private val adapter = DynamicListAdapter(HomeItemDiffCallback)
     private var snackbar: Snackbar? = null
 
     private val bottomNav by lazy { activity?.findViewById<View>(R.id.bottomNav) }
@@ -33,6 +28,11 @@ class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.content.setContent(Recomposer.current()) {
+            Drafts()
+        }
+
         viewModel.siteLiveData.observe(viewLifecycleOwner) {
             viewModel.fetchDrafts()
         }
@@ -52,32 +52,11 @@ class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
                 snackbar?.dismiss()
             }
         }
-        viewModel.answerDrafts.observe(viewLifecycleOwner, ::updateContent)
-
-        binding.recyclerView.apply {
-            adapter = this@DraftsFragment.adapter
-            layoutManager = LinearLayoutManager(context)
-        }
 
         binding.refreshLayout.setOnRefreshListener {
             viewModel.fetchDrafts()
         }
 
         viewModel.fetchDrafts()
-    }
-
-    private fun updateContent(drafts: List<AnswerDraft>) {
-        val homeItems: List<HomeItem> = listOf(
-            HeaderItem(
-                getString(R.string.drafts),
-                if (drafts.isEmpty()) {
-                    getString(R.string.nothing_here)
-                } else {
-                    null
-                }
-            )
-        )
-
-        adapter.submitList(homeItems + drafts.map { AnswerDraftItem(it) })
     }
 }

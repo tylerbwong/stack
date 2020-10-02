@@ -1,6 +1,7 @@
 package me.tylerbwong.markdown.compose
 
 import androidx.compose.foundation.Text
+import androidx.compose.foundation.currentTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -11,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.gesture.tapGestureFilter
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
@@ -24,7 +26,9 @@ fun MarkdownText(
     fontSize: TextUnit = TextUnit.Inherit,
     fontStyle: FontStyle? = null,
     fontWeight: FontWeight? = null,
-    onLinkClicked: (link: String) -> Unit = {}
+    maxLines: Int = Int.MAX_VALUE,
+    onLinkClicked: (link: String) -> Unit = {},
+    style: TextStyle = currentTextStyle()
 ) {
     val content by remember(markdown) { mutableStateOf(markdown) }
     var layoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
@@ -51,7 +55,9 @@ fun MarkdownText(
         fontSize = fontSize,
         fontStyle = fontStyle,
         fontWeight = fontWeight,
+        maxLines = maxLines,
         inlineContent = inlineContent,
-        onTextLayout = { layoutResult = it }
+        onTextLayout = { layoutResult = it },
+        style = style
     )
 }

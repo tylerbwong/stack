@@ -58,6 +58,7 @@ dependencies {
     implementation(Dep.materialComponents)
 
     // compose
+    implementation(markdownCompose())
     implementation(Dep.composeCore)
     implementation(Dep.composeFoundation)
     implementation(Dep.composeLayout)
