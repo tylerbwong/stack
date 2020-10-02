@@ -103,7 +103,3 @@ workflows:
           name: build-apk-stack-release
           target: app
           variant: Release
-      - build-apk:
-          name: build-apk-markdown-compose-debug
-          target: markdown-compose-demo
-          variant: Debug
