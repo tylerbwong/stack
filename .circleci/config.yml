@@ -9,14 +9,14 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
       - run:
           name: Run ktlint
           command: ./gradlew ktlintCheck
@@ -80,7 +80,7 @@ jobs:
           name: Run Unit Tests
           command: ./gradlew :<< parameters.target >>:testDebugUnitTest
       - store_test_results:
-          path: app/build/test-results
+          path: << parameters.target >>/build/test-results
       - store_artifacts:
           path: << parameters.target >>/build/reports/tests/testDebugUnitTest
           destination: << parameters.target >>/build/reports/tests/testDebugUnitTest
