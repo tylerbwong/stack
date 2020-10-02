@@ -3,35 +3,54 @@ package me.tylerbwong.stack.ui.settings.sites
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.compose.ui.platform.setContent
+import androidx.viewbinding.ViewBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.databinding.ActivitySettingsBinding
 import me.tylerbwong.stack.ui.BaseActivity
+import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
-class SitesActivity : BaseActivity<ActivitySettingsBinding>(ActivitySettingsBinding::inflate) {
+class SitesActivity : BaseActivity<ViewBinding>(
+    bindingProvider = null // TODO Remove when Hilt supports default constructor values
+) {
+    private val viewModel by viewModels<SitesViewModel>()
+
+    private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSupportActionBar(binding.toolbar)
-
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            title = getString(R.string.sites)
+        setContent {
+            SitesScreen(::changeSite, ::onBackPressed)
         }
 
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.frameContainer, SitesFragment())
-            .commit()
+        viewModel.snackbar.observe(this) {
+            if (it != null) {
+                window?.decorView?.post {
+                    snackbar = window?.decorView?.showSnackbar(
+                        R.string.network_error,
+                        duration = Snackbar.LENGTH_LONG
+                    )
+                }
+            } else {
+                snackbar?.dismiss()
+            }
+        }
+        viewModel.logOutState.observe(this) { state ->
+            when (state) {
+                is SiteLogOutResult.SiteLogOutSuccess -> changeSite(state.siteParameter)
+                else -> Unit // No-op
+            }
+        }
+
+        viewModel.fetchSites()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> onBackPressed()
-        }
-        return super.onOptionsItemSelected(item)
+    private fun changeSite(siteParameter: String) {
+        viewModel.changeSite(siteParameter)
+        finish()
     }
 
     companion object {
