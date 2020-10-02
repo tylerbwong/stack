@@ -18,10 +18,10 @@ private val noOpAsyncDifferConfig = AsyncDifferConfig.Builder(noOpDiffUtilCallba
 
 class DynamicListAdapter : ListAdapter<DynamicItem, DynamicHolder<*>> {
 
+    private val viewHolderProviders = SparseArray<ViewHolderProvider>()
+
     constructor(diffUtilCallback: DiffUtil.ItemCallback<DynamicItem> = noOpDiffUtilCallback) : super(diffUtilCallback)
     constructor(asyncDifferConfig: AsyncDifferConfig<DynamicItem> = noOpAsyncDifferConfig) : super(asyncDifferConfig)
-
-    private val viewHolderProviders = SparseArray<ViewHolderProvider>()
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)

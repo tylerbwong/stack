@@ -7,7 +7,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.unit.sp
-import dev.chrisbanes.accompanist.coil.CoilImageWithCrossfade
+import dev.chrisbanes.accompanist.coil.CoilImage
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.ast.getTextInNode
@@ -37,9 +37,10 @@ internal object ImageVisitor : Visitor {
                     PlaceholderVerticalAlign.TextCenter
                 )
             ) {
-                CoilImageWithCrossfade(
+                CoilImage(
                     data = imageUrl,
-                    contentScale = ContentScale.FillWidth
+                    contentScale = ContentScale.FillWidth,
+                    fadeIn = true
                 )
             }
             builder.appendInlineContent(imageUrl, imageUrl)

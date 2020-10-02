@@ -12,6 +12,9 @@ class AuthInterceptor @Inject constructor(
     private val authStore: AuthStore
 ) : Interceptor {
 
+    private val Request.isBaseUrl: Boolean
+        get() = baseUrl.contains(url.host, ignoreCase = true)
+
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val accessToken = authStore.accessToken
@@ -36,6 +39,4 @@ class AuthInterceptor @Inject constructor(
             }
         )
     }
-
-    private val Request.isBaseUrl get() = baseUrl.contains(url.host, ignoreCase = true)
 }

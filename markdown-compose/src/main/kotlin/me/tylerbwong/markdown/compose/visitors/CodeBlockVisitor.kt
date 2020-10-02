@@ -1,8 +1,9 @@
 @file:Suppress("MagicNumber")
 package me.tylerbwong.markdown.compose.visitors
 
-import androidx.compose.foundation.Box
 import androidx.compose.foundation.Text
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.InlineTextContent
@@ -50,8 +51,9 @@ internal object CodeBlockVisitor : Visitor {
             )
         ) {
             Box(
-                modifier = Modifier.fillMaxWidth(),
-                backgroundColor = Color.LightGray.copy(alpha = 0.5f)
+                modifier = Modifier
+                    .background(color = Color.LightGray.copy(alpha = 0.5f))
+                    .fillMaxWidth(),
             ) {
                 Text(
                     text = codeBlockContent,

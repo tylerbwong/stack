@@ -14,6 +14,9 @@ class SiteInterceptor @Inject constructor(
     private val siteStore: SiteStore
 ) : Interceptor {
 
+    private val Request.isBaseUrl: Boolean
+        get() = baseUrl.contains(url.host, ignoreCase = true)
+
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
 
@@ -36,8 +39,6 @@ class SiteInterceptor @Inject constructor(
             }
         )
     }
-
-    private val Request.isBaseUrl get() = baseUrl.contains(url.host, ignoreCase = true)
 
     companion object {
         // These endpoints do not accept a site parameter
