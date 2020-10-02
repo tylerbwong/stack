@@ -4,10 +4,12 @@ package me.tylerbwong.stack.ui.settings.sites
 
 import androidx.compose.foundation.Icon
 import androidx.compose.foundation.Text
+import androidx.compose.foundation.blinkingCursorEnabled
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -33,6 +35,9 @@ import androidx.compose.runtime.savedinstancestate.savedInstanceState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.ExperimentalFocus
+import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.focusObserver
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.res.colorResource
@@ -40,6 +45,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.viewModel
 import dev.chrisbanes.accompanist.coil.CoilImage
@@ -47,16 +53,19 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled
 
+@OptIn(ExperimentalFocus::class)
 @Composable
 fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
     val viewBackgroundColor = colorResource(R.color.viewBackgroundColor)
     val primaryTextColor = colorResource(R.color.primaryTextColor)
+    val secondaryTextColor = colorResource(R.color.secondaryTextColor)
     val iconColor = colorResource(R.color.iconColor)
     val colorAccent = colorResource(R.color.colorAccent)
 
     val viewModel = viewModel<SitesViewModel>()
     var searchQuery by savedInstanceState { viewModel.currentQuery ?: "" }
     var isSearchActive by savedInstanceState { false }
+    var isSearchFocused by savedInstanceState { false }
 
     Scaffold(
         topBar = {
@@ -69,27 +78,23 @@ fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
                                 viewModel.fetchSites(it)
                                 searchQuery = it
                             },
-                            label = { Text(text = stringResource(R.string.search)) },
-                            backgroundColor = viewBackgroundColor,
-                            trailingIcon = {
-                                IconButton(
-                                    onClick = {
-                                        if (searchQuery.isEmpty()) {
-                                            isSearchActive = false
-                                        } else {
-                                            viewModel.fetchSites()
-                                            searchQuery = ""
-                                        }
+                            modifier = Modifier
+                                .focusObserver {
+                                    isSearchFocused = it == FocusState.Active
+                                },
+                            label = {
+                                Text(
+                                    text = stringResource(R.string.search),
+                                    color = if (isSearchFocused) {
+                                        viewBackgroundColor
+                                    } else {
+                                        secondaryTextColor
                                     },
-                                    icon = {
-                                        if (searchQuery.isNotEmpty()) {
-                                            Icon(asset = Icons.Filled.Close, tint = iconColor)
-                                        }
-                                    }
                                 )
                             },
+                            backgroundColor = viewBackgroundColor,
                             activeColor = colorAccent,
-                            textStyle = MaterialTheme.typography.body2.copy(color = primaryTextColor),
+                            textStyle = MaterialTheme.typography.body1.copy(color = primaryTextColor),
                         )
                     } else {
                         Text(text = stringResource(R.string.sites), color = primaryTextColor)
@@ -112,6 +117,18 @@ fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
                         IconButton(
                             onClick = { isSearchActive = true },
                             icon = { Icon(asset = Icons.Filled.Search, tint = iconColor) }
+                        )
+                    } else if (searchQuery.isNotBlank()) {
+                        IconButton(
+                            onClick = {
+                                viewModel.fetchSites()
+                                searchQuery = ""
+                            },
+                            icon = {
+                                if (searchQuery.isNotEmpty()) {
+                                    Icon(asset = Icons.Filled.Close, tint = iconColor)
+                                }
+                            }
                         )
                     }
                 },

@@ -85,6 +85,7 @@ class StackPlugin : Plugin<Project> {
 
         project.tasks.withType<KotlinCompile>().configureEach {
             kotlinOptions {
+                freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn")
                 jvmTarget = JavaVersion.VERSION_1_8.toString()
                 useIR = true
             }
