@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.databinding.HomeFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.home.FilterInputItem
