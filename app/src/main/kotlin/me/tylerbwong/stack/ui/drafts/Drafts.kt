@@ -1,3 +1,4 @@
+@file:Suppress("MagicNumber")
 package me.tylerbwong.stack.ui.drafts
 
 import androidx.compose.foundation.Text
