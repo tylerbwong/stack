@@ -108,7 +108,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 findPreference<Preference>(getString(R.string.inspect_network_traffic))?.apply {
                     setOnPreferenceClickListener {
                         val context = requireContext()
-                        val intent = Chucker.getLaunchIntent(context, Chucker.SCREEN_HTTP)
+                        val intent = Chucker.getLaunchIntent(context)
                         context.startActivity(intent)
                         true
                     }
