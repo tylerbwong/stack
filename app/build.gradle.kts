@@ -128,7 +128,7 @@ dependencies {
     testImplementation(Dep.mockitoKotlin)
     testImplementation(Dep.okHttpMock)
     testImplementation(Dep.robolectric)
-    androidTestImplementation(Dep.testRunner)
+    androidTestImplementation(Dep.androidxTestRunner)
     androidTestImplementation(Dep.espresso)
 }
 
