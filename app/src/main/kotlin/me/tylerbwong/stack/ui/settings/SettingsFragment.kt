@@ -42,6 +42,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private val viewModel by viewModels<SettingsViewModel>()
 
+    private val authPreferences = mutableSetOf<Preference>()
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         if (savedInstanceState == null) {
             addPreferencesFromResource(R.xml.settings)
@@ -65,7 +67,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             findPreference<TwoStatePreference>(getString(R.string.create_question))?.apply {
                 isChecked = experimental.createQuestionEnabled
-                isVisible = viewModel.user.value != null
+                isVisible = false
                 setOnPreferenceChangeListener { _, newValue ->
                     experimental.createQuestionEnabled = newValue as Boolean
                     view?.showSnackbar(
@@ -78,6 +80,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     }
                     true
                 }
+                authPreferences.add(this)
             }
 
             findPreference<Preference>(getString(R.string.theme))?.apply {
@@ -146,6 +149,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         true
                     }
                 }
+                authPreferences.forEach { it.isVisible = user != null }
             }
         }
         viewModel.currentSite.observe(viewLifecycleOwner) { site ->
