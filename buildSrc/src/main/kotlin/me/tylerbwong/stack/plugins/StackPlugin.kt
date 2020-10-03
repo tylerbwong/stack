@@ -93,6 +93,7 @@ class StackPlugin : Plugin<Project> {
 
         sourceSets["main"].java.srcDir("src/main/kotlin")
         sourceSets["test"].java.srcDir("src/test/kotlin")
+        sourceSets["androidTest"].java.srcDir("src/androidTest/kotlin")
     }
 
     private fun configureStaticAnalysis(project: Project) {

@@ -9,6 +9,8 @@ plugins {
 
 android {
     defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
         javaCompileOptions {
             annotationProcessorOptions {
                 argument("room.incremental", "true")
@@ -122,14 +124,17 @@ dependencies {
     implementation(Dep.playCore)
 
     // testing
-    testImplementation(Dep.androidxTestCore)
     testImplementation(Dep.jUnit)
     testImplementation(Dep.mockito)
     testImplementation(Dep.mockitoKotlin)
     testImplementation(Dep.okHttpMock)
     testImplementation(Dep.robolectric)
+    androidTestImplementation(Dep.androidxTestCore)
+    androidTestImplementation(Dep.androidxTestExt)
     androidTestImplementation(Dep.androidxTestRunner)
+    androidTestImplementation(Dep.barista)
     androidTestImplementation(Dep.espresso)
+    androidTestImplementation(Dep.espressoIntents)
 }
 
 apply(plugin = "com.google.gms.google-services")
