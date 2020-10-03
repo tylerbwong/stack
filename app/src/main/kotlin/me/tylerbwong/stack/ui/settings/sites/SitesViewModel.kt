@@ -24,17 +24,37 @@ class SitesViewModel @ViewModelInject constructor(
         get() = mutableSites
     private val mutableSites = MutableLiveData<List<Site>>()
 
+    internal val searchQuery: LiveData<String>
+        get() = mutableSearchQuery
+    private val mutableSearchQuery = MutableLiveData<String>()
+
     internal val isAuthenticated: Boolean
         get() = authRepository.isAuthenticated.value ?: false
 
     internal var currentQuery: String? = null
+    private var searchCatalog: List<Site> = emptyList()
 
     internal fun changeSite(site: String) = siteRepository.changeSite(site)
 
-    internal fun fetchSites() {
+    internal fun fetchSites(query: String? = null) {
         launchRequest { siteRepository.fetchSitesIfNecessary() }
-        streamRequest(siteRepository.getSites()) { results ->
-            mutableSites.value = results.map { it.toSite() }
+        mutableSearchQuery.value = query ?: ""
+        if (query.isNullOrEmpty()) {
+            streamRequest(siteRepository.getSites()) { results ->
+                searchCatalog = results.map { it.toSite() }
+                mutableSites.value = searchCatalog
+            }
+        } else {
+            currentQuery = query
+            mutableSites.value = searchCatalog.filter { site ->
+                val containsName = site.name
+                    .replace(whitespaceRegex, "")
+                    .contains(query, ignoreCase = true)
+                val containsAudience = site.audience
+                    .replace(whitespaceRegex, "")
+                    .contains(query, ignoreCase = true)
+                containsName || containsAudience
+            }
         }
     }
 
@@ -48,6 +68,10 @@ class SitesViewModel @ViewModelInject constructor(
                 }
             }
         }
+    }
+
+    companion object {
+        private val whitespaceRegex = "\\s".toRegex()
     }
 }
 
