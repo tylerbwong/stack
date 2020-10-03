@@ -51,6 +51,7 @@ import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled
 
 // TODO Switch to Compose TopAppBar once proper SearchView is supported
+@Suppress("LongMethod")
 @OptIn(ExperimentalFocus::class)
 @Composable
 fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
@@ -202,42 +203,55 @@ fun SiteItem(site: Site, searchQuery: String?, changeSite: (String) -> Unit) {
     }
 
     if (isAlertDialogVisible) {
-        AlertDialog(
+        ChangeSiteDialog(
             onDismissRequest = { isAlertDialogVisible = false },
-            title = {
-                Text(
-                    text = stringResource(R.string.log_out_title),
-                    color = colorResource(R.color.primaryTextColor),
-                    style = MaterialTheme.typography.h6,
-                )
-            },
-            text = {
-                Text(
-                    text = stringResource(R.string.log_out_site_switch),
-                    color = colorResource(R.color.primaryTextColor),
-                    style = MaterialTheme.typography.body1,
-                )
-            },
-            confirmButton = {
-                TextButton(onClick = { viewModel.logOut(site.parameter) }) {
-                    Text(
-                        text = stringResource(R.string.log_out),
-                        color = colorResource(R.color.primaryTextColor),
-                    )
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { isAlertDialogVisible = false }) {
-                    Text(
-                        text = stringResource(R.string.cancel),
-                        color = colorResource(R.color.primaryTextColor),
-                    )
-                }
-            },
-            shape = RoundedCornerShape(8.dp),
-            backgroundColor = colorResource(R.color.dialogBackgroundColor),
+            onConfirm = { viewModel.logOut(site.parameter) },
+            onDismiss = { isAlertDialogVisible = false },
         )
     }
+}
+
+@Composable
+private fun ChangeSiteDialog(
+    onDismissRequest: () -> Unit,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = {
+            Text(
+                text = stringResource(R.string.log_out_title),
+                color = colorResource(R.color.primaryTextColor),
+                style = MaterialTheme.typography.h6,
+            )
+        },
+        text = {
+            Text(
+                text = stringResource(R.string.log_out_site_switch),
+                color = colorResource(R.color.primaryTextColor),
+                style = MaterialTheme.typography.body1,
+            )
+        },
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text(
+                    text = stringResource(R.string.log_out),
+                    color = colorResource(R.color.primaryTextColor),
+                )
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(
+                    text = stringResource(R.string.cancel),
+                    color = colorResource(R.color.primaryTextColor),
+                )
+            }
+        },
+        shape = RoundedCornerShape(8.dp),
+        backgroundColor = colorResource(R.color.dialogBackgroundColor),
+    )
 }
 
 private fun String.toAnnotatedString(query: String?): AnnotatedString {
