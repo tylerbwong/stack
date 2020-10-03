@@ -50,6 +50,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled
 
+// TODO Switch to Compose TopAppBar once proper SearchView is supported
 @OptIn(ExperimentalFocus::class)
 @Composable
 fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
