@@ -124,6 +124,7 @@ dependencies {
     implementation(Dep.playCore)
 
     // testing
+    testImplementation(Dep.androidxTestCore)
     testImplementation(Dep.jUnit)
     testImplementation(Dep.mockito)
     testImplementation(Dep.mockitoKotlin)
