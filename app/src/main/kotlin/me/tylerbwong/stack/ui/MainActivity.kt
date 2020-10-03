@@ -80,7 +80,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 
         viewModel.isAuthenticated.observe(this) { isAuthenticated ->
             val bottomNav = binding.bottomNav
-            val isCreateQuestionEnabled = experimental.isCreateQuestionEnabled
+            val isCreateQuestionEnabled = experimental.createQuestionEnabled
             authTabIds.forEach {
                 bottomNav.menu.findItem(it)?.isVisible = if (it == R.id.create) {
                     isAuthenticated && isCreateQuestionEnabled
