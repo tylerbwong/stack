@@ -13,6 +13,8 @@ import me.tylerbwong.stack.data.persistence.entity.QuestionEntity
 import me.tylerbwong.stack.data.persistence.entity.SearchEntity
 import me.tylerbwong.stack.data.persistence.entity.SiteEntity
 import me.tylerbwong.stack.data.persistence.entity.UserEntity
+import me.tylerbwong.stack.ui.utils.toHtml
+import java.util.Locale
 
 fun Question.toQuestionEntity(sortString: String): QuestionEntity =
     QuestionEntity(
@@ -135,10 +137,10 @@ fun SearchEntity.toSearchPayload(): SearchPayload =
 
 fun SiteEntity.toSite(): Site =
     Site(
-        name = name,
+        name = name.toHtml().toString(),
         parameter = parameter,
         url = url,
-        audience = audience,
+        audience = audience.capitalize(Locale.getDefault()).toHtml().toString(),
         iconUrl = iconUrl
     )
 
