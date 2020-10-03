@@ -80,7 +80,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 
         viewModel.isAuthenticated.observe(this) { isAuthenticated ->
             val bottomNav = binding.bottomNav
-            authTabIds.forEach { bottomNav.menu.findItem(it)?.isVisible = isAuthenticated }
+            val isCreateQuestionEnabled = experimental.isCreateQuestionEnabled
+            authTabIds.forEach {
+                bottomNav.menu.findItem(it)?.isVisible = if (it == R.id.create) {
+                    isAuthenticated && isCreateQuestionEnabled
+                } else {
+                    isAuthenticated
+                }
+            }
             if (bottomNav.selectedItemId in authTabIds) {
                 bottomNav.selectedItemId = R.id.home
             }
@@ -189,7 +196,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 
     private fun setupBottomNavigation() {
         with(binding.bottomNav) {
-            post { menu.findItem(R.id.create)?.isVisible = experimental.createQuestionEnabled }
             setOnNavigationItemSelectedListener { menuItem ->
                 if (experimental.createQuestionEnabled && menuItem.itemId == R.id.create) {
                     CreateQuestionActivity.startActivity(this@MainActivity)
