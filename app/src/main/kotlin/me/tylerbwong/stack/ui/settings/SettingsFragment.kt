@@ -65,6 +65,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             findPreference<TwoStatePreference>(getString(R.string.create_question))?.apply {
                 isChecked = experimental.createQuestionEnabled
+                isVisible = viewModel.user.value != null
                 setOnPreferenceChangeListener { _, newValue ->
                     experimental.createQuestionEnabled = newValue as Boolean
                     view?.showSnackbar(
