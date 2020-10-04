@@ -1,3 +1,4 @@
+@file:Suppress("MagicNumber")
 package me.tylerbwong.stack.ui.owners
 
 import androidx.compose.foundation.Canvas
@@ -29,18 +30,17 @@ fun Badges(
     ) {
         val (bronze, silver, gold) = badgeCounts
         val countColorMapping = listOf(
-            gold to colorResource(R.color.goldBadgeColor),
-            silver to colorResource(R.color.silverBadgeColor),
-            bronze to colorResource(R.color.bronzeBadgeColor),
+            gold to R.color.goldBadgeColor,
+            silver to R.color.silverBadgeColor,
+            bronze to R.color.bronzeBadgeColor,
         ).filter { (count, _) -> count > 0 }
         countColorMapping.forEachIndexed { index, (count, color) ->
-            Badge(color)
+            BadgeCircle(color = colorResource(color))
             Spacer(modifier = Modifier.width(3.dp))
             Text(
                 text = count.toString(),
                 color = labelColor,
                 fontSize = 12.sp,
-                lineHeight = 12.sp,
             )
             if (index != countColorMapping.lastIndex) {
                 Spacer(modifier = Modifier.width(6.dp))
@@ -50,7 +50,7 @@ fun Badges(
 }
 
 @Composable
-fun Badge(color: Color) {
+private fun BadgeCircle(color: Color) {
     Canvas(
         modifier = Modifier.size(7.dp),
         onDraw = { drawCircle(color) }
@@ -59,6 +59,6 @@ fun Badge(color: Color) {
 
 @Preview
 @Composable
-fun BadgesPreview() {
-    Badges(badgeCounts = BadgeCounts(32, 2, 1))
+private fun BadgesPreview() {
+    Badges(badgeCounts = BadgeCounts(bronze = 32, silver = 2, gold = 1))
 }
