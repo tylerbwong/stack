@@ -145,6 +145,7 @@ fun SitesLayout(changeSite: (String) -> Unit) {
     LazyColumnFor(items = sites) { site -> SiteItem(site, searchQuery, changeSite) }
 }
 
+// TODO Migrate to ListItem
 @Composable
 fun SiteItem(site: Site, searchQuery: String?, changeSite: (String) -> Unit) {
     val viewModel = viewModel<SitesViewModel>()
