@@ -35,10 +35,10 @@ Stack is currently in open testing. You can enroll on Google Play by clicking th
 Here you can also find a few useful Gradle modules as well:
 
 * [buildSrc](./buildSrc) - A Gradle module for common build logic with a custom plugin example.
+* [compose-markdown](./compose-markdown) - A Jetpack Compose Text component that can render markdown content using [intellij-markdown](https://github.com/valich/intellij-markdown) for parsing.
 * [dynamic-list-adapter](./dynamic-list-adapter) - An abstraction around `RecyclerView` built on `ListAdapter` for asynchronous list diffing.
 * [dynamic-list-adapter-viewbinding](./dynamic-list-adapter-viewbinding) - View Binding support for `DynamicListAdapter`.
 * [dynamic-list-adapter-extensions](./dynamic-list-adapter-extensions) - Android View Extensions support for `DynamicListAdapter`.
-* [markdown-compose](./markdown-compose) - A Jetpack Compose Text component that can render markdown content using [intellij-markdown](https://github.com/valich/intellij-markdown) for parsing.
 
 # License
 

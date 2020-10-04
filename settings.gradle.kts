@@ -1,10 +1,10 @@
 include(
     ":app",
+    ":compose-markdown",
+    ":compose-markdown-demo",
     ":dynamic-list-adapter",
     ":dynamic-list-adapter-extensions",
     ":dynamic-list-adapter-viewbinding",
     ":markdown",
-    ":markdown-compose",
-    ":markdown-compose-demo",
     ":stackexchange-api"
 )

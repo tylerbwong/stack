@@ -93,8 +93,8 @@ workflows:
           name: unit-tests-stack
           target: app
       - unit-tests:
-          name: unit-tests-markdown-compose
-          target: markdown-compose
+          name: unit-tests-compose-markdown
+          target: compose-markdown
       - build-apk:
           name: build-apk-stack-debug
           target: app
