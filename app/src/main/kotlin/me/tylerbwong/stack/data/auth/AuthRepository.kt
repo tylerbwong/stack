@@ -19,7 +19,10 @@ class AuthRepository @Inject constructor(
     private val authService: AuthService,
     private val authStore: AuthStore
 ) {
-    internal val isAuthenticated: LiveData<Boolean>
+    internal val isAuthenticated: Boolean
+        get() = authStore.isAuthenticatedLiveData.value ?: false
+
+    internal val isAuthenticatedLiveData: LiveData<Boolean>
         get() = authStore.isAuthenticatedLiveData
 
     suspend fun logIn(uri: Uri): LoginResult {
