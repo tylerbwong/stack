@@ -66,6 +66,7 @@ dependencies {
     implementation(Dep.composeLiveData)
     implementation(Dep.composeMaterial)
     implementation(Dep.composeMaterialIcons)
+    implementation(Dep.composeMaterialIconsExtended)
     implementation(Dep.composeTooling)
 
     // debug
