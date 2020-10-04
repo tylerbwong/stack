@@ -1,13 +1,12 @@
 package me.tylerbwong.stack.ui.search.tags
 
 import android.view.ViewGroup
-import com.google.android.material.chip.Chip
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.databinding.TagsHolderBinding
 import me.tylerbwong.stack.ui.home.TagsItem
 import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
-import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import me.tylerbwong.stack.ui.utils.createChip
 
 class TagsHolder(
     container: ViewGroup
@@ -22,13 +21,10 @@ class TagsHolder(
     override fun TagsHolderBinding.bind(item: TagsItem) {
         tagsViews.forEach { it.removeAllViews() }
         item.tags.forEachIndexed { index, tags ->
-            tags.forEach {
+            tags.forEach { tag ->
                 tagsViews.getOrElse(index) { tagsViewTop }.addView(
-                    Chip(itemView.context).apply {
-                        text = it.name
-                        setThrottledOnClickListener { view ->
-                            QuestionsActivity.startActivityForKey(view.context, TAGS, it.name)
-                        }
+                    itemView.context.createChip(tag.name) {
+                        QuestionsActivity.startActivityForKey(it.context, TAGS, tag.name)
                     }
                 )
             }
