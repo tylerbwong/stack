@@ -27,7 +27,7 @@ data class FilterInputItem(
     val searchPayload: SearchPayload,
     val onPayloadReceived: (SearchPayload) -> Unit
 ) : HomeItem(::FilterInputHolder)
-data class TagsItem(val tags: List<Tag>) : HomeItem(::TagsHolder)
+data class TagsItem(val tags: List<List<Tag>>) : HomeItem(::TagsHolder)
 data class SectionHeaderItem(val header: String) : HomeItem(::SectionHeaderHolder)
 data class SearchHistoryItem(
     val searchPayload: SearchPayload,

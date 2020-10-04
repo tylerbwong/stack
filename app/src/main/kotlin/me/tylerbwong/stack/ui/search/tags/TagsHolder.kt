@@ -21,8 +21,7 @@ class TagsHolder(
 
     override fun TagsHolderBinding.bind(item: TagsItem) {
         tagsViews.forEach { it.removeAllViews() }
-        val chunkedTags = item.tags.chunked(item.tags.size / 3)
-        chunkedTags.forEachIndexed { index, tags ->
+        item.tags.forEachIndexed { index, tags ->
             tags.forEach {
                 tagsViews.getOrElse(index) { tagsViewTop }.addView(
                     Chip(itemView.context).apply {

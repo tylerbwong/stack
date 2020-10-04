@@ -4,6 +4,6 @@ import me.tylerbwong.stack.api.model.Tag
 import me.tylerbwong.stack.data.model.SearchPayload
 
 data class EmptySearchData(
-    val tags: List<Tag>,
+    val tags: List<List<Tag>>,
     val searchHistory: List<SearchPayload>
 )
