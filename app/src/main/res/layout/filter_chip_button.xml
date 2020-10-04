@@ -7,8 +7,7 @@
     android:elevation="0dp"
     android:stateListAnimator="@null"
     android:text="@string/add_filters"
-    android:textColor="@color/colorTextPrimary"
-    app:chipBackgroundColor="@android:color/transparent"
+    app:chipBackgroundColor="@null"
     app:chipIcon="@drawable/ic_baseline_add"
     app:chipStrokeColor="@color/secondaryTextColor"
     app:chipStrokeWidth="@dimen/chip_stroke_width" />
