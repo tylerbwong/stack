@@ -33,7 +33,7 @@ interface QuestionService {
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
-        @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
+        @Query(FILTER_PARAM) filter: String = DETAIL_FILTER_AUTH,
         @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
     ): Response<Question>
 

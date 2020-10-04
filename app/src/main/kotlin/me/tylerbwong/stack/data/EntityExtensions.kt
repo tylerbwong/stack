@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.data
 
+import me.tylerbwong.stack.api.model.Answer
 import me.tylerbwong.stack.api.model.BadgeCounts
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Site
@@ -8,6 +9,7 @@ import me.tylerbwong.stack.data.model.AnswerDraft
 import me.tylerbwong.stack.data.model.QuestionDraft
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
+import me.tylerbwong.stack.data.persistence.entity.AnswerEntity
 import me.tylerbwong.stack.data.persistence.entity.QuestionDraftEntity
 import me.tylerbwong.stack.data.persistence.entity.QuestionEntity
 import me.tylerbwong.stack.data.persistence.entity.SearchEntity
@@ -16,7 +18,7 @@ import me.tylerbwong.stack.data.persistence.entity.UserEntity
 import me.tylerbwong.stack.ui.utils.toHtml
 import java.util.Locale
 
-fun Question.toQuestionEntity(sortString: String): QuestionEntity =
+fun Question.toQuestionEntity(): QuestionEntity =
     QuestionEntity(
         answerCount = answerCount,
         body = body,
@@ -41,8 +43,7 @@ fun Question.toQuestionEntity(sortString: String): QuestionEntity =
         title = title,
         upVoteCount = upVoteCount,
         upvoted = isUpVoted,
-        viewCount = viewCount,
-        sortString = sortString
+        viewCount = viewCount
     )
 
 fun QuestionEntity.toQuestion(owner: UserEntity, lastEditor: UserEntity?): Question =
@@ -103,6 +104,36 @@ fun UserEntity.toUser(): User =
         userId = userId,
         userType = userType,
         badgeCounts = BadgeCounts(bronzeBadgeCount, silverBadgeCount, goldBadgeCount)
+    )
+
+fun Answer.toAnswerEntity(): AnswerEntity =
+    AnswerEntity(
+        answerId = answerId,
+        isAccepted = isAccepted,
+        downVoteCount = downVoteCount,
+        upVoteCount = upVoteCount,
+        score = score,
+        creationDate = creationDate,
+        bodyMarkdown = bodyMarkdown,
+        questionId = questionId,
+        owner = owner.userId,
+        lastEditDate = lastEditDate,
+        lastEditor = lastEditor?.userId
+    )
+
+fun AnswerEntity.toAnswer(owner: UserEntity, lastEditor: UserEntity?): Answer =
+    Answer(
+        answerId = answerId,
+        isAccepted = isAccepted,
+        downVoteCount = downVoteCount,
+        upVoteCount = upVoteCount,
+        score = score,
+        creationDate = creationDate,
+        bodyMarkdown = bodyMarkdown,
+        questionId = questionId,
+        owner = owner.toUser(),
+        lastEditDate = lastEditDate,
+        lastEditor = lastEditor?.toUser()
     )
 
 fun AnswerDraftEntity.toAnswerDraft(): AnswerDraft =

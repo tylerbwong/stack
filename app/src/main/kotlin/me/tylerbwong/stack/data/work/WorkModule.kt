@@ -10,6 +10,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoSet
 import javax.inject.Singleton
 
 @Module
@@ -22,10 +23,17 @@ class WorkModule {
         .setRequiresBatteryNotLow(true)
         .build()
 
-    @Provides
-    fun provideWorkRequest(
+    @[Provides IntoSet]
+    fun provideSitesWorkRequest(
         constraints: Constraints
     ): WorkRequest = OneTimeWorkRequestBuilder<SitesWorker>()
+        .setConstraints(constraints)
+        .build()
+
+    @[Provides IntoSet]
+    fun provideBookmarksWorkRequest(
+        constraints: Constraints
+    ): WorkRequest = OneTimeWorkRequestBuilder<BookmarksWorker>()
         .setConstraints(constraints)
         .build()
 

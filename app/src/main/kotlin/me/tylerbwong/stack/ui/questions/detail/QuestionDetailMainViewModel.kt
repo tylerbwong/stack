@@ -6,13 +6,17 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.api.utils.toErrorResponse
 import me.tylerbwong.stack.data.auth.AuthRepository
+import me.tylerbwong.stack.data.persistence.dao.QuestionDao
+import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import me.tylerbwong.stack.ui.utils.toHtml
@@ -22,6 +26,7 @@ import timber.log.Timber
 
 class QuestionDetailMainViewModel @ViewModelInject constructor(
     private val authRepository: AuthRepository,
+    private val questionRepository: QuestionRepository,
     private val service: QuestionService
 ) : BaseViewModel(), QuestionDetailActionHandler {
 
@@ -46,9 +51,9 @@ class QuestionDetailMainViewModel @ViewModelInject constructor(
     private val mutableMessageSnackbar = SingleLiveEvent<String>()
 
     private val isAuthenticated: Boolean
-        get() = authRepository.isAuthenticated.value ?: false
+        get() = authRepository.isAuthenticated
 
-    internal val canAnswerQuestion = authRepository.isAuthenticated.zipWith(
+    internal val canAnswerQuestion = authRepository.isAuthenticatedLiveData.zipWith(
         data,
         initialValue = false
     ) { isAuthenticated, data -> isAuthenticated && data.isNotEmpty() }
@@ -61,14 +66,8 @@ class QuestionDetailMainViewModel @ViewModelInject constructor(
 
     internal fun getQuestionDetails(question: Question? = null) {
         launchRequest {
-            val questionResult = question ?: if (isAuthenticated) {
-                service.getQuestionDetailsAuth(questionId).items.first()
-            } else {
-                service.getQuestionDetails(questionId).items.first()
-            }
-            val answersResult = service.getQuestionAnswers(questionId).items.sortedBy {
-                !it.isAccepted
-            }
+            val questionResult = question ?: questionRepository.getQuestion(questionId)
+            val answersResult = questionRepository.getQuestionAnswers(questionId)
 
             val response = mutableListOf<QuestionDetailItem>().apply {
                 add(0, QuestionMainItem(questionResult))
@@ -113,8 +112,16 @@ class QuestionDetailMainViewModel @ViewModelInject constructor(
     override fun toggleFavorite(isSelected: Boolean) {
         toggleAction(
             isSelected,
-            { service.favoriteQuestionById(it) },
-            { service.undoQuestionFavoriteById(it) }
+            {
+                val response = service.favoriteQuestionById(it)
+                withContext(Dispatchers.IO) { questionRepository.syncBookmarks() }
+                response
+            },
+            {
+                val response = service.undoQuestionFavoriteById(it)
+                withContext(Dispatchers.IO) { questionRepository.syncBookmarks() }
+                response
+            }
         )
     }
 
@@ -143,14 +150,12 @@ class QuestionDetailMainViewModel @ViewModelInject constructor(
                     getQuestionDetails(result.items.firstOrNull())
                 }
             } catch (ex: HttpException) {
-                try {
-                    val errorResponse = ex.toErrorResponse()
-                    if (errorResponse != null) {
-                        mutableMessageSnackbar.postValue(errorResponse.errorMessage)
-                    }
-                } catch (ex: Exception) {
-                    Timber.e(ex)
+                val errorResponse = ex.toErrorResponse()
+                if (errorResponse != null) {
+                    mutableMessageSnackbar.postValue(errorResponse.errorMessage)
                 }
+            } catch (ex: Exception) {
+                Timber.e(ex)
             }
         }
     }

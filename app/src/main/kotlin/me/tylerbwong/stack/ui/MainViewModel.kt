@@ -15,8 +15,8 @@ internal class MainViewModel @ViewModelInject constructor(
         get() = _user
     private val _user = MutableLiveData<User?>()
 
-    internal val isAuthenticated: LiveData<Boolean>
-        get() = authRepository.isAuthenticated
+    internal val isAuthenticatedLiveData: LiveData<Boolean>
+        get() = authRepository.isAuthenticatedLiveData
 
     internal fun fetchUser() {
         launchRequest {

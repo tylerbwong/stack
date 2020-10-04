@@ -2,11 +2,16 @@ package me.tylerbwong.stack.data.auth
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.api.service.AuthService
 import me.tylerbwong.stack.api.service.UserService
+import me.tylerbwong.stack.data.persistence.dao.AnswerDao
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
+import me.tylerbwong.stack.data.persistence.dao.QuestionDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
+import me.tylerbwong.stack.data.persistence.dao.UserDao
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,12 +19,18 @@ import javax.inject.Singleton
 @Singleton
 class AuthRepository @Inject constructor(
     private val answerDraftDao: AnswerDraftDao,
+    private val questionDao: QuestionDao,
+    private val answerDao: AnswerDao,
+    private val userDao: UserDao,
     private val searchDao: SearchDao,
     private val userService: UserService,
     private val authService: AuthService,
     private val authStore: AuthStore
 ) {
-    internal val isAuthenticated: LiveData<Boolean>
+    internal val isAuthenticated: Boolean
+        get() = authStore.isAuthenticatedLiveData.value ?: false
+
+    internal val isAuthenticatedLiveData: LiveData<Boolean>
         get() = authStore.isAuthenticatedLiveData
 
     suspend fun logIn(uri: Uri): LoginResult {
@@ -38,8 +49,13 @@ class AuthRepository @Inject constructor(
 
         return try {
             if (!accessToken.isNullOrBlank()) {
-                answerDraftDao.clearDrafts()
-                searchDao.clearSearches()
+                withContext(Dispatchers.IO) {
+                    answerDraftDao.clearDrafts()
+                    questionDao.clearQuestions()
+                    answerDao.clearAnswers()
+                    userDao.clearUsers()
+                    searchDao.clearSearches()
+                }
                 authService.logOut(accessToken = accessToken)
                 authStore.clear()
                 LogOutResult.LogOutSuccess
