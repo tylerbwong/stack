@@ -126,9 +126,6 @@
     <!-- Debug -->
     <string name="inspect_network_traffic">Inspect Network Traffic</string>
 
-    <!-- Transition string -->
-    <string name="shared_transition_name">transition</string>
-
     <!-- App version -->
     <string name="version">Version</string>
     <string name="syntax_highlighting">Syntax Highlighting</string>
