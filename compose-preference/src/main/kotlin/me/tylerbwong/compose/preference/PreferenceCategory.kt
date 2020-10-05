@@ -1,4 +1,4 @@
-@file:Suppress("FunctionNaming")
+@file:Suppress("FunctionNaming", "MagicNumber")
 
 package me.tylerbwong.compose.preference
 
@@ -17,7 +17,6 @@ fun PreferenceScope.PreferenceCategory(
     labelColor: @Composable () -> Color = { MaterialTheme.colors.secondary },
     content: PreferenceScope.() -> Unit
 ) {
-    item { Divider() }
     item {
         Text(
             text = name,

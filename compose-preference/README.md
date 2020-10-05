@@ -11,8 +11,8 @@ It uses the experimental `LazyColumn` DSL under the hood for only rendering visi
 - [x] Preference
 - [x] SwitchPreference
 - [x] CheckboxPreference
-- [ ] ListPreference
+- [x] ListPreference
 - [ ] TextFieldPreference
 - [ ] DialogPreference
 - [ ] MultiChoiceListPreference
-- [x] SeekbarPreference
+- [x] SliderPreference

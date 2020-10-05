@@ -1,7 +1,8 @@
-@file:Suppress("FunctionNaming")
+@file:Suppress("FunctionNaming", "MagicNumber")
 
 package me.tylerbwong.compose.preference
 
+import androidx.compose.foundation.Text
 import androidx.compose.foundation.lazy.ExperimentalLazyDsl
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -34,6 +35,7 @@ fun PreferenceScreenPreview() {
                 title = "Syntax Highlighting",
                 summary = "Enables syntax highlighting for supported markdown code blocks.",
                 icon = Icons.Filled.Code,
+                singleLineSecondaryText = false,
             )
             SwitchPreference(
                 initialChecked = false,
@@ -42,12 +44,14 @@ fun PreferenceScreenPreview() {
                 summary = "Enables create question support.",
                 icon = Icons.Filled.AddCircle,
             )
-            SeekbarPreference(
-                initialValue = 50f,
+            SliderPreference(
+                initialValue = 25f,
                 onValueChange = {},
                 valueRange = 0f..100f,
-                steps = 100,
-                title = "Number of Posts to Show",
+                steps = 25,
+                title = "Number of Questions to Show",
+                valueLabel = { Text(text = it.toInt().toString()) },
+                summary = "Specifies the number of questions to show on the home page.",
                 icon = Icons.Filled.Dashboard,
             )
         }
@@ -64,8 +68,11 @@ fun PreferenceScreenPreview() {
             )
         }
         PreferenceCategory("App") {
-            Preference(
+            ListPreference(
                 title = "Theme",
+                dialogTitle = "Choose theme",
+                items = listOf("Light", "Dark", "System default"),
+                onConfirm = { _, _ -> },
                 summary = "System default",
                 icon = Icons.Filled.Brightness2,
             )
