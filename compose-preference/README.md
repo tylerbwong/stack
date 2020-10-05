@@ -1,6 +1,6 @@
 # compose-preference
 
-This library provides a set of Jetpack Compose Preference components for rendering a `PreferenceScreen in a `@Composable` hierarchy.
+This library provides a set of Jetpack Compose Preference components for rendering a `PreferenceScreen` in a `@Composable` hierarchy.
 
 It uses the experimental `LazyColumn` DSL under the hood for only rendering visible parts of the `PreferenceScreen`.
 
