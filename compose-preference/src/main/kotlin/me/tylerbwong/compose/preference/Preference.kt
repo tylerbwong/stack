@@ -5,9 +5,12 @@ package me.tylerbwong.compose.preference
 import androidx.compose.foundation.Icon
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Checkbox
 import androidx.compose.material.ListItem
+import androidx.compose.material.Slider
 import androidx.compose.material.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,6 +19,34 @@ import androidx.compose.runtime.savedinstancestate.savedInstanceState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.VectorAsset
 import androidx.compose.ui.unit.dp
+
+fun PreferenceScope.SeekbarPreference(
+    initialValue: Float,
+    onValueChange: (Float) -> Unit,
+    valueRange: ClosedFloatingPointRange<Float>,
+    steps: Int,
+    title: String,
+    summary: String? = null,
+    icon: VectorAsset? = null,
+) {
+    item {
+        ListItem(
+            modifier = Modifier.clickable(onClick = {}),
+            icon = icon?.let { { Icon(asset = it, modifier = Modifier.size(42.dp)) } },
+            secondaryText = {
+                summary?.let { Text(text = it) }
+                Spacer(modifier = Modifier.height(8.dp))
+                Slider(
+                    value = initialValue,
+                    onValueChange = onValueChange,
+                    valueRange = valueRange,
+                    steps = steps,
+                )
+            },
+            text = { Text(text = title) },
+        )
+    }
+}
 
 fun PreferenceScope.CheckboxPreference(
     initialChecked: Boolean,
@@ -33,9 +64,9 @@ fun PreferenceScope.CheckboxPreference(
         trailing = { checked, onChange ->
             Checkbox(
                 checked = checked,
-                onCheckedChange = onChange
+                onCheckedChange = onChange,
             )
-        }
+        },
     )
 }
 
@@ -55,9 +86,9 @@ fun PreferenceScope.SwitchPreference(
         trailing = { checked, onChange ->
             Switch(
                 checked = checked,
-                onCheckedChange = onChange
+                onCheckedChange = onChange,
             )
-        }
+        },
     )
 }
 
@@ -67,7 +98,7 @@ fun PreferenceScope.TwoStatePreference(
     title: String,
     summary: String? = null,
     icon: VectorAsset? = null,
-    trailing: @Composable (initialChecked: Boolean, onCheckedChange: (Boolean) -> Unit) -> Unit
+    trailing: @Composable (initialChecked: Boolean, onCheckedChange: (Boolean) -> Unit) -> Unit,
 ) {
     item {
         var isChecked by savedInstanceState { initialChecked }
@@ -76,7 +107,7 @@ fun PreferenceScope.TwoStatePreference(
             summary = summary,
             icon = icon,
             onClick = { isChecked = !isChecked },
-            trailing = { trailing(initialChecked, onCheckedChange) }
+            trailing = { trailing(initialChecked, onCheckedChange) },
         )
     }
 }
@@ -87,7 +118,7 @@ fun PreferenceScope.Preference(
     icon: VectorAsset? = null,
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
-    trailing: (@Composable () -> Unit) = {}
+    trailing: (@Composable () -> Unit) = {},
 ) {
     item {
         PreferenceInternal(
@@ -96,7 +127,7 @@ fun PreferenceScope.Preference(
             icon = icon,
             onClick = onClick,
             modifier = modifier,
-            trailing = trailing
+            trailing = trailing,
         )
     }
 }
@@ -108,56 +139,13 @@ internal fun PreferenceInternal(
     icon: VectorAsset?,
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
-    trailing: (@Composable () -> Unit) = {}
+    trailing: (@Composable () -> Unit) = {},
 ) {
     ListItem(
         modifier = modifier.clickable(onClick = onClick),
         icon = icon?.let { { Icon(asset = it, modifier = Modifier.size(42.dp)) } },
         secondaryText = summary?.let { { Text(text = it) } },
         text = { Text(text = title) },
-        trailing = trailing
+        trailing = trailing,
     )
 }
-
-//@OptIn(ExperimentalLazyDsl::class)
-//@Preview
-//@Composable
-//fun PreferencePreview() {
-//    LazyColumn {
-//        Preference(
-//            title = "Version",
-//            summary = "1.0.0-alpha04",
-//            icon = Icons.Filled.Info,
-//        )
-//    }
-//}
-//
-//@OptIn(ExperimentalLazyDsl::class)
-//@Preview
-//@Composable
-//fun SwitchPreferencePreview() {
-//    LazyColumn {
-//        SwitchPreference(
-//            initialChecked = true,
-//            onCheckedChange = {},
-//            title = "Version",
-//            summary = "1.0.0-alpha04",
-//            icon = Icons.Filled.Info,
-//        )
-//    }
-//}
-//
-//@OptIn(ExperimentalLazyDsl::class)
-//@Preview
-//@Composable
-//fun CheckboxPreferencePreview() {
-//    LazyColumn {
-//        CheckboxPreference(
-//            initialChecked = true,
-//            onCheckedChange = {},
-//            title = "Version",
-//            summary = "1.0.0-alpha04",
-//            icon = Icons.Filled.Info,
-//        )
-//    }
-//}

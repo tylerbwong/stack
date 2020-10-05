@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Brightness2
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Traffic
 import androidx.compose.runtime.Composable
@@ -40,6 +41,14 @@ fun PreferenceScreenPreview() {
                 title = "Create Question",
                 summary = "Enables create question support.",
                 icon = Icons.Filled.AddCircle,
+            )
+            SeekbarPreference(
+                initialValue = 50f,
+                onValueChange = {},
+                valueRange = 0f..100f,
+                steps = 100,
+                title = "Number of Posts to Show",
+                icon = Icons.Filled.Dashboard,
             )
         }
         PreferenceCategory("Debug") {
