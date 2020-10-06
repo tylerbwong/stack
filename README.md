@@ -8,7 +8,7 @@ It is currently under heavy development and is unstable.
 
 The goal of this project is to provide examples for the latest Android libraries and tools. A few noteworthy examples include:
 
-* [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) for networking and asynchronous code
+* [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) for asynchronous code
 * [Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt-android) for dependency injection
 * [Jetpack Compose](https://developer.android.com/jetpack/compose) for declarative UI code written in Kotlin (Slowly being introduced)
 * [Room](https://developer.android.com/jetpack/androidx/releases/room) for local data persistence
