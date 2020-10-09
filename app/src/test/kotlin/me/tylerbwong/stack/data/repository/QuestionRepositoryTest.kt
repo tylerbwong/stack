@@ -14,6 +14,7 @@ import me.tylerbwong.stack.data.auth.AuthRepository
 import me.tylerbwong.stack.data.persistence.dao.AnswerDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
+import me.tylerbwong.stack.data.persistence.entity.QuestionEntity
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -117,7 +118,7 @@ class QuestionRepositoryTest : BaseTest() {
             whenever(authRepository.isAuthenticated).thenReturn(true)
             whenever(questionService.getBookmarks()).thenReturn(response)
             repository.syncBookmarks()
-            verify(questionDao, times(1)).insert(any())
+            verify(questionDao, times(1)).insert(any<QuestionEntity>())
             verify(userDao, times(1)).insert(any())
             verify(answerDao, times(1)).insert(any())
         }
