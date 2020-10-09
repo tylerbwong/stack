@@ -33,7 +33,7 @@ class WorkModule {
         .build()
 
     // TODO Make interval configurable
-    @[Provides IntoSet Suppress("MagicNumber")]
+    @[Provides IntoSet]
     fun provideBookmarksWorkRequest(
         constraints: Constraints
     ): WorkRequest = PeriodicWorkRequestBuilder<BookmarksWorker>(8, TimeUnit.HOURS)
