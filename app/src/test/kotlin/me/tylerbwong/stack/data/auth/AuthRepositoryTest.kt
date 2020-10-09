@@ -13,7 +13,9 @@ import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
 import me.tylerbwong.stack.data.auth.LoginResult.LoginError
 import me.tylerbwong.stack.data.auth.LoginResult.LoginSuccess
+import me.tylerbwong.stack.data.persistence.dao.AnswerDao
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
+import me.tylerbwong.stack.data.persistence.dao.QuestionDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -38,6 +40,12 @@ class AuthRepositoryTest : BaseTest() {
     private lateinit var answerDraftDao: AnswerDraftDao
 
     @Mock
+    private lateinit var questionDao: QuestionDao
+
+    @Mock
+    private lateinit var answerDao: AnswerDao
+
+    @Mock
     private lateinit var searchDao: SearchDao
 
     @Mock
@@ -55,7 +63,16 @@ class AuthRepositoryTest : BaseTest() {
     @Before
     fun setUp() {
         authStore = AuthStore(testSharedPreferences)
-        repository = AuthRepository(answerDraftDao, searchDao, userService, authService, authStore)
+        repository = AuthRepository(
+            answerDraftDao,
+            questionDao,
+            answerDao,
+            userDao,
+            searchDao,
+            userService,
+            authService,
+            authStore
+        )
     }
 
     @Test
