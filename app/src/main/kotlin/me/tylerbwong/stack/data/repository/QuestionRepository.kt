@@ -60,7 +60,7 @@ class QuestionRepository @Inject constructor(
                 }
             }
         } else {
-            questionService.getQuestionAnswers(questionId).items
+            safeCall { questionService.getQuestionAnswers(questionId) }
         }.sortedBy { !it.isAccepted }
     }
 
