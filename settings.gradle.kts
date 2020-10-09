@@ -2,6 +2,7 @@ include(
     ":app",
     ":compose-markdown",
     ":compose-markdown-demo",
+    ":compose-preference",
     ":dynamic-list-adapter",
     ":dynamic-list-adapter-extensions",
     ":dynamic-list-adapter-viewbinding",

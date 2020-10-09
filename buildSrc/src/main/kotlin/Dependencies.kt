@@ -86,6 +86,7 @@ object Dep {
     const val composeLiveData = "androidx.compose.runtime:runtime-livedata:${Versions.compose}"
     const val composeMaterial = "androidx.compose.material:material:${Versions.compose}"
     const val composeMaterialIcons = "androidx.compose.material:material-icons-core:${Versions.compose}"
+    const val composeMaterialIconsExtended = "androidx.compose.material:material-icons-extended:${Versions.compose}"
     const val composeText = "androidx.compose.foundation:foundation-text:${Versions.compose}"
     const val composeTooling = "androidx.ui:ui-tooling:${Versions.compose}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
