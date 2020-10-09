@@ -10,7 +10,6 @@ class WorkScheduler @Inject constructor(
     private val workManager: WorkManager,
     private val workRequests: Set<@JvmSuppressWildcards WorkRequest>
 ) {
-
     fun schedule() {
         workRequests.forEach { workManager.enqueue(it) }
     }
