@@ -2,7 +2,6 @@
 
 package me.tylerbwong.compose.preference
 
-import androidx.compose.foundation.Icon
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
@@ -28,7 +26,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.savedinstancestate.savedInstanceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.VectorAsset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -39,7 +36,7 @@ fun PreferenceScope.ListPreference(
     onConfirm: (String, Int) -> Unit,
     selectedItemIndex: Int = 0,
     summary: String? = null,
-    icon: VectorAsset? = null,
+    icon: (@Composable () -> Unit)? = null,
     singleLineSecondaryText: Boolean = true,
 ) {
     item {
@@ -113,12 +110,12 @@ fun PreferenceScope.SliderPreference(
     title: String,
     valueLabel: (@Composable (value: Float) -> Unit)? = null,
     summary: String? = null,
-    icon: VectorAsset? = null,
+    icon: (@Composable () -> Unit)? = null,
 ) {
     item {
         var currentValue by savedInstanceState { initialValue }
         ListItem(
-            icon = icon?.let { { Icon(asset = it, modifier = Modifier.size(42.dp)) } },
+            icon = icon,
             secondaryText = {
                 Column {
                     summary?.let { Text(text = it) }
@@ -149,7 +146,7 @@ fun PreferenceScope.CheckboxPreference(
     onCheckedChange: (Boolean) -> Unit,
     title: String,
     summary: String? = null,
-    icon: VectorAsset? = null,
+    icon: (@Composable () -> Unit)? = null,
     singleLineSecondaryText: Boolean = true,
 ) {
     TwoStatePreference(
@@ -173,7 +170,7 @@ fun PreferenceScope.SwitchPreference(
     onCheckedChange: (Boolean) -> Unit,
     title: String,
     summary: String? = null,
-    icon: VectorAsset? = null,
+    icon: (@Composable () -> Unit)? = null,
     singleLineSecondaryText: Boolean = true,
 ) {
     TwoStatePreference(
@@ -195,7 +192,7 @@ fun PreferenceScope.SwitchPreference(
 fun PreferenceScope.Preference(
     title: String,
     summary: String? = null,
-    icon: VectorAsset? = null,
+    icon: (@Composable () -> Unit)? = null,
     singleLineSecondaryText: Boolean = true,
     onClick: () -> Unit = {},
     trailing: (@Composable () -> Unit) = {},
@@ -217,7 +214,7 @@ internal fun PreferenceScope.TwoStatePreference(
     onCheckedChange: (Boolean) -> Unit,
     title: String,
     summary: String? = null,
-    icon: VectorAsset? = null,
+    icon: (@Composable () -> Unit)? = null,
     singleLineSecondaryText: Boolean = true,
     trailing: @Composable (checked: Boolean, toggle: (Boolean) -> Unit) -> Unit,
 ) {
@@ -242,7 +239,7 @@ internal fun PreferenceScope.TwoStatePreference(
 internal fun PreferenceInternal(
     title: String,
     summary: String?,
-    icon: VectorAsset?,
+    icon: (@Composable () -> Unit)?,
     singleLineSecondaryText: Boolean = true,
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
@@ -250,7 +247,7 @@ internal fun PreferenceInternal(
 ) {
     ListItem(
         modifier = modifier.clickable(onClick = onClick, indication = RippleIndication()),
-        icon = icon?.let { { Icon(asset = it, modifier = Modifier.size(42.dp)) } },
+        icon = icon,
         secondaryText = summary?.let { { Text(text = it) } },
         singleLineSecondaryText = singleLineSecondaryText,
         text = { Text(text = title) },
