@@ -32,6 +32,7 @@ class WorkModule {
         .setConstraints(constraints)
         .build()
 
+    // TODO Make interval configurable
     @[Provides IntoSet Suppress("MagicNumber")]
     fun provideBookmarksWorkRequest(
         constraints: Constraints
