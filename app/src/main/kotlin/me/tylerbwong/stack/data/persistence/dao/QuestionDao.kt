@@ -15,7 +15,7 @@ interface QuestionDao {
     @Query("SELECT * FROM question WHERE questionId = :questionId")
     suspend fun get(questionId: Int): QuestionEntity?
 
-    @Query("SELECT * FROM question WHERE favorited = 1")
+    @Query("SELECT * FROM question WHERE favorited")
     fun getBookmarks(): Flow<List<QuestionEntity>>
 
     @Query("DELETE FROM question WHERE questionId = :questionId")

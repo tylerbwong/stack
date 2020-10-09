@@ -3,13 +3,13 @@ package me.tylerbwong.stack.data.repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEmpty
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.api.model.Answer
 import me.tylerbwong.stack.api.model.Question
+import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.model.Sort
 import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.data.auth.AuthRepository
@@ -72,6 +72,7 @@ class QuestionRepository @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getBookmarks(): Flow<List<Question>> {
         return questionDao.getBookmarks()
+            .distinctUntilChanged()
             .map { questionEntities ->
                 questionEntities.map { entity ->
                     entity.toQuestion(
@@ -80,35 +81,42 @@ class QuestionRepository @Inject constructor(
                     )
                 }
             }
-            .onStart { emit(syncBookmarks()) }
-            .onEmpty { emit(syncBookmarks()) }
             .flowOn(Dispatchers.IO)
     }
 
     suspend fun syncBookmarks(): List<Question> {
+        suspend fun clearAll() {
+            questionDao.clearQuestions()
+            userDao.clearUsers()
+            answerDao.clearAnswers()
+        }
         return if (authRepository.isAuthenticated) {
-            val bookmarks = try {
-                questionService.getBookmarks().items
-            } catch (ex: Exception) {
-                emptyList()
-            }
+            val bookmarks = safeCall { questionService.getBookmarks() }
             bookmarks.forEach { question ->
                 val questionUsers = listOfNotNull(question.owner, question.lastEditor)
                     .map { user -> user.toUserEntity() }
                 userDao.insert(questionUsers)
-                val answers = questionService.getQuestionAnswers(question.questionId).items
-                answers.forEach { answer ->
-                    val answerUsers = listOfNotNull(answer.owner, answer.lastEditor)
-                        .map { user -> user.toUserEntity() }
-                    userDao.insert(answerUsers)
+
+                try {
+                    val answers = safeCall {
+                        questionService.getQuestionAnswers(question.questionId)
+                    }
+                    answers.forEach { answer ->
+                        val answerUsers = listOfNotNull(answer.owner, answer.lastEditor)
+                            .map { user -> user.toUserEntity() }
+                        userDao.insert(answerUsers)
+                    }
+                    answerDao.insert(answers.map { answer -> answer.toAnswerEntity() })
+                } catch (ex: Exception) {
+                    clearAll()
+                    return emptyList()
                 }
-                answerDao.insert(answers.map { answer -> answer.toAnswerEntity() })
             }
             val entities = bookmarks.map { it.toQuestionEntity() }
             if (entities.isNotEmpty()) {
                 questionDao.insert(entities)
             } else {
-                questionDao.clearQuestions()
+                clearAll()
             }
             bookmarks
         } else {
@@ -118,5 +126,13 @@ class QuestionRepository @Inject constructor(
 
     private suspend fun getQuestionsFromNetwork(@Sort sort: String): List<Question> {
         return questionService.getQuestions(sort = sort).items
+    }
+
+    private suspend fun <T> safeCall(block: suspend () -> Response<T>): List<T> {
+        return try {
+            block().items
+        } catch (ex: Exception) {
+            emptyList()
+        }
     }
 }
