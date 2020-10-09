@@ -46,7 +46,7 @@
             android:title="@string/theme" />
 
         <Preference
-            android:icon="@drawable/ic_baseline_code"
+            android:icon="@drawable/ic_github"
             android:key="@string/source"
             android:title="@string/source" />
 
