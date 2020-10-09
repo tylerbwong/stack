@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import dagger.Module
@@ -11,6 +12,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -30,10 +32,10 @@ class WorkModule {
         .setConstraints(constraints)
         .build()
 
-    @[Provides IntoSet]
+    @[Provides IntoSet Suppress("MagicNumber")]
     fun provideBookmarksWorkRequest(
         constraints: Constraints
-    ): WorkRequest = OneTimeWorkRequestBuilder<BookmarksWorker>()
+    ): WorkRequest = PeriodicWorkRequestBuilder<BookmarksWorker>(12, TimeUnit.HOURS)
         .setConstraints(constraints)
         .build()
 
