@@ -20,6 +20,9 @@ interface AnswerDao {
     @Query("DELETE FROM answer WHERE answerId = :answerId")
     suspend fun delete(answerId: Int)
 
+    @Query("DELETE FROM answer WHERE questionId = :questionId")
+    suspend fun deleteByQuestionId(questionId: Int)
+
     @Query("DELETE FROM answer")
     suspend fun clearAnswers()
 }

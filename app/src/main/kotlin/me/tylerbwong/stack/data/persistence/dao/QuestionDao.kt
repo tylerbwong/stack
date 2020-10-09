@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
 import me.tylerbwong.stack.data.persistence.entity.QuestionEntity
 
 @Dao
@@ -12,11 +11,14 @@ interface QuestionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(questions: List<QuestionEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(question: QuestionEntity)
+
     @Query("SELECT * FROM question WHERE questionId = :questionId")
     suspend fun get(questionId: Int): QuestionEntity?
 
     @Query("SELECT * FROM question WHERE favorited")
-    fun getBookmarks(): Flow<List<QuestionEntity>>
+    suspend fun getBookmarks(): List<QuestionEntity>
 
     @Query("DELETE FROM question WHERE questionId = :questionId")
     suspend fun delete(questionId: Int)

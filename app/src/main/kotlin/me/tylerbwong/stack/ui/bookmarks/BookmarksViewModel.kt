@@ -3,8 +3,6 @@ package me.tylerbwong.stack.ui.bookmarks
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.data.auth.AuthRepository
 import me.tylerbwong.stack.data.repository.QuestionRepository
@@ -29,16 +27,8 @@ class BookmarksViewModel @ViewModelInject constructor(
 
     internal fun fetchBookmarks() {
         if (isAuthenticated) {
-            streamRequest(questionRepository.getBookmarks()) {
-                mutableBookmarks.value = it
-            }
-        }
-    }
-
-    internal fun syncBookmarks() {
-        if (isAuthenticated) {
             launchRequest {
-                withContext(Dispatchers.IO) { questionRepository.syncBookmarks() }
+                mutableBookmarks.value = questionRepository.getBookmarks()
             }
         }
     }

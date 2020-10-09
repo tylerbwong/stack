@@ -1,11 +1,7 @@
 package me.tylerbwong.stack.data.repository
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.api.model.Answer
 import me.tylerbwong.stack.api.model.Question
@@ -69,59 +65,76 @@ class QuestionRepository @Inject constructor(
         }.sortedBy { !it.isAccepted }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun getBookmarks(): Flow<List<Question>> {
-        return questionDao.getBookmarks()
-            .distinctUntilChanged()
-            .map { questionEntities ->
-                questionEntities.map { entity ->
+    suspend fun getBookmarks(): List<Question> {
+        return withContext(Dispatchers.IO) {
+            syncBookmarks()
+            questionDao.getBookmarks()
+                .map { entity ->
                     entity.toQuestion(
                         owner = userDao.get(entity.owner),
                         lastEditor = entity.lastEditor?.let { userDao.get(it) }
                     )
                 }
-            }
-            .flowOn(Dispatchers.IO)
+        }
     }
 
     suspend fun syncBookmarks(): List<Question> {
-        suspend fun clearAll() {
-            questionDao.clearQuestions()
-            userDao.clearUsers()
-            answerDao.clearAnswers()
-        }
         return if (authRepository.isAuthenticated) {
-            val bookmarks = safeCall { questionService.getBookmarks() }
-            bookmarks.forEach { question ->
-                val questionUsers = listOfNotNull(question.owner, question.lastEditor)
-                    .map { user -> user.toUserEntity() }
-                userDao.insert(questionUsers)
-
-                try {
-                    val answers = safeCall {
-                        questionService.getQuestionAnswers(question.questionId)
-                    }
-                    answers.forEach { answer ->
-                        val answerUsers = listOfNotNull(answer.owner, answer.lastEditor)
-                            .map { user -> user.toUserEntity() }
-                        userDao.insert(answerUsers)
-                    }
-                    answerDao.insert(answers.map { answer -> answer.toAnswerEntity() })
-                } catch (ex: Exception) {
+            try {
+                val bookmarks = questionService.getBookmarks().items
+                if (bookmarks.isNotEmpty()) {
+                    bookmarks.forEach { question -> saveQuestion(question) }
+                } else {
                     clearAll()
-                    return emptyList()
                 }
+                bookmarks
+            } catch (ex: Exception) {
+                emptyList()
             }
-            val entities = bookmarks.map { it.toQuestionEntity() }
-            if (entities.isNotEmpty()) {
-                questionDao.insert(entities)
-            } else {
-                clearAll()
-            }
-            bookmarks
         } else {
             emptyList()
         }
+    }
+
+    suspend fun saveQuestion(question: Question): Boolean {
+        try {
+            val questionUsers = listOfNotNull(question.owner, question.lastEditor)
+                .map { user -> user.toUserEntity() }
+            userDao.insert(questionUsers)
+            val answers = safeCall {
+                questionService.getQuestionAnswers(question.questionId)
+            }
+            answers.forEach { answer ->
+                val answerUsers = listOfNotNull(answer.owner, answer.lastEditor)
+                    .map { user -> user.toUserEntity() }
+                userDao.insert(answerUsers)
+            }
+            answerDao.insert(answers.map { answer -> answer.toAnswerEntity() })
+            questionDao.insert(question.toQuestionEntity())
+        } catch (ex: Exception) {
+            clearAll()
+            return false
+        }
+        return true
+    }
+
+    suspend fun removeQuestion(question: Question): Boolean {
+        try {
+            listOfNotNull(question.owner, question.lastEditor)
+                .forEach { userDao.delete(it.userId) }
+            answerDao.deleteByQuestionId(question.questionId)
+            questionDao.delete(question.questionId)
+        } catch (ex: Exception) {
+            clearAll()
+            return false
+        }
+        return true
+    }
+
+    private suspend fun clearAll() {
+        questionDao.clearQuestions()
+        userDao.clearUsers()
+        answerDao.clearAnswers()
     }
 
     private suspend fun getQuestionsFromNetwork(@Sort sort: String): List<Question> {

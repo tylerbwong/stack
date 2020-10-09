@@ -34,7 +34,7 @@ class BookmarksFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding:
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.siteLiveData.observe(viewLifecycleOwner) {
-            viewModel.syncBookmarks()
+            viewModel.fetchBookmarks()
         }
         viewModel.refreshing.observe(viewLifecycleOwner) {
             binding.refreshLayout.isRefreshing = it
@@ -46,7 +46,7 @@ class BookmarksFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding:
                     R.string.retry,
                     shouldAnchorView = true
                 ) {
-                    viewModel.syncBookmarks()
+                    viewModel.fetchBookmarks()
                 }
             } else {
                 snackbar?.dismiss()
@@ -59,14 +59,14 @@ class BookmarksFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding:
             layoutManager = LinearLayoutManager(context)
         }
 
-        binding.refreshLayout.setOnRefreshListener { viewModel.syncBookmarks() }
+        binding.refreshLayout.setOnRefreshListener { viewModel.fetchBookmarks() }
 
         viewModel.fetchBookmarks()
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.syncBookmarks()
+        viewModel.fetchBookmarks()
     }
 
     private fun updateContent(drafts: List<Question>) {
