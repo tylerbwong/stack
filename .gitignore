@@ -51,3 +51,5 @@ freeline/
 freeline_project_description.json
 
 .DS_Store
+
+google-services.json

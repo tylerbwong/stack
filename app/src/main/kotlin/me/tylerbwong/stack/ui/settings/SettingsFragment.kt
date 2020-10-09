@@ -27,6 +27,7 @@ import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
 import me.tylerbwong.stack.ui.theme.nightModeOptions
 import me.tylerbwong.stack.ui.theme.showThemeChooserDialog
 import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.markdown.CustomTabsLinkResolver
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
 import javax.inject.Inject
@@ -99,6 +100,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
                                 .firstOrNull() ?: R.string.theme_light
                         )
                     }
+                    true
+                }
+            }
+
+            findPreference<Preference>(getString(R.string.source))?.apply {
+                setOnPreferenceClickListener {
+                    launchCustomTab(requireContext(), getString(R.string.repository_url))
                     true
                 }
             }
