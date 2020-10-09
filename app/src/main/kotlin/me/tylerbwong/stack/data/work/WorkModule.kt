@@ -36,7 +36,7 @@ class WorkModule {
     @[Provides IntoSet Suppress("MagicNumber")]
     fun provideBookmarksWorkRequest(
         constraints: Constraints
-    ): WorkRequest = PeriodicWorkRequestBuilder<BookmarksWorker>(12, TimeUnit.HOURS)
+    ): WorkRequest = PeriodicWorkRequestBuilder<BookmarksWorker>(8, TimeUnit.HOURS)
         .setConstraints(constraints)
         .build()
 
