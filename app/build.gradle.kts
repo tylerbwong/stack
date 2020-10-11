@@ -11,6 +11,8 @@ android {
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        buildConfigField("String", "CLIENT_ID", property("stackClientId", ""))
+
         javaCompileOptions {
             annotationProcessorOptions {
                 argument("room.incremental", "true")

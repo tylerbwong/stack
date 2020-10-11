@@ -1,6 +1,6 @@
 package me.tylerbwong.stack.api.service
 
-import me.tylerbwong.stack.api.ServiceProvider
+import me.tylerbwong.stack.api.BuildConfig
 import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.model.Site
 import retrofit2.http.GET
@@ -12,7 +12,7 @@ interface SiteService {
     suspend fun getSites(
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_SITE_PAGE_SIZE,
         @Query(FILTER_PARAM) filter: String = DEFAULT_SITE_FILTER,
-        @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Site>
 
     companion object {
