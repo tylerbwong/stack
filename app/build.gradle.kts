@@ -4,6 +4,7 @@ plugins {
     `kotlin-kapt`
     id("dagger.hilt.android.plugin")
     id("com.google.firebase.crashlytics")
+    id("com.mikepenz.aboutlibraries.plugin")
     StackPlugin
 }
 
@@ -69,6 +70,9 @@ dependencies {
     implementation(Dep.composeMaterial)
     implementation(Dep.composeMaterialIcons)
     implementation(Dep.composeTooling)
+
+    // licenses
+    implementation(Dep.aboutLibrariesCore)
 
     // debug
     debugImplementation(Dep.chucker)

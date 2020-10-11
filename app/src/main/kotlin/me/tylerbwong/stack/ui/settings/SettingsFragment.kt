@@ -23,6 +23,7 @@ import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.ui.MainActivity
+import me.tylerbwong.stack.ui.settings.libraries.LibrariesActivity
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
 import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
 import me.tylerbwong.stack.ui.theme.nightModeOptions
@@ -178,6 +179,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
         findPreference<Preference>(getString(R.string.source))?.apply {
             setOnPreferenceClickListener {
                 launchCustomTab(requireContext(), getString(R.string.repository_url))
+                true
+            }
+        }
+
+        findPreference<Preference>(getString(R.string.libraries))?.apply {
+            setOnPreferenceClickListener {
+                LibrariesActivity.startActivity(requireContext())
                 true
             }
         }

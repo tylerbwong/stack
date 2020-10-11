@@ -44,11 +44,18 @@
             android:icon="@drawable/ic_brightness_2"
             android:key="@string/theme"
             android:title="@string/theme" />
+    </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/about">
         <Preference
             android:icon="@drawable/ic_github"
             android:key="@string/source"
             android:title="@string/source" />
+
+        <Preference
+            android:icon="@drawable/ic_baseline_book"
+            android:key="@string/libraries"
+            android:title="@string/libraries" />
 
         <Preference
             android:icon="@drawable/ic_info"
