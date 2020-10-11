@@ -6,8 +6,8 @@ plugins {
 }
 
 android {
-    buildFeatures {
-        buildConfig = false
+    defaultConfig {
+        buildConfigField("String", "API_KEY", stringProperty("stackApiKey"))
     }
 }
 

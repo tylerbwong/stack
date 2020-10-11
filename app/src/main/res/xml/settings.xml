@@ -46,6 +46,11 @@
             android:title="@string/theme" />
 
         <Preference
+            android:icon="@drawable/ic_github"
+            android:key="@string/source"
+            android:title="@string/source" />
+
+        <Preference
             android:icon="@drawable/ic_info"
             android:key="@string/version"
             android:title="@string/version" />
