@@ -7,7 +7,7 @@ plugins {
 
 android {
     defaultConfig {
-        buildConfigField("String", "API_KEY", property("stackApiKey", ""))
+        buildConfigField("String", "API_KEY", stringProperty("stackApiKey"))
     }
 }
 

@@ -11,7 +11,7 @@ android {
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "CLIENT_ID", property("stackClientId", ""))
+        buildConfigField("String", "CLIENT_ID", stringProperty("stackClientId"))
 
         javaCompileOptions {
             annotationProcessorOptions {
