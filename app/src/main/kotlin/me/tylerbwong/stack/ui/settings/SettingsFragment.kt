@@ -51,6 +51,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
         with(preferenceManager) {
             findPreference<TwoStatePreference>(getString(R.string.syntax_highlighting))?.apply {
+                isVisible = BuildConfig.DEBUG
                 isChecked = experimental.syntaxHighlightingEnabled
                 setOnPreferenceChangeListener { _, newValue ->
                     experimental.syntaxHighlightingEnabled = newValue as Boolean
@@ -157,7 +158,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         true
                     }
                 }
-                authPreferences.forEach { it.isVisible = user != null }
+                authPreferences.forEach { it.isVisible = BuildConfig.DEBUG && user != null }
             }
         }
         viewModel.currentSite.observe(viewLifecycleOwner) { site ->
