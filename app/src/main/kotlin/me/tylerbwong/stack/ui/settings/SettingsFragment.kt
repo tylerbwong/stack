@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
 import androidx.preference.TwoStatePreference
 import coil.ImageLoader
 import coil.request.ImageRequest
@@ -84,36 +85,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 authPreferences.add(this)
             }
 
-            findPreference<Preference>(getString(R.string.theme))?.apply {
-                summary = getString(
-                    nightModeOptions
-                        .filterValues { it == context.delegateMode }
-                        .keys
-                        .firstOrNull() ?: R.string.theme_light
-                )
-                setOnPreferenceClickListener {
-                    context.showThemeChooserDialog {
-                        summary = getString(
-                            nightModeOptions
-                                .filterValues { it == context.delegateMode }
-                                .keys
-                                .firstOrNull() ?: R.string.theme_light
-                        )
-                    }
-                    true
-                }
-            }
-
-            findPreference<Preference>(getString(R.string.source))?.apply {
-                setOnPreferenceClickListener {
-                    launchCustomTab(requireContext(), getString(R.string.repository_url))
-                    true
-                }
-            }
-
-            findPreference<Preference>(getString(R.string.version))?.apply {
-                summary = BuildConfig.VERSION_NAME
-            }
+            setupAppSection()
 
             findPreference<PreferenceCategory>(getString(R.string.debug))?.isVisible = BuildConfig.DEBUG
             if (BuildConfig.DEBUG) {
@@ -180,6 +152,39 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onResume() {
         super.onResume()
         viewModel.fetchData()
+    }
+
+    private fun PreferenceManager.setupAppSection() {
+        findPreference<Preference>(getString(R.string.theme))?.apply {
+            summary = getString(
+                nightModeOptions
+                    .filterValues { it == context.delegateMode }
+                    .keys
+                    .firstOrNull() ?: R.string.theme_light
+            )
+            setOnPreferenceClickListener {
+                context.showThemeChooserDialog {
+                    summary = getString(
+                        nightModeOptions
+                            .filterValues { it == context.delegateMode }
+                            .keys
+                            .firstOrNull() ?: R.string.theme_light
+                    )
+                }
+                true
+            }
+        }
+
+        findPreference<Preference>(getString(R.string.source))?.apply {
+            setOnPreferenceClickListener {
+                launchCustomTab(requireContext(), getString(R.string.repository_url))
+                true
+            }
+        }
+
+        findPreference<Preference>(getString(R.string.version))?.apply {
+            summary = BuildConfig.VERSION_NAME
+        }
     }
 
     private fun showLogOutDialog() {
