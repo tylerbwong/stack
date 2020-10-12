@@ -99,4 +99,4 @@ workflows:
       - build-apk:
           name: build-apk-stack-release
           target: app
-          variant: Release
+          variant: StagingRelease
