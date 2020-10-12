@@ -46,9 +46,9 @@ class QuestionDetailMainViewModel @ViewModelInject constructor(
     private val mutableMessageSnackbar = SingleLiveEvent<String>()
 
     private val isAuthenticated: Boolean
-        get() = authRepository.isAuthenticated.value ?: false
+        get() = authRepository.isAuthenticated
 
-    internal val canAnswerQuestion = authRepository.isAuthenticated.zipWith(
+    internal val canAnswerQuestion = authRepository.isAuthenticatedLiveData.zipWith(
         data,
         initialValue = false
     ) { isAuthenticated, data -> isAuthenticated && data.isNotEmpty() }

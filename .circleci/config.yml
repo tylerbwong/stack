@@ -51,9 +51,6 @@ jobs:
       - run:
           name: Run Build APK
           command: ./gradlew :<< parameters.target >>:assemble<< parameters.variant>>
-      - store_artifacts:
-          path: << parameters.target >>/build/outputs/apk
-          destination: << parameters.target >>/build/outputs/apk
 
   unit-tests:
     parameters:
@@ -93,8 +90,8 @@ workflows:
           name: unit-tests-stack
           target: app
       - unit-tests:
-          name: unit-tests-markdown-compose
-          target: markdown-compose
+          name: unit-tests-compose-markdown
+          target: compose-markdown
       - build-apk:
           name: build-apk-stack-debug
           target: app

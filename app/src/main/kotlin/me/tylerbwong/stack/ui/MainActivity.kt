@@ -68,7 +68,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 
         supportActionBar?.title = ""
 
-        viewModel.isAuthenticated.observe(this) { isAuthenticated ->
+        viewModel.isAuthenticatedLiveData.observe(this) { isAuthenticated ->
             val bottomNav = binding.bottomNav
             val isCreateQuestionEnabled = experimental.createQuestionEnabled
             authTabIds.forEach {

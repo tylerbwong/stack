@@ -1,6 +1,6 @@
 package me.tylerbwong.stack.api.service
 
-import me.tylerbwong.stack.api.ServiceProvider
+import me.tylerbwong.stack.api.BuildConfig
 import me.tylerbwong.stack.api.model.ORDER_PARAM
 import me.tylerbwong.stack.api.model.Order
 import me.tylerbwong.stack.api.model.Response
@@ -18,12 +18,12 @@ interface TagService {
         @Query(PAGE_SIZE_PARAM) pageSize: Int = TAGS_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
         @Query(FILTER_PARAM) filter: String = TAGS_FILTER,
-        @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Tag>
 
     companion object {
         private const val TAGS_SORT = "popular"
-        private const val TAGS_PAGE_SIZE = 50
+        private const val TAGS_PAGE_SIZE = 30
         private const val TAGS_FILTER = "!0XrIP(5mCa0R7ys-I*Wa36*Jm"
     }
 }

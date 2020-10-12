@@ -21,7 +21,7 @@ class BookmarksViewModel @ViewModelInject constructor(
     private val mutableBookmarks = MutableLiveData<List<Question>>()
 
     private val isAuthenticated: Boolean
-        get() = authRepository.isAuthenticated.value ?: false
+        get() = authRepository.isAuthenticated
 
     internal val siteLiveData: LiveData<String>
         get() = siteRepository.siteLiveData

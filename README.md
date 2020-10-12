@@ -8,7 +8,7 @@ It is currently under heavy development and is unstable.
 
 The goal of this project is to provide examples for the latest Android libraries and tools. A few noteworthy examples include:
 
-* [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) for networking and asynchronous code
+* [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) for asynchronous code
 * [Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt-android) for dependency injection
 * [Jetpack Compose](https://developer.android.com/jetpack/compose) for declarative UI code written in Kotlin (Slowly being introduced)
 * [Room](https://developer.android.com/jetpack/androidx/releases/room) for local data persistence
@@ -35,10 +35,11 @@ Stack is currently in open testing. You can enroll on Google Play by clicking th
 Here you can also find a few useful Gradle modules as well:
 
 * [buildSrc](./buildSrc) - A Gradle module for common build logic with a custom plugin example.
+* [compose-markdown](./compose-markdown) - A Jetpack Compose Text component that can render markdown content using [intellij-markdown](https://github.com/valich/intellij-markdown) for parsing.
+* [compose-preference](./compose-preference) - A set of Jetpack Compose Preference components.
 * [dynamic-list-adapter](./dynamic-list-adapter) - An abstraction around `RecyclerView` built on `ListAdapter` for asynchronous list diffing.
 * [dynamic-list-adapter-viewbinding](./dynamic-list-adapter-viewbinding) - View Binding support for `DynamicListAdapter`.
 * [dynamic-list-adapter-extensions](./dynamic-list-adapter-extensions) - Android View Extensions support for `DynamicListAdapter`.
-* [markdown-compose](./markdown-compose) - A Jetpack Compose Text component that can render markdown content using [intellij-markdown](https://github.com/valich/intellij-markdown) for parsing.
 
 # License
 

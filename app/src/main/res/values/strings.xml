@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Stack</string>
+    <string name="repository_url" translatable="false">https://github.com/tylerbwong/stack</string>
 
     <string name="theme">Theme</string>
+    <string name="source">Source</string>
     <string name="search">Search</string>
     <string name="share">Share</string>
     <string name="questions">Questions</string>

@@ -1,6 +1,6 @@
 package me.tylerbwong.stack.api.service
 
-import me.tylerbwong.stack.api.ServiceProvider
+import me.tylerbwong.stack.api.BuildConfig
 import me.tylerbwong.stack.api.model.Answer
 import me.tylerbwong.stack.api.model.ORDER_PARAM
 import me.tylerbwong.stack.api.model.Order
@@ -24,7 +24,7 @@ interface QuestionService {
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
         @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
-        @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Question>
 
     @GET("me/favorites")
@@ -34,7 +34,7 @@ interface QuestionService {
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
         @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
-        @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Question>
 
     @GET("questions")
@@ -45,21 +45,21 @@ interface QuestionService {
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
         @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
         @Query(TAGGED_PARAM) tags: String,
-        @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Question>
 
     @GET("questions/{id}")
     suspend fun getQuestionDetails(
         @Path("id") questionId: Int,
         @Query(FILTER_PARAM) filter: String = DETAIL_FILTER,
-        @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Question>
 
     @GET("questions/{id}")
     suspend fun getQuestionDetailsAuth(
         @Path("id") questionId: Int,
         @Query(FILTER_PARAM) filter: String = DETAIL_FILTER_AUTH,
-        @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Question>
 
     @GET("questions/{id}/linked")
@@ -70,7 +70,7 @@ interface QuestionService {
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
         @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
-        @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Question>
 
     @GET("questions/{id}/related")
@@ -81,7 +81,7 @@ interface QuestionService {
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
         @Query(FILTER_PARAM) filter: String = DEFAULT_FILTER,
-        @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Question>
 
     @GET("questions/{id}/answers")
@@ -91,14 +91,14 @@ interface QuestionService {
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
         @Query(FILTER_PARAM) filter: String = ANSWER_FILTER,
-        @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Answer>
 
     @FormUrlEncoded
     @POST("questions/{id}/answers/add")
     suspend fun postAnswer(
         @Path("id") questionId: Int,
-        @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
+        @Field(KEY_PARAM) key: String = BuildConfig.API_KEY,
         @Field(BODY_PARAM) bodyMarkdown: String,
         @Field(PREVIEW_PARAM) preview: Boolean = false
     ): Response<Answer>
@@ -110,7 +110,7 @@ interface QuestionService {
         @Field(BODY_PARAM) body: String,
         @Field(TAGS_PARAM) tags: String,
         @Field(FILTER_PARAM) filter: String = DEFAULT_FILTER,
-        @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
+        @Field(KEY_PARAM) key: String = BuildConfig.API_KEY,
         @Field(PREVIEW_PARAM) preview: Boolean = false
     ): Response<Question>
 
@@ -119,7 +119,7 @@ interface QuestionService {
     suspend fun downvoteQuestionById(
         @Path("id") questionId: Int,
         @Field(FILTER_PARAM) filter: String = DETAIL_FILTER_AUTH,
-        @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
+        @Field(KEY_PARAM) key: String = BuildConfig.API_KEY,
         @Field(PREVIEW_PARAM) preview: Boolean = false
     ): Response<Question>
 
@@ -128,7 +128,7 @@ interface QuestionService {
     suspend fun undoQuestionDownvoteById(
         @Path("id") questionId: Int,
         @Field(FILTER_PARAM) filter: String = DETAIL_FILTER_AUTH,
-        @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
+        @Field(KEY_PARAM) key: String = BuildConfig.API_KEY,
         @Field(PREVIEW_PARAM) preview: Boolean = false
     ): Response<Question>
 
@@ -137,7 +137,7 @@ interface QuestionService {
     suspend fun favoriteQuestionById(
         @Path("id") questionId: Int,
         @Field(FILTER_PARAM) filter: String = DETAIL_FILTER_AUTH,
-        @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
+        @Field(KEY_PARAM) key: String = BuildConfig.API_KEY,
         @Field(PREVIEW_PARAM) preview: Boolean = false
     ): Response<Question>
 
@@ -146,7 +146,7 @@ interface QuestionService {
     suspend fun undoQuestionFavoriteById(
         @Path("id") questionId: Int,
         @Field(FILTER_PARAM) filter: String = DETAIL_FILTER_AUTH,
-        @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
+        @Field(KEY_PARAM) key: String = BuildConfig.API_KEY,
         @Field(PREVIEW_PARAM) preview: Boolean = false
     ): Response<Question>
 
@@ -155,7 +155,7 @@ interface QuestionService {
     suspend fun upvoteQuestionById(
         @Path("id") questionId: Int,
         @Field(FILTER_PARAM) filter: String = DETAIL_FILTER_AUTH,
-        @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
+        @Field(KEY_PARAM) key: String = BuildConfig.API_KEY,
         @Field(PREVIEW_PARAM) preview: Boolean = false
     ): Response<Question>
 
@@ -164,7 +164,7 @@ interface QuestionService {
     suspend fun undoQuestionUpvoteById(
         @Path("id") questionId: Int,
         @Field(FILTER_PARAM) filter: String = DETAIL_FILTER_AUTH,
-        @Field(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY,
+        @Field(KEY_PARAM) key: String = BuildConfig.API_KEY,
         @Field(PREVIEW_PARAM) preview: Boolean = false
     ): Response<Question>
 
