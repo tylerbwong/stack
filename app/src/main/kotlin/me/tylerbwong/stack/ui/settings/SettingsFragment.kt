@@ -7,8 +7,8 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.preference.Preference
-import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceGroup
 import androidx.preference.PreferenceManager
 import androidx.preference.TwoStatePreference
 import coil.ImageLoader
@@ -68,6 +68,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 }
             }
 
+            findPreference<PreferenceGroup>(getString(R.string.experimental))?.isVisible = BuildConfig.DEBUG
+
             findPreference<TwoStatePreference>(getString(R.string.create_question))?.apply {
                 isChecked = experimental.createQuestionEnabled
                 isVisible = false
@@ -88,7 +90,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             setupAppSection()
 
-            findPreference<PreferenceCategory>(getString(R.string.debug))?.isVisible = BuildConfig.DEBUG
+            findPreference<PreferenceGroup>(getString(R.string.debug))?.isVisible = BuildConfig.DEBUG
             if (BuildConfig.DEBUG) {
                 findPreference<Preference>(getString(R.string.inspect_network_traffic))?.apply {
                     setOnPreferenceClickListener {

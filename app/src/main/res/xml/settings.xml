@@ -15,7 +15,9 @@
             android:title="@string/current_site" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/experimental">
+    <PreferenceCategory
+        android:key="@string/experimental"
+        android:title="@string/experimental">
         <SwitchPreferenceCompat
             android:icon="@drawable/ic_baseline_code"
             android:key="@string/syntax_highlighting"
