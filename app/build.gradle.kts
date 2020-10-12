@@ -144,4 +144,9 @@ dependencies {
     androidTestImplementation(Dep.espressoIntents)
 }
 
+val googleServices = file("google-services.json")
+if (!googleServices.exists()) {
+    file("fake-google-services.json").copyTo(googleServices, overwrite = true)
+}
+
 apply(plugin = "com.google.gms.google-services")

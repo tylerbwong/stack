@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "983475834758375",
+    "firebase_url": "https://fakeapp.firebaseio.com",
+    "project_id": "fake-android-app",
+    "storage_bucket": "fake-android-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "FAKEfakeFAKE",
+        "android_client_info": {
+          "package_name": "me.tylerbwong.stack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "FAKEfakeFAKE",
+          "client_type": 1,
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "FAKEfakeFAKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "FAKEfakeFAKE",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
