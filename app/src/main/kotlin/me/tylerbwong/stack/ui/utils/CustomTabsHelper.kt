@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.text.TextUtils
+import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsService
 import me.tylerbwong.stack.R
@@ -21,9 +22,13 @@ fun launchCustomTab(context: Context, url: String) {
     val packageName = getPackageNameToUse(context, url)
     val themeColor = context.resolveThemeAttribute(R.attr.viewBackgroundColor)
     val customTabsIntent = CustomTabsIntent.Builder()
-        .setNavigationBarColor(themeColor)
-        .setToolbarColor(themeColor)
-        .setSecondaryToolbarColor(themeColor)
+        .setDefaultColorSchemeParams(
+            CustomTabColorSchemeParams.Builder()
+                .setNavigationBarColor(themeColor)
+                .setToolbarColor(themeColor)
+                .setSecondaryToolbarColor(themeColor)
+                .build()
+        )
         .build()
     customTabsIntent.intent.`package` = packageName
     customTabsIntent.launchUrl(context, Uri.parse(url))

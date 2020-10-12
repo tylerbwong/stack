@@ -1,11 +1,8 @@
 package me.tylerbwong.stack.ui.owners
 
-import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.util.Pair
 import coil.load
 import coil.transform.CircleCropTransformation
 import me.tylerbwong.stack.R
@@ -14,7 +11,6 @@ import me.tylerbwong.stack.databinding.OwnerViewBinding
 import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.inflate
-import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.toHtml
 
@@ -39,20 +35,7 @@ class OwnerView @JvmOverloads constructor(
             }
 
             userImage.setThrottledOnClickListener {
-                val aoc = context.ofType<Activity>()?.let {
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        it,
-                        Pair(
-                            userImage,
-                            context.getString(R.string.shared_transition_name)
-                        )
-                    )
-                }
-                ProfileActivity.startActivity(
-                    context = context,
-                    userId = owner.userId,
-                    extras = aoc?.toBundle()
-                )
+                ProfileActivity.startActivity(context = context, userId = owner.userId)
             }
             badgeView.badgeCounts = owner.badgeCounts
             reputation.text = owner.reputation.toLong().format()

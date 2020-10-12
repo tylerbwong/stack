@@ -23,9 +23,8 @@
             app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextAppearance"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-            <include
-                android:id="@+id/includeProfileHeader"
-                layout="@layout/profile_header"
+            <FrameLayout
+                android:id="@+id/profileHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="72dp"

@@ -1,12 +1,12 @@
 package me.tylerbwong.stack.ui.search
 
 import android.view.ViewGroup
-import com.google.android.material.chip.Chip
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.SearchHistoryItemHolderBinding
 import me.tylerbwong.stack.ui.home.SearchHistoryItem
 import me.tylerbwong.stack.ui.search.filters.Filter
+import me.tylerbwong.stack.ui.utils.createChip
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class SearchHistoryItemHolder(
@@ -37,12 +37,6 @@ class SearchHistoryItemHolder(
 
         addedFilters
             .map { it.getLabel(filtersView.context) }
-            .forEach { label ->
-                filtersView.addView(
-                    Chip(filtersView.context).apply {
-                        text = label
-                    }
-                )
-            }
+            .forEach { label -> filtersView.addView(filtersView.context.createChip(label)) }
     }
 }

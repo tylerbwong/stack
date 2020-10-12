@@ -29,7 +29,7 @@ class SitesViewModel @ViewModelInject constructor(
     private val mutableSearchQuery = MutableLiveData<String>()
 
     internal val isAuthenticated: Boolean
-        get() = authRepository.isAuthenticated.value ?: false
+        get() = authRepository.isAuthenticated
 
     internal var currentQuery: String? = null
     private var searchCatalog: List<Site> = emptyList()

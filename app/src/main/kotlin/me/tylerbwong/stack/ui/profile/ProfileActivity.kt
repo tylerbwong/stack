@@ -3,15 +3,12 @@ package me.tylerbwong.stack.ui.profile
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.transition.TransitionInflater
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
+import androidx.compose.runtime.Recomposer
+import androidx.compose.ui.platform.setContent
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
-import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.adapter.DynamicListAdapter
@@ -19,10 +16,6 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.ActivityProfileBinding
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.questions.QuestionItemCallback
-import me.tylerbwong.stack.ui.utils.format
-import me.tylerbwong.stack.ui.utils.launchCustomTab
-import me.tylerbwong.stack.ui.utils.setSharedTransition
-import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
 
@@ -36,14 +29,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(binding.toolbar)
-
-        setSharedTransition(
-            android.R.id.statusBarBackground,
-            android.R.id.navigationBarBackground
-        )
-
-        window.sharedElementEnterTransition = TransitionInflater.from(this)
-            .inflateTransition(R.transition.shared_element_transition)
 
         viewModel.userId = intent.getIntExtra(USER_ID, 0)
         viewModel.refreshing.observe(this) {
@@ -60,27 +45,9 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
         }
 
         viewModel.userData.observe(this) {
-            val userImage = binding.includeProfileHeader.userImage
-            userImage.load(it.profileImage) {
-                error(R.drawable.user_image_placeholder)
-                placeholder(R.drawable.user_image_placeholder)
-                transformations(CircleCropTransformation())
-            }
             binding.collapsingToolbarLayout.title = it.displayName.toHtml()
-            val location = binding.includeProfileHeader.location
-            if (it.location != null) {
-                location.text = it.location?.toHtml()
-                location.isVisible = true
-            } else {
-                location.isGone = true
-            }
-            binding.includeProfileHeader.reputation.text = it.reputation.toLong().format()
-            binding.includeProfileHeader.badgeView.badgeCounts = it.badgeCounts
-
-            it.link?.let { link ->
-                userImage.setThrottledOnClickListener {
-                    launchCustomTab(this, link)
-                }
+            binding.profileHeader.setContent(Recomposer.current()) {
+                ProfileHeader(user = it)
             }
         }
         viewModel.questionsData.observe(this) {
@@ -89,9 +56,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
-
-        binding.includeProfileHeader.userImage.transitionName =
-            resources.getString(R.string.shared_transition_name)
 
         binding.recyclerView.apply {
             adapter = this@ProfileActivity.adapter
@@ -124,13 +88,12 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
             context: Context,
             userId: Int,
             isFromDeepLink: Boolean = false,
-            extras: Bundle? = null
         ) {
             val intent = Intent(context, ProfileActivity::class.java).apply {
                 putExtra(USER_ID, userId)
                 putExtra(IS_FROM_DEEP_LINK, isFromDeepLink)
             }
-            context.startActivity(intent, extras)
+            context.startActivity(intent)
         }
     }
 }

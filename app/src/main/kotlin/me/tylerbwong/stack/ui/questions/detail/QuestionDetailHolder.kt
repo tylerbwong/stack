@@ -2,16 +2,15 @@ package me.tylerbwong.stack.ui.questions.detail
 
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import com.google.android.material.chip.Chip
 import com.soywiz.klock.seconds
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.QuestionDetailHolderBinding
 import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
+import me.tylerbwong.stack.ui.utils.createChip
 import me.tylerbwong.stack.ui.utils.formatElapsedTime
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
-import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.toHtml
 
 class QuestionDetailHolder(
@@ -46,14 +45,12 @@ class QuestionDetailHolder(
         ownerView.bind(question.owner)
 
         tagsView.removeAllViews()
-        question.tags?.forEach {
-            val chip = Chip(itemView.context).apply {
-                text = it
-                setThrottledOnClickListener { view ->
-                    QuestionsActivity.startActivityForKey(view.context, TAGS, it)
+        question.tags?.forEach { tag ->
+            tagsView.addView(
+                itemView.context.createChip(tag) {
+                    QuestionsActivity.startActivityForKey(it.context, TAGS, tag)
                 }
-            }
-            tagsView.addView(chip)
+            )
         }
     }
 }
