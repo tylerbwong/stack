@@ -39,7 +39,7 @@ class LibrariesViewModel : BaseViewModel() {
                             } ?: ""
                         )
                     }
-            }
+            } ?: emptyList()
         }
     }
 }
