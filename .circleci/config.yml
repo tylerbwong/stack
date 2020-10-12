@@ -75,7 +75,7 @@ jobs:
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "<< parameters.target >>/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
       - run:
           name: Run Unit Tests
-          command: ./gradlew :<< parameters.target >>:testDebugUnitTest
+          command: ./gradlew :<< parameters.target >>:testStagingDebugUnitTest
       - store_test_results:
           path: << parameters.target >>/build/test-results
       - store_artifacts:
