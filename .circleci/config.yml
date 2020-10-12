@@ -92,7 +92,7 @@ workflows:
       - unit-tests:
           name: unit-tests-stack
           target: app
-          variant: StagingDebug
+          variant: Debug
       - unit-tests:
           name: unit-tests-compose-markdown
           target: compose-markdown
@@ -101,7 +101,3 @@ workflows:
           name: build-apk-stack-debug
           target: app
           variant: Debug
-      - build-apk:
-          name: build-apk-stack-release
-          target: app
-          variant: StagingRelease

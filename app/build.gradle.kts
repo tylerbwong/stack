@@ -22,22 +22,6 @@ android {
         }
     }
 
-    flavorDimensions("environment")
-    productFlavors {
-        create("staging") {
-            dimension("environment")
-            firebaseCrashlytics {
-                mappingFileUploadEnabled = false
-            }
-        }
-        create("prod") {
-            dimension("environment")
-            firebaseCrashlytics {
-                mappingFileUploadEnabled = true
-            }
-        }
-    }
-
     buildFeatures {
         compose = true
         viewBinding = true
