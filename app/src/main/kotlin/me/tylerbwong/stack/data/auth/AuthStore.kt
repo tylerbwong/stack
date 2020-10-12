@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.auth.di.AuthSharedPreferences
 import me.tylerbwong.stack.data.model.Scope
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -44,13 +45,12 @@ class AuthStore @Inject constructor(
         const val ACCESS_TOKEN = "access_token"
         private const val AUTH_BASE = "https://stackoverflow.com/oauth/dialog"
         private const val AUTH_REDIRECT = "stack://tylerbwong.me/auth/redirect"
-        private const val CLIENT_ID = "12074"
 
         val authUrl: String = run {
             val httpUrl = AUTH_BASE.toHttpUrlOrNull() ?: return@run ""
 
             httpUrl.newBuilder()
-                .addEncodedQueryParameter("client_id", CLIENT_ID)
+                .addEncodedQueryParameter("client_id", BuildConfig.CLIENT_ID)
                 .addEncodedQueryParameter("redirect_uri", AUTH_REDIRECT)
                 .addEncodedQueryParameter("scope", Scope.all.joinToString(","))
                 .build()

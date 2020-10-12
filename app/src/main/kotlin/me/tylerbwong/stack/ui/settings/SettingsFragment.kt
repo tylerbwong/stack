@@ -42,12 +42,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private val viewModel by viewModels<SettingsViewModel>()
 
+    private val authPreferences = mutableSetOf<Preference>()
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         if (savedInstanceState == null) {
             addPreferencesFromResource(R.xml.settings)
         }
         with(preferenceManager) {
             findPreference<TwoStatePreference>(getString(R.string.syntax_highlighting))?.apply {
+                isVisible = BuildConfig.DEBUG
                 isChecked = experimental.syntaxHighlightingEnabled
                 setOnPreferenceChangeListener { _, newValue ->
                     experimental.syntaxHighlightingEnabled = newValue as Boolean
@@ -65,6 +68,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             findPreference<TwoStatePreference>(getString(R.string.create_question))?.apply {
                 isChecked = experimental.createQuestionEnabled
+                isVisible = false
                 setOnPreferenceChangeListener { _, newValue ->
                     experimental.createQuestionEnabled = newValue as Boolean
                     view?.showSnackbar(
@@ -77,6 +81,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     }
                     true
                 }
+                authPreferences.add(this)
             }
 
             findPreference<Preference>(getString(R.string.theme))?.apply {
@@ -95,6 +100,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
                                 .firstOrNull() ?: R.string.theme_light
                         )
                     }
+                    true
+                }
+            }
+
+            findPreference<Preference>(getString(R.string.source))?.apply {
+                setOnPreferenceClickListener {
+                    launchCustomTab(requireContext(), getString(R.string.repository_url))
                     true
                 }
             }
@@ -145,6 +157,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         true
                     }
                 }
+                authPreferences.forEach { it.isVisible = BuildConfig.DEBUG && user != null }
             }
         }
         viewModel.currentSite.observe(viewLifecycleOwner) { site ->

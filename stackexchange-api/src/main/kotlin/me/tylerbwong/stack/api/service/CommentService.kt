@@ -1,6 +1,6 @@
 package me.tylerbwong.stack.api.service
 
-import me.tylerbwong.stack.api.ServiceProvider
+import me.tylerbwong.stack.api.BuildConfig
 import me.tylerbwong.stack.api.model.Comment
 import me.tylerbwong.stack.api.model.ORDER_PARAM
 import me.tylerbwong.stack.api.model.Order
@@ -18,7 +18,7 @@ interface CommentService {
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
         @Query(FILTER_PARAM) filter: String = COMMENTS_FILTER,
-        @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Comment>
 
     @GET("posts/{id}/comments")
@@ -28,7 +28,7 @@ interface CommentService {
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
         @Query(FILTER_PARAM) filter: String = COMMENTS_FILTER_AUTH,
-        @Query(KEY_PARAM) key: String = ServiceProvider.DEFAULT_KEY
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Comment>
 
     companion object {

@@ -1,15 +1,12 @@
 package me.tylerbwong.stack.ui
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
-import androidx.core.util.Pair
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -38,8 +35,6 @@ import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchCustomTab
-import me.tylerbwong.stack.ui.utils.ofType
-import me.tylerbwong.stack.ui.utils.setSharedTransition
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
@@ -71,16 +66,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
         setSupportActionBar(binding.toolbar)
         setupBottomNavigation()
 
-        setSharedTransition(
-            android.R.id.statusBarBackground,
-            android.R.id.navigationBarBackground
-        )
-
         supportActionBar?.title = ""
 
-        viewModel.isAuthenticated.observe(this) { isAuthenticated ->
+        viewModel.isAuthenticatedLiveData.observe(this) { isAuthenticated ->
             val bottomNav = binding.bottomNav
-            authTabIds.forEach { bottomNav.menu.findItem(it)?.isVisible = isAuthenticated }
+            val isCreateQuestionEnabled = experimental.createQuestionEnabled
+            authTabIds.forEach {
+                bottomNav.menu.findItem(it)?.isVisible = if (it == R.id.create) {
+                    isAuthenticated && isCreateQuestionEnabled
+                } else {
+                    isAuthenticated
+                }
+            }
             if (bottomNav.selectedItemId in authTabIds) {
                 bottomNav.selectedItemId = R.id.home
             }
@@ -103,17 +100,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
                         transformations(CircleCropTransformation())
                     }
                     setThrottledOnClickListener {
-                        val aoc = context.ofType<Activity>()?.let {
-                            ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                it,
-                                Pair(this, context.getString(R.string.shared_transition_name))
-                            )
-                        }
-                        ProfileActivity.startActivity(
-                            this@MainActivity,
-                            userId = user.userId,
-                            extras = aoc?.toBundle()
-                        )
+                        ProfileActivity.startActivity(this@MainActivity, userId = user.userId)
                     }
                 } else {
                     setImageResource(R.drawable.ic_account_circle)
@@ -189,7 +176,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 
     private fun setupBottomNavigation() {
         with(binding.bottomNav) {
-            post { menu.findItem(R.id.create)?.isVisible = experimental.createQuestionEnabled }
             setOnNavigationItemSelectedListener { menuItem ->
                 if (experimental.createQuestionEnabled && menuItem.itemId == R.id.create) {
                     CreateQuestionActivity.startActivity(this@MainActivity)

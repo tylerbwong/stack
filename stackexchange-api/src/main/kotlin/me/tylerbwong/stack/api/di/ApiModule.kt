@@ -16,13 +16,18 @@ import me.tylerbwong.stack.api.service.UserService
 import okhttp3.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class BaseUrl
 
 @Module
 @InstallIn(SingletonComponent::class)
 class ApiModule {
 
-    @Provides
+    @[Provides BaseUrl]
     fun provideBaseUrl() = BASE_URL
 
     @Singleton
@@ -40,7 +45,7 @@ class ApiModule {
     @Singleton
     @Provides
     fun provideRetrofit(
-        baseUrl: String,
+        @BaseUrl baseUrl: String,
         callFactory: Call.Factory,
         unitConverterFactory: UnitConverterFactory,
         moshiConverterFactory: MoshiConverterFactory

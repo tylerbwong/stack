@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Stack</string>
+    <string name="repository_url" translatable="false">https://github.com/tylerbwong/stack</string>
 
     <string name="theme">Theme</string>
+    <string name="source">Source</string>
     <string name="search">Search</string>
     <string name="share">Share</string>
     <string name="questions">Questions</string>
@@ -126,14 +128,11 @@
     <!-- Debug -->
     <string name="inspect_network_traffic">Inspect Network Traffic</string>
 
-    <!-- Transition string -->
-    <string name="shared_transition_name">transition</string>
-
     <!-- App version -->
     <string name="version">Version</string>
     <string name="syntax_highlighting">Syntax Highlighting</string>
-    <string name="syntax_highlighting_summary">Enables syntax highlighting within any markdown body.</string>
-    <string name="create_question_summary">Enables create question support if logged in.</string>
+    <string name="syntax_highlighting_summary">Enables syntax highlighting for supported markdown code blocks.</string>
+    <string name="create_question_summary">Enables create question support.</string>
 
     <string name="restart_toggle">Toggling this requires a restart</string>
     <string name="link_copied">Link copied to clipboard</string>

@@ -73,7 +73,7 @@ class SearchViewModel @ViewModelInject constructor(
         val tags = tagService.getPopularTags().items
         val searches = searchDao.getSearches(siteStore.site)
         _emptySearchData.value = EmptySearchData(
-            tags = tags,
+            tags = tags.chunked(tags.size / 3),
             searchHistory = searches.map { it.toSearchPayload() }
         )
     }

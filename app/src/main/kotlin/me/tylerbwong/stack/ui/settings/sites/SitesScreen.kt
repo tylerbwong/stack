@@ -9,9 +9,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
@@ -146,6 +145,7 @@ fun SitesLayout(changeSite: (String) -> Unit) {
     LazyColumnFor(items = sites) { site -> SiteItem(site, searchQuery, changeSite) }
 }
 
+// TODO Migrate to ListItem
 @Composable
 fun SiteItem(site: Site, searchQuery: String?, changeSite: (String) -> Unit) {
     val viewModel = viewModel<SitesViewModel>()
@@ -170,8 +170,7 @@ fun SiteItem(site: Site, searchQuery: String?, changeSite: (String) -> Unit) {
         CoilImage(
             data = site.iconUrl,
             modifier = Modifier
-                .width(64.dp)
-                .height(64.dp)
+                .size(64.dp)
                 .padding(
                     start = 8.dp,
                     top = 8.dp,
@@ -182,7 +181,7 @@ fun SiteItem(site: Site, searchQuery: String?, changeSite: (String) -> Unit) {
         Column(
             modifier = Modifier
                 .padding(
-                    start = 4.dp,
+                    start = 2.dp,
                     top = 16.dp,
                     end = 16.dp,
                     bottom = 16.dp
