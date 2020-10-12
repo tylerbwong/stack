@@ -102,6 +102,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 }
             }
         }
+        viewModel.isAuthenticated.observe(this) { isAuthenticated ->
+            authPreferences.forEach { it.isVisible = isAuthenticated && BuildConfig.DEBUG }
+        }
     }
 
     @SuppressLint("DefaultLocale")
@@ -132,7 +135,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         true
                     }
                 }
-                authPreferences.forEach { it.isVisible = BuildConfig.DEBUG && user != null }
             }
         }
         viewModel.currentSite.observe(viewLifecycleOwner) { site ->
