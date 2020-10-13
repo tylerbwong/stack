@@ -15,7 +15,9 @@
             android:title="@string/current_site" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/experimental">
+    <PreferenceCategory
+        android:key="@string/experimental"
+        android:title="@string/experimental">
         <SwitchPreferenceCompat
             android:icon="@drawable/ic_baseline_code"
             android:key="@string/syntax_highlighting"
@@ -44,11 +46,18 @@
             android:icon="@drawable/ic_brightness_2"
             android:key="@string/theme"
             android:title="@string/theme" />
+    </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/about">
         <Preference
             android:icon="@drawable/ic_github"
             android:key="@string/source"
             android:title="@string/source" />
+
+        <Preference
+            android:icon="@drawable/ic_baseline_book"
+            android:key="@string/libraries"
+            android:title="@string/libraries" />
 
         <Preference
             android:icon="@drawable/ic_info"

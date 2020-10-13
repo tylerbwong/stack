@@ -8,3 +8,12 @@
 }
 # Ignore annotation used for build tooling.
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
+# AboutLibraries
+-keepclasseswithmembers class **.R$* {
+    public static final int define_*;
+}
+
+# Crashlytics
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception

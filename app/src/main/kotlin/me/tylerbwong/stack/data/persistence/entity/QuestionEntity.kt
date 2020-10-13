@@ -39,6 +39,7 @@ data class QuestionEntity(
     val lastEditDate: Long?,
     val lastEditor: Int?,
     val owner: Int,
+    @PrimaryKey
     val questionId: Int,
     val score: Int,
     val shareLink: String,
@@ -46,9 +47,5 @@ data class QuestionEntity(
     val title: String,
     val upVoteCount: Int,
     val upvoted: Boolean,
-    val viewCount: Int,
-    val sortString: String
-) {
-    @PrimaryKey(autoGenerate = true)
-    var id: Long? = null
-}
+    val viewCount: Int
+)
