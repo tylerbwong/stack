@@ -7,8 +7,9 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.preference.Preference
-import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceGroup
+import androidx.preference.PreferenceManager
 import androidx.preference.TwoStatePreference
 import coil.ImageLoader
 import coil.request.ImageRequest
@@ -22,6 +23,7 @@ import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.ui.MainActivity
+import me.tylerbwong.stack.ui.settings.libraries.LibrariesActivity
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
 import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
 import me.tylerbwong.stack.ui.theme.nightModeOptions
@@ -66,6 +68,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 }
             }
 
+            findPreference<PreferenceGroup>(getString(R.string.experimental))?.isVisible = BuildConfig.DEBUG
+
             findPreference<TwoStatePreference>(getString(R.string.create_question))?.apply {
                 isChecked = experimental.createQuestionEnabled
                 isVisible = false
@@ -84,38 +88,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 authPreferences.add(this)
             }
 
-            findPreference<Preference>(getString(R.string.theme))?.apply {
-                summary = getString(
-                    nightModeOptions
-                        .filterValues { it == context.delegateMode }
-                        .keys
-                        .firstOrNull() ?: R.string.theme_light
-                )
-                setOnPreferenceClickListener {
-                    context.showThemeChooserDialog {
-                        summary = getString(
-                            nightModeOptions
-                                .filterValues { it == context.delegateMode }
-                                .keys
-                                .firstOrNull() ?: R.string.theme_light
-                        )
-                    }
-                    true
-                }
-            }
+            setupAppSection()
 
-            findPreference<Preference>(getString(R.string.source))?.apply {
-                setOnPreferenceClickListener {
-                    launchCustomTab(requireContext(), getString(R.string.repository_url))
-                    true
-                }
-            }
-
-            findPreference<Preference>(getString(R.string.version))?.apply {
-                summary = BuildConfig.VERSION_NAME
-            }
-
-            findPreference<PreferenceCategory>(getString(R.string.debug))?.isVisible = BuildConfig.DEBUG
+            findPreference<PreferenceGroup>(getString(R.string.debug))?.isVisible = BuildConfig.DEBUG
             if (BuildConfig.DEBUG) {
                 findPreference<Preference>(getString(R.string.inspect_network_traffic))?.apply {
                     setOnPreferenceClickListener {
@@ -126,6 +101,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     }
                 }
             }
+        }
+        viewModel.isAuthenticated.observe(this) { isAuthenticated ->
+            authPreferences.forEach { it.isVisible = isAuthenticated && BuildConfig.DEBUG }
         }
     }
 
@@ -157,7 +135,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         true
                     }
                 }
-                authPreferences.forEach { it.isVisible = BuildConfig.DEBUG && user != null }
             }
         }
         viewModel.currentSite.observe(viewLifecycleOwner) { site ->
@@ -180,6 +157,46 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onResume() {
         super.onResume()
         viewModel.fetchData()
+    }
+
+    private fun PreferenceManager.setupAppSection() {
+        findPreference<Preference>(getString(R.string.theme))?.apply {
+            summary = getString(
+                nightModeOptions
+                    .filterValues { it == context.delegateMode }
+                    .keys
+                    .firstOrNull() ?: R.string.theme_light
+            )
+            setOnPreferenceClickListener {
+                context.showThemeChooserDialog {
+                    summary = getString(
+                        nightModeOptions
+                            .filterValues { it == context.delegateMode }
+                            .keys
+                            .firstOrNull() ?: R.string.theme_light
+                    )
+                }
+                true
+            }
+        }
+
+        findPreference<Preference>(getString(R.string.source))?.apply {
+            setOnPreferenceClickListener {
+                launchCustomTab(requireContext(), getString(R.string.repository_url))
+                true
+            }
+        }
+
+        findPreference<Preference>(getString(R.string.libraries))?.apply {
+            setOnPreferenceClickListener {
+                LibrariesActivity.startActivity(requireContext())
+                true
+            }
+        }
+
+        findPreference<Preference>(getString(R.string.version))?.apply {
+            summary = BuildConfig.VERSION_NAME
+        }
     }
 
     private fun showLogOutDialog() {

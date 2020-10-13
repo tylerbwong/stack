@@ -19,6 +19,8 @@ data class Answer(
     val creationDate: Long,
     @Json(name = "body_markdown")
     val bodyMarkdown: String,
+    @Json(name = "last_edit_date")
+    val lastEditDate: Long?,
     @Json(name = "last_editor")
     val lastEditor: User?,
     @Json(name = "question_id")

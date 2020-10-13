@@ -190,6 +190,10 @@
             android:name=".ui.settings.sites.SitesActivity"
             android:theme="@style/AppTheme.Base.Primary" />
 
+        <activity
+            android:name=".ui.settings.libraries.LibrariesActivity"
+            android:theme="@style/AppTheme.Base.Primary" />
+
         <provider
             android:name="androidx.work.impl.WorkManagerInitializer"
             android:authorities="${applicationId}.workmanager-init"

@@ -4,6 +4,7 @@ plugins {
     `kotlin-kapt`
     id("dagger.hilt.android.plugin")
     id("com.google.firebase.crashlytics")
+    id("com.mikepenz.aboutlibraries.plugin")
     StackPlugin
 }
 
@@ -70,6 +71,9 @@ dependencies {
     implementation(Dep.composeMaterial)
     implementation(Dep.composeMaterialIcons)
     implementation(Dep.composeTooling)
+
+    // licenses
+    implementation(Dep.aboutLibrariesCore)
 
     // debug
     debugImplementation(Dep.chucker)
@@ -139,6 +143,11 @@ dependencies {
     androidTestImplementation(Dep.barista)
     androidTestImplementation(Dep.espresso)
     androidTestImplementation(Dep.espressoIntents)
+}
+
+val googleServices = file("google-services.json")
+if (!googleServices.exists()) {
+    file("fake-google-services.json").copyTo(googleServices, overwrite = true)
 }
 
 apply(plugin = "com.google.gms.google-services")
