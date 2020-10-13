@@ -5,6 +5,7 @@ buildscript {
         gradle()
     }
     dependencies {
+        classpath(Dep.aboutLibrariesGradlePlugin)
         classpath(Dep.androidGradlePlugin)
         classpath(Dep.daggerHiltGradlePlugin)
         classpath(Dep.detektGradlePlugin)

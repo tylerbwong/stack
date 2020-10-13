@@ -1,4 +1,5 @@
 object Versions {
+    const val aboutLibraries = "8.4.2"
     const val androidGradlePlugin = "4.2.0-alpha13"
     const val androidxActivity = "1.2.0-beta01"
     const val androidxAppCompat = "1.3.0-alpha02"
@@ -54,6 +55,8 @@ object Versions {
 }
 
 object Dep {
+    const val aboutLibrariesCore = "com.mikepenz:aboutlibraries-core:${Versions.aboutLibraries}"
+    const val aboutLibrariesGradlePlugin = "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:${Versions.aboutLibraries}"
     const val androidGradlePlugin = "com.android.tools.build:gradle:${Versions.androidGradlePlugin}"
     const val androidxActivity = "androidx.activity:activity-ktx:${Versions.androidxActivity}"
     const val androidxAppCompat = "androidx.appcompat:appcompat:${Versions.androidxAppCompat}"

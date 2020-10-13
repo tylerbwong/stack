@@ -8,10 +8,9 @@ import javax.inject.Singleton
 @Singleton
 class WorkScheduler @Inject constructor(
     private val workManager: WorkManager,
-    private val siteWorkRequest: WorkRequest
+    private val workRequests: Set<@JvmSuppressWildcards WorkRequest>
 ) {
-
     fun schedule() {
-        workManager.enqueue(siteWorkRequest)
+        workRequests.forEach { workManager.enqueue(it) }
     }
 }

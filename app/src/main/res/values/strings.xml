@@ -4,6 +4,8 @@
 
     <string name="theme">Theme</string>
     <string name="source">Source</string>
+    <string name="libraries">Open Source Libraries</string>
+    <string name="license">%1$s License</string>
     <string name="search">Search</string>
     <string name="share">Share</string>
     <string name="questions">Questions</string>
@@ -119,6 +121,7 @@
 
     <!-- Settings -->
     <string name="app">App</string>
+    <string name="about">About</string>
     <string name="experimental">Experimental</string>
     <string name="account">Account</string>
     <string name="current_site">Current Site</string>

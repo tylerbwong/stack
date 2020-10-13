@@ -57,6 +57,9 @@ jobs:
       target:
         type: string
         description: The target to test.
+      variant:
+        type: string
+        description: The variant to test.
     working_directory: ~/code
     docker:
       - image: circleci/android:api-30
@@ -75,7 +78,7 @@ jobs:
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "<< parameters.target >>/build.gradle.kts" }}-{{ checksum "buildSrc/src/main/kotlin/Dependencies.kt" }}
       - run:
           name: Run Unit Tests
-          command: ./gradlew :<< parameters.target >>:testDebugUnitTest
+          command: ./gradlew :<< parameters.target >>:test<< parameters.variant>>UnitTest
       - store_test_results:
           path: << parameters.target >>/build/test-results
       - store_artifacts:
@@ -89,14 +92,12 @@ workflows:
       - unit-tests:
           name: unit-tests-stack
           target: app
+          variant: Debug
       - unit-tests:
           name: unit-tests-compose-markdown
           target: compose-markdown
+          variant: Debug
       - build-apk:
           name: build-apk-stack-debug
           target: app
           variant: Debug
-      - build-apk:
-          name: build-apk-stack-release
-          target: app
-          variant: Release

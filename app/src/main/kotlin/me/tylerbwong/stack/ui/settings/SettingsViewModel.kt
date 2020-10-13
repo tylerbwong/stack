@@ -23,6 +23,9 @@ class SettingsViewModel @ViewModelInject constructor(
         get() = _currentSite
     private val _currentSite = MutableLiveData<Site>()
 
+    internal val isAuthenticated: LiveData<Boolean>
+        get() = authRepository.isAuthenticatedLiveData
+
     internal fun fetchData() {
         fetchUser()
         fetchCurrentSite()
