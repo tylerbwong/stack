@@ -6,6 +6,14 @@
 Stack is an Android application that lets you browse [stackoverflow.com](https://stackoverflow.com) and other Stack Exchange sites.
 It is currently under heavy development and is unstable.
 
+### Open testing
+
+Stack is currently in open testing. You can enroll on Google Play by clicking the badge below.
+
+<a href="https://play.google.com/apps/testing/me.tylerbwong.stack"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height=80px /></a>
+
+### Development
+
 The goal of this project is to provide examples for the latest Android libraries and tools. A few noteworthy examples include:
 
 * [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) for asynchronous code
@@ -23,12 +31,6 @@ The goal of this project is to provide examples for the latest Android libraries
 * View other users' profiles
 * Dark mode
 * Question deep linking
-
-### Open testing
-
-Stack is currently in open testing. You can enroll on Google Play by clicking the badge below.
-
-<a href="https://play.google.com/apps/testing/me.tylerbwong.stack"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height=80px /></a>
 
 ### Subprojects
 
