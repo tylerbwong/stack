@@ -38,6 +38,7 @@ captures/
 *.iml
 .idea/*
 !.idea/codeStyles/
+!.idea/icon.png
 
 # Keystore files
 *.jks
