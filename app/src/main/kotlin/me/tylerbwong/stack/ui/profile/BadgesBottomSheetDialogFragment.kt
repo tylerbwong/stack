@@ -17,6 +17,7 @@ import me.tylerbwong.stack.api.model.GOLD
 import me.tylerbwong.stack.api.model.SILVER
 import me.tylerbwong.stack.databinding.BadgesFragmentBinding
 import me.tylerbwong.stack.ui.utils.createChip
+import me.tylerbwong.stack.ui.utils.toHtml
 
 @AndroidEntryPoint
 class BadgesBottomSheetDialogFragment : BottomSheetDialogFragment() {
@@ -53,7 +54,7 @@ class BadgesBottomSheetDialogFragment : BottomSheetDialogFragment() {
                         else -> R.color.secondaryTextColor
                     }
                     createChip(
-                        it.name,
+                        it.name.toHtml().toString(),
                         backgroundColorRes = R.color.dialogBackgroundColor,
                         strokeColorRes = strokeColorRes,
                         strokeWidthRes = R.dimen.badge_chip_stroke_width
