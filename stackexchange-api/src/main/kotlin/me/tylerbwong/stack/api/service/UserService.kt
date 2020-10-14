@@ -4,6 +4,7 @@ import me.tylerbwong.stack.api.BuildConfig
 import me.tylerbwong.stack.api.model.Badge
 import me.tylerbwong.stack.api.model.ORDER_PARAM
 import me.tylerbwong.stack.api.model.Order
+import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.model.SORT_PARAM
 import me.tylerbwong.stack.api.model.TimelineEvent
@@ -26,6 +27,15 @@ interface UserService {
         @Query(FILTER_PARAM) filter: String = USER_FILTER,
         @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<User>
+
+    @GET("users/{userId}/questions")
+    suspend fun getUserQuestionsById(
+        @Path(USER_ID) userId: Int?,
+        @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
+        @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
+        @Query(FILTER_PARAM) filter: String = QuestionService.DEFAULT_FILTER,
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
+    ): Response<Question>
 
     @GET("users/{userId}/timeline")
     suspend fun getUserTimeline(
