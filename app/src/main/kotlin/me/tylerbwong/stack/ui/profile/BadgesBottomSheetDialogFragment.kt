@@ -48,9 +48,9 @@ class BadgesBottomSheetDialogFragment : BottomSheetDialogFragment() {
             val chips = with(binding.badgesLayout.context) {
                 badges.map {
                     val strokeColorRes = when (it.rank) {
-                        GOLD -> R.color.goldBadgeColor
-                        SILVER -> R.color.silverBadgeColor
-                        BRONZE -> R.color.bronzeBadgeColor
+                        GOLD -> R.color.goldBadgeColorDark
+                        SILVER -> R.color.silverBadgeColorDark
+                        BRONZE -> R.color.bronzeBadgeColorDark
                         else -> R.color.secondaryTextColor
                     }
                     createChip(
