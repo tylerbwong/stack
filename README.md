@@ -8,9 +8,9 @@ It is currently under heavy development and is unstable.
 
 ### Open testing
 
-Stack is currently in open testing. You can enroll on Google Play by clicking the badge below.
+Stack is currently in open testing. You can download the app from Google Play by clicking the badge below.
 
-<a href="https://play.google.com/apps/testing/me.tylerbwong.stack"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height=80px /></a>
+<a href="https://play.google.com/store/apps/details?id=me.tylerbwong.stack"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height=80px /></a>
 
 ### Development
 
