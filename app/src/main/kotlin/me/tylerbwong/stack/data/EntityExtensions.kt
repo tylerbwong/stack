@@ -118,7 +118,8 @@ fun Answer.toAnswerEntity(): AnswerEntity =
         questionId = questionId,
         owner = owner.userId,
         lastEditDate = lastEditDate,
-        lastEditor = lastEditor?.userId
+        lastEditor = lastEditor?.userId,
+        commentCount = commentCount
     )
 
 fun AnswerEntity.toAnswer(owner: UserEntity, lastEditor: UserEntity?): Answer =
@@ -133,7 +134,8 @@ fun AnswerEntity.toAnswer(owner: UserEntity, lastEditor: UserEntity?): Answer =
         questionId = questionId,
         owner = owner.toUser(),
         lastEditDate = lastEditDate,
-        lastEditor = lastEditor?.toUser()
+        lastEditor = lastEditor?.toUser(),
+        commentCount = commentCount
     )
 
 fun AnswerDraftEntity.toAnswerDraft(): AnswerDraft =

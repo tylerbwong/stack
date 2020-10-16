@@ -2,6 +2,7 @@ package me.tylerbwong.stack.data.persistence.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,13 +14,15 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class PersistenceModule {
 
-    @Singleton
-    @Provides
-    fun provideStackDatabase(context: Context) = Room.databaseBuilder(
-        context,
-        StackDatabase::class.java,
-        STACK_DATABASE_NAME
-    ).build()
+    @[Provides Singleton Suppress("SpreadOperator")]
+    fun provideStackDatabase(
+        context: Context,
+        @StackMigration migrations: Set<@JvmSuppressWildcards Migration>
+    ): StackDatabase {
+        return Room.databaseBuilder(context, StackDatabase::class.java, STACK_DATABASE_NAME)
+            .addMigrations(*migrations.toTypedArray())
+            .build()
+    }
 
     @Provides
     fun provideQuestionDao(stackDatabase: StackDatabase) = stackDatabase.getQuestionDao()

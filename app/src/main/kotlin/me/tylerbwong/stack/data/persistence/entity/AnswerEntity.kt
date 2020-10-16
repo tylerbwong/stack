@@ -33,5 +33,6 @@ data class AnswerEntity(
     val questionId: Int,
     val owner: Int,
     val lastEditDate: Long?,
-    val lastEditor: Int?
+    val lastEditor: Int?,
+    val commentCount: Int?
 )

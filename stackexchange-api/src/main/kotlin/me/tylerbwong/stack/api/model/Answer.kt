@@ -25,5 +25,6 @@ data class Answer(
     val lastEditor: User?,
     @Json(name = "question_id")
     val questionId: Int,
-    val comments: List<Comment> = emptyList()
+    @Json(name = "comment_count")
+    val commentCount: Int?
 )

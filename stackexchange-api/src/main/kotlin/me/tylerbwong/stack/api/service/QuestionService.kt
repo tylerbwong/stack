@@ -176,7 +176,7 @@ interface QuestionService {
 
         internal const val DEFAULT_FILTER = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9("
         internal const val ANSWER_FILTER =
-            "!0S8m3MqnVA0.si8ymAHCw85(QQpY3QVrrCN(n.jv(dyzoY3hJnA-ub3op0wDzhwp8dyxCg-"
+            "!LHXt-o3mHpPbhfB9nT1IVYxrVJAsS-Cb1wqXTn-uY*4.P_Vc7NLZBxoCYsXr-FFMbEwU"
         internal const val DETAIL_FILTER =
             "!3r.zRmD4l6rHdTgXfBOo(qq6rg_D3I7uaTO)p123.RRrNwbbeBOKxJp8dch552I"
         internal const val DETAIL_FILTER_AUTH =
