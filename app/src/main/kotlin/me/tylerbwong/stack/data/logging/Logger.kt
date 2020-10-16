@@ -6,10 +6,11 @@ import timber.log.Timber
 
 object Logger {
     fun init() {
-        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+        } else {
+            Timber.plant(CrashlyticsTree())
         }
-        Timber.plant(CrashlyticsTree())
     }
 }

@@ -13,7 +13,7 @@ interface AnswerDraftDao {
     fun getAnswerDrafts(site: String): Flow<List<AnswerDraftEntity>>
 
     @Query("SELECT * FROM answer_drafts WHERE question_id = :questionId AND site = :site")
-    fun getAnswerDraft(questionId: Int, site: String): AnswerDraftEntity
+    suspend fun getAnswerDraft(questionId: Int, site: String): AnswerDraftEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAnswerDraft(answerDraftEntity: AnswerDraftEntity)

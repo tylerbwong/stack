@@ -9,9 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.BaseTransientBottomBar.Duration
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.data.SiteStore
@@ -64,9 +62,7 @@ class PostAnswerViewModel @ViewModelInject constructor(
     fun fetchDraftIfExists() {
         viewModelScope.launch {
             try {
-                val draft = withContext(Dispatchers.IO) {
-                    draftDao.getAnswerDraft(questionId, siteStore.site)
-                }
+                val draft = draftDao.getAnswerDraft(questionId, siteStore.site) ?: return@launch
                 questionTitle = draft.questionTitle
                 _savedDraft.value = draft.bodyMarkdown
             } catch (ex: Exception) {

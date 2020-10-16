@@ -10,10 +10,6 @@ class CrashlyticsTree : Timber.Tree() {
             Log.DEBUG, Log.INFO, Log.VERBOSE -> return
             else -> {
                 val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
-                firebaseCrashlytics.setCustomKey(KEY_PRIORITY, priority)
-                firebaseCrashlytics.setCustomKey(KEY_TAG, tag.orEmpty())
-                firebaseCrashlytics.setCustomKey(KEY_MESSAGE, message)
-
                 if (t == null) {
                     firebaseCrashlytics.recordException(IllegalStateException(message))
                 } else {
@@ -21,11 +17,5 @@ class CrashlyticsTree : Timber.Tree() {
                 }
             }
         }
-    }
-
-    companion object {
-        private const val KEY_PRIORITY = "priority"
-        private const val KEY_TAG = "tag"
-        private const val KEY_MESSAGE = "message"
     }
 }
