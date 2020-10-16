@@ -14,11 +14,8 @@ interface SiteDao {
     fun getSites(): Flow<List<SiteEntity>>
 
     @Query("SELECT * FROM SITE WHERE parameter = :parameter")
-    suspend fun getSite(parameter: String): SiteEntity
+    suspend fun getSite(parameter: String): SiteEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(sites: List<SiteEntity>)
-
-    @Query("SELECT COUNT(*) from site")
-    suspend fun getCount(): Int
 }

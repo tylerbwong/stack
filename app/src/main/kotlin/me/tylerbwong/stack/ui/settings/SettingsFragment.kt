@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceGroup
 import androidx.preference.PreferenceManager
 import androidx.preference.TwoStatePreference
 import coil.ImageLoader
@@ -51,42 +50,47 @@ class SettingsFragment : PreferenceFragmentCompat() {
             addPreferencesFromResource(R.xml.settings)
         }
         with(preferenceManager) {
-            findPreference<TwoStatePreference>(getString(R.string.syntax_highlighting))?.apply {
-                isChecked = experimental.syntaxHighlightingEnabled
-                setOnPreferenceChangeListener { _, newValue ->
-                    experimental.syntaxHighlightingEnabled = newValue as Boolean
-                    view?.showSnackbar(
-                        messageId = R.string.restart_toggle,
-                        actionTextId = R.string.restart,
-                        duration = Snackbar.LENGTH_INDEFINITE
-                    ) {
-                        val intent = Intent(it.context, MainActivity::class.java)
-                        ProcessPhoenix.triggerRebirth(it.context, intent)
-                    }
-                    true
-                }
-            }
+            listOfNotNull(
+                findPreference(getString(R.string.experimental)),
+                findPreference(getString(R.string.debug))
+            ).forEach { it.isVisible = BuildConfig.DEBUG }
 
-            findPreference<TwoStatePreference>(getString(R.string.create_question))?.apply {
-                isChecked = experimental.createQuestionEnabled
-                isVisible = false
-                setOnPreferenceChangeListener { _, newValue ->
-                    experimental.createQuestionEnabled = newValue as Boolean
-                    view?.showSnackbar(
-                        messageId = R.string.restart_toggle,
-                        actionTextId = R.string.restart,
-                        duration = Snackbar.LENGTH_INDEFINITE
-                    ) {
-                        val intent = Intent(it.context, MainActivity::class.java)
-                        ProcessPhoenix.triggerRebirth(it.context, intent)
-                    }
-                    true
-                }
-                authPreferences.add(this)
-            }
-
-            findPreference<PreferenceGroup>(getString(R.string.debug))?.isVisible = BuildConfig.DEBUG
             if (BuildConfig.DEBUG) {
+                findPreference<TwoStatePreference>(getString(R.string.syntax_highlighting))?.apply {
+                    isChecked = experimental.syntaxHighlightingEnabled
+                    isVisible = BuildConfig.DEBUG
+                    setOnPreferenceChangeListener { _, newValue ->
+                        experimental.syntaxHighlightingEnabled = newValue as Boolean
+                        view?.showSnackbar(
+                            messageId = R.string.restart_toggle,
+                            actionTextId = R.string.restart,
+                            duration = Snackbar.LENGTH_INDEFINITE
+                        ) {
+                            val intent = Intent(it.context, MainActivity::class.java)
+                            ProcessPhoenix.triggerRebirth(it.context, intent)
+                        }
+                        true
+                    }
+                }
+
+                findPreference<TwoStatePreference>(getString(R.string.create_question))?.apply {
+                    isChecked = experimental.createQuestionEnabled
+                    isVisible = false
+                    setOnPreferenceChangeListener { _, newValue ->
+                        experimental.createQuestionEnabled = newValue as Boolean
+                        view?.showSnackbar(
+                            messageId = R.string.restart_toggle,
+                            actionTextId = R.string.restart,
+                            duration = Snackbar.LENGTH_INDEFINITE
+                        ) {
+                            val intent = Intent(it.context, MainActivity::class.java)
+                            ProcessPhoenix.triggerRebirth(it.context, intent)
+                        }
+                        true
+                    }
+                    authPreferences.add(this)
+                }
+
                 findPreference<Preference>(getString(R.string.inspect_network_traffic))?.apply {
                     setOnPreferenceClickListener {
                         val context = requireContext()
@@ -108,6 +112,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     @SuppressLint("DefaultLocale")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listView?.isVerticalScrollBarEnabled = false
         viewModel.user.observe(viewLifecycleOwner) { user ->
             findPreference<Preference>(getString(R.string.account))?.apply {
                 if (user != null) {
