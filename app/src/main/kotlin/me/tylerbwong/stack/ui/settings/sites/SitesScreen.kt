@@ -28,6 +28,8 @@ import androidx.compose.material.ripple.RippleIndication
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.savedinstancestate.savedInstanceState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -139,17 +141,41 @@ fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
 
 @Composable
 fun SitesLayout(changeSite: (String) -> Unit) {
+    var clickedSite by remember { mutableStateOf<Site?>(null) }
     val viewModel = viewModel<SitesViewModel>()
     val sites by viewModel.sites.observeAsState(initial = emptyList())
     val searchQuery by viewModel.searchQuery.observeAsState()
-    LazyColumnFor(items = sites) { site -> SiteItem(site, searchQuery, changeSite) }
+
+    LazyColumnFor(items = sites) { site ->
+        SiteItem(
+            site = site,
+            searchQuery = searchQuery,
+        ) {
+            if (viewModel.isAuthenticated) {
+                clickedSite = site
+            } else {
+                changeSite(site.parameter)
+            }
+        }
+    }
+
+    if (clickedSite != null) {
+        val site = clickedSite ?: return
+        ChangeSiteDialog(
+            onDismissRequest = { clickedSite = null },
+            onConfirm = { viewModel.logOut(site.parameter) },
+            onDismiss = { clickedSite = null },
+        )
+    }
 }
 
 // TODO Migrate to ListItem
 @Composable
-fun SiteItem(site: Site, searchQuery: String?, changeSite: (String) -> Unit) {
-    val viewModel = viewModel<SitesViewModel>()
-    var isAlertDialogVisible by savedInstanceState { false }
+fun SiteItem(
+    site: Site,
+    searchQuery: String?,
+    onItemClicked: () -> Unit,
+) {
     Row(
         modifier = Modifier.fillMaxWidth()
             .clickable(
@@ -158,13 +184,8 @@ fun SiteItem(site: Site, searchQuery: String?, changeSite: (String) -> Unit) {
                 } else {
                     RippleIndication()
                 },
-            ) {
-                if (viewModel.isAuthenticated) {
-                    isAlertDialogVisible = true
-                } else {
-                    changeSite(site.parameter)
-                }
-            },
+                onClick = onItemClicked,
+            ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         CoilImage(
@@ -199,14 +220,6 @@ fun SiteItem(site: Site, searchQuery: String?, changeSite: (String) -> Unit) {
                 style = MaterialTheme.typography.body2,
             )
         }
-    }
-
-    if (isAlertDialogVisible) {
-        ChangeSiteDialog(
-            onDismissRequest = { isAlertDialogVisible = false },
-            onConfirm = { viewModel.logOut(site.parameter) },
-            onDismiss = { isAlertDialogVisible = false },
-        )
     }
 }
 
