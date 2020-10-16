@@ -43,7 +43,7 @@ Here you can also find a few useful Gradle modules as well:
 
 # License
 
-    Copyright 2020 Tyler Wong
+    Copyright (C) 2020 Tyler Wong
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
