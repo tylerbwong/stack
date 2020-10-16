@@ -1,11 +1,9 @@
 <resources>
     <string name="app_name">Stack</string>
     <string name="repository_url" translatable="false">https://github.com/tylerbwong/stack</string>
+    <string name="privacy_url" translatable="false">https://github.com/tylerbwong/stack/blob/master/PRIVACY.md</string>
+    <string name="terms_url" translatable="false">https://github.com/tylerbwong/stack/blob/master/TERMS.md</string>
 
-    <string name="theme">Theme</string>
-    <string name="source">Source</string>
-    <string name="libraries">Open Source Libraries</string>
-    <string name="license">%1$s License</string>
     <string name="search">Search</string>
     <string name="share">Share</string>
     <string name="badges">Badges</string>
@@ -128,6 +126,14 @@
     <string name="current_site">Current Site</string>
     <string name="sites">Sites</string>
     <string name="debug">Debug</string>
+    <string name="theme">Theme</string>
+    <string name="source">Source</string>
+    <string name="source_description">Stack is free and open-source on GitHub</string>
+    <string name="libraries">Open Source Libraries</string>
+    <string name="libraries_description">These awesome libraries helped build Stack</string>
+    <string name="privacy">Privacy Policy</string>
+    <string name="terms">Terms and Conditions</string>
+    <string name="license">%1$s License</string>
 
     <!-- Debug -->
     <string name="inspect_network_traffic">Inspect Network Traffic</string>
@@ -135,8 +141,8 @@
     <!-- App version -->
     <string name="version">Version</string>
     <string name="syntax_highlighting">Syntax Highlighting</string>
-    <string name="syntax_highlighting_summary">Enables syntax highlighting for supported markdown code blocks.</string>
-    <string name="create_question_summary">Enables create question support.</string>
+    <string name="syntax_highlighting_summary">Enables syntax highlighting for supported markdown code blocks</string>
+    <string name="create_question_summary">Enables create question support</string>
 
     <string name="restart_toggle">Toggling this requires a restart</string>
     <string name="link_copied">Link copied to clipboard</string>

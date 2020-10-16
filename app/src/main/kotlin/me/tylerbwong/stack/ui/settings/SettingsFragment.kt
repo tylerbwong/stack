@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -85,8 +86,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 authPreferences.add(this)
             }
 
-            setupAppSection()
-
             findPreference<PreferenceGroup>(getString(R.string.debug))?.isVisible = BuildConfig.DEBUG
             if (BuildConfig.DEBUG) {
                 findPreference<Preference>(getString(R.string.inspect_network_traffic))?.apply {
@@ -98,6 +97,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     }
                 }
             }
+
+            setUpAppSection()
+            setUpAboutSection()
         }
         viewModel.isAuthenticated.observe(this) { isAuthenticated ->
             authPreferences.forEach { it.isVisible = isAuthenticated && BuildConfig.DEBUG }
@@ -156,7 +158,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         viewModel.fetchData()
     }
 
-    private fun PreferenceManager.setupAppSection() {
+    private fun PreferenceManager.setUpAppSection() {
         findPreference<Preference>(getString(R.string.theme))?.apply {
             summary = getString(
                 nightModeOptions
@@ -177,6 +179,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         }
 
+        findPreference<Preference>(getString(R.string.version))?.apply {
+            val versionCode = requireContext().resources.getInteger(R.integer.version_code)
+            summary = "${BuildConfig.VERSION_NAME} ${getString(R.string.item_count, versionCode)}"
+        }
+    }
+
+    private fun PreferenceManager.setUpAboutSection() {
         findPreference<Preference>(getString(R.string.source))?.apply {
             setOnPreferenceClickListener {
                 launchCustomTab(requireContext(), getString(R.string.repository_url))
@@ -191,8 +200,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         }
 
-        findPreference<Preference>(getString(R.string.version))?.apply {
-            summary = BuildConfig.VERSION_NAME
+        findPreference<Preference>(getString(R.string.privacy))?.apply {
+            setOnPreferenceClickListener {
+                launchCustomTab(requireContext(), getString(R.string.privacy_url))
+                true
+            }
+        }
+
+        findPreference<Preference>(getString(R.string.terms))?.apply {
+            setOnPreferenceClickListener {
+                launchCustomTab(requireContext(), getString(R.string.terms_url))
+                true
+            }
         }
     }
 

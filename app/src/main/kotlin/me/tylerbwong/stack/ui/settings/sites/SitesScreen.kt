@@ -159,8 +159,8 @@ fun SitesLayout(changeSite: (String) -> Unit) {
         }
     }
 
-    if (clickedSite != null) {
-        val site = clickedSite ?: return
+    val site = clickedSite
+    if (site != null) {
         ChangeSiteDialog(
             onDismissRequest = { clickedSite = null },
             onConfirm = { viewModel.logOut(site.parameter) },

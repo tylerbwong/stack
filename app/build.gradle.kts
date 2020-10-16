@@ -13,6 +13,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "CLIENT_ID", stringProperty("stackClientId"))
+        resValue("integer", "version_code", "${AndroidConfig.VERSION_CODE}")
 
         javaCompileOptions {
             annotationProcessorOptions {

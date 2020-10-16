@@ -19,7 +19,8 @@ import androidx.compose.material.ripple.RippleIndication
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.savedinstancestate.savedInstanceState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,14 +59,32 @@ fun LibrariesScreen(libraries: LiveData<List<LibraryItem>>, onBackPressed: () ->
         },
         backgroundColor = viewBackgroundColor,
     ) {
+        var clickedLibraryItem by remember { mutableStateOf<LibraryItem?>(null) }
         val items by libraries.observeAsState(initial = emptyList())
-        LazyColumnFor(items = items) { LibraryItem(library = it) }
+        LazyColumnFor(items = items) { library ->
+            LibraryItem(library = library) {
+                clickedLibraryItem = library
+            }
+        }
+
+        val library = clickedLibraryItem
+        if (library != null) {
+            val hideDialog = { clickedLibraryItem = null }
+            LicenseDialog(
+                libraryName = library.name,
+                licenseText = library.licenseText,
+                onDismissRequest = hideDialog,
+                onConfirm = hideDialog,
+            )
+        }
     }
 }
 
 @Composable
-private fun LibraryItem(library: LibraryItem) {
-    var isAlertDialogVisible by savedInstanceState { false }
+private fun LibraryItem(
+    library: LibraryItem,
+    showLicenseDialog: () -> Unit,
+) {
     ListItem(
         modifier = Modifier.clickable(
             indication = if (ContextAmbient.current.isNightModeEnabled) {
@@ -73,7 +92,8 @@ private fun LibraryItem(library: LibraryItem) {
             } else {
                 RippleIndication()
             },
-        ) { isAlertDialogVisible = true },
+            onClick = showLicenseDialog,
+        ),
         secondaryText = {
             Text(
                 text = library.author,
@@ -87,16 +107,6 @@ private fun LibraryItem(library: LibraryItem) {
             )
         },
     )
-
-    if (isAlertDialogVisible) {
-        val hideDialog = { isAlertDialogVisible = false }
-        LicenseDialog(
-            libraryName = library.name,
-            licenseText = library.licenseText,
-            onDismissRequest = hideDialog,
-            onConfirm = hideDialog,
-        )
-    }
 }
 
 @Composable
