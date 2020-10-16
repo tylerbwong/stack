@@ -10,6 +10,7 @@ import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.api.service.UserService
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.home.QuestionItem
+import me.tylerbwong.stack.ui.utils.toHtml
 
 class ProfileViewModel @ViewModelInject constructor(
     private val service: UserService
@@ -37,7 +38,7 @@ class ProfileViewModel @ViewModelInject constructor(
         user?.let {
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = SHARE_TEXT_TYPE
-                putExtra(Intent.EXTRA_SUBJECT, it.displayName)
+                putExtra(Intent.EXTRA_SUBJECT, it.displayName.toHtml().toString())
                 putExtra(Intent.EXTRA_TEXT, it.link)
             }
             context.startActivity(Intent.createChooser(intent, context.getString(R.string.share)))

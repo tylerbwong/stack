@@ -30,6 +30,7 @@ import me.tylerbwong.stack.ui.owners.Badges
 import me.tylerbwong.stack.ui.utils.colorAttribute
 import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.toHtml
 
 @Composable
 fun ProfileHeader(user: User) {
@@ -68,7 +69,7 @@ fun ProfileHeader(user: User) {
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = it,
+                    text = it.toHtml().toString(),
                     color = primaryTextColor,
                     fontSize = 14.sp,
                 )
