@@ -3,6 +3,6 @@ object AndroidConfig {
     const val COMPILE_SDK = 30
     const val MIN_SDK = 21
     const val TARGET_SDK = 30
-    const val VERSION_CODE = 9
-    const val VERSION_NAME = "1.0.0-alpha03"
+    const val VERSION_CODE = 10
+    const val VERSION_NAME = "1.0.0"
 }
