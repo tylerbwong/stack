@@ -38,6 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/questionTitle"
+        tools:targetApi="m"
         tools:text="Question body" />
 
     <com.google.android.material.chip.ChipGroup

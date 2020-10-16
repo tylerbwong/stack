@@ -43,6 +43,7 @@ dependencies {
     implementation(Dep.androidxActivity)
     implementation(Dep.androidxAppCompat)
     implementation(Dep.androidxBrowser)
+    implementation(Dep.androidxConstraintLayout)
     implementation(Dep.androidxCore)
     implementation(Dep.androidxFragment)
     kapt(Dep.androidxHiltCompiler)
@@ -59,7 +60,6 @@ dependencies {
     implementation(Dep.androidxViewModel)
     implementation(Dep.androidxViewPager2)
     implementation(Dep.androidxWork)
-    implementation(Dep.constraintLayout)
     implementation(Dep.materialComponents)
 
     // compose

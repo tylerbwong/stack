@@ -1,10 +1,18 @@
 # Stack
-[![CircleCI](https://circleci.com/gh/tylerbwong/stack/tree/master.svg?style=svg&circle-token=8fb0220b2690c822b89b65982c3da95fc26c1f71)](https://circleci.com/gh/tylerbwong/stack/tree/master)
+![CI](https://github.com/tylerbwong/stack/workflows/CI/badge.svg)
 
-![Stack](/art/icon.png)
+![Stack](/.idea/icon.png)
 
 Stack is an Android application that lets you browse [stackoverflow.com](https://stackoverflow.com) and other Stack Exchange sites.
 It is currently under heavy development and is unstable.
+
+### Open testing
+
+Stack is currently in open testing. You can download the app from Google Play by clicking the badge below.
+
+<a href="https://play.google.com/store/apps/details?id=me.tylerbwong.stack"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height=80px /></a>
+
+### Development
 
 The goal of this project is to provide examples for the latest Android libraries and tools. A few noteworthy examples include:
 
@@ -23,12 +31,6 @@ The goal of this project is to provide examples for the latest Android libraries
 * View other users' profiles
 * Dark mode
 * Question deep linking
-
-### Open testing
-
-Stack is currently in open testing. You can enroll on Google Play by clicking the badge below.
-
-<a href="https://play.google.com/apps/testing/me.tylerbwong.stack"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height=80px /></a>
 
 ### Subprojects
 

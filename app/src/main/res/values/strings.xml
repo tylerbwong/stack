@@ -8,6 +8,7 @@
     <string name="license">%1$s License</string>
     <string name="search">Search</string>
     <string name="share">Share</string>
+    <string name="badges">Badges</string>
     <string name="questions">Questions</string>
     <string name="linked">Linked</string>
     <string name="related">Related</string>
@@ -78,7 +79,7 @@
     <string name="post_preview">Post as preview</string>
     <string name="last_edited_by">last edited by\n%1$s</string>
     <string name="settings">Settings</string>
-    <string name="comment_count">(%1$d)</string>
+    <string name="item_count">(%1$d)</string>
     <string name="no_comments">No comments found</string>
 
     <!-- Create Question -->
