@@ -4,7 +4,6 @@
 ![Stack](/.idea/icon.png)
 
 Stack is an Android application that lets you browse [stackoverflow.com](https://stackoverflow.com) and other Stack Exchange sites.
-It is currently under heavy development and is unstable.
 
 ### Download
 
@@ -24,7 +23,8 @@ The goal of this project is to provide examples for the latest Android libraries
 
 * View questions, answers, and comments with rich Markdown previews
 * Switch to any Stack Exchange site
-* Log in to vote for questions, bookmark questions, or post new questions and answers (Saving drafts supported)
+* Log in to vote for questions or post new questions and answers (Saving drafts supported)
+* Bookmark questions to save for later (Supports offline)
 * Search for questions with advanced filter controls
 * View other users' profiles
 * Dark mode
