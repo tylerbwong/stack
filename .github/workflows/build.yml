@@ -1,4 +1,4 @@
-name: Static Analysis
+name: CI
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  static-analysis:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
