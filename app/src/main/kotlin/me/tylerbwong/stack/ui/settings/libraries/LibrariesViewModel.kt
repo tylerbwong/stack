@@ -22,7 +22,7 @@ class LibrariesViewModel : BaseViewModel() {
 
     fun fetchLibraries(context: Context) {
         launchRequest {
-            mutableLibraries.value = withContext(Dispatchers.IO) {
+            val libraries = withContext(Dispatchers.IO) {
                 Libs(context).libraries
                     .filter {
                         it.isOpenSource && it.licenses?.isNotEmpty() == true &&
@@ -39,7 +39,8 @@ class LibrariesViewModel : BaseViewModel() {
                             } ?: ""
                         )
                     }
-            } ?: emptyList()
+            }
+            mutableLibraries.value = libraries
         }
     }
 }

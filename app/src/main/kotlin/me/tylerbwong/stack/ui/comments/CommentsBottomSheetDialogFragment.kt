@@ -47,7 +47,7 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         viewModel.data.observe(viewLifecycleOwner) {
             adapter.submitList(it)
             binding.header.subtitle.text = if (it.isNotEmpty()) {
-                getString(R.string.comment_count, it.size)
+                getString(R.string.item_count, it.size)
             } else {
                 getString(R.string.no_comments)
             }

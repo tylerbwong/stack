@@ -1,6 +1,7 @@
 package me.tylerbwong.stack.ui.di
 
 import android.content.Context
+import androidx.core.content.ContextCompat
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,9 +50,9 @@ class MarkdownModule {
 
     @Provides
     fun provideTaskListPlugin(context: Context) = TaskListPlugin.create(
-        context.getColor(R.color.colorAccent),
-        context.getColor(R.color.colorAccent),
-        context.getColor(R.color.white)
+        ContextCompat.getColor(context, R.color.colorAccent),
+        ContextCompat.getColor(context, R.color.colorAccent),
+        ContextCompat.getColor(context, R.color.white)
     )
 
     @Provides

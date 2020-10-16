@@ -52,7 +52,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
         with(preferenceManager) {
             findPreference<TwoStatePreference>(getString(R.string.syntax_highlighting))?.apply {
-                isVisible = BuildConfig.DEBUG
                 isChecked = experimental.syntaxHighlightingEnabled
                 setOnPreferenceChangeListener { _, newValue ->
                     experimental.syntaxHighlightingEnabled = newValue as Boolean
@@ -67,8 +66,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     true
                 }
             }
-
-            findPreference<PreferenceGroup>(getString(R.string.experimental))?.isVisible = BuildConfig.DEBUG
 
             findPreference<TwoStatePreference>(getString(R.string.create_question))?.apply {
                 isChecked = experimental.createQuestionEnabled

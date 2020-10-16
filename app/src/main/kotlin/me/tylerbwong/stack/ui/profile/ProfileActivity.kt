@@ -68,13 +68,17 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_share, menu)
+        menuInflater.inflate(R.menu.menu_profile, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
+            R.id.badges -> BadgesBottomSheetDialogFragment.show(
+                supportFragmentManager,
+                userId = viewModel.userId ?: -1
+            )
             R.id.share -> viewModel.startShareIntent(this)
         }
         return super.onOptionsItemSelected(item)
