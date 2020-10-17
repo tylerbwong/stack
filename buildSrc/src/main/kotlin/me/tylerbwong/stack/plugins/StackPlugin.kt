@@ -46,6 +46,9 @@ class StackPlugin : Plugin<Project> {
             }
 
             buildTypes {
+                getByName("debug") {
+                    applicationIdSuffix(".debug")
+                }
                 getByName("release") {
                     isShrinkResources = true
                 }

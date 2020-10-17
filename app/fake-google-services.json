@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "FAKEfakeFAKE",
         "android_client_info": {
-          "package_name": "me.tylerbwong.stack"
+          "package_name": "me.tylerbwong.stack.debug"
         }
       },
       "oauth_client": [
