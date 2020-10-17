@@ -81,6 +81,9 @@ class QuestionDetailMainViewModel @ViewModelInject constructor(
                 }
                 add(AnswerHeaderItem(questionResult.answerCount))
                 addAll(answersResult.map { AnswerItem(it) })
+                if (isAuthenticated) {
+                    add(SpacerItem) // Prevent FloatingActionButton from covering last answer
+                }
             } to questionResult
 
             this@QuestionDetailMainViewModel.question = response.second

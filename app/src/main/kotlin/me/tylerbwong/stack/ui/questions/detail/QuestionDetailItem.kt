@@ -1,10 +1,10 @@
 package me.tylerbwong.stack.ui.questions.detail
 
 import androidx.recyclerview.widget.DiffUtil
-import me.tylerbwong.stack.api.model.Answer
-import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.adapter.ViewHolderProvider
+import me.tylerbwong.stack.api.model.Answer
+import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.ui.answers.AnswerHolder
 
 sealed class QuestionDetailItem(viewHolderProvider: ViewHolderProvider) : DynamicItem(viewHolderProvider)
@@ -15,6 +15,7 @@ data class QuestionActionItem(
 ) : QuestionDetailItem(::QuestionDetailActionHolder)
 data class AnswerHeaderItem(internal val answerCount: Int) : QuestionDetailItem(::AnswerHeaderViewHolder)
 data class AnswerItem(internal val answer: Answer) : QuestionDetailItem(::AnswerHolder)
+object SpacerItem : QuestionDetailItem(::SpacerHolder)
 
 object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
     override fun areItemsTheSame(oldItem: DynamicItem, newItem: DynamicItem) = when {
@@ -24,6 +25,7 @@ object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
         oldItem is AnswerHeaderItem && newItem is AnswerHeaderItem -> true
         oldItem is AnswerItem && newItem is AnswerItem ->
             oldItem.answer.answerId == newItem.answer.answerId
+        oldItem is SpacerItem && newItem is SpacerItem -> true
         else -> false
     }
 
@@ -51,6 +53,7 @@ object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
                     oldItem.answer.bodyMarkdown == newItem.answer.bodyMarkdown &&
                     oldItem.answer.owner == newItem.answer.owner &&
                     oldItem.answer.creationDate == newItem.answer.creationDate
+        oldItem is SpacerItem && newItem is SpacerItem -> true
         else -> false
     }
 }
