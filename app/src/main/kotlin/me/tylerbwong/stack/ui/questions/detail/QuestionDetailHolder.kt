@@ -39,7 +39,10 @@ class QuestionDetailHolder(
         }
         lastEditor.apply {
             isInvisible = question.lastEditor == null
-            text = context.getString(R.string.last_edited_by, question.lastEditor?.displayName)
+            text = context.getString(
+                R.string.last_edited_by,
+                question.lastEditor?.displayName?.toHtml()?.toString()
+            )
         }
 
         commentCount.apply {

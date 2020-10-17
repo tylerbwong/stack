@@ -8,6 +8,7 @@ import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.model.SORT_PARAM
 import me.tylerbwong.stack.api.model.Sort
+import me.tylerbwong.stack.api.model.VOTES
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -87,6 +88,7 @@ interface QuestionService {
     @GET("questions/{id}/answers")
     suspend fun getQuestionAnswers(
         @Path("id") questionId: Int,
+        @Query(SORT_PARAM) @Sort sort: String = VOTES,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
@@ -176,7 +178,7 @@ interface QuestionService {
 
         internal const val DEFAULT_FILTER = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9("
         internal const val ANSWER_FILTER =
-            "!LHXt-o3mHpPbhfB9nT1IVYxrVJAsS-Cb1wqXTn-uY*4.P_Vc7NLZBxoCYsXr-FFMbEwU"
+            "!)qHt3-n4W*f.gPKawPE(XNpsQRxcWdBxS2t8_drqo0.DgldgGwePa9Pib9nUlpc.1r"
         internal const val DETAIL_FILTER =
             "!3r.zRmD4l6rHdTgXfBOo(qq6rg_D3I7uaTO)p123.RRrNwbbeBOKxJp8dch552I"
         internal const val DETAIL_FILTER_AUTH =

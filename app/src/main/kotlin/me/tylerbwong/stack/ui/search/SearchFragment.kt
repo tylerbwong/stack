@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.SearchPayload
@@ -43,6 +44,7 @@ class SearchFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
         binding.recyclerView.apply {
             adapter = this@SearchFragment.adapter
             layoutManager = LinearLayoutManager(context)
+            applySystemWindowInsetsToPadding(bottom = true)
         }
 
         viewModel.siteLiveData.observe(viewLifecycleOwner) {

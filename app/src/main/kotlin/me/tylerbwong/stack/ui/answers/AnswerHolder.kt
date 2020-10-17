@@ -14,10 +14,14 @@ import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.formatElapsedTime
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 import me.tylerbwong.stack.ui.utils.ofType
+import me.tylerbwong.stack.ui.utils.toHtml
 
 class AnswerHolder(
     container: ViewGroup
-) : DynamicViewBindingHolder<AnswerItem, AnswerHolderBinding>(container, AnswerHolderBinding::inflate) {
+) : DynamicViewBindingHolder<AnswerItem, AnswerHolderBinding>(
+    container,
+    AnswerHolderBinding::inflate
+) {
 
     init {
         binding.answerBody.setSpannableFactory(noCopySpannableFactory)
@@ -41,7 +45,10 @@ class AnswerHolder(
 
         lastEditor.apply {
             isInvisible = answer.lastEditor == null
-            text = context.getString(R.string.last_edited_by, answer.lastEditor?.displayName)
+            text = context.getString(
+                R.string.last_edited_by,
+                answer.lastEditor?.displayName?.toHtml()?.toString()
+            )
         }
 
         commentCount.apply {
@@ -53,7 +60,6 @@ class AnswerHolder(
                         answer.answerId
                     )
                 }
-                true
             }
         }
 

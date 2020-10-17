@@ -6,10 +6,12 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.updatePadding
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.QuestionDetailFragmentBinding
@@ -91,6 +93,16 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
                     }
                 }
             )
+
+            if (viewModel.isAuthenticated) {
+                updatePadding(
+                    bottom = resources.getDimensionPixelOffset(
+                        R.dimen.question_detail_recycler_view_padding
+                    )
+                )
+            }
+
+            applySystemWindowInsetsToPadding(bottom = true)
         }
 
         viewModel.questionId = arguments?.getInt(QuestionDetailActivity.QUESTION_ID, 0) ?: 0

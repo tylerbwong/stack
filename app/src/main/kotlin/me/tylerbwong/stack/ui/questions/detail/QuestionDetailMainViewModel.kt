@@ -15,9 +15,6 @@ import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.api.utils.toErrorResponse
 import me.tylerbwong.stack.data.auth.AuthRepository
-import me.tylerbwong.stack.data.persistence.dao.AnswerDao
-import me.tylerbwong.stack.data.persistence.dao.QuestionDao
-import me.tylerbwong.stack.data.persistence.dao.UserDao
 import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
@@ -29,10 +26,7 @@ import timber.log.Timber
 class QuestionDetailMainViewModel @ViewModelInject constructor(
     private val authRepository: AuthRepository,
     private val questionRepository: QuestionRepository,
-    private val service: QuestionService,
-    private val questionDao: QuestionDao,
-    private val userDao: UserDao,
-    private val answerDao: AnswerDao
+    private val service: QuestionService
 ) : BaseViewModel(), QuestionDetailActionHandler {
 
     internal val data: LiveData<List<QuestionDetailItem>>
@@ -55,7 +49,7 @@ class QuestionDetailMainViewModel @ViewModelInject constructor(
         get() = mutableMessageSnackbar
     private val mutableMessageSnackbar = SingleLiveEvent<String>()
 
-    private val isAuthenticated: Boolean
+    internal val isAuthenticated: Boolean
         get() = authRepository.isAuthenticated
 
     internal val canAnswerQuestion = authRepository.isAuthenticatedLiveData.zipWith(
@@ -81,9 +75,6 @@ class QuestionDetailMainViewModel @ViewModelInject constructor(
                 }
                 add(AnswerHeaderItem(questionResult.answerCount))
                 addAll(answersResult.map { AnswerItem(it) })
-                if (isAuthenticated) {
-                    add(SpacerItem) // Prevent FloatingActionButton from covering last answer
-                }
             } to questionResult
 
             this@QuestionDetailMainViewModel.question = response.second
