@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.data.repository
 
 import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
@@ -67,7 +66,7 @@ class QuestionRepositoryTest : BaseTest() {
             whenever(questionService.getBookmarks()).thenReturn(Response(emptyList()))
             repository.syncBookmarks()
             verify(questionDao, times(1)).clearQuestions()
-            verify(userDao, never()).clearUsers()
+            verify(userDao, times(1)).clearUsers()
             verify(answerDao, times(1)).clearAnswers()
         }
     }

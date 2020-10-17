@@ -119,6 +119,7 @@ class QuestionRepository @Inject constructor(
 
     /**
      * TODO Figure out how to clear users safely
+     * Need to look up if any remaining questions/answers still reference a user before removing it
      */
     suspend fun removeQuestion(question: Question): Boolean {
         try {
@@ -134,6 +135,7 @@ class QuestionRepository @Inject constructor(
     private suspend fun clearAll() {
         questionDao.clearQuestions()
         answerDao.clearAnswers()
+        userDao.clearUsers()
     }
 
     private suspend fun getQuestionsFromNetwork(@Sort sort: String): List<Question> {
