@@ -2,6 +2,7 @@ package me.tylerbwong.stack.ui.di
 
 import android.content.Context
 import androidx.core.content.ContextCompat
+import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,8 +24,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.markdown.GrammarLocatorDef
-import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled
 import me.tylerbwong.stack.ui.settings.Experimental
+import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled
 import me.tylerbwong.stack.ui.utils.markdown.UrlPlugin
 import java.util.concurrent.Executor
 import javax.inject.Singleton
@@ -92,7 +93,7 @@ class MarkdownModule {
         tablePlugin: TablePlugin,
         taskListPlugin: TaskListPlugin,
         urlPlugin: UrlPlugin,
-        syntaxHighlightPlugin: SyntaxHighlightPlugin,
+        syntaxHighlightPlugin: Lazy<SyntaxHighlightPlugin>,
         textSetter: Markwon.TextSetter
     ): Markwon {
         val plugins = listOf(
@@ -105,7 +106,7 @@ class MarkdownModule {
             urlPlugin
         )
         val experimentalPlugins = if (experimental.syntaxHighlightingEnabled) {
-            listOf(syntaxHighlightPlugin)
+            listOf(syntaxHighlightPlugin.get())
         } else {
             emptyList()
         }
