@@ -1,7 +1,7 @@
 package me.tylerbwong.stack.ui.questions.detail
 
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
 import androidx.fragment.app.FragmentActivity
 import com.soywiz.klock.seconds
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
@@ -38,7 +38,7 @@ class QuestionDetailHolder(
             )
         }
         lastEditor.apply {
-            visibility = if (question.lastEditor != null) View.VISIBLE else View.INVISIBLE
+            isInvisible = question.lastEditor == null
             text = context.getString(R.string.last_edited_by, question.lastEditor?.displayName)
         }
 
