@@ -62,7 +62,6 @@
         android:lines="1"
         android:textSize="12sp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@id/ownerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tagsView"
@@ -77,8 +76,7 @@
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/lastEditor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/askedDate" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/lastEditor"
@@ -89,9 +87,28 @@
         android:lines="2"
         android:textSize="12sp"
         android:textStyle="italic"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/ownerView"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/commentCount"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="last edited by\ntylerbwong" />
+        app:layout_constraintTop_toBottomOf="@id/tagsView"
+        tools:text="last edited by\ntylerbwong"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/commentCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:drawablePadding="4dp"
+        android:focusable="true"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
+        android:textSize="12sp"
+        app:drawableStartCompat="@drawable/ic_comment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="10" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
