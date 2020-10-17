@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.ui.answers
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
@@ -9,6 +10,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.AnswerHolderBinding
 import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.questions.detail.AnswerItem
+import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.formatElapsedTime
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 import me.tylerbwong.stack.ui.utils.ofType
@@ -38,20 +40,23 @@ class AnswerHolder(
         }
 
         lastEditor.apply {
-            isVisible = answer.lastEditor != null
+            visibility = if (answer.lastEditor != null) View.VISIBLE else View.INVISIBLE
             text = context.getString(R.string.last_edited_by, answer.lastEditor?.displayName)
         }
 
-        ownerView.bind(answer.owner)
-
-        itemView.setOnLongClickListener {
-            it.context.ofType<FragmentActivity>()?.let { activity ->
-                CommentsBottomSheetDialogFragment.show(
-                    activity.supportFragmentManager,
-                    answer.answerId
-                )
+        commentCount.apply {
+            text = (answer.commentCount ?: 0).toLong().format()
+            setOnClickListener {
+                it.context.ofType<FragmentActivity>()?.let { activity ->
+                    CommentsBottomSheetDialogFragment.show(
+                        activity.supportFragmentManager,
+                        answer.answerId
+                    )
+                }
+                true
             }
-            true
         }
+
+        ownerView.bind(answer.owner)
     }
 }

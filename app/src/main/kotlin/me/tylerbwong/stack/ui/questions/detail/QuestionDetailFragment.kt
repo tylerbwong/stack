@@ -14,7 +14,6 @@ import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.QuestionDetailFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
-import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
 import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
@@ -113,10 +112,6 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.share -> viewModel.startShareIntent(requireContext())
-            R.id.comments -> CommentsBottomSheetDialogFragment.show(
-                childFragmentManager,
-                viewModel.questionId
-            )
             R.id.linked -> QuestionsActivity.startActivityForKey(
                 requireContext(),
                 LINKED,
