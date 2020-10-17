@@ -117,10 +117,11 @@ class QuestionRepository @Inject constructor(
         return true
     }
 
+    /**
+     * TODO Figure out how to clear users safely
+     */
     suspend fun removeQuestion(question: Question): Boolean {
         try {
-            listOfNotNull(question.owner, question.lastEditor)
-                .forEach { userDao.delete(it.userId) }
             answerDao.deleteByQuestionId(question.questionId)
             questionDao.delete(question.questionId)
         } catch (ex: Exception) {
@@ -132,7 +133,6 @@ class QuestionRepository @Inject constructor(
 
     private suspend fun clearAll() {
         questionDao.clearQuestions()
-        userDao.clearUsers()
         answerDao.clearAnswers()
     }
 
