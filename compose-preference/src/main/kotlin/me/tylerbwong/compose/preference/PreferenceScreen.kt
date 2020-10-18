@@ -2,6 +2,8 @@
 
 package me.tylerbwong.compose.preference
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.compose.foundation.Icon
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.size
@@ -16,25 +18,32 @@ import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Traffic
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Providers
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalLazyDsl::class)
 @Composable
-fun PreferenceScreen(content: PreferenceScope.() -> Unit) {
-    LazyColumn {
-        content()
+fun PreferenceScreen(preferences: SharedPreferences, content: PreferenceScope.() -> Unit) {
+    Providers(PreferenceAmbient provides preferences) {
+        LazyColumn {
+            content()
+        }
     }
 }
 
 @Preview
 @Composable
 fun PreferenceScreenPreview() {
-    PreferenceScreen {
+    val context = ContextAmbient.current
+    val preferences = context.getSharedPreferences("test", Context.MODE_PRIVATE)
+    PreferenceScreen(preferences = preferences) {
         PreferenceCategory("Experimental") {
             SwitchPreference(
                 initialChecked = false,
+                key = "syntax_highlighting",
                 onCheckedChange = {},
                 title = "Syntax Highlighting",
                 summary = "Enables syntax highlighting for supported markdown code blocks.",
@@ -43,6 +52,7 @@ fun PreferenceScreenPreview() {
             )
             SwitchPreference(
                 initialChecked = false,
+                key = "create_question",
                 onCheckedChange = {},
                 title = "Create Question",
                 summary = "Enables create question support.",
@@ -50,6 +60,7 @@ fun PreferenceScreenPreview() {
             )
             SliderPreference(
                 initialValue = 25f,
+                key = "num_questions",
                 onValueChange = {},
                 valueRange = 0f..100f,
                 steps = 25,
@@ -66,6 +77,7 @@ fun PreferenceScreenPreview() {
             )
             CheckboxPreference(
                 initialChecked = true,
+                key = "network_debugging",
                 onCheckedChange = {},
                 title = "Enable Network Debugging",
                 icon = { Icon(asset = Icons.Filled.BugReport, Modifier.size(42.dp)) },
@@ -73,11 +85,11 @@ fun PreferenceScreenPreview() {
         }
         PreferenceCategory("App") {
             ListPreference(
+                key = "theme",
                 title = "Theme",
                 dialogTitle = "Choose theme",
                 items = listOf("Light", "Dark", "System default"),
                 onConfirm = { _, _ -> },
-                summary = "System default",
                 icon = { Icon(asset = Icons.Filled.Brightness2, modifier = Modifier.size(42.dp)) },
             )
             Preference(

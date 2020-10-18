@@ -22,29 +22,34 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.ripple.RippleIndication
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.savedinstancestate.savedInstanceState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 fun PreferenceScope.ListPreference(
+    key: String,
     title: String,
     dialogTitle: String,
     items: List<String>,
     onConfirm: (String, Int) -> Unit,
     selectedItemIndex: Int = 0,
-    summary: String? = null,
     icon: (@Composable () -> Unit)? = null,
     singleLineSecondaryText: Boolean = true,
 ) {
+    require(selectedItemIndex in 0..items.size) {
+        "Selected item index is out of bounds"
+    }
     item {
-        var itemIndex by savedInstanceState { selectedItemIndex }
+        val preferences = PreferenceAmbient.current
+        var itemIndex by savedInstanceState { preferences.getInt(key, selectedItemIndex) }
         var isAlertDialogVisible by savedInstanceState { false }
+        var summaryState by savedInstanceState { items[itemIndex] }
         PreferenceInternal(
             title = title,
-            summary = summary,
+            summary = summaryState,
             icon = icon,
             singleLineSecondaryText = singleLineSecondaryText,
             onClick = { isAlertDialogVisible = true },
@@ -84,7 +89,9 @@ fun PreferenceScope.ListPreference(
                 confirmButton = {
                     TextButton(
                         onClick = {
+                            preferences.edit().putInt(key, itemIndex).apply()
                             onConfirm(items[itemIndex], itemIndex)
+                            summaryState = items[itemIndex]
                             isAlertDialogVisible = false
                         }
                     ) {
@@ -104,6 +111,7 @@ fun PreferenceScope.ListPreference(
 
 fun PreferenceScope.SliderPreference(
     initialValue: Float,
+    key: String,
     onValueChange: (Float) -> Unit,
     valueRange: ClosedFloatingPointRange<Float>,
     steps: Int,
@@ -113,7 +121,8 @@ fun PreferenceScope.SliderPreference(
     icon: (@Composable () -> Unit)? = null,
 ) {
     item {
-        var currentValue by savedInstanceState { initialValue }
+        val preferences = PreferenceAmbient.current
+        var currentValue by savedInstanceState { preferences.getFloat(key, initialValue) }
         ListItem(
             icon = icon,
             secondaryText = {
@@ -127,6 +136,7 @@ fun PreferenceScope.SliderPreference(
                         Slider(
                             value = currentValue,
                             onValueChange = {
+                                preferences.edit().putFloat(key, it).apply()
                                 onValueChange(it)
                                 currentValue = it
                             },
@@ -136,13 +146,14 @@ fun PreferenceScope.SliderPreference(
                     }
                 }
             },
-            text = { Text(text = title) },
+            text = { Text(text = title, color = MaterialTheme.colors.onBackground) },
         )
     }
 }
 
 fun PreferenceScope.CheckboxPreference(
     initialChecked: Boolean,
+    key: String,
     onCheckedChange: (Boolean) -> Unit,
     title: String,
     summary: String? = null,
@@ -151,6 +162,7 @@ fun PreferenceScope.CheckboxPreference(
 ) {
     TwoStatePreference(
         initialChecked = initialChecked,
+        key = key,
         onCheckedChange = onCheckedChange,
         title = title,
         summary = summary,
@@ -167,6 +179,7 @@ fun PreferenceScope.CheckboxPreference(
 
 fun PreferenceScope.SwitchPreference(
     initialChecked: Boolean,
+    key: String,
     onCheckedChange: (Boolean) -> Unit,
     title: String,
     summary: String? = null,
@@ -175,6 +188,7 @@ fun PreferenceScope.SwitchPreference(
 ) {
     TwoStatePreference(
         initialChecked = initialChecked,
+        key = key,
         onCheckedChange = onCheckedChange,
         title = title,
         summary = summary,
@@ -211,6 +225,7 @@ fun PreferenceScope.Preference(
 
 internal fun PreferenceScope.TwoStatePreference(
     initialChecked: Boolean,
+    key: String,
     onCheckedChange: (Boolean) -> Unit,
     title: String,
     summary: String? = null,
@@ -219,8 +234,10 @@ internal fun PreferenceScope.TwoStatePreference(
     trailing: @Composable (checked: Boolean, toggle: (Boolean) -> Unit) -> Unit,
 ) {
     item {
-        var isChecked by savedInstanceState { initialChecked }
+        val preferences = PreferenceAmbient.current
+        var isChecked by savedInstanceState { preferences.getBoolean(key, initialChecked) }
         val toggle: (Boolean) -> Unit = {
+            preferences.edit().putBoolean(key, it).apply()
             onCheckedChange(it)
             isChecked = it
         }
@@ -248,9 +265,9 @@ internal fun PreferenceInternal(
     ListItem(
         modifier = modifier.clickable(onClick = onClick, indication = RippleIndication()),
         icon = icon,
-        secondaryText = summary?.let { { Text(text = it) } },
+        secondaryText = summary?.let { { Text(text = it, color = MaterialTheme.colors.onBackground) } },
         singleLineSecondaryText = singleLineSecondaryText,
-        text = { Text(text = title) },
+        text = { Text(text = title, color = MaterialTheme.colors.onBackground) },
         trailing = trailing,
     )
 }
