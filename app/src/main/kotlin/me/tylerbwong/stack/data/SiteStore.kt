@@ -41,7 +41,7 @@ class SiteStore @Inject constructor(
             get() {
                 val language = Locale.getDefault().language
                 return if (language in supportedOtherLanguages) {
-                    "${language}.$DEFAULT_SITE"
+                    "$language.$DEFAULT_SITE"
                 } else {
                     DEFAULT_SITE
                 }
