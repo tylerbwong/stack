@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.api.service.DEFAULT_SITE
 import me.tylerbwong.stack.data.auth.di.SiteSharedPreferences
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,7 +15,7 @@ class SiteStore @Inject constructor(
 ) {
     var site: String
         @Synchronized
-        get() = deepLinkSite ?: preferences.getString(SITE_KEY, DEFAULT_SITE) ?: DEFAULT_SITE
+        get() = deepLinkSite ?: preferences.getString(SITE_KEY, defaultSite) ?: defaultSite
         set(value) {
             preferences.edit().putString(SITE_KEY, value).apply()
             mutableSiteLiveData.value = value
@@ -36,6 +37,16 @@ class SiteStore @Inject constructor(
 
     companion object {
         internal const val SITE_PREFERENCES = "site_preferences"
+        internal val defaultSite: String
+            get() {
+                val language = Locale.getDefault().language
+                return if (language in supportedOtherLanguages) {
+                    "${language}.$DEFAULT_SITE"
+                } else {
+                    DEFAULT_SITE
+                }
+            }
+        private val supportedOtherLanguages = setOf("es", "ja", "pt", "ru")
         private const val SITE_KEY = "site"
     }
 }
