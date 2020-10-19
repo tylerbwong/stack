@@ -3,7 +3,7 @@
 
 ![Stack](/.idea/icon.png)
 
-Stack is an Android application that lets you browse [stackoverflow.com](https://stackoverflow.com) and other Stack Exchange sites.
+Stack is an Android application that lets you browse [stackoverflow.com](https://stackoverflow.com) and other Stack Exchange sites. It is powered by the [Stack Exchange API](https://api.stackexchange.com/).
 
 ### Download
 
