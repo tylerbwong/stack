@@ -67,6 +67,12 @@
             android:title="@string/libraries" />
 
         <Preference
+            android:icon="@drawable/ic_baseline_cloud"
+            android:key="@string/api"
+            android:summary="@string/api_description"
+            android:title="@string/api" />
+
+        <Preference
             android:key="@string/privacy"
             android:title="@string/privacy" />
 

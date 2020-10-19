@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">Stack</string>
+    <string name="app_name" translatable="false">Stack</string>
+    <string name="api_home_url" translatable="false">https://api.stackexchange.com/</string>
     <string name="repository_url" translatable="false">https://github.com/tylerbwong/stack</string>
     <string name="privacy_url" translatable="false">https://github.com/tylerbwong/stack/blob/master/PRIVACY.md</string>
     <string name="terms_url" translatable="false">https://github.com/tylerbwong/stack/blob/master/TERMS.md</string>
@@ -131,6 +132,8 @@
     <string name="source_description">Stack is free and open-source on GitHub</string>
     <string name="libraries">Open Source Libraries</string>
     <string name="libraries_description">These awesome libraries helped build Stack</string>
+    <string name="api">Powered by the Stack Exchange API</string>
+    <string name="api_description">v2.2</string>
     <string name="privacy">Privacy Policy</string>
     <string name="terms">Terms and Conditions</string>
     <string name="license">%1$s License</string>

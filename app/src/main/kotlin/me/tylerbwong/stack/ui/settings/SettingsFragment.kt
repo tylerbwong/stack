@@ -204,6 +204,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         }
 
+        findPreference<Preference>(getString(R.string.api))?.apply {
+            setOnPreferenceClickListener {
+                launchCustomTab(requireContext(), getString(R.string.api_home_url))
+                true
+            }
+        }
+
         findPreference<Preference>(getString(R.string.privacy))?.apply {
             setOnPreferenceClickListener {
                 launchCustomTab(requireContext(), getString(R.string.privacy_url))
