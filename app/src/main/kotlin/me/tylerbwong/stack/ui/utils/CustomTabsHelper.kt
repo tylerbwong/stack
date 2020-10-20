@@ -40,15 +40,10 @@ fun Context.launchUrl(url: String) {
 @Suppress("ComplexMethod")
 private fun getPackageNameToUse(context: Context, uri: Uri): String? {
     val packageManager = context.packageManager
-    // Get default VIEW intent handler.
     val activityIntent = Intent(Intent.ACTION_VIEW, uri)
     val defaultViewHandlerInfo = packageManager.resolveActivity(activityIntent, 0)
-    var defaultViewHandlerPackageName: String? = null
-    defaultViewHandlerInfo?.let {
-        defaultViewHandlerPackageName = it.activityInfo.packageName
-    }
+    val defaultViewHandlerPackageName = defaultViewHandlerInfo?.activityInfo?.packageName
 
-    // Get all apps that can handle VIEW intents.
     val resolvedActivityList = packageManager.queryIntentActivities(activityIntent, 0)
     val packagesSupportingCustomTabs = mutableListOf<String>()
     resolvedActivityList.forEach {
@@ -60,8 +55,6 @@ private fun getPackageNameToUse(context: Context, uri: Uri): String? {
         }
     }
 
-    // Now packagesSupportingCustomTabs contains all apps that can handle both VIEW intents
-    // and service calls.
     return when {
         packagesSupportingCustomTabs.isEmpty() -> null
         packagesSupportingCustomTabs.size == 1 -> packagesSupportingCustomTabs[0]
