@@ -16,10 +16,9 @@ private const val BETA_PACKAGE = "com.chrome.beta"
 private const val DEV_PACKAGE = "com.chrome.dev"
 private const val LOCAL_PACKAGE = "com.google.android.apps.chrome"
 
-private var packageName: String? = null
-
 fun Context.launchUrl(url: String) {
-    val packageName = getPackageNameToUse(this, url)
+    val uri = Uri.parse(url)
+    val packageName = getPackageNameToUse(this, uri)
     if (packageName != null) {
         val themeColor = resolveThemeAttribute(R.attr.viewBackgroundColor)
         val customTabsIntent = CustomTabsIntent.Builder()
@@ -32,33 +31,31 @@ fun Context.launchUrl(url: String) {
             )
             .build()
         customTabsIntent.intent.`package` = packageName
-        customTabsIntent.launchUrl(this, Uri.parse(url))
+        customTabsIntent.launchUrl(this, uri)
     } else {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        startActivity(Intent(Intent.ACTION_VIEW, uri))
     }
 }
 
 @Suppress("ComplexMethod")
-private fun getPackageNameToUse(context: Context, url: String): String? {
-    if (packageName != null) return packageName
-
-    val pm = context.packageManager
+private fun getPackageNameToUse(context: Context, uri: Uri): String? {
+    val packageManager = context.packageManager
     // Get default VIEW intent handler.
-    val activityIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-    val defaultViewHandlerInfo = pm.resolveActivity(activityIntent, 0)
+    val activityIntent = Intent(Intent.ACTION_VIEW, uri)
+    val defaultViewHandlerInfo = packageManager.resolveActivity(activityIntent, 0)
     var defaultViewHandlerPackageName: String? = null
     defaultViewHandlerInfo?.let {
         defaultViewHandlerPackageName = it.activityInfo.packageName
     }
 
     // Get all apps that can handle VIEW intents.
-    val resolvedActivityList = pm.queryIntentActivities(activityIntent, 0)
+    val resolvedActivityList = packageManager.queryIntentActivities(activityIntent, 0)
     val packagesSupportingCustomTabs = mutableListOf<String>()
     resolvedActivityList.forEach {
         val serviceIntent = Intent()
         serviceIntent.action = CustomTabsService.ACTION_CUSTOM_TABS_CONNECTION
         serviceIntent.`package` = it.activityInfo.packageName
-        if (pm.resolveService(serviceIntent, 0) != null) {
+        if (packageManager.resolveService(serviceIntent, 0) != null) {
             packagesSupportingCustomTabs.add(it.activityInfo.packageName)
         }
     }
