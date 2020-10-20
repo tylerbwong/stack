@@ -1,10 +1,12 @@
 package me.tylerbwong.stack.ui.utils
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.text.TextUtils
+import android.widget.Toast
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsService
@@ -15,25 +17,33 @@ private const val STABLE_PACKAGE = "com.android.chrome"
 private const val BETA_PACKAGE = "com.chrome.beta"
 private const val DEV_PACKAGE = "com.chrome.dev"
 private const val LOCAL_PACKAGE = "com.google.android.apps.chrome"
+private const val LINK_LABEL = "stack_link"
 
 fun Context.launchUrl(url: String) {
-    val uri = Uri.parse(url)
-    val packageName = getPackageNameToUse(this, uri)
-    if (packageName != null) {
-        val themeColor = resolveThemeAttribute(R.attr.viewBackgroundColor)
-        val customTabsIntent = CustomTabsIntent.Builder()
-            .setDefaultColorSchemeParams(
-                CustomTabColorSchemeParams.Builder()
-                    .setNavigationBarColor(themeColor)
-                    .setToolbarColor(themeColor)
-                    .setSecondaryToolbarColor(themeColor)
-                    .build()
-            )
-            .build()
-        customTabsIntent.intent.`package` = packageName
-        customTabsIntent.launchUrl(this, uri)
-    } else {
-        startActivity(Intent(Intent.ACTION_VIEW, uri))
+    try {
+        val uri = Uri.parse(url)
+        val packageName = getPackageNameToUse(this, uri)
+        if (packageName != null) {
+            val themeColor = resolveThemeAttribute(R.attr.viewBackgroundColor)
+            val customTabsIntent = CustomTabsIntent.Builder()
+                .setDefaultColorSchemeParams(
+                    CustomTabColorSchemeParams.Builder()
+                        .setNavigationBarColor(themeColor)
+                        .setToolbarColor(themeColor)
+                        .setSecondaryToolbarColor(themeColor)
+                        .build()
+                )
+                .build()
+            customTabsIntent.intent.`package` = packageName
+            customTabsIntent.launchUrl(this, uri)
+        } else {
+            startActivity(Intent(Intent.ACTION_VIEW, uri))
+        }
+    } catch (ex: ActivityNotFoundException) {
+        val isCopied = copyToClipboard(LINK_LABEL, url)
+        if (isCopied) {
+            Toast.makeText(this, R.string.no_browser_found, Toast.LENGTH_LONG).show()
+        }
     }
 }
 

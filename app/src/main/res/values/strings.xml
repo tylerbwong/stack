@@ -149,4 +149,5 @@
 
     <string name="restart_toggle">Toggling this requires a restart</string>
     <string name="link_copied">Link copied to clipboard</string>
+    <string name="no_browser_found">No browser found. Link has been copied to clipboard.</string>
 </resources>

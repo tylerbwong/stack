@@ -1,5 +1,7 @@
 package me.tylerbwong.stack.ui.utils
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.ContextWrapper
 import android.util.TypedValue
@@ -25,4 +27,14 @@ fun Context.resolveThemeAttribute(@AttrRes attr: Int): Int {
     val typedValue = TypedValue()
     theme.resolveAttribute(attr, typedValue, true)
     return typedValue.data
+}
+
+fun Context.copyToClipboard(label: String, text: String): Boolean {
+    val clipboardManager = systemService<ClipboardManager>(Context.CLIPBOARD_SERVICE)
+    return if (clipboardManager != null) {
+        clipboardManager.setPrimaryClip(ClipData.newPlainText(label, text))
+        true
+    } else {
+        false
+    }
 }
