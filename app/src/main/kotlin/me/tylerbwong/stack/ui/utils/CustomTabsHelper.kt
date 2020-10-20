@@ -24,6 +24,7 @@ fun Context.launchUrl(url: String) {
             .build()
         customTabsIntent.launchUrl(this, Uri.parse(url))
     } catch (ex: ActivityNotFoundException) {
+        // TODO Resolve to internal Web View
         val isCopied = copyToClipboard(LINK_LABEL, url)
         if (isCopied) {
             Toast.makeText(this, R.string.no_browser_found, Toast.LENGTH_LONG).show()
