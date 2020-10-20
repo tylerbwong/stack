@@ -18,20 +18,24 @@ private const val LOCAL_PACKAGE = "com.google.android.apps.chrome"
 
 private var packageName: String? = null
 
-fun launchCustomTab(context: Context, url: String) {
-    val packageName = getPackageNameToUse(context, url)
-    val themeColor = context.resolveThemeAttribute(R.attr.viewBackgroundColor)
-    val customTabsIntent = CustomTabsIntent.Builder()
-        .setDefaultColorSchemeParams(
-            CustomTabColorSchemeParams.Builder()
-                .setNavigationBarColor(themeColor)
-                .setToolbarColor(themeColor)
-                .setSecondaryToolbarColor(themeColor)
-                .build()
-        )
-        .build()
-    customTabsIntent.intent.`package` = packageName
-    customTabsIntent.launchUrl(context, Uri.parse(url))
+fun Context.launchUrl(url: String) {
+    val packageName = getPackageNameToUse(this, url)
+    if (packageName != null) {
+        val themeColor = resolveThemeAttribute(R.attr.viewBackgroundColor)
+        val customTabsIntent = CustomTabsIntent.Builder()
+            .setDefaultColorSchemeParams(
+                CustomTabColorSchemeParams.Builder()
+                    .setNavigationBarColor(themeColor)
+                    .setToolbarColor(themeColor)
+                    .setSecondaryToolbarColor(themeColor)
+                    .build()
+            )
+            .build()
+        customTabsIntent.intent.`package` = packageName
+        customTabsIntent.launchUrl(this, Uri.parse(url))
+    } else {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+    }
 }
 
 @Suppress("ComplexMethod")

@@ -27,7 +27,7 @@ import me.tylerbwong.stack.ui.settings.sites.SitesActivity
 import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
 import me.tylerbwong.stack.ui.theme.nightModeOptions
 import me.tylerbwong.stack.ui.theme.showThemeChooserDialog
-import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.launchUrl
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
 import javax.inject.Inject
@@ -192,7 +192,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun PreferenceManager.setUpAboutSection() {
         findPreference<Preference>(getString(R.string.source))?.apply {
             setOnPreferenceClickListener {
-                launchCustomTab(requireContext(), getString(R.string.repository_url))
+                requireContext().launchUrl(getString(R.string.repository_url))
                 true
             }
         }
@@ -206,21 +206,21 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         findPreference<Preference>(getString(R.string.api))?.apply {
             setOnPreferenceClickListener {
-                launchCustomTab(requireContext(), getString(R.string.api_home_url))
+                requireContext().launchUrl(getString(R.string.api_home_url))
                 true
             }
         }
 
         findPreference<Preference>(getString(R.string.privacy))?.apply {
             setOnPreferenceClickListener {
-                launchCustomTab(requireContext(), getString(R.string.privacy_url))
+                requireContext().launchUrl(getString(R.string.privacy_url))
                 true
             }
         }
 
         findPreference<Preference>(getString(R.string.terms))?.apply {
             setOnPreferenceClickListener {
-                launchCustomTab(requireContext(), getString(R.string.terms_url))
+                requireContext().launchUrl(getString(R.string.terms_url))
                 true
             }
         }
@@ -242,7 +242,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.default_dialog_bg))
             .setTitle(R.string.log_in_title)
             .setPositiveButton(R.string.log_in) { _, _ ->
-                launchCustomTab(requireContext(), AuthStore.authUrl)
+                requireContext().launchUrl(AuthStore.authUrl)
             }
             .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
             .create()

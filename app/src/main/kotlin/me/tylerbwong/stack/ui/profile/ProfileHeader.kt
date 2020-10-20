@@ -29,7 +29,7 @@ import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.ui.owners.Badges
 import me.tylerbwong.stack.ui.utils.colorAttribute
 import me.tylerbwong.stack.ui.utils.format
-import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.launchUrl
 import me.tylerbwong.stack.ui.utils.toHtml
 
 @Composable
@@ -42,7 +42,7 @@ fun ProfileHeader(user: User) {
         val context = ContextAmbient.current
         val userProfileClickableModifier = user.link?.let {
             Modifier.clickable(
-                onClick = { launchCustomTab(context, it) },
+                onClick = { context.launchUrl(it) },
                 indication = null,
             )
         } ?: Modifier

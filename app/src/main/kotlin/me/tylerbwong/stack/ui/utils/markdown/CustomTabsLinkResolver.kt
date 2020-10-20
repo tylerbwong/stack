@@ -5,7 +5,7 @@ import android.view.View
 import io.noties.markwon.LinkResolver
 import me.tylerbwong.stack.data.DeepLinkResult
 import me.tylerbwong.stack.data.DeepLinker
-import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.launchUrl
 import me.tylerbwong.stack.ui.utils.withHttps
 import timber.log.Timber
 import javax.inject.Inject
@@ -22,7 +22,7 @@ class CustomTabsLinkResolver @Inject constructor(
             Timber.i("Resolving internal deep link for $newLink")
             context.startActivity(deepLinkResult.intent)
         } else {
-            launchCustomTab(context, newLink)
+            context.launchUrl(newLink)
         }
     }
 }

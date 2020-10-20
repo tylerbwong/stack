@@ -34,7 +34,7 @@ import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
-import me.tylerbwong.stack.ui.utils.launchCustomTab
+import me.tylerbwong.stack.ui.utils.launchUrl
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
@@ -247,7 +247,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
             .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
             .setTitle(R.string.log_in_title)
             .setPositiveButton(R.string.log_in) { _, _ ->
-                launchCustomTab(this, AuthStore.authUrl)
+                launchUrl(AuthStore.authUrl)
             }
             .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
             .create()
