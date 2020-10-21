@@ -1,0 +1,437 @@
+// Signature format: 3.0
+package me.tylerbwong.stack.api {
+
+  public final class UnitConverterFactory extends retrofit2.Converter.Factory {
+    method public retrofit2.Converter<okhttp3.ResponseBody,me.tylerbwong.stack.api.model.Response<kotlin.Unit>>? responseBodyConverter(java.lang.reflect.Type type, java.lang.annotation.Annotation![] annotations, retrofit2.Retrofit retrofit);
+    field public static final me.tylerbwong.stack.api.UnitConverterFactory! INSTANCE;
+  }
+
+}
+
+package me.tylerbwong.stack.api.di {
+
+  public final class ApiModule {
+    ctor public ApiModule();
+    method public me.tylerbwong.stack.api.service.AuthService provideAuthService(retrofit2.Retrofit retrofit);
+    method @me.tylerbwong.stack.api.di.BaseUrl public String provideBaseUrl();
+    method public me.tylerbwong.stack.api.service.CommentService provideCommentService(retrofit2.Retrofit retrofit);
+    method public com.squareup.moshi.Moshi provideMoshi();
+    method public retrofit2.converter.moshi.MoshiConverterFactory provideMoshiConverterFactory(com.squareup.moshi.Moshi moshi);
+    method public me.tylerbwong.stack.api.service.QuestionService provideQuestionService(retrofit2.Retrofit retrofit);
+    method public retrofit2.Retrofit provideRetrofit(@me.tylerbwong.stack.api.di.BaseUrl String baseUrl, okhttp3.Call.Factory callFactory, me.tylerbwong.stack.api.UnitConverterFactory unitConverterFactory, retrofit2.converter.moshi.MoshiConverterFactory moshiConverterFactory);
+    method public me.tylerbwong.stack.api.service.SearchService provideSearchService(retrofit2.Retrofit retrofit);
+    method public me.tylerbwong.stack.api.service.SiteService provideSiteService(retrofit2.Retrofit retrofit);
+    method public me.tylerbwong.stack.api.service.TagService provideTagService(retrofit2.Retrofit retrofit);
+    method public me.tylerbwong.stack.api.UnitConverterFactory provideUnitConverterFactory();
+    method public me.tylerbwong.stack.api.service.UserService provideUserService(retrofit2.Retrofit retrofit);
+    field public static final me.tylerbwong.stack.api.di.ApiModule.Companion! Companion;
+  }
+
+  public static final class ApiModule.Companion {
+  }
+
+  @kotlin.annotation.Retention(AnnotationRetention.BINARY) public @interface BaseUrl {
+  }
+
+}
+
+package me.tylerbwong.stack.api.model {
+
+  public final class Answer {
+    ctor public Answer(int answerId, me.tylerbwong.stack.api.model.User owner, int downVoteCount, int upVoteCount, boolean isAccepted, int score, long creationDate, String bodyMarkdown, Long? lastEditDate, me.tylerbwong.stack.api.model.User? lastEditor, int questionId, Integer? commentCount);
+    method public int component1();
+    method public me.tylerbwong.stack.api.model.User? component10();
+    method public int component11();
+    method public Integer? component12();
+    method public me.tylerbwong.stack.api.model.User component2();
+    method public int component3();
+    method public int component4();
+    method public boolean component5();
+    method public int component6();
+    method public long component7();
+    method public String component8();
+    method public Long? component9();
+    method public me.tylerbwong.stack.api.model.Answer copy(int answerId, me.tylerbwong.stack.api.model.User owner, int downVoteCount, int upVoteCount, boolean isAccepted, int score, long creationDate, String bodyMarkdown, Long? lastEditDate, me.tylerbwong.stack.api.model.User? lastEditor, int questionId, Integer? commentCount);
+    method public int getAnswerId();
+    method public String getBodyMarkdown();
+    method public Integer? getCommentCount();
+    method public long getCreationDate();
+    method public int getDownVoteCount();
+    method public Long? getLastEditDate();
+    method public me.tylerbwong.stack.api.model.User? getLastEditor();
+    method public me.tylerbwong.stack.api.model.User getOwner();
+    method public int getQuestionId();
+    method public int getScore();
+    method public int getUpVoteCount();
+    method public boolean isAccepted();
+  }
+
+  public final class Badge {
+    ctor public Badge(int awardCount, int badgeId, @me.tylerbwong.stack.api.model.BadgeType String badgeType, String description, String link, String name, @me.tylerbwong.stack.api.model.Rank String rank);
+    method public int component1();
+    method public int component2();
+    method public String component3();
+    method public String component4();
+    method public String component5();
+    method public String component6();
+    method public String component7();
+    method public me.tylerbwong.stack.api.model.Badge copy(int awardCount, int badgeId, String badgeType, String description, String link, String name, String rank);
+    method public int getAwardCount();
+    method public int getBadgeId();
+    method public String getBadgeType();
+    method public String getDescription();
+    method public String getLink();
+    method public String getName();
+    method public String getRank();
+  }
+
+  public final class BadgeCounts {
+    ctor public BadgeCounts(int bronze, int silver, int gold);
+    method public int component1();
+    method public int component2();
+    method public int component3();
+    method public me.tylerbwong.stack.api.model.BadgeCounts copy(int bronze, int silver, int gold);
+    method public int getBronze();
+    method public int getGold();
+    method public int getSilver();
+  }
+
+  public final class BadgeKt {
+    ctor public BadgeKt();
+    field public static final String BRONZE = "bronze";
+    field public static final String GOLD = "gold";
+    field public static final String NAMED = "named";
+    field public static final String SILVER = "silver";
+    field public static final String TAG_BASED = "tag_based";
+  }
+
+  @StringDef({me.tylerbwong.stack.api.model.BadgeKt.NAMED, me.tylerbwong.stack.api.model.BadgeKt.TAG_BASED}) public @interface BadgeType {
+  }
+
+  public final class Comment {
+    ctor public Comment(String bodyMarkdown, int commentId, long creationDate, boolean edited, me.tylerbwong.stack.api.model.User owner, int score);
+    method public String component1();
+    method public int component2();
+    method public long component3();
+    method public boolean component4();
+    method public me.tylerbwong.stack.api.model.User component5();
+    method public int component6();
+    method public me.tylerbwong.stack.api.model.Comment copy(String bodyMarkdown, int commentId, long creationDate, boolean edited, me.tylerbwong.stack.api.model.User owner, int score);
+    method public String getBodyMarkdown();
+    method public int getCommentId();
+    method public long getCreationDate();
+    method public boolean getEdited();
+    method public me.tylerbwong.stack.api.model.User getOwner();
+    method public int getScore();
+  }
+
+  public final class ErrorResponse {
+    ctor public ErrorResponse(int errorId, String errorMessage, String errorName);
+    ctor public ErrorResponse();
+    method public int component1();
+    method public String component2();
+    method public String component3();
+    method public me.tylerbwong.stack.api.model.ErrorResponse copy(int errorId, String errorMessage, String errorName);
+    method public int getErrorId();
+    method public String getErrorMessage();
+    method public String getErrorName();
+    field public static final me.tylerbwong.stack.api.model.ErrorResponse.Companion! Companion;
+    field public static final String WRITE_FAILED = "write_failed";
+  }
+
+  public static final class ErrorResponse.Companion {
+  }
+
+  @StringDef({me.tylerbwong.stack.api.model.OrderKt.DESC, me.tylerbwong.stack.api.model.OrderKt.ASC}) public @interface Order {
+  }
+
+  public final class OrderKt {
+    ctor public OrderKt();
+    field public static final String ASC = "asc";
+    field public static final String DESC = "desc";
+    field public static final String ORDER_PARAM = "order";
+  }
+
+  @StringDef({me.tylerbwong.stack.api.model.TimelineEventKt.QUESTION, me.tylerbwong.stack.api.model.TimelineEventKt.ANSWER}) public @interface PostType {
+  }
+
+  public final class Question {
+    ctor public Question(int answerCount, String? body, String? bodyMarkdown, Long? closedDate, String? closedReason, Integer? commentCount, long creationDate, int downVoteCount, boolean isDownVoted, boolean isBookmarked, int bookmarkCount, boolean isAnswered, Long? lastActivityDate, Long? lastEditDate, me.tylerbwong.stack.api.model.User? lastEditor, me.tylerbwong.stack.api.model.User owner, int questionId, int score, String shareLink, java.util.List<java.lang.String>? tags, String title, int upVoteCount, boolean isUpVoted, int viewCount);
+    method public int component1();
+    method public boolean component10();
+    method public int component11();
+    method public boolean component12();
+    method public Long? component13();
+    method public Long? component14();
+    method public me.tylerbwong.stack.api.model.User? component15();
+    method public me.tylerbwong.stack.api.model.User component16();
+    method public int component17();
+    method public int component18();
+    method public String component19();
+    method public String? component2();
+    method public java.util.List<java.lang.String>? component20();
+    method public String component21();
+    method public int component22();
+    method public boolean component23();
+    method public int component24();
+    method public String? component3();
+    method public Long? component4();
+    method public String? component5();
+    method public Integer? component6();
+    method public long component7();
+    method public int component8();
+    method public boolean component9();
+    method public me.tylerbwong.stack.api.model.Question copy(int answerCount, String? body, String? bodyMarkdown, Long? closedDate, String? closedReason, Integer? commentCount, long creationDate, int downVoteCount, boolean isDownVoted, boolean isBookmarked, int bookmarkCount, boolean isAnswered, Long? lastActivityDate, Long? lastEditDate, me.tylerbwong.stack.api.model.User? lastEditor, me.tylerbwong.stack.api.model.User owner, int questionId, int score, String shareLink, java.util.List<java.lang.String>? tags, String title, int upVoteCount, boolean isUpVoted, int viewCount);
+    method public int getAnswerCount();
+    method public String? getBody();
+    method public String? getBodyMarkdown();
+    method public int getBookmarkCount();
+    method public Long? getClosedDate();
+    method public String? getClosedReason();
+    method public Integer? getCommentCount();
+    method public long getCreationDate();
+    method public int getDownVoteCount();
+    method public Long? getLastActivityDate();
+    method public Long? getLastEditDate();
+    method public me.tylerbwong.stack.api.model.User? getLastEditor();
+    method public me.tylerbwong.stack.api.model.User getOwner();
+    method public int getQuestionId();
+    method public int getScore();
+    method public String getShareLink();
+    method public java.util.List<java.lang.String>? getTags();
+    method public String getTitle();
+    method public int getUpVoteCount();
+    method public int getViewCount();
+    method public boolean isAnswered();
+    method public boolean isBookmarked();
+    method public boolean isDownVoted();
+    method public boolean isUpVoted();
+  }
+
+  @StringDef({me.tylerbwong.stack.api.model.BadgeKt.GOLD, me.tylerbwong.stack.api.model.BadgeKt.SILVER, me.tylerbwong.stack.api.model.BadgeKt.BRONZE}) public @interface Rank {
+  }
+
+  public final class Response<T> {
+    ctor public Response(java.util.List<? extends T> items, boolean hasMore);
+    ctor public Response();
+    method public java.util.List<T> component1();
+    method public boolean component2();
+    method public me.tylerbwong.stack.api.model.Response<T> copy(java.util.List<? extends T> items, boolean hasMore);
+    method public boolean getHasMore();
+    method public java.util.List<T> getItems();
+    field public static final me.tylerbwong.stack.api.model.Response.Companion! Companion;
+  }
+
+  public static final class Response.Companion {
+    method public me.tylerbwong.stack.api.model.Response<kotlin.Unit> getEMPTY();
+    property public final me.tylerbwong.stack.api.model.Response<kotlin.Unit> EMPTY;
+  }
+
+  public final class Site {
+    ctor public Site(String name, String parameter, String url, String audience, String iconUrl);
+    method public String component1();
+    method public String component2();
+    method public String component3();
+    method public String component4();
+    method public String component5();
+    method public me.tylerbwong.stack.api.model.Site copy(String name, String parameter, String url, String audience, String iconUrl);
+    method public String getAudience();
+    method public String getIconUrl();
+    method public String getName();
+    method public String getParameter();
+    method public String getUrl();
+  }
+
+  @StringDef({me.tylerbwong.stack.api.model.SortKt.CREATION, me.tylerbwong.stack.api.model.SortKt.ACTIVITY, me.tylerbwong.stack.api.model.SortKt.VOTES, me.tylerbwong.stack.api.model.SortKt.HOT, me.tylerbwong.stack.api.model.SortKt.WEEK, me.tylerbwong.stack.api.model.SortKt.MONTH, me.tylerbwong.stack.api.model.SortKt.RELEVANCE}) public @interface Sort {
+  }
+
+  public final class SortKt {
+    ctor public SortKt();
+    method @StringRes public static int getSortResourceId(String);
+    field public static final String ACTIVITY = "activity";
+    field public static final String CREATION = "creation";
+    field public static final String HOT = "hot";
+    field public static final String MONTH = "month";
+    field public static final String RELEVANCE = "relevance";
+    field public static final String SORT_PARAM = "sort";
+    field public static final String VOTES = "votes";
+    field public static final String WEEK = "week";
+  }
+
+  public final class Tag {
+    ctor public Tag(String name, int count);
+    method public String component1();
+    method public int component2();
+    method public me.tylerbwong.stack.api.model.Tag copy(String name, int count);
+    method public int getCount();
+    method public String getName();
+  }
+
+  public final class TimelineEvent {
+    ctor public TimelineEvent(Integer? badgeId, Integer? commentId, long creationDate, String? detail, String link, Integer? postId, @me.tylerbwong.stack.api.model.PostType String? postType, Integer? suggestedEditId, @me.tylerbwong.stack.api.model.TimelineType String timelineType, String? title, int userId);
+    method public Integer? component1();
+    method public String? component10();
+    method public int component11();
+    method public Integer? component2();
+    method public long component3();
+    method public String? component4();
+    method public String component5();
+    method public Integer? component6();
+    method public String? component7();
+    method public Integer? component8();
+    method public String component9();
+    method public me.tylerbwong.stack.api.model.TimelineEvent copy(Integer? badgeId, Integer? commentId, long creationDate, String? detail, String link, Integer? postId, String? postType, Integer? suggestedEditId, String timelineType, String? title, int userId);
+    method public Integer? getBadgeId();
+    method public Integer? getCommentId();
+    method public long getCreationDate();
+    method public String? getDetail();
+    method public String getLink();
+    method public Integer? getPostId();
+    method public String? getPostType();
+    method public Integer? getSuggestedEditId();
+    method public String getTimelineType();
+    method public String? getTitle();
+    method public int getUserId();
+  }
+
+  public final class TimelineEventKt {
+    ctor public TimelineEventKt();
+    field public static final String ACCEPTED = "accepted";
+    field public static final String ANSWER = "answer";
+    field public static final String ANSWERED = "answered";
+    field public static final String ASKED = "asked";
+    field public static final String BADGE = "badge";
+    field public static final String COMMENTED = "commented";
+    field public static final String QUESTION = "question";
+    field public static final String REVIEWED = "reviewed";
+    field public static final String REVISION = "revision";
+    field public static final String SUGGESTED = "suggested";
+  }
+
+  @StringDef({me.tylerbwong.stack.api.model.TimelineEventKt.COMMENTED, me.tylerbwong.stack.api.model.TimelineEventKt.ASKED, me.tylerbwong.stack.api.model.TimelineEventKt.ANSWERED, me.tylerbwong.stack.api.model.TimelineEventKt.BADGE, me.tylerbwong.stack.api.model.TimelineEventKt.REVISION, me.tylerbwong.stack.api.model.TimelineEventKt.ACCEPTED, me.tylerbwong.stack.api.model.TimelineEventKt.REVIEWED, me.tylerbwong.stack.api.model.TimelineEventKt.SUGGESTED}) public @interface TimelineType {
+  }
+
+  public final class User {
+    ctor public User(String? aboutMe, Integer? acceptRate, Integer? accountId, String displayName, String? link, String? location, String? profileImage, int reputation, int userId, String userType, me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts);
+    method public String? component1();
+    method public String component10();
+    method public me.tylerbwong.stack.api.model.BadgeCounts? component11();
+    method public Integer? component2();
+    method public Integer? component3();
+    method public String component4();
+    method public String? component5();
+    method public String? component6();
+    method public String? component7();
+    method public int component8();
+    method public int component9();
+    method public me.tylerbwong.stack.api.model.User copy(String? aboutMe, Integer? acceptRate, Integer? accountId, String displayName, String? link, String? location, String? profileImage, int reputation, int userId, String userType, me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts);
+    method public String? getAboutMe();
+    method public Integer? getAcceptRate();
+    method public Integer? getAccountId();
+    method public me.tylerbwong.stack.api.model.BadgeCounts? getBadgeCounts();
+    method public String getDisplayName();
+    method public String? getLink();
+    method public String? getLocation();
+    method public String? getProfileImage();
+    method public int getReputation();
+    method public int getUserId();
+    method public String getUserType();
+  }
+
+}
+
+package me.tylerbwong.stack.api.service {
+
+  public interface AuthService {
+    method public suspend Object! logOut(String accessToken, String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super kotlin.Unit> p = BuildConfig.API_KEY);
+  }
+
+  public interface CommentService {
+    method public suspend Object getPostComments(int postId, @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!L8StSPzV0U0)z0AORjbSP2D5RygsAsRFu7EKUgPZ6hbH)YC_S_mZJdz(*.y2xYh0QPq6", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Comment>> p = BuildConfig.API_KEY);
+    method public suspend Object getPostCommentsAuth(int postId, @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!)pfJrS0ZPMUmIMpNO)Yke6OecqSjv9ILyIMzhIz6XW5PAELLlGsc(-cn4aL4Utv5ur", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Comment>> p = BuildConfig.API_KEY);
+    field public static final me.tylerbwong.stack.api.service.CommentService.Companion! Companion;
+  }
+
+  public static final class CommentService.Companion {
+  }
+
+  public interface QuestionService {
+    method public suspend Object addQuestion(String title, String body, String tags, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
+    method public suspend Object downvoteQuestionById(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
+    method public suspend Object favoriteQuestionById(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
+    method public suspend Object getBookmarks(@me.tylerbwong.stack.api.model.Sort String sort = "activity", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method public suspend Object getLinkedQuestions(int questionId, @me.tylerbwong.stack.api.model.Sort String sort = "activity", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method public suspend Object getQuestionAnswers(int questionId, @me.tylerbwong.stack.api.model.Sort String sort = "votes", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!)qHt3-n4W*f.gPKawPE(XNpsQRxcWdBxS2t8_drqo0.DgldgGwePa9Pib9nUlpc.1r", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Answer>> p = BuildConfig.API_KEY);
+    method public suspend Object getQuestionDetails(int questionId, String filter = "!3r.zRmD4l6rHdTgXfBOo(qq6rg_D3I7uaTO)p123.RRrNwbbeBOKxJp8dch552I", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method public suspend Object getQuestionDetailsAuth(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method public suspend Object getQuestions(@me.tylerbwong.stack.api.model.Sort String sort = "activity", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method public suspend Object getQuestionsByTags(@me.tylerbwong.stack.api.model.Sort String sort = "activity", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String tags, String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method public suspend Object getRelatedQuestions(int questionId, @me.tylerbwong.stack.api.model.Sort String sort = "activity", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method public suspend Object postAnswer(int questionId, String key = BuildConfig.API_KEY, String bodyMarkdown, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Answer>> p = false);
+    method public suspend Object undoQuestionDownvoteById(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
+    method public suspend Object undoQuestionFavoriteById(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
+    method public suspend Object undoQuestionUpvoteById(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
+    method public suspend Object upvoteQuestionById(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
+    field public static final String ANSWER_FILTER = "!)qHt3-n4W*f.gPKawPE(XNpsQRxcWdBxS2t8_drqo0.DgldgGwePa9Pib9nUlpc.1r";
+    field public static final me.tylerbwong.stack.api.service.QuestionService.Companion! Companion;
+    field public static final String DEFAULT_FILTER = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(";
+    field public static final String DETAIL_FILTER = "!3r.zRmD4l6rHdTgXfBOo(qq6rg_D3I7uaTO)p123.RRrNwbbeBOKxJp8dch552I";
+    field public static final String DETAIL_FILTER_AUTH = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22";
+  }
+
+  public static final class QuestionService.Companion {
+  }
+
+  public interface SearchService {
+    method public suspend Object search(String query, Boolean? isAccepted = null, Integer? minNumAnswers = null, String? bodyContains = null, Boolean? isClosed = null, String? tags = null, String? titleContains = null, @me.tylerbwong.stack.api.model.Sort String sort = "relevance", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    field public static final me.tylerbwong.stack.api.service.SearchService.Companion! Companion;
+  }
+
+  public static final class SearchService.Companion {
+  }
+
+  public interface SiteService {
+    method public suspend Object getSites(int pageSize = 500, String filter = "!Fn4IB7S7W()0gcwcuHN16kFhm9", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Site>> p = BuildConfig.API_KEY);
+    field public static final me.tylerbwong.stack.api.service.SiteService.Companion! Companion;
+  }
+
+  public static final class SiteService.Companion {
+  }
+
+  public final class StackConstantsKt {
+    ctor public StackConstantsKt();
+    field public static final String DEFAULT_SITE = "stackoverflow";
+    field public static final String SITE_PARAM = "site";
+  }
+
+  public interface TagService {
+    method public suspend Object getPopularTags(String sort = "popular", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 30, int page = 1, String filter = "!0XrIP(5mCa0R7ys-I*Wa36*Jm", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Tag>> p = BuildConfig.API_KEY);
+    field public static final me.tylerbwong.stack.api.service.TagService.Companion! Companion;
+  }
+
+  public static final class TagService.Companion {
+  }
+
+  public interface UserService {
+    method public suspend Object getCurrentUser(String filter = "!BTeL*Mb3d_KiD.hc7r8myHkxGjY*UT", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.User>> p = BuildConfig.API_KEY);
+    method public suspend Object getUser(Integer? userId, String filter = "!BTeL*Mb3d_KiD.hc7r8myHkxGjY*UT", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.User>> p = BuildConfig.API_KEY);
+    method public suspend Object getUserBadges(int userId, Long? fromDate = null, Long? toDate = null, String sort = "rank", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 100, String filter = "!6JEV(YmXqRgSv", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Badge>> p = BuildConfig.API_KEY);
+    method public suspend Object getUserQuestionsById(Integer? userId, int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method public suspend Object getUserTimeline(Integer? userId, Long? fromDate = null, Long? toDate = null, String filter = "!9_R5-D7KQ", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.TimelineEvent>> p = BuildConfig.API_KEY);
+    field public static final me.tylerbwong.stack.api.service.UserService.Companion! Companion;
+  }
+
+  public static final class UserService.Companion {
+  }
+
+}
+
+package me.tylerbwong.stack.api.utils {
+
+  public final class HttpExceptionKt {
+    ctor public HttpExceptionKt();
+    method public static me.tylerbwong.stack.api.model.ErrorResponse? toErrorResponse(retrofit2.HttpException);
+  }
+
+}
+

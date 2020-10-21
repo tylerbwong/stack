@@ -1,0 +1,26 @@
+// Signature format: 3.0
+package me.tylerbwong.compose.markdown {
+
+  public final class MarkdownTextKt {
+    ctor public MarkdownTextKt();
+    method public static void MarkdownText-4POLFL0(String markdown, androidx.compose.ui.Modifier modifier = Modifier, long color = Color.Unspecified, long fontSize = TextUnit.Inherit, androidx.compose.ui.text.font.FontStyle? fontStyle = null, androidx.compose.ui.text.font.FontWeight? fontWeight = null, kotlin.jvm.functions.Function1<? super java.lang.String,kotlin.Unit> onLinkClicked = {});
+  }
+
+}
+
+package me.tylerbwong.compose.markdown.builder {
+
+  public final class AnnotatedStringBuilderKt {
+    ctor public AnnotatedStringBuilderKt();
+  }
+
+}
+
+package me.tylerbwong.compose.markdown.visitors {
+
+  public final class VisitorKt {
+    ctor public VisitorKt();
+  }
+
+}
+

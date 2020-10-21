@@ -10,7 +10,7 @@ import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.ast.getTextInNode
 
-object LinkVisitor : Visitor {
+internal object LinkVisitor : Visitor {
 
     override val acceptedTypes = setOf(MarkdownElementTypes.INLINE_LINK)
 

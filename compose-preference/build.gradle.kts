@@ -16,6 +16,10 @@ android {
     }
 }
 
+stack {
+    isMetalavaEnabled = true
+}
+
 dependencies {
     implementation(Dep.kotlinLib)
 

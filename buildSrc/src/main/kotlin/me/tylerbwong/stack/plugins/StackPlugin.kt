@@ -1,5 +1,7 @@
 package me.tylerbwong.stack.plugins
 
+import AndroidConfig
+import Versions
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
@@ -17,26 +19,34 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
+open class StackExtension {
+    var isMetalavaEnabled = false
+}
+
 class StackPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        target.plugins.all {
-            when (this) {
-                is LibraryPlugin -> configureLibraryPlugin(target)
-                is AppPlugin -> configureAppPlugin(target)
+        target.apply<Project> {
+            extensions.create("stack", StackExtension::class.java)
+            plugins.all {
+                when (this) {
+                    is LibraryPlugin -> configureLibraryPlugin()
+                    is AppPlugin -> configureAppPlugin()
+                }
             }
-        }
 
-        configureStaticAnalysis(target)
-    }
-
-    private fun configureLibraryPlugin(project: Project) {
-        project.extensions.getByType<LibraryExtension>().apply {
-            configureCommonOptions(project)
+            configureStaticAnalysis()
+            configureMetalava()
         }
     }
 
-    private fun configureAppPlugin(project: Project) {
-        project.extensions.getByType<BaseAppModuleExtension>().apply {
+    private fun Project.configureLibraryPlugin() {
+        extensions.getByType<LibraryExtension>().apply {
+            configureCommonOptions(this@configureLibraryPlugin)
+        }
+    }
+
+    private fun Project.configureAppPlugin() {
+        extensions.getByType<BaseAppModuleExtension>().apply {
             configureCommonOptions(project)
 
             defaultConfig {
@@ -99,22 +109,31 @@ class StackPlugin : Plugin<Project> {
         sourceSets["androidTest"].java.srcDir("src/androidTest/kotlin")
     }
 
-    private fun configureStaticAnalysis(project: Project) {
-        with(project) {
-            apply(plugin = "org.jlleitschuh.gradle.ktlint")
-            apply(plugin = "io.gitlab.arturbosch.detekt")
+    private fun Project.configureStaticAnalysis() {
+        apply(plugin = "org.jlleitschuh.gradle.ktlint")
+        apply(plugin = "io.gitlab.arturbosch.detekt")
 
-            extensions.getByType<KtlintExtension>().apply {
-                version.set(Versions.ktlint)
-                debug.set(true)
-                reporters {
-                    reporter(ReporterType.CHECKSTYLE)
-                }
+        extensions.getByType<KtlintExtension>().apply {
+            version.set(Versions.ktlint)
+            debug.set(true)
+            reporters {
+                reporter(ReporterType.CHECKSTYLE)
             }
+        }
 
-            extensions.getByType<DetektExtension>().apply {
-                config = files("$rootDir/detekt.yml")
+        extensions.getByType<DetektExtension>().apply {
+            config = files("$rootDir/detekt.yml")
+        }
+    }
+
+    private fun Project.configureMetalava() {
+        val extension = extensions.getByType<StackExtension>()
+        afterEvaluate {
+            if (extension.isMetalavaEnabled) {
+                apply(plugin = "MetalavaPlugin")
             }
         }
     }
+
+
 }
