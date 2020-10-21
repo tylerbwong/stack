@@ -1,13 +1,4 @@
 // Signature format: 3.0
-package me.tylerbwong.stack.api {
-
-  public final class UnitConverterFactory extends retrofit2.Converter.Factory {
-    method public retrofit2.Converter<okhttp3.ResponseBody,me.tylerbwong.stack.api.model.Response<kotlin.Unit>>? responseBodyConverter(java.lang.reflect.Type type, java.lang.annotation.Annotation![] annotations, retrofit2.Retrofit retrofit);
-    field public static final me.tylerbwong.stack.api.UnitConverterFactory! INSTANCE;
-  }
-
-}
-
 package me.tylerbwong.stack.api.di {
 
   public final class ApiModule {
@@ -16,13 +7,13 @@ package me.tylerbwong.stack.api.di {
     method @me.tylerbwong.stack.api.di.BaseUrl public String provideBaseUrl();
     method public me.tylerbwong.stack.api.service.CommentService provideCommentService(retrofit2.Retrofit retrofit);
     method public com.squareup.moshi.Moshi provideMoshi();
-    method public retrofit2.converter.moshi.MoshiConverterFactory provideMoshiConverterFactory(com.squareup.moshi.Moshi moshi);
+    method public retrofit2.Converter.Factory provideMoshiConverterFactory(com.squareup.moshi.Moshi moshi);
     method public me.tylerbwong.stack.api.service.QuestionService provideQuestionService(retrofit2.Retrofit retrofit);
-    method public retrofit2.Retrofit provideRetrofit(@me.tylerbwong.stack.api.di.BaseUrl String baseUrl, okhttp3.Call.Factory callFactory, me.tylerbwong.stack.api.UnitConverterFactory unitConverterFactory, retrofit2.converter.moshi.MoshiConverterFactory moshiConverterFactory);
+    method public retrofit2.Retrofit provideRetrofit(@me.tylerbwong.stack.api.di.BaseUrl String baseUrl, okhttp3.Call.Factory callFactory, java.util.Set<retrofit2.Converter.Factory> converterFactories);
     method public me.tylerbwong.stack.api.service.SearchService provideSearchService(retrofit2.Retrofit retrofit);
     method public me.tylerbwong.stack.api.service.SiteService provideSiteService(retrofit2.Retrofit retrofit);
     method public me.tylerbwong.stack.api.service.TagService provideTagService(retrofit2.Retrofit retrofit);
-    method public me.tylerbwong.stack.api.UnitConverterFactory provideUnitConverterFactory();
+    method public retrofit2.Converter.Factory provideUnitConverterFactory();
     method public me.tylerbwong.stack.api.service.UserService provideUserService(retrofit2.Retrofit retrofit);
     field public static final me.tylerbwong.stack.api.di.ApiModule.Companion! Companion;
   }

@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoSet
 import me.tylerbwong.stack.api.UnitConverterFactory
 import me.tylerbwong.stack.api.service.AuthService
 import me.tylerbwong.stack.api.service.CommentService
@@ -14,6 +15,7 @@ import me.tylerbwong.stack.api.service.SiteService
 import me.tylerbwong.stack.api.service.TagService
 import me.tylerbwong.stack.api.service.UserService
 import okhttp3.Call
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Qualifier
@@ -34,27 +36,27 @@ class ApiModule {
     @Provides
     fun provideMoshi(): Moshi = Moshi.Builder().build()
 
-    @Provides
-    fun provideUnitConverterFactory() = UnitConverterFactory
+    @[Provides IntoSet]
+    fun provideUnitConverterFactory(): Converter.Factory = UnitConverterFactory
 
-    @Provides
+    @[Provides IntoSet]
     fun provideMoshiConverterFactory(
         moshi: Moshi
-    ): MoshiConverterFactory = MoshiConverterFactory.create(moshi)
+    ): Converter.Factory = MoshiConverterFactory.create(moshi)
 
     @Singleton
     @Provides
     fun provideRetrofit(
         @BaseUrl baseUrl: String,
         callFactory: Call.Factory,
-        unitConverterFactory: UnitConverterFactory,
-        moshiConverterFactory: MoshiConverterFactory
-    ): Retrofit = Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .callFactory(callFactory)
-        .addConverterFactory(unitConverterFactory)
-        .addConverterFactory(moshiConverterFactory)
-        .build()
+        converterFactories: Set<@JvmSuppressWildcards Converter.Factory>
+    ): Retrofit {
+        val builder = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .callFactory(callFactory)
+        converterFactories.forEach { builder.addConverterFactory(it) }
+        return builder.build()
+    }
 
     @Singleton
     @Provides
