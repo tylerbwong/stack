@@ -140,10 +140,12 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
         fun makeIntentForKey(
             context: Context,
             page: QuestionPage,
-            key: String
+            key: String,
+            deepLinkSite: String? = null
         ) = Intent(context, QuestionsActivity::class.java)
             .putExtra(PAGE_EXTRA, page)
             .putExtra(KEY_EXTRA, key)
+            .putExtra(DEEP_LINK_SITE, deepLinkSite)
 
         fun startActivityForKey(context: Context, page: QuestionPage, key: String) {
             context.startActivity(makeIntentForKey(context, page, key))

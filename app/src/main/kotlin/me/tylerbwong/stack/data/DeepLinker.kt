@@ -19,7 +19,7 @@ sealed class DeepLinkResult {
 }
 
 @Singleton
-class DeepLinker @Inject constructor(private val siteStore: SiteStore) {
+class DeepLinker @Inject constructor() {
     private enum class ResolvedPath(vararg val paths: String) {
         AUTH("/auth/redirect"),
         QUESTIONS_BY_TAG("/questions/tagged/"),
@@ -39,21 +39,20 @@ class DeepLinker @Inject constructor(private val siteStore: SiteStore) {
         return when (ResolvedPath.fromPath(path)) {
             AUTH -> DeepLinkResult.RequestingAuth
             QUESTIONS_BY_TAG -> {
-                siteStore.deepLinkSite = site
                 DeepLinkResult.Success(
                     QuestionsActivity.makeIntentForKey(
                         context,
                         TAGS,
-                        uri.lastPathSegment ?: ""
+                        uri.lastPathSegment ?: "",
+                        deepLinkSite = site
                     )
                 )
             }
             QUESTION_DETAILS -> {
-                siteStore.deepLinkSite = site
                 // Format is /questions/{id}/title so get the second segment
                 val id = uri.pathSegments.getOrNull(1)?.toIntOrNull()
                     ?: return DeepLinkResult.PathNotSupportedError
-                DeepLinkResult.Success(QuestionDetailActivity.makeIntent(context, id))
+                DeepLinkResult.Success(QuestionDetailActivity.makeIntent(context, id, deepLinkSite = site))
             }
             else -> DeepLinkResult.PathNotSupportedError
         }
