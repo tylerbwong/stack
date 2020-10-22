@@ -51,6 +51,7 @@ object Versions {
     const val processPhoenix = "2.0.0"
     const val retrofit = "2.9.0"
     const val robolectric = "4.5-alpha-1"
+    const val screenshotTesting = "0.13.0"
     const val timber = "4.7.1"
 }
 
@@ -140,4 +141,5 @@ object Dep {
     const val mockito = "org.mockito:mockito-core:${Versions.mockito}"
     const val mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockitoKotlin}"
     const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
+    const val screenshotTestingPlugin = "com.facebook.testing.screenshot:plugin:${Versions.screenshotTesting}"
 }

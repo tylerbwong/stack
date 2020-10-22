@@ -18,11 +18,11 @@ class ProfileActivityIntegrationTest : BaseIntegrationTest<MainActivity>(MainAct
     @Test
     fun testProfileActivityIsShown() {
         navigateToQuestionDetailsFromMainActivity()
-        waitForRequest(2000)
+        waitForRequest()
         scrollListToPosition(R.id.recyclerView, 3)
         assertDisplayed(R.id.answerBody)
         clickOn(R.id.userImage)
-        waitForRequest(2000)
+        waitForRequest()
         assertDisplayed(R.id.questionTitle)
         intended(hasComponent(ComponentName(targetContext, ProfileActivity::class.java)))
     }
@@ -30,22 +30,22 @@ class ProfileActivityIntegrationTest : BaseIntegrationTest<MainActivity>(MainAct
     @Test
     fun testBadgesAreShown() {
         navigateToQuestionDetailsFromMainActivity()
-        waitForRequest(2000)
+        waitForRequest()
         scrollListToPosition(R.id.recyclerView, 3)
         assertDisplayed(R.id.answerBody)
         clickOn(R.id.userImage)
-        waitForRequest(2000)
+        waitForRequest()
         assertDisplayed(R.id.questionTitle)
         clickMenu(R.id.badges)
-        waitForRequest(2000)
+        waitForRequest()
         intended(hasComponent(ComponentName(targetContext, ProfileActivity::class.java)))
     }
 
     private fun navigateToQuestionDetailsFromMainActivity() {
-        waitForRequest(2000)
+        waitForRequest()
         clickMenu(R.id.sort)
         clickOn(R.string.votes)
-        waitForRequest(2000)
+        waitForRequest()
         clickListItem(R.id.recyclerView, 1)
     }
 }

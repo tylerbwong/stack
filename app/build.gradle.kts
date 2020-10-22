@@ -3,6 +3,7 @@ plugins {
     `kotlin-android`
     `kotlin-kapt`
     id("dagger.hilt.android.plugin")
+    id("com.facebook.testing.screenshot")
     id("com.google.firebase.crashlytics")
     id("com.mikepenz.aboutlibraries.plugin")
     StackPlugin
@@ -10,7 +11,7 @@ plugins {
 
 android {
     defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "me.tylerbwong.stack.StackTestRunner"
 
         buildConfigField("String", "CLIENT_ID", stringProperty("stackClientId"))
         resValue("integer", "version_code", "${AndroidConfig.VERSION_CODE}")

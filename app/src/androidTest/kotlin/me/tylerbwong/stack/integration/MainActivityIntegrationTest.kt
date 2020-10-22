@@ -17,20 +17,20 @@ class MainActivityIntegrationTest : BaseIntegrationTest<MainActivity>(MainActivi
 
     @Test
     fun testMainActivityLaunches() {
-        waitForRequest(2000)
+        waitForRequest()
         assertDisplayed(R.string.questions)
     }
 
     @Test
     fun testClickingSearchShowsSearch() {
         clickMenu(R.id.search)
-        waitForRequest(2000)
+        waitForRequest()
         assertDisplayed(R.string.search)
     }
 
     @Test
     fun testClickingQuestionOpensQuestionDetailActivity() {
-        waitForRequest(2000)
+        waitForRequest()
         clickListItem(R.id.recyclerView, 2)
         intended(hasComponent(ComponentName(targetContext, QuestionDetailActivity::class.java)))
     }

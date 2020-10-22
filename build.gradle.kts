@@ -13,6 +13,7 @@ buildscript {
         classpath(Dep.googleServicesPlugin)
         classpath(Dep.kotlinPlugin)
         classpath(Dep.ktlintGradlePlugin)
+        classpath(Dep.screenshotTestingPlugin)
     }
 }
 

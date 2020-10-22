@@ -1,0 +1,27 @@
+{
+  "owner": {
+    "badge_counts": {
+      "bronze": 531,
+      "silver": 455,
+      "gold": 47
+    },
+    "reputation": 445917,
+    "user_id": 87234,
+    "user_type": "registered",
+    "accept_rate": 100,
+    "profile_image": "https://i.stack.imgur.com/FkjBe.png?s=128&g=1",
+    "display_name": "GManNickG",
+    "link": "https://stackoverflow.com/users/87234/gmannickg"
+  },
+  "is_answered": true,
+  "view_count": 1538587,
+  "favorite_count": 11139,
+  "down_vote_count": 88,
+  "up_vote_count": 25023,
+  "answer_count": 26,
+  "score": 24935,
+  "creation_date": 1340805096,
+  "question_id": 11227809,
+  "share_link": "https://stackoverflow.com/q/11227809",
+  "title": "Why is processing a sorted array faster than processing an unsorted array?"
+}

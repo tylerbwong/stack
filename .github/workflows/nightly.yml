@@ -1,6 +1,8 @@
 name: Nightly
 
 on:
+  push:
+    branches: [ master ]
   schedule:
     - cron:  '0 0 * * *'
 
@@ -17,5 +19,16 @@ jobs:
       - name: Run Integration Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: 28
           script: ./gradlew :app:connectedAndroidTest
+      - name: Copy Test Results
+          if: always()
+          run: |
+            mkdir -p screenshot-tests
+            find . -type f -regex ".*/build/screenshotsDebugAndroidTest/*" -exec cp {} screenshot-tests/ \;
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: screenshot-test-results
+          path: screenshot-tests

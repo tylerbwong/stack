@@ -20,14 +20,14 @@ class QuestionDetailActivityIntegrationTest : BaseIntegrationTest<MainActivity>(
     @Test
     fun testQuestionDetailActivityLaunches() {
         navigateToQuestionDetailsFromMainActivity()
-        waitForRequest(2000)
+        waitForRequest()
         assertDisplayed(R.id.questionTitle)
     }
 
     @Test
     fun testLinkedQuestionsActivityLaunches() {
         navigateToQuestionDetailsFromMainActivity()
-        waitForRequest(2000)
+        waitForRequest()
         openMenu()
         clickOn(R.string.linked)
         intended(hasComponent(ComponentName(targetContext, QuestionsActivity::class.java)))
@@ -36,7 +36,7 @@ class QuestionDetailActivityIntegrationTest : BaseIntegrationTest<MainActivity>(
     @Test
     fun testRelatedQuestionsActivityLaunches() {
         navigateToQuestionDetailsFromMainActivity()
-        waitForRequest(2000)
+        waitForRequest()
         openMenu()
         clickOn(R.string.related)
         intended(hasComponent(ComponentName(targetContext, QuestionsActivity::class.java)))
@@ -45,16 +45,16 @@ class QuestionDetailActivityIntegrationTest : BaseIntegrationTest<MainActivity>(
     @Test
     fun testQuestionDetailAnswersAreShown() {
         navigateToQuestionDetailsFromMainActivity()
-        waitForRequest(2000)
+        waitForRequest()
         scrollListToPosition(R.id.recyclerView, 3)
         assertDisplayed(R.id.answerBody)
     }
 
     private fun navigateToQuestionDetailsFromMainActivity() {
-        waitForRequest(2000)
+        waitForRequest()
         clickMenu(R.id.sort)
         clickOn(R.string.votes)
-        waitForRequest(2000)
+        waitForRequest()
         clickListItem(R.id.recyclerView, 1)
     }
 }
