@@ -22,7 +22,7 @@ object Versions {
     const val barista = "3.7.0"
     const val betterLinkMovementMethod = "2.2.0"
     const val chucker = "3.3.0"
-    const val coil = "1.0.0-rc3"
+    const val coil = "1.0.0"
     const val coilAccompanist = "0.3.1"
     const val compose = "1.0.0-alpha05"
     const val daggerHilt = "2.29.1-alpha"
