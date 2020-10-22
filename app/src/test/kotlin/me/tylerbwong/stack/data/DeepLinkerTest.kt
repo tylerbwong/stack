@@ -34,7 +34,7 @@ class DeepLinkerTest : BaseTest() {
     }
 
     @Test
-    fun `resolveUri returns path not supported error for invalid deep links`() {
+    fun `resolvePath returns path not supported error for invalid deep links`() {
         unsupportedDeepLinks.forEach {
             val result = deepLinker.resolvePath(context, it)
             assertEquals(DeepLinkResult.PathNotSupportedError, result)
@@ -42,7 +42,7 @@ class DeepLinkerTest : BaseTest() {
     }
 
     @Test
-    fun `resolveUri returns success for valid deep links`() {
+    fun `resolvePath returns success for valid deep links`() {
         supportedDeepLinks.forEach {
             val result = deepLinker.resolvePath(context, it)
             assertTrue(result is DeepLinkResult.Success)
@@ -50,7 +50,7 @@ class DeepLinkerTest : BaseTest() {
     }
 
     @Test
-    fun `resolveUri returns requesting auth for valid auth deep links`() {
+    fun `resolvePath returns requesting auth for valid auth deep links`() {
         supportedAuthUrls.forEach {
             val result = deepLinker.resolvePath(context, it)
             assertTrue(result is DeepLinkResult.RequestingAuth)
@@ -58,7 +58,7 @@ class DeepLinkerTest : BaseTest() {
     }
 
     @Test
-    fun `resolveUri with tagged path returns site mismatch error if site is not current site`() {
+    fun `resolvePath with tagged path returns success`() {
         val uri = Uri.parse("https://superuser.com/questions/tagged/android")
         val result = deepLinker.resolvePath(context, uri)
         assertTrue(result is DeepLinkResult.Success)
