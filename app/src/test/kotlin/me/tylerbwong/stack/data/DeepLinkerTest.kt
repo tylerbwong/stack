@@ -10,7 +10,6 @@ import org.junit.Test
 class DeepLinkerTest : BaseTest() {
 
     private lateinit var deepLinker: DeepLinker
-    private lateinit var siteStore: SiteStore
 
     private val unsupportedDeepLinks = listOf(
         "https://stackoverflow.com/search?q=android+toolbar",
@@ -31,8 +30,7 @@ class DeepLinkerTest : BaseTest() {
 
     @Before
     fun setUp() {
-        siteStore = SiteStore(testSharedPreferences)
-        deepLinker = DeepLinker(siteStore)
+        deepLinker = DeepLinker()
     }
 
     @Test
@@ -64,6 +62,5 @@ class DeepLinkerTest : BaseTest() {
         val uri = Uri.parse("https://superuser.com/questions/tagged/android")
         val result = deepLinker.resolvePath(context, uri)
         assertTrue(result is DeepLinkResult.Success)
-        assertEquals("superuser.com", siteStore.site)
     }
 }

@@ -19,7 +19,8 @@ abstract class BaseActivity<T : ViewBinding>(
 
     protected lateinit var binding: T
 
-    @Inject lateinit var siteStore: SiteStore
+    @Inject
+    lateinit var siteStore: SiteStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ThemeManager.injectTheme(this)
