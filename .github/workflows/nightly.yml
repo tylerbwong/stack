@@ -1,8 +1,8 @@
 name: Nightly
 
 on:
-  schedule:
-    - cron: '0 0 * * *'
+  push:
+    branches: [ master ]
 
 jobs:
   integration-tests:
@@ -28,7 +28,7 @@ jobs:
         if: always()
         run: |
           mkdir -p screenshot-tests
-          find . -type f -regex ".*/build/screenshotsDebugAndroidTest/*" -exec cp {} screenshot-tests/ \;
+          find . -type f -wholename "./app/build/screenshotsDebugAndroidTest/*" -exec cp -r {} screenshot-tests/ \;
       - name: Upload Test Results
         if: always()
         uses: actions/upload-artifact@v1
