@@ -150,10 +150,12 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
         fun makeIntent(
             context: Context,
             id: Int,
-            isInAnswerMode: Boolean = false
+            isInAnswerMode: Boolean = false,
+            deepLinkSite: String? = null
         ) = Intent(context, QuestionDetailActivity::class.java)
             .putExtra(QUESTION_ID, id)
             .putExtra(IS_IN_ANSWER_MODE, isInAnswerMode)
+            .putExtra(DEEP_LINK_SITE, deepLinkSite)
 
         fun startActivity(context: Context, id: Int) {
             context.startActivity(makeIntent(context, id))
