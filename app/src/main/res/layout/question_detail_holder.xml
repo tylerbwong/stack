@@ -69,14 +69,21 @@
 
     <me.tylerbwong.stack.ui.owners.OwnerView
         android:id="@+id/ownerView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/lastEditor"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/askedDate"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintWidth_max="wrap"
+        app:layout_constraintWidth_percent="0.6" />
 
     <TextView
         android:id="@+id/lastEditor"
@@ -84,13 +91,18 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:gravity="end"
-        android:lines="2"
+        android:minLines="2"
         android:textSize="12sp"
         android:textStyle="italic"
         android:visibility="invisible"
+        app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toTopOf="@id/commentCount"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tagsView"
+        app:layout_constraintStart_toEndOf="@id/ownerView"
+        app:layout_constraintTop_toTopOf="@id/askedDate"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintWidth_max="wrap"
+        app:layout_constraintWidth_percent="0.4"
         tools:text="last edited by\ntylerbwong"
         tools:visibility="visible" />
 
