@@ -1,8 +1,8 @@
 name: Nightly
 
 on:
-  push:
-    branches: [ master ]
+  schedule:
+    - cron:  '0 0 * * *'
 
 jobs:
   integration-tests:
@@ -14,8 +14,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: run tests
+      - name: Run Integration Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ./gradlew connectedAndroidTest
+          script: ./gradlew :app:connectedAndroidTest
