@@ -20,10 +20,10 @@ jobs:
           api-level: 28
           script: ./gradlew :app:connectedAndroidTest
       - name: Copy Test Results
-          if: always()
-          run: |
-            mkdir -p screenshot-tests
-            find . -type f -regex ".*/build/screenshotsDebugAndroidTest/*" -exec cp {} screenshot-tests/ \;
+        if: always()
+        run: |
+          mkdir -p screenshot-tests
+          find . -type f -regex ".*/build/screenshotsDebugAndroidTest/*" -exec cp {} screenshot-tests/ \;
       - name: Upload Test Results
         if: always()
         uses: actions/upload-artifact@v1
