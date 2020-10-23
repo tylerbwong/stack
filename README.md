@@ -1,5 +1,6 @@
 # Stack
 ![CI](https://github.com/tylerbwong/stack/workflows/CI/badge.svg)
+![Nightly](https://github.com/tylerbwong/stack/workflows/Nightly/badge.svg?branch=master)
 
 ![Stack](/.idea/icon.png)
 
