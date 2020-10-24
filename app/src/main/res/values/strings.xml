@@ -41,6 +41,7 @@
     <!-- Error -->
     <string name="nothing_here">Nothing here!</string>
     <string name="network_error">Network error</string>
+    <string name="no_internet">No internet connection</string>
     <string name="retry">Retry</string>
     <string name="dismiss">Dismiss</string>
     <string name="deep_link_path_not_supported">Stack can\'t handle this link yet!</string>

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
@@ -51,6 +52,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
     lateinit var experimental: Experimental
 
     private val viewModel by viewModels<MainViewModel>()
+
+    override val anchorView: View
+        get() = binding.bottomNav
 
     private lateinit var appUpdater: AppUpdater
 
