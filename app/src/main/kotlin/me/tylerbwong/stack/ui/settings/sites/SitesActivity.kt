@@ -5,7 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.PopupMenu
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
 import androidx.compose.runtime.Recomposer
 import androidx.compose.ui.platform.setContent
@@ -19,7 +21,7 @@ import me.tylerbwong.stack.ui.utils.showSnackbar
 @AndroidEntryPoint
 class SitesActivity : BaseActivity<ActivitySettingsBinding>(
     ActivitySettingsBinding::inflate
-), SearchView.OnQueryTextListener {
+), SearchView.OnQueryTextListener, PopupMenu.OnMenuItemClickListener {
     private val viewModel by viewModels<SitesViewModel>()
 
     private var snackbar: Snackbar? = null
@@ -31,7 +33,7 @@ class SitesActivity : BaseActivity<ActivitySettingsBinding>(
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
-            title = getString(R.string.sites)
+            title = getString(R.string.sites, getString(viewModel.currentFilter.filterNameRes))
         }
 
         binding.frameContainer.setContent(Recomposer.current()) {
@@ -56,6 +58,9 @@ class SitesActivity : BaseActivity<ActivitySettingsBinding>(
                 else -> Unit // No-op
             }
         }
+        viewModel.filter.observe(this) {
+            supportActionBar?.title = getString(R.string.sites, getString(it.filterNameRes))
+        }
 
         viewModel.fetchSites()
     }
@@ -79,8 +84,24 @@ class SitesActivity : BaseActivity<ActivitySettingsBinding>(
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
+            R.id.filter -> PopupMenu(this, findViewById(R.id.filter)).also {
+                it.inflate(R.menu.menu_sites_filter)
+                it.setOnMenuItemClickListener(this)
+                it.show()
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        val filter = when (item.itemId) {
+            R.id.all_sites -> SiteFilter.All
+            R.id.main_sites -> SiteFilter.Main
+            R.id.meta_sites -> SiteFilter.Meta
+            else -> SiteFilter.All
+        }
+        viewModel.fetchSites(filter = filter)
+        return true
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
@@ -104,4 +125,10 @@ class SitesActivity : BaseActivity<ActivitySettingsBinding>(
             context.startActivity(intent)
         }
     }
+}
+
+sealed class SiteFilter(@StringRes val filterNameRes: Int) {
+    object All : SiteFilter(R.string.all_sites)
+    object Main : SiteFilter(R.string.main_sites)
+    object Meta : SiteFilter(R.string.meta_sites)
 }

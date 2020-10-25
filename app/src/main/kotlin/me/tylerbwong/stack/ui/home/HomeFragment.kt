@@ -96,8 +96,8 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
         return true
     }
 
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-        val sort = when (item?.itemId) {
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        val sort = when (item.itemId) {
             R.id.creation -> CREATION
             R.id.activity -> ACTIVITY
             R.id.votes -> VOTES
