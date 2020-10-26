@@ -1,10 +1,14 @@
 package me.tylerbwong.stack.api.service
 
 import me.tylerbwong.stack.api.BuildConfig
+import me.tylerbwong.stack.api.model.ASC
+import me.tylerbwong.stack.api.model.CREATION
 import me.tylerbwong.stack.api.model.Comment
 import me.tylerbwong.stack.api.model.ORDER_PARAM
 import me.tylerbwong.stack.api.model.Order
 import me.tylerbwong.stack.api.model.Response
+import me.tylerbwong.stack.api.model.SORT_PARAM
+import me.tylerbwong.stack.api.model.Sort
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -14,7 +18,8 @@ interface CommentService {
     @GET("posts/{id}/comments")
     suspend fun getPostComments(
         @Path("id") postId: Int,
-        @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
+        @Query(ORDER_PARAM) @Order order: String = ASC,
+        @Query(SORT_PARAM) @Sort sort: String = CREATION,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
         @Query(FILTER_PARAM) filter: String = COMMENTS_FILTER,
@@ -24,7 +29,8 @@ interface CommentService {
     @GET("posts/{id}/comments")
     suspend fun getPostCommentsAuth(
         @Path("id") postId: Int,
-        @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
+        @Query(ORDER_PARAM) @Order order: String = ASC,
+        @Query(SORT_PARAM) @Sort sort: String = CREATION,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
         @Query(FILTER_PARAM) filter: String = COMMENTS_FILTER_AUTH,
