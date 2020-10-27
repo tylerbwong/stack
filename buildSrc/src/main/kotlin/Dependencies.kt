@@ -1,6 +1,6 @@
 object Versions {
     const val aboutLibraries = "8.4.2"
-    const val androidGradlePlugin = "4.2.0-alpha14"
+    const val androidGradlePlugin = "4.2.0-alpha15"
     const val androidxActivity = "1.2.0-beta01"
     const val androidxAppCompat = "1.3.0-alpha02"
     const val androidxBrowser = "1.3.0-alpha06"
