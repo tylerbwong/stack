@@ -338,8 +338,8 @@ package me.tylerbwong.stack.api.service {
   }
 
   public interface CommentService {
-    method public suspend Object getPostComments(int postId, @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!L8StSPzV0U0)z0AORjbSP2D5RygsAsRFu7EKUgPZ6hbH)YC_S_mZJdz(*.y2xYh0QPq6", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Comment>> p = BuildConfig.API_KEY);
-    method public suspend Object getPostCommentsAuth(int postId, @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!)pfJrS0ZPMUmIMpNO)Yke6OecqSjv9ILyIMzhIz6XW5PAELLlGsc(-cn4aL4Utv5ur", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Comment>> p = BuildConfig.API_KEY);
+    method public suspend Object getPostComments(int postId, @me.tylerbwong.stack.api.model.Order String order = "asc", @me.tylerbwong.stack.api.model.Sort String sort = "creation", int pageSize = 75, int page = 1, String filter = "!L8StSPzV0U0)z0AORjbSP2D5RygsAsRFu7EKUgPZ6hbH)YC_S_mZJdz(*.y2xYh0QPq6", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Comment>> p = BuildConfig.API_KEY);
+    method public suspend Object getPostCommentsAuth(int postId, @me.tylerbwong.stack.api.model.Order String order = "asc", @me.tylerbwong.stack.api.model.Sort String sort = "creation", int pageSize = 75, int page = 1, String filter = "!)pfJrS0ZPMUmIMpNO)Yke6OecqSjv9ILyIMzhIz6XW5PAELLlGsc(-cn4aL4Utv5ur", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Comment>> p = BuildConfig.API_KEY);
     field public static final me.tylerbwong.stack.api.service.CommentService.Companion! Companion;
   }
 
