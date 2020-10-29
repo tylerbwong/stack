@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/all_sites"
+        android:title="@string/all_sites" />
+
+    <item
+        android:id="@+id/main_sites"
+        android:title="@string/main_sites" />
+
+    <item
+        android:id="@+id/meta_sites"
+        android:title="@string/meta_sites" />
+</menu>

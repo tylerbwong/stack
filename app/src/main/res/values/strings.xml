@@ -125,8 +125,6 @@
     <string name="about">About</string>
     <string name="experimental">Experimental</string>
     <string name="account">Account</string>
-    <string name="current_site">Current Site</string>
-    <string name="sites">Sites</string>
     <string name="debug">Debug</string>
     <string name="theme">Theme</string>
     <string name="source">Source</string>
@@ -138,6 +136,14 @@
     <string name="privacy">Privacy Policy</string>
     <string name="terms">Terms and Conditions</string>
     <string name="license">%1$s License</string>
+
+    <!-- Sites -->
+    <string name="current_site">Current Site</string>
+    <string name="sites">Sites (%1$s)</string>
+    <string name="filter">Filter</string>
+    <string name="all_sites">All</string>
+    <string name="main_sites">Main</string>
+    <string name="meta_sites">Meta</string>
 
     <!-- Debug -->
     <string name="inspect_network_traffic">Inspect Network Traffic</string>

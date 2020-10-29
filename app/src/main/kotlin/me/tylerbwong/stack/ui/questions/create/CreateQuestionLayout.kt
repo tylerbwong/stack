@@ -1,7 +1,6 @@
 @file:Suppress("LongMethod")
 package me.tylerbwong.stack.ui.questions.create
 
-import androidx.compose.foundation.Icon
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +10,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxConstants
 import androidx.compose.material.ExtendedFloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
@@ -227,8 +228,10 @@ private fun LabeledCheckbox(
         Checkbox(
             checked = checked,
             onCheckedChange = onCheckedChange,
-            checkedColor = colorAccent,
-            uncheckedColor = primaryTextColor
+            colors = CheckboxConstants.defaultColors(
+                checkedColor = colorAccent,
+                uncheckedColor = primaryTextColor
+            )
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(
