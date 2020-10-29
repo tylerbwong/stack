@@ -1,9 +1,8 @@
-package me.tylerbwong.stack.data.network
+package me.tylerbwong.stack.data.site
 
 import me.tylerbwong.stack.api.di.BaseUrl
-import me.tylerbwong.stack.data.SiteStore
-import me.tylerbwong.stack.data.auth.utils.addField
 import me.tylerbwong.stack.api.service.SITE_PARAM
+import me.tylerbwong.stack.data.auth.utils.addField
 import me.tylerbwong.stack.data.utils.isPost
 import okhttp3.Interceptor
 import okhttp3.Request

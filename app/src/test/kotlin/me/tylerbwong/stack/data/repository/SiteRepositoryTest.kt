@@ -10,8 +10,8 @@ import me.tylerbwong.stack.BaseTest
 import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.api.service.SiteService
-import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.persistence.dao.SiteDao
+import me.tylerbwong.stack.data.site.SiteStore
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock

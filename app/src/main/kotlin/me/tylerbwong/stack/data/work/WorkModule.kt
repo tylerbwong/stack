@@ -10,6 +10,7 @@ import androidx.work.WorkRequest
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import java.util.concurrent.TimeUnit
@@ -40,7 +41,8 @@ class WorkModule {
         .setConstraints(constraints)
         .build()
 
-    @Singleton
-    @Provides
-    fun provideWorkerManager(context: Context): WorkManager = WorkManager.getInstance(context)
+    @[Provides Singleton]
+    fun provideWorkerManager(
+        @ApplicationContext context: Context
+    ): WorkManager = WorkManager.getInstance(context)
 }

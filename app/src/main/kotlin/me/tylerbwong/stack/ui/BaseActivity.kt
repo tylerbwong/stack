@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import dev.chrisbanes.insetter.applySystemGestureInsetsToPadding
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.SiteStore
+import me.tylerbwong.stack.data.site.SiteStore
 import me.tylerbwong.stack.ui.theme.ThemeManager
 import javax.inject.Inject
 

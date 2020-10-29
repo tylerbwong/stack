@@ -2,11 +2,14 @@ package me.tylerbwong.stack.ui.di
 
 import android.content.Context
 import androidx.core.content.ContextCompat
-import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.ElementsIntoSet
+import dagger.multibindings.IntoSet
+import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
 import io.noties.markwon.PrecomputedTextSetterCompat
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
@@ -26,51 +29,81 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.markdown.GrammarLocatorDef
 import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled
+import me.tylerbwong.stack.ui.utils.markdown.CustomTabsLinkResolver
+import me.tylerbwong.stack.ui.utils.markdown.CustomUrlProcessor
 import me.tylerbwong.stack.ui.utils.markdown.UrlPlugin
 import java.util.concurrent.Executor
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class MarkwonPlugin
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ExperimentalMarkwonPlugin
 
 @Module
 @InstallIn(SingletonComponent::class)
 class MarkdownModule {
 
-    @Provides
-    fun provideCoilImagesPlugin(context: Context) = CoilImagesPlugin.create(context)
+    @[Provides IntoSet MarkwonPlugin]
+    fun provideCoilImagesPlugin(
+        @ApplicationContext context: Context
+    ): AbstractMarkwonPlugin = CoilImagesPlugin.create(context)
 
-    @Provides
-    fun provideHtmlPlugin() = HtmlPlugin.create()
+    @[Provides IntoSet MarkwonPlugin]
+    fun provideHtmlPlugin(): AbstractMarkwonPlugin = HtmlPlugin.create()
 
-    @Provides
-    fun provideLinkifyPlugin() = LinkifyPlugin.create()
+    @[Provides IntoSet MarkwonPlugin]
+    fun provideLinkifyPlugin(): AbstractMarkwonPlugin = LinkifyPlugin.create()
 
-    @Provides
-    fun provideStrikethroughPlugin() = StrikethroughPlugin.create()
+    @[Provides IntoSet MarkwonPlugin]
+    fun provideStrikethroughPlugin(): AbstractMarkwonPlugin = StrikethroughPlugin.create()
 
-    @Provides
-    fun provideTablePlugin(context: Context) = TablePlugin.create(context)
+    @[Provides ElementsIntoSet ExperimentalMarkwonPlugin]
+    fun provideSyntaxHighlightPlugin(
+        experimental: Experimental,
+        prism4j: Prism4j,
+        prism4jTheme: Prism4jThemeBase
+    ): Set<AbstractMarkwonPlugin> = if (experimental.syntaxHighlightingEnabled) {
+        setOf(SyntaxHighlightPlugin.create(prism4j, prism4jTheme))
+    } else {
+        emptySet()
+    }
 
-    @Provides
-    fun provideTaskListPlugin(context: Context) = TaskListPlugin.create(
+    @[Provides IntoSet MarkwonPlugin]
+    fun provideTablePlugin(
+        @ApplicationContext context: Context
+    ): AbstractMarkwonPlugin = TablePlugin.create(context)
+
+    @[Provides IntoSet MarkwonPlugin]
+    fun provideTaskListPlugin(
+        @ApplicationContext context: Context
+    ): AbstractMarkwonPlugin = TaskListPlugin.create(
         ContextCompat.getColor(context, R.color.colorAccent),
         ContextCompat.getColor(context, R.color.colorAccent),
         ContextCompat.getColor(context, R.color.white)
     )
 
+    @[Provides IntoSet MarkwonPlugin]
+    fun provideUrlPlugin(
+        urlProcessor: CustomUrlProcessor,
+        tabsResolver: CustomTabsLinkResolver
+    ): AbstractMarkwonPlugin = UrlPlugin(urlProcessor, tabsResolver)
+
     @Provides
     fun providePrism4j() = Prism4j(GrammarLocatorDef())
 
     @Provides
-    fun providePrism4jTheme(context: Context): Prism4jThemeBase = if (context.isNightModeEnabled) {
+    fun providePrism4jTheme(
+        @ApplicationContext context: Context
+    ): Prism4jThemeBase = if (context.isNightModeEnabled) {
         Prism4jThemeDarkula.create()
     } else {
         Prism4jThemeDefault.create()
     }
-
-    @Provides
-    fun provideSyntaxHighlightPlugin(
-        prism4j: Prism4j,
-        prism4jTheme: Prism4jThemeBase
-    ) = SyntaxHighlightPlugin.create(prism4j, prism4jTheme)
 
     @Provides
     fun provideExecutor(): Executor = Dispatchers.Default.asExecutor()
@@ -80,37 +113,13 @@ class MarkdownModule {
         executor: Executor
     ): Markwon.TextSetter = PrecomputedTextSetterCompat.create(executor)
 
-    @Suppress("LongParameterList")
-    @Singleton
-    @Provides
+    @[Provides Singleton]
     fun provideMarkwon(
-        context: Context,
-        experimental: Experimental,
-        coilImagesPlugin: CoilImagesPlugin,
-        htmlPlugin: HtmlPlugin,
-        linkifyPlugin: LinkifyPlugin,
-        strikethroughPlugin: StrikethroughPlugin,
-        tablePlugin: TablePlugin,
-        taskListPlugin: TaskListPlugin,
-        urlPlugin: UrlPlugin,
-        syntaxHighlightPlugin: Lazy<SyntaxHighlightPlugin>,
+        @ApplicationContext context: Context,
+        @MarkwonPlugin plugins: Set<@JvmSuppressWildcards AbstractMarkwonPlugin>,
+        @ExperimentalMarkwonPlugin experimentalPlugins: Set<@JvmSuppressWildcards AbstractMarkwonPlugin>,
         textSetter: Markwon.TextSetter
     ): Markwon {
-        val plugins = listOf(
-            coilImagesPlugin,
-            htmlPlugin,
-            linkifyPlugin,
-            strikethroughPlugin,
-            tablePlugin,
-            taskListPlugin,
-            urlPlugin
-        )
-        val experimentalPlugins = if (experimental.syntaxHighlightingEnabled) {
-            listOf(syntaxHighlightPlugin.get())
-        } else {
-            emptyList()
-        }
-
         return Markwon.builder(context)
             .usePlugins(plugins + experimentalPlugins)
             .textSetter(textSetter)

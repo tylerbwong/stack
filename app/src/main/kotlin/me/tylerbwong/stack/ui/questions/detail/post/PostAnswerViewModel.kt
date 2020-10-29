@@ -12,9 +12,9 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.service.QuestionService
-import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
+import me.tylerbwong.stack.data.site.SiteStore
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import timber.log.Timber
 

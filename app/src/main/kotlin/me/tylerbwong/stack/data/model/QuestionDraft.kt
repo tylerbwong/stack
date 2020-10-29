@@ -11,5 +11,5 @@ data class QuestionDraft(
     val tags: String,
     val site: String
 ) {
-    var formattedTimestamp = updatedDate.formatElapsedTime(ApplicationWrapper.context)
+    val formattedTimestamp = updatedDate.formatElapsedTime(ApplicationWrapper.context)
 }

@@ -6,6 +6,7 @@ import androidx.room.migration.Migration
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import me.tylerbwong.stack.data.persistence.StackDatabase
 import javax.inject.Singleton
@@ -16,7 +17,7 @@ class PersistenceModule {
 
     @[Provides Singleton Suppress("SpreadOperator")]
     fun provideStackDatabase(
-        context: Context,
+        @ApplicationContext context: Context,
         @StackMigration migrations: Set<@JvmSuppressWildcards Migration>
     ): StackDatabase {
         return Room.databaseBuilder(context, StackDatabase::class.java, STACK_DATABASE_NAME)

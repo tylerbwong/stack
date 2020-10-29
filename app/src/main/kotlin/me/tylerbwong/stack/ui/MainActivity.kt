@@ -14,7 +14,6 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.InstallStatus
@@ -50,9 +49,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
     @Inject
     lateinit var experimental: Experimental
 
-    private val viewModel by viewModels<MainViewModel>()
+    @Inject
+    lateinit var appUpdater: AppUpdater
 
-    private lateinit var appUpdater: AppUpdater
+    private val viewModel by viewModels<MainViewModel>()
 
     private val homeFragment by lazy { initializeFragment(HOME_FRAGMENT_TAG) { HomeFragment() } }
     private val searchFragment by lazy { initializeFragment(SEARCH_FRAGMENT_TAG) { SearchFragment() } }
@@ -109,7 +109,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
             }
         }
 
-        appUpdater = AppUpdater(AppUpdateManagerFactory.create(this))
         appUpdater.checkForUpdate(this)
         workScheduler.schedule()
         populateContent(savedInstanceState)

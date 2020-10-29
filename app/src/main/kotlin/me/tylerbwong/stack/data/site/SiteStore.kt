@@ -1,10 +1,10 @@
-package me.tylerbwong.stack.data
+package me.tylerbwong.stack.data.site
 
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.api.service.DEFAULT_SITE
-import me.tylerbwong.stack.data.auth.di.SiteSharedPreferences
+import me.tylerbwong.stack.data.di.SiteSharedPreferences
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
