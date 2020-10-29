@@ -35,6 +35,7 @@ class TestImageLoader : ImageLoader {
 
     private val testDrawable = ColorDrawable(Color.CYAN)
     private val testErrorDrawable = ColorDrawable(Color.RED)
+    @OptIn(ExperimentalCoilApi::class)
     private val noOpDisposable = object : Disposable {
         override val isDisposed = false
 

@@ -10,6 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertNotExist
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
+import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.clearText
 import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo
 import com.schibsted.spain.barista.interaction.BaristaListInteractions.clickListItem
 import com.schibsted.spain.barista.interaction.BaristaMenuClickInteractions.clickMenu
@@ -49,7 +50,8 @@ class SearchIntegrationTest : BaseIntegrationTest<MainActivity>(MainActivity::cl
         pressBack()
         clickOn(R.string.add_filters)
         clickOn(R.id.clearFiltersButton)
-        writeTo(R.id.searchEditText, "")
+        waitForRequest()
+        clearText(R.id.searchEditText)
         onView(withId(R.id.searchEditText)).perform(pressImeActionButton())
         waitForRequest()
         assertDisplayed(R.string.popular_tags)
