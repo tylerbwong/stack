@@ -9,7 +9,7 @@ import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import dev.chrisbanes.insetter.applySystemGestureInsetsToPadding
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.SiteStore
+import me.tylerbwong.stack.data.site.SiteStore
 import me.tylerbwong.stack.ui.theme.ThemeManager
 import me.tylerbwong.stack.ui.utils.ConnectivityChecker
 import me.tylerbwong.stack.ui.utils.createConnectivitySnackbar

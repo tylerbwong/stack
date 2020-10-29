@@ -9,20 +9,27 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoSet
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.data.auth.AuthInterceptor
-import me.tylerbwong.stack.data.network.SiteInterceptor
+import me.tylerbwong.stack.data.site.SiteInterceptor
 import me.tylerbwong.stack.ui.utils.ConnectivityChecker
 import okhttp3.Call
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class DebugInterceptor
 
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
-
     @[Provides Singleton]
     fun provideConnectivityManager(context: Context): ConnectivityChecker? {
         val connectivityManager = context.getSystemService<ConnectivityManager>()
@@ -33,40 +40,35 @@ class NetworkModule {
         }
     }
 
-    @Provides
-    fun provideHttpLoggingInterceptor() = HttpLoggingInterceptor().apply {
+    @[Provides IntoSet DebugInterceptor]
+    fun provideHttpLoggingInterceptor(): Interceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
-    @Provides
-    fun provideChuckerInterceptor(context: Context): ChuckerInterceptor {
+    @[Provides IntoSet DebugInterceptor]
+    fun provideChuckerInterceptor(@ApplicationContext context: Context): Interceptor {
         val collector = ChuckerCollector(context, showNotification = false)
         return ChuckerInterceptor(context, collector)
     }
 
-    @Singleton
-    @Provides
+    @[Provides Singleton]
     fun provideOkHttpClient(
         authInterceptor: AuthInterceptor,
-        httpLoggingInterceptor: HttpLoggingInterceptor,
         siteInterceptor: SiteInterceptor,
-        chuckerInterceptor: ChuckerInterceptor
+        @DebugInterceptor debugInterceptors: Lazy<Set<@JvmSuppressWildcards Interceptor>>
     ): OkHttpClient {
         val okHttpClientBuilder = OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
             .addInterceptor(siteInterceptor)
 
         if (BuildConfig.DEBUG) {
-            okHttpClientBuilder
-                .addInterceptor(httpLoggingInterceptor)
-                .addInterceptor(chuckerInterceptor)
+            debugInterceptors.get().forEach { okHttpClientBuilder.addInterceptor(it) }
         }
 
         return okHttpClientBuilder.build()
     }
 
-    @Singleton
-    @Provides
+    @[Provides Singleton]
     fun provideCallFactory(
         okHttpClient: Lazy<OkHttpClient>
     ) = Call.Factory { request -> okHttpClient.get().newCall(request) }

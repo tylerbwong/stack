@@ -31,6 +31,8 @@ class SettingsActivityIntegrationTest : BaseIntegrationTest<SettingsActivity>(
         clickOn(R.string.theme)
         assertDisplayed(R.string.theme_title)
         clickOn(R.string.theme_dark)
+        clickOn(R.string.theme)
+        clickOn(R.string.theme_light)
     }
 
     @Test

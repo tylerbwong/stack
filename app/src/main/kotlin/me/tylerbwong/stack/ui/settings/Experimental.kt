@@ -1,7 +1,7 @@
 package me.tylerbwong.stack.ui.settings
 
 import android.content.SharedPreferences
-import me.tylerbwong.stack.data.auth.di.ExperimentalSharedPreferences
+import me.tylerbwong.stack.data.di.ExperimentalSharedPreferences
 import javax.inject.Inject
 import javax.inject.Singleton
 

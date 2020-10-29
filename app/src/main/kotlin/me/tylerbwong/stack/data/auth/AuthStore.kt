@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.BuildConfig
-import me.tylerbwong.stack.data.auth.di.AuthSharedPreferences
+import me.tylerbwong.stack.data.di.AuthSharedPreferences
 import me.tylerbwong.stack.data.model.Scope
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import javax.inject.Inject
@@ -43,6 +43,7 @@ class AuthStore @Inject constructor(
 
     companion object {
         const val ACCESS_TOKEN = "access_token"
+        internal const val AUTH_PREFERENCES = "auth_preferences"
         private const val AUTH_BASE = "https://stackoverflow.com/oauth/dialog"
         private const val AUTH_REDIRECT = "stack://tylerbwong.me/auth/redirect"
 

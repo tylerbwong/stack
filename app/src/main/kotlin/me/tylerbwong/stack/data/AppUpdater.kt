@@ -6,9 +6,12 @@ import com.google.android.play.core.install.model.AppUpdateType.FLEXIBLE
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.tasks.Task
+import dagger.hilt.android.scopes.ActivityScoped
 import me.tylerbwong.stack.ui.MainActivity
+import javax.inject.Inject
 
-class AppUpdater(private val manager: AppUpdateManager) {
+@ActivityScoped
+class AppUpdater @Inject constructor(private val manager: AppUpdateManager) {
 
     fun checkForUpdate(activity: MainActivity) {
         manager.registerListener(activity)

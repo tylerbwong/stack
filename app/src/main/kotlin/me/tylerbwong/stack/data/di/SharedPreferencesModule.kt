@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.data.auth.di
+package me.tylerbwong.stack.data.di
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,8 +7,10 @@ import androidx.security.crypto.MasterKey
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import me.tylerbwong.stack.data.SiteStore
+import me.tylerbwong.stack.data.auth.AuthStore
+import me.tylerbwong.stack.data.site.SiteStore
 import me.tylerbwong.stack.ui.settings.Experimental
 import javax.inject.Qualifier
 
@@ -28,39 +30,32 @@ annotation class ExperimentalSharedPreferences
 @InstallIn(SingletonComponent::class)
 class SharedPreferencesModule {
 
-    @Provides
-    @SiteSharedPreferences
+    @[Provides SiteSharedPreferences]
     fun provideSiteSharedPreferences(
-        context: Context
+        @ApplicationContext context: Context
     ): SharedPreferences = context.getSharedPreferences(
         SiteStore.SITE_PREFERENCES,
         Context.MODE_PRIVATE
     )
 
-    @Provides
-    @ExperimentalSharedPreferences
+    @[Provides ExperimentalSharedPreferences]
     fun provideExperimentalSharedPreferences(
-        context: Context
+        @ApplicationContext context: Context
     ): SharedPreferences = context.getSharedPreferences(
         Experimental.EXPERIMENTAL_SHARED_PREFS,
         Context.MODE_PRIVATE
     )
 
-    @Provides
-    @AuthSharedPreferences
+    @[Provides AuthSharedPreferences]
     fun provideAuthSharedPreferences(
-        context: Context
+        @ApplicationContext context: Context
     ): SharedPreferences = EncryptedSharedPreferences.create(
         context,
-        AUTH_PREFERENCES,
+        AuthStore.AUTH_PREFERENCES,
         MasterKey.Builder(context)
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build(),
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
-
-    companion object {
-        internal const val AUTH_PREFERENCES = "auth_preferences"
-    }
 }
