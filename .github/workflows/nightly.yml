@@ -1,8 +1,8 @@
 name: Nightly
 
 on:
-  schedule:
-    - cron: '0 0 * * *'
+  push:
+    branches: [ master ]
 
 jobs:
   integration-tests:
@@ -18,6 +18,8 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 28
+          arch: x86_64
+          profile: Nexus 6
           script: |
             adb shell settings put global hidden_api_policy_p_apps 1
             adb shell settings put global hidden_api_policy_pre_p_apps 1

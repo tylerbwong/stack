@@ -27,7 +27,6 @@ class SettingsActivityIntegrationTest : BaseIntegrationTest<SettingsActivity>(
         assertDisplayed(R.string.log_in_title)
     }
 
-    @Ignore("This test struggles on small screens")
     @Test
     fun testTheme() {
         clickOn(R.string.theme)
