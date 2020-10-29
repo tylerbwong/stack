@@ -9,7 +9,6 @@ import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
-import org.junit.Ignore
 import org.junit.Test
 
 class SettingsActivityIntegrationTest : BaseIntegrationTest<SettingsActivity>(
