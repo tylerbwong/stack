@@ -1,9 +1,6 @@
 package me.tylerbwong.stack.ui
 
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.CallSuper
@@ -15,6 +12,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.SiteStore
 import me.tylerbwong.stack.ui.theme.ThemeManager
 import me.tylerbwong.stack.ui.utils.ConnectivityChecker
+import me.tylerbwong.stack.ui.utils.createConnectivitySnackbar
 import javax.inject.Inject
 
 abstract class BaseActivity<T : ViewBinding>(
@@ -49,21 +47,7 @@ abstract class BaseActivity<T : ViewBinding>(
             it.connectedState.observe(this) { isConnected ->
                 if (!isConnected) {
                     if (networkSnackbar == null) {
-                        networkSnackbar = Snackbar.make(
-                            anchorView,
-                            R.string.no_internet,
-                            Snackbar.LENGTH_INDEFINITE
-                        ).apply {
-                            this.anchorView = this@BaseActivity.anchorView
-                            setAction(R.string.settings) {
-                                val setting = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                    Settings.Panel.ACTION_INTERNET_CONNECTIVITY
-                                } else {
-                                    Settings.ACTION_WIRELESS_SETTINGS
-                                }
-                                startActivity(Intent(setting))
-                            }
-                        }
+                        networkSnackbar = createConnectivitySnackbar(anchorView)
                     }
                     networkSnackbar?.show()
                 } else {
