@@ -31,7 +31,7 @@ annotation class DebugInterceptor
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
     @[Provides Singleton]
-    fun provideConnectivityManager(context: Context): ConnectivityChecker? {
+    fun provideConnectivityManager(@ApplicationContext context: Context): ConnectivityChecker? {
         val connectivityManager = context.getSystemService<ConnectivityManager>()
         return if (connectivityManager != null) {
             ConnectivityChecker(connectivityManager)
