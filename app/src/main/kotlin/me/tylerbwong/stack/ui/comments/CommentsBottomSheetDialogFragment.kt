@@ -22,6 +22,7 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private val viewModel by viewModels<CommentsViewModel>()
     private val adapter = DynamicListAdapter(CommentItemCallback)
+    private lateinit var binding: CommentsFragmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,16 +33,24 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.comments_fragment, container, false)
+    ): View? {
+        binding = CommentsFragmentBinding.inflate(inflater)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val binding = CommentsFragmentBinding.bind(view)
         binding.recyclerView.apply {
             adapter = this@CommentsBottomSheetDialogFragment.adapter
             layoutManager = LinearLayoutManager(context)
         }
         binding.header.title.text = getString(R.string.comments)
+        viewModel.refreshing.observe(viewLifecycleOwner) { isRefreshing ->
+            if (isRefreshing) {
+                binding.loadingIndicator.show()
+            }
+        }
         viewModel.data.observe(viewLifecycleOwner) {
+            binding.loadingIndicator.hide()
             adapter.submitList(it)
             binding.header.subtitle.text = if (it.isNotEmpty()) {
                 getString(R.string.item_count, it.size)

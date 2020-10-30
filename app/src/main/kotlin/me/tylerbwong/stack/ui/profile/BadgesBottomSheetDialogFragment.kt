@@ -23,6 +23,7 @@ import me.tylerbwong.stack.ui.utils.toHtml
 class BadgesBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private val viewModel by viewModels<BadgesViewModel>()
+    private lateinit var binding: BadgesFragmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,13 +37,20 @@ class BadgesBottomSheetDialogFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.badges_fragment, container, false)
+    ): View? {
+        binding = BadgesFragmentBinding.inflate(inflater)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val binding = BadgesFragmentBinding.bind(view)
         binding.header.title.text = getString(R.string.badges)
-
+        viewModel.refreshing.observe(viewLifecycleOwner) { isRefreshing ->
+            if (isRefreshing) {
+                binding.loadingIndicator.show()
+            }
+        }
         viewModel.badges.observe(viewLifecycleOwner) { badges ->
+            binding.loadingIndicator.hide()
             binding.header.subtitle.text = getString(R.string.item_count, badges.size)
             binding.badgesLayout.removeAllViews()
             val chips = with(binding.badgesLayout.context) {

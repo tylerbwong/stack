@@ -3,18 +3,22 @@ package me.tylerbwong.stack.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import timber.log.Timber
 
 abstract class BaseViewModel : ViewModel() {
     val refreshing: LiveData<Boolean>
-        get() = _refreshing
+        get() = _refreshing.distinctUntilChanged()
     private val _refreshing = MutableLiveData<Boolean>()
 
     val snackbar: LiveData<Unit?>
@@ -37,18 +41,18 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     protected fun <T> streamRequest(source: Flow<T>, onReceive: suspend (T) -> Unit) {
-        viewModelScope.launch {
-            _refreshing.value = true
-            try {
-                _refreshing.value = true
-                source.collect {
+        try {
+            source
+                .onStart { _refreshing.value = true }
+                .onEach {
                     onReceive(it)
                     _refreshing.value = false
                 }
-            } catch (exception: Exception) {
-                Timber.e(exception)
-                mutableSnackbar.value = Unit
-            }
+                .catch { Timber.e(it) }
+                .launchIn(viewModelScope)
+        } catch (exception: Exception) {
+            Timber.e(exception)
+            mutableSnackbar.value = Unit
         }
     }
 
