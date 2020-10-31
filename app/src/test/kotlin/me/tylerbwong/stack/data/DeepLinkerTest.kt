@@ -2,6 +2,7 @@ package me.tylerbwong.stack.data
 
 import android.net.Uri
 import me.tylerbwong.stack.BaseTest
+import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -21,7 +22,8 @@ class DeepLinkerTest : BaseTest() {
         "http://stackoverflow.com/questions/26533510/",
         "http://stackoverflow.com/q/26533510/",
         "https://sustainability.meta.stackexchange.com/questions/371/",
-        "https://superuser.com/q/1491979/"
+        "https://superuser.com/q/1491979/",
+        "https://stackoverflow.com/questions/2025282/what-is-the-difference-between-px-dip-dp-and-sp/2025541#2025541"
     ).map { Uri.parse(it) }
 
     private val supportedAuthUrls = listOf(
@@ -62,5 +64,17 @@ class DeepLinkerTest : BaseTest() {
         val uri = Uri.parse("https://superuser.com/questions/tagged/android")
         val result = deepLinker.resolvePath(context, uri)
         assertTrue(result is DeepLinkResult.Success)
+    }
+
+    @Test
+    fun `resolvePath with answerId returns success`() {
+        val uri = Uri.parse("https://stackoverflow.com/questions/2025282/what-is-the-difference-between-px-dip-dp-and-sp/2025541#2025541")
+        val result = deepLinker.resolvePath(context, uri)
+        assertTrue(result is DeepLinkResult.Success)
+        assertEquals(
+            2025541,
+            (result as DeepLinkResult.Success).intent
+                .getIntExtra(QuestionDetailActivity.ANSWER_ID, -1)
+        )
     }
 }
