@@ -49,10 +49,18 @@ class DeepLinker @Inject constructor() {
                 )
             }
             QUESTION_DETAILS -> {
-                // Format is /questions/{id}/title so get the second segment
-                val id = uri.pathSegments.getOrNull(1)?.toIntOrNull()
+                // Format is /questions/{questionId}/title/{answerId} so get the second segment
+                val questionId = uri.pathSegments.getOrNull(1)?.toIntOrNull()
                     ?: return DeepLinkResult.PathNotSupportedError
-                DeepLinkResult.Success(QuestionDetailActivity.makeIntent(context, id, deepLinkSite = site))
+                val answerId = uri.pathSegments.getOrNull(3)?.toIntOrNull()
+                DeepLinkResult.Success(
+                    QuestionDetailActivity.makeIntent(
+                        context = context,
+                        questionId = questionId,
+                        answerId = answerId,
+                        deepLinkSite = site
+                    )
+                )
             }
             else -> DeepLinkResult.PathNotSupportedError
         }

@@ -24,7 +24,7 @@ class AnswerDraftHolder(
         itemView.setThrottledOnClickListener {
             val intent = QuestionDetailActivity.makeIntent(
                 context = it.context,
-                id = draft.questionId,
+                questionId = draft.questionId,
                 isInAnswerMode = true
             )
             it.context.startActivity(intent)

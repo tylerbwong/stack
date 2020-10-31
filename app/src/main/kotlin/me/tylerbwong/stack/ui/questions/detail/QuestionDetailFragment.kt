@@ -67,6 +67,11 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
         viewModel.data.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
+        viewModel.scrollToIndex.observe(viewLifecycleOwner) { index ->
+            if (index != null) {
+                binding.recyclerView.scrollToPosition(index)
+            }
+        }
         viewModel.voteCount.observe(viewLifecycleOwner) {
             activity?.ofType<QuestionDetailActivity>()?.setTitle(
                 resources.getQuantityString(R.plurals.votes, it, it)

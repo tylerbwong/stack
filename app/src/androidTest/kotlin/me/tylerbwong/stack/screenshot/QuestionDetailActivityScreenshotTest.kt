@@ -14,7 +14,7 @@ class QuestionDetailActivityScreenshotTest : BaseIntegrationTest<QuestionDetailA
     fun captureQuestionDetailActivity() {
         val intent = QuestionDetailActivity.makeIntent(
             targetContext,
-            id = 354390,
+            questionId = 354390,
             deepLinkSite = "meta.stackexchange.com"
         )
         launchActivity(intent)

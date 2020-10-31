@@ -33,6 +33,10 @@ class QuestionDetailMainViewModel @ViewModelInject constructor(
         get() = _data
     private val _data = MutableLiveData<List<QuestionDetailItem>>()
 
+    internal val scrollToIndex: LiveData<Int>
+        get() = _scrollToIndex
+    private val _scrollToIndex = SingleLiveEvent<Int>()
+
     internal val liveQuestion: LiveData<Question>
         get() = _liveQuestion
     private val _liveQuestion = MutableLiveData<Question>()
@@ -61,6 +65,7 @@ class QuestionDetailMainViewModel @ViewModelInject constructor(
     internal var isInAnswerMode = false
     internal var hasContent = false
     internal var questionId = -1
+    internal var answerId = -1
     internal var question: Question? = null
 
     internal fun getQuestionDetails(question: Question? = null) {
@@ -82,6 +87,11 @@ class QuestionDetailMainViewModel @ViewModelInject constructor(
 
             _data.value = response.first
             _voteCount.value = response.second.upVoteCount - response.second.downVoteCount
+
+            if (answerId != -1) {
+                _scrollToIndex.value = response.first
+                    .indexOfFirst { it is AnswerItem && it.answer.answerId == answerId }
+            }
         }
     }
 
