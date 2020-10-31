@@ -68,7 +68,7 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
             adapter.submitList(it)
         }
         viewModel.scrollToIndex.observe(viewLifecycleOwner) { index ->
-            if (index != null) {
+            if (index != null && index != -1) {
                 binding.recyclerView.scrollToPosition(index)
             }
         }
