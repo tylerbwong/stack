@@ -40,7 +40,6 @@ Here you can also find a few useful Gradle modules as well:
 * [compose-preference](./compose-preference) - A set of Jetpack Compose Preference components.
 * [dynamic-list-adapter](./dynamic-list-adapter) - An abstraction around `RecyclerView` built on `ListAdapter` for asynchronous list diffing.
 * [dynamic-list-adapter-viewbinding](./dynamic-list-adapter-viewbinding) - View Binding support for `DynamicListAdapter`.
-* [dynamic-list-adapter-extensions](./dynamic-list-adapter-extensions) - Android View Extensions support for `DynamicListAdapter`.
 
 # License
 
