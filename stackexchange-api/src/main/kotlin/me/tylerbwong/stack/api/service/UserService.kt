@@ -2,6 +2,7 @@ package me.tylerbwong.stack.api.service
 
 import me.tylerbwong.stack.api.BuildConfig
 import me.tylerbwong.stack.api.model.Badge
+import me.tylerbwong.stack.api.model.NetworkUser
 import me.tylerbwong.stack.api.model.ORDER_PARAM
 import me.tylerbwong.stack.api.model.Order
 import me.tylerbwong.stack.api.model.Question
@@ -58,6 +59,12 @@ interface UserService {
         @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Badge>
 
+    @GET("me/associated")
+    suspend fun getCurrentUserNetworkUsers(
+        @Query(FILTER_PARAM) filter: String = NETWORK_USER_FILTER,
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
+    ): Response<NetworkUser>
+
     companion object {
         private const val USER_ID = "userId"
         private const val USER_FILTER = "!BTeL*Mb3d_KiD.hc7r8myHkxGjY*UT"
@@ -68,5 +75,7 @@ interface UserService {
 
         private const val BADGE_SORT = "rank"
         private const val BADGE_FILTER = "!6JEV(YmXqRgSv"
+
+        private const val NETWORK_USER_FILTER = "!6QN8I_HG8vPBU"
     }
 }
