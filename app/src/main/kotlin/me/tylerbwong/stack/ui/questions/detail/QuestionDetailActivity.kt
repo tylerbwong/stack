@@ -6,8 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applySystemWindowInsetsToMargin
 import me.tylerbwong.stack.R
@@ -15,6 +13,7 @@ import me.tylerbwong.stack.databinding.ActivityQuestionDetailBinding
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import me.tylerbwong.stack.ui.utils.showDialog
 
 @AndroidEntryPoint
 class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
@@ -86,15 +85,13 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
     override fun onBackPressed() {
         if (viewModel.isInAnswerMode) {
             if (viewModel.hasContent) {
-                MaterialAlertDialogBuilder(this)
-                    .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
-                    .setTitle(R.string.discard_answer)
-                    .setPositiveButton(R.string.discard) { _, _ ->
+                showDialog {
+                    setTitle(R.string.discard_answer)
+                    setPositiveButton(R.string.discard) { _, _ ->
                         toggleAnswerMode(isInAnswerMode = false)
                     }
-                    .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-                    .create()
-                    .show()
+                    setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                }
             } else {
                 toggleAnswerMode(isInAnswerMode = false)
             }

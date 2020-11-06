@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -14,7 +13,6 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.chuckerteam.chucker.api.Chucker
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.processphoenix.ProcessPhoenix
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +26,7 @@ import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
 import me.tylerbwong.stack.ui.theme.nightModeOptions
 import me.tylerbwong.stack.ui.theme.showThemeChooserDialog
 import me.tylerbwong.stack.ui.utils.launchUrl
+import me.tylerbwong.stack.ui.utils.showDialog
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
 import javax.inject.Inject
@@ -227,25 +226,21 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun showLogOutDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.default_dialog_bg))
-            .setTitle(R.string.log_out_title)
-            .setMessage(R.string.log_out_message)
-            .setPositiveButton(R.string.log_out) { _, _ -> viewModel.logOut() }
-            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-            .create()
-            .show()
+        requireContext().showDialog {
+            setTitle(R.string.log_out_title)
+            setMessage(R.string.log_out_message)
+            setPositiveButton(R.string.log_out) { _, _ -> viewModel.logOut() }
+            setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+        }
     }
 
     private fun showLogInDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.default_dialog_bg))
-            .setTitle(R.string.log_in_title)
-            .setPositiveButton(R.string.log_in) { _, _ ->
+        requireContext().showDialog {
+            setTitle(R.string.log_in_title)
+            setPositiveButton(R.string.log_in) { _, _ ->
                 requireContext().launchUrl(AuthStore.authUrl)
             }
-            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-            .create()
-            .show()
+            setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+        }
     }
 }

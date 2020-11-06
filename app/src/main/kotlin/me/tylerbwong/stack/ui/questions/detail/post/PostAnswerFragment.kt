@@ -10,14 +10,12 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +29,7 @@ import me.tylerbwong.stack.ui.questions.detail.QuestionDetailMainViewModel
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import me.tylerbwong.stack.ui.utils.showDialog
 import me.tylerbwong.stack.ui.utils.showKeyboard
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
@@ -155,10 +154,9 @@ class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.save_draft -> {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.default_dialog_bg))
-                    .setTitle(R.string.save_draft)
-                    .setPositiveButton(R.string.save_draft) { _, _ ->
+                requireContext().showDialog {
+                    setTitle(R.string.save_draft)
+                    setPositiveButton(R.string.save_draft) { _, _ ->
                         viewModel.saveDraft(binding.markdownEditText.text.toString())
                         Toast.makeText(
                             requireContext(),
@@ -166,21 +164,18 @@ class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                    .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-                    .create()
-                    .show()
+                    setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                }
             }
             R.id.discard -> {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.default_dialog_bg))
-                    .setTitle(R.string.discard_answer)
-                    .setPositiveButton(R.string.discard) { _, _ ->
+                requireContext().showDialog {
+                    setTitle(R.string.discard_answer)
+                    setPositiveButton(R.string.discard) { _, _ ->
                         clearFields()
                         viewModel.deleteDraft()
                     }
-                    .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-                    .create()
-                    .show()
+                    setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                }
             }
         }
         return super.onOptionsItemSelected(item)

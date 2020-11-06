@@ -6,13 +6,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
@@ -35,6 +33,7 @@ import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchUrl
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import me.tylerbwong.stack.ui.utils.showDialog
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
@@ -242,15 +241,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
     }
 
     private fun showLogInDialog() {
-        MaterialAlertDialogBuilder(this)
-            .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
-            .setTitle(R.string.log_in_title)
-            .setPositiveButton(R.string.log_in) { _, _ ->
+        showDialog {
+            setTitle(R.string.log_in_title)
+            setPositiveButton(R.string.log_in) { _, _ ->
                 launchUrl(AuthStore.authUrl)
             }
-            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-            .create()
-            .show()
+            setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+        }
     }
 
     private fun initializeFragment(tag: String, createFragment: () -> Fragment): Fragment {

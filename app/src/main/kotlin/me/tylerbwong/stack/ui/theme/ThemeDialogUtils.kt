@@ -6,10 +6,9 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
-import androidx.core.content.ContextCompat
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
+import me.tylerbwong.stack.ui.utils.showDialog
 
 val nightModeOptions = mapOf(
     R.string.theme_light to MODE_NIGHT_NO,
@@ -21,20 +20,19 @@ val nightModeOptions = mapOf(
     }
 )
 
-fun Context.showThemeChooserDialog(
-    onSelected: () -> Unit = {}
-) {
-    MaterialAlertDialogBuilder(this)
-        .setBackground(ContextCompat.getDrawable(this, R.drawable.default_dialog_bg))
-        .setTitle(R.string.theme_title)
-        .setSingleChoiceItems(
+fun Context.showThemeChooserDialog(onSelected: () -> Unit) {
+    showDialog {
+        setTitle(R.string.theme_title)
+        setSingleChoiceItems(
             nightModeOptions.keys.map { getString(it) }.toTypedArray(),
             nightModeOptions.values.indexOf(delegateMode)
         ) { dialog, which ->
-            ThemeManager.toggleTheme(this, nightModeOptions.values.toList()[which])
+            ThemeManager.toggleTheme(
+                this@showThemeChooserDialog,
+                nightModeOptions.values.toList()[which]
+            )
             onSelected()
             dialog.dismiss()
         }
-        .create()
-        .show()
+    }
 }
