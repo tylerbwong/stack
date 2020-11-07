@@ -134,6 +134,4 @@ class StackPlugin : Plugin<Project> {
             }
         }
     }
-
-
 }
