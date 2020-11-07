@@ -133,6 +133,48 @@ package me.tylerbwong.stack.api.model {
   public static final class ErrorResponse.Companion {
   }
 
+  public final class NetworkPost {
+    ctor public NetworkPost(int postId, String postType, int score, String title);
+    method public int component1();
+    method public String component2();
+    method public int component3();
+    method public String component4();
+    method public me.tylerbwong.stack.api.model.NetworkPost copy(int postId, String postType, int score, String title);
+    method public int getPostId();
+    method public String getPostType();
+    method public int getScore();
+    method public String getTitle();
+  }
+
+  public final class NetworkUser {
+    ctor public NetworkUser(Integer? accountId, int reputation, String siteName, String siteUrl, int userId, String userType, me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts, long creationDate, long lastAccessDate, int questionCount, java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topAnswers, java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topQuestions);
+    method public Integer? component1();
+    method public int component10();
+    method public java.util.List<me.tylerbwong.stack.api.model.NetworkPost> component11();
+    method public java.util.List<me.tylerbwong.stack.api.model.NetworkPost> component12();
+    method public int component2();
+    method public String component3();
+    method public String component4();
+    method public int component5();
+    method public String component6();
+    method public me.tylerbwong.stack.api.model.BadgeCounts? component7();
+    method public long component8();
+    method public long component9();
+    method public me.tylerbwong.stack.api.model.NetworkUser copy(Integer? accountId, int reputation, String siteName, String siteUrl, int userId, String userType, me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts, long creationDate, long lastAccessDate, int questionCount, java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topAnswers, java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topQuestions);
+    method public Integer? getAccountId();
+    method public me.tylerbwong.stack.api.model.BadgeCounts? getBadgeCounts();
+    method public long getCreationDate();
+    method public long getLastAccessDate();
+    method public int getQuestionCount();
+    method public int getReputation();
+    method public String getSiteName();
+    method public String getSiteUrl();
+    method public java.util.List<me.tylerbwong.stack.api.model.NetworkPost> getTopAnswers();
+    method public java.util.List<me.tylerbwong.stack.api.model.NetworkPost> getTopQuestions();
+    method public int getUserId();
+    method public String getUserType();
+  }
+
   @StringDef({me.tylerbwong.stack.api.model.OrderKt.DESC, me.tylerbwong.stack.api.model.OrderKt.ASC}) public @interface Order {
   }
 
@@ -405,6 +447,7 @@ package me.tylerbwong.stack.api.service {
 
   public interface UserService {
     method public suspend Object getCurrentUser(String filter = "!BTeL*Mb3d_KiD.hc7r8myHkxGjY*UT", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.User>> p = BuildConfig.API_KEY);
+    method public suspend Object getCurrentUserNetworkUsers(String filter = "!6QN8I_HG8vPBU", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.NetworkUser>> p = BuildConfig.API_KEY);
     method public suspend Object getUser(Integer? userId, String filter = "!BTeL*Mb3d_KiD.hc7r8myHkxGjY*UT", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.User>> p = BuildConfig.API_KEY);
     method public suspend Object getUserBadges(int userId, Long? fromDate = null, Long? toDate = null, String sort = "rank", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 100, String filter = "!6JEV(YmXqRgSv", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Badge>> p = BuildConfig.API_KEY);
     method public suspend Object getUserQuestionsById(Integer? userId, int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
