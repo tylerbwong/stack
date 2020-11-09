@@ -9,9 +9,9 @@ data class Answer(
     val answerId: Int,
     val owner: User,
     @Json(name = "down_vote_count")
-    val downVoteCount: Int,
+    val downVoteCount: Int = 0,
     @Json(name = "up_vote_count")
-    val upVoteCount: Int,
+    val upVoteCount: Int = 0,
     @Json(name = "is_accepted")
     val isAccepted: Boolean,
     val score: Int,
