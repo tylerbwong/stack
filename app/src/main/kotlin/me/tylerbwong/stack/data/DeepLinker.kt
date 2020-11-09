@@ -33,7 +33,7 @@ class DeepLinker @Inject constructor() {
     }
 
     fun resolvePath(context: Context, uri: Uri): DeepLinkResult {
-        val site = uri.host
+        val site = uri.host?.normalizeSite()
         val path = uri.path ?: return DeepLinkResult.PathNotSupportedError
 
         return when (ResolvedPath.fromPath(path)) {
@@ -65,4 +65,12 @@ class DeepLinker @Inject constructor() {
             else -> DeepLinkResult.PathNotSupportedError
         }
     }
+
+    /**
+     * In order to extract the correct site parameter to pass around, all non Stack Exchange sites
+     * need to drop ".stackexchange.com" and all others need to drop ".com". This is a rudimentary
+     * solution and will need to be updated if any site is added that does not end in ".com".
+     */
+    private fun String.normalizeSite(): String =
+        removeSuffix(".com").removeSuffix(".stackexchange")
 }
