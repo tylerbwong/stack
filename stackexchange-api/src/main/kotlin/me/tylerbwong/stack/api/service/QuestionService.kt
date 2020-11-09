@@ -4,6 +4,7 @@ import me.tylerbwong.stack.api.BuildConfig
 import me.tylerbwong.stack.api.model.Answer
 import me.tylerbwong.stack.api.model.ORDER_PARAM
 import me.tylerbwong.stack.api.model.Order
+import me.tylerbwong.stack.api.model.PostedAnswer
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.model.SORT_PARAM
@@ -100,10 +101,11 @@ interface QuestionService {
     @POST("questions/{id}/answers/add")
     suspend fun postAnswer(
         @Path("id") questionId: Int,
+        @Field(FILTER_PARAM) filter: String = ANSWER_FILTER,
         @Field(KEY_PARAM) key: String = BuildConfig.API_KEY,
         @Field(BODY_PARAM) bodyMarkdown: String,
         @Field(PREVIEW_PARAM) preview: Boolean = false
-    ): Response<Answer>
+    ): Response<PostedAnswer>
 
     @FormUrlEncoded
     @POST("questions/add")

@@ -188,6 +188,31 @@ package me.tylerbwong.stack.api.model {
   @StringDef({me.tylerbwong.stack.api.model.TimelineEventKt.QUESTION, me.tylerbwong.stack.api.model.TimelineEventKt.ANSWER}) public @interface PostType {
   }
 
+  public final class PostedAnswer {
+    ctor public PostedAnswer(int answerId, me.tylerbwong.stack.api.model.User owner, int downVoteCount, int upVoteCount, boolean isAccepted, int score, long creationDate, Long? lastEditDate, int questionId, Integer? commentCount);
+    method public int component1();
+    method public Integer? component10();
+    method public me.tylerbwong.stack.api.model.User component2();
+    method public int component3();
+    method public int component4();
+    method public boolean component5();
+    method public int component6();
+    method public long component7();
+    method public Long? component8();
+    method public int component9();
+    method public me.tylerbwong.stack.api.model.PostedAnswer copy(int answerId, me.tylerbwong.stack.api.model.User owner, int downVoteCount, int upVoteCount, boolean isAccepted, int score, long creationDate, Long? lastEditDate, int questionId, Integer? commentCount);
+    method public int getAnswerId();
+    method public Integer? getCommentCount();
+    method public long getCreationDate();
+    method public int getDownVoteCount();
+    method public Long? getLastEditDate();
+    method public me.tylerbwong.stack.api.model.User getOwner();
+    method public int getQuestionId();
+    method public int getScore();
+    method public int getUpVoteCount();
+    method public boolean isAccepted();
+  }
+
   public final class Question {
     ctor public Question(int answerCount, String? body, String? bodyMarkdown, Long? closedDate, String? closedReason, Integer? commentCount, long creationDate, int downVoteCount, boolean isDownVoted, boolean isBookmarked, int bookmarkCount, boolean isAnswered, Long? lastActivityDate, Long? lastEditDate, me.tylerbwong.stack.api.model.User? lastEditor, me.tylerbwong.stack.api.model.User owner, int questionId, int score, String shareLink, java.util.List<java.lang.String>? tags, String title, int upVoteCount, boolean isUpVoted, int viewCount);
     method public int component1();
@@ -400,7 +425,7 @@ package me.tylerbwong.stack.api.service {
     method public suspend Object getQuestions(@me.tylerbwong.stack.api.model.Sort String sort = "activity", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
     method public suspend Object getQuestionsByTags(@me.tylerbwong.stack.api.model.Sort String sort = "activity", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String tags, String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
     method public suspend Object getRelatedQuestions(int questionId, @me.tylerbwong.stack.api.model.Sort String sort = "activity", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
-    method public suspend Object postAnswer(int questionId, String key = BuildConfig.API_KEY, String bodyMarkdown, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Answer>> p = false);
+    method public suspend Object postAnswer(int questionId, String filter = "!)qHt3-n4W*f.gPKawPE(XNpsQRxcWdBxS2t8_drqo0.DgldgGwePa9Pib9nUlpc.1r", String key = BuildConfig.API_KEY, String bodyMarkdown, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.PostedAnswer>> p = false);
     method public suspend Object undoQuestionDownvoteById(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
     method public suspend Object undoQuestionFavoriteById(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
     method public suspend Object undoQuestionUpvoteById(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);

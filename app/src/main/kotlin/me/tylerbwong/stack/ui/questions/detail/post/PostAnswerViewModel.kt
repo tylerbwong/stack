@@ -48,6 +48,7 @@ class PostAnswerViewModel @ViewModelInject constructor(
                 ).items
 
                 _snackbar.value = if (answer.isNotEmpty()) {
+                    deleteDraft()
                     PostAnswerState.Success
                 } else {
                     throw IllegalStateException("Could not post answer")
