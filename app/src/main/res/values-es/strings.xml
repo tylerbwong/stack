@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search">Buscar</string>
+    <string name="share">Compartir</string>
+    <string name="badges">Medallas</string>
+    <string name="questions">Preguntas</string>
+    <string name="linked">Enlazados</string>
+    <string name="related">Relacionados</string>
+    <string name="comments">Comentario</string>
+    <string name="home">Inicio</string>
+    <string name="create">Formular</string>
+    <string name="drafts">Borradores</string>
+    <string name="bookmarks">Favoritas</string>
+
+    <plurals name="answers">
+        <item quantity="one">%1$d Respuesta</item>
+        <item quantity="other">%1$d Respuestas</item>
+    </plurals>
+
+    <plurals name="votes">
+        <item quantity="one">%1$d Voto</item>
+        <item quantity="other">%1$d Votos</item>
+    </plurals>
+
+    <!-- Theme Chooser -->
+    <string name="theme_title">Tema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_system_default">Sistema</string>
+    <string name="theme_battery_saver">Ahorro de bateria solamente</string>
+
+    <!-- Error -->
+    <string name="nothing_here">¡Nada aquí!</string>
+    <string name="network_error">Error de red</string>
+    <string name="retry">Reintentar</string>
+    <string name="dismiss">Descartar</string>
+    <string name="deep_link_path_not_supported">¡Stack todavía no puede abrir este enlace!</string>
+    <string name="deep_link_user_not_found">Usuario no encontrado en este sitio</string>
+
+    <!-- Auth -->
+    <string name="log_in_title">¿Quiere iniciar sesión?</string>
+    <string name="log_out_title">¿Quiere cerrar sesión?</string>
+    <string name="log_out_site_switch">Necesita cerrar sesión para cambiar el sitio</string>
+    <string name="log_out_message">Perderá todos los datos de su sesión actual, incluidos los borradores</string>
+    <string name="log_in">Iniciar sesión</string>
+    <string name="log_out">Cerrar sesión</string>
+    <string name="cancel">Cancelar</string>
+
+    <!-- In-App Update -->
+    <string name="update">Actualizar</string>
+    <string name="restart">Reiniciar</string>
+    <string name="restart_to_install">Reiniciar para instalar la actualización</string>
+    <string name="update_not_downloaded">La actualización no se descargó</string>
+    <string name="download_error">Hubo un error al descargar la actualización</string>
+
+    <!-- Question Detail -->
+    <string name="answer">Responder</string>
+    <string name="post_answer">Publica su respuesta</string>
+    <string name="discard">Descartar</string>
+    <string name="discard_answer">¿Está seguro de que desea descartar su respuesta?</string>
+    <string name="preview">Vista previa</string>
+    <string name="post">Publicar</string>
+    <string name="answer_error">No puede estar en blanco</string>
+    <string name="no_preview">No hay vista previa disponible</string>
+    <string name="posting_answer">Publicando la respuesta…</string>
+    <string name="post_answer_success">¡Publicamos su respuesta!</string>
+    <string name="post_answer_error">No pudimos publicar su respuesta</string>
+    <string name="post_preview">Publicar como una vista previa</string>
+    <string name="last_edited_by">editada por última vez por\n%1$s</string>
+    <string name="settings">Configuración</string>
+    <string name="no_comments">No hay comentarios</string>
+
+    <!-- Create Question -->
+    <string name="create_question">Formular una pregunta</string>
+    <string name="title">Título</string>
+    <string name="body">Cuerpo</string>
+    <string name="preview_success">Lo publicamos como una vista previa</string>
+
+    <!-- Search -->
+    <string name="search_hint">Buscar por palabra clave o frase</string>
+    <string name="popular_tags">Etiquetas Populares</string>
+    <string name="has_accepted_answer">Tiene una respuesta aceptada</string>
+    <string name="no_accepted_answers">No tiene una respuesta aceptada</string>
+    <string name="min_answers_title">Número mínimo de respuestas</string>
+    <plurals name="has_min_answers">
+        <item quantity="one">Tiene al menos %1$d respuesta</item>
+        <item quantity="other">Tiene al menos %1$d respuestas</item>
+    </plurals>
+    <string name="body_contains_title">El cuerpo contiene</string>
+    <string name="body_contains">El cuerpo contiene \"%1$s\"</string>
+    <string name="is_closed">Cerrada</string>
+    <string name="is_open">Abierto</string>
+    <string name="tags_title">Etiquetas (Separado con comas)</string>
+    <string name="tags_filter">Etiquetas: %1$s</string>
+    <string name="title_contains_title">El título contiene</string>
+    <string name="title_contains">El título contiene \"%1$s\"</string>
+    <string name="past_searches">Búsquedas pasadas</string>
+    <string name="search_query">\"%1$s\"</string>
+    <string name="filters">Filtros</string>
+    <string name="add_filters">Aplicar filtros</string>
+    <string name="apply_filters">Aplicar filtros</string>
+    <string name="clear_filters">Despejar</string>
+
+    <!-- Drafts -->
+    <string name="save_draft">Guardar un borrador</string>
+    <string name="draft_saved">El borrador se salva</string>
+    <string name="last_updated">Editado por última vez %1$s</string>
+
+    <!-- Settings -->
+    <string name="app">App</string>
+    <string name="about">Información</string>
+    <string name="experimental">Experimental </string>
+    <string name="account">Cuenta</string>
+    <string name="debug">Depurar</string>
+    <string name="theme">Tema</string>
+    <string name="source">Código Fuente</string>
+    <string name="source_description">Stack es gratuito y de código abierto en GitHub</string>
+    <string name="libraries">Módulos de Código Abierto</string>
+    <string name="libraries_description">Estos impresionantes módulos de código ayudaron a construir Stack</string>
+    <string name="api">Funciona con la API de Stack Exchange</string>
+    <string name="api_description">v2.2</string>
+    <string name="privacy">Política de Privacidad</string>
+    <string name="terms">Términos y Condiciones</string>
+    <string name="license">Licencia de %1$s</string>
+
+    <!-- Sites -->
+    <string name="current_site">Sitio Actual</string>
+    <string name="sites">Sitios (%1$s)</string>
+    <string name="filter">Filtrar</string>
+    <string name="all_sites">Todos</string>
+    <string name="main_sites">Principal</string>
+    <string name="meta_sites">Meta</string>
+
+    <!-- Debug -->
+    <string name="inspect_network_traffic">Inspeccionar el Tráfico de Red</string>
+
+    <!-- App version -->
+    <string name="version">Versión</string>
+    <string name="syntax_highlighting">Resaltado de Sintaxis</string>
+    <string name="syntax_highlighting_summary">Habilita el resaltado de sintaxis para los bloques de código Markdown admitidos</string>
+    <string name="create_question_summary">Permite la capacidad de formular preguntas</string>
+
+    <string name="restart_toggle">Para activar esta es necesario reiniciar</string>
+    <string name="link_copied">El enlace se copia en el portapapeles</string>
+    <string name="no_browser_found">No pudimos encontrar un navegador. El enlace se copia en el portapapeles.</string>
+</resources>

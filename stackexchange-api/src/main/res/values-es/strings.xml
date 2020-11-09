@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Sort -->
+    <string name="sort">Ordenar</string>
+    <string name="creation">Más reciente</string>
+    <string name="activity">Activo</string>
+    <string name="votes">Votos</string>
+    <string name="hot">Popular</string>
+    <string name="week">Semana</string>
+    <string name="month">Mes</string>
+    <string name="relevance">Pertinencia</string>
+</resources>
