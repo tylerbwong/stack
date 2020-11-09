@@ -32,7 +32,7 @@
     </plurals>
 
     <!-- Theme Chooser -->
-    <string name="theme_title">Choose theme</string>
+    <string name="theme_title">Theme</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_system_default">System default</string>
@@ -67,7 +67,7 @@
     <string name="post_answer">Post answer</string>
     <string name="discard">Discard</string>
     <string name="discard_answer">Are you sure you want to discard your changes?</string>
-    <string name="markdown">Markdown</string>
+    <string name="markdown" translatable="false">Markdown</string>
     <string name="preview">Preview</string>
     <string name="post">Post</string>
     <string name="answer_error">This can\'t be blank</string>
@@ -78,7 +78,7 @@
     <string name="post_preview">Post as preview</string>
     <string name="last_edited_by">last edited by\n%1$s</string>
     <string name="settings">Settings</string>
-    <string name="item_count">(%1$d)</string>
+    <string name="item_count" translatable="false">(%1$d)</string>
     <string name="no_comments">No comments found</string>
 
     <!-- Create Question -->

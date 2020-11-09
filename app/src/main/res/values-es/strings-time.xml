@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  User Action Types  -->
+    <string name="asked">formulada %1$s</string>
+    <string name="answered">respondida %1$s</string>
+    <string name="commented">comentada %1$s</string>
+
+    <!-- Timestamp setup -->
+    <plurals name="seconds">
+        <item quantity="one">hace %1$d segundo</item>
+        <item quantity="other">hace %1$d segundos</item>
+    </plurals>
+
+    <plurals name="minute">
+        <item quantity="one">hace %1$d minuto</item>
+        <item quantity="other">hace %1$d minutos</item>
+    </plurals>
+
+    <plurals name="hour">
+        <item quantity="one">hace %1$d hora</item>
+        <item quantity="other">hace %1$d horas</item>
+    </plurals>
+
+    <plurals name="day">
+        <item quantity="one">hace %1$d día</item>
+        <item quantity="other">hace %1$d días</item>
+    </plurals>
+
+    <plurals name="week">
+        <item quantity="one">%hace 1$d semana</item>
+        <item quantity="other">hace %1$d semanas</item>
+    </plurals>
+
+    <plurals name="month">
+        <item quantity="one">%hace 1$d mes</item>
+        <item quantity="other">hace %1$d meses</item>
+    </plurals>
+
+    <plurals name="year">
+        <item quantity="one">hace %1$d año</item>
+        <item quantity="other">hace %1$d años</item>
+    </plurals>
+</resources>
