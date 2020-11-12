@@ -2,7 +2,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        gradle()
+        gradlePluginPortal()
     }
     dependencies {
         classpath(Dep.aboutLibrariesGradlePlugin)
