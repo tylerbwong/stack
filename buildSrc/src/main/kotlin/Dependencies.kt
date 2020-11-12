@@ -3,7 +3,7 @@ object Versions {
     const val androidGradlePlugin = "4.2.0-alpha16"
     const val androidxActivity = "1.2.0-beta01"
     const val androidxAppCompat = "1.3.0-alpha02"
-    const val androidxBrowser = "1.3.0-beta01"
+    const val androidxBrowser = "1.3.0-rc01"
     const val androidxConstraintLayout = "2.0.4"
     const val androidxCore = "1.5.0-alpha04"
     const val androidxFragment = "1.3.0-beta01"
