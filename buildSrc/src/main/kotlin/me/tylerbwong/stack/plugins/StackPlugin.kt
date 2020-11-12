@@ -19,14 +19,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
-open class StackExtension {
-    var isMetalavaEnabled = false
-}
-
 class StackPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.apply<Project> {
-            extensions.create("stack", StackExtension::class.java)
             plugins.all {
                 when (this) {
                     is LibraryPlugin -> configureLibraryPlugin()
@@ -35,7 +30,6 @@ class StackPlugin : Plugin<Project> {
             }
 
             configureStaticAnalysis()
-            configureMetalava()
         }
     }
 
@@ -123,15 +117,6 @@ class StackPlugin : Plugin<Project> {
 
         extensions.getByType<DetektExtension>().apply {
             config = files("$rootDir/detekt.yml")
-        }
-    }
-
-    private fun Project.configureMetalava() {
-        val extension = extensions.getByType<StackExtension>()
-        afterEvaluate {
-            if (extension.isMetalavaEnabled) {
-                apply(plugin = "MetalavaPlugin")
-            }
         }
     }
 }

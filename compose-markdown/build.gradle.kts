@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     `kotlin-android`
     StackPlugin
+    id("me.tylerbwong.gradle.metalava")
 }
 
 android {
@@ -14,10 +15,6 @@ android {
         kotlinCompilerVersion = Versions.kotlin
         kotlinCompilerExtensionVersion = Versions.compose
     }
-}
-
-stack {
-    isMetalavaEnabled = true
 }
 
 dependencies {

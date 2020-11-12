@@ -3,16 +3,13 @@ plugins {
     `kotlin-android`
     `kotlin-kapt`
     StackPlugin
+    id("me.tylerbwong.gradle.metalava")
 }
 
 android {
     defaultConfig {
         buildConfigField("String", "API_KEY", stringProperty("stackApiKey"))
     }
-}
-
-stack {
-    isMetalavaEnabled = true
 }
 
 dependencies {
