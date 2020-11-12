@@ -42,7 +42,7 @@ object Versions {
     const val ktlintGradle = "9.3.0"
     const val markwon = "4.6.0"
     const val materialComponents = "1.3.0-alpha03"
-    const val metalavaGradlePlugin = "0.1.0-alpha04"
+    const val metalavaGradlePlugin = "0.1.0-alpha06"
     const val mockito = "3.6.0"
     const val mockitoKotlin = "2.2.0"
     const val moshi = "1.11.0"

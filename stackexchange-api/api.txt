@@ -1,35 +1,35 @@
 // Signature format: 3.0
 package me.tylerbwong.stack.api.di {
 
-  public final class ApiModule {
+  @dagger.Module @dagger.hilt.InstallIn(SingletonComponent::class) public final class ApiModule {
     ctor public ApiModule();
-    method public me.tylerbwong.stack.api.service.AuthService provideAuthService(retrofit2.Retrofit retrofit);
-    method @me.tylerbwong.stack.api.di.BaseUrl public String provideBaseUrl();
-    method public me.tylerbwong.stack.api.service.CommentService provideCommentService(retrofit2.Retrofit retrofit);
-    method public com.squareup.moshi.Moshi provideMoshi();
-    method public retrofit2.Converter.Factory provideMoshiConverterFactory(com.squareup.moshi.Moshi moshi);
-    method public me.tylerbwong.stack.api.service.QuestionService provideQuestionService(retrofit2.Retrofit retrofit);
-    method public retrofit2.Retrofit provideRetrofit(@me.tylerbwong.stack.api.di.BaseUrl String baseUrl, okhttp3.Call.Factory callFactory, java.util.Set<retrofit2.Converter.Factory> converterFactories);
-    method public me.tylerbwong.stack.api.service.SearchService provideSearchService(retrofit2.Retrofit retrofit);
-    method public me.tylerbwong.stack.api.service.SiteService provideSiteService(retrofit2.Retrofit retrofit);
-    method public me.tylerbwong.stack.api.service.TagService provideTagService(retrofit2.Retrofit retrofit);
-    method public retrofit2.Converter.Factory provideUnitConverterFactory();
-    method public me.tylerbwong.stack.api.service.UserService provideUserService(retrofit2.Retrofit retrofit);
-    field public static final me.tylerbwong.stack.api.di.ApiModule.Companion! Companion;
+    method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.AuthService provideAuthService(retrofit2.Retrofit retrofit);
+    method @dagger.Provides @me.tylerbwong.stack.api.di.BaseUrl public String provideBaseUrl();
+    method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.CommentService provideCommentService(retrofit2.Retrofit retrofit);
+    method @dagger.Provides @javax.inject.Singleton public com.squareup.moshi.Moshi provideMoshi();
+    method @dagger.Provides @dagger.multibindings.IntoSet public retrofit2.Converter.Factory provideMoshiConverterFactory(com.squareup.moshi.Moshi moshi);
+    method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.QuestionService provideQuestionService(retrofit2.Retrofit retrofit);
+    method @dagger.Provides @javax.inject.Singleton public retrofit2.Retrofit provideRetrofit(@me.tylerbwong.stack.api.di.BaseUrl String baseUrl, okhttp3.Call.Factory callFactory, java.util.Set<retrofit2.Converter.Factory> converterFactories);
+    method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.SearchService provideSearchService(retrofit2.Retrofit retrofit);
+    method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.SiteService provideSiteService(retrofit2.Retrofit retrofit);
+    method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.TagService provideTagService(retrofit2.Retrofit retrofit);
+    method @dagger.Provides @dagger.multibindings.IntoSet public retrofit2.Converter.Factory provideUnitConverterFactory();
+    method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.UserService provideUserService(retrofit2.Retrofit retrofit);
+    field public static final me.tylerbwong.stack.api.di.ApiModule.Companion Companion;
   }
 
   public static final class ApiModule.Companion {
   }
 
-  @kotlin.annotation.Retention(AnnotationRetention.BINARY) public @interface BaseUrl {
+  @javax.inject.Qualifier @kotlin.annotation.Retention(AnnotationRetention.BINARY) public @interface BaseUrl {
   }
 
 }
 
 package me.tylerbwong.stack.api.model {
 
-  public final class Answer {
-    ctor public Answer(int answerId, me.tylerbwong.stack.api.model.User owner, int downVoteCount, int upVoteCount, boolean isAccepted, int score, long creationDate, String bodyMarkdown, Long? lastEditDate, me.tylerbwong.stack.api.model.User? lastEditor, int questionId, Integer? commentCount);
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Answer {
+    ctor public Answer(@com.squareup.moshi.Json(name="answer_id") int answerId, me.tylerbwong.stack.api.model.User owner, @com.squareup.moshi.Json(name="down_vote_count") int downVoteCount, @com.squareup.moshi.Json(name="up_vote_count") int upVoteCount, @com.squareup.moshi.Json(name="is_accepted") boolean isAccepted, int score, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="body_markdown") String bodyMarkdown, @com.squareup.moshi.Json(name="last_edit_date") Long? lastEditDate, @com.squareup.moshi.Json(name="last_editor") me.tylerbwong.stack.api.model.User? lastEditor, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="comment_count") Integer? commentCount);
     method public int component1();
     method public me.tylerbwong.stack.api.model.User? component10();
     method public int component11();
@@ -42,7 +42,7 @@ package me.tylerbwong.stack.api.model {
     method public long component7();
     method public String component8();
     method public Long? component9();
-    method public me.tylerbwong.stack.api.model.Answer copy(int answerId, me.tylerbwong.stack.api.model.User owner, int downVoteCount, int upVoteCount, boolean isAccepted, int score, long creationDate, String bodyMarkdown, Long? lastEditDate, me.tylerbwong.stack.api.model.User? lastEditor, int questionId, Integer? commentCount);
+    method @com.squareup.moshi.JsonClass(generateAdapter=true) public me.tylerbwong.stack.api.model.Answer copy(int answerId, me.tylerbwong.stack.api.model.User owner, int downVoteCount, int upVoteCount, boolean isAccepted, int score, long creationDate, String bodyMarkdown, Long? lastEditDate, me.tylerbwong.stack.api.model.User? lastEditor, int questionId, Integer? commentCount);
     method public int getAnswerId();
     method public String getBodyMarkdown();
     method public Integer? getCommentCount();
@@ -57,8 +57,8 @@ package me.tylerbwong.stack.api.model {
     method public boolean isAccepted();
   }
 
-  public final class Badge {
-    ctor public Badge(int awardCount, int badgeId, @me.tylerbwong.stack.api.model.BadgeType String badgeType, String description, String link, String name, @me.tylerbwong.stack.api.model.Rank String rank);
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Badge {
+    ctor public Badge(@com.squareup.moshi.Json(name="award_count") int awardCount, @com.squareup.moshi.Json(name="badge_id") int badgeId, @com.squareup.moshi.Json(name="badge_type") @me.tylerbwong.stack.api.model.BadgeType String badgeType, @com.squareup.moshi.Json(name="description") String description, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="name") String name, @com.squareup.moshi.Json(name="rank") @me.tylerbwong.stack.api.model.Rank String rank);
     method public int component1();
     method public int component2();
     method public String component3();
@@ -66,7 +66,7 @@ package me.tylerbwong.stack.api.model {
     method public String component5();
     method public String component6();
     method public String component7();
-    method public me.tylerbwong.stack.api.model.Badge copy(int awardCount, int badgeId, String badgeType, String description, String link, String name, String rank);
+    method @com.squareup.moshi.JsonClass(generateAdapter=true) public me.tylerbwong.stack.api.model.Badge copy(int awardCount, int badgeId, String badgeType, String description, String link, String name, String rank);
     method public int getAwardCount();
     method public int getBadgeId();
     method public String getBadgeType();
@@ -76,19 +76,18 @@ package me.tylerbwong.stack.api.model {
     method public String getRank();
   }
 
-  public final class BadgeCounts {
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class BadgeCounts {
     ctor public BadgeCounts(int bronze, int silver, int gold);
     method public int component1();
     method public int component2();
     method public int component3();
-    method public me.tylerbwong.stack.api.model.BadgeCounts copy(int bronze, int silver, int gold);
+    method @com.squareup.moshi.JsonClass(generateAdapter=true) public me.tylerbwong.stack.api.model.BadgeCounts copy(int bronze, int silver, int gold);
     method public int getBronze();
     method public int getGold();
     method public int getSilver();
   }
 
   public final class BadgeKt {
-    ctor public BadgeKt();
     field public static final String BRONZE = "bronze";
     field public static final String GOLD = "gold";
     field public static final String NAMED = "named";
@@ -99,15 +98,15 @@ package me.tylerbwong.stack.api.model {
   @StringDef({me.tylerbwong.stack.api.model.BadgeKt.NAMED, me.tylerbwong.stack.api.model.BadgeKt.TAG_BASED}) public @interface BadgeType {
   }
 
-  public final class Comment {
-    ctor public Comment(String bodyMarkdown, int commentId, long creationDate, boolean edited, me.tylerbwong.stack.api.model.User owner, int score);
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Comment {
+    ctor public Comment(@com.squareup.moshi.Json(name="body_markdown") String bodyMarkdown, @com.squareup.moshi.Json(name="comment_id") int commentId, @com.squareup.moshi.Json(name="creation_date") long creationDate, boolean edited, @com.squareup.moshi.Json(name="owner") me.tylerbwong.stack.api.model.User owner, int score);
     method public String component1();
     method public int component2();
     method public long component3();
     method public boolean component4();
     method public me.tylerbwong.stack.api.model.User component5();
     method public int component6();
-    method public me.tylerbwong.stack.api.model.Comment copy(String bodyMarkdown, int commentId, long creationDate, boolean edited, me.tylerbwong.stack.api.model.User owner, int score);
+    method @com.squareup.moshi.JsonClass(generateAdapter=true) public me.tylerbwong.stack.api.model.Comment copy(String bodyMarkdown, int commentId, long creationDate, boolean edited, me.tylerbwong.stack.api.model.User owner, int score);
     method public String getBodyMarkdown();
     method public int getCommentId();
     method public long getCreationDate();
@@ -116,38 +115,38 @@ package me.tylerbwong.stack.api.model {
     method public int getScore();
   }
 
-  public final class ErrorResponse {
-    ctor public ErrorResponse(int errorId, String errorMessage, String errorName);
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class ErrorResponse {
+    ctor public ErrorResponse(@com.squareup.moshi.Json(name="error_id") int errorId, @com.squareup.moshi.Json(name="error_message") String errorMessage, @com.squareup.moshi.Json(name="error_name") String errorName);
     ctor public ErrorResponse();
     method public int component1();
     method public String component2();
     method public String component3();
-    method public me.tylerbwong.stack.api.model.ErrorResponse copy(int errorId, String errorMessage, String errorName);
+    method @com.squareup.moshi.JsonClass(generateAdapter=true) public me.tylerbwong.stack.api.model.ErrorResponse copy(int errorId, String errorMessage, String errorName);
     method public int getErrorId();
     method public String getErrorMessage();
     method public String getErrorName();
-    field public static final me.tylerbwong.stack.api.model.ErrorResponse.Companion! Companion;
+    field public static final me.tylerbwong.stack.api.model.ErrorResponse.Companion Companion;
     field public static final String WRITE_FAILED = "write_failed";
   }
 
   public static final class ErrorResponse.Companion {
   }
 
-  public final class NetworkPost {
-    ctor public NetworkPost(int postId, String postType, int score, String title);
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class NetworkPost {
+    ctor public NetworkPost(@com.squareup.moshi.Json(name="post_id") int postId, @com.squareup.moshi.Json(name="post_type") String postType, @com.squareup.moshi.Json(name="score") int score, @com.squareup.moshi.Json(name="title") String title);
     method public int component1();
     method public String component2();
     method public int component3();
     method public String component4();
-    method public me.tylerbwong.stack.api.model.NetworkPost copy(int postId, String postType, int score, String title);
+    method @com.squareup.moshi.JsonClass(generateAdapter=true) public me.tylerbwong.stack.api.model.NetworkPost copy(int postId, String postType, int score, String title);
     method public int getPostId();
     method public String getPostType();
     method public int getScore();
     method public String getTitle();
   }
 
-  public final class NetworkUser {
-    ctor public NetworkUser(Integer? accountId, int reputation, String siteName, String siteUrl, int userId, String userType, me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts, long creationDate, long lastAccessDate, int questionCount, java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topAnswers, java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topQuestions);
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class NetworkUser {
+    ctor public NetworkUser(@com.squareup.moshi.Json(name="account_id") Integer? accountId, @com.squareup.moshi.Json(name="reputation") int reputation, @com.squareup.moshi.Json(name="site_name") String siteName, @com.squareup.moshi.Json(name="site_url") String siteUrl, @com.squareup.moshi.Json(name="user_id") int userId, @com.squareup.moshi.Json(name="user_type") String userType, @com.squareup.moshi.Json(name="badge_counts") me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="last_access_date") long lastAccessDate, @com.squareup.moshi.Json(name="question_count") int questionCount, @com.squareup.moshi.Json(name="top_answers") java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topAnswers, @com.squareup.moshi.Json(name="top_questions") java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topQuestions);
     method public Integer? component1();
     method public int component10();
     method public java.util.List<me.tylerbwong.stack.api.model.NetworkPost> component11();
@@ -160,7 +159,7 @@ package me.tylerbwong.stack.api.model {
     method public me.tylerbwong.stack.api.model.BadgeCounts? component7();
     method public long component8();
     method public long component9();
-    method public me.tylerbwong.stack.api.model.NetworkUser copy(Integer? accountId, int reputation, String siteName, String siteUrl, int userId, String userType, me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts, long creationDate, long lastAccessDate, int questionCount, java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topAnswers, java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topQuestions);
+    method @com.squareup.moshi.JsonClass(generateAdapter=true) public me.tylerbwong.stack.api.model.NetworkUser copy(Integer? accountId, int reputation, String siteName, String siteUrl, int userId, String userType, me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts, long creationDate, long lastAccessDate, int questionCount, java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topAnswers, java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topQuestions);
     method public Integer? getAccountId();
     method public me.tylerbwong.stack.api.model.BadgeCounts? getBadgeCounts();
     method public long getCreationDate();
@@ -179,7 +178,6 @@ package me.tylerbwong.stack.api.model {
   }
 
   public final class OrderKt {
-    ctor public OrderKt();
     field public static final String ASC = "asc";
     field public static final String DESC = "desc";
     field public static final String ORDER_PARAM = "order";
@@ -188,8 +186,8 @@ package me.tylerbwong.stack.api.model {
   @StringDef({me.tylerbwong.stack.api.model.TimelineEventKt.QUESTION, me.tylerbwong.stack.api.model.TimelineEventKt.ANSWER}) public @interface PostType {
   }
 
-  public final class PostedAnswer {
-    ctor public PostedAnswer(int answerId, me.tylerbwong.stack.api.model.User owner, int downVoteCount, int upVoteCount, boolean isAccepted, int score, long creationDate, Long? lastEditDate, int questionId, Integer? commentCount);
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class PostedAnswer {
+    ctor public PostedAnswer(@com.squareup.moshi.Json(name="answer_id") int answerId, me.tylerbwong.stack.api.model.User owner, @com.squareup.moshi.Json(name="down_vote_count") int downVoteCount, @com.squareup.moshi.Json(name="up_vote_count") int upVoteCount, @com.squareup.moshi.Json(name="is_accepted") boolean isAccepted, int score, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="last_edit_date") Long? lastEditDate, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="comment_count") Integer? commentCount);
     method public int component1();
     method public Integer? component10();
     method public me.tylerbwong.stack.api.model.User component2();
@@ -200,7 +198,7 @@ package me.tylerbwong.stack.api.model {
     method public long component7();
     method public Long? component8();
     method public int component9();
-    method public me.tylerbwong.stack.api.model.PostedAnswer copy(int answerId, me.tylerbwong.stack.api.model.User owner, int downVoteCount, int upVoteCount, boolean isAccepted, int score, long creationDate, Long? lastEditDate, int questionId, Integer? commentCount);
+    method @com.squareup.moshi.JsonClass(generateAdapter=true) public me.tylerbwong.stack.api.model.PostedAnswer copy(int answerId, me.tylerbwong.stack.api.model.User owner, int downVoteCount, int upVoteCount, boolean isAccepted, int score, long creationDate, Long? lastEditDate, int questionId, Integer? commentCount);
     method public int getAnswerId();
     method public Integer? getCommentCount();
     method public long getCreationDate();
@@ -213,8 +211,8 @@ package me.tylerbwong.stack.api.model {
     method public boolean isAccepted();
   }
 
-  public final class Question {
-    ctor public Question(int answerCount, String? body, String? bodyMarkdown, Long? closedDate, String? closedReason, Integer? commentCount, long creationDate, int downVoteCount, boolean isDownVoted, boolean isBookmarked, int bookmarkCount, boolean isAnswered, Long? lastActivityDate, Long? lastEditDate, me.tylerbwong.stack.api.model.User? lastEditor, me.tylerbwong.stack.api.model.User owner, int questionId, int score, String shareLink, java.util.List<java.lang.String>? tags, String title, int upVoteCount, boolean isUpVoted, int viewCount);
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Question {
+    ctor public Question(@com.squareup.moshi.Json(name="answer_count") int answerCount, String? body, @com.squareup.moshi.Json(name="body_markdown") String? bodyMarkdown, @com.squareup.moshi.Json(name="closed_date") Long? closedDate, @com.squareup.moshi.Json(name="closed_reason") String? closedReason, @com.squareup.moshi.Json(name="comment_count") Integer? commentCount, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="down_vote_count") int downVoteCount, @com.squareup.moshi.Json(name="downvoted") boolean isDownVoted, @com.squareup.moshi.Json(name="favorited") boolean isBookmarked, @com.squareup.moshi.Json(name="favorite_count") int bookmarkCount, @com.squareup.moshi.Json(name="is_answered") boolean isAnswered, @com.squareup.moshi.Json(name="last_activity_date") Long? lastActivityDate, @com.squareup.moshi.Json(name="last_edit_date") Long? lastEditDate, @com.squareup.moshi.Json(name="last_editor") me.tylerbwong.stack.api.model.User? lastEditor, me.tylerbwong.stack.api.model.User owner, @com.squareup.moshi.Json(name="question_id") int questionId, int score, @com.squareup.moshi.Json(name="share_link") String shareLink, java.util.List<java.lang.String>? tags, String title, @com.squareup.moshi.Json(name="up_vote_count") int upVoteCount, @com.squareup.moshi.Json(name="upvoted") boolean isUpVoted, @com.squareup.moshi.Json(name="view_count") int viewCount);
     method public int component1();
     method public boolean component10();
     method public int component11();
@@ -239,7 +237,7 @@ package me.tylerbwong.stack.api.model {
     method public long component7();
     method public int component8();
     method public boolean component9();
-    method public me.tylerbwong.stack.api.model.Question copy(int answerCount, String? body, String? bodyMarkdown, Long? closedDate, String? closedReason, Integer? commentCount, long creationDate, int downVoteCount, boolean isDownVoted, boolean isBookmarked, int bookmarkCount, boolean isAnswered, Long? lastActivityDate, Long? lastEditDate, me.tylerbwong.stack.api.model.User? lastEditor, me.tylerbwong.stack.api.model.User owner, int questionId, int score, String shareLink, java.util.List<java.lang.String>? tags, String title, int upVoteCount, boolean isUpVoted, int viewCount);
+    method @com.squareup.moshi.JsonClass(generateAdapter=true) public me.tylerbwong.stack.api.model.Question copy(int answerCount, String? body, String? bodyMarkdown, Long? closedDate, String? closedReason, Integer? commentCount, long creationDate, int downVoteCount, boolean isDownVoted, boolean isBookmarked, int bookmarkCount, boolean isAnswered, Long? lastActivityDate, Long? lastEditDate, me.tylerbwong.stack.api.model.User? lastEditor, me.tylerbwong.stack.api.model.User owner, int questionId, int score, String shareLink, java.util.List<java.lang.String>? tags, String title, int upVoteCount, boolean isUpVoted, int viewCount);
     method public int getAnswerCount();
     method public String? getBody();
     method public String? getBodyMarkdown();
@@ -269,15 +267,15 @@ package me.tylerbwong.stack.api.model {
   @StringDef({me.tylerbwong.stack.api.model.BadgeKt.GOLD, me.tylerbwong.stack.api.model.BadgeKt.SILVER, me.tylerbwong.stack.api.model.BadgeKt.BRONZE}) public @interface Rank {
   }
 
-  public final class Response<T> {
-    ctor public Response(java.util.List<? extends T> items, boolean hasMore);
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Response<T> {
+    ctor public Response(@com.squareup.moshi.Json(name="items") java.util.List<? extends T> items, @com.squareup.moshi.Json(name="has_more") boolean hasMore);
     ctor public Response();
     method public java.util.List<T> component1();
     method public boolean component2();
-    method public me.tylerbwong.stack.api.model.Response<T> copy(java.util.List<? extends T> items, boolean hasMore);
+    method @com.squareup.moshi.JsonClass(generateAdapter=true) public me.tylerbwong.stack.api.model.Response<T> copy(java.util.List<? extends T> items, boolean hasMore);
     method public boolean getHasMore();
     method public java.util.List<T> getItems();
-    field public static final me.tylerbwong.stack.api.model.Response.Companion! Companion;
+    field public static final me.tylerbwong.stack.api.model.Response.Companion Companion;
   }
 
   public static final class Response.Companion {
@@ -285,14 +283,14 @@ package me.tylerbwong.stack.api.model {
     property public final me.tylerbwong.stack.api.model.Response<kotlin.Unit> EMPTY;
   }
 
-  public final class Site {
-    ctor public Site(String name, String parameter, String url, String audience, String iconUrl);
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Site {
+    ctor public Site(@com.squareup.moshi.Json(name="name") String name, @com.squareup.moshi.Json(name="api_site_parameter") String parameter, @com.squareup.moshi.Json(name="site_url") String url, @com.squareup.moshi.Json(name="audience") String audience, @com.squareup.moshi.Json(name="icon_url") String iconUrl);
     method public String component1();
     method public String component2();
     method public String component3();
     method public String component4();
     method public String component5();
-    method public me.tylerbwong.stack.api.model.Site copy(String name, String parameter, String url, String audience, String iconUrl);
+    method @com.squareup.moshi.JsonClass(generateAdapter=true) public me.tylerbwong.stack.api.model.Site copy(String name, String parameter, String url, String audience, String iconUrl);
     method public String getAudience();
     method public String getIconUrl();
     method public String getName();
@@ -304,7 +302,6 @@ package me.tylerbwong.stack.api.model {
   }
 
   public final class SortKt {
-    ctor public SortKt();
     method @StringRes public static int getSortResourceId(String);
     field public static final String ACTIVITY = "activity";
     field public static final String CREATION = "creation";
@@ -316,17 +313,17 @@ package me.tylerbwong.stack.api.model {
     field public static final String WEEK = "week";
   }
 
-  public final class Tag {
-    ctor public Tag(String name, int count);
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Tag {
+    ctor public Tag(@com.squareup.moshi.Json(name="name") String name, @com.squareup.moshi.Json(name="count") int count);
     method public String component1();
     method public int component2();
-    method public me.tylerbwong.stack.api.model.Tag copy(String name, int count);
+    method @com.squareup.moshi.JsonClass(generateAdapter=true) public me.tylerbwong.stack.api.model.Tag copy(String name, int count);
     method public int getCount();
     method public String getName();
   }
 
-  public final class TimelineEvent {
-    ctor public TimelineEvent(Integer? badgeId, Integer? commentId, long creationDate, String? detail, String link, Integer? postId, @me.tylerbwong.stack.api.model.PostType String? postType, Integer? suggestedEditId, @me.tylerbwong.stack.api.model.TimelineType String timelineType, String? title, int userId);
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class TimelineEvent {
+    ctor public TimelineEvent(@com.squareup.moshi.Json(name="badge_id") Integer? badgeId, @com.squareup.moshi.Json(name="comment_id") Integer? commentId, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="detail") String? detail, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="post_id") Integer? postId, @com.squareup.moshi.Json(name="post_type") @me.tylerbwong.stack.api.model.PostType String? postType, @com.squareup.moshi.Json(name="suggested_edit_id") Integer? suggestedEditId, @com.squareup.moshi.Json(name="timeline_type") @me.tylerbwong.stack.api.model.TimelineType String timelineType, @com.squareup.moshi.Json(name="title") String? title, @com.squareup.moshi.Json(name="user_id") int userId);
     method public Integer? component1();
     method public String? component10();
     method public int component11();
@@ -338,7 +335,7 @@ package me.tylerbwong.stack.api.model {
     method public String? component7();
     method public Integer? component8();
     method public String component9();
-    method public me.tylerbwong.stack.api.model.TimelineEvent copy(Integer? badgeId, Integer? commentId, long creationDate, String? detail, String link, Integer? postId, String? postType, Integer? suggestedEditId, String timelineType, String? title, int userId);
+    method @com.squareup.moshi.JsonClass(generateAdapter=true) public me.tylerbwong.stack.api.model.TimelineEvent copy(Integer? badgeId, Integer? commentId, long creationDate, String? detail, String link, Integer? postId, String? postType, Integer? suggestedEditId, String timelineType, String? title, int userId);
     method public Integer? getBadgeId();
     method public Integer? getCommentId();
     method public long getCreationDate();
@@ -353,7 +350,6 @@ package me.tylerbwong.stack.api.model {
   }
 
   public final class TimelineEventKt {
-    ctor public TimelineEventKt();
     field public static final String ACCEPTED = "accepted";
     field public static final String ANSWER = "answer";
     field public static final String ANSWERED = "answered";
@@ -369,8 +365,8 @@ package me.tylerbwong.stack.api.model {
   @StringDef({me.tylerbwong.stack.api.model.TimelineEventKt.COMMENTED, me.tylerbwong.stack.api.model.TimelineEventKt.ASKED, me.tylerbwong.stack.api.model.TimelineEventKt.ANSWERED, me.tylerbwong.stack.api.model.TimelineEventKt.BADGE, me.tylerbwong.stack.api.model.TimelineEventKt.REVISION, me.tylerbwong.stack.api.model.TimelineEventKt.ACCEPTED, me.tylerbwong.stack.api.model.TimelineEventKt.REVIEWED, me.tylerbwong.stack.api.model.TimelineEventKt.SUGGESTED}) public @interface TimelineType {
   }
 
-  public final class User {
-    ctor public User(String? aboutMe, Integer? acceptRate, Integer? accountId, String displayName, String? link, String? location, String? profileImage, int reputation, int userId, String userType, me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts);
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class User {
+    ctor public User(@com.squareup.moshi.Json(name="about_me") String? aboutMe, @com.squareup.moshi.Json(name="accept_rate") Integer? acceptRate, @com.squareup.moshi.Json(name="account_id") Integer? accountId, @com.squareup.moshi.Json(name="display_name") String displayName, @com.squareup.moshi.Json(name="link") String? link, @com.squareup.moshi.Json(name="location") String? location, @com.squareup.moshi.Json(name="profile_image") String? profileImage, @com.squareup.moshi.Json(name="reputation") int reputation, @com.squareup.moshi.Json(name="user_id") int userId, @com.squareup.moshi.Json(name="user_type") String userType, @com.squareup.moshi.Json(name="badge_counts") me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts);
     method public String? component1();
     method public String component10();
     method public me.tylerbwong.stack.api.model.BadgeCounts? component11();
@@ -382,7 +378,7 @@ package me.tylerbwong.stack.api.model {
     method public String? component7();
     method public int component8();
     method public int component9();
-    method public me.tylerbwong.stack.api.model.User copy(String? aboutMe, Integer? acceptRate, Integer? accountId, String displayName, String? link, String? location, String? profileImage, int reputation, int userId, String userType, me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts);
+    method @com.squareup.moshi.JsonClass(generateAdapter=true) public me.tylerbwong.stack.api.model.User copy(String? aboutMe, Integer? acceptRate, Integer? accountId, String displayName, String? link, String? location, String? profileImage, int reputation, int userId, String userType, me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts);
     method public String? getAboutMe();
     method public Integer? getAcceptRate();
     method public Integer? getAccountId();
@@ -401,37 +397,37 @@ package me.tylerbwong.stack.api.model {
 package me.tylerbwong.stack.api.service {
 
   public interface AuthService {
-    method public suspend Object! logOut(String accessToken, String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super kotlin.Unit> p = BuildConfig.API_KEY);
+    method @retrofit2.http.GET("access-tokens/{accessToken}/invalidate") public suspend Object? logOut(@retrofit2.http.Path(me.tylerbwong.stack.api.service.StackConstantsKt.ACCESS_TOKEN) String accessToken, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super kotlin.Unit> p = BuildConfig.API_KEY);
   }
 
   public interface CommentService {
-    method public suspend Object getPostComments(int postId, @me.tylerbwong.stack.api.model.Order String order = "asc", @me.tylerbwong.stack.api.model.Sort String sort = "creation", int pageSize = 75, int page = 1, String filter = "!L8StSPzV0U0)z0AORjbSP2D5RygsAsRFu7EKUgPZ6hbH)YC_S_mZJdz(*.y2xYh0QPq6", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Comment>> p = BuildConfig.API_KEY);
-    method public suspend Object getPostCommentsAuth(int postId, @me.tylerbwong.stack.api.model.Order String order = "asc", @me.tylerbwong.stack.api.model.Sort String sort = "creation", int pageSize = 75, int page = 1, String filter = "!)pfJrS0ZPMUmIMpNO)Yke6OecqSjv9ILyIMzhIz6XW5PAELLlGsc(-cn4aL4Utv5ur", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Comment>> p = BuildConfig.API_KEY);
-    field public static final me.tylerbwong.stack.api.service.CommentService.Companion! Companion;
+    method @retrofit2.http.GET("posts/{id}/comments") public suspend Object? getPostComments(@retrofit2.http.Path("id") int postId, @me.tylerbwong.stack.api.model.Order @retrofit2.http.Query(me.tylerbwong.stack.api.model.OrderKt.ORDER_PARAM) String order = "asc", @me.tylerbwong.stack.api.model.Sort @retrofit2.http.Query(me.tylerbwong.stack.api.model.SortKt.SORT_PARAM) String sort = "creation", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_SIZE_PARAM) int pageSize = 75, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_PARAM) int page = 1, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!L8StSPzV0U0)z0AORjbSP2D5RygsAsRFu7EKUgPZ6hbH)YC_S_mZJdz(*.y2xYh0QPq6", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Comment>> p = BuildConfig.API_KEY);
+    method @retrofit2.http.GET("posts/{id}/comments") public suspend Object? getPostCommentsAuth(@retrofit2.http.Path("id") int postId, @me.tylerbwong.stack.api.model.Order @retrofit2.http.Query(me.tylerbwong.stack.api.model.OrderKt.ORDER_PARAM) String order = "asc", @me.tylerbwong.stack.api.model.Sort @retrofit2.http.Query(me.tylerbwong.stack.api.model.SortKt.SORT_PARAM) String sort = "creation", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_SIZE_PARAM) int pageSize = 75, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_PARAM) int page = 1, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!)pfJrS0ZPMUmIMpNO)Yke6OecqSjv9ILyIMzhIz6XW5PAELLlGsc(-cn4aL4Utv5ur", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Comment>> p = BuildConfig.API_KEY);
+    field public static final me.tylerbwong.stack.api.service.CommentService.Companion Companion;
   }
 
   public static final class CommentService.Companion {
   }
 
   public interface QuestionService {
-    method public suspend Object addQuestion(String title, String body, String tags, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
-    method public suspend Object downvoteQuestionById(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
-    method public suspend Object favoriteQuestionById(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
-    method public suspend Object getBookmarks(@me.tylerbwong.stack.api.model.Sort String sort = "activity", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
-    method public suspend Object getLinkedQuestions(int questionId, @me.tylerbwong.stack.api.model.Sort String sort = "activity", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
-    method public suspend Object getQuestionAnswers(int questionId, @me.tylerbwong.stack.api.model.Sort String sort = "votes", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!)qHt3-n4W*f.gPKawPE(XNpsQRxcWdBxS2t8_drqo0.DgldgGwePa9Pib9nUlpc.1r", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Answer>> p = BuildConfig.API_KEY);
-    method public suspend Object getQuestionDetails(int questionId, String filter = "!3r.zRmD4l6rHdTgXfBOo(qq6rg_D3I7uaTO)p123.RRrNwbbeBOKxJp8dch552I", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
-    method public suspend Object getQuestionDetailsAuth(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
-    method public suspend Object getQuestions(@me.tylerbwong.stack.api.model.Sort String sort = "activity", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
-    method public suspend Object getQuestionsByTags(@me.tylerbwong.stack.api.model.Sort String sort = "activity", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String tags, String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
-    method public suspend Object getRelatedQuestions(int questionId, @me.tylerbwong.stack.api.model.Sort String sort = "activity", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
-    method public suspend Object postAnswer(int questionId, String filter = "!)qHt3-n4W*f.gPKawPE(XNpsQRxcWdBxS2t8_drqo0.DgldgGwePa9Pib9nUlpc.1r", String key = BuildConfig.API_KEY, String bodyMarkdown, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.PostedAnswer>> p = false);
-    method public suspend Object undoQuestionDownvoteById(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
-    method public suspend Object undoQuestionFavoriteById(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
-    method public suspend Object undoQuestionUpvoteById(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
-    method public suspend Object upvoteQuestionById(int questionId, String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", String key = BuildConfig.API_KEY, boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
+    method @retrofit2.http.FormUrlEncoded @retrofit2.http.POST("questions/add") public suspend Object? addQuestion(@retrofit2.http.Field(TITLE_PARAM) String title, @retrofit2.http.Field(BODY_PARAM) String body, @retrofit2.http.Field(TAGS_PARAM) String tags, @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, @retrofit2.http.Field(PREVIEW_PARAM) boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
+    method @retrofit2.http.FormUrlEncoded @retrofit2.http.POST("questions/{id}/downvote") public suspend Object? downvoteQuestionById(@retrofit2.http.Path("id") int questionId, @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, @retrofit2.http.Field(PREVIEW_PARAM) boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
+    method @retrofit2.http.FormUrlEncoded @retrofit2.http.POST("questions/{id}/favorite") public suspend Object? favoriteQuestionById(@retrofit2.http.Path("id") int questionId, @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, @retrofit2.http.Field(PREVIEW_PARAM) boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
+    method @retrofit2.http.GET("me/favorites") public suspend Object? getBookmarks(@me.tylerbwong.stack.api.model.Sort @retrofit2.http.Query(me.tylerbwong.stack.api.model.SortKt.SORT_PARAM) String sort = "activity", @me.tylerbwong.stack.api.model.Order @retrofit2.http.Query(me.tylerbwong.stack.api.model.OrderKt.ORDER_PARAM) String order = "desc", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_SIZE_PARAM) int pageSize = 75, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_PARAM) int page = 1, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method @retrofit2.http.GET("questions/{id}/linked") public suspend Object? getLinkedQuestions(@retrofit2.http.Path("id") int questionId, @me.tylerbwong.stack.api.model.Sort @retrofit2.http.Query(me.tylerbwong.stack.api.model.SortKt.SORT_PARAM) String sort = "activity", @me.tylerbwong.stack.api.model.Order @retrofit2.http.Query(me.tylerbwong.stack.api.model.OrderKt.ORDER_PARAM) String order = "desc", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_SIZE_PARAM) int pageSize = 75, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_PARAM) int page = 1, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method @retrofit2.http.GET("questions/{id}/answers") public suspend Object? getQuestionAnswers(@retrofit2.http.Path("id") int questionId, @me.tylerbwong.stack.api.model.Sort @retrofit2.http.Query(me.tylerbwong.stack.api.model.SortKt.SORT_PARAM) String sort = "votes", @me.tylerbwong.stack.api.model.Order @retrofit2.http.Query(me.tylerbwong.stack.api.model.OrderKt.ORDER_PARAM) String order = "desc", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_SIZE_PARAM) int pageSize = 75, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_PARAM) int page = 1, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!)qHt3-n4W*f.gPKawPE(XNpsQRxcWdBxS2t8_drqo0.DgldgGwePa9Pib9nUlpc.1r", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Answer>> p = BuildConfig.API_KEY);
+    method @retrofit2.http.GET("questions/{id}") public suspend Object? getQuestionDetails(@retrofit2.http.Path("id") int questionId, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!3r.zRmD4l6rHdTgXfBOo(qq6rg_D3I7uaTO)p123.RRrNwbbeBOKxJp8dch552I", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method @retrofit2.http.GET("questions/{id}") public suspend Object? getQuestionDetailsAuth(@retrofit2.http.Path("id") int questionId, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method @retrofit2.http.GET("questions") public suspend Object? getQuestions(@me.tylerbwong.stack.api.model.Sort @retrofit2.http.Query(me.tylerbwong.stack.api.model.SortKt.SORT_PARAM) String sort = "activity", @me.tylerbwong.stack.api.model.Order @retrofit2.http.Query(me.tylerbwong.stack.api.model.OrderKt.ORDER_PARAM) String order = "desc", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_SIZE_PARAM) int pageSize = 75, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_PARAM) int page = 1, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method @retrofit2.http.GET("questions") public suspend Object? getQuestionsByTags(@me.tylerbwong.stack.api.model.Sort @retrofit2.http.Query(me.tylerbwong.stack.api.model.SortKt.SORT_PARAM) String sort = "activity", @me.tylerbwong.stack.api.model.Order @retrofit2.http.Query(me.tylerbwong.stack.api.model.OrderKt.ORDER_PARAM) String order = "desc", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_SIZE_PARAM) int pageSize = 75, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_PARAM) int page = 1, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.TAGGED_PARAM) String tags, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method @retrofit2.http.GET("questions/{id}/related") public suspend Object? getRelatedQuestions(@retrofit2.http.Path("id") int questionId, @me.tylerbwong.stack.api.model.Sort @retrofit2.http.Query(me.tylerbwong.stack.api.model.SortKt.SORT_PARAM) String sort = "activity", @me.tylerbwong.stack.api.model.Order @retrofit2.http.Query(me.tylerbwong.stack.api.model.OrderKt.ORDER_PARAM) String order = "desc", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_SIZE_PARAM) int pageSize = 75, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_PARAM) int page = 1, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method @retrofit2.http.FormUrlEncoded @retrofit2.http.POST("questions/{id}/answers/add") public suspend Object? postAnswer(@retrofit2.http.Path("id") int questionId, @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!)qHt3-n4W*f.gPKawPE(XNpsQRxcWdBxS2t8_drqo0.DgldgGwePa9Pib9nUlpc.1r", @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, @retrofit2.http.Field(BODY_PARAM) String bodyMarkdown, @retrofit2.http.Field(PREVIEW_PARAM) boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.PostedAnswer>> p = false);
+    method @retrofit2.http.FormUrlEncoded @retrofit2.http.POST("questions/{id}/downvote/undo") public suspend Object? undoQuestionDownvoteById(@retrofit2.http.Path("id") int questionId, @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, @retrofit2.http.Field(PREVIEW_PARAM) boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
+    method @retrofit2.http.FormUrlEncoded @retrofit2.http.POST("questions/{id}/favorite/undo") public suspend Object? undoQuestionFavoriteById(@retrofit2.http.Path("id") int questionId, @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, @retrofit2.http.Field(PREVIEW_PARAM) boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
+    method @retrofit2.http.FormUrlEncoded @retrofit2.http.POST("questions/{id}/upvote/undo") public suspend Object? undoQuestionUpvoteById(@retrofit2.http.Path("id") int questionId, @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, @retrofit2.http.Field(PREVIEW_PARAM) boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
+    method @retrofit2.http.FormUrlEncoded @retrofit2.http.POST("questions/{id}/upvote") public suspend Object? upvoteQuestionById(@retrofit2.http.Path("id") int questionId, @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22", @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, @retrofit2.http.Field(PREVIEW_PARAM) boolean preview = false, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = false);
     field public static final String ANSWER_FILTER = "!)qHt3-n4W*f.gPKawPE(XNpsQRxcWdBxS2t8_drqo0.DgldgGwePa9Pib9nUlpc.1r";
-    field public static final me.tylerbwong.stack.api.service.QuestionService.Companion! Companion;
+    field public static final me.tylerbwong.stack.api.service.QuestionService.Companion Companion;
     field public static final String DEFAULT_FILTER = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(";
     field public static final String DETAIL_FILTER = "!3r.zRmD4l6rHdTgXfBOo(qq6rg_D3I7uaTO)p123.RRrNwbbeBOKxJp8dch552I";
     field public static final String DETAIL_FILTER_AUTH = "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22";
@@ -441,43 +437,42 @@ package me.tylerbwong.stack.api.service {
   }
 
   public interface SearchService {
-    method public suspend Object search(String query, Boolean? isAccepted = null, Integer? minNumAnswers = null, String? bodyContains = null, Boolean? isClosed = null, String? tags = null, String? titleContains = null, @me.tylerbwong.stack.api.model.Sort String sort = "relevance", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
-    field public static final me.tylerbwong.stack.api.service.SearchService.Companion! Companion;
+    method @retrofit2.http.GET("search/advanced") public suspend Object? search(@retrofit2.http.Query(QUERY_PARAM) String query, @retrofit2.http.Query(ACCEPTED_PARAM) Boolean? isAccepted = null, @retrofit2.http.Query(ANSWERS_PARAM) Integer? minNumAnswers = null, @retrofit2.http.Query(BODY_PARAM) String? bodyContains = null, @retrofit2.http.Query(CLOSED_PARAM) Boolean? isClosed = null, @retrofit2.http.Query(TAGGED_PARAM) String? tags = null, @retrofit2.http.Query(TITLE_PARAM) String? titleContains = null, @me.tylerbwong.stack.api.model.Sort @retrofit2.http.Query(me.tylerbwong.stack.api.model.SortKt.SORT_PARAM) String sort = "relevance", @me.tylerbwong.stack.api.model.Order @retrofit2.http.Query(me.tylerbwong.stack.api.model.OrderKt.ORDER_PARAM) String order = "desc", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_SIZE_PARAM) int pageSize = 75, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_PARAM) int page = 1, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    field public static final me.tylerbwong.stack.api.service.SearchService.Companion Companion;
   }
 
   public static final class SearchService.Companion {
   }
 
   public interface SiteService {
-    method public suspend Object getSites(int pageSize = 500, String filter = "!Fn4IB7S7W()0gcwcuHN16kFhm9", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Site>> p = BuildConfig.API_KEY);
-    field public static final me.tylerbwong.stack.api.service.SiteService.Companion! Companion;
+    method @retrofit2.http.GET("sites") public suspend Object? getSites(@retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_SIZE_PARAM) int pageSize = 500, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!Fn4IB7S7W()0gcwcuHN16kFhm9", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Site>> p = BuildConfig.API_KEY);
+    field public static final me.tylerbwong.stack.api.service.SiteService.Companion Companion;
   }
 
   public static final class SiteService.Companion {
   }
 
   public final class StackConstantsKt {
-    ctor public StackConstantsKt();
     field public static final String DEFAULT_SITE = "stackoverflow";
     field public static final String SITE_PARAM = "site";
   }
 
   public interface TagService {
-    method public suspend Object getPopularTags(String sort = "popular", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 30, int page = 1, String filter = "!0XrIP(5mCa0R7ys-I*Wa36*Jm", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Tag>> p = BuildConfig.API_KEY);
-    field public static final me.tylerbwong.stack.api.service.TagService.Companion! Companion;
+    method @retrofit2.http.GET("tags") public suspend Object? getPopularTags(@retrofit2.http.Query(me.tylerbwong.stack.api.model.SortKt.SORT_PARAM) String sort = "popular", @me.tylerbwong.stack.api.model.Order @retrofit2.http.Query(me.tylerbwong.stack.api.model.OrderKt.ORDER_PARAM) String order = "desc", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_SIZE_PARAM) int pageSize = 30, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_PARAM) int page = 1, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!0XrIP(5mCa0R7ys-I*Wa36*Jm", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Tag>> p = BuildConfig.API_KEY);
+    field public static final me.tylerbwong.stack.api.service.TagService.Companion Companion;
   }
 
   public static final class TagService.Companion {
   }
 
   public interface UserService {
-    method public suspend Object getCurrentUser(String filter = "!BTeL*Mb3d_KiD.hc7r8myHkxGjY*UT", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.User>> p = BuildConfig.API_KEY);
-    method public suspend Object getCurrentUserNetworkUsers(String filter = "!6QN8I_HG8vPBU", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.NetworkUser>> p = BuildConfig.API_KEY);
-    method public suspend Object getUser(Integer? userId, String filter = "!BTeL*Mb3d_KiD.hc7r8myHkxGjY*UT", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.User>> p = BuildConfig.API_KEY);
-    method public suspend Object getUserBadges(int userId, Long? fromDate = null, Long? toDate = null, String sort = "rank", @me.tylerbwong.stack.api.model.Order String order = "desc", int pageSize = 100, String filter = "!6JEV(YmXqRgSv", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Badge>> p = BuildConfig.API_KEY);
-    method public suspend Object getUserQuestionsById(Integer? userId, int pageSize = 75, int page = 1, String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
-    method public suspend Object getUserTimeline(Integer? userId, Long? fromDate = null, Long? toDate = null, String filter = "!9_R5-D7KQ", String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.TimelineEvent>> p = BuildConfig.API_KEY);
-    field public static final me.tylerbwong.stack.api.service.UserService.Companion! Companion;
+    method @retrofit2.http.GET("me") public suspend Object? getCurrentUser(@retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!BTeL*Mb3d_KiD.hc7r8myHkxGjY*UT", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.User>> p = BuildConfig.API_KEY);
+    method @retrofit2.http.GET("me/associated") public suspend Object? getCurrentUserNetworkUsers(@retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!6QN8I_HG8vPBU", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.NetworkUser>> p = BuildConfig.API_KEY);
+    method @retrofit2.http.GET("users/{userId}") public suspend Object? getUser(@retrofit2.http.Path(USER_ID) Integer? userId, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!BTeL*Mb3d_KiD.hc7r8myHkxGjY*UT", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.User>> p = BuildConfig.API_KEY);
+    method @retrofit2.http.GET("users/{userId}/badges") public suspend Object? getUserBadges(@retrofit2.http.Path(USER_ID) int userId, @retrofit2.http.Query(FROM_DATE) Long? fromDate = null, @retrofit2.http.Query(TO_DATE) Long? toDate = null, @retrofit2.http.Query(me.tylerbwong.stack.api.model.SortKt.SORT_PARAM) String sort = "rank", @me.tylerbwong.stack.api.model.Order @retrofit2.http.Query(me.tylerbwong.stack.api.model.OrderKt.ORDER_PARAM) String order = "desc", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_SIZE_PARAM) int pageSize = 100, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!6JEV(YmXqRgSv", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Badge>> p = BuildConfig.API_KEY);
+    method @retrofit2.http.GET("users/{userId}/questions") public suspend Object? getUserQuestionsById(@retrofit2.http.Path(USER_ID) Integer? userId, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_SIZE_PARAM) int pageSize = 75, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_PARAM) int page = 1, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.Question>> p = BuildConfig.API_KEY);
+    method @retrofit2.http.GET("users/{userId}/timeline") public suspend Object? getUserTimeline(@retrofit2.http.Path(USER_ID) Integer? userId, @retrofit2.http.Query(FROM_DATE) Long? fromDate = null, @retrofit2.http.Query(TO_DATE) Long? toDate = null, @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter = "!9_R5-D7KQ", @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key = BuildConfig.API_KEY, kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<me.tylerbwong.stack.api.model.TimelineEvent>> p = BuildConfig.API_KEY);
+    field public static final me.tylerbwong.stack.api.service.UserService.Companion Companion;
   }
 
   public static final class UserService.Companion {
@@ -488,7 +483,6 @@ package me.tylerbwong.stack.api.service {
 package me.tylerbwong.stack.api.utils {
 
   public final class HttpExceptionKt {
-    ctor public HttpExceptionKt();
     method public static me.tylerbwong.stack.api.model.ErrorResponse? toErrorResponse(retrofit2.HttpException);
   }
 
