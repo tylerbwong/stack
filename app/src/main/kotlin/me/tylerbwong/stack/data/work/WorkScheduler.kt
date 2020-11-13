@@ -11,8 +11,8 @@ class WorkScheduler @Inject constructor(
     private val workRequests: Set<@JvmSuppressWildcards Work<*>>
 ) {
     /**
-     * We only want uniquely identified work to run. If the first uniquely identifiable work is not
-     * present or currently enqueued, cancel all pending work before scheduling new work.
+     * We only want uniquely identified work to run. If there is no pending work that is identified
+     * by [BookmarksWorker.IDENTIFIER], cancel all pending work before scheduling new work.
      *
      * @param lifecycleOwner The host [LifecycleOwner] that will be in charge of observing work info
      * requests.
