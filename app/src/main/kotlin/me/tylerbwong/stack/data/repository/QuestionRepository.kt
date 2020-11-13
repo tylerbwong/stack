@@ -84,22 +84,24 @@ class QuestionRepository @Inject constructor(
         return questionService.getBookmarks().items
     }
 
+    // TODO Enable Offline
     suspend fun syncBookmarks(): List<Question> {
-        return if (authRepository.isAuthenticated) {
-            try {
-                val bookmarks = questionService.getBookmarks().items
-                if (bookmarks.isNotEmpty()) {
-                    bookmarks.forEach { question -> saveQuestion(question) }
-                } else {
-                    clearAll()
-                }
-                bookmarks
-            } catch (ex: Exception) {
-                emptyList()
-            }
-        } else {
-            emptyList()
-        }
+//        return if (authRepository.isAuthenticated) {
+//            try {
+//                val bookmarks = questionService.getBookmarks().items
+//                if (bookmarks.isNotEmpty()) {
+//                    bookmarks.forEach { question -> saveQuestion(question) }
+//                } else {
+//                    clearAll()
+//                }
+//                bookmarks
+//            } catch (ex: Exception) {
+//                emptyList()
+//            }
+//        } else {
+//            emptyList()
+//        }
+        return emptyList()
     }
 
     suspend fun saveQuestion(question: Question): Boolean {
@@ -125,6 +127,7 @@ class QuestionRepository @Inject constructor(
     }
 
     /**
+     * TODO Enable Offline
      * TODO Figure out how to clear users safely
      * Need to look up if any remaining questions/answers still reference a user before removing it
      */
