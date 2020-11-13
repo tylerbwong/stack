@@ -6,9 +6,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Response
@@ -122,24 +120,28 @@ class QuestionDetailMainViewModel @ViewModelInject constructor(
         toggleAction(
             isSelected,
             {
-                val response = service.favoriteQuestionById(it)
-                withContext(Dispatchers.IO) {
-                    val question = response.items.firstOrNull()
-                    if (question != null) {
-                        questionRepository.saveQuestion(question)
-                    }
-                }
-                response
+                // TODO Enable Offline
+//                val response = service.favoriteQuestionById(it)
+//                withContext(Dispatchers.IO) {
+//                    val question = response.items.firstOrNull()
+//                    if (question != null) {
+//                        questionRepository.saveQuestion(question)
+//                    }
+//                }
+//                response
+                service.favoriteQuestionById(it)
             },
             {
-                val response = service.undoQuestionFavoriteById(it)
-                withContext(Dispatchers.IO) {
-                    val question = response.items.firstOrNull()
-                    if (question != null) {
-                        questionRepository.removeQuestion(question)
-                    }
-                }
-                response
+                // TODO Enable Offline
+//                val response = service.undoQuestionFavoriteById(it)
+//                withContext(Dispatchers.IO) {
+//                    val question = response.items.firstOrNull()
+//                    if (question != null) {
+//                        questionRepository.removeQuestion(question)
+//                    }
+//                }
+//                response
+                service.undoQuestionFavoriteById(it)
             }
         )
     }
