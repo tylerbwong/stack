@@ -25,4 +25,8 @@ class BookmarksWorker @WorkerInject constructor(
         Timber.e(ex)
         Result.failure()
     }
+
+    companion object {
+        internal const val IDENTIFIER = "bookmarks-worker"
+    }
 }

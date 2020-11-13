@@ -109,7 +109,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
         }
 
         appUpdater.checkForUpdate(this)
-        workScheduler.schedule()
+        workScheduler.schedule(this)
         populateContent(savedInstanceState)
     }
 

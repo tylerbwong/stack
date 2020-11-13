@@ -17,9 +17,11 @@ import me.tylerbwong.stack.data.persistence.dao.UserDao
 import me.tylerbwong.stack.data.persistence.entity.QuestionEntity
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.mockito.Mock
 
+@Ignore("Re-enable once offline is enabled")
 class QuestionRepositoryTest : BaseTest() {
 
     @Mock
