@@ -19,11 +19,8 @@ class WorkScheduler @Inject constructor(
      */
     fun schedule(lifecycleOwner: LifecycleOwner) {
         // TODO Delete this once enough people are on the new version
-        val validWorkRequest = workRequests.find {
-            it.identifier == BookmarksWorker.IDENTIFIER
-        } ?: return
         val workInfoLiveData = workManager.getWorkInfosForUniqueWorkLiveData(
-            validWorkRequest.identifier
+            BookmarksWorker.IDENTIFIER
         )
         workInfoLiveData.observe(lifecycleOwner) {
             if (it.isEmpty()) {
