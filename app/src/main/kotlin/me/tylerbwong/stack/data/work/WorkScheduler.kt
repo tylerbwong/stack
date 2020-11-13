@@ -18,7 +18,10 @@ class WorkScheduler @Inject constructor(
      * requests.
      */
     fun schedule(lifecycleOwner: LifecycleOwner) {
-        val validWorkRequest = workRequests.firstOrNull { it is Work.Periodic } ?: return
+        // TODO Delete this once enough people are on the new version
+        val validWorkRequest = workRequests.find {
+            it.identifier == BookmarksWorker.IDENTIFIER
+        } ?: return
         val workInfoLiveData = workManager.getWorkInfosForUniqueWorkLiveData(
             validWorkRequest.identifier
         )
@@ -27,6 +30,7 @@ class WorkScheduler @Inject constructor(
                 workManager.cancelAllWork()
             }
             scheduleNewWork()
+            workInfoLiveData.removeObservers(lifecycleOwner) // Only want to listen once
         }
     }
 
