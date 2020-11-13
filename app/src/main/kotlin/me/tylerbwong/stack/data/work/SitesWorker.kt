@@ -25,4 +25,8 @@ class SitesWorker @WorkerInject constructor(
         Timber.e(ex, "Failed to sync sites")
         Result.failure()
     }
+
+    companion object {
+        internal const val IDENTIFIER = "sites-worker"
+    }
 }

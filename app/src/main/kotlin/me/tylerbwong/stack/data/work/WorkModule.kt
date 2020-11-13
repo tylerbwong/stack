@@ -2,11 +2,12 @@ package me.tylerbwong.stack.data.work
 
 import android.content.Context
 import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import androidx.work.WorkRequest
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,17 +30,27 @@ class WorkModule {
     @[Provides IntoSet]
     fun provideSitesWorkRequest(
         constraints: Constraints
-    ): WorkRequest = OneTimeWorkRequestBuilder<SitesWorker>()
-        .setConstraints(constraints)
-        .build()
+    ): Work<*> = Work.OneTime(
+        identifier = SitesWorker.IDENTIFIER,
+        workRequest = OneTimeWorkRequestBuilder<SitesWorker>()
+            .addTag(SitesWorker.IDENTIFIER)
+            .setConstraints(constraints)
+            .build(),
+        existingWorkPolicy = ExistingWorkPolicy.REPLACE
+    )
 
     // TODO Make interval configurable
     @[Provides IntoSet]
     fun provideBookmarksWorkRequest(
         constraints: Constraints
-    ): WorkRequest = PeriodicWorkRequestBuilder<BookmarksWorker>(8, TimeUnit.HOURS)
-        .setConstraints(constraints)
-        .build()
+    ): Work<*> = Work.Periodic(
+        identifier = BookmarksWorker.IDENTIFIER,
+        workRequest = PeriodicWorkRequestBuilder<BookmarksWorker>(8, TimeUnit.HOURS)
+            .addTag(BookmarksWorker.IDENTIFIER)
+            .setConstraints(constraints)
+            .build(),
+        existingWorkPolicy = ExistingPeriodicWorkPolicy.KEEP
+    )
 
     @[Provides Singleton]
     fun provideWorkerManager(
