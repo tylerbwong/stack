@@ -1,9 +1,9 @@
 @file:Suppress("MagicNumber")
 package me.tylerbwong.compose.markdown.visitors
 
-import androidx.compose.foundation.Text
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
+import androidx.compose.material.Text
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign

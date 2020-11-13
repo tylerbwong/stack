@@ -2,10 +2,10 @@
 
 package me.tylerbwong.compose.preference
 
-import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
