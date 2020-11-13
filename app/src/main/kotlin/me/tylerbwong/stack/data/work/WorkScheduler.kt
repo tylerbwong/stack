@@ -18,7 +18,7 @@ class WorkScheduler @Inject constructor(
      * requests.
      */
     fun schedule(lifecycleOwner: LifecycleOwner) {
-        val validWorkRequest = workRequests.firstOrNull() ?: return
+        val validWorkRequest = workRequests.firstOrNull { it is Work.Periodic } ?: return
         val workInfoLiveData = workManager.getWorkInfosForUniqueWorkLiveData(
             validWorkRequest.identifier
         )
