@@ -9,22 +9,34 @@ on:
 jobs:
   static-analysis:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
-      - name: set up JDK 1.8
+      - name: Set Up JDK 1.8
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
       - name: Run Static Analysis
         run: ./gradlew ktlintCheck detekt
 
-  unit-tests:
+  check-compatibility:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
-      - name: set up JDK 1.8
+      - name: Set Up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Check Compatibility
+        run: ./gradlew metalavaCheckCompatibility
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set Up JDK 1.8
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
@@ -44,10 +56,10 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
-      - name: set up JDK 1.8
+      - name: Set Up JDK 1.8
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
