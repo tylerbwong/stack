@@ -110,7 +110,11 @@ class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
             if (!binding.markdownEditText.text.isNullOrBlank()) {
                 viewModel.postAnswer(
                     binding.markdownEditText.text.toString(),
-                    isPreview = binding.debugPreview.isChecked
+                    isPreview = if (BuildConfig.DEBUG) {
+                        binding.debugPreview.isChecked
+                    } else {
+                        false
+                    }
                 )
             }
         }
