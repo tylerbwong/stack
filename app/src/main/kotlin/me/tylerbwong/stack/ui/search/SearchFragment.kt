@@ -1,6 +1,8 @@
 package me.tylerbwong.stack.ui.search
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
@@ -99,6 +101,10 @@ class SearchFragment : BaseFragment<HomeFragmentBinding>(
         }
 
         viewModel.search()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_sort_item, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
