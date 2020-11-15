@@ -2,7 +2,8 @@ package me.tylerbwong.stack.ui.search
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
-import me.tylerbwong.stack.api.model.Question
+import me.tylerbwong.stack.api.model.ACTIVITY
+import me.tylerbwong.stack.api.model.Sort
 import me.tylerbwong.stack.api.service.SearchService
 import me.tylerbwong.stack.api.service.TagService
 import me.tylerbwong.stack.data.model.SearchPayload
@@ -24,17 +25,23 @@ class SearchViewModel @ViewModelInject constructor(
         get() = _emptySearchData
     private val _emptySearchData = SingleLiveEvent<EmptySearchData>()
 
-    internal val searchResults: LiveData<List<Question>>
+    internal val searchResults: LiveData<SearchData>
         get() = _searchResults
-    private val _searchResults = SingleLiveEvent<List<Question>>()
+    private val _searchResults = SingleLiveEvent<SearchData>()
 
     internal val siteLiveData: LiveData<String>
         get() = siteStore.siteLiveData
 
     internal var searchPayload = SearchPayload.empty()
+    @Sort
+    internal var sort = ACTIVITY
 
-    internal fun search(searchPayload: SearchPayload = this.searchPayload) {
+    internal fun search(
+        searchPayload: SearchPayload = this.searchPayload,
+        @Sort sort: String = this.sort
+    ) {
         this.searchPayload = searchPayload
+        this.sort = sort
         launchRequest {
             if (searchPayload.isNotEmpty()) {
                 searchDao.insert(
@@ -56,23 +63,25 @@ class SearchViewModel @ViewModelInject constructor(
                     bodyContains = searchPayload.bodyContains,
                     isClosed = searchPayload.isClosed,
                     tags = searchPayload.tags?.joinToString(";"),
-                    titleContains = searchPayload.titleContains
+                    titleContains = searchPayload.titleContains,
+                    sort = sort
                 ).items
                 if (result.isEmpty()) {
-                    fetchEmptySearchData()
+                    fetchEmptySearchData(sort)
                 } else {
-                    _searchResults.value = result
+                    _searchResults.value = SearchData(sort, result)
                 }
             } else {
-                fetchEmptySearchData()
+                fetchEmptySearchData(sort)
             }
         }
     }
 
-    private suspend fun fetchEmptySearchData() {
+    private suspend fun fetchEmptySearchData(@Sort sort: String) {
         val tags = tagService.getPopularTags().items
         val searches = searchDao.getSearches(siteStore.site)
         _emptySearchData.value = EmptySearchData(
+            sort = sort,
             tags = tags.chunked(tags.size / 3),
             searchHistory = searches.map { it.toSearchPayload() }
         )

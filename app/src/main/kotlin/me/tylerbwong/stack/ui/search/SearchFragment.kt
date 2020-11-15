@@ -1,13 +1,20 @@
 package me.tylerbwong.stack.ui.search
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
+import android.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.api.model.ACTIVITY
+import me.tylerbwong.stack.api.model.CREATION
+import me.tylerbwong.stack.api.model.RELEVANCE
+import me.tylerbwong.stack.api.model.VOTES
+import me.tylerbwong.stack.api.model.sortResourceId
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.databinding.HomeFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
@@ -22,21 +29,22 @@ import me.tylerbwong.stack.ui.home.SectionHeaderItem
 import me.tylerbwong.stack.ui.home.TagsItem
 
 @AndroidEntryPoint
-class SearchFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::inflate) {
+class SearchFragment : BaseFragment<HomeFragmentBinding>(
+    HomeFragmentBinding::inflate
+), PopupMenu.OnMenuItemClickListener {
 
     private val viewModel by viewModels<SearchViewModel>()
 
     private val adapter = DynamicListAdapter(HomeItemDiffCallback)
     private val persistentItems: List<HomeItem>
         get() = listOf(
-            HeaderItem(getString(R.string.search)),
             SearchInputItem(viewModel.searchPayload) { payload -> viewModel.search(payload) },
             FilterInputItem(viewModel.searchPayload) { payload -> viewModel.search(payload) }
         )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(false)
+        setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,13 +63,23 @@ class SearchFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
             binding.refreshLayout.isRefreshing = it
         }
 
-        viewModel.searchResults.observe(viewLifecycleOwner) {
-            adapter.submitList(persistentItems + it.map { question -> QuestionItem(question) })
+        viewModel.searchResults.observe(viewLifecycleOwner) { data ->
+            val headerItem = listOf(
+                HeaderItem(getString(R.string.search), getString(data.sort.sortResourceId))
+            )
+            adapter.submitList(
+                headerItem + persistentItems + data.questions.map { question ->
+                    QuestionItem(question)
+                }
+            )
         }
 
         viewModel.emptySearchData.observe(viewLifecycleOwner) { data ->
+            val headerItem = listOf(
+                HeaderItem(getString(R.string.search), getString(data.sort.sortResourceId))
+            )
             adapter.submitList(
-                persistentItems + listOf(
+                headerItem + persistentItems + listOf(
                     SectionHeaderItem(getString(R.string.popular_tags)),
                     TagsItem(data.tags)
                 ) + if (data.searchHistory.isNotEmpty()) {
@@ -81,5 +99,37 @@ class SearchFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
         }
 
         viewModel.search()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.sort -> {
+                activity?.let { activity ->
+                    PopupMenu(activity, activity.findViewById(R.id.sort)).also {
+                        it.menu.apply {
+                            add(0, R.id.activity, 0, R.string.activity)
+                            add(0, R.id.creation, 0, R.string.creation)
+                            add(0, R.id.votes, 0, R.string.votes)
+                            add(0, R.string.relevance, 0, R.string.relevance)
+                        }
+                        it.setOnMenuItemClickListener(this)
+                        it.show()
+                    }
+                }
+            }
+        }
+        return true
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        val sort = when (item.itemId) {
+            R.id.creation -> CREATION
+            R.id.activity -> ACTIVITY
+            R.id.votes -> VOTES
+            R.string.relevance -> RELEVANCE
+            else -> RELEVANCE
+        }
+        viewModel.search(sort = sort)
+        return true
     }
 }

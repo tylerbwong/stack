@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import me.tylerbwong.stack.R
@@ -38,10 +39,17 @@ fun FiltersLayout(
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier
+                    .padding(
+                        start = 16.dp,
+                        top = 32.dp,
+                        end = 16.dp,
+                        bottom = 8.dp
+                    ),
                 text = stringResource(R.string.filters),
                 style = MaterialTheme.typography.h4,
-                color = colorAttribute(android.R.attr.textColorPrimary)
+                color = colorAttribute(android.R.attr.textColorPrimary),
+                fontWeight = FontWeight.Bold
             )
             SwitchItem(
                 text = stringResource(R.string.has_accepted_answer),
