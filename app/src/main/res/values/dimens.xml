@@ -7,4 +7,6 @@
     <dimen name="chip_stroke_width">0.5dp</dimen>
     <dimen name="badge_chip_stroke_width">1dp</dimen>
     <dimen name="question_detail_recycler_view_padding">48dp</dimen>
+    <dimen name="inline_latex_text_size">16sp</dimen>
+    <dimen name="block_latex_text_size">18sp</dimen>
 </resources>

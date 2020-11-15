@@ -114,6 +114,8 @@ object Dep {
     const val markwonCore = "io.noties.markwon:core:${Versions.markwon}"
     const val markwonHtml = "io.noties.markwon:html:${Versions.markwon}"
     const val markwonImageCoil = "io.noties.markwon:image-coil:${Versions.markwon}"
+    const val markwonInline = "io.noties.markwon:inline-parser:${Versions.markwon}"
+    const val markwonLatex = "io.noties.markwon:ext-latex:${Versions.markwon}"
     const val markwonLinkify = "io.noties.markwon:linkify:${Versions.markwon}"
     const val markwonStrikethrough = "io.noties.markwon:ext-strikethrough:${Versions.markwon}"
     const val markwonSyntaxHighlight = "io.noties.markwon:syntax-highlight:${Versions.markwon}"

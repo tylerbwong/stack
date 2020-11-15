@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground">
 
-    <TextView
+    <me.tylerbwong.stack.latex.LatexTextView
         android:id="@+id/questionTitle"
         style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="0dp"

@@ -37,7 +37,7 @@ class QuestionHolder(
 ) {
     override fun QuestionHolderBinding.bind(item: QuestionItem) {
         val question = item.question
-        questionTitle.text = question.title.toHtml()
+        questionTitle.setLatex(question.title.toHtml().toString())
         answerCount.text = question.answerCount.toString()
 
         ownerView.bind(question.owner)

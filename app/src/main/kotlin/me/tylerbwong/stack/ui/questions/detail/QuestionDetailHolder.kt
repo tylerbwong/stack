@@ -30,7 +30,7 @@ class QuestionDetailHolder(
 
     override fun QuestionDetailHolderBinding.bind(item: QuestionMainItem) {
         val question = item.question
-        questionTitle.text = question.title.toHtml()
+        questionTitle.setLatex(question.title.toHtml().toString())
         askedDate.apply {
             text = context.getString(
                 R.string.asked,
