@@ -21,6 +21,7 @@ import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.hideKeyboard
+import me.tylerbwong.stack.ui.utils.launchUrl
 import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
@@ -139,6 +140,9 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
                 RELATED,
                 viewModel.questionId.toString()
             )
+            R.id.open_browser -> viewModel.question?.shareLink?.let {
+                requireContext().launchUrl(it, forceExternal = true)
+            }
         }
         return super.onOptionsItemSelected(item)
     }

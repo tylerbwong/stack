@@ -5,6 +5,8 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.util.TypedValue
 import android.widget.Toast
@@ -47,19 +49,23 @@ fun Context.copyToClipboard(label: String, text: String): Boolean {
     }
 }
 
-fun Context.launchUrl(url: String) {
+fun Context.launchUrl(url: String, forceExternal: Boolean = false) {
     try {
-        val themeColor = resolveThemeAttribute(R.attr.viewBackgroundColor)
-        val customTabsIntent = CustomTabsIntent.Builder()
-            .setDefaultColorSchemeParams(
-                CustomTabColorSchemeParams.Builder()
-                    .setNavigationBarColor(themeColor)
-                    .setToolbarColor(themeColor)
-                    .setSecondaryToolbarColor(themeColor)
-                    .build()
+        if (forceExternal) {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            val resolveInfo = packageManager.queryIntentActivities(
+                intent,
+                PackageManager.MATCH_DEFAULT_ONLY
             )
-            .build()
-        customTabsIntent.launchUrl(this, Uri.parse(url))
+            // Explicitly look for packages that are not this application to avoid opening the url
+            // with the deep linker
+            intent.`package` = resolveInfo
+                .mapNotNull { it.activityInfo?.packageName }
+                .firstOrNull { !it.startsWith(applicationContext.packageName, ignoreCase = true) }
+            startActivity(intent)
+        } else {
+            launchCustomTab(url)
+        }
     } catch (ex: ActivityNotFoundException) {
         // TODO Resolve to internal Web View
         val isCopied = copyToClipboard(LINK_LABEL, url)
@@ -67,4 +73,18 @@ fun Context.launchUrl(url: String) {
             Toast.makeText(this, R.string.no_browser_found, Toast.LENGTH_LONG).show()
         }
     }
+}
+
+fun Context.launchCustomTab(url: String) {
+    val themeColor = resolveThemeAttribute(R.attr.viewBackgroundColor)
+    val customTabsIntent = CustomTabsIntent.Builder()
+        .setDefaultColorSchemeParams(
+            CustomTabColorSchemeParams.Builder()
+                .setNavigationBarColor(themeColor)
+                .setToolbarColor(themeColor)
+                .setSecondaryToolbarColor(themeColor)
+                .build()
+        )
+        .build()
+    customTabsIntent.launchUrl(this, Uri.parse(url))
 }

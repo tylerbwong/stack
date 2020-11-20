@@ -69,6 +69,7 @@
     <string name="last_edited_by">editada por última vez por\n%1$s</string>
     <string name="settings">Configuración</string>
     <string name="no_comments">No hay comentarios</string>
+    <string name="open_browser">Abrirla en navegador</string>
 
     <!-- Create Question -->
     <string name="create_question">Formular una pregunta</string>
