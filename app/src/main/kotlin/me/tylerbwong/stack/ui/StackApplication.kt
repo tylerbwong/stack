@@ -6,13 +6,12 @@ import androidx.work.Configuration
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.util.CoilUtils
-import com.google.firebase.FirebaseApp
 import com.jakewharton.processphoenix.ProcessPhoenix
 import dagger.Lazy
 import dagger.hilt.android.HiltAndroidApp
-import me.tylerbwong.stack.data.logging.Logger
 import me.tylerbwong.stack.ui.theme.ThemeManager
 import okhttp3.OkHttpClient
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -20,6 +19,9 @@ class StackApplication : Application(), Configuration.Provider, ImageLoaderFacto
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
+
+    @Inject
+    lateinit var tree: Timber.Tree
 
     @Inject
     lateinit var okHttpClient: Lazy<OkHttpClient>
@@ -34,11 +36,9 @@ class StackApplication : Application(), Configuration.Provider, ImageLoaderFacto
 
         ApplicationWrapper.init(this)
 
-        FirebaseApp.initializeApp(this)
-
         ThemeManager.init(this)
 
-        Logger.init()
+        Timber.plant(tree)
     }
 
     override fun getWorkManagerConfiguration(): Configuration {
