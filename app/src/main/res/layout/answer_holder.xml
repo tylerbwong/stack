@@ -41,6 +41,8 @@
         android:layout_margin="16dp"
         android:breakStrategy="simple"
         android:hyphenationFrequency="none"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@id/answeredDate"
