@@ -4,6 +4,7 @@ plugins {
     `kotlin-kapt`
     id("dagger.hilt.android.plugin")
     id("com.facebook.testing.screenshot")
+    id("com.google.firebase.crashlytics")
     id("com.mikepenz.aboutlibraries.plugin")
     StackPlugin
 }
@@ -144,3 +145,5 @@ dependencies {
     androidTestImplementation(Dep.espresso)
     androidTestImplementation(Dep.espressoIntents)
 }
+
+apply(plugin = "com.google.gms.google-services")

@@ -12,14 +12,11 @@ import androidx.fragment.app.Fragment
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.play.core.install.InstallState
-import com.google.android.play.core.install.InstallStateUpdatedListener
-import com.google.android.play.core.install.model.InstallStatus
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.AppUpdater
 import me.tylerbwong.stack.data.auth.AuthStore
+import me.tylerbwong.stack.data.updater.AppUpdater
 import me.tylerbwong.stack.data.work.WorkScheduler
 import me.tylerbwong.stack.databinding.ActivityMainBinding
 import me.tylerbwong.stack.ui.bookmarks.BookmarksFragment
@@ -38,9 +35,7 @@ import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(
-    ActivityMainBinding::inflate
-), InstallStateUpdatedListener {
+class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
     @Inject
     lateinit var workScheduler: WorkScheduler
@@ -147,12 +142,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
                     true
                 ) { appUpdater.checkForUpdate(this) }
             }
-        }
-    }
-
-    override fun onStateUpdate(state: InstallState) {
-        if (state.installStatus() == InstallStatus.DOWNLOADED) {
-            checkForPendingInstall()
         }
     }
 

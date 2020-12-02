@@ -76,29 +76,14 @@ class StackPlugin : Plugin<Project> {
             }
 
             applicationVariants.all {
-                if (!name.contains("play", ignoreCase = true)) {
-                    tasks.configureEach {
-                        val playTasks = listOf("crashlytics", "googleservices")
-                        if (playTasks.any { name.contains(it, ignoreCase = true) }) {
-                            enabled = false
-                        }
-                    }
-                }
-            }
-
-            variantFilter {
                 if (name.contains("play", ignoreCase = true)) {
-                    apply(plugin = "com.google.firebase.crashlytics")
-
                     val googleServices = file("src/play/google-services.json")
                     val fakeGoogleServices = file("src/play/fake-google-services.json")
                     if (!googleServices.exists() && fakeGoogleServices.exists()) {
                         fakeGoogleServices.copyTo(googleServices, overwrite = true)
                     }
-
-                    apply(plugin = "com.google.gms.google-services")
                 } else {
-                    tasks.all {
+                    project.tasks.configureEach {
                         val playTasks = listOf("crashlytics", "googleservices")
                         if (playTasks.any { name.contains(it, ignoreCase = true) }) {
                             enabled = false
@@ -108,6 +93,11 @@ class StackPlugin : Plugin<Project> {
             }
 
             (sourceSets) {
+                "common" {
+                    java {
+                        srcDir("src/common/kotlin")
+                    }
+                }
                 "play" {
                     java {
                         srcDir("src/play/kotlin")
