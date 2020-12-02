@@ -54,7 +54,7 @@ jobs:
           name: junit-results
           path: junit
 
-  build:
+  build-common:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -64,4 +64,16 @@ jobs:
         with:
           java-version: 11
       - name: Run Build
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleCommonDebug
+
+  build-play:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set Up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Run Build
+        run: ./gradlew assemblePlayDebug
