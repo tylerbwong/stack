@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.data
+package me.tylerbwong.stack.data.updater
 
 import android.app.Activity
 import com.google.android.play.core.appupdate.AppUpdateManager
@@ -6,12 +6,8 @@ import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType.FLEXIBLE
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
-import dagger.hilt.android.scopes.ActivityScoped
-import me.tylerbwong.stack.data.updater.AppUpdater
 import me.tylerbwong.stack.data.updater.AppUpdater.Companion.APP_UPDATE_REQUEST_CODE
-import javax.inject.Inject
 
-@ActivityScoped
 class PlayAppUpdater(private val manager: AppUpdateManager) : AppUpdater {
 
     override fun checkForUpdate(activity: Activity) {

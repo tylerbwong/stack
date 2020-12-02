@@ -21,5 +21,4 @@ class NoOpAppUpdater : AppUpdater {
     override fun unregisterListener(activity: Activity) {
         // No-op
     }
-
 }

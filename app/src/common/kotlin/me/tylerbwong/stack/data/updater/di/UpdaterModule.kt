@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.scopes.ActivityScoped
 import me.tylerbwong.stack.data.updater.AppUpdater
 import me.tylerbwong.stack.data.updater.NoOpAppUpdater
 
@@ -11,6 +12,6 @@ import me.tylerbwong.stack.data.updater.NoOpAppUpdater
 @InstallIn(ActivityComponent::class)
 class UpdaterModule {
 
-    @Provides
+    @[Provides ActivityScoped]
     fun provideNoOpAppUpdater(): AppUpdater = NoOpAppUpdater()
 }
