@@ -19,7 +19,7 @@ import androidx.compose.material.Slider
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
-import androidx.compose.material.ripple.RippleIndication
+import androidx.compose.material.ripple.rememberRippleIndication
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.savedinstancestate.savedInstanceState
@@ -218,7 +218,7 @@ fun PreferenceScope.Preference(
             icon = icon,
             singleLineSecondaryText = singleLineSecondaryText,
             onClick = onClick,
-            trailing = trailing,
+            content = trailing,
         )
     }
 }
@@ -247,7 +247,7 @@ internal fun PreferenceScope.TwoStatePreference(
             icon = icon,
             singleLineSecondaryText = singleLineSecondaryText,
             onClick = { toggle(!isChecked) },
-            trailing = { trailing(isChecked, toggle) },
+            content = { trailing(isChecked, toggle) },
         )
     }
 }
@@ -257,17 +257,17 @@ internal fun PreferenceInternal(
     title: String,
     summary: String?,
     icon: (@Composable () -> Unit)?,
+    modifier: Modifier = Modifier,
     singleLineSecondaryText: Boolean = true,
     onClick: () -> Unit = {},
-    modifier: Modifier = Modifier,
-    trailing: (@Composable () -> Unit) = {},
+    content: (@Composable () -> Unit) = {},
 ) {
     ListItem(
-        modifier = modifier.clickable(onClick = onClick, indication = RippleIndication()),
+        modifier = modifier.clickable(onClick = onClick, indication = rememberRippleIndication()),
         icon = icon,
         secondaryText = summary?.let { { Text(text = it, color = MaterialTheme.colors.onBackground) } },
         singleLineSecondaryText = singleLineSecondaryText,
         text = { Text(text = title, color = MaterialTheme.colors.onBackground) },
-        trailing = trailing,
+        trailing = content,
     )
 }

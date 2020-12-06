@@ -85,27 +85,23 @@ fun CreateQuestionLayout(
                     )
                 },
                 navigationIcon = {
-                    IconButton(
-                        onClick = onBackPressed,
-                        icon = {
-                            Icon(
-                                asset = Icons.Filled.ArrowBack,
-                                tint = iconColor
-                            )
-                        }
-                    )
+                    IconButton(onClick = onBackPressed) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            tint = iconColor
+                        )
+                    }
                 },
                 actions = {
                     if (listOf(title.text, body.text, tags.text).any { it.isNotBlank() }) {
                         IconButton(
                             onClick = { saveDraft(title.text, body.text, tags.text) },
-                            icon = {
-                                Icon(
-                                    asset = vectorResource(R.drawable.ic_baseline_save),
-                                    tint = iconColor
-                                )
-                            }
-                        )
+                        ) {
+                            Icon(
+                                imageVector = vectorResource(R.drawable.ic_baseline_save),
+                                tint = iconColor
+                            )
+                        }
                         IconButton(
                             onClick = {
                                 title = TextFieldValue()
@@ -114,13 +110,12 @@ fun CreateQuestionLayout(
                                 isPreview = false
                                 deleteDraft(draft.id)
                             },
-                            icon = {
-                                Icon(
-                                    asset = Icons.Filled.Delete,
-                                    tint = iconColor
-                                )
-                            }
-                        )
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Delete,
+                                tint = iconColor
+                            )
+                        }
                     }
                 },
                 backgroundColor = viewBackgroundColor
@@ -145,7 +140,7 @@ fun CreateQuestionLayout(
                     },
                     icon = {
                         Icon(
-                            asset = vectorResource(R.drawable.ic_send),
+                            imageVector = vectorResource(R.drawable.ic_send),
                             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
                         )
                     },

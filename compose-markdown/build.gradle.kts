@@ -30,7 +30,6 @@ dependencies {
     implementation(Dep.composeCore)
     implementation(Dep.composeFoundation)
     implementation(Dep.composeMaterial)
-    implementation(Dep.composeText)
     implementation(Dep.composeTooling)
 
     // markdown

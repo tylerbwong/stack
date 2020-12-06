@@ -24,7 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.ripple.RippleIndication
+import androidx.compose.material.ripple.rememberRippleIndication
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -38,7 +38,7 @@ import androidx.compose.ui.focus.ExperimentalFocus
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focusObserver
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -109,27 +109,24 @@ fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
                                 onBackPressed()
                             }
                         },
-                        icon = { Icon(asset = Icons.Filled.ArrowBack, tint = iconColor) }
-                    )
+                    ) { Icon(imageVector = Icons.Filled.ArrowBack, tint = iconColor) }
                 },
                 actions = {
                     if (!isSearchActive) {
                         IconButton(
                             onClick = { isSearchActive = true },
-                            icon = { Icon(asset = Icons.Filled.Search, tint = iconColor) }
-                        )
+                        ) { Icon(imageVector = Icons.Filled.Search, tint = iconColor) }
                     } else if (searchQuery.isNotBlank()) {
                         IconButton(
                             onClick = {
                                 viewModel.fetchSites()
                                 searchQuery = ""
                             },
-                            icon = {
-                                if (searchQuery.isNotEmpty()) {
-                                    Icon(asset = Icons.Filled.Close, tint = iconColor)
-                                }
+                        ) {
+                            if (searchQuery.isNotEmpty()) {
+                                Icon(imageVector = Icons.Filled.Close, tint = iconColor)
                             }
-                        )
+                        }
                     }
                 },
                 backgroundColor = viewBackgroundColor,
@@ -179,10 +176,10 @@ fun SiteItem(
     Row(
         modifier = Modifier.fillMaxWidth()
             .clickable(
-                indication = if (ContextAmbient.current.isNightModeEnabled) {
-                    RippleIndication(color = Color.White)
+                indication = if (AmbientContext.current.isNightModeEnabled) {
+                    rememberRippleIndication(color = Color.White)
                 } else {
-                    RippleIndication()
+                    rememberRippleIndication()
                 },
                 onClick = onItemClicked,
             ),

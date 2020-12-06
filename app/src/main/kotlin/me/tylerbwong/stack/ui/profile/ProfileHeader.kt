@@ -17,7 +17,7 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -45,7 +45,7 @@ fun ProfileHeader(user: User) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         val primaryTextColor = colorResource(R.color.primaryTextColor)
-        val context = ContextAmbient.current
+        val context = AmbientContext.current
         val userProfileClickableModifier = user.link?.let {
             Modifier.clickable(
                 onClick = { context.launchUrl(it) },
@@ -69,7 +69,7 @@ fun ProfileHeader(user: User) {
             Spacer(modifier = Modifier.height(8.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    asset = Icons.Filled.LocationOn,
+                    imageVector = Icons.Filled.LocationOn,
                     modifier = Modifier.size(14.dp),
                     tint = primaryTextColor,
                 )

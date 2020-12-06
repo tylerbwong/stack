@@ -26,6 +26,5 @@ dependencies {
     implementation(Dep.composeMaterial)
     implementation(Dep.composeMaterialIcons)
     implementation(Dep.composeMaterialIconsExtended)
-    implementation(Dep.composeText)
     implementation(Dep.composeTooling)
 }

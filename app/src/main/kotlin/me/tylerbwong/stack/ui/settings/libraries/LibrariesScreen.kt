@@ -15,7 +15,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.ripple.RippleIndication
+import androidx.compose.material.ripple.rememberRippleIndication
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -24,7 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -49,10 +49,9 @@ fun LibrariesScreen(libraries: LiveData<List<LibraryItem>>, onBackPressed: () ->
                     )
                 },
                 navigationIcon = {
-                    IconButton(
-                        onClick = onBackPressed,
-                        icon = { Icon(asset = Icons.Filled.ArrowBack, tint = iconColor) }
-                    )
+                    IconButton(onClick = onBackPressed) {
+                        Icon(imageVector = Icons.Filled.ArrowBack, tint = iconColor)
+                    }
                 },
                 backgroundColor = viewBackgroundColor,
             )
@@ -87,10 +86,10 @@ private fun LibraryItem(
 ) {
     ListItem(
         modifier = Modifier.clickable(
-            indication = if (ContextAmbient.current.isNightModeEnabled) {
-                RippleIndication(color = Color.White)
+            indication = if (AmbientContext.current.isNightModeEnabled) {
+                rememberRippleIndication(color = Color.White)
             } else {
-                RippleIndication()
+                rememberRippleIndication()
             },
             onClick = showLicenseDialog,
         ),
