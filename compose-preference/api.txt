@@ -22,7 +22,7 @@ package me.tylerbwong.compose.preference {
 
   public final class PreferenceScreenKt {
     method @androidx.compose.runtime.Composable public static void PreferenceScreen(android.content.SharedPreferences preferences, kotlin.jvm.functions.Function1<? super androidx.compose.foundation.lazy.LazyListScope,kotlin.Unit> content);
-    method @androidx.compose.runtime.Composable @androidx.ui.tooling.preview.Preview public static void PreferenceScreenPreview();
+    method @androidx.compose.runtime.Composable @androidx.compose.ui.tooling.preview.Preview public static void PreferenceScreenPreview();
   }
 
 }

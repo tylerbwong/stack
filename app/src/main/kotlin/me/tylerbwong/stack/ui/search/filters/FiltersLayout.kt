@@ -78,9 +78,9 @@ fun FiltersLayout(
 @Composable
 private fun SwitchItem(
     text: String,
+    modifier: Modifier = Modifier,
     isChecked: Boolean = false,
     onCheckedChange: (Boolean) -> Unit = {},
-    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier.then(Modifier.fillMaxWidth()),
