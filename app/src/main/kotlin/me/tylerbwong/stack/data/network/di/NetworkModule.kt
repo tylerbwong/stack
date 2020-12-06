@@ -38,9 +38,6 @@ class NetworkModule {
         val collector = ChuckerCollector(context, showNotification = false)
         return ChuckerInterceptor.Builder(context)
             .collector(collector)
-            .maxContentLength(250000L)
-            .redactHeaders(emptySet())
-            .alwaysReadResponseBody(false)
             .build()
     }
 
