@@ -11,7 +11,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Slider
 import androidx.compose.material.Switch
-import androidx.compose.material.SwitchConstants
+import androidx.compose.material.SwitchDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -93,7 +93,7 @@ private fun SwitchItem(
         Switch(
             checked = isChecked,
             onCheckedChange = onCheckedChange,
-            colors = SwitchConstants.defaultColors(
+            colors = SwitchDefaults.colors(
                 checkedThumbColor = colorResource(R.color.colorAccent)
             )
         )

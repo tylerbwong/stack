@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Checkbox
-import androidx.compose.material.CheckboxConstants
+import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -223,7 +223,7 @@ private fun LabeledCheckbox(
         Checkbox(
             checked = checked,
             onCheckedChange = onCheckedChange,
-            colors = CheckboxConstants.defaultColors(
+            colors = CheckboxDefaults.colors(
                 checkedColor = colorAccent,
                 uncheckedColor = primaryTextColor
             )

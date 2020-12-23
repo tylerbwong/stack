@@ -19,7 +19,7 @@ import androidx.compose.material.Slider
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
-import androidx.compose.material.ripple.rememberRippleIndication
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.savedinstancestate.savedInstanceState
@@ -263,7 +263,7 @@ internal fun PreferenceInternal(
     content: (@Composable () -> Unit) = {},
 ) {
     ListItem(
-        modifier = modifier.clickable(onClick = onClick, indication = rememberRippleIndication()),
+        modifier = modifier.clickable(onClick = onClick, indication = rememberRipple()),
         icon = icon,
         secondaryText = summary?.let { { Text(text = it, color = MaterialTheme.colors.onBackground) } },
         singleLineSecondaryText = singleLineSecondaryText,

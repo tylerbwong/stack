@@ -2,7 +2,7 @@ package me.tylerbwong.stack.ui.settings.libraries
 
 import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
@@ -15,7 +15,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.ripple.rememberRippleIndication
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -60,10 +60,15 @@ fun LibrariesScreen(libraries: LiveData<List<LibraryItem>>, onBackPressed: () ->
     ) {
         var clickedLibraryItem by remember { mutableStateOf<LibraryItem?>(null) }
         val items by libraries.observeAsState(initial = emptyList())
-        LazyColumnFor(items = items) { library ->
-            LibraryItem(library = library) {
-                clickedLibraryItem = library
-            }
+        LazyColumn {
+            items(
+                items = items,
+                itemContent = { library ->
+                    LibraryItem(library = library) {
+                        clickedLibraryItem = library
+                    }
+                }
+            )
         }
 
         val library = clickedLibraryItem
@@ -87,9 +92,9 @@ private fun LibraryItem(
     ListItem(
         modifier = Modifier.clickable(
             indication = if (AmbientContext.current.isNightModeEnabled) {
-                rememberRippleIndication(color = Color.White)
+                rememberRipple(color = Color.White)
             } else {
-                rememberRippleIndication()
+                rememberRipple()
             },
             onClick = showLicenseDialog,
         ),

@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
@@ -24,7 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.ripple.rememberRippleIndication
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -34,9 +34,8 @@ import androidx.compose.runtime.savedinstancestate.savedInstanceState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.ExperimentalFocus
 import androidx.compose.ui.focus.FocusState
-import androidx.compose.ui.focusObserver
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.colorResource
@@ -53,7 +52,6 @@ import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled
 
 // TODO Switch to Compose TopAppBar once proper SearchView is supported
 @Suppress("LongMethod")
-@OptIn(ExperimentalFocus::class)
 @Composable
 fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
     val viewBackgroundColor = colorResource(R.color.viewBackgroundColor)
@@ -79,7 +77,7 @@ fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
                                 searchQuery = it
                             },
                             modifier = Modifier
-                                .focusObserver {
+                                .onFocusChanged {
                                     isSearchFocused = it == FocusState.Active
                                 },
                             label = {
@@ -143,17 +141,22 @@ fun SitesLayout(changeSite: (String) -> Unit) {
     val sites by viewModel.sites.observeAsState(initial = emptyList())
     val searchQuery by viewModel.searchQuery.observeAsState()
 
-    LazyColumnFor(items = sites) { site ->
-        SiteItem(
-            site = site,
-            searchQuery = searchQuery,
-        ) {
-            if (viewModel.isAuthenticated) {
-                clickedSite = site
-            } else {
-                changeSite(site.parameter)
+    LazyColumn {
+        items(
+            items = sites,
+            itemContent = { site ->
+                SiteItem(
+                    site = site,
+                    searchQuery = searchQuery,
+                ) {
+                    if (viewModel.isAuthenticated) {
+                        clickedSite = site
+                    } else {
+                        changeSite(site.parameter)
+                    }
+                }
             }
-        }
+        )
     }
 
     val site = clickedSite
@@ -177,9 +180,9 @@ fun SiteItem(
         modifier = Modifier.fillMaxWidth()
             .clickable(
                 indication = if (AmbientContext.current.isNightModeEnabled) {
-                    rememberRippleIndication(color = Color.White)
+                    rememberRipple(color = Color.White)
                 } else {
-                    rememberRippleIndication()
+                    rememberRipple()
                 },
                 onClick = onItemClicked,
             ),
