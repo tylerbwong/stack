@@ -13,17 +13,11 @@ class LatexInlineProcessor @Inject constructor() : InlineProcessor() {
     override fun parse(): Node? {
         val latex = match(pattern)
 
-        return if (latex == null) {
+        return if (latex == null || latex.startsWith(BLOCK_DELIMITER)) {
             null
         } else {
             JLatexMathNode().also {
-                it.latex(
-                    latex
-                        .removePrefix(BLOCK_DELIMITER)
-                        .removeSuffix(BLOCK_DELIMITER)
-                        .removePrefix(INLINE_DELIMITER.toString())
-                        .removeSuffix(INLINE_DELIMITER.toString())
-                )
+                it.latex(latex.drop(1).dropLast(1))
             }
         }
     }

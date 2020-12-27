@@ -267,16 +267,20 @@ private fun ChangeSiteDialog(
 }
 
 private fun String.toAnnotatedString(query: String?): AnnotatedString {
-    return if (query != null) {
+    return if (!query.isNullOrEmpty()) {
         val startIndex = indexOf(query, startIndex = 0, ignoreCase = true)
-        val endIndex = startIndex + query.length
-        with(AnnotatedString.Builder(this)) {
-            addStyle(
-                style = SpanStyle(fontWeight = FontWeight.Bold),
-                start = startIndex,
-                end = endIndex
-            )
-            toAnnotatedString()
+        if (startIndex != -1) {
+            val endIndex = startIndex + query.length
+            with(AnnotatedString.Builder(this)) {
+                addStyle(
+                    style = SpanStyle(fontWeight = FontWeight.Bold),
+                    start = startIndex,
+                    end = endIndex
+                )
+                toAnnotatedString()
+            }
+        } else {
+            AnnotatedString(this)
         }
     } else {
         AnnotatedString(this)

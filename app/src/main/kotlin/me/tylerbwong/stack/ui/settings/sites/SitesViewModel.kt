@@ -55,12 +55,8 @@ class SitesViewModel @ViewModelInject constructor(
         } else {
             currentQuery = query
             mutableSites.value = searchCatalog.applyFilter(filter).filter { site ->
-                val containsName = site.name
-                    .replace(whitespaceRegex, "")
-                    .contains(query, ignoreCase = true)
-                val containsAudience = site.audience
-                    .replace(whitespaceRegex, "")
-                    .contains(query, ignoreCase = true)
+                val containsName = site.name.contains(query, ignoreCase = true)
+                val containsAudience = site.audience.contains(query, ignoreCase = true)
                 containsName || containsAudience
             }
         }
