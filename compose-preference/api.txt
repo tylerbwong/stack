@@ -1,4 +1,4 @@
-// Signature format: 3.0
+// Signature format: 4.0
 package me.tylerbwong.compose.preference {
 
   public final class PreferenceAmbientKt {
@@ -6,15 +6,15 @@ package me.tylerbwong.compose.preference {
   }
 
   public final class PreferenceCategoryKt {
-    method public static void PreferenceCategory(androidx.compose.foundation.lazy.LazyListScope, String name, kotlin.jvm.functions.Function0<androidx.compose.ui.graphics.Color> labelColor = { return MaterialTheme.colors.secondary }, kotlin.jvm.functions.Function1<? super androidx.compose.foundation.lazy.LazyListScope,kotlin.Unit> content);
+    method public static void PreferenceCategory(androidx.compose.foundation.lazy.LazyListScope, String name, optional kotlin.jvm.functions.Function0<androidx.compose.ui.graphics.Color> labelColor, kotlin.jvm.functions.Function1<? super androidx.compose.foundation.lazy.LazyListScope,kotlin.Unit> content);
   }
 
   public final class PreferenceKt {
-    method public static void CheckboxPreference(androidx.compose.foundation.lazy.LazyListScope, boolean initialChecked, String key, kotlin.jvm.functions.Function1<? super java.lang.Boolean,kotlin.Unit> onCheckedChange, String title, String? summary = null, kotlin.jvm.functions.Function0<kotlin.Unit>? icon = null, boolean singleLineSecondaryText = true);
-    method public static void ListPreference(androidx.compose.foundation.lazy.LazyListScope, String key, String title, String dialogTitle, java.util.List<java.lang.String> items, kotlin.jvm.functions.Function2<? super java.lang.String,? super java.lang.Integer,kotlin.Unit> onConfirm, int selectedItemIndex = 0, kotlin.jvm.functions.Function0<kotlin.Unit>? icon = null, boolean singleLineSecondaryText = true);
-    method public static void Preference(androidx.compose.foundation.lazy.LazyListScope, String title, String? summary = null, kotlin.jvm.functions.Function0<kotlin.Unit>? icon = null, boolean singleLineSecondaryText = true, kotlin.jvm.functions.Function0<kotlin.Unit> onClick = {}, kotlin.jvm.functions.Function0<kotlin.Unit> trailing = {});
-    method public static void SliderPreference(androidx.compose.foundation.lazy.LazyListScope, float initialValue, String key, kotlin.jvm.functions.Function1<? super java.lang.Float,kotlin.Unit> onValueChange, kotlin.ranges.ClosedFloatingPointRange<java.lang.Float> valueRange, int steps, String title, kotlin.jvm.functions.Function1<? super java.lang.Float,kotlin.Unit>? valueLabel = null, String? summary = null, kotlin.jvm.functions.Function0<kotlin.Unit>? icon = null);
-    method public static void SwitchPreference(androidx.compose.foundation.lazy.LazyListScope, boolean initialChecked, String key, kotlin.jvm.functions.Function1<? super java.lang.Boolean,kotlin.Unit> onCheckedChange, String title, String? summary = null, kotlin.jvm.functions.Function0<kotlin.Unit>? icon = null, boolean singleLineSecondaryText = true);
+    method public static void CheckboxPreference(androidx.compose.foundation.lazy.LazyListScope, boolean initialChecked, String key, kotlin.jvm.functions.Function1<? super java.lang.Boolean,kotlin.Unit> onCheckedChange, String title, optional String? summary, optional kotlin.jvm.functions.Function0<kotlin.Unit>? icon, optional boolean singleLineSecondaryText);
+    method public static void ListPreference(androidx.compose.foundation.lazy.LazyListScope, String key, String title, String dialogTitle, java.util.List<java.lang.String> items, kotlin.jvm.functions.Function2<? super java.lang.String,? super java.lang.Integer,kotlin.Unit> onConfirm, optional int selectedItemIndex, optional kotlin.jvm.functions.Function0<kotlin.Unit>? icon, optional boolean singleLineSecondaryText);
+    method public static void Preference(androidx.compose.foundation.lazy.LazyListScope, String title, optional String? summary, optional kotlin.jvm.functions.Function0<kotlin.Unit>? icon, optional boolean singleLineSecondaryText, optional kotlin.jvm.functions.Function0<kotlin.Unit> onClick, optional kotlin.jvm.functions.Function0<kotlin.Unit> trailing);
+    method public static void SliderPreference(androidx.compose.foundation.lazy.LazyListScope, float initialValue, String key, kotlin.jvm.functions.Function1<? super java.lang.Float,kotlin.Unit> onValueChange, kotlin.ranges.ClosedFloatingPointRange<java.lang.Float> valueRange, int steps, String title, optional kotlin.jvm.functions.Function1<? super java.lang.Float,kotlin.Unit>? valueLabel, optional String? summary, optional kotlin.jvm.functions.Function0<kotlin.Unit>? icon);
+    method public static void SwitchPreference(androidx.compose.foundation.lazy.LazyListScope, boolean initialChecked, String key, kotlin.jvm.functions.Function1<? super java.lang.Boolean,kotlin.Unit> onCheckedChange, String title, optional String? summary, optional kotlin.jvm.functions.Function0<kotlin.Unit>? icon, optional boolean singleLineSecondaryText);
   }
 
   public final class PreferenceScopeKt {
