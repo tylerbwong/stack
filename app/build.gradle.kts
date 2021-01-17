@@ -96,6 +96,7 @@ dependencies {
     kapt(Dep.daggerHiltAndroidCompiler)
 
     // firebase
+    implementation(platform(Dep.firebaseBom))
     implementation(Dep.firebaseAnalytics)
     implementation(Dep.firebaseCrashlytics)
 

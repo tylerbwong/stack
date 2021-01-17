@@ -3,8 +3,6 @@ package me.tylerbwong.stack.ui.questions.create
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.compose.runtime.Recomposer
-import androidx.compose.ui.platform.setContent
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +19,7 @@ class CreateQuestionFragment : BaseFragment<CreateQuestionFragmentBinding>(
     private val viewModel by viewModels<CreateQuestionViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.composeContent.setContent(Recomposer.current()) {
+        binding.composeContent.setContent {
             CreateQuestionLayout(
                 draftLiveData = viewModel.questionDraft,
                 createQuestion = viewModel::createQuestion,

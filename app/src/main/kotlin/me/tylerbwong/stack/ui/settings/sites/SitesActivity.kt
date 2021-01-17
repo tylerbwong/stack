@@ -9,8 +9,6 @@ import android.widget.PopupMenu
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
-import androidx.compose.runtime.Recomposer
-import androidx.compose.ui.platform.setContent
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
@@ -36,7 +34,7 @@ class SitesActivity : BaseActivity<ActivitySettingsBinding>(
             title = getString(R.string.sites, getString(viewModel.currentFilter.filterNameRes))
         }
 
-        binding.frameContainer.setContent(Recomposer.current()) {
+        binding.frameContainer.setContent {
             SitesLayout(::changeSite)
         }
 

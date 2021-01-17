@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.view.ContextThemeWrapper
-import androidx.compose.runtime.Recomposer
-import androidx.compose.ui.platform.setContent
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -52,7 +50,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment(), Slider.OnCh
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding) {
             viewModel.currentPayload?.let { payload ->
-                binding.composeContent.setContent(Recomposer.current()) {
+                binding.composeContent.setContent {
                     FiltersLayout(
                         initialPayload = payload,
                         onUpdateFilters = { viewModel.currentPayload = it }

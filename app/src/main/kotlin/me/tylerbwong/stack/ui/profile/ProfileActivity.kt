@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.compose.runtime.Recomposer
-import androidx.compose.ui.platform.setContent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,7 +45,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
 
         viewModel.userData.observe(this) {
             binding.collapsingToolbarLayout.title = it.displayName.toHtml()
-            binding.profileHeader.setContent(Recomposer.current()) {
+            binding.profileHeader.setContent {
                 ProfileHeader(user = it)
             }
         }
