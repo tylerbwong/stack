@@ -2,14 +2,16 @@ package me.tylerbwong.stack.ui
 
 import android.content.Context
 import android.net.Uri
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import me.tylerbwong.stack.data.DeepLinker
 import me.tylerbwong.stack.data.auth.AuthRepository
 import me.tylerbwong.stack.data.auth.LoginResult
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
+import javax.inject.Inject
 
-class DeepLinkingViewModel @ViewModelInject constructor(
+@HiltViewModel
+class DeepLinkingViewModel @Inject constructor(
     private val deepLinker: DeepLinker,
     private val authRepository: AuthRepository
 ) : BaseViewModel() {

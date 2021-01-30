@@ -1,9 +1,9 @@
 package me.tylerbwong.stack.ui.questions.create
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.api.utils.toErrorResponse
@@ -15,9 +15,10 @@ import me.tylerbwong.stack.data.toQuestionDraft
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import retrofit2.HttpException
-import java.lang.Exception
+import javax.inject.Inject
 
-class CreateQuestionViewModel @ViewModelInject constructor(
+@HiltViewModel
+class CreateQuestionViewModel @Inject constructor(
     private val questionService: QuestionService,
     private val questionDraftDao: QuestionDraftDao,
     private val siteStore: SiteStore

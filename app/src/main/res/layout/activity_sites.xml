@@ -21,8 +21,8 @@
             app:titleTextColor="?android:attr/textColorPrimary" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/frameContainer"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/composeContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

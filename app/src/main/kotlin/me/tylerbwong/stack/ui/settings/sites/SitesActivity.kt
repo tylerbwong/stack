@@ -12,13 +12,13 @@ import androidx.appcompat.widget.SearchView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.databinding.ActivitySettingsBinding
+import me.tylerbwong.stack.databinding.ActivitySitesBinding
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
-class SitesActivity : BaseActivity<ActivitySettingsBinding>(
-    ActivitySettingsBinding::inflate
+class SitesActivity : BaseActivity<ActivitySitesBinding>(
+    ActivitySitesBinding::inflate
 ), SearchView.OnQueryTextListener, PopupMenu.OnMenuItemClickListener {
     private val viewModel by viewModels<SitesViewModel>()
 
@@ -34,7 +34,7 @@ class SitesActivity : BaseActivity<ActivitySettingsBinding>(
             title = getString(R.string.sites, getString(viewModel.currentFilter.filterNameRes))
         }
 
-        binding.frameContainer.setContent {
+        binding.composeContent.setContent {
             SitesLayout(::changeSite)
         }
 

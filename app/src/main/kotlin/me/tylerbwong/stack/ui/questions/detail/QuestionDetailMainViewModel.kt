@@ -2,10 +2,10 @@ package me.tylerbwong.stack.ui.questions.detail
 
 import android.content.Context
 import android.content.Intent
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Question
@@ -20,8 +20,10 @@ import me.tylerbwong.stack.ui.utils.toHtml
 import me.tylerbwong.stack.ui.utils.zipWith
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
-class QuestionDetailMainViewModel @ViewModelInject constructor(
+@HiltViewModel
+class QuestionDetailMainViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val questionRepository: QuestionRepository,
     private val service: QuestionService

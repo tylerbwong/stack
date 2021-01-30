@@ -1,7 +1,7 @@
 package me.tylerbwong.stack.ui.search
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import me.tylerbwong.stack.api.model.ACTIVITY
 import me.tylerbwong.stack.api.model.Sort
 import me.tylerbwong.stack.api.service.SearchService
@@ -13,8 +13,10 @@ import me.tylerbwong.stack.data.site.SiteStore
 import me.tylerbwong.stack.data.toSearchPayload
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
+import javax.inject.Inject
 
-class SearchViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SearchViewModel @Inject constructor(
     private val tagService: TagService,
     private val searchService: SearchService,
     private val searchDao: SearchDao,

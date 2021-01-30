@@ -1,8 +1,8 @@
 package me.tylerbwong.stack.ui.questions
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import me.tylerbwong.stack.api.model.CREATION
 import me.tylerbwong.stack.api.model.Sort
 import me.tylerbwong.stack.api.service.QuestionService
@@ -11,8 +11,10 @@ import me.tylerbwong.stack.ui.home.QuestionItem
 import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
 import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
 import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
+import javax.inject.Inject
 
-internal class QuestionsViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class QuestionsViewModel @Inject constructor(
     private val service: QuestionService
 ) : BaseViewModel() {
 

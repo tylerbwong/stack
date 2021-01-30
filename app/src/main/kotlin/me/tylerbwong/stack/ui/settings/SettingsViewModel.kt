@@ -1,16 +1,18 @@
 package me.tylerbwong.stack.ui.settings
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.data.auth.AuthRepository
 import me.tylerbwong.stack.data.auth.LogOutResult
 import me.tylerbwong.stack.data.repository.SiteRepository
 import me.tylerbwong.stack.ui.BaseViewModel
+import javax.inject.Inject
 
-class SettingsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
     private val siteRepository: SiteRepository,
     private val authRepository: AuthRepository
 ) : BaseViewModel() {

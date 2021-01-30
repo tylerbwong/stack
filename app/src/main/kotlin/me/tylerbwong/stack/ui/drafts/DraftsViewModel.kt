@@ -1,8 +1,8 @@
 package me.tylerbwong.stack.ui.drafts
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import me.tylerbwong.stack.data.model.AnswerDraft
 import me.tylerbwong.stack.data.model.QuestionDraft
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
@@ -11,8 +11,10 @@ import me.tylerbwong.stack.data.site.SiteStore
 import me.tylerbwong.stack.data.toAnswerDraft
 import me.tylerbwong.stack.data.toQuestionDraft
 import me.tylerbwong.stack.ui.BaseViewModel
+import javax.inject.Inject
 
-internal class DraftsViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class DraftsViewModel @Inject constructor(
     private val answerDraftDao: AnswerDraftDao,
     private val questionDraftDao: QuestionDraftDao,
     private val siteStore: SiteStore

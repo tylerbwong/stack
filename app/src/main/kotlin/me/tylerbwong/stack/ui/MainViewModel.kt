@@ -1,13 +1,15 @@
 package me.tylerbwong.stack.ui
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.data.auth.AuthRepository
 import retrofit2.HttpException
+import javax.inject.Inject
 
-internal class MainViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class MainViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : BaseViewModel() {
 

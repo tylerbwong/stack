@@ -1,16 +1,18 @@
 package me.tylerbwong.stack.ui.home
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import me.tylerbwong.stack.api.model.CREATION
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Sort
 import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.data.repository.SiteRepository
 import me.tylerbwong.stack.ui.BaseViewModel
+import javax.inject.Inject
 
-internal class HomeViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class HomeViewModel @Inject constructor(
     private val repository: QuestionRepository,
     private val siteRepository: SiteRepository
 ) : BaseViewModel() {

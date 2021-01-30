@@ -2,13 +2,13 @@ package me.tylerbwong.stack.ui.questions.detail.post
 
 import android.text.TextWatcher
 import androidx.annotation.StringRes
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.BaseTransientBottomBar.Duration
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.service.QuestionService
@@ -17,8 +17,10 @@ import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
 import me.tylerbwong.stack.data.site.SiteStore
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import timber.log.Timber
+import javax.inject.Inject
 
-class PostAnswerViewModel @ViewModelInject constructor(
+@HiltViewModel
+class PostAnswerViewModel @Inject constructor(
     private val service: QuestionService,
     private val draftDao: AnswerDraftDao,
     private val siteStore: SiteStore

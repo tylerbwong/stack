@@ -1,10 +1,12 @@
 package me.tylerbwong.stack.ui.search.filters
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import me.tylerbwong.stack.data.model.SearchPayload
+import javax.inject.Inject
 
-class FilterViewModel @ViewModelInject constructor() : ViewModel() {
+@HiltViewModel
+class FilterViewModel @Inject constructor() : ViewModel() {
 
     internal var updatePayloadListener: UpdatePayloadListener? = null
         set(value) {
