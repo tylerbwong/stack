@@ -14,7 +14,7 @@ object Versions {
     const val androidxRoom = "2.3.0-beta01"
     const val androidxSecurity = "1.1.0-alpha03"
     const val androidxSwipeRefreshLayout = "1.2.0-alpha01"
-    const val androidxTest = "1.3.1-alpha03"
+    const val androidxTest = "1.3.1-alpha02"
     const val androidxTestExt = "1.1.2"
     const val androidxViewPager2 = "1.1.0-alpha01"
     const val androidxWork = "2.5.0"

@@ -18,11 +18,11 @@ class ProfileActivityIntegrationTest : BaseIntegrationTest<MainActivity>(MainAct
     @Test
     fun testProfileActivityIsShown() {
         navigateToQuestionDetailsFromMainActivity()
-        waitForRequest()
+        waitForRequest(waitTimeMillis = 4_000L)
         scrollListToPosition(R.id.recyclerView, 2)
         assertDisplayed(R.id.answerBody)
         clickOn(R.id.userImage)
-        waitForRequest()
+        waitForRequest(waitTimeMillis = 4_000L)
         assertDisplayed(R.id.questionTitle)
         intended(hasComponent(ComponentName(targetContext, ProfileActivity::class.java)))
     }
