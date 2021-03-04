@@ -1,10 +1,13 @@
 package me.tylerbwong.stack.ui.settings.libraries
 
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.ListItem
@@ -24,7 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -50,7 +53,11 @@ fun LibrariesScreen(libraries: LiveData<List<LibraryItem>>, onBackPressed: () ->
                 },
                 navigationIcon = {
                     IconButton(onClick = onBackPressed) {
-                        Icon(imageVector = Icons.Filled.ArrowBack, tint = iconColor)
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = null,
+                            tint = iconColor
+                        )
                     }
                 },
                 backgroundColor = viewBackgroundColor,
@@ -63,6 +70,7 @@ fun LibrariesScreen(libraries: LiveData<List<LibraryItem>>, onBackPressed: () ->
         LazyColumn {
             items(
                 items = items,
+                key = null,
                 itemContent = { library ->
                     LibraryItem(library = library) {
                         clickedLibraryItem = library
@@ -84,20 +92,24 @@ fun LibrariesScreen(libraries: LiveData<List<LibraryItem>>, onBackPressed: () ->
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun LibraryItem(
     library: LibraryItem,
     showLicenseDialog: () -> Unit,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     ListItem(
-        modifier = Modifier.clickable(
-            indication = if (AmbientContext.current.isNightModeEnabled) {
-                rememberRipple(color = Color.White)
-            } else {
-                rememberRipple()
-            },
-            onClick = showLicenseDialog,
-        ),
+        modifier = Modifier
+            .clickable(onClick = showLicenseDialog)
+            .indication(
+                interactionSource = interactionSource,
+                indication = if (LocalContext.current.isNightModeEnabled) {
+                    rememberRipple(color = Color.White)
+                } else {
+                    rememberRipple()
+                }
+            ),
         secondaryText = {
             Text(
                 text = library.author,
@@ -130,14 +142,16 @@ private fun LicenseDialog(
             )
         },
         text = {
-            ScrollableColumn {
-                AndroidView(
-                    viewBlock = {
-                        MarkdownTextView(it).apply {
-                            setMarkdown(licenseText)
-                        }
-                    },
-                )
+            LazyColumn {
+                item {
+                    AndroidView(
+                        factory = {
+                            MarkdownTextView(it).apply {
+                                setMarkdown(licenseText)
+                            }
+                        },
+                    )
+                }
             }
         },
         confirmButton = {

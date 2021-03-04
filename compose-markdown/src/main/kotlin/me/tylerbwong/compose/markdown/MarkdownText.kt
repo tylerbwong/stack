@@ -1,5 +1,6 @@
 package me.tylerbwong.compose.markdown
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -8,8 +9,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.gesture.tapGestureFilter
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -33,20 +34,22 @@ fun MarkdownText(
         inlineContent,
         linkPositions
     ) = content.toMarkdownTextContent(MaterialTheme.typography)
-    val tapGestureFilter = Modifier.tapGestureFilter { offset ->
-        layoutResult?.let { result ->
-            val offsetForPosition = result.getOffsetForPosition(offset)
-            val linkKey = linkPositions.keys.firstOrNull { linkRange ->
-                offsetForPosition in linkRange
-            }
-            linkPositions[linkKey]?.let { link ->
-                onLinkClicked(link)
+    val pointerInput = Modifier.pointerInput(null) {
+        detectTapGestures { offset ->
+            layoutResult?.let { result ->
+                val offsetForPosition = result.getOffsetForPosition(offset)
+                val linkKey = linkPositions.keys.firstOrNull { linkRange ->
+                    offsetForPosition in linkRange
+                }
+                linkPositions[linkKey]?.let { link ->
+                    onLinkClicked(link)
+                }
             }
         }
     }
     Text(
         text = annotatedString,
-        modifier = modifier.then(tapGestureFilter),
+        modifier = modifier.then(pointerInput),
         color = color,
         fontSize = fontSize,
         fontStyle = fontStyle,

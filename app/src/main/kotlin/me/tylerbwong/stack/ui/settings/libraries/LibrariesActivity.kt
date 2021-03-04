@@ -3,8 +3,8 @@ package me.tylerbwong.stack.ui.settings.libraries
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.ui.platform.setContent
 import androidx.viewbinding.ViewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.ui.BaseActivity

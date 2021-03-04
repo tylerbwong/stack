@@ -20,6 +20,7 @@ dependencies {
     implementation(Dep.kotlinLib)
 
     // androidx
+    implementation(Dep.androidxActivityCompose)
     implementation(Dep.androidxAppCompat)
     implementation(Dep.materialComponents)
 

@@ -42,6 +42,7 @@ dependencies {
 
     // androidx
     implementation(Dep.androidxActivity)
+    implementation(Dep.androidxActivityCompose)
     implementation(Dep.androidxAppCompat)
     implementation(Dep.androidxBrowser)
     implementation(Dep.androidxConstraintLayout)
@@ -59,6 +60,7 @@ dependencies {
     implementation(Dep.androidxSecurity)
     implementation(Dep.androidxSwipeRefreshLayout)
     implementation(Dep.androidxViewModel)
+    implementation(Dep.androidxViewModelCompose)
     implementation(Dep.androidxViewPager2)
     implementation(Dep.androidxWork)
     implementation(Dep.materialComponents)

@@ -1,6 +1,7 @@
 @file:Suppress("LongMethod")
 package me.tylerbwong.stack.ui.questions.create
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -24,15 +26,16 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.savedinstancestate.savedInstanceState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.gesture.tapGestureFilter
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
@@ -60,16 +63,16 @@ fun CreateQuestionLayout(
     val draft by draftLiveData.observeAsState(
         initial = QuestionDraft(0, "", 0L, "", "", "")
     )
-    var title by savedInstanceState(saver = TextFieldValue.Saver) {
-        TextFieldValue(text = draft.title)
+    var title by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(TextFieldValue(text = draft.title))
     }
-    var body by savedInstanceState(saver = TextFieldValue.Saver) {
-        TextFieldValue(text = draft.body)
+    var body by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(TextFieldValue(text = draft.body))
     }
-    var tags by savedInstanceState(saver = TextFieldValue.Saver) {
-        TextFieldValue(text = draft.tags)
+    var tags by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(TextFieldValue(text = draft.tags))
     }
-    var isPreview by savedInstanceState { BuildConfig.DEBUG }
+    var isPreview by rememberSaveable { mutableStateOf(BuildConfig.DEBUG) }
 
     fun isValidTitle() = title.text.isNotBlank() && title.text.length >= MIN_TITLE_LENGTH
     fun isValidBody() = body.text.isNotBlank() && body.text.length >= MIN_BODY_LENGTH
@@ -88,6 +91,7 @@ fun CreateQuestionLayout(
                     IconButton(onClick = onBackPressed) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = null,
                             tint = iconColor
                         )
                     }
@@ -98,7 +102,8 @@ fun CreateQuestionLayout(
                             onClick = { saveDraft(title.text, body.text, tags.text) },
                         ) {
                             Icon(
-                                imageVector = vectorResource(R.drawable.ic_baseline_save),
+                                painter = painterResource(R.drawable.ic_baseline_save),
+                                contentDescription = null,
                                 tint = iconColor
                             )
                         }
@@ -113,6 +118,7 @@ fun CreateQuestionLayout(
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Delete,
+                                contentDescription = null,
                                 tint = iconColor
                             )
                         }
@@ -140,7 +146,8 @@ fun CreateQuestionLayout(
                     },
                     icon = {
                         Icon(
-                            imageVector = vectorResource(R.drawable.ic_send),
+                            painter = painterResource(R.drawable.ic_send),
+                            contentDescription = null,
                             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
                         )
                     },
@@ -163,10 +170,15 @@ fun CreateQuestionLayout(
                 label = { Text(text = stringResource(R.string.title)) },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = MaterialTheme.typography.body2,
-                isErrorValue = !isValidTitle(),
-                activeColor = colorAccent,
-                inactiveColor = primaryTextColor,
-                errorColor = colorError
+                isError = !isValidTitle(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = colorAccent,
+                    focusedLabelColor = colorAccent,
+                    unfocusedBorderColor = primaryTextColor,
+                    unfocusedLabelColor = primaryTextColor,
+                    errorBorderColor = colorError,
+                    errorLabelColor = colorError,
+                ),
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -175,12 +187,19 @@ fun CreateQuestionLayout(
                 value = body,
                 onValueChange = { body = it },
                 label = { Text(text = stringResource(R.string.body)) },
-                modifier = Modifier.fillMaxWidth().height(dimensionResource(R.dimen.body_height)),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(dimensionResource(R.dimen.body_height)),
                 textStyle = MaterialTheme.typography.body2,
-                isErrorValue = !isValidBody(),
-                activeColor = colorAccent,
-                inactiveColor = primaryTextColor,
-                errorColor = colorError
+                isError = !isValidBody(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = colorAccent,
+                    focusedLabelColor = colorAccent,
+                    unfocusedBorderColor = primaryTextColor,
+                    unfocusedLabelColor = primaryTextColor,
+                    errorBorderColor = colorError,
+                    errorLabelColor = colorError,
+                ),
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -191,10 +210,15 @@ fun CreateQuestionLayout(
                 label = { Text(text = stringResource(R.string.tags_title)) },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = MaterialTheme.typography.body2,
-                isErrorValue = !isValidTags(),
-                activeColor = colorAccent,
-                inactiveColor = primaryTextColor,
-                errorColor = colorError
+                isError = !isValidTags(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = colorAccent,
+                    focusedLabelColor = colorAccent,
+                    unfocusedBorderColor = primaryTextColor,
+                    unfocusedLabelColor = primaryTextColor,
+                    errorBorderColor = colorError,
+                    errorLabelColor = colorError,
+                ),
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -231,7 +255,9 @@ private fun LabeledCheckbox(
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = label,
-            modifier = Modifier.tapGestureFilter { onCheckedChange(!checked) },
+            modifier = Modifier.pointerInput(null) {
+                detectTapGestures { onCheckedChange(!checked) }
+            },
             color = primaryTextColor
         )
     }

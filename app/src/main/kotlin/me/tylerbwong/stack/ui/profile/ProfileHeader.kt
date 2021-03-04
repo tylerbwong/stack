@@ -17,8 +17,9 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,11 +46,11 @@ fun ProfileHeader(user: User) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         val primaryTextColor = colorResource(R.color.primaryTextColor)
-        val context = AmbientContext.current
+        val context = LocalContext.current
         val userProfileClickableModifier = user.link?.let {
             Modifier.clickable(
                 onClick = { context.launchUrl(it) },
-                indication = null,
+                role = Role.Image,
             )
         } ?: Modifier
         CoilImage(
@@ -70,6 +71,7 @@ fun ProfileHeader(user: User) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     imageVector = Icons.Filled.LocationOn,
+                    contentDescription = null,
                     modifier = Modifier.size(14.dp),
                     tint = primaryTextColor,
                 )

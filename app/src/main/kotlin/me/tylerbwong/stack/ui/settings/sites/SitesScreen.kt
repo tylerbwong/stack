@@ -1,8 +1,9 @@
 @file:Suppress("MagicNumber")
-
 package me.tylerbwong.stack.ui.settings.sites
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
@@ -19,6 +21,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -30,21 +33,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.savedinstancestate.savedInstanceState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.viewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.chrisbanes.accompanist.coil.CoilImage
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Site
@@ -61,9 +64,9 @@ fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
     val colorAccent = colorResource(R.color.colorAccent)
 
     val viewModel = viewModel<SitesViewModel>()
-    var searchQuery by savedInstanceState { viewModel.currentQuery ?: "" }
-    var isSearchActive by savedInstanceState { false }
-    var isSearchFocused by savedInstanceState { false }
+    var searchQuery by rememberSaveable { mutableStateOf(viewModel.currentQuery ?: "") }
+    var isSearchActive by rememberSaveable { mutableStateOf(false) }
+    var isSearchFocused by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -90,9 +93,12 @@ fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
                                     },
                                 )
                             },
-                            backgroundColor = viewBackgroundColor,
-                            activeColor = colorAccent,
                             textStyle = MaterialTheme.typography.body1.copy(color = primaryTextColor),
+                            colors = TextFieldDefaults.textFieldColors(
+                                backgroundColor = viewBackgroundColor,
+                                focusedIndicatorColor = colorAccent,
+                                focusedLabelColor = colorAccent,
+                            )
                         )
                     } else {
                         Text(text = stringResource(R.string.sites), color = primaryTextColor)
@@ -107,13 +113,25 @@ fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
                                 onBackPressed()
                             }
                         },
-                    ) { Icon(imageVector = Icons.Filled.ArrowBack, tint = iconColor) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = null,
+                            tint = iconColor
+                        )
+                    }
                 },
                 actions = {
                     if (!isSearchActive) {
                         IconButton(
                             onClick = { isSearchActive = true },
-                        ) { Icon(imageVector = Icons.Filled.Search, tint = iconColor) }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Search,
+                                contentDescription = null,
+                                tint = iconColor
+                            )
+                        }
                     } else if (searchQuery.isNotBlank()) {
                         IconButton(
                             onClick = {
@@ -122,7 +140,11 @@ fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
                             },
                         ) {
                             if (searchQuery.isNotEmpty()) {
-                                Icon(imageVector = Icons.Filled.Close, tint = iconColor)
+                                Icon(
+                                    imageVector = Icons.Filled.Close,
+                                    contentDescription = null,
+                                    tint = iconColor
+                                )
                             }
                         }
                     }
@@ -144,6 +166,7 @@ fun SitesLayout(changeSite: (String) -> Unit) {
     LazyColumn {
         items(
             items = sites,
+            key = null,
             itemContent = { site ->
                 SiteItem(
                     site = site,
@@ -176,15 +199,18 @@ fun SiteItem(
     searchQuery: String?,
     onItemClicked: () -> Unit,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Row(
-        modifier = Modifier.fillMaxWidth()
-            .clickable(
-                indication = if (AmbientContext.current.isNightModeEnabled) {
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onItemClicked)
+            .indication(
+                interactionSource = interactionSource,
+                indication = if (LocalContext.current.isNightModeEnabled) {
                     rememberRipple(color = Color.White)
                 } else {
                     rememberRipple()
                 },
-                onClick = onItemClicked,
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
