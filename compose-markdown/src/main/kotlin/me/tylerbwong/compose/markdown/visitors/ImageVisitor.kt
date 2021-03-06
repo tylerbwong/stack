@@ -39,6 +39,7 @@ internal object ImageVisitor : Visitor {
             ) {
                 CoilImage(
                     data = imageUrl,
+                    contentDescription = null,
                     contentScale = ContentScale.FillWidth,
                     fadeIn = true
                 )

@@ -216,6 +216,7 @@ fun SiteItem(
     ) {
         CoilImage(
             data = site.iconUrl,
+            contentDescription = null,
             modifier = Modifier
                 .size(64.dp)
                 .padding(
