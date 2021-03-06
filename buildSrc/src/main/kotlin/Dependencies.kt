@@ -24,7 +24,7 @@ object Versions {
     const val betterLinkMovementMethod = "2.2.0"
     const val chucker = "3.4.0"
     const val coil = "1.1.1"
-    const val coilAccompanist = "0.4.2"
+    const val coilAccompanist = "0.6.1"
     const val compose = "1.0.0-beta01"
     const val daggerHilt = "2.33-beta"
     const val detekt = "1.15.0"
