@@ -2,7 +2,6 @@
 package me.tylerbwong.stack.ui.settings.sites
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -203,14 +202,14 @@ fun SiteItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onItemClicked)
-            .indication(
+            .clickable(
                 interactionSource = interactionSource,
                 indication = if (LocalContext.current.isNightModeEnabled) {
                     rememberRipple(color = Color.White)
                 } else {
                     rememberRipple()
                 },
+                onClick = onItemClicked
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {

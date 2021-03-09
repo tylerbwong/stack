@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.ui.settings.libraries
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -101,14 +100,14 @@ private fun LibraryItem(
     val interactionSource = remember { MutableInteractionSource() }
     ListItem(
         modifier = Modifier
-            .clickable(onClick = showLicenseDialog)
-            .indication(
+            .clickable(
                 interactionSource = interactionSource,
                 indication = if (LocalContext.current.isNightModeEnabled) {
                     rememberRipple(color = Color.White)
                 } else {
                     rememberRipple()
-                }
+                },
+                onClick = showLicenseDialog
             ),
         secondaryText = {
             Text(
