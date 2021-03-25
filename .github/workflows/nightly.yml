@@ -24,16 +24,27 @@ jobs:
             adb shell settings put global hidden_api_policy_p_apps 1
             adb shell settings put global hidden_api_policy_pre_p_apps 1
             adb shell settings put global hidden_api_policy 1
-            ./gradlew :app:connectedAndroidTest
-            ./gradlew :app:pullDebugAndroidTestScreenshots
-      - name: Copy Test Results
+            ./gradlew connectedAndroidTest
+            ./gradlew pullDebugAndroidTestScreenshots
+      - name: Copy App Test Results
         if: always()
         run: |
-          mkdir -p screenshot-tests
-          find . -type f -wholename "./app/build/screenshotsDebugAndroidTest/*" -exec cp -r {} screenshot-tests/ \;
-      - name: Upload Test Results
+          mkdir -p app-screenshot-tests
+          find . -type f -wholename "./app/build/screenshotsDebugAndroidTest/*" -exec cp -r {} app-screenshot-tests/ \;
+      - name: Copy Compose Preference Test Results
+        if: always()
+        run: |
+          mkdir -p compose-preference-screenshot-tests
+          find . -type f -wholename "./compose-preference/build/screenshotsDebugAndroidTest/*" -exec cp -r {} compose-preference-screenshot-tests/ \;
+      - name: Upload App Test Results
         if: always()
         uses: actions/upload-artifact@v1
         with:
-          name: screenshot-test-results
-          path: screenshot-tests
+          name: app-screenshot-test-results
+          path: app-screenshot-tests
+      - name: Upload Compose Preference Test Results
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: compose-preference-screenshot-test-results
+          path: compose-preference-screenshot-tests

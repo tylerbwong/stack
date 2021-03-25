@@ -66,13 +66,13 @@ dependencies {
     implementation(Dep.materialComponents)
 
     // compose
-    implementation(Dep.composeCore)
     implementation(Dep.composeFoundation)
     implementation(Dep.composeLayout)
     implementation(Dep.composeLiveData)
     implementation(Dep.composeMaterial)
     implementation(Dep.composeMaterialIcons)
     implementation(Dep.composeTooling)
+    implementation(Dep.composeUi)
 
     // licenses
     implementation(Dep.aboutLibrariesCore)

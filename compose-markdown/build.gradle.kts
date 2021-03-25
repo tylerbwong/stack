@@ -26,10 +26,10 @@ dependencies {
     implementation(Dep.coilAccompanist)
 
     // compose
-    implementation(Dep.composeCore)
     implementation(Dep.composeFoundation)
     implementation(Dep.composeMaterial)
     implementation(Dep.composeTooling)
+    implementation(Dep.composeUi)
 
     // markdown
     implementation(Dep.intellijMarkdown)
