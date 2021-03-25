@@ -1,4 +1,4 @@
-@file:Suppress("FunctionNaming", "MagicNumber")
+@file:Suppress("FunctionNaming", "LongMethod", "MagicNumber")
 
 package me.tylerbwong.compose.preference
 
