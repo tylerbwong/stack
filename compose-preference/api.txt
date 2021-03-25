@@ -2,11 +2,10 @@
 package me.tylerbwong.compose.preference {
 
   public final class LocalPreferencesKt {
-    method public static androidx.compose.runtime.ProvidableCompositionLocal<android.content.SharedPreferences> getLocalPreferences();
   }
 
   public final class PreferenceCategoryKt {
-    method public static void PreferenceCategory(androidx.compose.foundation.lazy.LazyListScope, String name, optional kotlin.jvm.functions.Function0<androidx.compose.ui.graphics.Color> labelColor, kotlin.jvm.functions.Function1<? super androidx.compose.foundation.lazy.LazyListScope,kotlin.Unit> content);
+    method public static void PreferenceCategory(androidx.compose.foundation.lazy.LazyListScope, String name, optional kotlin.jvm.functions.Function0<androidx.compose.ui.graphics.Color> labelColor, optional kotlin.jvm.functions.Function0<kotlin.Unit> divider, kotlin.jvm.functions.Function1<? super androidx.compose.foundation.lazy.LazyListScope,kotlin.Unit> content);
   }
 
   public final class PreferenceKt {
@@ -21,8 +20,7 @@ package me.tylerbwong.compose.preference {
   }
 
   public final class PreferenceScreenKt {
-    method @androidx.compose.runtime.Composable public static void PreferenceScreen(android.content.SharedPreferences preferences, kotlin.jvm.functions.Function1<? super androidx.compose.foundation.lazy.LazyListScope,kotlin.Unit> content);
-    method @androidx.compose.runtime.Composable @androidx.compose.ui.tooling.preview.Preview(showBackground=true, backgroundColor=16777215) public static void PreferenceScreenPreview();
+    method @androidx.compose.runtime.Composable public static void PreferenceScreen(android.content.SharedPreferences preferences, optional androidx.compose.ui.Modifier modifier, kotlin.jvm.functions.Function1<? super androidx.compose.foundation.lazy.LazyListScope,kotlin.Unit> content);
   }
 
 }

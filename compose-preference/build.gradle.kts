@@ -26,6 +26,8 @@ dependencies {
 
     implementation(Dep.androidxActivity)
 
+    implementation(Dep.flowSharedPreferences)
+
     // compose
     implementation(Dep.composeFoundation)
     implementation(Dep.composeMaterial)

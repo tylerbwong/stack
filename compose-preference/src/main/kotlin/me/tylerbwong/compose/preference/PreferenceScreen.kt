@@ -4,6 +4,7 @@ package me.tylerbwong.compose.preference
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
@@ -22,11 +23,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.tfcporciuncula.flow.FlowSharedPreferences
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @Composable
-fun PreferenceScreen(preferences: SharedPreferences, content: PreferenceScope.() -> Unit) {
-    CompositionLocalProvider(LocalPreferences provides preferences) {
-        LazyColumn {
+fun PreferenceScreen(
+    preferences: SharedPreferences,
+    modifier: Modifier = Modifier,
+    content: PreferenceScope.() -> Unit
+) {
+    CompositionLocalProvider(LocalPreferences provides FlowSharedPreferences(preferences)) {
+        LazyColumn(modifier = modifier) {
             content()
         }
     }
@@ -34,7 +42,7 @@ fun PreferenceScreen(preferences: SharedPreferences, content: PreferenceScope.()
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
-fun PreferenceScreenPreview() {
+internal fun PreferenceScreenPreview() {
     val context = LocalContext.current
     val preferences = context.getSharedPreferences("test", Context.MODE_PRIVATE)
     PreferenceScreen(preferences = preferences) {
@@ -49,7 +57,7 @@ fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Code,
                         contentDescription = null,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.padding(8.dp).size(24.dp)
                     )
                 },
                 singleLineSecondaryText = false,
@@ -64,7 +72,7 @@ fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.AddCircle,
                         contentDescription = null,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.padding(8.dp).size(24.dp)
                     )
                 },
             )
@@ -81,7 +89,7 @@ fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Dashboard,
                         contentDescription = null,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.padding(8.dp).size(24.dp)
                     )
                 },
             )
@@ -93,7 +101,7 @@ fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Traffic,
                         contentDescription = null,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.padding(8.dp).size(24.dp)
                     )
                 },
             )
@@ -106,7 +114,7 @@ fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.BugReport,
                         contentDescription = null,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.padding(8.dp).size(24.dp)
                     )
                 },
             )
@@ -122,7 +130,7 @@ fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Brightness2,
                         contentDescription = null,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.padding(8.dp).size(24.dp)
                     )
                 },
             )
@@ -133,7 +141,7 @@ fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Info,
                         contentDescription = null,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.padding(8.dp).size(24.dp)
                     )
                 },
             )

@@ -15,7 +15,8 @@ import androidx.compose.ui.unit.dp
 fun PreferenceScope.PreferenceCategory(
     name: String,
     labelColor: @Composable () -> Color = { MaterialTheme.colors.secondary },
-    content: PreferenceScope.() -> Unit
+    divider: @Composable () -> Unit = { Divider() },
+    content: PreferenceScope.() -> Unit,
 ) {
     item {
         Text(
@@ -31,5 +32,5 @@ fun PreferenceScope.PreferenceCategory(
         )
     }
     content()
-    item { Divider() }
+    item { divider() }
 }

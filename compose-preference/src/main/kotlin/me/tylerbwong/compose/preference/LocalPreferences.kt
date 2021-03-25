@@ -1,8 +1,10 @@
 package me.tylerbwong.compose.preference
 
-import android.content.SharedPreferences
 import androidx.compose.runtime.staticCompositionLocalOf
+import com.tfcporciuncula.flow.FlowSharedPreferences
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-val LocalPreferences = staticCompositionLocalOf<SharedPreferences> {
+@OptIn(ExperimentalCoroutinesApi::class)
+internal val LocalPreferences = staticCompositionLocalOf<FlowSharedPreferences> {
     error("No preferences provided")
 }

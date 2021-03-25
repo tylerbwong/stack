@@ -531,7 +531,7 @@ style:
   LibraryCodeMustSpecifyReturnType:
     active: true
   LibraryEntitiesShouldNotBePublic:
-    active: true
+    active: false
   LoopWithTooManyJumpStatements:
     active: false
     maxJumpCount: 1

@@ -23,6 +23,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,7 +33,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@OptIn(ExperimentalCoroutinesApi::class)
 fun PreferenceScope.ListPreference(
     key: String,
     title: String,
@@ -48,11 +52,20 @@ fun PreferenceScope.ListPreference(
     }
     item {
         val preferences = LocalPreferences.current
-        var itemIndex by rememberSaveable {
-            mutableStateOf(preferences.getInt(key, selectedItemIndex))
-        }
+        val itemIndex by preferences.getInt(key, selectedItemIndex)
+            .asFlow()
+            .collectAsState(
+                initial = preferences.sharedPreferences.getInt(key, selectedItemIndex),
+                context = Dispatchers.IO,
+            )
         var isAlertDialogVisible by rememberSaveable { mutableStateOf(false) }
         var summaryState by rememberSaveable { mutableStateOf(items[itemIndex]) }
+        val onClick: (Int) -> Unit = {
+            preferences.sharedPreferences
+                .edit()
+                .putInt(key, it)
+                .apply()
+        }
         PreferenceInternal(
             title = title,
             summary = summaryState,
@@ -80,13 +93,13 @@ fun PreferenceScope.ListPreference(
                                     .clickable(
                                         interactionSource = interactionSource,
                                         indication = null,
-                                        onClick = { itemIndex = index },
+                                        onClick = { onClick(index) },
                                     ),
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 RadioButton(
                                     selected = index == itemIndex,
-                                    onClick = { itemIndex = index },
+                                    onClick = { onClick(index) },
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(text = item, fontSize = 18.sp)
@@ -100,7 +113,7 @@ fun PreferenceScope.ListPreference(
                 confirmButton = {
                     TextButton(
                         onClick = {
-                            preferences.edit().putInt(key, itemIndex).apply()
+                            onClick(itemIndex)
                             onConfirm(items[itemIndex], itemIndex)
                             summaryState = items[itemIndex]
                             isAlertDialogVisible = false
@@ -120,7 +133,7 @@ fun PreferenceScope.ListPreference(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalCoroutinesApi::class)
 fun PreferenceScope.SliderPreference(
     initialValue: Float,
     key: String,
@@ -134,9 +147,12 @@ fun PreferenceScope.SliderPreference(
 ) {
     item {
         val preferences = LocalPreferences.current
-        var currentValue by rememberSaveable {
-            mutableStateOf(preferences.getFloat(key, initialValue))
-        }
+        val currentValue by preferences.getFloat(key, initialValue)
+            .asFlow()
+            .collectAsState(
+                initial = preferences.sharedPreferences.getFloat(key, initialValue),
+                context = Dispatchers.IO,
+            )
         ListItem(
             icon = icon,
             secondaryText = {
@@ -150,9 +166,8 @@ fun PreferenceScope.SliderPreference(
                         Slider(
                             value = currentValue,
                             onValueChange = {
-                                preferences.edit().putFloat(key, it).apply()
+                                preferences.sharedPreferences.edit().putFloat(key, it).apply()
                                 onValueChange(it)
-                                currentValue = it
                             },
                             valueRange = valueRange,
                             steps = steps,
@@ -237,6 +252,7 @@ fun PreferenceScope.Preference(
     }
 }
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal fun PreferenceScope.TwoStatePreference(
     initialChecked: Boolean,
     key: String,
@@ -249,13 +265,15 @@ internal fun PreferenceScope.TwoStatePreference(
 ) {
     item {
         val preferences = LocalPreferences.current
-        var isChecked by rememberSaveable {
-            mutableStateOf(preferences.getBoolean(key, initialChecked))
-        }
+        val isChecked by preferences.getBoolean(key, initialChecked)
+            .asFlow()
+            .collectAsState(
+                initial = preferences.sharedPreferences.getBoolean(key, initialChecked),
+                context = Dispatchers.IO,
+            )
         val toggle: (Boolean) -> Unit = {
-            preferences.edit().putBoolean(key, it).apply()
+            preferences.sharedPreferences.edit().putBoolean(key, it).apply()
             onCheckedChange(it)
-            isChecked = it
         }
         PreferenceInternal(
             title = title,
