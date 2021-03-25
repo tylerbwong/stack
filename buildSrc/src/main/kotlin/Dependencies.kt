@@ -95,6 +95,7 @@ object Dep {
     const val composeLiveData = "androidx.compose.runtime:runtime-livedata:${Versions.compose}"
     const val composeMaterial = "androidx.compose.material:material:${Versions.compose}"
     const val composeMaterialIcons = "androidx.compose.material:material-icons-core:${Versions.compose}"
+    const val composeMaterialIconsExtended = "androidx.compose.material:material-icons-extended:${Versions.compose}"
     const val composeTooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
     const val daggerHiltAndroid = "com.google.dagger:hilt-android:${Versions.daggerHilt}"
     const val daggerHiltAndroidCompiler = "com.google.dagger:hilt-android-compiler:${Versions.daggerHilt}"
