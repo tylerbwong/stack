@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
-import dev.chrisbanes.accompanist.coil.CoilImage
+import com.google.accompanist.coil.CoilImage
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.ui.owners.Badges

@@ -47,7 +47,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import dev.chrisbanes.accompanist.coil.CoilImage
+import com.google.accompanist.coil.CoilImage
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled

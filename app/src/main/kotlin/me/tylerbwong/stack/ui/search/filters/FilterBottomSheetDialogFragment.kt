@@ -9,7 +9,6 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewTreeLifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -49,8 +48,6 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment(), Slider.OnCh
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // https://issuetracker.google.com/issues/180691023
-        dialog?.window?.decorView?.let { ViewTreeLifecycleOwner.set(it, viewLifecycleOwner) }
         with(binding) {
             viewModel.currentPayload?.let { payload ->
                 binding.composeContent.setContent {
