@@ -32,7 +32,7 @@ fun PreferenceScreen(preferences: SharedPreferences, content: PreferenceScope.()
     }
 }
 
-@Preview
+@Preview(showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 fun PreferenceScreenPreview() {
     val context = LocalContext.current
@@ -49,7 +49,7 @@ fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Code,
                         contentDescription = null,
-                        modifier = Modifier.size(42.dp)
+                        modifier = Modifier.size(32.dp)
                     )
                 },
                 singleLineSecondaryText = false,
@@ -64,7 +64,7 @@ fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.AddCircle,
                         contentDescription = null,
-                        modifier = Modifier.size(42.dp)
+                        modifier = Modifier.size(32.dp)
                     )
                 },
             )
@@ -81,7 +81,7 @@ fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Dashboard,
                         contentDescription = null,
-                        modifier = Modifier.size(42.dp)
+                        modifier = Modifier.size(32.dp)
                     )
                 },
             )
@@ -93,7 +93,7 @@ fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Traffic,
                         contentDescription = null,
-                        modifier = Modifier.size(42.dp)
+                        modifier = Modifier.size(32.dp)
                     )
                 },
             )
@@ -106,7 +106,7 @@ fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.BugReport,
                         contentDescription = null,
-                        modifier = Modifier.size(42.dp)
+                        modifier = Modifier.size(32.dp)
                     )
                 },
             )
@@ -122,7 +122,7 @@ fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Brightness2,
                         contentDescription = null,
-                        modifier = Modifier.size(42.dp)
+                        modifier = Modifier.size(32.dp)
                     )
                 },
             )
@@ -133,7 +133,7 @@ fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Info,
                         contentDescription = null,
-                        modifier = Modifier.size(42.dp)
+                        modifier = Modifier.size(32.dp)
                     )
                 },
             )
