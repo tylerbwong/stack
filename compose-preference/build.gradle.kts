@@ -22,11 +22,9 @@ android {
 }
 
 dependencies {
-    implementation(Dep.kotlinLib)
-
     implementation(Dep.androidxActivity)
-
     implementation(Dep.flowSharedPreferences)
+    implementation(Dep.kotlinLib)
 
     // compose
     implementation(Dep.composeFoundation)

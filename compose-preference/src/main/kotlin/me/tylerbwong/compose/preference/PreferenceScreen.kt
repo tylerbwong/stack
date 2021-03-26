@@ -133,7 +133,7 @@ internal fun PreferenceScreenPreview() {
             ListPreference(
                 key = "theme",
                 title = "Theme",
-                dialogTitle = "Choose theme",
+                dialogTitle = "Theme",
                 items = listOf("Light", "Dark", "System default"),
                 onConfirm = { _, _ -> },
                 icon = {

@@ -9,9 +9,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AlertDialog
+import androidx.compose.material.Card
 import androidx.compose.material.Checkbox
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
@@ -20,7 +21,6 @@ import androidx.compose.material.RadioButton
 import androidx.compose.material.Slider
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -33,7 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.Dispatchers
+import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -54,80 +54,71 @@ fun PreferenceScope.ListPreference(
         val preferences = LocalPreferences.current
         val itemIndex by preferences.getInt(key, selectedItemIndex)
             .asFlow()
-            .collectAsState(
-                initial = preferences.sharedPreferences.getInt(key, selectedItemIndex),
-                context = Dispatchers.IO,
-            )
+            .collectAsState(initial = preferences.sharedPreferences.getInt(key, selectedItemIndex))
         var isAlertDialogVisible by rememberSaveable { mutableStateOf(false) }
-        var summaryState by rememberSaveable { mutableStateOf(items[itemIndex]) }
         val onClick: (Int) -> Unit = {
-            preferences.sharedPreferences
-                .edit()
-                .putInt(key, it)
-                .apply()
+            preferences.sharedPreferences.edit().putInt(key, it).apply()
+            onConfirm(items[itemIndex], itemIndex)
+            isAlertDialogVisible = false
         }
+
         PreferenceInternal(
             title = title,
-            summary = summaryState,
+            summary = items[itemIndex],
             icon = icon,
             singleLineSecondaryText = singleLineSecondaryText,
             onClick = { isAlertDialogVisible = true },
         )
 
         if (isAlertDialogVisible) {
-            AlertDialog(
+            Dialog(
                 onDismissRequest = { isAlertDialogVisible = false },
-                title = {
-                    Text(
-                        text = dialogTitle,
-                        style = MaterialTheme.typography.h6,
-                    )
-                },
-                text = {
-                    Column(modifier = Modifier.fillMaxWidth()) {
-                        items.forEachIndexed { index, item ->
-                            val interactionSource = remember { MutableInteractionSource() }
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable(
-                                        interactionSource = interactionSource,
-                                        indication = null,
+                content = {
+                    Card(shape = RoundedCornerShape(8.dp)) {
+                        Column(modifier = Modifier.fillMaxWidth()) {
+                            Text(
+                                text = dialogTitle,
+                                modifier = Modifier.padding(
+                                    start = 24.dp,
+                                    top = 20.dp,
+                                    end = 24.dp,
+                                    bottom = 8.dp,
+                                ),
+                                color = MaterialTheme.colors.onSurface,
+                                style = MaterialTheme.typography.h6,
+                            )
+                            items.forEachIndexed { index, item ->
+                                val interactionSource = remember { MutableInteractionSource() }
+                                Row(
+                                    modifier = Modifier
+                                        .clickable(
+                                            interactionSource = interactionSource,
+                                            indication = rememberRipple(),
+                                            onClick = { onClick(index) },
+                                        )
+                                        .padding(
+                                            horizontal = 24.dp,
+                                            vertical = 12.dp,
+                                        )
+                                        .fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    RadioButton(
+                                        selected = index == itemIndex,
                                         onClick = { onClick(index) },
-                                    ),
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                RadioButton(
-                                    selected = index == itemIndex,
-                                    onClick = { onClick(index) },
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(text = item, fontSize = 18.sp)
+                                    )
+                                    Spacer(modifier = Modifier.width(24.dp))
+                                    Text(
+                                        text = item,
+                                        color = MaterialTheme.colors.onSurface,
+                                        fontSize = 18.sp
+                                    )
+                                }
                             }
-                            if (index != items.lastIndex) {
-                                Spacer(modifier = Modifier.height(16.dp))
-                            }
+                            Spacer(modifier = Modifier.height(8.dp))
                         }
                     }
                 },
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            onClick(itemIndex)
-                            onConfirm(items[itemIndex], itemIndex)
-                            summaryState = items[itemIndex]
-                            isAlertDialogVisible = false
-                        }
-                    ) {
-                        Text(text = "Confirm")
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = { isAlertDialogVisible = false }) {
-                        Text(text = "Dismiss")
-                    }
-                },
-                shape = RoundedCornerShape(8.dp),
             )
         }
     }
@@ -149,10 +140,8 @@ fun PreferenceScope.SliderPreference(
         val preferences = LocalPreferences.current
         val currentValue by preferences.getFloat(key, initialValue)
             .asFlow()
-            .collectAsState(
-                initial = preferences.sharedPreferences.getFloat(key, initialValue),
-                context = Dispatchers.IO,
-            )
+            .collectAsState(initial = preferences.sharedPreferences.getFloat(key, initialValue))
+
         ListItem(
             icon = icon,
             secondaryText = {
@@ -243,7 +232,6 @@ fun PreferenceScope.Preference(
     icon: (@Composable () -> Unit)? = null,
     singleLineSecondaryText: Boolean = true,
     onClick: () -> Unit = {},
-    trailing: (@Composable () -> Unit) = {},
 ) {
     item {
         PreferenceInternal(
@@ -252,7 +240,6 @@ fun PreferenceScope.Preference(
             icon = icon,
             singleLineSecondaryText = singleLineSecondaryText,
             onClick = onClick,
-            content = trailing,
         )
     }
 }
@@ -272,21 +259,19 @@ internal fun PreferenceScope.TwoStatePreference(
         val preferences = LocalPreferences.current
         val isChecked by preferences.getBoolean(key, initialChecked)
             .asFlow()
-            .collectAsState(
-                initial = preferences.sharedPreferences.getBoolean(key, initialChecked),
-                context = Dispatchers.IO,
-            )
+            .collectAsState(initial = preferences.sharedPreferences.getBoolean(key, initialChecked))
         val toggle: (Boolean) -> Unit = {
             preferences.sharedPreferences.edit().putBoolean(key, it).apply()
             onCheckedChange(it)
         }
+
         PreferenceInternal(
             title = title,
             summary = summary,
             icon = icon,
             singleLineSecondaryText = singleLineSecondaryText,
             onClick = { toggle(!isChecked) },
-            content = { trailing(isChecked, toggle) },
+            trailing = { trailing(isChecked, toggle) },
         )
     }
 }
@@ -300,9 +285,10 @@ internal fun PreferenceInternal(
     modifier: Modifier = Modifier,
     singleLineSecondaryText: Boolean = true,
     onClick: () -> Unit = {},
-    content: (@Composable () -> Unit) = {},
+    trailing: (@Composable () -> Unit) = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
+
     ListItem(
         modifier = modifier.clickable(
             interactionSource = interactionSource,
@@ -320,6 +306,6 @@ internal fun PreferenceInternal(
         },
         singleLineSecondaryText = singleLineSecondaryText,
         text = { Text(text = title, color = MaterialTheme.colors.onBackground) },
-        trailing = content,
+        trailing = trailing,
     )
 }
