@@ -6,4 +6,4 @@ It uses [intellij-markdown](https://github.com/valich/intellij-markdown) under t
 
 In order to display inline content such as images, links, block quotes, checkboxes, etc. this library uses the [`InlineTextContent`](https://developer.android.com/reference/kotlin/androidx/compose/foundation/text/InlineTextContent) API to insert `@Composable` hierarchies within a `Text` composable itself.
 
-Check out [markdown-compose-demo](https://github.com/tylerbwong/stack/tree/master/markdown-compose-demo) for examples usages!
+Check out [compose-markdown-demo](https://github.com/tylerbwong/stack/tree/master/compose-markdown-demo) for examples usages!
