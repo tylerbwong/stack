@@ -57,7 +57,9 @@ internal fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Code,
                         contentDescription = null,
-                        modifier = Modifier.padding(8.dp).size(24.dp)
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .size(24.dp)
                     )
                 },
                 singleLineSecondaryText = false,
@@ -72,7 +74,9 @@ internal fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.AddCircle,
                         contentDescription = null,
-                        modifier = Modifier.padding(8.dp).size(24.dp)
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .size(24.dp)
                     )
                 },
             )
@@ -89,7 +93,9 @@ internal fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Dashboard,
                         contentDescription = null,
-                        modifier = Modifier.padding(8.dp).size(24.dp)
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .size(24.dp)
                     )
                 },
             )
@@ -101,7 +107,9 @@ internal fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Traffic,
                         contentDescription = null,
-                        modifier = Modifier.padding(8.dp).size(24.dp)
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .size(24.dp)
                     )
                 },
             )
@@ -114,7 +122,9 @@ internal fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.BugReport,
                         contentDescription = null,
-                        modifier = Modifier.padding(8.dp).size(24.dp)
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .size(24.dp)
                     )
                 },
             )
@@ -130,7 +140,9 @@ internal fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Brightness2,
                         contentDescription = null,
-                        modifier = Modifier.padding(8.dp).size(24.dp)
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .size(24.dp)
                     )
                 },
             )
@@ -141,7 +153,9 @@ internal fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Info,
                         contentDescription = null,
-                        modifier = Modifier.padding(8.dp).size(24.dp)
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .size(24.dp)
                     )
                 },
             )

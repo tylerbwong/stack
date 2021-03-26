@@ -157,7 +157,12 @@ fun PreferenceScope.SliderPreference(
             icon = icon,
             secondaryText = {
                 Column {
-                    summary?.let { Text(text = it) }
+                    summary?.let {
+                        Text(
+                            text = it,
+                            color = MaterialTheme.colors.onBackground.copy(alpha = 0.5f)
+                        )
+                    }
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         valueLabel?.let {
                             it(currentValue)
@@ -309,7 +314,7 @@ internal fun PreferenceInternal(
             {
                 Text(
                     text = it,
-                    color = MaterialTheme.colors.onBackground
+                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.5f)
                 )
             }
         },

@@ -31,5 +31,4 @@ dependencies {
 
     // markdown
     implementation(composeMarkdown())
-    implementation(composePreference())
 }
