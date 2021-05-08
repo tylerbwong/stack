@@ -9,7 +9,7 @@ import android.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
+import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.ACTIVITY
@@ -54,7 +54,11 @@ class SearchFragment : BaseFragment<HomeFragmentBinding>(
         binding.recyclerView.apply {
             adapter = this@SearchFragment.adapter
             layoutManager = LinearLayoutManager(context)
-            applySystemWindowInsetsToPadding(bottom = true)
+            applyInsetter {
+                type(ime = true, statusBars = true, navigationBars = true) {
+                    padding(bottom = true)
+                }
+            }
         }
 
         viewModel.siteLiveData.observe(viewLifecycleOwner) {

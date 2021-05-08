@@ -11,7 +11,7 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
+import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.ACTIVITY
@@ -63,7 +63,11 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
         binding.recyclerView.apply {
             adapter = this@QuestionsActivity.adapter
             layoutManager = LinearLayoutManager(context)
-            applySystemWindowInsetsToPadding(bottom = true)
+            applyInsetter {
+                type(ime = true, statusBars = true, navigationBars = true) {
+                    padding(bottom = true)
+                }
+            }
         }
     }
 

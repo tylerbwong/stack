@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.insetter.applySystemWindowInsetsToMargin
+import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.ActivityQuestionDetailBinding
 import me.tylerbwong.stack.ui.BaseActivity
@@ -67,12 +67,11 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
 
     override fun applyFullscreenWindowInsets() {
         super.applyFullscreenWindowInsets()
-        binding.postAnswerButton.applySystemWindowInsetsToMargin(
-            left = true,
-            top = true,
-            right = true,
-            bottom = true
-        )
+        binding.postAnswerButton.applyInsetter {
+            type(ime = true, statusBars = true, navigationBars = true) {
+                margin(left = true, top = true, right = true, bottom = true)
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

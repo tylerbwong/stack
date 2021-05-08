@@ -174,10 +174,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 
     private fun setupBottomNavigation() {
         with(binding.bottomNav) {
-            setOnNavigationItemSelectedListener { menuItem ->
+            setOnItemSelectedListener { menuItem ->
                 if (experimental.createQuestionEnabled && menuItem.itemId == R.id.create) {
                     CreateQuestionActivity.startActivity(this@MainActivity)
-                    return@setOnNavigationItemSelectedListener false
+                    return@setOnItemSelectedListener false
                 }
 
                 val fragment = when (menuItem.itemId) {

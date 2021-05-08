@@ -9,7 +9,7 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
+import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.ActivityProfileBinding
@@ -59,7 +59,11 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
         binding.recyclerView.apply {
             adapter = this@ProfileActivity.adapter
             layoutManager = LinearLayoutManager(this@ProfileActivity)
-            applySystemWindowInsetsToPadding(bottom = true)
+            applyInsetter {
+                type(ime = true, statusBars = true, navigationBars = true) {
+                    padding(bottom = true)
+                }
+            }
         }
 
         binding.refreshLayout.setOnRefreshListener { viewModel.getUserQuestionsAndAnswers() }

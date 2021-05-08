@@ -49,7 +49,6 @@ dependencies {
     implementation(Dep.androidxCore)
     implementation(Dep.androidxFragment)
     kapt(Dep.androidxHiltCompiler)
-    implementation(Dep.androidxHiltViewModel)
     implementation(Dep.androidxHiltWork)
     implementation(Dep.androidxLiveData)
     implementation(Dep.androidxPreference)

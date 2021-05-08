@@ -11,7 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
+import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.QuestionDetailFragmentBinding
@@ -38,6 +38,7 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
         setHasOptionsMenu(true)
     }
 
+    @Suppress("LongMethod")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -107,8 +108,11 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
                     )
                 )
             }
-
-            applySystemWindowInsetsToPadding(bottom = true)
+            applyInsetter {
+                type(ime = true, statusBars = true, navigationBars = true) {
+                    padding(bottom = true)
+                }
+            }
         }
 
         viewModel.questionId = arguments?.getInt(QuestionDetailActivity.QUESTION_ID, 0) ?: 0

@@ -1,9 +1,6 @@
 package me.tylerbwong.stack.data.auth
 
 import android.net.Uri
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.runBlocking
 import me.tylerbwong.stack.BaseTest
 import me.tylerbwong.stack.api.model.User
@@ -30,6 +27,9 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
+import org.mockito.kotlin.any
+import org.mockito.kotlin.times
+import org.mockito.kotlin.whenever
 import retrofit2.HttpException
 import retrofit2.Response
 import me.tylerbwong.stack.api.model.Response as StackResponse

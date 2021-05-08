@@ -1,5 +1,6 @@
 package me.tylerbwong.compose.markdown.visitors
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.ui.layout.ContentScale
@@ -7,7 +8,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.coil.CoilImage
+import com.google.accompanist.coil.rememberCoilPainter
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.ast.getTextInNode
@@ -37,11 +38,13 @@ internal object ImageVisitor : Visitor {
                     PlaceholderVerticalAlign.TextCenter
                 )
             ) {
-                CoilImage(
-                    data = imageUrl,
+                Image(
+                    painter = rememberCoilPainter(
+                        request = imageUrl,
+                        fadeIn = true,
+                    ),
                     contentDescription = null,
                     contentScale = ContentScale.FillWidth,
-                    fadeIn = true
                 )
             }
             builder.appendInlineContent(imageUrl, imageUrl)

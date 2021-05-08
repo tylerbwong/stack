@@ -1,6 +1,8 @@
 @file:Suppress("MagicNumber")
+
 package me.tylerbwong.stack.ui.profile
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,9 +25,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
-import com.google.accompanist.coil.CoilImage
+import com.google.accompanist.coil.rememberCoilPainter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.ui.owners.Badges
@@ -53,19 +54,21 @@ fun ProfileHeader(user: User) {
                 role = Role.Image,
             )
         } ?: Modifier
-        CoilImage(
-            request = ImageRequest.Builder(context)
-                .data(user.profileImage)
-                .error(R.drawable.user_image_placeholder)
-                .placeholder(R.drawable.user_image_placeholder)
-                .transformations(CircleCropTransformation())
-                .build(),
+        Image(
+            painter = rememberCoilPainter(
+                request = user.profileImage,
+                requestBuilder = {
+                    error(R.drawable.user_image_placeholder)
+                    placeholder(R.drawable.user_image_placeholder)
+                    transformations(CircleCropTransformation())
+                },
+                fadeIn = true,
+            ),
             contentDescription = null,
             modifier = Modifier
                 .width(72.dp)
                 .height(72.dp)
                 .then(userProfileClickableModifier),
-            fadeIn = true,
         )
         user.location?.let {
             Spacer(modifier = Modifier.height(8.dp))

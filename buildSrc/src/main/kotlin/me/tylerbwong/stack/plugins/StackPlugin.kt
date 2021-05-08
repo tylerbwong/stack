@@ -51,11 +51,12 @@ class StackPlugin : Plugin<Project> {
 
             buildTypes {
                 getByName("debug") {
-                    applicationIdSuffix(".debug")
-                    versionNameSuffix("-debug")
+                    applicationIdSuffix = ".debug"
+                    versionNameSuffix = "-debug"
                 }
                 getByName("release") {
-                    isShrinkResources = true
+                    // TODO https://issuetracker.google.com/issues/186806256
+                    // isShrinkResources = true
                 }
             }
         }
@@ -65,8 +66,8 @@ class StackPlugin : Plugin<Project> {
         compileSdkVersion(AndroidConfig.COMPILE_SDK)
 
         defaultConfig {
-            minSdkVersion(AndroidConfig.MIN_SDK)
-            targetSdkVersion(AndroidConfig.TARGET_SDK)
+            minSdk = AndroidConfig.MIN_SDK
+            targetSdk = AndroidConfig.TARGET_SDK
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             vectorDrawables.useSupportLibrary = true
         }
@@ -104,7 +105,6 @@ class StackPlugin : Plugin<Project> {
                     "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
                 )
                 jvmTarget = JavaVersion.VERSION_1_8.toString()
-                useIR = true
             }
         }
 

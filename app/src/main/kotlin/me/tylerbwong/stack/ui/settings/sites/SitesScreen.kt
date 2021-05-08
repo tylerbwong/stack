@@ -1,6 +1,7 @@
 @file:Suppress("MagicNumber")
 package me.tylerbwong.stack.ui.settings.sites
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -47,7 +48,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.coil.CoilImage
+import com.google.accompanist.coil.rememberCoilPainter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled
@@ -213,8 +214,8 @@ fun SiteItem(
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        CoilImage(
-            data = site.iconUrl,
+        Image(
+            painter = rememberCoilPainter(request = site.iconUrl),
             contentDescription = null,
             modifier = Modifier
                 .size(64.dp)
