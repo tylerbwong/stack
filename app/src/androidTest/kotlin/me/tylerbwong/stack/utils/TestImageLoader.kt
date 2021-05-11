@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.utils
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -31,7 +32,7 @@ private val noOpMemoryCache = object : MemoryCache {
     }
 }
 
-class TestImageLoader : ImageLoader {
+class TestImageLoader(private val context: Context) : ImageLoader {
 
     private val testDrawable = ColorDrawable(Color.CYAN)
     private val testErrorDrawable = ColorDrawable(Color.RED)
@@ -74,6 +75,8 @@ class TestImageLoader : ImageLoader {
             )
         )
     }
+
+    override fun newBuilder(): ImageLoader.Builder = ImageLoader.Builder(context)
 
     override fun shutdown() {
         // No-op
