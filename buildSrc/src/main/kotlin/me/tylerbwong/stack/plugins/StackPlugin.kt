@@ -55,8 +55,7 @@ class StackPlugin : Plugin<Project> {
                     versionNameSuffix = "-debug"
                 }
                 getByName("release") {
-                    // TODO https://issuetracker.google.com/issues/186806256
-                    // isShrinkResources = true
+                    isShrinkResources = true
                 }
             }
         }
