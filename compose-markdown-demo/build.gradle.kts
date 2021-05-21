@@ -11,23 +11,23 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.compose
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 }
 
 dependencies {
     // kotlin
-    implementation(Dep.kotlinLib)
+    implementation(libs.jetbrains.kotlin.stdlib.jdk8)
 
     // androidx
-    implementation(Dep.androidxActivityCompose)
-    implementation(Dep.androidxAppCompat)
-    implementation(Dep.materialComponents)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.google.material)
 
     // compose
-    implementation(Dep.composeFoundation)
-    implementation(Dep.composeTooling)
-    implementation(Dep.composeUi)
+    implementation(libs.compose.foundation.foundation)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.ui)
 
     // markdown
     implementation(projects.composeMarkdown)

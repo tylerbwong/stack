@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.plugins
 
 import AndroidConfig
-import Versions
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
@@ -117,7 +116,6 @@ class StackPlugin : Plugin<Project> {
         apply(plugin = "io.gitlab.arturbosch.detekt")
 
         extensions.getByType<KtlintExtension>().apply {
-            version.set(Versions.ktlint)
             debug.set(true)
             reporters {
                 reporter(ReporterType.CHECKSTYLE)

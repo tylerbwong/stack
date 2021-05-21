@@ -30,123 +30,123 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.compose
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 }
 
 dependencies {
     // kotlin
-    implementation(Dep.kotlinLib)
-    implementation(Dep.kotlinCoroutinesCore)
-    implementation(Dep.kotlinCoroutinesAndroid)
+    implementation(libs.jetbrains.kotlin.stdlib.jdk8)
+    implementation(libs.jetbrains.kotlinx.coroutines.core)
+    implementation(libs.jetbrains.kotlinx.coroutines.android)
 
     // androidx
-    implementation(Dep.androidxActivity)
-    implementation(Dep.androidxActivityCompose)
-    implementation(Dep.androidxAppCompat)
-    implementation(Dep.androidxBrowser)
-    implementation(Dep.androidxConstraintLayout)
-    implementation(Dep.androidxCore)
-    implementation(Dep.androidxFragment)
-    kapt(Dep.androidxHiltCompiler)
-    implementation(Dep.androidxHiltWork)
-    implementation(Dep.androidxLiveData)
-    implementation(Dep.androidxPreference)
-    implementation(Dep.androidxRecyclerView)
-    implementation(Dep.androidxRoomRuntime)
-    implementation(Dep.androidxRoomKtx)
-    kapt(Dep.androidxRoomProcessor)
-    implementation(Dep.androidxSecurity)
-    implementation(Dep.androidxSwipeRefreshLayout)
-    implementation(Dep.androidxViewModel)
-    implementation(Dep.androidxViewModelCompose)
-    implementation(Dep.androidxViewPager2)
-    implementation(Dep.androidxWork)
-    implementation(Dep.materialComponents)
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.browser)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.fragment.ktx)
+    kapt(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.preference)
+    implementation(libs.androidx.recyclerview)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.viewpager2)
+    implementation(libs.androidx.work.runtime.ktx)
 
     // compose
-    implementation(Dep.composeFoundation)
-    implementation(Dep.composeLayout)
-    implementation(Dep.composeLiveData)
-    implementation(Dep.composeMaterial)
-    implementation(Dep.composeMaterialIcons)
-    implementation(Dep.composeTooling)
-    implementation(Dep.composeUi)
+    implementation(libs.compose.foundation.foundation)
+    implementation(libs.compose.foundation.layout)
+    implementation(libs.compose.runtime.livedata)
+    implementation(libs.compose.material.material)
+    implementation(libs.compose.material.icons.core)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.ui)
+
+    // google
+    implementation(libs.google.accompanist.coil)
+    implementation(platform(libs.google.firebase.bom))
+    implementation(libs.google.firebase.analytics.ktx)
+    implementation(libs.google.firebase.crashlytics.core)
+    implementation(libs.google.material)
 
     // licenses
-    implementation(Dep.aboutLibrariesCore)
+    implementation(libs.about.libraries.core)
 
     // debug
-    debugImplementation(Dep.chucker)
-    releaseImplementation(Dep.chuckerNoOp)
+    debugImplementation(libs.chucker.library.core)
+    releaseImplementation(libs.chucker.library.noop)
 
     // dynamic-list-adapter
     implementation(projects.dynamicListAdapter)
     implementation(projects.dynamicListAdapterViewbinding)
 
     // klock date/time
-    implementation(Dep.klock)
+    implementation(libs.klock)
 
     // coil
-    implementation(Dep.coil)
-    implementation(Dep.coilAccompanist)
+    implementation(libs.coil)
 
     // dagger
-    implementation(Dep.daggerHiltAndroid)
-    kapt(Dep.daggerHiltAndroidCompiler)
-
-    // firebase
-    implementation(platform(Dep.firebaseBom))
-    implementation(Dep.firebaseAnalytics)
-    implementation(Dep.firebaseCrashlytics)
+    kapt(libs.dagger.hilt.android.compiler)
+    implementation(libs.dagger.hilt.android.core)
 
     // insetter
-    implementation(Dep.insetter)
+    implementation(libs.insetter)
 
     // logging
-    implementation(Dep.timber)
+    implementation(libs.timber)
 
     // markdown
     implementation(projects.markdown)
-    implementation(Dep.markwonCore)
-    implementation(Dep.markwonHtml)
-    implementation(Dep.markwonImageCoil)
-    implementation(Dep.markwonInline)
-    implementation(Dep.markwonLatex)
-    implementation(Dep.markwonLinkify)
-    implementation(Dep.markwonStrikethrough)
-    implementation(Dep.markwonSyntaxHighlight)
-    implementation(Dep.markwonTables)
-    implementation(Dep.markwonTaskList)
+    implementation(libs.markwon.core)
+    implementation(libs.markwon.html)
+    implementation(libs.markwon.image.coil)
+    implementation(libs.markwon.inline.parser)
+    implementation(libs.markwon.latex)
+    implementation(libs.markwon.linkify)
+    implementation(libs.markwon.strikethrough)
+    implementation(libs.markwon.syntaxhighlight)
+    implementation(libs.markwon.tables)
+    implementation(libs.markwon.tasklist)
 
     // misc
-    implementation(Dep.processPhoenix)
+    implementation(libs.process.phoenix)
 
     // networking
     implementation(projects.stackexchangeApi)
-    implementation(Dep.moshi)
-    kapt(Dep.moshiKotlinCodegen)
-    implementation(Dep.okHttp)
-    implementation(Dep.okHttpLogger)
-    implementation(Dep.retrofit)
-    implementation(Dep.retrofitMoshiConverter)
+    implementation(libs.moshi.core)
+    kapt(libs.moshi.kotlin.codegen)
+    implementation(libs.okhttp.core)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.converter.moshi)
 
     // play
-    implementation(Dep.playCore)
+    implementation(libs.google.play.core)
 
     // testing
-    testImplementation(Dep.androidxTestCore)
-    testImplementation(Dep.jUnit)
-    testImplementation(Dep.mockito)
-    testImplementation(Dep.mockitoKotlin)
-    testImplementation(Dep.okHttpMock)
-    testImplementation(Dep.robolectric)
-    androidTestImplementation(Dep.androidxTestCore)
-    androidTestImplementation(Dep.androidxTestExt)
-    androidTestImplementation(Dep.androidxTestRunner)
-    androidTestImplementation(Dep.barista)
-    androidTestImplementation(Dep.espresso)
-    androidTestImplementation(Dep.espressoIntents)
+    testImplementation(libs.androidx.test.core.ktx)
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.okhttp.mockwebserver)
+    testImplementation(libs.robolectric)
+    androidTestImplementation(libs.androidx.test.core.ktx)
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.barista)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.espresso.intents)
 }
 
 val googleServices = file("google-services.json")

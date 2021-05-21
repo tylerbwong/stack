@@ -13,21 +13,21 @@ android {
 }
 
 dependencies {
-    implementation(Dep.kotlinLib)
+    implementation(libs.jetbrains.kotlin.stdlib.jdk8)
 
     // androidx
-    implementation(Dep.androidxAppCompat)
+    implementation(libs.androidx.appcompat)
 
     // betterlinkmovementmethod
-    implementation(Dep.betterLinkMovementMethod)
+    implementation(libs.betterlinkmovementmethod)
 
     // dagger
-    implementation(Dep.daggerHiltAndroid)
-    kapt(Dep.daggerHiltAndroidCompiler)
+    kapt(libs.dagger.hilt.android.compiler)
+    implementation(libs.dagger.hilt.android.core)
 
     // markdown
-    implementation(Dep.apacheCommonsText)
-    implementation(Dep.markwonCore)
-    implementation(Dep.markwonSyntaxHighlight)
-    kapt(Dep.prism4jBundler)
+    implementation(libs.apache.commons.text)
+    implementation(libs.markwon.core)
+    implementation(libs.markwon.syntaxhighlight)
+    kapt(libs.prism4j.bundler)
 }

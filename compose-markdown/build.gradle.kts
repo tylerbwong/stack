@@ -12,30 +12,30 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.compose
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 }
 
 dependencies {
-    implementation(Dep.kotlinLib)
+    implementation(libs.jetbrains.kotlin.stdlib.jdk8)
 
     // androidx
-    implementation(Dep.androidxCore)
+    implementation(libs.androidx.core.ktx)
 
     // coil
-    implementation(Dep.coilAccompanist)
+    implementation(libs.google.accompanist.coil)
 
     // compose
-    implementation(Dep.composeFoundation)
-    implementation(Dep.composeMaterial)
-    implementation(Dep.composeTooling)
-    implementation(Dep.composeUi)
+    implementation(libs.compose.foundation.foundation)
+    implementation(libs.compose.material.material)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.ui)
 
     // markdown
-    implementation(Dep.intellijMarkdown)
+    implementation(libs.jetbrains.markdown)
 
     // testing
-    testImplementation(Dep.jUnit)
-    testImplementation(Dep.mockito)
-    testImplementation(Dep.mockitoKotlin)
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
 }

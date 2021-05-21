@@ -13,6 +13,6 @@ android {
 
 dependencies {
     implementation(projects.dynamicListAdapter)
-    implementation(Dep.kotlinLib)
-    implementation(Dep.androidxRecyclerView)
+    implementation(libs.jetbrains.kotlin.stdlib.jdk8)
+    implementation(libs.androidx.recyclerview)
 }

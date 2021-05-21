@@ -13,16 +13,16 @@ android {
 }
 
 dependencies {
-    implementation(Dep.kotlinLib)
+    implementation(libs.jetbrains.kotlin.stdlib.jdk8)
 
     // dagger
-    implementation(Dep.daggerHiltAndroid)
-    kapt(Dep.daggerHiltAndroidCompiler)
+    kapt(libs.dagger.hilt.android.compiler)
+    implementation(libs.dagger.hilt.android.core)
 
     // networking
-    implementation(Dep.moshi)
-    kapt(Dep.moshiKotlinCodegen)
-    implementation(Dep.okHttp)
-    implementation(Dep.retrofit)
-    implementation(Dep.retrofitMoshiConverter)
+    implementation(libs.moshi.core)
+    kapt(libs.moshi.kotlin.codegen)
+    implementation(libs.okhttp.core)
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.converter.moshi)
 }

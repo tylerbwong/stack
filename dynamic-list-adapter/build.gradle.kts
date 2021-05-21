@@ -11,7 +11,7 @@ android {
 }
 
 dependencies {
-    implementation(Dep.kotlinLib)
-    implementation(Dep.androidxCore)
-    implementation(Dep.androidxRecyclerView)
+    implementation(libs.jetbrains.kotlin.stdlib.jdk8)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.recyclerview)
 }

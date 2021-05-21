@@ -8,6 +8,7 @@ repositories {
     gradlePluginPortal()
 }
 
+// TODO Migrate these to version catalog accessors
 dependencies {
     implementation("com.android.tools.build:builder:7.0.0-beta02")
     implementation("com.android.tools.build:builder-model:7.0.0-beta02")

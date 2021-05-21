@@ -17,25 +17,25 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.compose
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 }
 
 dependencies {
-    implementation(Dep.androidxActivity)
-    implementation(Dep.flowSharedPreferences)
-    implementation(Dep.kotlinLib)
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.flow.sharedpreferences)
+    implementation(libs.jetbrains.kotlin.stdlib.jdk8)
 
     // compose
-    implementation(Dep.composeFoundation)
-    implementation(Dep.composeMaterial)
-    implementation(Dep.composeMaterialIcons)
-    implementation(Dep.composeMaterialIconsExtended)
-    implementation(Dep.composeTooling)
-    implementation(Dep.composeUi)
+    implementation(libs.compose.foundation.foundation)
+    implementation(libs.compose.material.material)
+    implementation(libs.compose.material.icons.core)
+    implementation(libs.compose.material.icons.extended)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.ui)
 
-    androidTestImplementation(Dep.androidxTestCore)
-    androidTestImplementation(Dep.androidxTestExt)
-    androidTestImplementation(Dep.androidxTestRunner)
-    androidTestImplementation(Dep.composeUiTest)
+    androidTestImplementation(libs.androidx.test.core.ktx)
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.compose.ui.test)
 }
