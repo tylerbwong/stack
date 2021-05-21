@@ -81,8 +81,8 @@ dependencies {
     releaseImplementation(Dep.chuckerNoOp)
 
     // dynamic-list-adapter
-    implementation(dynamicListAdapter())
-    implementation(dynamicListAdapterViewBinding())
+    implementation(projects.dynamicListAdapter)
+    implementation(projects.dynamicListAdapterViewbinding)
 
     // klock date/time
     implementation(Dep.klock)
@@ -107,7 +107,7 @@ dependencies {
     implementation(Dep.timber)
 
     // markdown
-    implementation(markdown())
+    implementation(projects.markdown)
     implementation(Dep.markwonCore)
     implementation(Dep.markwonHtml)
     implementation(Dep.markwonImageCoil)
@@ -123,7 +123,7 @@ dependencies {
     implementation(Dep.processPhoenix)
 
     // networking
-    implementation(stackExchangeApi())
+    implementation(projects.stackexchangeApi)
     implementation(Dep.moshi)
     kapt(Dep.moshiKotlinCodegen)
     implementation(Dep.okHttp)

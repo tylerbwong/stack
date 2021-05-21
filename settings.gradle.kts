@@ -8,3 +8,5 @@ include(
     ":markdown",
     ":stackexchange-api"
 )
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

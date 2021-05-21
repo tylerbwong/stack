@@ -30,5 +30,5 @@ dependencies {
     implementation(Dep.composeUi)
 
     // markdown
-    implementation(composeMarkdown())
+    implementation(projects.composeMarkdown)
 }

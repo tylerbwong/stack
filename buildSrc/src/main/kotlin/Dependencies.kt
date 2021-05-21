@@ -20,7 +20,7 @@ object Versions {
     const val androidxViewPager2 = "1.1.0-alpha01"
     const val androidxWork = "2.7.0-alpha03"
     const val apacheCommonsText = "1.9"
-    const val barista = "3.10.0"
+    const val barista = "3.9.0"
     const val betterLinkMovementMethod = "2.2.0"
     const val chucker = "3.4.0"
     const val coil = "1.2.1"

@@ -12,7 +12,7 @@ android {
 }
 
 dependencies {
-    implementation(dynamicListAdapter())
+    implementation(projects.dynamicListAdapter)
     implementation(Dep.kotlinLib)
     implementation(Dep.androidxRecyclerView)
 }
