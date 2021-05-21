@@ -4,6 +4,7 @@ package me.tylerbwong.compose.preference
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.material.Checkbox
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ProvideTextStyle
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Slider
 import androidx.compose.material.Switch
@@ -31,6 +33,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -39,8 +42,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @OptIn(ExperimentalCoroutinesApi::class)
 fun PreferenceScope.ListPreference(
     key: String,
-    title: String,
-    dialogTitle: String,
+    title: @Composable () -> Unit,
+    dialogTitle: @Composable () -> Unit,
     items: List<String>,
     onConfirm: (String, Int) -> Unit,
     selectedItemIndex: Int = 0,
@@ -64,7 +67,7 @@ fun PreferenceScope.ListPreference(
 
         PreferenceInternal(
             title = title,
-            summary = items[itemIndex],
+            summary = { Text(text = items[itemIndex]) },
             icon = icon,
             singleLineSecondaryText = singleLineSecondaryText,
             onClick = { isAlertDialogVisible = true },
@@ -76,17 +79,19 @@ fun PreferenceScope.ListPreference(
                 content = {
                     Card(shape = RoundedCornerShape(8.dp)) {
                         Column(modifier = Modifier.fillMaxWidth()) {
-                            Text(
-                                text = dialogTitle,
-                                modifier = Modifier.padding(
-                                    start = 24.dp,
-                                    top = 20.dp,
-                                    end = 24.dp,
-                                    bottom = 8.dp,
-                                ),
-                                color = MaterialTheme.colors.onSurface,
-                                style = MaterialTheme.typography.h6,
-                            )
+                            ProvideTextStyle(
+                                value = TextStyle(color = MaterialTheme.colors.onSurface) +
+                                        MaterialTheme.typography.h6
+                            ) {
+                                Box(
+                                    modifier = Modifier.padding(
+                                        start = 24.dp,
+                                        top = 20.dp,
+                                        end = 24.dp,
+                                        bottom = 8.dp,
+                                    ),
+                                ) { dialogTitle() }
+                            }
                             items.forEachIndexed { index, item ->
                                 val interactionSource = remember { MutableInteractionSource() }
                                 Row(
@@ -131,9 +136,9 @@ fun PreferenceScope.SliderPreference(
     onValueChange: (Float) -> Unit,
     valueRange: ClosedFloatingPointRange<Float>,
     steps: Int,
-    title: String,
+    title: @Composable () -> Unit,
     valueLabel: (@Composable (value: Float) -> Unit)? = null,
-    summary: String? = null,
+    summary: (@Composable () -> Unit)? = null,
     icon: (@Composable () -> Unit)? = null,
 ) {
     item {
@@ -147,10 +152,11 @@ fun PreferenceScope.SliderPreference(
             secondaryText = {
                 Column {
                     summary?.let {
-                        Text(
-                            text = it,
-                            color = MaterialTheme.colors.onBackground.copy(alpha = 0.5f)
-                        )
+                        ProvideTextStyle(
+                            value = TextStyle(
+                                color = MaterialTheme.colors.onBackground.copy(alpha = 0.5f)
+                            )
+                        ) { it() }
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         valueLabel?.let {
@@ -169,7 +175,11 @@ fun PreferenceScope.SliderPreference(
                     }
                 }
             },
-            text = { Text(text = title, color = MaterialTheme.colors.onBackground) },
+            text = {
+                ProvideTextStyle(value = TextStyle(color = MaterialTheme.colors.onBackground)) {
+                    title()
+                }
+            },
         )
     }
 }
@@ -178,8 +188,8 @@ fun PreferenceScope.CheckboxPreference(
     initialChecked: Boolean,
     key: String,
     onCheckedChange: (Boolean) -> Unit,
-    title: String,
-    summary: String? = null,
+    title: @Composable () -> Unit,
+    summary: (@Composable () -> Unit)? = null,
     icon: (@Composable () -> Unit)? = null,
     singleLineSecondaryText: Boolean = true,
 ) {
@@ -204,8 +214,8 @@ fun PreferenceScope.SwitchPreference(
     initialChecked: Boolean,
     key: String,
     onCheckedChange: (Boolean) -> Unit,
-    title: String,
-    summary: String? = null,
+    title: @Composable () -> Unit,
+    summary: (@Composable () -> Unit)? = null,
     icon: (@Composable () -> Unit)? = null,
     singleLineSecondaryText: Boolean = true,
 ) {
@@ -227,8 +237,8 @@ fun PreferenceScope.SwitchPreference(
 }
 
 fun PreferenceScope.Preference(
-    title: String,
-    summary: String? = null,
+    title: @Composable () -> Unit,
+    summary: (@Composable () -> Unit)? = null,
     icon: (@Composable () -> Unit)? = null,
     singleLineSecondaryText: Boolean = true,
     onClick: () -> Unit = {},
@@ -249,8 +259,8 @@ internal fun PreferenceScope.TwoStatePreference(
     initialChecked: Boolean,
     key: String,
     onCheckedChange: (Boolean) -> Unit,
-    title: String,
-    summary: String? = null,
+    title: @Composable () -> Unit,
+    summary: (@Composable () -> Unit)? = null,
     icon: (@Composable () -> Unit)? = null,
     singleLineSecondaryText: Boolean = true,
     trailing: @Composable (checked: Boolean, toggle: (Boolean) -> Unit) -> Unit,
@@ -279,8 +289,8 @@ internal fun PreferenceScope.TwoStatePreference(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun PreferenceInternal(
-    title: String,
-    summary: String?,
+    title: @Composable () -> Unit,
+    summary: (@Composable () -> Unit)?,
     icon: (@Composable () -> Unit)?,
     modifier: Modifier = Modifier,
     singleLineSecondaryText: Boolean = true,
@@ -298,14 +308,17 @@ internal fun PreferenceInternal(
         icon = icon,
         secondaryText = summary?.let {
             {
-                Text(
-                    text = it,
-                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.5f)
-                )
+                ProvideTextStyle(
+                    value = TextStyle(color = MaterialTheme.colors.onBackground.copy(alpha = 0.5f))
+                ) { it() }
             }
         },
         singleLineSecondaryText = singleLineSecondaryText,
-        text = { Text(text = title, color = MaterialTheme.colors.onBackground) },
+        text = {
+            ProvideTextStyle(value = TextStyle(color = MaterialTheme.colors.onBackground)) {
+                title()
+            }
+        },
         trailing = trailing,
     )
 }

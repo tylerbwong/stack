@@ -46,13 +46,13 @@ internal fun PreferenceScreenPreview() {
     val context = LocalContext.current
     val preferences = context.getSharedPreferences("test", Context.MODE_PRIVATE)
     PreferenceScreen(preferences = preferences) {
-        PreferenceCategory("Experimental") {
+        PreferenceCategory(header = { Text(text = "Experimental") }) {
             SwitchPreference(
                 initialChecked = false,
                 key = "syntax_highlighting",
                 onCheckedChange = {},
-                title = "Syntax Highlighting",
-                summary = "Enables syntax highlighting for supported markdown code blocks.",
+                title = { Text(text = "Syntax Highlighting") },
+                summary = { Text(text = "Enables syntax highlighting for supported markdown code blocks.") },
                 icon = {
                     Icon(
                         imageVector = Icons.Filled.Code,
@@ -68,8 +68,8 @@ internal fun PreferenceScreenPreview() {
                 initialChecked = false,
                 key = "create_question",
                 onCheckedChange = {},
-                title = "Create Question",
-                summary = "Enables create question support.",
+                title = { Text(text = "Create Question") },
+                summary = { Text(text = "Enables create question support.") },
                 icon = {
                     Icon(
                         imageVector = Icons.Filled.AddCircle,
@@ -86,9 +86,9 @@ internal fun PreferenceScreenPreview() {
                 onValueChange = {},
                 valueRange = 0f..100f,
                 steps = 25,
-                title = "Number of Questions to Show",
+                title = { Text(text = "Number of Questions to Show") },
                 valueLabel = { Text(text = it.toInt().toString()) },
-                summary = "Specifies the number of questions to show on the home page.",
+                summary = { Text(text = "Specifies the number of questions to show on the home page.") },
                 icon = {
                     Icon(
                         imageVector = Icons.Filled.Dashboard,
@@ -100,9 +100,9 @@ internal fun PreferenceScreenPreview() {
                 },
             )
         }
-        PreferenceCategory("Debug") {
+        PreferenceCategory(header = { Text(text = "Debug") }) {
             Preference(
-                title = "Inspect Network Traffic",
+                title = { Text(text = "Inspect Network Traffic") },
                 icon = {
                     Icon(
                         imageVector = Icons.Filled.Traffic,
@@ -117,7 +117,7 @@ internal fun PreferenceScreenPreview() {
                 initialChecked = true,
                 key = "network_debugging",
                 onCheckedChange = {},
-                title = "Enable Network Debugging",
+                title = { Text(text = "Enable Network Debugging") },
                 icon = {
                     Icon(
                         imageVector = Icons.Filled.BugReport,
@@ -129,11 +129,11 @@ internal fun PreferenceScreenPreview() {
                 },
             )
         }
-        PreferenceCategory("App") {
+        PreferenceCategory(header = { Text(text = "App") }) {
             ListPreference(
                 key = "theme",
-                title = "Theme",
-                dialogTitle = "Theme",
+                title = { Text(text = "Theme") },
+                dialogTitle = { Text(text = "Theme") },
                 items = listOf("Light", "Dark", "System default"),
                 onConfirm = { _, _ -> },
                 icon = {
@@ -147,8 +147,8 @@ internal fun PreferenceScreenPreview() {
                 },
             )
             Preference(
-                title = "Version",
-                summary = "1.0.0-alpha01",
+                title = { Text(text = "Version") },
+                summary = { Text(text = "1.0.0-alpha01") },
                 icon = {
                     Icon(
                         imageVector = Icons.Filled.Info,
