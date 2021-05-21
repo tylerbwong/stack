@@ -4,9 +4,8 @@ package me.tylerbwong.compose.preference
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -22,11 +21,10 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.tfcporciuncula.flow.FlowSharedPreferences
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@ExperimentalCoroutinesApi
 @Composable
 fun PreferenceScreen(
     preferences: SharedPreferences,
@@ -40,6 +38,7 @@ fun PreferenceScreen(
     }
 }
 
+@OptIn(ExperimentalCoroutinesApi::class, ExperimentalMaterialApi::class)
 @Preview(showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 internal fun PreferenceScreenPreview() {
@@ -57,9 +56,6 @@ internal fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Code,
                         contentDescription = null,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .size(24.dp)
                     )
                 },
                 singleLineSecondaryText = false,
@@ -74,9 +70,6 @@ internal fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.AddCircle,
                         contentDescription = null,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .size(24.dp)
                     )
                 },
             )
@@ -93,9 +86,6 @@ internal fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Dashboard,
                         contentDescription = null,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .size(24.dp)
                     )
                 },
             )
@@ -107,9 +97,6 @@ internal fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Traffic,
                         contentDescription = null,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .size(24.dp)
                     )
                 },
             )
@@ -122,9 +109,6 @@ internal fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.BugReport,
                         contentDescription = null,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .size(24.dp)
                     )
                 },
             )
@@ -140,9 +124,6 @@ internal fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Brightness2,
                         contentDescription = null,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .size(24.dp)
                     )
                 },
             )
@@ -153,9 +134,6 @@ internal fun PreferenceScreenPreview() {
                     Icon(
                         imageVector = Icons.Filled.Info,
                         contentDescription = null,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .size(24.dp)
                     )
                 },
             )

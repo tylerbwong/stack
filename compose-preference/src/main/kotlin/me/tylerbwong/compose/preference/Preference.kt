@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -39,7 +40,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@OptIn(ExperimentalCoroutinesApi::class)
+private val DefaultIconSize = 24.dp
+private val DefaultIconPadding = 8.dp
+
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 fun PreferenceScope.ListPreference(
     key: String,
     title: @Composable () -> Unit,
@@ -129,7 +134,8 @@ fun PreferenceScope.ListPreference(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalCoroutinesApi::class)
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 fun PreferenceScope.SliderPreference(
     initialValue: Float,
     key: String,
@@ -148,7 +154,15 @@ fun PreferenceScope.SliderPreference(
             .collectAsState(initial = preferences.sharedPreferences.getFloat(key, initialValue))
 
         ListItem(
-            icon = icon,
+            icon = icon?.let {
+                {
+                    Box(
+                        modifier = Modifier
+                            .padding(DefaultIconPadding)
+                            .size(DefaultIconSize),
+                    ) { it() }
+                }
+            },
             secondaryText = {
                 Column {
                     summary?.let {
@@ -184,6 +198,8 @@ fun PreferenceScope.SliderPreference(
     }
 }
 
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 fun PreferenceScope.CheckboxPreference(
     initialChecked: Boolean,
     key: String,
@@ -210,6 +226,8 @@ fun PreferenceScope.CheckboxPreference(
     )
 }
 
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 fun PreferenceScope.SwitchPreference(
     initialChecked: Boolean,
     key: String,
@@ -236,6 +254,7 @@ fun PreferenceScope.SwitchPreference(
     )
 }
 
+@ExperimentalMaterialApi
 fun PreferenceScope.Preference(
     title: @Composable () -> Unit,
     summary: (@Composable () -> Unit)? = null,
@@ -254,7 +273,8 @@ fun PreferenceScope.Preference(
     }
 }
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 internal fun PreferenceScope.TwoStatePreference(
     initialChecked: Boolean,
     key: String,
@@ -286,7 +306,7 @@ internal fun PreferenceScope.TwoStatePreference(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 @Composable
 internal fun PreferenceInternal(
     title: @Composable () -> Unit,
@@ -305,7 +325,15 @@ internal fun PreferenceInternal(
             indication = rememberRipple(),
             onClick = onClick
         ),
-        icon = icon,
+        icon = icon?.let {
+            {
+                Box(
+                    modifier = Modifier
+                        .padding(DefaultIconPadding)
+                        .size(DefaultIconSize),
+                ) { it() }
+            }
+        },
         secondaryText = summary?.let {
             {
                 ProvideTextStyle(

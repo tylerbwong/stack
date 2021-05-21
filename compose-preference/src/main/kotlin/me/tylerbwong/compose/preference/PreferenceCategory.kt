@@ -34,9 +34,7 @@ fun PreferenceScope.PreferenceCategory(
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                 )
-            ) {
-                header()
-            }
+            ) { header() }
         }
     }
     content()
