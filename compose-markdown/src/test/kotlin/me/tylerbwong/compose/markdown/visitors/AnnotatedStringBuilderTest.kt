@@ -1,3 +1,4 @@
+@file:Suppress("MaxLineLength")
 package me.tylerbwong.compose.markdown.visitors
 
 import androidx.compose.material.Typography

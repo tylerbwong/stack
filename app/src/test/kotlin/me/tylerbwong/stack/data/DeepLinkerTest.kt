@@ -1,3 +1,4 @@
+@file:Suppress("MaxLineLength")
 package me.tylerbwong.stack.data
 
 import android.net.Uri
