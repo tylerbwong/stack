@@ -19,7 +19,7 @@ fun PreferenceScope.PreferenceCategory(
     divider: @Composable () -> Unit = { Divider() },
     content: PreferenceScope.() -> Unit,
 ) {
-    item { 
+    item {
         Box(
             modifier = Modifier
                 .padding(
