@@ -115,7 +115,7 @@ fun PreferenceScope.ListPreference(
                                 ) {
                                     RadioButton(
                                         selected = index == itemIndex,
-                                        onClick = {},
+                                        onClick = { onClick(index) },
                                     )
                                     Spacer(modifier = Modifier.width(24.dp))
                                     Text(
