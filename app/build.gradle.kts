@@ -64,11 +64,13 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
 
     // compose
+    implementation(projects.composePreference)
     implementation(libs.compose.foundation.foundation)
     implementation(libs.compose.foundation.layout)
     implementation(libs.compose.runtime.livedata)
     implementation(libs.compose.material.material)
     implementation(libs.compose.material.icons.core)
+    implementation(libs.compose.material.icons.extended)
     implementation(libs.compose.ui.tooling)
     implementation(libs.compose.ui.ui)
 

@@ -187,6 +187,10 @@
             android:theme="@style/AppTheme.Base.Primary" />
 
         <activity
+            android:name=".ui.settings.SettingsComposeActivity"
+            android:theme="@style/AppTheme.Base.Primary" />
+
+        <activity
             android:name=".ui.settings.sites.SitesActivity"
             android:theme="@style/AppTheme.Base.Primary" />
 

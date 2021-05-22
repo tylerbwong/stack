@@ -49,7 +49,6 @@ internal fun PreferenceScreenPreview() {
             SwitchPreference(
                 initialChecked = false,
                 key = "syntax_highlighting",
-                onCheckedChange = {},
                 title = { Text(text = "Syntax Highlighting") },
                 summary = { Text(text = "Enables syntax highlighting for supported markdown code blocks.") },
                 icon = {
@@ -63,7 +62,6 @@ internal fun PreferenceScreenPreview() {
             SwitchPreference(
                 initialChecked = false,
                 key = "create_question",
-                onCheckedChange = {},
                 title = { Text(text = "Create Question") },
                 summary = { Text(text = "Enables create question support.") },
                 icon = {
@@ -103,7 +101,6 @@ internal fun PreferenceScreenPreview() {
             CheckboxPreference(
                 initialChecked = true,
                 key = "network_debugging",
-                onCheckedChange = {},
                 title = { Text(text = "Enable Network Debugging") },
                 icon = {
                     Icon(

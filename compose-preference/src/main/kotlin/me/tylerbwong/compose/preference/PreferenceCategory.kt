@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 
 fun PreferenceScope.PreferenceCategory(
     header: @Composable () -> Unit,
-    divider: @Composable () -> Unit = { Divider() },
+    divider: (@Composable () -> Unit)? = { Divider() },
     content: PreferenceScope.() -> Unit,
 ) {
     item {
@@ -38,5 +38,5 @@ fun PreferenceScope.PreferenceCategory(
         }
     }
     content()
-    item { divider() }
+    divider?.let { item { it() } }
 }

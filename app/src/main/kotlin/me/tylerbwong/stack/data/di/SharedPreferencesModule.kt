@@ -2,6 +2,7 @@ package me.tylerbwong.stack.data.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import dagger.Module
@@ -13,6 +14,10 @@ import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.site.SiteStore
 import me.tylerbwong.stack.ui.settings.Experimental
 import javax.inject.Qualifier
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class StackSharedPreferences
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
@@ -29,6 +34,11 @@ annotation class ExperimentalSharedPreferences
 @Module
 @InstallIn(SingletonComponent::class)
 class SharedPreferencesModule {
+
+    @[Provides StackSharedPreferences]
+    fun provideStackSharedPreferences(
+        @ApplicationContext context: Context
+    ): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     @[Provides SiteSharedPreferences]
     fun provideSiteSharedPreferences(

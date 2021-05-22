@@ -19,7 +19,7 @@ class Experimental @Inject constructor(
 
     companion object {
         internal const val EXPERIMENTAL_SHARED_PREFS = "experimental_shared_prefs"
-        private const val MARKDOWN_SYNTAX_HIGHLIGHT = "markdown_syntax_highlight"
-        private const val CREATE_QUESTION = "create_question"
+        const val MARKDOWN_SYNTAX_HIGHLIGHT = "markdown_syntax_highlight"
+        const val CREATE_QUESTION = "create_question"
     }
 }

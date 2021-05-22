@@ -164,22 +164,18 @@ fun SitesLayout(changeSite: (String) -> Unit) {
     val searchQuery by viewModel.searchQuery.observeAsState()
 
     LazyColumn {
-        items(
-            items = sites,
-            key = null,
-            itemContent = { site ->
-                SiteItem(
-                    site = site,
-                    searchQuery = searchQuery,
-                ) {
-                    if (viewModel.isAuthenticated) {
-                        clickedSite = site
-                    } else {
-                        changeSite(site.parameter)
-                    }
+        items(items = sites) { site ->
+            SiteItem(
+                site = site,
+                searchQuery = searchQuery,
+            ) {
+                if (viewModel.isAuthenticated) {
+                    clickedSite = site
+                } else {
+                    changeSite(site.parameter)
                 }
             }
-        )
+        }
     }
 
     val site = clickedSite

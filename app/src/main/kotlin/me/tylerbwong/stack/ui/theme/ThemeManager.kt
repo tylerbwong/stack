@@ -35,7 +35,7 @@ object ThemeManager {
             MODE_NIGHT_AUTO_BATTERY
         }
 
-    private const val CURRENT_MODE = "current_mode"
+    const val CURRENT_MODE = "current_mode"
 
     fun init(context: Context) {
         AppCompatDelegate.setDefaultNightMode(context.delegateMode)

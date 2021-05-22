@@ -115,7 +115,7 @@ fun PreferenceScope.ListPreference(
                                 ) {
                                     RadioButton(
                                         selected = index == itemIndex,
-                                        onClick = { onClick(index) },
+                                        onClick = {},
                                     )
                                     Spacer(modifier = Modifier.width(24.dp))
                                     Text(
@@ -203,8 +203,8 @@ fun PreferenceScope.SliderPreference(
 fun PreferenceScope.CheckboxPreference(
     initialChecked: Boolean,
     key: String,
-    onCheckedChange: (Boolean) -> Unit,
     title: @Composable () -> Unit,
+    onCheckedChange: (Boolean) -> Unit = {},
     summary: (@Composable () -> Unit)? = null,
     icon: (@Composable () -> Unit)? = null,
     singleLineSecondaryText: Boolean = true,
@@ -231,8 +231,8 @@ fun PreferenceScope.CheckboxPreference(
 fun PreferenceScope.SwitchPreference(
     initialChecked: Boolean,
     key: String,
-    onCheckedChange: (Boolean) -> Unit,
     title: @Composable () -> Unit,
+    onCheckedChange: (Boolean) -> Unit = {},
     summary: (@Composable () -> Unit)? = null,
     icon: (@Composable () -> Unit)? = null,
     singleLineSecondaryText: Boolean = true,
@@ -325,14 +325,12 @@ internal fun PreferenceInternal(
             indication = rememberRipple(),
             onClick = onClick
         ),
-        icon = icon?.let {
-            {
-                Box(
-                    modifier = Modifier
-                        .padding(DefaultIconPadding)
-                        .size(DefaultIconSize),
-                ) { it() }
-            }
+        icon = {
+            Box(
+                modifier = Modifier
+                    .padding(DefaultIconPadding)
+                    .size(DefaultIconSize),
+            ) { icon?.invoke() }
         },
         secondaryText = summary?.let {
             {
