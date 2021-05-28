@@ -1,8 +1,8 @@
 // TODO Migrate these to version catalog accessors
 object Versions {
     const val aboutLibraries = "8.8.5"
-    const val androidGradlePlugin = "7.0.0-beta02"
-    const val daggerHilt = "2.35.1"
+    const val androidGradlePlugin = "7.1.0-alpha01"
+    const val daggerHilt = "2.36"
     const val detekt = "1.17.0"
     const val firebaseCrashlyticsGradlePlugin = "2.5.2"
     const val googleServices = "4.3.5"
