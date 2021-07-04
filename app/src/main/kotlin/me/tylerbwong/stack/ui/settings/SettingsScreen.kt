@@ -53,6 +53,7 @@ import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
 import me.tylerbwong.stack.ui.theme.nightModeOptions
 import me.tylerbwong.stack.ui.utils.launchUrl
 import me.tylerbwong.stack.ui.utils.toHtml
+import java.util.Locale
 
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalMaterialApi::class)
 @Composable
@@ -157,7 +158,18 @@ fun SettingsScreen(
                         Preference(
                             title = { Text(text = site.name.toHtml().toString()) },
                             summary = {
-                                Text(text = site.audience.capitalize().toHtml().toString())
+                                Text(
+                                    text = site.audience
+                                        .replaceFirstChar {
+                                            if (it.isLowerCase()) {
+                                                it.titlecase(Locale.getDefault())
+                                            } else {
+                                                it.toString()
+                                            }
+                                        }
+                                        .toHtml()
+                                        .toString()
+                                )
                             },
                             icon = {
                                 Image(

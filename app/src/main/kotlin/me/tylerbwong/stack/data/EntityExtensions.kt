@@ -173,7 +173,16 @@ fun SiteEntity.toSite(): Site =
         name = name.toHtml().toString(),
         parameter = parameter,
         url = url,
-        audience = audience.capitalize(Locale.getDefault()).toHtml().toString(),
+        audience = audience
+            .replaceFirstChar {
+                if (it.isLowerCase()) {
+                    it.titlecase(Locale.getDefault())
+                } else {
+                    it.toString()
+                }
+            }
+            .toHtml()
+            .toString(),
         iconUrl = iconUrl
     )
 

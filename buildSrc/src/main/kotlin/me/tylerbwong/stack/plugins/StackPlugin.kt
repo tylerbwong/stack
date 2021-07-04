@@ -87,8 +87,10 @@ class StackPlugin : Plugin<Project> {
         }
 
         packagingOptions {
-            excludes += "META-INF/AL2.0"
-            excludes += "META-INF/LGPL2.1"
+            resources.excludes += setOf(
+                "META-INF/AL2.0",
+                "META-INF/LGPL2.1"
+            )
         }
 
         testOptions {

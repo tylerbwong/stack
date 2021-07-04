@@ -1,7 +1,7 @@
 package me.tylerbwong.compose.preference
 
 import androidx.compose.runtime.staticCompositionLocalOf
-import com.tfcporciuncula.flow.FlowSharedPreferences
+import com.fredporciuncula.flow.preferences.FlowSharedPreferences
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi

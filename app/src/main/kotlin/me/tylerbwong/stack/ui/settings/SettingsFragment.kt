@@ -29,6 +29,7 @@ import me.tylerbwong.stack.ui.utils.launchUrl
 import me.tylerbwong.stack.ui.utils.showDialog
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -142,7 +143,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
         viewModel.currentSite.observe(viewLifecycleOwner) { site ->
             findPreference<Preference>(getString(R.string.current_site))?.apply {
                 title = site.name.toHtml()
-                summary = site.audience.capitalize().toHtml()
+                summary = site.audience
+                    .replaceFirstChar {
+                        if (it.isLowerCase()) {
+                            it.titlecase(Locale.getDefault())
+                        } else {
+                            it.toString()
+                        }
+                    }
+                    .toHtml()
                 setOnPreferenceClickListener {
                     SitesActivity.startActivity(requireContext())
                     true
