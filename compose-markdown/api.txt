@@ -2,7 +2,7 @@
 package me.tylerbwong.compose.markdown {
 
   public final class MarkdownTextKt {
-    method @androidx.compose.runtime.Composable public static void MarkdownText-4POLFL0(String markdown, optional androidx.compose.ui.Modifier modifier, optional long color, optional long fontSize, optional androidx.compose.ui.text.font.FontStyle? fontStyle, optional androidx.compose.ui.text.font.FontWeight? fontWeight, optional kotlin.jvm.functions.Function1<? super java.lang.String,kotlin.Unit> onLinkClicked);
+    method @androidx.compose.runtime.Composable public static void MarkdownText(String markdown, optional androidx.compose.ui.Modifier modifier, optional long color, optional long fontSize, optional androidx.compose.ui.text.font.FontStyle? fontStyle, optional androidx.compose.ui.text.font.FontWeight? fontWeight, optional kotlin.jvm.functions.Function1<? super java.lang.String,kotlin.Unit> onLinkClicked);
   }
 
 }
