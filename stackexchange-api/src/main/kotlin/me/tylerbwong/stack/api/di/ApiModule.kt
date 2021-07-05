@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
+import me.tylerbwong.stack.api.BuildConfig
 import me.tylerbwong.stack.api.UnitConverterFactory
 import me.tylerbwong.stack.api.service.AuthService
 import me.tylerbwong.stack.api.service.CommentService
@@ -101,6 +102,6 @@ class ApiModule {
     ): SiteService = retrofit.create(SiteService::class.java)
 
     companion object {
-        private const val BASE_URL = "https://api.stackexchange.com/2.2/"
+        private const val BASE_URL = "https://api.stackexchange.com/${BuildConfig.API_VERSION}/"
     }
 }

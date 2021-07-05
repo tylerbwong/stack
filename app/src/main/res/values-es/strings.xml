@@ -119,7 +119,6 @@
     <string name="libraries">Módulos de Código Abierto</string>
     <string name="libraries_description">Estos impresionantes módulos de código ayudaron a construir Stack</string>
     <string name="api">Funciona con la API de Stack Exchange</string>
-    <string name="api_description">v2.2</string>
     <string name="privacy">Política de Privacidad</string>
     <string name="terms">Términos y Condiciones</string>
     <string name="license">Licencia de %1$s</string>

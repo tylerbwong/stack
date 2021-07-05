@@ -54,6 +54,7 @@ import me.tylerbwong.stack.ui.theme.nightModeOptions
 import me.tylerbwong.stack.ui.utils.launchUrl
 import me.tylerbwong.stack.ui.utils.toHtml
 import java.util.Locale
+import me.tylerbwong.stack.api.BuildConfig as ApiBuildConfig
 
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalMaterialApi::class)
 @Composable
@@ -311,7 +312,7 @@ fun SettingsScreen(
                     )
                     Preference(
                         title = { Text(text = stringResource(R.string.api)) },
-                        summary = { Text(text = stringResource(R.string.api_description)) },
+                        summary = { Text(text = "v${ApiBuildConfig.API_VERSION}") },
                         icon = {
                             Icon(
                                 imageVector = Icons.Default.Cloud,

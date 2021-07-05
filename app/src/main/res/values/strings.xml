@@ -132,7 +132,6 @@
     <string name="libraries">Open Source Libraries</string>
     <string name="libraries_description">These awesome libraries helped build Stack</string>
     <string name="api">Powered by the Stack Exchange API</string>
-    <string name="api_description">v2.2</string>
     <string name="privacy">Privacy Policy</string>
     <string name="terms">Terms and Conditions</string>
     <string name="license">%1$s License</string>

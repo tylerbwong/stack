@@ -8,6 +8,7 @@ plugins {
 
 android {
     defaultConfig {
+        buildConfigField("String", "API_VERSION", "\"2.3\"")
         buildConfigField("String", "API_KEY", stringProperty("stackApiKey"))
     }
 }

@@ -4,6 +4,7 @@ plugins {
     `kotlin-kapt`
     id("dagger.hilt.android.plugin")
     id("com.facebook.testing.screenshot")
+    id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.mikepenz.aboutlibraries.plugin")
     StackPlugin
@@ -155,5 +156,3 @@ val googleServices = file("google-services.json")
 if (!googleServices.exists()) {
     file("fake-google-services.json").copyTo(googleServices, overwrite = true)
 }
-
-apply(plugin = "com.google.gms.google-services")

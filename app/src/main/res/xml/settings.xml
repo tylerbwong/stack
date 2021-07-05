@@ -69,7 +69,6 @@
         <Preference
             android:icon="@drawable/ic_baseline_cloud"
             android:key="@string/api"
-            android:summary="@string/api_description"
             android:title="@string/api" />
 
         <Preference

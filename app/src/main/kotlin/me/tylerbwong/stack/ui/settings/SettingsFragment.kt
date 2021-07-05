@@ -31,6 +31,7 @@ import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
 import java.util.Locale
 import javax.inject.Inject
+import me.tylerbwong.stack.api.BuildConfig as ApiBuildConfig
 
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -213,6 +214,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         findPreference<Preference>(getString(R.string.api))?.apply {
+            summary = "v${ApiBuildConfig.API_VERSION}"
             setOnPreferenceClickListener {
                 requireContext().launchUrl(getString(R.string.api_home_url))
                 true
