@@ -1,6 +1,6 @@
 # Stack
-[![CI](https://github.com/tylerbwong/stack/workflows/CI/badge.svg)](https://github.com/tylerbwong/stack/actions?query=workflow%3ACI)
-[![Nightly](https://github.com/tylerbwong/stack/workflows/Nightly/badge.svg?branch=master)](https://github.com/tylerbwong/stack/actions?query=workflow%3ANightly)
+[![Build](https://github.com/tylerbwong/stack/actions/workflows/build.yml/badge.svg)](https://github.com/tylerbwong/stack/actions/workflows/build.yml)
+[![Nightly](https://github.com/tylerbwong/stack/actions/workflows/nightly.yml/badge.svg)](https://github.com/tylerbwong/stack/actions/workflows/nightly.yml)
 
 ![Stack](/.idea/icon.png)
 
