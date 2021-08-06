@@ -23,7 +23,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
 
     // coil
-    implementation(libs.google.accompanist.coil)
+    implementation(libs.coil.compose)
 
     // compose
     implementation(libs.compose.foundation.foundation)

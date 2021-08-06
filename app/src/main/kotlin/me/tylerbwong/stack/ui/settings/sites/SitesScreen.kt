@@ -47,7 +47,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.coil.rememberCoilPainter
+import coil.compose.rememberImagePainter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled
@@ -210,7 +210,7 @@ fun SiteItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = rememberCoilPainter(request = site.iconUrl),
+            painter = rememberImagePainter(data = site.iconUrl),
             contentDescription = null,
             modifier = Modifier
                 .size(64.dp)

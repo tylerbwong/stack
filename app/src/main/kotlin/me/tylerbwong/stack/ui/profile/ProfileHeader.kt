@@ -25,8 +25,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
-import com.google.accompanist.coil.rememberCoilPainter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.ui.owners.Badges
@@ -55,15 +55,12 @@ fun ProfileHeader(user: User) {
             )
         } ?: Modifier
         Image(
-            painter = rememberCoilPainter(
-                request = user.profileImage,
-                requestBuilder = {
-                    error(R.drawable.user_image_placeholder)
-                    placeholder(R.drawable.user_image_placeholder)
-                    transformations(CircleCropTransformation())
-                },
-                fadeIn = true,
-            ),
+            painter = rememberImagePainter(data = user.profileImage) {
+                crossfade(true)
+                error(R.drawable.user_image_placeholder)
+                placeholder(R.drawable.user_image_placeholder)
+                transformations(CircleCropTransformation())
+            },
             contentDescription = null,
             modifier = Modifier
                 .width(72.dp)

@@ -35,9 +35,9 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
 import com.chuckerteam.chucker.api.Chucker
-import com.google.accompanist.coil.rememberCoilPainter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import me.tylerbwong.compose.preference.ListPreference
 import me.tylerbwong.compose.preference.Preference
@@ -122,17 +122,14 @@ fun SettingsScreen(
                             summary = it.location?.let { { Text(text = it) } },
                             icon = {
                                 Image(
-                                    painter = rememberCoilPainter(
-                                        request = it.profileImage,
-                                        requestBuilder = {
-                                            transformations(CircleCropTransformation())
-                                            size(
-                                                context.resources.getDimensionPixelSize(
-                                                    R.dimen.user_image_placeholder_size
-                                                )
+                                    painter = rememberImagePainter(data = it.profileImage) {
+                                        transformations(CircleCropTransformation())
+                                        size(
+                                            context.resources.getDimensionPixelSize(
+                                                R.dimen.user_image_placeholder_size
                                             )
-                                        },
-                                    ),
+                                        )
+                                    },
                                     contentDescription = null,
                                 )
                             },
@@ -174,7 +171,7 @@ fun SettingsScreen(
                             },
                             icon = {
                                 Image(
-                                    painter = rememberCoilPainter(request = site.iconUrl),
+                                    painter = rememberImagePainter(data = site.iconUrl),
                                     contentDescription = null
                                 )
                             },

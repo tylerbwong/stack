@@ -2,9 +2,9 @@ package me.tylerbwong.stack.plugins
 
 import AndroidConfig
 import com.android.build.gradle.AppPlugin
+import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
-import com.android.build.gradle.TestedExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.gradle.api.JavaVersion
@@ -40,7 +40,7 @@ class StackPlugin : Plugin<Project> {
 
     private fun Project.configureAppPlugin() {
         extensions.getByType<BaseAppModuleExtension>().apply {
-            configureCommonOptions(project)
+            configureCommonOptions(this@configureAppPlugin)
 
             defaultConfig {
                 applicationId = AndroidConfig.APPLICATION_ID
@@ -60,7 +60,7 @@ class StackPlugin : Plugin<Project> {
         }
     }
 
-    private fun TestedExtension.configureCommonOptions(project: Project) {
+    private fun BaseExtension.configureCommonOptions(project: Project) {
         compileSdkVersion(AndroidConfig.COMPILE_SDK)
 
         defaultConfig {
@@ -82,6 +82,7 @@ class StackPlugin : Plugin<Project> {
             targetCompatibility = JavaVersion.VERSION_1_8
         }
 
+        @Suppress("deprecation") // Move to CommonExtension
         lintOptions {
             isAbortOnError = false
         }
@@ -99,11 +100,7 @@ class StackPlugin : Plugin<Project> {
 
         project.tasks.withType<KotlinCompile>().configureEach {
             kotlinOptions {
-                freeCompilerArgs += listOf(
-                    "-Xopt-in=kotlin.RequiresOptIn",
-                    "-P",
-                    "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
-                )
+                freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn")
                 jvmTarget = JavaVersion.VERSION_1_8.toString()
             }
         }

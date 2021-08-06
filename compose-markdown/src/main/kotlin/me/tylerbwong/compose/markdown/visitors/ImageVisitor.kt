@@ -8,7 +8,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.coil.rememberCoilPainter
+import coil.compose.rememberImagePainter
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.ast.getTextInNode
@@ -39,10 +39,9 @@ internal object ImageVisitor : Visitor {
                 )
             ) {
                 Image(
-                    painter = rememberCoilPainter(
-                        request = imageUrl,
-                        fadeIn = true,
-                    ),
+                    painter = rememberImagePainter(data = imageUrl) {
+                        crossfade(true)
+                    },
                     contentDescription = null,
                     contentScale = ContentScale.FillWidth,
                 )

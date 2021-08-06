@@ -76,7 +76,7 @@ dependencies {
     implementation(libs.compose.ui.ui)
 
     // google
-    implementation(libs.google.accompanist.coil)
+    implementation(libs.coil.compose)
     implementation(platform(libs.google.firebase.bom))
     implementation(libs.google.firebase.analytics.ktx)
     implementation(libs.google.firebase.crashlytics.core)
@@ -97,7 +97,7 @@ dependencies {
     implementation(libs.klock)
 
     // coil
-    implementation(libs.coil)
+    implementation(libs.coil.core)
 
     // dagger
     kapt(libs.dagger.hilt.android.compiler)

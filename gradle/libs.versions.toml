@@ -1,50 +1,50 @@
 [versions]
-about-libraries = "8.9.0"
-android-gradle-plugin = "7.1.0-alpha02"
-androidx-activity = "1.3.0-rc01"
+about-libraries = "8.9.1"
+android-gradle-plugin = "7.1.0-alpha06"
+androidx-activity = "1.3.1"
 androidx-appcompat = "1.4.0-alpha03"
 androidx-browser = "1.3.0"
-androidx-constraintlayout = "2.1.0-beta02"
+androidx-constraintlayout = "2.1.0"
 androidx-core = "1.7.0-alpha01"
-androidx-fragment = "1.4.0-alpha04"
+androidx-fragment = "1.4.0-alpha06"
 androidx-hilt = "1.0.0"
-androidx-lifecycle-core = "2.4.0-alpha02"
+androidx-lifecycle-core = "2.4.0-alpha03"
 androidx-lifecycle-viewmodel-compose = "1.0.0-alpha07"
 androidx-preference = "1.1.1"
 androidx-recyclerview = "1.2.1"
-androidx-room = "2.4.0-alpha03"
+androidx-room = "2.4.0-alpha04"
 androidx-security = "1.1.0-alpha03"
 androidx-swiperefreshlayout = "1.2.0-alpha01"
 androidx-test-core = "1.4.0"
 androidx-test-ext = "1.1.3-rc01"
-androidx-viewpager2 = "1.1.0-alpha01"
-androidx-work = "2.7.0-alpha04"
+androidx-viewpager2 = "1.1.0-beta01"
+androidx-work = "2.7.0-alpha05"
 apache-commons-text = "1.9"
-barista = "3.9.0"
+barista = "3.10.0"
 betterlinkmovementmethod = "2.2.0"
-chucker = "3.5.0"
-coil = "1.2.2"
-compose = "1.0.0-rc01"
-dagger = "2.37"
+chucker = "3.5.2"
+coil = "1.3.2"
+compose = "1.0.1"
+dagger = "2.38.1"
 detekt = "1.17.1"
 espresso = "3.1.0"
 facebook-screenshot-testing-plugin = "0.14.0"
 flow-sharedpreferences = "1.5.0"
-google-accompanist = "0.13.0"
-google-firebase-bom = "28.2.0"
+google-accompanist = "0.16.0"
+google-firebase-bom = "28.3.0"
 google-firebase-crashlytics-gradle-plugin = "2.7.1"
 google-material = "1.4.0"
 google-play-core = "1.10.0"
 google-services = "4.3.8"
 insetter = "0.6.0"
-jetbrains-kotlin = "1.5.10"
-jetbrains-kotlinx-coroutines = "1.5.0"
+jetbrains-kotlin = "1.5.21"
+jetbrains-kotlinx-coroutines = "1.5.1"
 jetbrains-markdown = "0.2.4"
 junit = "4.13"
-klock = "2.2.0"
+klock = "2.2.2"
 ktlint-gradle-plugin = "10.1.0"
 markwon = "4.6.2"
-metalava-gradle-plugin = "0.1.8"
+metalava-gradle-plugin = "0.1.9"
 mockito-core = "3.11.2"
 mockito-kotlin = "3.2.0"
 moshi = "1.12.0"
@@ -90,14 +90,15 @@ androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version
 
 apache-commons-text = { module = "org.apache.commons:commons-text", version.ref = "apache-commons-text" }
 
-barista = { module = "com.schibsted.spain:barista", version.ref = "barista" }
+barista = { module = "com.github.SchibstedSpain:Barista", version.ref = "barista" }
 
 betterlinkmovementmethod = { module = "me.saket:better-link-movement-method", version.ref = "betterlinkmovementmethod" }
 
 chucker-library-core = { module = "com.github.chuckerteam.chucker:library", version.ref = "chucker" }
 chucker-library-noop = { module = "com.github.chuckerteam.chucker:library-no-op", version.ref = "chucker" }
 
-coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 compose-foundation-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "compose" }
@@ -122,7 +123,6 @@ facebook-screenshot-testing-plugin = { module = "com.facebook.testing.screenshot
 
 flow-sharedpreferences = { module = "com.fredporciuncula:flow-preferences", version.ref = "flow-sharedpreferences" }
 
-google-accompanist-coil = { module = "com.google.accompanist:accompanist-coil", version.ref = "google-accompanist" }
 google-firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
 google-firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "google-firebase-bom"}
 google-firebase-crashlytics-core = { module = "com.google.firebase:firebase-crashlytics" }
