@@ -1,20 +1,25 @@
-package me.tylerbwong.stack.data
+package me.tylerbwong.stack.play.updater
 
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType.FLEXIBLE
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
-import com.google.android.play.core.tasks.Task
-import dagger.hilt.android.scopes.ActivityScoped
+import me.tylerbwong.stack.data.updater.AppUpdater
 import me.tylerbwong.stack.ui.MainActivity
-import javax.inject.Inject
 
-@ActivityScoped
-class AppUpdater @Inject constructor(private val manager: AppUpdateManager) {
+class PlayAppUpdater(private val manager: AppUpdateManager) : AppUpdater {
 
-    fun checkForUpdate(activity: MainActivity) {
-        manager.registerListener(activity)
+    private var listener: InstallStateUpdatedListener? = null
+
+    override fun checkForUpdate(activity: MainActivity) {
+        val listener = InstallStateUpdatedListener { state ->
+            if (state.installStatus() == InstallStatus.DOWNLOADED) {
+                activity.checkForPendingInstall()
+            }
+        }
+        this.listener = listener
+        manager.registerListener(listener)
 
         manager.appUpdateInfo.addOnSuccessListener {
             if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
@@ -25,7 +30,7 @@ class AppUpdater @Inject constructor(private val manager: AppUpdateManager) {
         }
     }
 
-    fun checkForPendingInstall(
+    override fun checkForPendingInstall(
         onDownloadFinished: () -> Unit,
         onDownloadFailed: () -> Unit
     ) {
@@ -37,10 +42,12 @@ class AppUpdater @Inject constructor(private val manager: AppUpdateManager) {
         }
     }
 
-    fun completeUpdate(): Task<Void> = manager.completeUpdate()
+    override fun completeUpdate() {
+        manager.completeUpdate()
+    }
 
-    fun unregisterListener(listener: InstallStateUpdatedListener) {
-        manager.unregisterListener(listener)
+    override fun unregisterListener() {
+        listener?.let { manager.unregisterListener(it) }
     }
 
     companion object {

@@ -77,9 +77,9 @@ dependencies {
 
     // google
     implementation(libs.coil.compose)
-    implementation(platform(libs.google.firebase.bom))
-    implementation(libs.google.firebase.analytics.ktx)
-    implementation(libs.google.firebase.crashlytics.core)
+    playImplementation(platform(libs.google.firebase.bom))
+    playImplementation(libs.google.firebase.analytics.ktx)
+    playImplementation(libs.google.firebase.crashlytics.core)
     implementation(libs.google.material)
 
     // licenses
@@ -135,7 +135,7 @@ dependencies {
     implementation(libs.retrofit.converter.moshi)
 
     // play
-    implementation(libs.google.play.core)
+    playImplementation(libs.google.play.core)
 
     // testing
     testImplementation(libs.androidx.test.core.ktx)

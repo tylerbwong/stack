@@ -13,10 +13,12 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+import java.util.Locale
 
 class StackPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -55,6 +57,40 @@ class StackPlugin : Plugin<Project> {
                 }
                 getByName("release") {
                     isShrinkResources = true
+                }
+            }
+
+            flavorDimensions += "releaseType"
+            productFlavors {
+                register("base") {
+                    dimension = "releaseType"
+                }
+                register("play") {
+                    dimension = "releaseType"
+                }
+            }
+
+            applicationVariants.all {
+                val formattedName = name.capitalize(Locale.getDefault())
+                with (tasks) {
+                    listOfNotNull(
+                        findByName("process${formattedName}GoogleServices"),
+                        findByName("injectCrashlyticsMappingFileId$formattedName"),
+                        findByName("uploadCrashlyticsMappingFile$formattedName")
+                    ).forEach { it.enabled = flavorName == "play" }
+                }
+            }
+
+            (sourceSets) {
+                "base" {
+                    java {
+                        srcDir("src/base/kotlin")
+                    }
+                }
+                "play" {
+                    java {
+                        srcDir("src/play/kotlin")
+                    }
                 }
             }
         }

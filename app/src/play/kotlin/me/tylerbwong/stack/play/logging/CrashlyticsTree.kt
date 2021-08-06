@@ -1,10 +1,11 @@
-package me.tylerbwong.stack.data.logging
+package me.tylerbwong.stack.play.logging
 
 import android.util.Log
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
+import javax.inject.Inject
 
-class CrashlyticsTree : Timber.Tree() {
+class CrashlyticsTree @Inject constructor() : Timber.Tree() {
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
         when (priority) {
             Log.DEBUG, Log.INFO, Log.VERBOSE -> return
