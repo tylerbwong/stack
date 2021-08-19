@@ -203,7 +203,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    private fun checkForPendingInstall() {
+    fun checkForPendingInstall() {
         appUpdater.checkForPendingInstall(
             onDownloadFinished = {
                 binding.bottomNav.showSnackbar(
