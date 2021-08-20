@@ -144,11 +144,11 @@ class MarkdownModule {
         @MarkwonPlugin plugins: Set<@JvmSuppressWildcards AbstractMarkwonPlugin>,
         @SharedMarkwonPlugin sharedPlugins: Set<@JvmSuppressWildcards AbstractMarkwonPlugin>,
         @ExperimentalMarkwonPlugin experimentalPlugins: Set<@JvmSuppressWildcards AbstractMarkwonPlugin>,
-        textSetter: Markwon.TextSetter
+//        textSetter: Markwon.TextSetter
     ): Markwon {
         return Markwon.builder(context)
             .usePlugins(plugins + sharedPlugins + experimentalPlugins)
-            .textSetter(textSetter)
+//            .textSetter(textSetter) /* Causing stuttering in [RecyclerView] */
             .build()
     }
 
@@ -156,12 +156,12 @@ class MarkdownModule {
     fun provideLatexMarkwon(
         @ApplicationContext context: Context,
         @SharedMarkwonPlugin sharedPlugins: Set<@JvmSuppressWildcards AbstractMarkwonPlugin>,
-        textSetter: Markwon.TextSetter
+//        textSetter: Markwon.TextSetter
     ): Markwon {
         return Markwon.builder(context)
             .usePlugin(MovementMethodPlugin.none())
             .usePlugins(sharedPlugins)
-            .textSetter(textSetter)
+//            .textSetter(textSetter) /* Causing stuttering in [RecyclerView] */
             .build()
     }
 }

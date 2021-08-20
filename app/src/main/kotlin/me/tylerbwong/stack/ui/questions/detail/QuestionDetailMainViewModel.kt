@@ -6,7 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Response
@@ -14,10 +16,13 @@ import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.api.utils.toErrorResponse
 import me.tylerbwong.stack.data.auth.AuthRepository
 import me.tylerbwong.stack.data.repository.QuestionRepository
+import me.tylerbwong.stack.markdown.Markdown
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import me.tylerbwong.stack.ui.utils.toHtml
 import me.tylerbwong.stack.ui.utils.zipWith
+import org.commonmark.node.FencedCodeBlock
+import org.commonmark.node.IndentedCodeBlock
 import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,7 +31,8 @@ import javax.inject.Inject
 class QuestionDetailMainViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val questionRepository: QuestionRepository,
-    private val service: QuestionService
+    private val service: QuestionService,
+    private val markdown: Markdown,
 ) : BaseViewModel(), QuestionDetailActionHandler {
 
     internal val data: LiveData<List<QuestionDetailItem>>
@@ -73,24 +79,72 @@ class QuestionDetailMainViewModel @Inject constructor(
             val questionResult = question ?: questionRepository.getQuestion(questionId)
             val answersResult = questionRepository.getQuestionAnswers(questionId)
 
-            val response = mutableListOf<QuestionDetailItem>().apply {
-                add(0, QuestionMainItem(questionResult))
-                if (isAuthenticated) {
-                    add(QuestionActionItem(this@QuestionDetailMainViewModel, questionResult))
+            val detailItems = withContext(Dispatchers.Default) {
+                mutableListOf<QuestionDetailItem>().apply {
+                    add(0, QuestionTitleItem(questionResult.title))
+                    addAll(
+                        collectMarkdownItems(questionResult.bodyMarkdown).also {
+                            it.filterIsInstance<BaseMarkdownItem>().forEach { item ->
+                                item.render(markdown)
+                            }
+                        }
+                    )
+                    questionResult.tags?.let { add(QuestionTagsItem(it)) }
+                    add(
+                        FooterItem(
+                            entityId = questionResult.questionId,
+                            creationDate = questionResult.creationDate,
+                            lastEditor = questionResult.lastEditor,
+                            commentCount = questionResult.commentCount,
+                            owner = questionResult.owner,
+                        )
+                    )
+                    if (isAuthenticated) {
+                        add(QuestionActionItem(this@QuestionDetailMainViewModel, questionResult))
+                    }
+                    add(AnswerHeaderItem(questionResult.answerCount))
+                    addAll(
+                        answersResult.flatMap { answer ->
+                            mutableListOf<QuestionDetailItem>().apply {
+                                add(
+                                    AnswerVotesHeaderItem(
+                                        id = answer.answerId,
+                                        isAccepted = answer.isAccepted,
+                                        upVoteCount = answer.upVoteCount,
+                                        downVoteCount = answer.downVoteCount
+                                    )
+                                )
+                                addAll(
+                                    collectMarkdownItems(answer.bodyMarkdown).also {
+                                        it.filterIsInstance<BaseMarkdownItem>().forEach { item ->
+                                            item.render(markdown)
+                                        }
+                                    }
+                                )
+                                add(
+                                    FooterItem(
+                                        entityId = answer.answerId,
+                                        creationDate = answer.creationDate,
+                                        lastEditor = answer.lastEditor,
+                                        commentCount = answer.commentCount,
+                                        owner = answer.owner,
+                                    )
+                                )
+                            }
+                        }
+                    )
                 }
-                add(AnswerHeaderItem(questionResult.answerCount))
-                addAll(answersResult.map { AnswerItem(it) })
-            } to questionResult
+            }
 
-            this@QuestionDetailMainViewModel.question = response.second
-            _liveQuestion.value = response.second
+            this@QuestionDetailMainViewModel.question = questionResult
+            _liveQuestion.value = questionResult
 
-            _data.value = response.first
-            _voteCount.value = response.second.upVoteCount - response.second.downVoteCount
+            _data.value = detailItems
+            _voteCount.value = questionResult.upVoteCount - questionResult.downVoteCount
 
             if (answerId != -1) {
-                _scrollToIndex.value = response.first
-                    .indexOfFirst { it is AnswerItem && it.answer.answerId == answerId }
+                _scrollToIndex.value = detailItems
+                    .indexOfFirst { it is AnswerVotesHeaderItem && it.id == answerId }
             }
         }
     }
@@ -179,6 +233,20 @@ class QuestionDetailMainViewModel @Inject constructor(
                 }
             } catch (ex: Exception) {
                 Timber.e(ex)
+            }
+        }
+    }
+
+    private fun collectMarkdownItems(markdownContent: String?): List<QuestionDetailItem> {
+        val rootNode = markdownContent?.let { markdown.parse(it) }
+        val nodes = rootNode
+            ?.let { markdown.reduce(it) }
+            ?: emptyList()
+        return nodes.map { node ->
+            if (node is FencedCodeBlock || node is IndentedCodeBlock) {
+                FencedCodeBlockItem(node)
+            } else {
+                MarkdownItem(node)
             }
         }
     }

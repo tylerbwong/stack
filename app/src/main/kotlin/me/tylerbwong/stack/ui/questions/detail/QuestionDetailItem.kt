@@ -1,40 +1,88 @@
 package me.tylerbwong.stack.ui.questions.detail
 
+import android.text.Spanned
 import androidx.recyclerview.widget.DiffUtil
 import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.adapter.ViewHolderProvider
-import me.tylerbwong.stack.api.model.Answer
 import me.tylerbwong.stack.api.model.Question
-import me.tylerbwong.stack.ui.answers.AnswerHolder
+import me.tylerbwong.stack.api.model.User
+import me.tylerbwong.stack.markdown.Renderer
+import org.commonmark.node.Node
 
 sealed class QuestionDetailItem(viewHolderProvider: ViewHolderProvider) : DynamicItem(viewHolderProvider)
-data class QuestionMainItem(internal val question: Question) : QuestionDetailItem(::QuestionDetailHolder)
+abstract class BaseMarkdownItem(
+    viewHolderProvider: ViewHolderProvider,
+    internal var renderedMarkdown: Spanned? = null,
+) : QuestionDetailItem(viewHolderProvider) {
+    abstract fun render(renderer: Renderer): Spanned
+}
+data class QuestionTitleItem(internal val title: String) : QuestionDetailItem(::QuestionTitleHolder)
+data class FooterItem(
+    internal val entityId: Int,
+    internal val creationDate: Long,
+    internal val lastEditor: User?,
+    internal val commentCount: Int?,
+    internal val owner: User,
+) : QuestionDetailItem(::FooterHolder)
+data class QuestionTagsItem(internal val tags: List<String>) : QuestionDetailItem(::QuestionTagsHolder)
+data class MarkdownItem(internal val node: Node) : BaseMarkdownItem(::MarkdownHolder) {
+    override fun render(
+        renderer: Renderer
+    ): Spanned = this.renderedMarkdown ?: renderer.render(node).also { this.renderedMarkdown = it }
+}
+data class FencedCodeBlockItem(internal val node: Node) : BaseMarkdownItem(::FencedCodeBlockHolder) {
+    override fun render(
+        renderer: Renderer
+    ): Spanned = this.renderedMarkdown ?: renderer.render(node).also { this.renderedMarkdown = it }
+}
 data class QuestionActionItem(
     internal val handler: QuestionDetailActionHandler,
     internal val question: Question
 ) : QuestionDetailItem(::QuestionDetailActionHolder)
 data class AnswerHeaderItem(internal val answerCount: Int) : QuestionDetailItem(::AnswerHeaderViewHolder)
-data class AnswerItem(internal val answer: Answer) : QuestionDetailItem(::AnswerHolder)
+data class AnswerVotesHeaderItem(
+    internal val id: Int,
+    internal val isAccepted: Boolean,
+    internal val upVoteCount: Int,
+    internal val downVoteCount: Int
+) : QuestionDetailItem(::AnswerVotesHeaderHolder)
 
 object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
+
+    @Suppress("ComplexMethod") // TODO Delegate to each item
     override fun areItemsTheSame(oldItem: DynamicItem, newItem: DynamicItem) = when {
-        oldItem is QuestionMainItem && newItem is QuestionMainItem ->
-            oldItem.question.questionId == newItem.question.questionId
+        oldItem is QuestionTitleItem && newItem is QuestionTitleItem ->
+            oldItem.title == newItem.title
+        oldItem is FooterItem && newItem is FooterItem ->
+            oldItem.entityId == newItem.entityId
+        oldItem is QuestionTagsItem && newItem is QuestionTagsItem ->
+            oldItem.tags == newItem.tags
+        oldItem is MarkdownItem && newItem is MarkdownItem ->
+            oldItem.node.toString() == newItem.node.toString()
+        oldItem is FencedCodeBlockItem && newItem is FencedCodeBlockItem ->
+            oldItem.node.toString() == newItem.node.toString()
         oldItem is QuestionActionItem && newItem is QuestionActionItem -> true
         oldItem is AnswerHeaderItem && newItem is AnswerHeaderItem -> true
-        oldItem is AnswerItem && newItem is AnswerItem ->
-            oldItem.answer.answerId == newItem.answer.answerId
+        oldItem is AnswerVotesHeaderItem && newItem is AnswerVotesHeaderItem ->
+            oldItem.id == newItem.id
         else -> false
     }
 
     @Suppress("ComplexMethod") // TODO Delegate to each item
     override fun areContentsTheSame(oldItem: DynamicItem, newItem: DynamicItem) = when {
-        oldItem is QuestionMainItem && newItem is QuestionMainItem ->
-            oldItem.question.title == newItem.question.title &&
-                    oldItem.question.bodyMarkdown == newItem.question.bodyMarkdown &&
-                    oldItem.question.owner == newItem.question.owner &&
-                    oldItem.question.tags == newItem.question.tags &&
-                    oldItem.question.creationDate == newItem.question.creationDate
+        oldItem is QuestionTitleItem && newItem is QuestionTitleItem ->
+            oldItem.title == newItem.title
+        oldItem is FooterItem && newItem is FooterItem ->
+            oldItem.entityId == newItem.entityId && oldItem.creationDate == newItem.creationDate &&
+                    oldItem.commentCount == newItem.commentCount &&
+                    oldItem.lastEditor == newItem.lastEditor &&
+                    oldItem.owner == newItem.owner
+        oldItem is QuestionTagsItem && newItem is QuestionTagsItem ->
+            oldItem.tags == newItem.tags
+        oldItem is MarkdownItem && newItem is MarkdownItem ->
+            oldItem.node.toString() == newItem.node.toString()
+        oldItem is FencedCodeBlockItem && newItem is FencedCodeBlockItem ->
+            oldItem.node.toString() == newItem.node.toString()
         oldItem is QuestionActionItem && newItem is QuestionActionItem ->
             oldItem.question.isDownVoted == newItem.question.isDownVoted &&
                     oldItem.question.isBookmarked == newItem.question.isBookmarked &&
@@ -44,13 +92,10 @@ object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
                     oldItem.question.upVoteCount == newItem.question.upVoteCount
         oldItem is AnswerHeaderItem && newItem is AnswerHeaderItem ->
             oldItem.answerCount == newItem.answerCount
-        oldItem is AnswerItem && newItem is AnswerItem ->
-            oldItem.answer.isAccepted == newItem.answer.isAccepted &&
-                    oldItem.answer.upVoteCount == newItem.answer.upVoteCount &&
-                    oldItem.answer.downVoteCount == newItem.answer.downVoteCount &&
-                    oldItem.answer.bodyMarkdown == newItem.answer.bodyMarkdown &&
-                    oldItem.answer.owner == newItem.answer.owner &&
-                    oldItem.answer.creationDate == newItem.answer.creationDate
+        oldItem is AnswerVotesHeaderItem && newItem is AnswerVotesHeaderItem ->
+            oldItem.id == newItem.id && oldItem.isAccepted == newItem.isAccepted &&
+                    oldItem.upVoteCount == newItem.upVoteCount &&
+                    oldItem.downVoteCount == newItem.downVoteCount
         else -> false
     }
 }
