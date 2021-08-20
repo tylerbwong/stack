@@ -40,4 +40,6 @@ class DynamicListAdapter : ListAdapter<DynamicItem, DynamicHolder<*>> {
         holder: DynamicHolder<*>,
         position: Int
     ) = (holder as DynamicHolder<DynamicItem>).bind(getItem(position))
+
+    override fun getItemId(position: Int): Long = getItem(position).itemId.toLong()
 }
