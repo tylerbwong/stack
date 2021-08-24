@@ -14,6 +14,6 @@ android {
 
 dependencies {
     api(projects.dynamicListAdapter)
+    api(libs.androidx.recyclerview)
     implementation(libs.jetbrains.kotlin.stdlib.jdk8)
-    implementation(libs.androidx.recyclerview)
 }
