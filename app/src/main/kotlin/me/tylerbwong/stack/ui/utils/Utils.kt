@@ -55,5 +55,5 @@ fun View.hideKeyboard() {
 
 fun View.showKeyboard() {
     context.systemService<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
-        ?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        ?.showSoftInput(this, 0)
 }

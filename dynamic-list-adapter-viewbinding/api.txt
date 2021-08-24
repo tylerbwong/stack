@@ -1,0 +1,13 @@
+// Signature format: 4.0
+package me.tylerbwong.adapter.viewbinding {
+
+  public abstract class DynamicViewBindingHolder<T extends me.tylerbwong.adapter.DynamicItem, VB extends androidx.viewbinding.ViewBinding> extends me.tylerbwong.adapter.DynamicHolder<T> {
+    ctor public DynamicViewBindingHolder(android.view.ViewGroup container, kotlin.jvm.functions.Function3<? super android.view.LayoutInflater,? super android.view.ViewGroup,? super java.lang.Boolean,? extends VB> viewBindingProvider, optional VB binding);
+    method public abstract void bind(VB, T item);
+    method public final void bind(T item);
+    method protected final VB getBinding();
+    property protected final VB binding;
+  }
+
+}
+

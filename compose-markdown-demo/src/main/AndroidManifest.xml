@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.tylerbwong.compose.markdown.demo">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,7 +14,7 @@
         android:theme="@style/Theme.MarkdownComposeDemo">
         <activity
             android:name="me.tylerbwong.compose.markdown.demo.MainActivity"
-            android:label="@string/app_name"
+            android:exported="false"
             android:theme="@style/Theme.MarkdownComposeDemo.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

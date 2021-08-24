@@ -1,12 +1,12 @@
 [versions]
 about-libraries = "8.9.1"
-android-gradle-plugin = "7.1.0-alpha08"
+android-gradle = "7.1.0-alpha09"
 androidx-activity = "1.3.1"
 androidx-appcompat = "1.4.0-alpha03"
 androidx-browser = "1.3.0"
 androidx-constraintlayout = "2.1.0"
 androidx-core = "1.7.0-alpha01"
-androidx-fragment = "1.4.0-alpha06"
+androidx-fragment = "1.4.0-alpha07"
 androidx-hilt = "1.0.0"
 androidx-lifecycle-core = "2.4.0-alpha03"
 androidx-lifecycle-viewmodel-compose = "1.0.0-alpha07"
@@ -28,23 +28,23 @@ compose = "1.0.1"
 dagger = "2.38.1"
 detekt = "1.18.0"
 espresso = "3.1.0"
-facebook-screenshot-testing-plugin = "0.14.0"
+facebook-screenshot-testing = "0.14.0"
 flow-sharedpreferences = "1.5.0"
 google-accompanist = "0.16.0"
-google-firebase-bom = "28.3.0"
-google-firebase-crashlytics-gradle-plugin = "2.7.1"
+google-firebase-bom = "28.4.0"
+google-firebase-crashlytics-gradle = "2.7.1"
 google-material = "1.4.0"
 google-play-core = "1.10.0"
-google-services = "4.3.8"
+google-services = "4.3.10"
 insetter = "0.6.0"
 jetbrains-kotlin = "1.5.21"
 jetbrains-kotlinx-coroutines = "1.5.1"
 jetbrains-markdown = "0.2.4"
 junit = "4.13"
 klock = "2.2.2"
-ktlint-gradle-plugin = "10.1.0"
+ktlint-gradle = "10.1.0"
 markwon = "4.6.2"
-metalava-gradle-plugin = "0.1.9"
+metalava-gradle = "0.1.9"
 mockito-core = "3.11.2"
 mockito-kotlin = "3.2.0"
 moshi = "1.12.0"
@@ -57,11 +57,11 @@ timber = "4.7.1"
 
 [libraries]
 about-libraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "about-libraries" }
-about-libraries-gradle-plugin = { module = "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin", version.ref = "about-libraries" }
+about-libraries-gradle = { module = "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin", version.ref = "about-libraries" }
 
-android-tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }
-android-tools-builder-core = { module = "com.android.tools.build:builder", version.ref = "android-gradle-plugin" }
-android-tools-builder-model = { module = "com.android.tools.build:builder-model", version.ref = "android-gradle-plugin" }
+android-tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "android-gradle" }
+android-tools-builder-core = { module = "com.android.tools.build:builder", version.ref = "android-gradle" }
+android-tools-builder-model = { module = "com.android.tools.build:builder-model", version.ref = "android-gradle" }
 
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
@@ -112,28 +112,28 @@ compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = 
 
 dagger-hilt-android-core = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger" }
-dagger-hilt-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }
+dagger-hilt-gradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }
 
-detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "espresso" }
 
-facebook-screenshot-testing-plugin = { module = "com.facebook.testing.screenshot:plugin", version.ref = "facebook-screenshot-testing-plugin" }
+facebook-screenshot-testing = { module = "com.facebook.testing.screenshot:plugin", version.ref = "facebook-screenshot-testing" }
 
 flow-sharedpreferences = { module = "com.fredporciuncula:flow-preferences", version.ref = "flow-sharedpreferences" }
 
 google-firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
 google-firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "google-firebase-bom"}
 google-firebase-crashlytics-core = { module = "com.google.firebase:firebase-crashlytics" }
-google-firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "google-firebase-crashlytics-gradle-plugin" }
+google-firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "google-firebase-crashlytics-gradle" }
 google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
 google-play-core = { module = "com.google.android.play:core", version.ref = "google-play-core" }
 google-services = { module = "com.google.gms:google-services", version.ref = "google-services" }
 
 insetter = { module = "dev.chrisbanes.insetter:insetter", version.ref = "insetter" }
 
-jetbrains-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "jetbrains-kotlin" }
+jetbrains-kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "jetbrains-kotlin" }
 jetbrains-kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "jetbrains-kotlin" }
 jetbrains-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "jetbrains-kotlinx-coroutines" }
 jetbrains-kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "jetbrains-kotlinx-coroutines" }
@@ -143,7 +143,7 @@ junit = { module = "junit:junit", version.ref = "junit" }
 
 klock = { module = "com.soywiz.korlibs.klock:klock", version.ref = "klock" }
 
-ktlint-gradle-plugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint-gradle-plugin" }
+ktlint-gradle = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint-gradle" }
 
 markwon-core = { module = "io.noties.markwon:core", version.ref = "markwon" }
 markwon-html = { module = "io.noties.markwon:html", version.ref = "markwon" }
@@ -156,7 +156,7 @@ markwon-syntaxhighlight = { module = "io.noties.markwon:syntax-highlight", versi
 markwon-tables = { module = "io.noties.markwon:ext-tables", version.ref = "markwon" }
 markwon-tasklist = { module = "io.noties.markwon:ext-tasklist", version.ref = "markwon" }
 
-metalava-gradle-plugin = { module = "me.tylerbwong.gradle:metalava-gradle", version.ref = "metalava-gradle-plugin" }
+metalava-gradle = { module = "me.tylerbwong.gradle:metalava-gradle", version.ref = "metalava-gradle" }
 
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito-core" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
