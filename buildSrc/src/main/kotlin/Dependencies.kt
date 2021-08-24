@@ -9,7 +9,6 @@ object Versions {
     const val kotlin = "1.5.21"
     const val ktlintGradle = "10.1.0"
     const val metalavaGradlePlugin = "0.1.9"
-    const val screenshotTesting = "0.14.0"
 }
 
 object Dep {
@@ -22,5 +21,4 @@ object Dep {
     const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val ktlintGradlePlugin = "org.jlleitschuh.gradle:ktlint-gradle:${Versions.ktlintGradle}"
     const val metalavaGradlePlugin = "me.tylerbwong.gradle:metalava-gradle:${Versions.metalavaGradlePlugin}"
-    const val screenshotTestingPlugin = "com.facebook.testing.screenshot:plugin:${Versions.screenshotTesting}"
 }

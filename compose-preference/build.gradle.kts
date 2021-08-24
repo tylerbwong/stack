@@ -1,16 +1,11 @@
 plugins {
     id("com.android.library")
     `kotlin-android`
-    id("com.facebook.testing.screenshot")
     StackPlugin
     id("me.tylerbwong.gradle.metalava")
 }
 
 android {
-    defaultConfig {
-        testInstrumentationRunner = "me.tylerbwong.compose.preference.PreferenceTestRunner"
-    }
-
     buildFeatures {
         compose = true
         buildConfig = false

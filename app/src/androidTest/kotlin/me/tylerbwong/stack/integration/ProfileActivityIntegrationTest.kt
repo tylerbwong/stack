@@ -19,8 +19,8 @@ class ProfileActivityIntegrationTest : BaseIntegrationTest<MainActivity>(MainAct
     fun testProfileActivityIsShown() {
         navigateToQuestionDetailsFromMainActivity()
         waitForRequest(waitTimeMillis = 4_000L)
-        scrollListToPosition(R.id.recyclerView, 2)
-        assertDisplayed(R.id.answerBody)
+        scrollListToPosition(R.id.recyclerView, 18)
+        assertDisplayed(R.id.markdownTextView)
         clickOn(R.id.userImage)
         waitForRequest(waitTimeMillis = 4_000L)
         assertDisplayed(R.id.questionTitle)
@@ -31,8 +31,8 @@ class ProfileActivityIntegrationTest : BaseIntegrationTest<MainActivity>(MainAct
     fun testBadgesAreShown() {
         navigateToQuestionDetailsFromMainActivity()
         waitForRequest()
-        scrollListToPosition(R.id.recyclerView, 2)
-        assertDisplayed(R.id.answerBody)
+        scrollListToPosition(R.id.recyclerView, 18)
+        assertDisplayed(R.id.markdownTextView)
         clickOn(R.id.userImage)
         waitForRequest()
         assertDisplayed(R.id.questionTitle)

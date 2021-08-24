@@ -14,7 +14,6 @@ buildscript {
         classpath(Dep.kotlinPlugin)
         classpath(Dep.ktlintGradlePlugin)
         classpath(Dep.metalavaGradlePlugin)
-        classpath(Dep.screenshotTestingPlugin)
     }
 }
 

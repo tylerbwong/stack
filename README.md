@@ -1,6 +1,5 @@
 # Stack
 [![Build](https://github.com/tylerbwong/stack/actions/workflows/build.yml/badge.svg)](https://github.com/tylerbwong/stack/actions/workflows/build.yml)
-[![Nightly](https://github.com/tylerbwong/stack/actions/workflows/nightly.yml/badge.svg)](https://github.com/tylerbwong/stack/actions/workflows/nightly.yml)
 
 ![Stack](/.idea/icon.png)
 

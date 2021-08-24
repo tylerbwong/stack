@@ -47,7 +47,7 @@ class QuestionDetailActivityIntegrationTest : BaseIntegrationTest<MainActivity>(
         navigateToQuestionDetailsFromMainActivity()
         waitForRequest()
         scrollListToPosition(R.id.recyclerView, 3)
-        assertDisplayed(R.id.answerBody)
+        assertDisplayed(R.id.markdownTextView)
     }
 
     private fun navigateToQuestionDetailsFromMainActivity() {

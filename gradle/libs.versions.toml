@@ -28,7 +28,6 @@ compose = "1.0.1"
 dagger = "2.38.1"
 detekt = "1.18.0"
 espresso = "3.1.0"
-facebook-screenshot-testing = "0.14.0"
 flow-sharedpreferences = "1.5.0"
 google-accompanist = "0.16.0"
 google-firebase-bom = "28.4.0"
@@ -118,8 +117,6 @@ detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", v
 
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "espresso" }
-
-facebook-screenshot-testing = { module = "com.facebook.testing.screenshot:plugin", version.ref = "facebook-screenshot-testing" }
 
 flow-sharedpreferences = { module = "com.fredporciuncula:flow-preferences", version.ref = "flow-sharedpreferences" }
 
