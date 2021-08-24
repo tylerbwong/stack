@@ -5,7 +5,7 @@ object Versions {
     const val daggerHilt = "2.38.1"
     const val detekt = "1.18.0"
     const val firebaseCrashlyticsGradlePlugin = "2.7.1"
-    const val googleServices = "4.3.8"
+    const val googleServices = "4.3.10"
     const val kotlin = "1.5.21"
     const val ktlintGradle = "10.1.0"
     const val metalavaGradlePlugin = "0.1.9"
