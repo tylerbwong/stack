@@ -54,28 +54,29 @@ jobs:
           name: junit-results
           path: junit
 
-  integration-tests:
-    runs-on: macos-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v2
-      - name: set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      - name: Run Integration Tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 28
-          arch: x86_64
-          profile: Nexus 6
-          script: ./gradlew connectedBaseDebugAndroidTest
-      - name: Upload Test Results
-        if: always()
-        uses: actions/upload-artifact@v1
-        with:
-          name: integration-results
-          path: app/build/reports/androidTests/connected/flavors/base
+# TODO Re-enable when using mock data and stable
+#  integration-tests:
+#    runs-on: macos-latest
+#    timeout-minutes: 30
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: set up JDK 11
+#        uses: actions/setup-java@v1
+#        with:
+#          java-version: 11
+#      - name: Run Integration Tests
+#        uses: reactivecircus/android-emulator-runner@v2
+#        with:
+#          api-level: 28
+#          arch: x86_64
+#          profile: Nexus 6
+#          script: ./gradlew connectedBaseDebugAndroidTest
+#      - name: Upload Test Results
+#        if: always()
+#        uses: actions/upload-artifact@v1
+#        with:
+#          name: integration-results
+#          path: app/build/reports/androidTests/connected/flavors/base
 
   build-base:
     runs-on: ubuntu-latest
