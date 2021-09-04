@@ -1,6 +1,6 @@
 [versions]
 about-libraries = "8.9.1"
-android-gradle = "7.1.0-alpha09"
+android-gradle = "7.1.0-alpha11"
 androidx-activity = "1.3.1"
 androidx-appcompat = "1.4.0-alpha03"
 androidx-browser = "1.3.0"
@@ -24,7 +24,7 @@ barista = "3.10.0"
 betterlinkmovementmethod = "2.2.0"
 chucker = "3.5.2"
 coil = "1.3.2"
-compose = "1.0.1"
+compose = "1.1.0-alpha03"
 dagger = "2.38.1"
 detekt = "1.18.0"
 espresso = "3.1.0"
@@ -36,8 +36,8 @@ google-material = "1.4.0"
 google-play-core = "1.10.0"
 google-services = "4.3.10"
 insetter = "0.6.0"
-jetbrains-kotlin = "1.5.21"
-jetbrains-kotlinx-coroutines = "1.5.1"
+jetbrains-kotlin = "1.5.30"
+jetbrains-kotlinx-coroutines = "1.5.2"
 jetbrains-markdown = "0.2.4"
 junit = "4.13"
 klock = "2.2.2"
@@ -59,8 +59,6 @@ about-libraries-core = { module = "com.mikepenz:aboutlibraries-core", version.re
 about-libraries-gradle = { module = "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin", version.ref = "about-libraries" }
 
 android-tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "android-gradle" }
-android-tools-builder-core = { module = "com.android.tools.build:builder", version.ref = "android-gradle" }
-android-tools-builder-model = { module = "com.android.tools.build:builder-model", version.ref = "android-gradle" }
 
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
@@ -131,7 +129,6 @@ google-services = { module = "com.google.gms:google-services", version.ref = "go
 insetter = { module = "dev.chrisbanes.insetter:insetter", version.ref = "insetter" }
 
 jetbrains-kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "jetbrains-kotlin" }
-jetbrains-kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "jetbrains-kotlin" }
 jetbrains-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "jetbrains-kotlinx-coroutines" }
 jetbrains-kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "jetbrains-kotlinx-coroutines" }
 jetbrains-markdown = { module = "org.jetbrains:markdown", version.ref = "jetbrains-markdown" }

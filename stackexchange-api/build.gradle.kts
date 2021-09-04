@@ -14,8 +14,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.jetbrains.kotlin.stdlib.jdk8)
-
     // dagger
     kapt(libs.dagger.hilt.android.compiler)
     implementation(libs.dagger.hilt.android.core)

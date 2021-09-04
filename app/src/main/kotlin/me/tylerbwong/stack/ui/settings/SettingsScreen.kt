@@ -56,7 +56,9 @@ import me.tylerbwong.stack.ui.utils.toHtml
 import java.util.Locale
 import me.tylerbwong.stack.api.BuildConfig as ApiBuildConfig
 
-@OptIn(ExperimentalCoroutinesApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalCoroutinesApi::class, ExperimentalMaterialApi::class,
+    coil.annotation.ExperimentalCoilApi::class
+)
 @Composable
 fun SettingsScreen(
     preferences: SharedPreferences,

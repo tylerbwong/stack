@@ -25,6 +25,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
 import me.tylerbwong.stack.R
@@ -35,6 +36,7 @@ import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.launchUrl
 import me.tylerbwong.stack.ui.utils.toHtml
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun ProfileHeader(user: User) {
     Column(

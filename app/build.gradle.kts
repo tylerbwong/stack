@@ -36,7 +36,6 @@ android {
 
 dependencies {
     // kotlin
-    implementation(libs.jetbrains.kotlin.stdlib.jdk8)
     implementation(libs.jetbrains.kotlinx.coroutines.core)
     implementation(libs.jetbrains.kotlinx.coroutines.android)
 

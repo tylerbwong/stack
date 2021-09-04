@@ -47,6 +47,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Site
@@ -188,6 +189,7 @@ fun SitesLayout(changeSite: (String) -> Unit) {
 }
 
 // TODO Migrate to ListItem
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun SiteItem(
     site: Site,

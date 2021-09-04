@@ -19,7 +19,6 @@ android {
 dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.flow.sharedpreferences)
-    implementation(libs.jetbrains.kotlin.stdlib.jdk8)
 
     // compose
     implementation(libs.compose.foundation.foundation)

@@ -17,8 +17,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.jetbrains.kotlin.stdlib.jdk8)
-
     // androidx
     implementation(libs.androidx.core.ktx)
 

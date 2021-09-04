@@ -7,11 +7,9 @@ import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.withType
@@ -113,11 +111,6 @@ class StackPlugin : Plugin<Project> {
             }
         }
 
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
-        }
-
         @Suppress("deprecation") // Move to CommonExtension
         lintOptions {
             isAbortOnError = false
@@ -137,13 +130,8 @@ class StackPlugin : Plugin<Project> {
         project.tasks.withType<KotlinCompile>().configureEach {
             kotlinOptions {
                 freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn")
-                jvmTarget = JavaVersion.VERSION_1_8.toString()
             }
         }
-
-        sourceSets["main"].java.srcDir("src/main/kotlin")
-        sourceSets["test"].java.srcDir("src/test/kotlin")
-        sourceSets["androidTest"].java.srcDir("src/androidTest/kotlin")
     }
 
     private fun Project.configureStaticAnalysis() {
