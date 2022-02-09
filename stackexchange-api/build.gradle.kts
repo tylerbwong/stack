@@ -15,13 +15,13 @@ android {
 
 dependencies {
     // dagger
-    kapt(libs.dagger.hilt.android.compiler)
-    implementation(libs.dagger.hilt.android.core)
+    kapt(libs.google.dagger.hilt.android.compiler)
+    implementation(libs.google.dagger.hilt.android)
 
     // networking
-    implementation(libs.moshi.core)
-    kapt(libs.moshi.kotlin.codegen)
-    implementation(libs.okhttp.core)
-    implementation(libs.retrofit.core)
-    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.moshi)
+    kapt(libs.moshi.kotlinCodegen)
+    implementation(libs.okhttp)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.moshi)
 }

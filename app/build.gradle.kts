@@ -30,7 +30,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.get()
     }
 }
 
@@ -64,28 +64,28 @@ dependencies {
 
     // compose
     implementation(projects.composePreference)
-    implementation(libs.compose.foundation.foundation)
-    implementation(libs.compose.foundation.layout)
-    implementation(libs.compose.runtime.livedata)
-    implementation(libs.compose.material.material)
-    implementation(libs.compose.material.icons.core)
-    implementation(libs.compose.material.icons.extended)
-    implementation(libs.compose.ui.tooling)
-    implementation(libs.compose.ui.ui)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.foundation.layout)
+    implementation(libs.androidx.compose.runtime.livedata)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.material.icons.core)
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.tooling)
 
     // google
     implementation(libs.coil.compose)
     playImplementation(platform(libs.google.firebase.bom))
     playImplementation(libs.google.firebase.analytics.ktx)
-    playImplementation(libs.google.firebase.crashlytics.core)
+    playImplementation(libs.google.firebase.crashlytics)
     implementation(libs.google.material)
 
     // licenses
-    implementation(libs.about.libraries.core)
+    implementation(libs.aboutLibraries.core)
 
     // debug
-    debugImplementation(libs.chucker.library.core)
-    releaseImplementation(libs.chucker.library.noop)
+    debugImplementation(libs.chucker)
+    releaseImplementation(libs.chucker.noop)
 
     // dynamic-list-adapter
     implementation(projects.dynamicListAdapter)
@@ -95,11 +95,11 @@ dependencies {
     implementation(libs.klock)
 
     // coil
-    implementation(libs.coil.core)
+    implementation(libs.coil)
 
     // dagger
-    kapt(libs.dagger.hilt.android.compiler)
-    implementation(libs.dagger.hilt.android.core)
+    kapt(libs.google.dagger.hilt.android.compiler)
+    implementation(libs.google.dagger.hilt.android)
 
     // insetter
     implementation(libs.insetter)
@@ -111,8 +111,8 @@ dependencies {
     implementation(projects.markdown)
     implementation(libs.markwon.core)
     implementation(libs.markwon.html)
-    implementation(libs.markwon.image.coil)
-    implementation(libs.markwon.inline.parser)
+    implementation(libs.markwon.imageCoil)
+    implementation(libs.markwon.inlineParser)
     implementation(libs.markwon.latex)
     implementation(libs.markwon.linkify)
     implementation(libs.markwon.strikethrough)
@@ -121,19 +121,19 @@ dependencies {
     implementation(libs.markwon.tasklist)
 
     // misc
-    implementation(libs.process.phoenix)
+    implementation(libs.processPhoenix)
 
     // networking
     implementation(projects.stackexchangeApi)
-    implementation(libs.moshi.core)
-    kapt(libs.moshi.kotlin.codegen)
-    implementation(libs.okhttp.core)
-    implementation(libs.okhttp.logging.interceptor)
-    implementation(libs.retrofit.core)
-    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.moshi)
+    kapt(libs.moshi.kotlinCodegen)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.moshi)
 
     // play
-    playImplementation(libs.google.play.core)
+    playImplementation(libs.google.playCore)
 
     // testing
     testImplementation(libs.androidx.test.core.ktx)

@@ -5,15 +5,15 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath(libs.about.libraries.gradle)
-        classpath(libs.android.tools.gradle)
-        classpath(libs.dagger.hilt.gradle)
-        classpath(libs.detekt.gradle)
-        classpath(libs.google.firebase.crashlytics.gradle)
-        classpath(libs.google.services)
-        classpath(libs.jetbrains.kotlin.gradle)
-        classpath(libs.ktlint.gradle)
-        classpath(libs.metalava.gradle)
+        classpath(libs.aboutLibraries.gradlePlugin)
+        classpath(libs.android.gradlePlugin)
+        classpath(libs.google.dagger.hilt.gradlePlugin)
+        classpath(libs.google.firebase.crashlytics.gradlePlugin)
+        classpath(libs.google.services.gradlePlugin)
+        classpath(libs.detekt.gradlePlugin)
+        classpath(libs.jetbrains.kotlin.gradlePlugin)
+        classpath(libs.ktlint.gradlePlugin)
+        classpath(libs.metalava.gradlePlugin)
     }
 }
 

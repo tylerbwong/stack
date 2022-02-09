@@ -11,7 +11,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.get()
     }
 }
 
@@ -22,9 +22,9 @@ dependencies {
     implementation(libs.google.material)
 
     // compose
-    implementation(libs.compose.foundation.foundation)
-    implementation(libs.compose.ui.tooling)
-    implementation(libs.compose.ui.ui)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.tooling)
 
     // markdown
     implementation(projects.composeMarkdown)

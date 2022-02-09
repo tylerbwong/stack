@@ -20,14 +20,14 @@ dependencies {
     implementation(libs.betterlinkmovementmethod)
 
     // dagger
-    kapt(libs.dagger.hilt.android.compiler)
-    implementation(libs.dagger.hilt.android.core)
+    kapt(libs.google.dagger.hilt.android.compiler)
+    implementation(libs.google.dagger.hilt.android)
 
     // markdown
-    implementation(libs.apache.commons.text)
+    implementation(libs.apache.commonsText)
     implementation(libs.markwon.core)
     implementation(libs.markwon.syntaxhighlight)
-    kapt(libs.prism4j.bundler)
+    kapt(libs.prism4jBundler)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
