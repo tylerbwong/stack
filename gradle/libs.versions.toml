@@ -35,6 +35,7 @@ google-material = "1.6.0-alpha02"
 google-play-core = "1.10.3"
 google-services = "4.3.10"
 insetter = "0.6.1"
+javaPoet = "1.13.0"
 jetbrains-kotlin = "1.6.10"
 jetbrains-kotlinx-coroutines = "1.6.0"
 jetbrains-markdown = "0.2.4"
@@ -124,6 +125,8 @@ google-playCore = { module = "com.google.android.play:core", version.ref = "goog
 google-services-gradlePlugin = { module = "com.google.gms:google-services", version.ref = "google-services" }
 
 insetter = { module = "dev.chrisbanes.insetter:insetter", version.ref = "insetter" }
+
+javaPoet = { module = "com.squareup:javapoet", version.ref = "javaPoet" }
 
 jetbrains-kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "jetbrains-kotlin" }
 jetbrains-kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "jetbrains-kotlinx-coroutines" }
