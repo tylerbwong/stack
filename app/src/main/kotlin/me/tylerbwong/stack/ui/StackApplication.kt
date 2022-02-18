@@ -27,17 +27,11 @@ class StackApplication : Application(), Configuration.Provider, ImageLoaderFacto
     lateinit var okHttpClient: Lazy<OkHttpClient>
 
     override fun onCreate() {
-
         if (ProcessPhoenix.isPhoenixProcess(this)) {
             return
         }
-
         super.onCreate()
-
-        ApplicationWrapper.init(this)
-
         ThemeManager.init(this)
-
         initializers.forEach { initializer -> initializer() }
     }
 

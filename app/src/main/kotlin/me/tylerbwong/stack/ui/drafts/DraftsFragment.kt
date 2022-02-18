@@ -16,6 +16,7 @@ import me.tylerbwong.stack.ui.home.AnswerDraftItem
 import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeItem
 import me.tylerbwong.stack.ui.home.HomeItemDiffCallback
+import me.tylerbwong.stack.ui.utils.formatElapsedTime
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
@@ -26,6 +27,7 @@ class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
     private var snackbar: Snackbar? = null
 
     private val bottomNav by lazy { activity?.findViewById<View>(R.id.bottomNav) }
+    private val timestampProvider: (Long) -> String = { it.formatElapsedTime(requireContext()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +37,7 @@ class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.siteLiveData.observe(viewLifecycleOwner) {
-            viewModel.fetchDrafts()
+            viewModel.fetchDrafts(timestampProvider)
         }
         viewModel.refreshing.observe(viewLifecycleOwner) {
             binding.refreshLayout.isRefreshing = it
@@ -47,7 +49,7 @@ class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
                     R.string.retry,
                     shouldAnchorView = true
                 ) {
-                    viewModel.fetchDrafts()
+                    viewModel.fetchDrafts(timestampProvider)
                 }
             } else {
                 snackbar?.dismiss()
@@ -66,10 +68,10 @@ class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
         }
 
         binding.refreshLayout.setOnRefreshListener {
-            viewModel.fetchDrafts()
+            viewModel.fetchDrafts(timestampProvider)
         }
 
-        viewModel.fetchDrafts()
+        viewModel.fetchDrafts(timestampProvider)
     }
 
     private fun updateContent(drafts: List<AnswerDraft>) {

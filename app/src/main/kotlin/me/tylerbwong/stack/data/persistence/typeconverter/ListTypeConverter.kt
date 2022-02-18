@@ -1,33 +1,24 @@
 package me.tylerbwong.stack.data.persistence.typeconverter
 
+import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import dagger.hilt.EntryPoint
-import dagger.hilt.EntryPoints
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import me.tylerbwong.stack.ui.ApplicationWrapper
 
-class ListTypeConverter {
+@ProvidedTypeConverter
+class ListTypeConverter(moshi: Moshi) {
 
-    private val moshi: Moshi
-        get() = EntryPoints.get(ApplicationWrapper.context, MoshiEntryPoint::class.java).moshi()
-
-    @TypeConverter
-    fun stringListToJson(stringList: List<String>?): String? = stringList?.let {
-        moshi.adapter(List::class.java).toJson(it)
-    }
+    private val listStringType = Types.newParameterizedType(List::class.java, String::class.java)
+    private val stringListAdapter = moshi.adapter<List<String>>(listStringType)
+    private val listAdapter = moshi.adapter(List::class.java)
 
     @TypeConverter
     fun jsonToStringList(json: String?): List<String>? = json?.let {
-        val type = Types.newParameterizedType(List::class.java, String::class.java)
-        moshi.adapter<List<String>>(type).fromJson(it)
+        stringListAdapter.fromJson(it)
     }
-}
 
-@EntryPoint
-@InstallIn(SingletonComponent::class)
-interface MoshiEntryPoint {
-    fun moshi(): Moshi
+    @TypeConverter
+    fun stringListToJson(stringList: List<String>?): String? = stringList?.let {
+        listAdapter.toJson(it)
+    }
 }

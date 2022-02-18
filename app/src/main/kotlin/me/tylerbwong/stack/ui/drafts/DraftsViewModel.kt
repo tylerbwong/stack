@@ -31,12 +31,12 @@ internal class DraftsViewModel @Inject constructor(
     val siteLiveData: LiveData<String>
         get() = siteStore.siteLiveData
 
-    internal fun fetchDrafts() {
+    internal fun fetchDrafts(timestampProvider: (Long) -> String) {
         streamRequest(questionDraftDao.getQuestionDrafts(siteStore.site)) { entities ->
-            _questionDrafts.value = entities.map { it.toQuestionDraft() }
+            _questionDrafts.value = entities.map { it.toQuestionDraft(timestampProvider) }
         }
         streamRequest(answerDraftDao.getAnswerDrafts(siteStore.site)) { entities ->
-            _answerDrafts.value = entities.map { it.toAnswerDraft() }
+            _answerDrafts.value = entities.map { it.toAnswerDraft(timestampProvider) }
         }
     }
 }

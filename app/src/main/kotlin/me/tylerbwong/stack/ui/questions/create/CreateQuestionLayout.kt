@@ -61,7 +61,7 @@ fun CreateQuestionLayout(
     val colorError = colorResource(R.color.colorError)
 
     val draft by draftLiveData.observeAsState(
-        initial = QuestionDraft(0, "", 0L, "", "", "")
+        initial = QuestionDraft(0, "", "", "", "", "")
     )
     var title by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue(text = draft.title))

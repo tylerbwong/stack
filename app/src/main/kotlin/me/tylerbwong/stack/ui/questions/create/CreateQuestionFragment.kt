@@ -11,19 +11,23 @@ import me.tylerbwong.stack.databinding.CreateQuestionFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.questions.create.CreateQuestionActivity.Companion.DRAFT_ID
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
+import me.tylerbwong.stack.ui.utils.formatElapsedTime
 
 @AndroidEntryPoint
 class CreateQuestionFragment : BaseFragment<CreateQuestionFragmentBinding>(
     CreateQuestionFragmentBinding::inflate
 ) {
     private val viewModel by viewModels<CreateQuestionViewModel>()
+    private val timestampProvider: (Long) -> String = { it.formatElapsedTime(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.composeContent.setContent {
             CreateQuestionLayout(
                 draftLiveData = viewModel.questionDraft,
                 createQuestion = viewModel::createQuestion,
-                saveDraft = viewModel::saveDraft,
+                saveDraft = { title, body, tags ->
+                    viewModel.saveDraft(title, body, tags, timestampProvider)
+                },
                 deleteDraft = viewModel::deleteDraft,
                 onBackPressed = { requireActivity().onBackPressed() }
             )
@@ -38,7 +42,7 @@ class CreateQuestionFragment : BaseFragment<CreateQuestionFragmentBinding>(
                 is CreateQuestionError -> showSnackbar(state.errorMessage)
             }
         }
-        viewModel.fetchDraft(arguments?.getInt(DRAFT_ID) ?: -1)
+        viewModel.fetchDraft(arguments?.getInt(DRAFT_ID) ?: -1, timestampProvider)
     }
 
     private fun showSnackbar(message: String?) {

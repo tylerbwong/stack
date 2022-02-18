@@ -61,12 +61,12 @@ class CreateQuestionViewModel @Inject constructor(
         }
     }
 
-    fun saveDraft(title: String, body: String, tags: String) {
+    fun saveDraft(title: String, body: String, tags: String, timestampProvider: (Long) -> String) {
         launchRequest {
             val id = questionDraftDao.insertQuestionDraft(
                 QuestionDraftEntity(title, System.currentTimeMillis(), body, tags, siteStore.site)
             )
-            fetchDraft(id.toInt())
+            fetchDraft(id.toInt(), timestampProvider)
         }
     }
 
@@ -76,12 +76,12 @@ class CreateQuestionViewModel @Inject constructor(
         }
     }
 
-    fun fetchDraft(id: Int) {
+    fun fetchDraft(id: Int, timestampProvider: (Long) -> String) {
         if (id != -1) {
             this.id = id
             launchRequest {
                 _questionDraft.value = questionDraftDao.getQuestionDraft(id, siteStore.site)
-                    .toQuestionDraft()
+                    .toQuestionDraft(timestampProvider)
             }
         }
     }

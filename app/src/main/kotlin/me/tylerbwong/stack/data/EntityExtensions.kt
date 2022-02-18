@@ -138,20 +138,20 @@ fun AnswerEntity.toAnswer(owner: UserEntity, lastEditor: UserEntity?): Answer =
         commentCount = commentCount
     )
 
-fun AnswerDraftEntity.toAnswerDraft(): AnswerDraft =
+fun AnswerDraftEntity.toAnswerDraft(toFormattedTimestamp: Long.() -> String): AnswerDraft =
     AnswerDraft(
         questionId = questionId,
         questionTitle = questionTitle,
-        updatedDate = updatedDate,
+        formattedTimestamp = updatedDate.toFormattedTimestamp(),
         bodyMarkdown = bodyMarkdown,
         site = site
     )
 
-fun QuestionDraftEntity.toQuestionDraft(): QuestionDraft =
+fun QuestionDraftEntity.toQuestionDraft(toFormattedTimestamp: Long.() -> String): QuestionDraft =
     QuestionDraft(
         id = id,
         title = title,
-        updatedDate = updatedDate,
+        formattedTimestamp = updatedDate.toFormattedTimestamp(),
         body = body,
         tags = tags,
         site = site

@@ -3,27 +3,40 @@ package me.tylerbwong.stack.data.persistence.di
 import android.content.Context
 import androidx.room.Room
 import androidx.room.migration.Migration
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoSet
 import me.tylerbwong.stack.data.persistence.StackDatabase
+import me.tylerbwong.stack.data.persistence.typeconverter.ListTypeConverter
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class RoomTypeConverter
 
 @Module
 @InstallIn(SingletonComponent::class)
 class PersistenceModule {
 
-    @[Provides Singleton Suppress("SpreadOperator")]
+    @[Provides Singleton]
     fun provideStackDatabase(
         @ApplicationContext context: Context,
-        @StackMigration migrations: Set<@JvmSuppressWildcards Migration>
+        @StackMigration migrations: Set<@JvmSuppressWildcards Migration>,
+        @RoomTypeConverter typeConverters: Set<@JvmSuppressWildcards Any>,
     ): StackDatabase {
-        return Room.databaseBuilder(context, StackDatabase::class.java, STACK_DATABASE_NAME)
-            .addMigrations(*migrations.toTypedArray())
-            .build()
+        val builder = Room.databaseBuilder(context, StackDatabase::class.java, STACK_DATABASE_NAME)
+        migrations.forEach { builder.addMigrations((it)) }
+        typeConverters.forEach { builder.addTypeConverter(it) }
+        return builder.build()
     }
+
+    @[Provides IntoSet RoomTypeConverter]
+    fun provideListTypeConverter(moshi: Moshi): Any = ListTypeConverter(moshi)
 
     @Provides
     fun provideQuestionDao(stackDatabase: StackDatabase) = stackDatabase.getQuestionDao()
