@@ -29,6 +29,7 @@ import me.tylerbwong.stack.ui.home.SearchHistoryItem
 import me.tylerbwong.stack.ui.home.SearchInputItem
 import me.tylerbwong.stack.ui.home.SectionHeaderItem
 import me.tylerbwong.stack.ui.home.TagsItem
+import me.tylerbwong.stack.api.R as ApiR
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<HomeFragmentBinding>(
@@ -117,10 +118,10 @@ class SearchFragment : BaseFragment<HomeFragmentBinding>(
                 activity?.let { activity ->
                     PopupMenu(activity, activity.findViewById(R.id.sort)).also {
                         it.menu.apply {
-                            add(0, R.id.activity, 0, me.tylerbwong.stack.api.R.string.activity)
-                            add(0, R.id.creation, 0, me.tylerbwong.stack.api.R.string.creation)
-                            add(0, R.id.votes, 0, me.tylerbwong.stack.api.R.string.votes)
-                            add(0, me.tylerbwong.stack.api.R.string.relevance, 0, me.tylerbwong.stack.api.R.string.relevance)
+                            add(0, R.id.activity, 0, ApiR.string.activity)
+                            add(0, R.id.creation, 0, ApiR.string.creation)
+                            add(0, R.id.votes, 0, ApiR.string.votes)
+                            add(0, ApiR.string.relevance, 0, ApiR.string.relevance)
                         }
                         it.setOnMenuItemClickListener(this)
                         it.show()
@@ -136,7 +137,7 @@ class SearchFragment : BaseFragment<HomeFragmentBinding>(
             R.id.creation -> CREATION
             R.id.activity -> ACTIVITY
             R.id.votes -> VOTES
-            me.tylerbwong.stack.api.R.string.relevance -> RELEVANCE
+            ApiR.string.relevance -> RELEVANCE
             else -> RELEVANCE
         }
         viewModel.search(sort = sort)

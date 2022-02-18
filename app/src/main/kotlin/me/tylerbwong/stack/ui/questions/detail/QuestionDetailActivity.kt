@@ -25,7 +25,6 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(binding.toolbar)
-        setTitle("")
 
         if (viewModel.questionId == -1) {
             viewModel.questionId = intent.getIntExtra(QUESTION_ID, -1)
@@ -62,7 +61,15 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
                 )
             }
         )
-        toggleAnswerMode(isInAnswerMode = intent.getBooleanExtra(IS_IN_ANSWER_MODE, false))
+
+        val isInAnswerMode = savedInstanceState?.getBoolean(IS_IN_ANSWER_MODE, false)
+            ?: intent.getBooleanExtra(IS_IN_ANSWER_MODE, false)
+        toggleAnswerMode(isInAnswerMode = isInAnswerMode)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(IS_IN_ANSWER_MODE, viewModel.isInAnswerMode)
     }
 
     override fun applyFullscreenWindowInsets() {

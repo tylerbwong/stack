@@ -74,6 +74,7 @@ class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
 
         viewModel.savedDraft.observe(viewLifecycleOwner) {
             binding.markdownEditText.setText(it)
+            togglePostAnswerButtonVisibility()
         }
 
         binding.debugPreview.isVisible = BuildConfig.DEBUG
@@ -133,13 +134,11 @@ class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
                 }
             }
         }.applyToView(binding.postAnswerButton)
-
-        viewModel.fetchDraftIfExists()
     }
 
     override fun onResume() {
         super.onResume()
-        togglePostAnswerButtonVisibility()
+        viewModel.fetchDraftIfExists()
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
