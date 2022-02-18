@@ -1,7 +1,7 @@
 package me.tylerbwong.stack.integration
 
-import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
-import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo
+import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
+import com.adevinta.android.barista.interaction.BaristaEditTextInteractions.writeTo
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
 import org.junit.Test
@@ -22,8 +22,8 @@ class SitesActivityIntegrationTest : BaseIntegrationTest<SitesActivity>(SitesAct
     @Test
     fun testSearch() {
         clickOn(R.id.search)
-        writeTo(R.id.search_src_text, "Stack")
+        writeTo(androidx.appcompat.R.id.search_src_text, "Stack")
         waitForRequest(waitTimeMillis = 1_000L)
-        clickOn(R.id.search_close_btn)
+        clickOn(androidx.appcompat.R.id.search_close_btn)
     }
 }

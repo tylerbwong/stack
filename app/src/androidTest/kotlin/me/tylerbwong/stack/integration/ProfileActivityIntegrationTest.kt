@@ -3,11 +3,11 @@ package me.tylerbwong.stack.integration
 import android.content.ComponentName
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
-import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
-import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
-import com.schibsted.spain.barista.interaction.BaristaListInteractions.clickListItem
-import com.schibsted.spain.barista.interaction.BaristaListInteractions.scrollListToPosition
-import com.schibsted.spain.barista.interaction.BaristaMenuClickInteractions.clickMenu
+import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
+import com.adevinta.android.barista.interaction.BaristaListInteractions.clickListItem
+import com.adevinta.android.barista.interaction.BaristaListInteractions.scrollListToPosition
+import com.adevinta.android.barista.interaction.BaristaMenuClickInteractions.clickMenu
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.profile.ProfileActivity
@@ -44,7 +44,7 @@ class ProfileActivityIntegrationTest : BaseIntegrationTest<MainActivity>(MainAct
     private fun navigateToQuestionDetailsFromMainActivity() {
         waitForRequest()
         clickMenu(R.id.sort)
-        clickOn(R.string.votes)
+        clickOn(me.tylerbwong.stack.api.R.string.votes)
         waitForRequest()
         clickListItem(R.id.recyclerView, 1)
     }

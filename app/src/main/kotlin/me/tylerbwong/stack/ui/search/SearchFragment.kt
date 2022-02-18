@@ -117,10 +117,10 @@ class SearchFragment : BaseFragment<HomeFragmentBinding>(
                 activity?.let { activity ->
                     PopupMenu(activity, activity.findViewById(R.id.sort)).also {
                         it.menu.apply {
-                            add(0, R.id.activity, 0, R.string.activity)
-                            add(0, R.id.creation, 0, R.string.creation)
-                            add(0, R.id.votes, 0, R.string.votes)
-                            add(0, R.string.relevance, 0, R.string.relevance)
+                            add(0, R.id.activity, 0, me.tylerbwong.stack.api.R.string.activity)
+                            add(0, R.id.creation, 0, me.tylerbwong.stack.api.R.string.creation)
+                            add(0, R.id.votes, 0, me.tylerbwong.stack.api.R.string.votes)
+                            add(0, me.tylerbwong.stack.api.R.string.relevance, 0, me.tylerbwong.stack.api.R.string.relevance)
                         }
                         it.setOnMenuItemClickListener(this)
                         it.show()
@@ -136,7 +136,7 @@ class SearchFragment : BaseFragment<HomeFragmentBinding>(
             R.id.creation -> CREATION
             R.id.activity -> ACTIVITY
             R.id.votes -> VOTES
-            R.string.relevance -> RELEVANCE
+            me.tylerbwong.stack.api.R.string.relevance -> RELEVANCE
             else -> RELEVANCE
         }
         viewModel.search(sort = sort)
