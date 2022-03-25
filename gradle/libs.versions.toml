@@ -1,6 +1,6 @@
 [versions]
 about-libraries = "8.9.4"
-android-gradlePlugin = "7.1.1"
+android-gradlePlugin = "7.1.2"
 androidx-activity = "1.4.0"
 androidx-appcompat = "1.4.1"
 androidx-browser = "1.4.0"
