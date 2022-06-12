@@ -2,7 +2,6 @@
 
 package me.tylerbwong.stack.ui.profile
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,8 +24,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.User
@@ -36,7 +35,6 @@ import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.launchUrl
 import me.tylerbwong.stack.ui.utils.toHtml
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun ProfileHeader(user: User) {
     Column(
@@ -56,13 +54,14 @@ fun ProfileHeader(user: User) {
                 role = Role.Image,
             )
         } ?: Modifier
-        Image(
-            painter = rememberImagePainter(data = user.profileImage) {
-                crossfade(true)
-                error(R.drawable.user_image_placeholder)
-                placeholder(R.drawable.user_image_placeholder)
-                transformations(CircleCropTransformation())
-            },
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(user.profileImage)
+                .crossfade(true)
+                .error(R.drawable.user_image_placeholder)
+                .placeholder(R.drawable.user_image_placeholder)
+                .transformations(CircleCropTransformation())
+            ,
             contentDescription = null,
             modifier = Modifier
                 .width(72.dp)

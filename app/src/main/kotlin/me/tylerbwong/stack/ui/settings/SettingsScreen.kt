@@ -3,7 +3,6 @@ package me.tylerbwong.stack.ui.settings
 
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -35,7 +34,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.chuckerteam.chucker.api.Chucker
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -56,9 +56,7 @@ import me.tylerbwong.stack.ui.utils.toHtml
 import java.util.Locale
 import me.tylerbwong.stack.api.BuildConfig as ApiBuildConfig
 
-@OptIn(ExperimentalCoroutinesApi::class, ExperimentalMaterialApi::class,
-    coil.annotation.ExperimentalCoilApi::class
-)
+@OptIn(ExperimentalCoroutinesApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun SettingsScreen(
     preferences: SharedPreferences,
@@ -123,16 +121,16 @@ fun SettingsScreen(
                             title = { Text(text = it.displayName) },
                             summary = it.location?.let { { Text(text = it) } },
                             icon = {
-                                Image(
-                                    painter = rememberImagePainter(data = it.profileImage) {
-                                        transformations(CircleCropTransformation())
-                                        size(
+                                AsyncImage(
+                                    model = ImageRequest.Builder(context)
+                                        .data(it.profileImage)
+                                        .transformations(CircleCropTransformation())
+                                        .size(
                                             context.resources.getDimensionPixelSize(
                                                 R.dimen.user_image_placeholder_size
                                             )
-                                        )
-                                    },
-                                    contentDescription = null,
+                                        ),
+                                    contentDescription = null
                                 )
                             },
                             onClick = {},
@@ -171,12 +169,7 @@ fun SettingsScreen(
                                         .toString()
                                 )
                             },
-                            icon = {
-                                Image(
-                                    painter = rememberImagePainter(data = site.iconUrl),
-                                    contentDescription = null
-                                )
-                            },
+                            icon = { AsyncImage(model = site.iconUrl, contentDescription = null) },
                             onClick = { SitesActivity.startActivity(context) },
                         )
                     }

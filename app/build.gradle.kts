@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     `kotlin-android`
     `kotlin-kapt`
+    alias(libs.plugins.google.ksp)
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
@@ -15,13 +16,6 @@ android {
 
         buildConfigField("String", "CLIENT_ID", stringProperty("stackClientId"))
         resValue("integer", "version_code", "${AndroidConfig.VERSION_CODE}")
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                argument("room.incremental", "true")
-                argument("room.schemaLocation", "$projectDir/schemas")
-            }
-        }
     }
 
     buildFeatures {
@@ -32,6 +26,11 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.androidx.compose.get()
     }
+}
+
+ksp {
+    arg("room.incremental", "true")
+    arg("room.schemaLocation", "$projectDir/schemas")
 }
 
 dependencies {
@@ -54,7 +53,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.preference)
     implementation(libs.androidx.recyclerview)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.security.crypto)
@@ -126,7 +125,7 @@ dependencies {
     // networking
     implementation(projects.stackexchangeApi)
     implementation(libs.moshi)
-    kapt(libs.moshi.kotlinCodegen)
+    ksp(libs.moshi.kotlinCodegen)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
     implementation(libs.retrofit)

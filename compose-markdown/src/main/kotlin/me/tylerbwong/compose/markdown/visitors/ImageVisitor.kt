@@ -1,6 +1,5 @@
 package me.tylerbwong.compose.markdown.visitors
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.ui.layout.ContentScale
@@ -8,8 +7,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.unit.sp
-import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.ast.getTextInNode
@@ -18,7 +16,6 @@ internal object ImageVisitor : Visitor {
 
     override val acceptedTypes = setOf(MarkdownElementTypes.IMAGE)
 
-    @OptIn(ExperimentalCoilApi::class)
     @Suppress("MagicNumber")
     override fun visit(
         node: ASTNode,
@@ -40,10 +37,8 @@ internal object ImageVisitor : Visitor {
                     PlaceholderVerticalAlign.TextCenter
                 )
             ) {
-                Image(
-                    painter = rememberImagePainter(data = imageUrl) {
-                        crossfade(true)
-                    },
+                AsyncImage(
+                    model = imageUrl,
                     contentDescription = null,
                     contentScale = ContentScale.FillWidth,
                 )

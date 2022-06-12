@@ -21,7 +21,7 @@ package me.tylerbwong.stack.api.di {
   public static final class ApiModule.Companion {
   }
 
-  @javax.inject.Qualifier @kotlin.annotation.Retention(kotlin.annotation.AnnotationRetention) public @interface BaseUrl {
+  @javax.inject.Qualifier @kotlin.annotation.Retention(kotlin.annotation.AnnotationRetention.BINARY) public @interface BaseUrl {
   }
 
 }

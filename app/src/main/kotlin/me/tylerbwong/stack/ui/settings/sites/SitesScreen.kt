@@ -1,7 +1,6 @@
 @file:Suppress("MagicNumber")
 package me.tylerbwong.stack.ui.settings.sites
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -47,8 +46,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.ui.theme.ThemeManager.isNightModeEnabled
@@ -189,7 +187,6 @@ fun SitesLayout(changeSite: (String) -> Unit) {
 }
 
 // TODO Migrate to ListItem
-@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun SiteItem(
     site: Site,
@@ -211,8 +208,8 @@ fun SiteItem(
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
-            painter = rememberImagePainter(data = site.iconUrl),
+        AsyncImage(
+            model = site.iconUrl,
             contentDescription = null,
             modifier = Modifier
                 .size(64.dp)

@@ -3,7 +3,6 @@
 package me.tylerbwong.compose.preference
 
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -17,123 +16,151 @@ import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Traffic
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.fredporciuncula.flow.preferences.FlowSharedPreferences
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
 @Composable
 fun PreferenceScreen(
-    preferences: SharedPreferences,
     modifier: Modifier = Modifier,
     content: PreferenceScope.() -> Unit
 ) {
-    CompositionLocalProvider(LocalPreferences provides FlowSharedPreferences(preferences)) {
-        LazyColumn(modifier = modifier) {
-            content()
-        }
+    LazyColumn(modifier = modifier) {
+        content()
     }
 }
 
-@OptIn(ExperimentalCoroutinesApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Preview(showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 internal fun PreferenceScreenPreview() {
     val context = LocalContext.current
     val preferences = context.getSharedPreferences("test", Context.MODE_PRIVATE)
-    PreferenceScreen(preferences = preferences) {
-        PreferenceCategory(header = { Text(text = "Experimental") }) {
-            SwitchPreference(
-                initialChecked = false,
-                key = "syntax_highlighting",
-                title = { Text(text = "Syntax Highlighting") },
-                summary = { Text(text = "Enables syntax highlighting for supported markdown code blocks.") },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Filled.Code,
-                        contentDescription = null,
-                    )
-                },
-                singleLineSecondaryText = false,
-            )
-            SwitchPreference(
-                initialChecked = false,
-                key = "create_question",
-                title = { Text(text = "Create Question") },
-                summary = { Text(text = "Enables create question support.") },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Filled.AddCircle,
-                        contentDescription = null,
-                    )
-                },
-            )
-            SliderPreference(
-                initialValue = 25f,
-                key = "num_questions",
-                onValueChange = {},
-                valueRange = 0f..100f,
-                steps = 25,
-                title = { Text(text = "Number of Questions to Show") },
-                valueLabel = { Text(text = it.toInt().toString()) },
-                summary = { Text(text = "Specifies the number of questions to show on the home page.") },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Filled.Dashboard,
-                        contentDescription = null,
-                    )
-                },
-            )
-        }
-        PreferenceCategory(header = { Text(text = "Debug") }) {
-            Preference(
-                title = { Text(text = "Inspect Network Traffic") },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Filled.Traffic,
-                        contentDescription = null,
-                    )
-                },
-            )
-            CheckboxPreference(
-                initialChecked = true,
-                key = "network_debugging",
-                title = { Text(text = "Enable Network Debugging") },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Filled.BugReport,
-                        contentDescription = null,
-                    )
-                },
-            )
-        }
-        PreferenceCategory(header = { Text(text = "App") }) {
-            ListPreference(
-                key = "theme",
-                title = { Text(text = "Theme") },
-                dialogTitle = { Text(text = "Theme") },
-                items = listOf("Light", "Dark", "System default"),
-                onConfirm = { _, _ -> },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Filled.Brightness2,
-                        contentDescription = null,
-                    )
-                },
-            )
-            Preference(
-                title = { Text(text = "Version") },
-                summary = { Text(text = "1.0.0-alpha01") },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Filled.Info,
-                        contentDescription = null,
-                    )
-                },
-            )
+    var syntaxPref by remember {
+        mutableStateOf(preferences.getBoolean("syntax_highlighting", false))
+    }
+    var createPref by remember {
+        mutableStateOf(preferences.getBoolean("create_question", false))
+    }
+    var sliderPref by remember {
+        mutableStateOf(preferences.getFloat("num_questions", 0f))
+    }
+    var networkPref by remember {
+        mutableStateOf(preferences.getBoolean("network_debugging", false))
+    }
+    var themePref by remember {
+        mutableStateOf(preferences.getInt("theme", 0))
+    }
+    PreferenceScreen {
+        repeat(100) {
+            PreferenceCategory(header = { Text(text = "Experimental") }) {
+                SwitchPreference(
+                    checked = syntaxPref,
+                    title = { Text(text = "Syntax Highlighting") },
+                    summary = { Text(text = "Enables syntax highlighting for supported markdown code blocks.") },
+                    onCheckedChange = {
+                        preferences.edit().putBoolean("syntax_highlighting", it).apply()
+                        syntaxPref = it
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Filled.Code,
+                            contentDescription = null,
+                        )
+                    },
+                    singleLineSecondaryText = false,
+                )
+                SwitchPreference(
+                    checked = createPref,
+                    title = { Text(text = "Create Question") },
+                    summary = { Text(text = "Enables create question support.") },
+                    onCheckedChange = {
+                        preferences.edit().putBoolean("create_question", it).apply()
+                        createPref = it
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Filled.AddCircle,
+                            contentDescription = null,
+                        )
+                    },
+                )
+                SliderPreference(
+                    value = sliderPref,
+                    onValueChange = {
+                        preferences.edit().putFloat("num_questions", it).apply()
+                        sliderPref = it
+                    },
+                    valueRange = 0f..100f,
+                    steps = 25,
+                    title = { Text(text = "Number of Questions to Show") },
+                    valueLabel = { Text(text = it.toInt().toString()) },
+                    summary = { Text(text = "Specifies the number of questions to show on the home page.") },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Filled.Dashboard,
+                            contentDescription = null,
+                        )
+                    },
+                )
+            }
+            PreferenceCategory(header = { Text(text = "Debug") }) {
+                Preference(
+                    title = { Text(text = "Inspect Network Traffic") },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Filled.Traffic,
+                            contentDescription = null,
+                        )
+                    },
+                )
+                CheckboxPreference(
+                    checked = networkPref,
+                    title = { Text(text = "Enable Network Debugging") },
+                    onCheckedChange = {
+                        preferences.edit().putBoolean("network_debugging", it).apply()
+                        networkPref = it
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Filled.BugReport,
+                            contentDescription = null,
+                        )
+                    },
+                )
+            }
+            PreferenceCategory(header = { Text(text = "App") }) {
+                ListPreference(
+                    selectedIndex = themePref,
+                    title = { Text(text = "Theme") },
+                    dialogTitle = { Text(text = "Theme") },
+                    items = listOf("Light", "Dark", "System default"),
+                    onConfirm = { _, index ->
+                        preferences.edit().putInt("theme", index).apply()
+                        themePref = index
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Filled.Brightness2,
+                            contentDescription = null,
+                        )
+                    },
+                )
+                Preference(
+                    title = { Text(text = "Version") },
+                    summary = { Text(text = "1.0.0-alpha01") },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Filled.Info,
+                            contentDescription = null,
+                        )
+                    },
+                )
+            }
         }
     }
 }

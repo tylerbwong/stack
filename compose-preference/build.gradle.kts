@@ -16,9 +16,12 @@ android {
     }
 }
 
+metalava {
+    sourcePaths = mutableSetOf("src/main")
+}
+
 dependencies {
     implementation(libs.androidx.activity.ktx)
-    implementation(libs.flowPreferences)
 
     // compose
     implementation(libs.androidx.compose.foundation)

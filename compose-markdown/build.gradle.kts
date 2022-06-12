@@ -16,6 +16,10 @@ android {
     }
 }
 
+metalava {
+    sourcePaths = mutableSetOf("src/main")
+}
+
 dependencies {
     // androidx
     implementation(libs.androidx.core.ktx)

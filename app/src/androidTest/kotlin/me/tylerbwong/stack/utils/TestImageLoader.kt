@@ -1,84 +1,55 @@
 package me.tylerbwong.stack.utils
 
-import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import coil.ComponentRegistry
 import coil.ImageLoader
-import coil.annotation.ExperimentalCoilApi
-import coil.bitmap.BitmapPool
 import coil.decode.DataSource
+import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import coil.request.DefaultRequestOptions
 import coil.request.Disposable
 import coil.request.ImageRequest
 import coil.request.ImageResult
 import coil.request.SuccessResult
+import kotlinx.coroutines.CompletableDeferred
 
-private val noOpMemoryCache = object : MemoryCache {
-    override val maxSize = 0
-    override val size = 0
+class TestImageLoader : ImageLoader {
 
-    override fun clear() {
-        // No-op
-    }
-
-    override fun get(key: MemoryCache.Key): Bitmap? = null
-
-    override fun remove(key: MemoryCache.Key): Boolean = false
-
-    override fun set(key: MemoryCache.Key, bitmap: Bitmap) {
-        // No-op
-    }
-}
-
-class TestImageLoader(private val context: Context) : ImageLoader {
-
-    private val testDrawable = ColorDrawable(Color.CYAN)
-    private val testErrorDrawable = ColorDrawable(Color.RED)
-    @OptIn(ExperimentalCoilApi::class)
-    private val noOpDisposable = object : Disposable {
-        override val isDisposed = false
-
-        @ExperimentalCoilApi
-        override suspend fun await() {
-            // No-op
-        }
-
-        override fun dispose() {
-            // No-op
-        }
-    }
-
-    override val bitmapPool = BitmapPool(maxSize = 0)
-    override val defaults = DefaultRequestOptions(
-        placeholder = testDrawable,
-        error = testErrorDrawable
-    )
-    override val memoryCache = noOpMemoryCache
+    override val defaults = DefaultRequestOptions()
+    override val components = ComponentRegistry()
+    override val memoryCache: MemoryCache? get() = null
+    override val diskCache: DiskCache? get() = null
 
     override fun enqueue(request: ImageRequest): Disposable {
-        request.target?.onStart(testDrawable)
-        request.target?.onSuccess(testDrawable)
-        return noOpDisposable
+        request.target?.onStart(request.placeholder)
+        val result = ColorDrawable(Color.CYAN)
+        request.target?.onSuccess(result)
+        return object : Disposable {
+            override val job = CompletableDeferred(newResult(request, result))
+            override val isDisposed get() = true
+            override fun dispose() {
+                // no-op
+            }
+        }
     }
 
     override suspend fun execute(request: ImageRequest): ImageResult {
+        return newResult(request, ColorDrawable(Color.CYAN))
+    }
+
+    private fun newResult(request: ImageRequest, drawable: Drawable): SuccessResult {
         return SuccessResult(
-            drawable = testDrawable,
+            drawable = drawable,
             request = request,
-            metadata = ImageResult.Metadata(
-                memoryCacheKey = MemoryCache.Key(""),
-                isSampled = false,
-                dataSource = DataSource.MEMORY_CACHE,
-                isPlaceholderMemoryCacheKeyPresent = false
-            )
+            dataSource = DataSource.MEMORY_CACHE,
         )
     }
 
-    override fun newBuilder(): ImageLoader.Builder = ImageLoader.Builder(context)
+    override fun newBuilder() = throw UnsupportedOperationException()
 
     override fun shutdown() {
-        // No-op
+        // no-op
     }
 }
