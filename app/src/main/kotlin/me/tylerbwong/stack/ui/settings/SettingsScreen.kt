@@ -38,7 +38,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.chuckerteam.chucker.api.Chucker
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import me.tylerbwong.compose.preference.ListPreference
 import me.tylerbwong.compose.preference.Preference
 import me.tylerbwong.compose.preference.PreferenceCategory
@@ -48,7 +47,6 @@ import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.settings.libraries.LibrariesActivity
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
-import me.tylerbwong.stack.ui.theme.ThemeManager
 import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
 import me.tylerbwong.stack.ui.theme.nightModeOptions
 import me.tylerbwong.stack.ui.utils.launchUrl
@@ -56,7 +54,7 @@ import me.tylerbwong.stack.ui.utils.toHtml
 import java.util.Locale
 import me.tylerbwong.stack.api.BuildConfig as ApiBuildConfig
 
-@OptIn(ExperimentalCoroutinesApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SettingsScreen(
     preferences: SharedPreferences,
@@ -112,7 +110,7 @@ fun SettingsScreen(
             val currentSite by viewModel.currentSite.observeAsState()
             var isSnackbarVisible by remember { mutableStateOf(false) }
 
-            PreferenceScreen(preferences = preferences) {
+            PreferenceScreen {
                 PreferenceCategory(
                     header = { Text(text = stringResource(R.string.account)) }
                 ) {
@@ -180,8 +178,7 @@ fun SettingsScreen(
                         header = { Text(text = stringResource(R.string.experimental)) }
                     ) {
                         SwitchPreference(
-                            initialChecked = false,
-                            key = Experimental.MARKDOWN_SYNTAX_HIGHLIGHT,
+                            checked = false,
                             title = { Text(text = stringResource(R.string.syntax_highlighting)) },
                             onCheckedChange = { isSnackbarVisible = true },
                             summary = {
@@ -196,8 +193,7 @@ fun SettingsScreen(
                             },
                         )
                         SwitchPreference(
-                            initialChecked = false,
-                            key = Experimental.CREATE_QUESTION,
+                            checked = false,
                             title = { Text(text = stringResource(R.string.create_question)) },
                             onCheckedChange = { isSnackbarVisible = true },
                             summary = {
@@ -238,7 +234,7 @@ fun SettingsScreen(
                     header = { Text(text = stringResource(R.string.app)) }
                 ) {
                     ListPreference(
-                        key = ThemeManager.CURRENT_MODE,
+                        selectedIndex = nightModeOptions.values.indexOf(context.delegateMode),
                         title = { Text(text = stringResource(R.string.theme)) },
                         dialogTitle = { Text(text = stringResource(R.string.theme)) },
                         items = nightModeOptions.keys.map { context.getString(it) },
@@ -246,7 +242,6 @@ fun SettingsScreen(
                             val newMode = nightModeOptions.values.toList()[which]
                             AppCompatDelegate.setDefaultNightMode(newMode)
                         },
-                        selectedItemIndex = nightModeOptions.values.indexOf(context.delegateMode),
                         icon = {
                             Icon(
                                 imageVector = Icons.Filled.Brightness2,
