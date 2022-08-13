@@ -184,13 +184,14 @@ fun SiteEntity.toSite(): Site =
             .toHtml()
             .toString(),
         iconUrl = iconUrl
-    )
+    ).apply { isUserRegistered = this@toSite.isUserRegistered }
 
-fun Site.toSiteEntity(): SiteEntity =
+fun Site.toSiteEntity(associatedParameters: List<String>): SiteEntity =
     SiteEntity(
         name = name,
         parameter = parameter,
         url = url,
         audience = audience,
-        iconUrl = iconUrl
+        iconUrl = iconUrl,
+        isUserRegistered = parameter in associatedParameters,
     )

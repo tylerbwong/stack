@@ -24,7 +24,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.get()
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
 }
 
@@ -132,7 +132,7 @@ dependencies {
     implementation(libs.retrofit.moshi)
 
     // play
-    playImplementation(libs.google.playCore)
+    playImplementation(libs.google.play.appUpdate)
 
     // testing
     testImplementation(libs.androidx.test.core.ktx)

@@ -50,16 +50,11 @@ class SitesActivity : BaseActivity<ActivitySitesBinding>(
                 snackbar?.dismiss()
             }
         }
-        viewModel.logOutState.observe(this) { state ->
-            when (state) {
-                is SiteLogOutResult.SiteLogOutSuccess -> changeSite(state.siteParameter)
-                else -> Unit // No-op
-            }
-        }
         viewModel.filter.observe(this) {
             supportActionBar?.title = getString(R.string.sites, getString(it.filterNameRes))
         }
 
+        viewModel.forceFetchSites()
         viewModel.fetchSites()
     }
 

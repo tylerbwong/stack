@@ -14,6 +14,7 @@ import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showDialog
+import me.tylerbwong.stack.ui.utils.showRegisterOnSiteDialog
 
 @AndroidEntryPoint
 class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
@@ -44,7 +45,17 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
         }
 
         binding.postAnswerButton.setThrottledOnClickListener {
-            toggleAnswerMode(isInAnswerMode = true)
+            if (viewModel.isAuthenticated && viewModel.user.value == null) {
+                viewModel.site.value?.let { site ->
+                    showRegisterOnSiteDialog(
+                        site = site,
+                        siteUrl = viewModel.buildSiteJoinUrl(site),
+                        titleResId = R.string.register_on_site_contribute,
+                    )
+                }
+            } else {
+                toggleAnswerMode(isInAnswerMode = true)
+            }
         }
 
         adapter = QuestionDetailPagerAdapter(this, viewModel.questionId)

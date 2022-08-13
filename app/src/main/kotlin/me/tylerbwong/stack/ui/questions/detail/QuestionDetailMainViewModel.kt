@@ -12,10 +12,13 @@ import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Response
+import me.tylerbwong.stack.api.model.Site
+import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.api.utils.toErrorResponse
 import me.tylerbwong.stack.data.auth.AuthRepository
 import me.tylerbwong.stack.data.repository.QuestionRepository
+import me.tylerbwong.stack.data.repository.SiteRepository
 import me.tylerbwong.stack.markdown.Markdown
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
@@ -30,6 +33,7 @@ import javax.inject.Inject
 @HiltViewModel
 class QuestionDetailMainViewModel @Inject constructor(
     private val authRepository: AuthRepository,
+    private val siteRepository: SiteRepository,
     private val questionRepository: QuestionRepository,
     private val service: QuestionService,
     private val markdown: Markdown,
@@ -62,6 +66,14 @@ class QuestionDetailMainViewModel @Inject constructor(
     internal val isAuthenticated: Boolean
         get() = authRepository.isAuthenticated
 
+    internal val user: LiveData<User?>
+        get() = _user
+    private val _user = MutableLiveData<User?>()
+
+    internal val site: LiveData<Site>
+        get() = _site
+    private val _site = MutableLiveData<Site>()
+
     internal val canAnswerQuestion = authRepository.isAuthenticatedLiveData.zipWith(
         data,
         initialValue = false
@@ -74,7 +86,10 @@ class QuestionDetailMainViewModel @Inject constructor(
     internal var answerId = -1
     internal var question: Question? = null
 
+    internal fun buildSiteJoinUrl(site: Site): String = siteRepository.buildSiteJoinUrl(site)
+
     internal fun getQuestionDetails(question: Question? = null) {
+        fetchData()
         launchRequest {
             val questionResult = question ?: questionRepository.getQuestion(questionId)
             val answersResult = questionRepository.getQuestionAnswers(questionId)
@@ -229,7 +244,7 @@ class QuestionDetailMainViewModel @Inject constructor(
             } catch (ex: HttpException) {
                 val errorResponse = ex.toErrorResponse()
                 if (errorResponse != null) {
-                    mutableMessageSnackbar.postValue(errorResponse.errorMessage)
+                    mutableMessageSnackbar.postValue(errorResponse.errorMessage.toHtml().toString())
                 }
             } catch (ex: Exception) {
                 Timber.e(ex)
@@ -248,6 +263,13 @@ class QuestionDetailMainViewModel @Inject constructor(
             } else {
                 MarkdownItem(node)
             }
+        }
+    }
+
+    private fun fetchData() {
+        launchRequest {
+            _user.value = authRepository.getCurrentUser()
+            _site.value = siteRepository.getCurrentSite()
         }
     }
 }

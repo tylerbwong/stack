@@ -15,4 +15,6 @@ data class Site(
     val audience: String,
     @Json(name = "icon_url")
     val iconUrl: String
-)
+) {
+    var isUserRegistered: Boolean = false
+}

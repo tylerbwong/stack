@@ -23,6 +23,7 @@ import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchUrl
 import me.tylerbwong.stack.ui.utils.ofType
+import me.tylerbwong.stack.ui.utils.showRegisterOnSiteDialog
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
@@ -62,7 +63,19 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
                 )?.apply {
                     maxLines = 4
                 }
-                setAction(R.string.dismiss) { dismiss() }
+                if (viewModel.isAuthenticated && viewModel.user.value == null) {
+                    setAction(R.string.register) {
+                        viewModel.site.value?.let { site ->
+                            requireContext().showRegisterOnSiteDialog(
+                                site = site,
+                                siteUrl = viewModel.buildSiteJoinUrl(site),
+                                titleResId = R.string.register_on_site_contribute,
+                            )
+                        }
+                    }
+                } else {
+                    setAction(R.string.dismiss) { dismiss() }
+                }
                 show()
             }
         }

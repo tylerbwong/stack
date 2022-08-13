@@ -61,7 +61,7 @@ fun ProfileHeader(user: User) {
                 .error(R.drawable.user_image_placeholder)
                 .placeholder(R.drawable.user_image_placeholder)
                 .transformations(CircleCropTransformation())
-            ,
+                .build(),
             contentDescription = null,
             modifier = Modifier
                 .width(72.dp)

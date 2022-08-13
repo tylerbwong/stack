@@ -44,6 +44,10 @@
     <string name="log_out_message">Perderá todos los datos de su sesión actual, incluidos los borradores</string>
     <string name="log_in">Iniciar sesión</string>
     <string name="log_out">Cerrar sesión</string>
+    <string name="register_on_site_message">Asegúrese de usar el mismo usuario en todas las cuentas de Stack Exchange. Una vez terminado, cierre el navegador.</string>
+    <string name="register_on_site">Regístrese en %1$s</string>
+    <string name="register_on_site_contribute">Regístrese para contribuir con %1$s</string>
+    <string name="register">Registro</string>
     <string name="cancel">Cancelar</string>
 
     <!-- In-App Update -->
@@ -124,6 +128,8 @@
     <string name="license">Licencia de %1$s</string>
 
     <!-- Sites -->
+    <string name="my_sites">Mis sitios web</string>
+    <string name="other_sites">Otros sitios web</string>
     <string name="current_site">Sitio Actual</string>
     <string name="sites">Sitios (%1$s)</string>
     <string name="filter">Filtrar</string>

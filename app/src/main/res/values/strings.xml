@@ -53,6 +53,10 @@
     <string name="log_out_message">You\'ll lose all of your current session data including saved drafts</string>
     <string name="log_in">Log in</string>
     <string name="log_out">Log out</string>
+    <string name="register_on_site_message">Make sure to use the same user across all Stack Exchange accounts. Once finished please close the browser.</string>
+    <string name="register_on_site">Register on %1$s</string>
+    <string name="register_on_site_contribute">Register to contribute to %1$s</string>
+    <string name="register">Register</string>
     <string name="cancel">Cancel</string>
 
     <!-- In-App Update -->
@@ -137,6 +141,8 @@
     <string name="license">%1$s License</string>
 
     <!-- Sites -->
+    <string name="my_sites">My sites</string>
+    <string name="other_sites">Other sites</string>
     <string name="current_site">Current Site</string>
     <string name="sites">Sites (%1$s)</string>
     <string name="filter">Filter</string>

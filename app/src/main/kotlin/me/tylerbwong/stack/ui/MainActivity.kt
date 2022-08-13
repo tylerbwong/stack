@@ -15,7 +15,6 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.updater.AppUpdater
 import me.tylerbwong.stack.data.work.WorkScheduler
 import me.tylerbwong.stack.databinding.ActivityMainBinding
@@ -28,9 +27,9 @@ import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
-import me.tylerbwong.stack.ui.utils.launchUrl
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
-import me.tylerbwong.stack.ui.utils.showDialog
+import me.tylerbwong.stack.ui.utils.showLogInDialog
+import me.tylerbwong.stack.ui.utils.showRegisterOnSiteDialog
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
@@ -96,6 +95,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     setThrottledOnClickListener {
                         ProfileActivity.startActivity(this@MainActivity, userId = user.userId)
                     }
+                } else if (viewModel.isAuthenticatedLiveData.value == true) {
+                    setImageResource(R.drawable.ic_account_circle)
+                    setThrottledOnClickListener {
+                        viewModel.currentSite.value?.let {
+                            showRegisterOnSiteDialog(
+                                site = it,
+                                siteUrl = viewModel.buildSiteJoinUrl(it),
+                            )
+                        }
+                    }
                 } else {
                     setImageResource(R.drawable.ic_account_circle)
                     setThrottledOnClickListener { showLogInDialog() }
@@ -110,6 +119,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onResume() {
         super.onResume()
+        viewModel.fetchUser()
+        viewModel.fetchSites()
         checkForPendingInstall()
     }
 
@@ -203,7 +214,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    fun checkForPendingInstall() {
+    private fun checkForPendingInstall() {
         appUpdater.checkForPendingInstall(
             onDownloadFinished = {
                 binding.bottomNav.showSnackbar(
@@ -227,16 +238,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
             }
         )
-    }
-
-    private fun showLogInDialog() {
-        showDialog {
-            setTitle(R.string.log_in_title)
-            setPositiveButton(R.string.log_in) { _, _ ->
-                launchUrl(AuthStore.authUrl)
-            }
-            setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-        }
     }
 
     private fun initializeFragment(tag: String, createFragment: () -> Fragment): Fragment {

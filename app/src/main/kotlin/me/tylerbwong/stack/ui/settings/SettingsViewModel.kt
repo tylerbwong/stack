@@ -33,6 +33,8 @@ class SettingsViewModel @Inject constructor(
         fetchCurrentSite()
     }
 
+    internal fun buildSiteJoinUrl(site: Site): String = siteRepository.buildSiteJoinUrl(site)
+
     internal fun logOut() {
         launchRequest {
             when (authRepository.logOut()) {

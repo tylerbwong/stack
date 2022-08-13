@@ -30,7 +30,7 @@ class PersistenceModule {
         @RoomTypeConverter typeConverters: Set<@JvmSuppressWildcards Any>,
     ): StackDatabase {
         val builder = Room.databaseBuilder(context, StackDatabase::class.java, STACK_DATABASE_NAME)
-        migrations.forEach { builder.addMigrations((it)) }
+        migrations.forEach { builder.addMigrations(it) }
         typeConverters.forEach { builder.addTypeConverter(it) }
         return builder.build()
     }

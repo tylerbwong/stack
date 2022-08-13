@@ -18,7 +18,6 @@ import com.jakewharton.processphoenix.ProcessPhoenix
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.settings.libraries.LibrariesActivity
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
@@ -26,7 +25,9 @@ import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
 import me.tylerbwong.stack.ui.theme.nightModeOptions
 import me.tylerbwong.stack.ui.theme.showThemeChooserDialog
 import me.tylerbwong.stack.ui.utils.launchUrl
-import me.tylerbwong.stack.ui.utils.showDialog
+import me.tylerbwong.stack.ui.utils.showLogInDialog
+import me.tylerbwong.stack.ui.utils.showLogOutDialog
+import me.tylerbwong.stack.ui.utils.showRegisterOnSiteDialog
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
 import java.util.Locale
@@ -127,7 +128,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         .build()
                     imageLoader.enqueue(request)
                     setOnPreferenceClickListener {
-                        showLogOutDialog()
+                        requireContext().showLogOutDialog { viewModel.logOut() }
+                        true
+                    }
+                } else if (viewModel.isAuthenticated.value == true) {
+                    title = getString(R.string.register)
+                    summary = null
+                    setIcon(R.drawable.ic_account_circle)
+                    setOnPreferenceClickListener {
+                        viewModel.currentSite.value?.let {
+                            requireContext().showRegisterOnSiteDialog(
+                                site = it,
+                                siteUrl = viewModel.buildSiteJoinUrl(it),
+                            )
+                        }
                         true
                     }
                 } else {
@@ -135,7 +149,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     summary = null
                     setIcon(R.drawable.ic_account_circle)
                     setOnPreferenceClickListener {
-                        showLogInDialog()
+                        requireContext().showLogInDialog()
                         true
                     }
                 }
@@ -233,25 +247,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 requireContext().launchUrl(getString(R.string.terms_url))
                 true
             }
-        }
-    }
-
-    private fun showLogOutDialog() {
-        requireContext().showDialog {
-            setTitle(R.string.log_out_title)
-            setMessage(R.string.log_out_message)
-            setPositiveButton(R.string.log_out) { _, _ -> viewModel.logOut() }
-            setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-        }
-    }
-
-    private fun showLogInDialog() {
-        requireContext().showDialog {
-            setTitle(R.string.log_in_title)
-            setPositiveButton(R.string.log_in) { _, _ ->
-                requireContext().launchUrl(AuthStore.authUrl)
-            }
-            setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
         }
     }
 }

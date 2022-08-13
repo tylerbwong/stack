@@ -1,6 +1,7 @@
 @file:Suppress("MagicNumber")
 package me.tylerbwong.stack.ui.settings.sites
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -11,14 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
@@ -156,34 +154,48 @@ fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
 
 @Composable
 fun SitesLayout(changeSite: (String) -> Unit) {
-    var clickedSite by remember { mutableStateOf<Site?>(null) }
     val viewModel = viewModel<SitesViewModel>()
+    val associatedSites by viewModel.associatedSites.observeAsState(initial = emptyList())
     val sites by viewModel.sites.observeAsState(initial = emptyList())
     val searchQuery by viewModel.searchQuery.observeAsState()
 
     LazyColumn {
-        items(items = sites) { site ->
-            SiteItem(
-                site = site,
-                searchQuery = searchQuery,
-            ) {
-                if (viewModel.isAuthenticated) {
-                    clickedSite = site
-                } else {
-                    changeSite(site.parameter)
-                }
+        if (associatedSites.isNotEmpty()) {
+            item { SitesHeader(headerResId = R.string.my_sites) }
+            items(items = associatedSites) { site ->
+                SiteItem(
+                    site = site,
+                    searchQuery = searchQuery,
+                ) { changeSite(site.parameter) }
+            }
+        }
+        if (sites.isNotEmpty()) {
+            if (associatedSites.isNotEmpty()) {
+                item { SitesHeader(headerResId = R.string.other_sites) }
+            }
+            items(items = sites) { site ->
+                SiteItem(
+                    site = site,
+                    searchQuery = searchQuery,
+                ) { changeSite(site.parameter) }
             }
         }
     }
+}
 
-    val site = clickedSite
-    if (site != null) {
-        ChangeSiteDialog(
-            onDismissRequest = { clickedSite = null },
-            onConfirm = { viewModel.logOut(site.parameter) },
-            onDismiss = { clickedSite = null },
-        )
-    }
+@Composable
+fun SitesHeader(@StringRes headerResId: Int) {
+    Text(
+        text = stringResource(headerResId),
+        modifier = Modifier
+            .padding(
+                start = 16.dp,
+                top = 8.dp,
+                end = 16.dp,
+            ),
+        color = colorResource(R.color.primaryTextColor),
+        style = MaterialTheme.typography.h5,
+    )
 }
 
 // TODO Migrate to ListItem
@@ -242,49 +254,6 @@ fun SiteItem(
             )
         }
     }
-}
-
-@Composable
-private fun ChangeSiteDialog(
-    onDismissRequest: () -> Unit,
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit,
-) {
-    AlertDialog(
-        onDismissRequest = onDismissRequest,
-        title = {
-            Text(
-                text = stringResource(R.string.log_out_title),
-                color = colorResource(R.color.primaryTextColor),
-                style = MaterialTheme.typography.h6,
-            )
-        },
-        text = {
-            Text(
-                text = stringResource(R.string.log_out_site_switch),
-                color = colorResource(R.color.primaryTextColor),
-                style = MaterialTheme.typography.body1,
-            )
-        },
-        confirmButton = {
-            TextButton(onClick = onConfirm) {
-                Text(
-                    text = stringResource(R.string.log_out),
-                    color = colorResource(R.color.primaryTextColor),
-                )
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(
-                    text = stringResource(R.string.cancel),
-                    color = colorResource(R.color.primaryTextColor),
-                )
-            }
-        },
-        shape = RoundedCornerShape(8.dp),
-        backgroundColor = colorResource(R.color.dialogBackgroundColor),
-    )
 }
 
 private fun String.toAnnotatedString(query: String?): AnnotatedString {

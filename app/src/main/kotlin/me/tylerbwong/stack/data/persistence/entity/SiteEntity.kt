@@ -10,5 +10,6 @@ data class SiteEntity(
     val parameter: String,
     val url: String,
     val audience: String,
-    val iconUrl: String
+    val iconUrl: String,
+    val isUserRegistered: Boolean,
 )
