@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.reviewer.AppReviewer
 import me.tylerbwong.stack.data.updater.AppUpdater
 import me.tylerbwong.stack.data.work.WorkScheduler
 import me.tylerbwong.stack.databinding.ActivityMainBinding
@@ -44,6 +45,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     @Inject
     lateinit var appUpdater: AppUpdater
+
+    @Inject
+    lateinit var appReviewer: AppReviewer
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -122,6 +126,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         viewModel.fetchUser()
         viewModel.fetchSites()
         checkForPendingInstall()
+        appReviewer.initializeReviewFlow(activity = this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -214,7 +219,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    private fun checkForPendingInstall() {
+    internal fun checkForPendingInstall() {
         appUpdater.checkForPendingInstall(
             onDownloadFinished = {
                 binding.bottomNav.showSnackbar(

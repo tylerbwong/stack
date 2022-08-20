@@ -20,7 +20,6 @@ class MarkdownTextView @JvmOverloads constructor(
     lateinit var markdown: Markdown
 
     init {
-        setTextIsSelectable(true)
         movementMethod = BetterLinkMovementMethod.getInstance()
     }
 

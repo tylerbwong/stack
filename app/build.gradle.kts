@@ -133,6 +133,7 @@ dependencies {
 
     // play
     playImplementation(libs.google.play.appUpdate)
+    playImplementation(libs.google.play.review)
 
     // testing
     testImplementation(libs.androidx.test.core.ktx)
