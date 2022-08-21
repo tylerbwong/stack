@@ -6,9 +6,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.annotation.IdRes
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.navOptions
+import androidx.navigation.ui.setupWithNavController
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
@@ -19,15 +23,9 @@ import me.tylerbwong.stack.data.reviewer.AppReviewer
 import me.tylerbwong.stack.data.updater.AppUpdater
 import me.tylerbwong.stack.data.work.WorkScheduler
 import me.tylerbwong.stack.databinding.ActivityMainBinding
-import me.tylerbwong.stack.ui.bookmarks.BookmarksFragment
-import me.tylerbwong.stack.ui.drafts.DraftsFragment
-import me.tylerbwong.stack.ui.home.HomeFragment
 import me.tylerbwong.stack.ui.profile.ProfileActivity
-import me.tylerbwong.stack.ui.questions.create.CreateQuestionActivity
-import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.settings.SettingsActivity
-import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showLogInDialog
 import me.tylerbwong.stack.ui.utils.showRegisterOnSiteDialog
@@ -51,17 +49,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private val viewModel by viewModels<MainViewModel>()
 
-    private val homeFragment by lazy { initializeFragment(HOME_FRAGMENT_TAG) { HomeFragment() } }
-    private val searchFragment by lazy { initializeFragment(SEARCH_FRAGMENT_TAG) { SearchFragment() } }
-    private val bookmarksFragment by lazy { initializeFragment(BOOKMARKS_FRAGMENT_TAG) { BookmarksFragment() } }
-    private val draftsFragment by lazy { initializeFragment(DRAFTS_FRAGMENT_TAG) { DraftsFragment() } }
-
     private val authTabIds = listOf(R.id.create, R.id.bookmarks, R.id.drafts)
+    private val navController: NavController
+        get() = (supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment)
+            .navController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(binding.toolbar)
-        setupBottomNavigation()
+        binding.bottomNav.setupWithNavController(navController)
 
         supportActionBar?.title = ""
 
@@ -118,7 +114,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
         appUpdater.checkForUpdate(this)
         workScheduler.schedule()
-        populateContent(savedInstanceState)
     }
 
     override fun onResume() {
@@ -177,48 +172,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }.applyToView(binding.bottomNav)
     }
 
-    private fun setupBottomNavigation() {
-        with(binding.bottomNav) {
-            setOnItemSelectedListener { menuItem ->
-                if (experimental.createQuestionEnabled && menuItem.itemId == R.id.create) {
-                    CreateQuestionActivity.startActivity(this@MainActivity)
-                    return@setOnItemSelectedListener false
-                }
-
-                val fragment = when (menuItem.itemId) {
-                    R.id.search -> searchFragment
-                    R.id.bookmarks -> bookmarksFragment
-                    R.id.drafts -> draftsFragment
-                    else -> homeFragment
-                }
-                val currentFragment = supportFragmentManager.fragments
-                    .firstOrNull { !it.isHidden }
-                    ?: homeFragment
-
-                supportFragmentManager
-                    .beginTransaction()
-                    .hide(currentFragment)
-                    .show(fragment)
-                    .commit()
-
-                invalidateOptionsMenu()
-
-                hideKeyboard()
-
-                true
-            }
-        }
-    }
-
-    private fun populateContent(savedInstanceState: Bundle?) {
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .show(homeFragment)
-                .commit()
-        }
-    }
-
     internal fun checkForPendingInstall() {
         appUpdater.checkForPendingInstall(
             onDownloadFinished = {
@@ -245,22 +198,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         )
     }
 
-    private fun initializeFragment(tag: String, createFragment: () -> Fragment): Fragment {
-        return supportFragmentManager.findFragmentByTag(tag) ?: createFragment().also { fragment ->
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.contentContainer, fragment, tag)
-                .hide(fragment)
-                .commit()
-        }
+    private fun navigateTo(@IdRes navigationId: Int) {
+        navController.navigate(
+            resId = navigationId,
+            args = null,
+            navOptions = navOptions {
+                launchSingleTop = true
+                restoreState = true
+            }
+        )
     }
 
     companion object {
-        private const val HOME_FRAGMENT_TAG = "home_fragment"
-        private const val SEARCH_FRAGMENT_TAG = "search_fragment"
-        private const val BOOKMARKS_FRAGMENT_TAG = "bookmarks_fragment"
-        private const val DRAFTS_FRAGMENT_TAG = "drafts_fragment"
-
         fun makeIntentClearTop(context: Context) = Intent(context, MainActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     }

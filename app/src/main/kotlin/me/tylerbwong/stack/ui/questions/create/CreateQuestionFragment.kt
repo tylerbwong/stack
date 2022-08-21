@@ -9,7 +9,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.CreateQuestionFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
-import me.tylerbwong.stack.ui.questions.create.CreateQuestionActivity.Companion.DRAFT_ID
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.formatElapsedTime
 
@@ -42,7 +41,7 @@ class CreateQuestionFragment : BaseFragment<CreateQuestionFragmentBinding>(
                 is CreateQuestionError -> showSnackbar(state.errorMessage)
             }
         }
-        viewModel.fetchDraft(arguments?.getInt(DRAFT_ID) ?: -1, timestampProvider)
+        viewModel.fetchDraft( -1, timestampProvider)
     }
 
     private fun showSnackbar(message: String?) {
@@ -60,15 +59,6 @@ class CreateQuestionFragment : BaseFragment<CreateQuestionFragmentBinding>(
             }
             setAction(R.string.dismiss) { dismiss() }
             show()
-        }
-    }
-
-    companion object {
-        fun newInstance(id: Int): CreateQuestionFragment {
-            val fragment = CreateQuestionFragment()
-            val bundle = Bundle().apply { putInt(DRAFT_ID, id) }
-            fragment.arguments = bundle
-            return fragment
         }
     }
 }

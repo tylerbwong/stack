@@ -70,7 +70,10 @@ class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
         binding.refreshLayout.setOnRefreshListener {
             viewModel.fetchDrafts(timestampProvider)
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
         viewModel.fetchDrafts(timestampProvider)
     }
 

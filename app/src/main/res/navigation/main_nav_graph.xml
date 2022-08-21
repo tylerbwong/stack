@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/home">
+
+    <fragment
+        android:id="@+id/home"
+        android:name="me.tylerbwong.stack.ui.home.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/home_fragment" />
+
+    <fragment
+        android:id="@+id/search"
+        android:name="me.tylerbwong.stack.ui.search.SearchFragment"
+        android:label="@string/search"
+        tools:layout="@layout/home_fragment" />
+
+    <fragment
+        android:id="@+id/create"
+        android:name="me.tylerbwong.stack.ui.questions.create.CreateQuestionFragment"
+        android:label="@string/create"
+        tools:layout="@layout/create_question_fragment" />
+
+    <fragment
+        android:id="@+id/bookmarks"
+        android:name="me.tylerbwong.stack.ui.bookmarks.BookmarksFragment"
+        android:label="@string/bookmarks"
+        tools:layout="@layout/home_fragment" />
+
+    <fragment
+        android:id="@+id/drafts"
+        android:name="me.tylerbwong.stack.ui.drafts.DraftsFragment"
+        android:label="@string/drafts"
+        tools:layout="@layout/home_fragment" />
+</navigation>
