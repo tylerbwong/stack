@@ -6,6 +6,7 @@ import androidx.work.Configuration
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
+import com.google.android.material.color.DynamicColors
 import com.jakewharton.processphoenix.ProcessPhoenix
 import dagger.Lazy
 import dagger.hilt.android.HiltAndroidApp
@@ -32,6 +33,7 @@ class StackApplication : Application(), Configuration.Provider, ImageLoaderFacto
         }
         super.onCreate()
         ThemeManager.init(this)
+        DynamicColors.applyToActivitiesIfAvailable(this)
         initializers.forEach { initializer -> initializer() }
     }
 

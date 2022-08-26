@@ -15,7 +15,6 @@
         android:hyphenationFrequency="none"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:textColor="?android:attr/textColorPrimary"
         tools:targetApi="m"
         tools:text="This is a test comment" />
 

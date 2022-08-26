@@ -17,8 +17,6 @@
         android:paddingTop="16dp"
         android:paddingEnd="16dp"
         android:paddingBottom="8dp"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="16sp"
         tools:text="Question title" />
 
     <TextView
@@ -27,8 +25,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:paddingBottom="8dp"
-        android:textColor="?android:attr/textColorSecondary" />
+        android:paddingBottom="8dp" />
 
     <me.tylerbwong.stack.markdown.MarkdownTextView
         android:id="@+id/draftPreview"

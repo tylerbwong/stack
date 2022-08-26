@@ -22,8 +22,7 @@
             android:paddingStart="16dp"
             android:paddingTop="16dp"
             android:paddingEnd="16dp"
-            android:text="@string/min_answers_title"
-            android:textColor="?android:attr/textColorPrimary" />
+            android:text="@string/min_answers_title" />
 
         <com.google.android.material.slider.Slider
             android:id="@+id/minAnswersSlider"
@@ -33,10 +32,7 @@
             android:stepSize="1"
             android:valueFrom="0"
             android:valueTo="50"
-            app:thumbColor="@color/colorAccent"
-            app:thumbElevation="0dp"
-            app:tickColor="@color/colorPrimary"
-            app:trackColor="@color/colorAccent" />
+            app:thumbElevation="0dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/titleContainsLayout"
@@ -45,9 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:boxStrokeColor="@color/text_input_box_color"
-            app:hintTextColor="@color/text_input_box_color">
+            android:layout_marginEnd="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/titleContainsEditText"
@@ -98,9 +92,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:backgroundTint="@color/colorAccent"
             android:padding="16dp"
-            android:stateListAnimator="@null"
             android:text="@string/apply_filters"
             android:textAllCaps="false" />
 
@@ -113,7 +105,6 @@
             android:padding="16dp"
             android:stateListAnimator="@null"
             android:text="@string/clear_filters"
-            android:textAllCaps="false"
-            android:textColor="@color/colorAccent" />
+            android:textAllCaps="false" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

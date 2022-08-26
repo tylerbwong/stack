@@ -7,5 +7,5 @@
         android:width="@dimen/user_image_placeholder_size"
         android:height="@dimen/user_image_placeholder_size" />
 
-    <solid android:color="@color/colorUserImagePlaceholder" />
+    <solid android:color="?attr/colorOnSurface" />
 </shape>

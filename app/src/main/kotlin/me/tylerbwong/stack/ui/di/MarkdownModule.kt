@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.ui.di
 
 import android.content.Context
-import androidx.core.content.ContextCompat
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -106,11 +105,7 @@ class MarkdownModule {
     @[Provides IntoSet MarkwonPlugin]
     fun provideTaskListPlugin(
         @ApplicationContext context: Context
-    ): AbstractMarkwonPlugin = TaskListPlugin.create(
-        ContextCompat.getColor(context, R.color.colorAccent),
-        ContextCompat.getColor(context, R.color.colorAccent),
-        ContextCompat.getColor(context, R.color.white)
-    )
+    ): AbstractMarkwonPlugin = TaskListPlugin.create(context)
 
     @[Provides IntoSet MarkwonPlugin]
     fun provideUrlPlugin(

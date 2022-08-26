@@ -2,6 +2,7 @@ package me.tylerbwong.stack.ui.questions.detail
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.util.TypedValue
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.ColorInt
@@ -61,7 +62,9 @@ class QuestionDetailActionHolder(
         @ColorInt val color = if (isSelected) {
             ContextCompat.getColor(context, selectedColor)
         } else {
-            ContextCompat.getColor(context, R.color.primaryTextColor)
+            val typedValue = TypedValue()
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true)
+            typedValue.data
         }
         setTextColor(color)
         text = value.toLong().format()

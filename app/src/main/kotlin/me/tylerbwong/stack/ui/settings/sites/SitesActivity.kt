@@ -35,7 +35,7 @@ class SitesActivity : BaseActivity<ActivitySitesBinding>(
         }
 
         binding.composeContent.setContent {
-            SitesLayout(::changeSite)
+            SitesLayout(changeSite = ::changeSite)
         }
 
         viewModel.snackbar.observe(this) {

@@ -10,7 +10,6 @@
     android:paddingTop="16dp"
     android:paddingEnd="16dp"
     android:paddingBottom="8dp"
-    android:textColor="?android:attr/textColorPrimary"
     android:textSize="18sp"
     android:textStyle="bold"
     tools:text="Question title" />

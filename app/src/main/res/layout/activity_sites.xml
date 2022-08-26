@@ -15,8 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:collapseIcon="@drawable/ic_arrow_back"
-            app:navigationIcon="@drawable/ic_arrow_back"
-            app:titleTextColor="?android:attr/textColorPrimary" />
+            app:navigationIcon="@drawable/ic_arrow_back" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.compose.ui.platform.ComposeView

@@ -18,8 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:layout_marginBottom="8dp"
-        android:indeterminate="true"
-        app:indicatorColor="@color/colorAccent" />
+        android:indeterminate="true" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

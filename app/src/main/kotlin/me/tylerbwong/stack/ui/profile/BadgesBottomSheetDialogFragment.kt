@@ -12,7 +12,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.api.model.BRONZE
 import me.tylerbwong.stack.api.model.GOLD
 import me.tylerbwong.stack.api.model.SILVER
 import me.tylerbwong.stack.databinding.BadgesFragmentBinding
@@ -58,8 +57,7 @@ class BadgesBottomSheetDialogFragment : BottomSheetDialogFragment() {
                     val strokeColorRes = when (it.rank) {
                         GOLD -> R.color.goldBadgeColorDark
                         SILVER -> R.color.silverBadgeColorDark
-                        BRONZE -> R.color.bronzeBadgeColorDark
-                        else -> R.color.secondaryTextColor
+                        else -> R.color.bronzeBadgeColorDark
                     }
                     createChip(
                         it.name.toHtml().toString(),

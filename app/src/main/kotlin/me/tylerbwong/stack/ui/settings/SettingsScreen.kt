@@ -4,14 +4,8 @@ package me.tylerbwong.stack.ui.settings
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.darkColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.AddCircle
@@ -22,15 +16,23 @@ import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Traffic
-import androidx.compose.material.lightColors
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Text
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -54,54 +56,32 @@ import me.tylerbwong.stack.ui.utils.toHtml
 import java.util.Locale
 import me.tylerbwong.stack.api.BuildConfig as ApiBuildConfig
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     preferences: SharedPreferences,
     viewModel: SettingsViewModel = viewModel(),
     onBackPressed: () -> Unit,
 ) {
-    val viewBackgroundColor = colorResource(R.color.viewBackgroundColor)
-    val primaryTextColor = colorResource(R.color.primaryTextColor)
-    val iconColor = colorResource(R.color.iconColor)
     MaterialTheme(
-        colors = if (isSystemInDarkTheme()) {
-            darkColors(
-                primary = colorResource(R.color.colorPrimary),
-                secondary = colorResource(R.color.colorAccent),
-                background = colorResource(R.color.viewBackgroundColor),
-                surface = colorResource(R.color.viewBackgroundColor),
-                onBackground = colorResource(R.color.primaryTextColor),
-            )
+        colorScheme = if (isSystemInDarkTheme()) {
+           darkColorScheme()
         } else {
-            lightColors(
-                primary = colorResource(R.color.colorPrimary),
-                secondary = colorResource(R.color.colorAccent),
-                background = colorResource(R.color.viewBackgroundColor),
-                surface = colorResource(R.color.viewBackgroundColor),
-                onBackground = colorResource(R.color.primaryTextColor),
-            )
+            lightColorScheme()
         }
     ) {
         Scaffold(
             topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = stringResource(R.string.settings),
-                            color = primaryTextColor,
-                        )
-                    },
+                SmallTopAppBar(
+                    title = { Text(text = stringResource(R.string.settings)) },
                     navigationIcon = {
                         IconButton(onClick = onBackPressed) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowBack,
                                 contentDescription = null,
-                                tint = iconColor,
                             )
                         }
                     },
-                    backgroundColor = viewBackgroundColor,
                 )
             },
         ) {
@@ -110,7 +90,7 @@ fun SettingsScreen(
             val currentSite by viewModel.currentSite.observeAsState()
             var isSnackbarVisible by remember { mutableStateOf(false) }
 
-            PreferenceScreen {
+            PreferenceScreen(modifier = Modifier.padding(it)) {
                 PreferenceCategory(
                     header = { Text(text = stringResource(R.string.account)) }
                 ) {
@@ -140,7 +120,6 @@ fun SettingsScreen(
                                 Icon(
                                     imageVector = Icons.Default.AccountCircle,
                                     contentDescription = null,
-                                    tint = iconColor,
                                 )
                             },
                             onClick = {},
@@ -188,7 +167,6 @@ fun SettingsScreen(
                                 Icon(
                                     imageVector = Icons.Default.Code,
                                     contentDescription = null,
-                                    tint = iconColor,
                                 )
                             },
                         )
@@ -203,7 +181,6 @@ fun SettingsScreen(
                                 Icon(
                                     imageVector = Icons.Default.AddCircle,
                                     contentDescription = null,
-                                    tint = iconColor,
                                 )
                             },
                         )
@@ -219,7 +196,6 @@ fun SettingsScreen(
                                 Icon(
                                     imageVector = Icons.Default.Traffic,
                                     contentDescription = null,
-                                    tint = iconColor,
                                 )
                             },
                             onClick = {
@@ -246,7 +222,6 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Filled.Brightness2,
                                 contentDescription = null,
-                                tint = iconColor,
                             )
                         },
                     )
@@ -264,7 +239,6 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Default.Info,
                                 contentDescription = null,
-                                tint = iconColor,
                             )
                         },
                     )
@@ -280,7 +254,6 @@ fun SettingsScreen(
                             Icon(
                                 painter = painterResource(R.drawable.ic_github),
                                 contentDescription = null,
-                                tint = iconColor,
                             )
                         },
                         onClick = { context.launchUrl(context.getString(R.string.repository_url)) },
@@ -292,7 +265,6 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Default.Book,
                                 contentDescription = null,
-                                tint = iconColor,
                             )
                         },
                         onClick = { LibrariesActivity.startActivity(context) },
@@ -304,7 +276,6 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Default.Cloud,
                                 contentDescription = null,
-                                tint = iconColor,
                             )
                         },
                         onClick = { context.launchUrl(context.getString(R.string.api_home_url)) },

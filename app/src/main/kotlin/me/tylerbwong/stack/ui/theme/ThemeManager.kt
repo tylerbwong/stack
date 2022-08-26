@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import me.tylerbwong.stack.R
 
 object ThemeManager {
 
@@ -82,7 +81,7 @@ object ThemeManager {
             flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             decorView.systemUiVisibility = flags
         } else {
-            window.navigationBarColor = ContextCompat.getColor(activity, R.color.black)
+            window.navigationBarColor = ContextCompat.getColor(activity, android.R.color.black)
         }
     }
 
