@@ -20,7 +20,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.Base.Primary"
+        android:theme="@style/AppTheme.Primary"
         tools:ignore="UnusedAttribute">
         <activity
             android:name=".ui.MainActivity"
@@ -170,37 +170,32 @@
 
         <activity
             android:name=".ui.questions.detail.QuestionDetailActivity"
-            android:theme="@style/AppTheme.Base.Primary"
-            android:windowSoftInputMode="adjustPan" />
-
-        <activity
-            android:name=".ui.questions.create.CreateQuestionActivity"
-            android:theme="@style/AppTheme.Base.Primary"
+            android:theme="@style/AppTheme.Primary"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".ui.profile.ProfileActivity"
-            android:theme="@style/AppTheme.Base.Primary" />
+            android:theme="@style/AppTheme.Primary" />
 
         <activity
             android:name=".ui.questions.QuestionsActivity"
-            android:theme="@style/AppTheme.Base.Primary" />
+            android:theme="@style/AppTheme.Primary" />
 
         <activity
             android:name=".ui.settings.SettingsActivity"
-            android:theme="@style/AppTheme.Base.Primary" />
+            android:theme="@style/AppTheme.Primary" />
 
         <activity
             android:name=".ui.settings.SettingsComposeActivity"
-            android:theme="@style/AppTheme.Base.Primary" />
+            android:theme="@style/AppTheme.Primary" />
 
         <activity
             android:name=".ui.settings.sites.SitesActivity"
-            android:theme="@style/AppTheme.Base.Primary" />
+            android:theme="@style/AppTheme.Primary" />
 
         <activity
             android:name=".ui.settings.libraries.LibrariesActivity"
-            android:theme="@style/AppTheme.Base.Primary" />
+            android:theme="@style/AppTheme.Primary" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

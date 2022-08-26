@@ -9,14 +9,12 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/viewBackgroundColor">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/MainToolbarStyle"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:titleTextColor="?android:attr/textColorPrimary" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -28,7 +26,6 @@
         android:layout_margin="16dp"
         android:padding="16dp"
         android:text="@string/answer"
-        android:textAllCaps="false"
         android:textColor="@color/colorTextPrimaryDark"
         app:backgroundTint="?attr/colorAccent"
         app:icon="@drawable/ic_edit"

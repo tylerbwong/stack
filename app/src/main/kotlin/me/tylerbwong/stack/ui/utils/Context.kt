@@ -11,7 +11,6 @@ import android.net.Uri
 import android.util.TypedValue
 import android.widget.Toast
 import androidx.annotation.AttrRes
-import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import me.tylerbwong.stack.R
 
@@ -76,15 +75,6 @@ fun Context.launchUrl(url: String, forceExternal: Boolean = false) {
 }
 
 fun Context.launchCustomTab(url: String) {
-    val themeColor = resolveThemeAttribute(R.attr.viewBackgroundColor)
-    val customTabsIntent = CustomTabsIntent.Builder()
-        .setDefaultColorSchemeParams(
-            CustomTabColorSchemeParams.Builder()
-                .setNavigationBarColor(themeColor)
-                .setToolbarColor(themeColor)
-                .setSecondaryToolbarColor(themeColor)
-                .build()
-        )
-        .build()
+    val customTabsIntent = CustomTabsIntent.Builder().build()
     customTabsIntent.launchUrl(this, Uri.parse(url))
 }

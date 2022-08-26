@@ -3,11 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Material3.Chip.Filter"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:elevation="0dp"
-    android:stateListAnimator="@null"
-    android:textColor="@color/viewBackgroundColor"
-    app:chipBackgroundColor="?attr/colorAccent"
     app:closeIconVisible="true"
     tools:text="Has Accepted Answer" />

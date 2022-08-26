@@ -10,7 +10,7 @@
 
     <me.tylerbwong.stack.latex.LatexTextView
         android:id="@+id/questionTitle"
-        style="@style/TextAppearance.MaterialComponents.Headline6"
+        style="@style/TextAppearance.Material3.TitleLarge"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

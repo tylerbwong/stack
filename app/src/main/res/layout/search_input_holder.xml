@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/searchInputLayout"
-    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
@@ -18,7 +18,6 @@
         android:layout_height="wrap_content"
         android:hint="@string/search_hint"
         android:imeOptions="actionSearch"
-        android:inputType="text"
-        android:theme="@style/TextInputEditTextStyle" />
+        android:inputType="text" />
 
 </com.google.android.material.textfield.TextInputLayout>

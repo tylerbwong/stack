@@ -42,7 +42,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment(), Slider.OnCh
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val contextThemeWrapper = ContextThemeWrapper(context, R.style.AppTheme_Base)
+        val contextThemeWrapper = ContextThemeWrapper(context, R.style.AppTheme_Primary)
         binding = FiltersLayoutBinding.inflate(inflater.cloneInContext(contextThemeWrapper))
         return binding.root
     }

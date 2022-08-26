@@ -63,9 +63,7 @@ class BadgesBottomSheetDialogFragment : BottomSheetDialogFragment() {
                     }
                     createChip(
                         it.name.toHtml().toString(),
-                        backgroundColorRes = R.color.dialogBackgroundColor,
                         strokeColorRes = strokeColorRes,
-                        strokeWidthRes = R.dimen.badge_chip_stroke_width
                     )
                 }
             }

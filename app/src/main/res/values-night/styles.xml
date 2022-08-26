@@ -1,29 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme.Base" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu.ContextMenu</item>
-    </style>
-
-    <style name="MaterialAlertDialogTheme" parent="Theme.MaterialComponents.Dialog.Alert">
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="buttonBarPositiveButtonStyle">@style/MaterialAlertDialogButtonStyle</item>
-        <item name="buttonBarNegativeButtonStyle">@style/MaterialAlertDialogButtonStyle</item>
-    </style>
-
-    <style name="MaterialAlertDialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@color/primaryTextColor</item>
-        <item name="rippleColor">@color/colorAccent</item>
-    </style>
-
-    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    <style name="AppTheme.Primary" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
 </resources>

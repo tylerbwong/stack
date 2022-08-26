@@ -40,7 +40,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/titleContainsLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -53,48 +53,41 @@
                 android:id="@+id/titleContainsEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/title_contains_title"
-                android:theme="@style/TextInputEditTextStyle" />
+                android:hint="@string/title_contains_title" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/bodyContainsLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:boxStrokeColor="@color/text_input_box_color"
-            app:hintTextColor="@color/text_input_box_color">
+            android:layout_marginEnd="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/bodyContainsEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/body_contains_title"
-                android:theme="@style/TextInputEditTextStyle" />
+                android:hint="@string/body_contains_title" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tagsLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:boxStrokeColor="@color/text_input_box_color"
-            app:hintTextColor="@color/text_input_box_color">
+            android:layout_marginEnd="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tagsEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/tags_title"
-                android:theme="@style/TextInputEditTextStyle" />
+                android:hint="@string/tags_title" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,7 +106,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/clearFiltersButton"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
