@@ -10,10 +10,26 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <androidx.compose.ui.platform.ComposeView
-            android:id="@+id/composeContent"
+        <TextView
+            style="@style/TextAppearance.Material3.HeadlineSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/filters" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/hasAcceptedAnswerSwitch"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/has_accepted_answer" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/isClosedSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/is_closed" />
 
         <TextView
             android:id="@+id/minAnswersTitle"
@@ -87,14 +103,13 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/applyFiltersButton"
+            style="@style/Widget.Material3.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:padding="16dp"
-            android:text="@string/apply_filters"
-            android:textAllCaps="false" />
+            android:text="@string/apply_filters" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/clearFiltersButton"
@@ -102,9 +117,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:padding="16dp"
-            android:stateListAnimator="@null"
-            android:text="@string/clear_filters"
-            android:textAllCaps="false" />
+            android:text="@string/clear_filters" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

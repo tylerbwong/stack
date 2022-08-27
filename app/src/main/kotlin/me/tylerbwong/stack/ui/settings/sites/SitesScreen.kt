@@ -8,23 +8,25 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -136,25 +138,27 @@ fun SitesLayout(modifier: Modifier = Modifier, changeSite: (String) -> Unit) {
     val sites by viewModel.sites.observeAsState(initial = emptyList())
     val searchQuery by viewModel.searchQuery.observeAsState()
 
-    LazyColumn(modifier = modifier) {
-        if (associatedSites.isNotEmpty()) {
-            item { SitesHeader(headerResId = R.string.my_sites) }
-            items(items = associatedSites) { site ->
-                SiteItem(
-                    site = site,
-                    searchQuery = searchQuery,
-                ) { changeSite(site.parameter) }
-            }
-        }
-        if (sites.isNotEmpty()) {
+    StackTheme {
+        LazyColumn(modifier = modifier) {
             if (associatedSites.isNotEmpty()) {
-                item { SitesHeader(headerResId = R.string.other_sites) }
+                item { SitesHeader(headerResId = R.string.my_sites) }
+                items(items = associatedSites) { site ->
+                    SiteItem(
+                        site = site,
+                        searchQuery = searchQuery,
+                    ) { changeSite(site.parameter) }
+                }
             }
-            items(items = sites) { site ->
-                SiteItem(
-                    site = site,
-                    searchQuery = searchQuery,
-                ) { changeSite(site.parameter) }
+            if (sites.isNotEmpty()) {
+                if (associatedSites.isNotEmpty()) {
+                    item { SitesHeader(headerResId = R.string.other_sites) }
+                }
+                items(items = sites) { site ->
+                    SiteItem(
+                        site = site,
+                        searchQuery = searchQuery,
+                    ) { changeSite(site.parameter) }
+                }
             }
         }
     }
@@ -220,11 +224,12 @@ fun SiteItem(
         ) {
             Text(
                 text = site.name.toAnnotatedString(searchQuery),
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.titleMedium,
             )
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = site.audience.toAnnotatedString(searchQuery),
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
     }
