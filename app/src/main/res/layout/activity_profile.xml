@@ -17,7 +17,7 @@
             android:id="@+id/collapsingToolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:expandedTitleGravity="center|top"
+            app:titleEnabled="false"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <androidx.compose.ui.platform.ComposeView

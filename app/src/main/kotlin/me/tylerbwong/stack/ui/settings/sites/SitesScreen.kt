@@ -36,9 +36,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -131,6 +134,7 @@ fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SitesLayout(modifier: Modifier = Modifier, changeSite: (String) -> Unit) {
     val viewModel = viewModel<SitesViewModel>()
@@ -139,7 +143,7 @@ fun SitesLayout(modifier: Modifier = Modifier, changeSite: (String) -> Unit) {
     val searchQuery by viewModel.searchQuery.observeAsState()
 
     StackTheme {
-        LazyColumn(modifier = modifier) {
+        LazyColumn(modifier = modifier.nestedScroll(rememberNestedScrollInteropConnection())) {
             if (associatedSites.isNotEmpty()) {
                 item { SitesHeader(headerResId = R.string.my_sites) }
                 items(items = associatedSites) { site ->

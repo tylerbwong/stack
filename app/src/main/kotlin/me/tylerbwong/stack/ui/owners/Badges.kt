@@ -1,4 +1,5 @@
 @file:Suppress("MagicNumber")
+
 package me.tylerbwong.stack.ui.owners
 
 import androidx.compose.foundation.Canvas
@@ -25,28 +26,28 @@ fun Badges(
     modifier: Modifier = Modifier,
 ) {
     StackTheme {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        val (bronze, silver, gold) = badgeCounts
-        val countColorMapping = listOf(
-            gold to R.color.goldBadgeColor,
-            silver to R.color.silverBadgeColor,
-            bronze to R.color.bronzeBadgeColor,
-        ).filter { (count, _) -> count > 0 }
-        countColorMapping.forEachIndexed { index, (count, color) ->
-            BadgeCircle(color = colorResource(color))
-            Spacer(modifier = Modifier.width(3.dp))
-            Text(
-                text = count.toString(),
-                fontSize = 12.sp,
-            )
-            if (index != countColorMapping.lastIndex) {
-                Spacer(modifier = Modifier.width(6.dp))
+        Row(
+            modifier = modifier,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            val (bronze, silver, gold) = badgeCounts
+            val countColorMapping = listOf(
+                gold to R.color.goldBadgeColor,
+                silver to R.color.silverBadgeColor,
+                bronze to R.color.bronzeBadgeColor,
+            ).filter { (count, _) -> count > 0 }
+            countColorMapping.forEachIndexed { index, (count, color) ->
+                BadgeCircle(color = colorResource(color))
+                Spacer(modifier = Modifier.width(3.dp))
+                Text(
+                    text = count.toString(),
+                    fontSize = 12.sp,
+                )
+                if (index != countColorMapping.lastIndex) {
+                    Spacer(modifier = Modifier.width(6.dp))
+                }
             }
         }
-    }
     }
 }
 

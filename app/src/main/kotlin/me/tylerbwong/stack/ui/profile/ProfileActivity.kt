@@ -44,7 +44,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
         }
 
         viewModel.userData.observe(this) {
-            binding.collapsingToolbarLayout.title = it.displayName.toHtml()
+            binding.toolbar.title = it.displayName.toHtml()
             binding.profileHeader.setContent {
                 ProfileHeader(user = it)
             }
@@ -67,7 +67,10 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
         }
 
         binding.refreshLayout.setOnRefreshListener { viewModel.getUserQuestionsAndAnswers() }
+    }
 
+    override fun onResume() {
+        super.onResume()
         viewModel.getUserQuestionsAndAnswers()
     }
 

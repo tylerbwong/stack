@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.core.view.WindowCompat
 import androidx.viewbinding.ViewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.ui.BaseActivity
@@ -17,6 +18,7 @@ class LibrariesActivity : BaseActivity<ViewBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             LibrariesScreen(
                 libraries = viewModel.libraries,
@@ -24,6 +26,10 @@ class LibrariesActivity : BaseActivity<ViewBinding>(
             )
         }
         viewModel.fetchLibraries(this)
+    }
+
+    override fun applyFullscreenWindowInsets() {
+        // No-op, handled manually for Compose
     }
 
     companion object {
