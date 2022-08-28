@@ -6,12 +6,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.annotation.IdRes
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.navOptions
 import androidx.navigation.ui.setupWithNavController
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -194,17 +192,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 ) {
                     appUpdater.checkForUpdate(this)
                 }
-            }
-        )
-    }
-
-    private fun navigateTo(@IdRes navigationId: Int) {
-        navController.navigate(
-            resId = navigationId,
-            args = null,
-            navOptions = navOptions {
-                launchSingleTop = true
-                restoreState = true
             }
         )
     }

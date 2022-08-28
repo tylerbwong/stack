@@ -17,8 +17,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:collapseIcon="@drawable/ic_arrow_back"
-            app:navigationIcon="@drawable/ic_arrow_back" />
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:title="@string/settings" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
