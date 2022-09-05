@@ -1,7 +1,10 @@
 @file:Suppress("MagicNumber")
+
 package me.tylerbwong.stack.ui.settings.sites
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -15,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
@@ -28,7 +32,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +52,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
@@ -134,18 +141,33 @@ fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun SitesLayout(modifier: Modifier = Modifier, changeSite: (String) -> Unit) {
     val viewModel = viewModel<SitesViewModel>()
     val associatedSites by viewModel.associatedSites.observeAsState(initial = emptyList())
     val sites by viewModel.sites.observeAsState(initial = emptyList())
     val searchQuery by viewModel.searchQuery.observeAsState()
+    val listState = rememberLazyListState()
+    val isFirstItemVisible by remember {
+        derivedStateOf {
+            listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0
+        }
+    }
+    val headerElevation = if (isFirstItemVisible) 0.dp else 3.dp
 
     StackTheme {
-        LazyColumn(modifier = modifier.nestedScroll(rememberNestedScrollInteropConnection())) {
+        LazyColumn(
+            modifier = modifier.nestedScroll(rememberNestedScrollInteropConnection()),
+            state = listState,
+        ) {
             if (associatedSites.isNotEmpty()) {
-                item { SitesHeader(headerResId = R.string.my_sites) }
+                stickyHeader {
+                    SitesHeader(
+                        elevation = headerElevation,
+                        headerResId = R.string.my_sites,
+                    )
+                }
                 items(items = associatedSites) { site ->
                     SiteItem(
                         site = site,
@@ -155,7 +177,12 @@ fun SitesLayout(modifier: Modifier = Modifier, changeSite: (String) -> Unit) {
             }
             if (sites.isNotEmpty()) {
                 if (associatedSites.isNotEmpty()) {
-                    item { SitesHeader(headerResId = R.string.other_sites) }
+                    stickyHeader {
+                        SitesHeader(
+                            elevation = headerElevation,
+                            headerResId = R.string.other_sites,
+                        )
+                    }
                 }
                 items(items = sites) { site ->
                     SiteItem(
@@ -169,16 +196,21 @@ fun SitesLayout(modifier: Modifier = Modifier, changeSite: (String) -> Unit) {
 }
 
 @Composable
-fun SitesHeader(@StringRes headerResId: Int) {
+fun SitesHeader(
+    elevation: Dp,
+    @StringRes headerResId: Int,
+) {
     Text(
         text = stringResource(headerResId),
         modifier = Modifier
+            .fillMaxWidth()
+            .background(color = MaterialTheme.colorScheme.surfaceColorAtElevation(elevation))
             .padding(
-                start = 16.dp,
-                top = 8.dp,
-                end = 16.dp,
+                horizontal = 16.dp,
+                vertical = 8.dp,
             ),
-        style = MaterialTheme.typography.headlineSmall,
+        color = MaterialTheme.colorScheme.onSurface,
+        style = MaterialTheme.typography.titleMedium,
     )
 }
 
