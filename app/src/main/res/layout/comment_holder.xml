@@ -15,18 +15,17 @@
         android:hyphenationFrequency="none"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        tools:targetApi="m"
         tools:text="This is a test comment" />
 
     <TextView
         android:id="@+id/commentedDate"
+        style="@style/TextAppearance.Material3.LabelMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="2dp"
         android:gravity="start"
         android:lines="1"
-        android:textSize="12sp"
         android:textStyle="italic"
         tools:text="commented 2 hours ago" />
 

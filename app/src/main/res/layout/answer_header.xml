@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/TextAppearance.Material3.TitleMedium"
     android:id="@+id/answersCount"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:textSize="18sp"
-    android:textStyle="bold" />
+    android:padding="16dp" />

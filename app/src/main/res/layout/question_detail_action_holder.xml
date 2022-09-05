@@ -8,13 +8,13 @@
 
     <TextView
         android:id="@+id/upvote"
+        style="@style/TextAppearance.Material3.LabelMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/question_detail_action_item_bg"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:textSize="12sp"
         app:drawableTopCompat="@drawable/ic_arrow_upward"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/downvote"
@@ -24,13 +24,13 @@
 
     <TextView
         android:id="@+id/downvote"
+        style="@style/TextAppearance.Material3.LabelMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/question_detail_action_item_bg"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:textSize="12sp"
         app:drawableTopCompat="@drawable/ic_arrow_downward"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/bookmark"
@@ -40,13 +40,13 @@
 
     <TextView
         android:id="@+id/bookmark"
+        style="@style/TextAppearance.Material3.LabelMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/question_detail_action_item_bg"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:textSize="12sp"
         app:drawableTopCompat="@drawable/ic_baseline_bookmark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
