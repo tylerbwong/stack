@@ -63,14 +63,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     isVisible = BuildConfig.DEBUG
                     setOnPreferenceChangeListener { _, newValue ->
                         experimental.syntaxHighlightingEnabled = newValue as Boolean
-                        view?.showSnackbar(
-                            messageId = R.string.restart_toggle,
-                            actionTextId = R.string.restart,
-                            duration = Snackbar.LENGTH_INDEFINITE
-                        ) {
-                            val intent = Intent(it.context, MainActivity::class.java)
-                            ProcessPhoenix.triggerRebirth(it.context, intent)
-                        }
+                        view?.showRestartSnackbar()
                         true
                     }
                 }
@@ -80,14 +73,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     isVisible = false
                     setOnPreferenceChangeListener { _, newValue ->
                         experimental.createQuestionEnabled = newValue as Boolean
-                        view?.showSnackbar(
-                            messageId = R.string.restart_toggle,
-                            actionTextId = R.string.restart,
-                            duration = Snackbar.LENGTH_INDEFINITE
-                        ) {
-                            val intent = Intent(it.context, MainActivity::class.java)
-                            ProcessPhoenix.triggerRebirth(it.context, intent)
-                        }
+                        view?.showRestartSnackbar()
                         true
                     }
                     authPreferences.add(this)
@@ -247,6 +233,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 requireContext().launchUrl(getString(R.string.terms_url))
                 true
             }
+        }
+    }
+
+    private fun View.showRestartSnackbar() {
+        showSnackbar(
+            messageId = R.string.restart_toggle,
+            actionTextId = R.string.restart,
+            duration = Snackbar.LENGTH_INDEFINITE
+        ) {
+            val intent = Intent(it.context, MainActivity::class.java)
+            ProcessPhoenix.triggerRebirth(it.context, intent)
         }
     }
 }
