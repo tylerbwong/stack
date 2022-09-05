@@ -89,7 +89,6 @@ class QuestionDetailMainViewModel @Inject constructor(
     internal fun buildSiteJoinUrl(site: Site): String = siteRepository.buildSiteJoinUrl(site)
 
     internal fun getQuestionDetails(question: Question? = null) {
-        fetchData()
         launchRequest {
             val questionResult = question ?: questionRepository.getQuestion(questionId)
             val answersResult = questionRepository.getQuestionAnswers(questionId)
@@ -161,6 +160,8 @@ class QuestionDetailMainViewModel @Inject constructor(
                 _scrollToIndex.value = detailItems
                     .indexOfFirst { it is AnswerVotesHeaderItem && it.id == answerId }
             }
+            _user.value = authRepository.getCurrentUser()
+            _site.value = siteRepository.getCurrentSite()
         }
     }
 
@@ -263,13 +264,6 @@ class QuestionDetailMainViewModel @Inject constructor(
             } else {
                 MarkdownItem(node)
             }
-        }
-    }
-
-    private fun fetchData() {
-        launchRequest {
-            _user.value = authRepository.getCurrentUser()
-            _site.value = siteRepository.getCurrentSite()
         }
     }
 }
