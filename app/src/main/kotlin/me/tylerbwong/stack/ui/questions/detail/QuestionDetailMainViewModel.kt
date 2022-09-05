@@ -15,6 +15,7 @@ import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.api.service.QuestionService
+import me.tylerbwong.stack.api.utils.ERROR_ID_INVALID_ACCESS_TOKEN
 import me.tylerbwong.stack.api.utils.toErrorResponse
 import me.tylerbwong.stack.data.auth.AuthRepository
 import me.tylerbwong.stack.data.repository.QuestionRepository
@@ -62,6 +63,10 @@ class QuestionDetailMainViewModel @Inject constructor(
     val messageSnackbar: LiveData<String>
         get() = mutableMessageSnackbar
     private val mutableMessageSnackbar = SingleLiveEvent<String>()
+
+    val showRegisterDialog: LiveData<Unit>
+        get() = _showRegisterDialog
+    private val _showRegisterDialog = SingleLiveEvent<Unit>()
 
     internal val isAuthenticated: Boolean
         get() = authRepository.isAuthenticated
@@ -243,9 +248,12 @@ class QuestionDetailMainViewModel @Inject constructor(
                     getQuestionDetails(result.items.firstOrNull())
                 }
             } catch (ex: HttpException) {
-                val errorResponse = ex.toErrorResponse()
-                if (errorResponse != null) {
-                    mutableMessageSnackbar.postValue(errorResponse.errorMessage.toHtml().toString())
+                ex.toErrorResponse()?.let {
+                    if (it.errorId == ERROR_ID_INVALID_ACCESS_TOKEN) {
+                        _showRegisterDialog.value = Unit
+                    } else {
+                        mutableMessageSnackbar.postValue(it.errorMessage.toHtml().toString())
+                    }
                 }
             } catch (ex: Exception) {
                 Timber.e(ex)

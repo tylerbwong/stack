@@ -180,11 +180,11 @@ package me.tylerbwong.stack.api.model {
   }
 
   @com.squareup.moshi.JsonClass(generateAdapter=true) public final class NetworkUser {
-    ctor public NetworkUser(@com.squareup.moshi.Json(name="account_id") Integer? accountId, optional @com.squareup.moshi.Json(name="reputation") int reputation, @com.squareup.moshi.Json(name="site_name") String siteName, @com.squareup.moshi.Json(name="site_url") String siteUrl, optional @com.squareup.moshi.Json(name="user_id") int userId, @com.squareup.moshi.Json(name="user_type") String userType, @com.squareup.moshi.Json(name="badge_counts") me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="last_access_date") long lastAccessDate, @com.squareup.moshi.Json(name="question_count") int questionCount, @com.squareup.moshi.Json(name="top_answers") java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topAnswers, @com.squareup.moshi.Json(name="top_questions") java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topQuestions);
+    ctor public NetworkUser(@com.squareup.moshi.Json(name="account_id") Integer? accountId, optional @com.squareup.moshi.Json(name="reputation") int reputation, @com.squareup.moshi.Json(name="site_name") String siteName, @com.squareup.moshi.Json(name="site_url") String siteUrl, optional @com.squareup.moshi.Json(name="user_id") int userId, @com.squareup.moshi.Json(name="user_type") String userType, @com.squareup.moshi.Json(name="badge_counts") me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="last_access_date") long lastAccessDate, @com.squareup.moshi.Json(name="question_count") int questionCount, @com.squareup.moshi.Json(name="top_answers") java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? topAnswers, @com.squareup.moshi.Json(name="top_questions") java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? topQuestions);
     method public Integer? component1();
     method public int component10();
-    method public java.util.List<me.tylerbwong.stack.api.model.NetworkPost> component11();
-    method public java.util.List<me.tylerbwong.stack.api.model.NetworkPost> component12();
+    method public java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? component11();
+    method public java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? component12();
     method public int component2();
     method public String component3();
     method public String component4();
@@ -193,7 +193,7 @@ package me.tylerbwong.stack.api.model {
     method public me.tylerbwong.stack.api.model.BadgeCounts? component7();
     method public long component8();
     method public long component9();
-    method public me.tylerbwong.stack.api.model.NetworkUser copy(@com.squareup.moshi.Json(name="account_id") Integer? accountId, @com.squareup.moshi.Json(name="reputation") int reputation, @com.squareup.moshi.Json(name="site_name") String siteName, @com.squareup.moshi.Json(name="site_url") String siteUrl, @com.squareup.moshi.Json(name="user_id") int userId, @com.squareup.moshi.Json(name="user_type") String userType, @com.squareup.moshi.Json(name="badge_counts") me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="last_access_date") long lastAccessDate, @com.squareup.moshi.Json(name="question_count") int questionCount, @com.squareup.moshi.Json(name="top_answers") java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topAnswers, @com.squareup.moshi.Json(name="top_questions") java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topQuestions);
+    method public me.tylerbwong.stack.api.model.NetworkUser copy(@com.squareup.moshi.Json(name="account_id") Integer? accountId, @com.squareup.moshi.Json(name="reputation") int reputation, @com.squareup.moshi.Json(name="site_name") String siteName, @com.squareup.moshi.Json(name="site_url") String siteUrl, @com.squareup.moshi.Json(name="user_id") int userId, @com.squareup.moshi.Json(name="user_type") String userType, @com.squareup.moshi.Json(name="badge_counts") me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="last_access_date") long lastAccessDate, @com.squareup.moshi.Json(name="question_count") int questionCount, @com.squareup.moshi.Json(name="top_answers") java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? topAnswers, @com.squareup.moshi.Json(name="top_questions") java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? topQuestions);
     method public Integer? getAccountId();
     method public me.tylerbwong.stack.api.model.BadgeCounts? getBadgeCounts();
     method public long getCreationDate();
@@ -202,8 +202,8 @@ package me.tylerbwong.stack.api.model {
     method public int getReputation();
     method public String getSiteName();
     method public String getSiteUrl();
-    method public java.util.List<me.tylerbwong.stack.api.model.NetworkPost> getTopAnswers();
-    method public java.util.List<me.tylerbwong.stack.api.model.NetworkPost> getTopQuestions();
+    method public java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? getTopAnswers();
+    method public java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? getTopQuestions();
     method public int getUserId();
     method public String getUserType();
     property public final Integer? accountId;
@@ -214,8 +214,8 @@ package me.tylerbwong.stack.api.model {
     property public final int reputation;
     property public final String siteName;
     property public final String siteUrl;
-    property public final java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topAnswers;
-    property public final java.util.List<me.tylerbwong.stack.api.model.NetworkPost> topQuestions;
+    property public final java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? topAnswers;
+    property public final java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? topQuestions;
     property public final int userId;
     property public final String userType;
   }
@@ -377,8 +377,11 @@ package me.tylerbwong.stack.api.model {
     method public String getName();
     method public String getParameter();
     method public String getUrl();
+    method public boolean isUserRegistered();
+    method public void setUserRegistered(boolean isUserRegistered);
     property public final String audience;
     property public final String iconUrl;
+    property public final boolean isUserRegistered;
     property public final String name;
     property public final String parameter;
     property public final String url;
@@ -620,6 +623,7 @@ package me.tylerbwong.stack.api.utils {
 
   public final class HttpExceptionKt {
     method public static me.tylerbwong.stack.api.model.ErrorResponse? toErrorResponse(retrofit2.HttpException);
+    field public static final int ERROR_ID_INVALID_ACCESS_TOKEN = 402; // 0x192
   }
 
 }

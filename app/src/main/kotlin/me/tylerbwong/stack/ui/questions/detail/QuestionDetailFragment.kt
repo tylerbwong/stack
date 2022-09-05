@@ -64,20 +64,15 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
                     maxLines = 4
                 }
                 if (viewModel.isAuthenticated && viewModel.user.value == null) {
-                    setAction(R.string.register) {
-                        viewModel.site.value?.let { site ->
-                            requireContext().showRegisterOnSiteDialog(
-                                site = site,
-                                siteUrl = viewModel.buildSiteJoinUrl(site),
-                                titleResId = R.string.register_on_site_contribute,
-                            )
-                        }
-                    }
+                    setAction(R.string.register) { showRegisterOnSiteDialog() }
                 } else {
                     setAction(R.string.dismiss) { dismiss() }
                 }
                 show()
             }
+        }
+        viewModel.showRegisterDialog.observe(viewLifecycleOwner) {
+            showRegisterOnSiteDialog()
         }
         viewModel.data.observe(viewLifecycleOwner) {
             adapter.submitList(it)
@@ -162,6 +157,16 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun showRegisterOnSiteDialog() {
+        viewModel.site.value?.let { site ->
+            requireContext().showRegisterOnSiteDialog(
+                site = site,
+                siteUrl = viewModel.buildSiteJoinUrl(site),
+                titleResId = R.string.register_on_site_contribute,
+            )
+        }
     }
 
     companion object {
