@@ -42,7 +42,7 @@ internal class QuestionsViewModel @Inject constructor(
     private fun getQuestionsByTag(@Sort sort: String = currentSort) {
         currentSort = sort
         launchRequest {
-            val questions = service.getQuestionsByTags(tags = key, sort = sort).items
+            val questions = service.getQuestionsByTags(sort = sort, tags = key).items
             _data.value = questions.map { QuestionItem(it) }
         }
     }

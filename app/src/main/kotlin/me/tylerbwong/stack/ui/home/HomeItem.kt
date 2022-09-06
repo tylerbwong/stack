@@ -9,6 +9,9 @@ import me.tylerbwong.stack.data.model.AnswerDraft
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.ui.HeaderHolder
 import me.tylerbwong.stack.ui.drafts.AnswerDraftHolder
+import me.tylerbwong.stack.ui.home.tags.TagHeaderHolder
+import me.tylerbwong.stack.ui.questions.QuestionCardHolder
+import me.tylerbwong.stack.ui.questions.QuestionCarouselHolder
 import me.tylerbwong.stack.ui.questions.QuestionHolder
 import me.tylerbwong.stack.ui.search.SearchHistoryItemHolder
 import me.tylerbwong.stack.ui.search.SearchInputHolder
@@ -23,16 +26,24 @@ data class SearchInputItem(
     val searchPayload: SearchPayload,
     val onPayloadReceived: (SearchPayload) -> Unit
 ) : HomeItem(::SearchInputHolder)
+
 data class FilterInputItem(
     val searchPayload: SearchPayload,
     val onPayloadReceived: (SearchPayload) -> Unit
 ) : HomeItem(::FilterInputHolder)
+
 data class TagsItem(val tags: List<List<Tag>>) : HomeItem(::TagsHolder)
 data class SectionHeaderItem(val header: String) : HomeItem(::SectionHeaderHolder)
 data class SearchHistoryItem(
     val searchPayload: SearchPayload,
     val onPayloadReceived: (SearchPayload) -> Unit
 ) : HomeItem(::SearchHistoryItemHolder)
+
+data class TagHeaderItem(val tagName: String) : HomeItem(::TagHeaderHolder)
+data class QuestionCardItem(val question: Question) : HomeItem(::QuestionCardHolder)
+data class QuestionCarouselItem(
+    val questions: List<QuestionCardItem>
+) : HomeItem(::QuestionCarouselHolder)
 
 object HomeItemDiffCallback : DiffUtil.ItemCallback<DynamicItem>() {
     @Suppress("ComplexMethod")
@@ -46,7 +57,10 @@ object HomeItemDiffCallback : DiffUtil.ItemCallback<DynamicItem>() {
                         oldItem is FilterInputItem && newItem is FilterInputItem ||
                         oldItem is TagsItem && newItem is TagsItem ||
                         oldItem is SectionHeaderItem && newItem is SectionHeaderItem ||
-                        oldItem is SearchHistoryItem && newItem is SearchHistoryItem)
+                        oldItem is SearchHistoryItem && newItem is SearchHistoryItem ||
+                        oldItem is TagHeaderItem && newItem is TagHeaderItem ||
+                        oldItem is QuestionCardItem && newItem is QuestionCardItem ||
+                        oldItem is QuestionCarouselItem && newItem is QuestionCarouselItem)
 
     @Suppress("ComplexMethod")
     override fun areContentsTheSame(oldItem: DynamicItem, newItem: DynamicItem) = when {
@@ -70,6 +84,14 @@ object HomeItemDiffCallback : DiffUtil.ItemCallback<DynamicItem>() {
             oldItem.header == newItem.header
         oldItem is SearchHistoryItem && newItem is SearchHistoryItem ->
             oldItem.searchPayload == newItem.searchPayload
+        oldItem is TagHeaderItem && newItem is TagHeaderItem ->
+            oldItem.tagName == newItem.tagName
+        oldItem is QuestionCardItem && newItem is QuestionCardItem ->
+            oldItem.question.title == newItem.question.title &&
+                    oldItem.question.answerCount == newItem.question.answerCount &&
+                    oldItem.question.owner == newItem.question.owner
+        oldItem is QuestionCarouselItem && newItem is QuestionCarouselItem ->
+            oldItem.questions == newItem.questions
         else -> false
     }
 }

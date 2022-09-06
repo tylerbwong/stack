@@ -57,6 +57,6 @@ class QuestionHolder(
     }
 
     companion object {
-        private const val LABEL = "linkText"
+        internal const val LABEL = "linkText"
     }
 }
