@@ -15,6 +15,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.ActivityProfileBinding
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.questions.QuestionItemCallback
+import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
 
@@ -59,6 +60,15 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
         binding.recyclerView.apply {
             adapter = this@ProfileActivity.adapter
             layoutManager = LinearLayoutManager(this@ProfileActivity)
+            if (itemDecorationCount == 0) {
+                addItemDecoration(
+                    ViewHolderItemDecoration(
+                        spacing = context.resources.getDimensionPixelSize(
+                            R.dimen.item_spacing_question_detail
+                        ),
+                    )
+                )
+            }
             applyInsetter {
                 type(ime = true, statusBars = true, navigationBars = true) {
                     padding(bottom = true)

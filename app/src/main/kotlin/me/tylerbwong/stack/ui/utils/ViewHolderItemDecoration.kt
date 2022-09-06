@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ViewHolderItemDecoration(
     private val spacing: Int,
+    private val applicableViewTypes: List<Int>? = null,
     private val removeSideSpacing: Boolean = false,
     private val removeTopSpacing: Boolean = false
 ) : RecyclerView.ItemDecoration() {
@@ -19,7 +20,9 @@ class ViewHolderItemDecoration(
         view.let {
             val position = parent.getChildAdapterPosition(it)
             val size = parent.adapter?.itemCount ?: 0
-
+            if (position !in 0 until size) return
+            val viewType = parent.adapter?.getItemViewType(position) ?: -1
+            if (applicableViewTypes != null && viewType !in applicableViewTypes) return
             outRect.apply {
                 if (position == 0) {
                     top = spacing / 4

@@ -29,6 +29,7 @@ import me.tylerbwong.stack.ui.home.SearchHistoryItem
 import me.tylerbwong.stack.ui.home.SearchInputItem
 import me.tylerbwong.stack.ui.home.SectionHeaderItem
 import me.tylerbwong.stack.ui.home.TagsItem
+import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.api.R as ApiR
 
 @AndroidEntryPoint
@@ -55,6 +56,16 @@ class SearchFragment : BaseFragment<HomeFragmentBinding>(
         binding.recyclerView.apply {
             adapter = this@SearchFragment.adapter
             layoutManager = LinearLayoutManager(context)
+            if (itemDecorationCount == 0) {
+                addItemDecoration(
+                    ViewHolderItemDecoration(
+                        spacing = context.resources.getDimensionPixelSize(
+                            R.dimen.item_spacing_question_detail
+                        ),
+                        applicableViewTypes = listOf(QuestionItem::class.java.name.hashCode()),
+                    )
+                )
+            }
             applyInsetter {
                 type(ime = true, statusBars = true, navigationBars = true) {
                     padding(bottom = true)
@@ -63,6 +74,7 @@ class SearchFragment : BaseFragment<HomeFragmentBinding>(
         }
 
         viewModel.siteLiveData.observe(viewLifecycleOwner) {
+            adapter.submitList(null)
             viewModel.search(SearchPayload.empty())
         }
 

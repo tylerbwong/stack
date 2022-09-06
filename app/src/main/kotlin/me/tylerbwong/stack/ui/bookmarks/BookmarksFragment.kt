@@ -16,6 +16,7 @@ import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeItem
 import me.tylerbwong.stack.ui.home.HomeItemDiffCallback
 import me.tylerbwong.stack.ui.home.QuestionItem
+import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
@@ -35,6 +36,7 @@ class BookmarksFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding:
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.siteLiveData.observe(viewLifecycleOwner) {
+            adapter.submitList(null)
             viewModel.fetchBookmarks()
         }
         viewModel.refreshing.observe(viewLifecycleOwner) {
@@ -58,6 +60,16 @@ class BookmarksFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding:
         binding.recyclerView.apply {
             adapter = this@BookmarksFragment.adapter
             layoutManager = LinearLayoutManager(context)
+            if (itemDecorationCount == 0) {
+                addItemDecoration(
+                    ViewHolderItemDecoration(
+                        spacing = context.resources.getDimensionPixelSize(
+                            R.dimen.item_spacing_question_detail
+                        ),
+                        applicableViewTypes = listOf(QuestionItem::class.java.name.hashCode()),
+                    )
+                )
+            }
             applyInsetter {
                 type(ime = true, statusBars = true, navigationBars = true) {
                     padding(bottom = true)

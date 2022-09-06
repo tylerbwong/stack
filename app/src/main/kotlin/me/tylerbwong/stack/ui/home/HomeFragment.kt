@@ -23,6 +23,7 @@ import me.tylerbwong.stack.api.model.WEEK
 import me.tylerbwong.stack.api.model.sortResourceId
 import me.tylerbwong.stack.databinding.HomeFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
+import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
@@ -44,6 +45,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.siteLiveData.observe(viewLifecycleOwner) {
+            adapter.submitList(null)
             viewModel.fetchQuestions()
         }
         viewModel.refreshing.observe(viewLifecycleOwner) {
@@ -69,6 +71,16 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
         binding.recyclerView.apply {
             adapter = this@HomeFragment.adapter
             layoutManager = LinearLayoutManager(context)
+            if (itemDecorationCount == 0) {
+                addItemDecoration(
+                    ViewHolderItemDecoration(
+                        spacing = context.resources.getDimensionPixelSize(
+                            R.dimen.item_spacing_question_detail
+                        ),
+                        applicableViewTypes = listOf(QuestionItem::class.java.name.hashCode()),
+                    )
+                )
+            }
             applyInsetter {
                 type(ime = true, statusBars = true, navigationBars = true) {
                     padding(bottom = true)

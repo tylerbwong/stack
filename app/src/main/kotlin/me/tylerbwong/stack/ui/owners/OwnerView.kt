@@ -3,6 +3,7 @@ package me.tylerbwong.stack.ui.owners
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import coil.load
 import coil.transform.CircleCropTransformation
 import me.tylerbwong.stack.R
@@ -24,6 +25,13 @@ class OwnerView @JvmOverloads constructor(
     private val binding = OwnerViewBinding.bind(
         inflate<ConstraintLayout>(R.layout.owner_view, attachToRoot = true)
     )
+    private var isBadgesVisible = true
+
+    init {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.OwnerView, defStyle, 0)
+        isBadgesVisible = typedArray.getBoolean(R.styleable.OwnerView_show_badges, true)
+        typedArray.recycle()
+    }
 
     fun bind(owner: User) {
         with(binding) {
@@ -37,6 +45,7 @@ class OwnerView @JvmOverloads constructor(
             userImage.setThrottledOnClickListener {
                 ProfileActivity.startActivity(context = context, userId = owner.userId)
             }
+            badgeView.isVisible = isBadgesVisible
             badgeView.badgeCounts = owner.badgeCounts
             reputation.text = owner.reputation.toLong().format()
         }

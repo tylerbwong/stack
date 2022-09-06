@@ -16,6 +16,7 @@ import me.tylerbwong.stack.ui.home.AnswerDraftItem
 import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeItem
 import me.tylerbwong.stack.ui.home.HomeItemDiffCallback
+import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.formatElapsedTime
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
@@ -37,6 +38,7 @@ class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.siteLiveData.observe(viewLifecycleOwner) {
+            adapter.submitList(null)
             viewModel.fetchDrafts(timestampProvider)
         }
         viewModel.refreshing.observe(viewLifecycleOwner) {
@@ -60,6 +62,16 @@ class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
         binding.recyclerView.apply {
             adapter = this@DraftsFragment.adapter
             layoutManager = LinearLayoutManager(context)
+            if (itemDecorationCount == 0) {
+                addItemDecoration(
+                    ViewHolderItemDecoration(
+                        spacing = context.resources.getDimensionPixelSize(
+                            R.dimen.item_spacing_question_detail
+                        ),
+                        applicableViewTypes = listOf(AnswerDraftItem::class.java.name.hashCode()),
+                    )
+                )
+            }
             applyInsetter {
                 type(ime = true, statusBars = true, navigationBars = true) {
                     padding(bottom = true)
