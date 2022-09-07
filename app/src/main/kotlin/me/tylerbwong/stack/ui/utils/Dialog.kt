@@ -12,7 +12,10 @@ inline fun Context.showDialog(
     showOnCreate: Boolean = true,
     config: MaterialAlertDialogBuilder.() -> MaterialAlertDialogBuilder
 ): Dialog {
-    return MaterialAlertDialogBuilder(this)
+    return MaterialAlertDialogBuilder(
+        this,
+        com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog_Centered,
+    )
         .config()
         .create()
         .also { if (showOnCreate) it.show() }
@@ -20,6 +23,7 @@ inline fun Context.showDialog(
 
 internal fun Context.showLogOutDialog(onLogOutClicked: () -> Unit) {
     showDialog {
+        setIcon(R.drawable.ic_baseline_logout)
         setTitle(R.string.log_out_title)
         setMessage(R.string.log_out_message)
         setPositiveButton(R.string.log_out) { _, _ -> onLogOutClicked() }
@@ -29,7 +33,9 @@ internal fun Context.showLogOutDialog(onLogOutClicked: () -> Unit) {
 
 internal fun Context.showLogInDialog() {
     showDialog {
+        setIcon(R.drawable.ic_account_circle)
         setTitle(R.string.log_in_title)
+        setMessage(R.string.log_in_message)
         setPositiveButton(R.string.log_in) { _, _ -> launchUrl(AuthStore.authUrl) }
         setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
     }
@@ -41,6 +47,7 @@ internal fun Context.showRegisterOnSiteDialog(
     @StringRes titleResId: Int = R.string.register_on_site,
 ) {
     showDialog {
+        setIcon(R.drawable.ic_baseline_face)
         setTitle(getString(titleResId, site.name))
         setMessage(R.string.register_on_site_message)
         setPositiveButton(R.string.register) { _, _ -> launchUrl(siteUrl) }

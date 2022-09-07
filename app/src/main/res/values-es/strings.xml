@@ -39,9 +39,9 @@
 
     <!-- Auth -->
     <string name="log_in_title">¿Quiere iniciar sesión?</string>
+    <string name="log_in_message">Haz y responde preguntas. Obtenga acceso a marcadores, borradores y más.</string>
     <string name="log_out_title">¿Quiere cerrar sesión?</string>
-    <string name="log_out_site_switch">Necesita cerrar sesión para cambiar el sitio</string>
-    <string name="log_out_message">Perderá todos los datos de su sesión actual, incluidos los borradores</string>
+    <string name="log_out_message">Perderá todos los datos de su sesión actual, incluidos los borradores.</string>
     <string name="log_in">Iniciar sesión</string>
     <string name="log_out">Cerrar sesión</string>
     <string name="register_on_site_message">Asegúrese de usar el mismo usuario en todas las cuentas de Stack Exchange. Una vez terminado, cierre el navegador.</string>
