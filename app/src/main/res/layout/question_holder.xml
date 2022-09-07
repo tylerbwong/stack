@@ -18,10 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingStart="16dp"
-            android:paddingTop="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="8dp"
+            android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -46,9 +43,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
             android:drawablePadding="4dp"
             app:drawableStartCompat="@drawable/ic_arrow_upward"
-            app:layout_constraintBottom_toBottomOf="@id/ownerView"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/viewCount"
             tools:text="22" />
 
@@ -58,9 +56,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
             android:drawablePadding="4dp"
             app:drawableStartCompat="@drawable/ic_baseline_remove_red_eye"
-            app:layout_constraintBottom_toBottomOf="@id/ownerView"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/answerCount"
             tools:text="22" />
 
@@ -70,9 +69,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:drawablePadding="4dp"
             app:drawableStartCompat="@drawable/ic_question_answer"
-            app:layout_constraintBottom_toBottomOf="@id/ownerView"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="22" />
 

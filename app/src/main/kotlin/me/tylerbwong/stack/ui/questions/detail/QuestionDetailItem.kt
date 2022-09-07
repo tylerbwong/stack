@@ -46,6 +46,7 @@ data class AnswerVotesHeaderItem(
     internal val upVoteCount: Int,
     internal val downVoteCount: Int
 ) : QuestionDetailItem(::AnswerVotesHeaderHolder)
+object DividerItem : QuestionDetailItem(::DividerHolder)
 
 object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
 

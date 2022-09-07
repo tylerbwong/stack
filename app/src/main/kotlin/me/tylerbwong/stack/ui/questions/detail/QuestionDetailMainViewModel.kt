@@ -123,7 +123,7 @@ class QuestionDetailMainViewModel @Inject constructor(
                     }
                     add(AnswerHeaderItem(questionResult.answerCount))
                     addAll(
-                        answersResult.flatMap { answer ->
+                        answersResult.flatMapIndexed { index, answer ->
                             mutableListOf<QuestionDetailItem>().apply {
                                 add(
                                     AnswerVotesHeaderItem(
@@ -149,6 +149,9 @@ class QuestionDetailMainViewModel @Inject constructor(
                                         owner = answer.owner,
                                     )
                                 )
+                                if (index != answersResult.lastIndex) {
+                                    add(DividerItem)
+                                }
                             }
                         }
                     )
