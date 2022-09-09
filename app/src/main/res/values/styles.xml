@@ -4,7 +4,14 @@
     <style name="AppTheme.Primary" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="searchViewStyle">@style/Widget.Stack.SearchView</item>
         <item name="switchStyle">@style/Widget.Material3.CompoundButton.MaterialSwitch</item>
+    </style>
+
+    <style name="Widget.Stack.SearchView" parent="Widget.AppCompat.SearchView">
+        <item name="queryHint">@string/search</item>
+        <item name="queryBackground">@null</item>
+        <item name="searchHintIcon">@null</item>
     </style>
 
 </resources>

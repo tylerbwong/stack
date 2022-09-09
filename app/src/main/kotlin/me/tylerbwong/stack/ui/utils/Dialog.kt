@@ -7,15 +7,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.data.auth.AuthStore
+import com.google.android.material.R as MaterialR
 
 inline fun Context.showDialog(
     showOnCreate: Boolean = true,
+    defaultStyle: Int = MaterialR.style.ThemeOverlay_Material3_MaterialAlertDialog_Centered,
     config: MaterialAlertDialogBuilder.() -> MaterialAlertDialogBuilder
 ): Dialog {
-    return MaterialAlertDialogBuilder(
-        this,
-        com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog_Centered,
-    )
+    return MaterialAlertDialogBuilder(this, defaultStyle)
         .config()
         .create()
         .also { if (showOnCreate) it.show() }

@@ -16,6 +16,7 @@ val nightModeOptions = mapOf(
 
 fun Context.showThemeChooserDialog(onSelected: () -> Unit) {
     showDialog {
+        setIcon(R.drawable.ic_brightness_2)
         setTitle(R.string.theme_title)
         setSingleChoiceItems(
             nightModeOptions.keys.map { getString(it) }.toTypedArray(),

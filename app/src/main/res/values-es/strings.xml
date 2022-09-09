@@ -23,11 +23,10 @@
     </plurals>
 
     <!-- Theme Chooser -->
-    <string name="theme_title">Tema</string>
+    <string name="theme_title">Escoge un tema</string>
     <string name="theme_light">Claro</string>
     <string name="theme_dark">Oscuro</string>
     <string name="theme_system_default">Sistema</string>
-    <string name="theme_battery_saver">Ahorro de bateria solamente</string>
 
     <!-- Error -->
     <string name="nothing_here">¡Nada aquí!</string>

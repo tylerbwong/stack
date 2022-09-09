@@ -54,12 +54,12 @@ class SitesActivity : BaseActivity<ActivitySitesBinding>(
             supportActionBar?.title = getString(R.string.sites, getString(it.filterNameRes))
         }
 
-        viewModel.forceFetchSites()
         viewModel.fetchSites()
     }
 
     override fun onResume() {
         super.onResume()
+        viewModel.forceFetchSites()
         viewModel.currentQuery?.let { searchView?.setQuery(it, true) }
     }
 
