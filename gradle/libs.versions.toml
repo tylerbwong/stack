@@ -1,5 +1,5 @@
 [versions]
-about-libraries = "8.9.4"
+about-libraries = "10.4.0"
 android-gradlePlugin = "7.2.2"
 androidx-activity = "1.5.1"
 androidx-appcompat = "1.5.0"
@@ -61,6 +61,7 @@ timber = "5.0.1"
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "google-ksp" }
 
 [libraries]
+aboutLibraries-compose = { module = "com.mikepenz:aboutlibraries-compose", version.ref = "about-libraries"}
 aboutLibraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "about-libraries" }
 aboutLibraries-gradlePlugin = { module = "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin", version.ref = "about-libraries" }
 

@@ -83,6 +83,7 @@ dependencies {
 
     // licenses
     implementation(libs.aboutLibraries.core)
+    implementation(libs.aboutLibraries.compose)
 
     // debug
     debugImplementation(libs.chucker)
@@ -111,6 +112,7 @@ dependencies {
 
     // markdown
     implementation(projects.markdown)
+    implementation(libs.apache.commonsText)
     implementation(libs.markwon.core)
     implementation(libs.markwon.html)
     implementation(libs.markwon.imageCoil)

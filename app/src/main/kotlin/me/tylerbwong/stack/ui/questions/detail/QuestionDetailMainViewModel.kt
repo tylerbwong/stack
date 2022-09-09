@@ -271,9 +271,9 @@ class QuestionDetailMainViewModel @Inject constructor(
             ?: emptyList()
         return nodes.map { node ->
             if (node is FencedCodeBlock || node is IndentedCodeBlock) {
-                FencedCodeBlockItem(node)
+                FencedCodeBlockItem(node).also { it.renderedMarkdown = markdown.render(node) }
             } else {
-                MarkdownItem(node)
+                MarkdownItem(node).also { it.renderedMarkdown = markdown.render(node) }
             }
         }
     }
