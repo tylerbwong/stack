@@ -76,7 +76,6 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling)
 
     // google
-    implementation(libs.coil.compose)
     playImplementation(platform(libs.google.firebase.bom))
     playImplementation(libs.google.firebase.analytics.ktx)
     playImplementation(libs.google.firebase.crashlytics)
@@ -98,6 +97,7 @@ dependencies {
 
     // coil
     implementation(libs.coil)
+    implementation(libs.coil.compose)
 
     // dagger
     kapt(libs.google.dagger.hilt.android.compiler)
