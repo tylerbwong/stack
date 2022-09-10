@@ -113,23 +113,23 @@
     <!-- Settings -->
     <string name="app">App</string>
     <string name="about">Información</string>
-    <string name="experimental">Experimental </string>
+    <string name="experimental">Experimental</string>
     <string name="account">Cuenta</string>
     <string name="debug">Depurar</string>
     <string name="theme">Tema</string>
-    <string name="source">Código Fuente</string>
+    <string name="source">Código fuente</string>
     <string name="source_description">Stack es gratuito y de código abierto en GitHub</string>
-    <string name="libraries">Módulos de Código Abierto</string>
-    <string name="libraries_description">Estos impresionantes módulos de código ayudaron a construir Stack</string>
+    <string name="libraries">Módulos de código abierto</string>
+    <string name="libraries_description">Estos increíbles módulos ayudaron a hacer posible Stack</string>
     <string name="api">Funciona con la API de Stack Exchange</string>
-    <string name="privacy">Política de Privacidad</string>
-    <string name="terms">Términos y Condiciones</string>
+    <string name="privacy">Política de privacidad</string>
+    <string name="terms">Términos y condiciones</string>
     <string name="license">Licencia de %1$s</string>
 
     <!-- Sites -->
     <string name="my_sites">Mis sitios web</string>
     <string name="other_sites">Otros sitios web</string>
-    <string name="current_site">Sitio Actual</string>
+    <string name="current_site">Sitio actual</string>
     <string name="sites">Sitios (%1$s)</string>
     <string name="filter">Filtrar</string>
     <string name="all_sites">Todos</string>
@@ -137,11 +137,11 @@
     <string name="meta_sites">Meta</string>
 
     <!-- Debug -->
-    <string name="inspect_network_traffic">Inspeccionar el Tráfico de Red</string>
+    <string name="inspect_network_traffic">Inspeccionar el tráfico de red</string>
 
     <!-- App version -->
     <string name="version">Versión</string>
-    <string name="syntax_highlighting">Resaltado de Sintaxis</string>
+    <string name="syntax_highlighting">Resaltado de sintaxis</string>
     <string name="syntax_highlighting_summary">Habilita el resaltado de sintaxis para los bloques de código Markdown admitidos</string>
     <string name="create_question_summary">Permite la capacidad de formular preguntas</string>
 

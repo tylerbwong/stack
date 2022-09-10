@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:layout="@layout/preference_category"
+        android:layout="@layout/preference_category_layout"
         android:title="@string/account">
         <Preference
             android:icon="@drawable/ic_account_circle"
@@ -12,7 +12,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:layout="@layout/preference_category"
+        android:layout="@layout/preference_category_layout"
         android:title="@string/current_site">
         <Preference
             android:key="@string/current_site"
@@ -21,7 +21,7 @@
 
     <PreferenceCategory
         android:key="@string/experimental"
-        android:layout="@layout/preference_category"
+        android:layout="@layout/preference_category_layout"
         android:title="@string/experimental">
         <SwitchPreferenceCompat
             android:icon="@drawable/ic_baseline_code"
@@ -38,7 +38,7 @@
 
     <PreferenceCategory
         android:key="@string/debug"
-        android:layout="@layout/preference_category"
+        android:layout="@layout/preference_category_layout"
         android:title="@string/debug">
 
         <Preference
@@ -48,7 +48,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:layout="@layout/preference_category"
+        android:layout="@layout/preference_category_layout"
         android:title="@string/app">
         <Preference
             android:icon="@drawable/ic_brightness_2"
@@ -62,7 +62,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:layout="@layout/preference_category"
+        android:layout="@layout/preference_category_layout"
         android:title="@string/about">
         <Preference
             android:icon="@drawable/ic_github"

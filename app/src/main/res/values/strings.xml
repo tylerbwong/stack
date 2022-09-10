@@ -119,7 +119,7 @@
     <string name="clear_filters">Clear</string>
 
     <!-- Drafts -->
-    <string name="save_draft">Save Draft</string>
+    <string name="save_draft">Save draft</string>
     <string name="draft_saved">Draft saved</string>
     <string name="last_updated">Last updated %1$s</string>
 
@@ -132,17 +132,17 @@
     <string name="theme">Theme</string>
     <string name="source">Source</string>
     <string name="source_description">Stack is free and open-source on GitHub</string>
-    <string name="libraries">Open Source Libraries</string>
-    <string name="libraries_description">These awesome libraries helped build Stack</string>
+    <string name="libraries">Open source libraries</string>
+    <string name="libraries_description">These awesome libraries helped make Stack possible</string>
     <string name="api">Powered by the Stack Exchange API</string>
-    <string name="privacy">Privacy Policy</string>
-    <string name="terms">Terms and Conditions</string>
+    <string name="privacy">Privacy policy</string>
+    <string name="terms">Terms and conditions</string>
     <string name="license">%1$s License</string>
 
     <!-- Sites -->
     <string name="my_sites">My sites</string>
     <string name="other_sites">Other sites</string>
-    <string name="current_site">Current Site</string>
+    <string name="current_site">Current site</string>
     <string name="sites">Sites (%1$s)</string>
     <string name="filter">Filter</string>
     <string name="all_sites">All</string>
@@ -150,11 +150,11 @@
     <string name="meta_sites">Meta</string>
 
     <!-- Debug -->
-    <string name="inspect_network_traffic">Inspect Network Traffic</string>
+    <string name="inspect_network_traffic">Inspect network traffic</string>
 
     <!-- App version -->
     <string name="version">Version</string>
-    <string name="syntax_highlighting">Syntax Highlighting</string>
+    <string name="syntax_highlighting">Syntax highlighting</string>
     <string name="syntax_highlighting_summary">Enables syntax highlighting for supported markdown code blocks</string>
     <string name="create_question_summary">Enables create question support</string>
 
