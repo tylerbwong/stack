@@ -16,6 +16,7 @@ import com.chuckerteam.chucker.api.Chucker
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.processphoenix.ProcessPhoenix
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.MainActivity
@@ -164,11 +165,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 imageLoader.enqueue(request)
             }
         }
+        listView.apply {
+            applyInsetter {
+                type(ime = true, statusBars = true, navigationBars = true) {
+                    padding(bottom = true)
+                }
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.fetchData()
+        setDivider(null)
+        setDividerHeight(0)
     }
 
     private fun PreferenceManager.setUpAppSection() {
