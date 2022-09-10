@@ -1,6 +1,7 @@
 package me.tylerbwong.stack.ui.questions.detail
 
 import android.text.Spanned
+import androidx.annotation.StringRes
 import androidx.recyclerview.widget.DiffUtil
 import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.adapter.ViewHolderProvider
@@ -20,6 +21,7 @@ data class QuestionTitleItem(internal val title: String) : QuestionDetailItem(::
 data class FooterItem(
     internal val entityId: Int,
     internal val creationDate: Long,
+    @StringRes internal val creationResId: Int? = null,
     internal val lastEditor: User?,
     internal val commentCount: Int?,
     internal val owner: User,

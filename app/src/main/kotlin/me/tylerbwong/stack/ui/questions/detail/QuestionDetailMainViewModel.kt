@@ -113,6 +113,7 @@ class QuestionDetailMainViewModel @Inject constructor(
                         FooterItem(
                             entityId = questionResult.questionId,
                             creationDate = questionResult.creationDate,
+                            creationResId = R.string.asked,
                             lastEditor = questionResult.lastEditor,
                             commentCount = questionResult.commentCount,
                             owner = questionResult.owner,
@@ -144,6 +145,7 @@ class QuestionDetailMainViewModel @Inject constructor(
                                     FooterItem(
                                         entityId = answer.answerId,
                                         creationDate = answer.creationDate,
+                                        creationResId = R.string.answered,
                                         lastEditor = answer.lastEditor,
                                         commentCount = answer.commentCount,
                                         owner = answer.owner,
