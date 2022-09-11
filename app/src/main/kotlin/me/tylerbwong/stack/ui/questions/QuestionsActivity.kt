@@ -55,7 +55,6 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
 
         viewModel.data.observe(this) {
             adapter.submitList(it)
-
             if (it.isEmpty()) {
                 Snackbar.make(binding.rootLayout, R.string.nothing_here, Snackbar.LENGTH_INDEFINITE).show()
             }

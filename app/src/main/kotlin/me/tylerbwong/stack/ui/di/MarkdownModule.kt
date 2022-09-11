@@ -23,6 +23,7 @@ import io.noties.markwon.syntax.Prism4jThemeBase
 import io.noties.markwon.syntax.Prism4jThemeDarkula
 import io.noties.markwon.syntax.Prism4jThemeDefault
 import io.noties.markwon.syntax.SyntaxHighlightPlugin
+import io.noties.prism4j.GrammarLocator
 import io.noties.prism4j.Prism4j
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.latex.LatexMarkdown
@@ -110,7 +111,10 @@ class MarkdownModule {
     ): AbstractMarkwonPlugin = UrlPlugin(urlProcessor, tabsResolver)
 
     @Provides
-    fun providePrism4j() = Prism4j(GrammarLocatorDef())
+    fun provideGrammarLocatorDef(): GrammarLocator = GrammarLocatorDef()
+
+    @Provides
+    fun providePrism4j(grammarLocator: GrammarLocator) = Prism4j(grammarLocator)
 
     @Provides
     fun providePrism4jTheme(

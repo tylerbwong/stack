@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import me.tylerbwong.stack.api.model.CREATION
+import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Sort
 import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.ui.BaseViewModel
@@ -40,28 +41,37 @@ internal class QuestionsViewModel @Inject constructor(
     }
 
     private fun getQuestionsByTag(@Sort sort: String = currentSort) {
-        currentSort = sort
-        launchRequest {
-            val questions = service.getQuestionsByTags(sort = sort, tags = key).items
-            _data.value = questions.map { QuestionItem(it) }
+        getQuestions(sort = sort) {
+            service.getQuestionsByTags(sort = sort, tags = key).items
         }
     }
 
     private fun getLinkedQuestions(@Sort sort: String = currentSort) {
-        currentSort = sort
-        val questionId = key.toIntOrNull() ?: return
-        launchRequest {
-            val questions = service.getLinkedQuestions(questionId = questionId, sort = sort).items
-            _data.value = questions.map { QuestionItem(it) }
+        getQuestions(sort = sort) {
+            key.toIntOrNull()?.let { questionId ->
+                service.getLinkedQuestions(questionId = questionId, sort = sort).items
+            }
         }
     }
 
     private fun getRelatedQuestions(@Sort sort: String = currentSort) {
+        getQuestions(sort = sort) {
+            key.toIntOrNull()?.let { questionId ->
+                service.getRelatedQuestions(questionId = questionId, sort = sort).items
+            }
+        }
+    }
+
+    private fun getQuestions(
+        @Sort sort: String = currentSort,
+        questionsProvider: suspend () -> List<Question>?
+    ) {
         currentSort = sort
-        val questionId = key.toIntOrNull() ?: return
         launchRequest {
-            val questions = service.getRelatedQuestions(questionId = questionId, sort = sort).items
-            _data.value = questions.map { QuestionItem(it) }
+            val questions = questionsProvider()
+            if (questions != null) {
+                _data.value = questions.map { QuestionItem(it) }
+            }
         }
     }
 }

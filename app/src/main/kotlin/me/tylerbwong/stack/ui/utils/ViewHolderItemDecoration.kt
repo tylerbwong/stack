@@ -16,12 +16,11 @@ class ViewHolderItemDecoration(
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        super.getItemOffsets(outRect, view, parent, state)
-        view.let {
-            val position = parent.getChildAdapterPosition(it)
-            val size = parent.adapter?.itemCount ?: 0
-            if (position !in 0 until size) return
-            val viewType = parent.adapter?.getItemViewType(position) ?: -1
+        val position = parent.getChildAdapterPosition(view)
+        if (position != RecyclerView.NO_POSITION) {
+            val adapter = parent.adapter ?: return
+            val size = adapter.itemCount
+            val viewType = adapter.getItemViewType(position)
             if (applicableViewTypes != null && viewType !in applicableViewTypes) return
             outRect.apply {
                 if (position == 0) {
