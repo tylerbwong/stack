@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    namespace = "me.tylerbwong.compose.markdown"
     buildFeatures {
         compose = true
         buildConfig = false

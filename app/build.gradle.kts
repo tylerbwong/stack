@@ -11,6 +11,7 @@ plugins {
 }
 
 android {
+    namespace = "me.tylerbwong.stack"
     defaultConfig {
         testInstrumentationRunner = "me.tylerbwong.stack.StackTestRunner"
 

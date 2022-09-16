@@ -7,6 +7,7 @@ plugins {
 }
 
 android {
+    namespace = "me.tylerbwong.stack.markdown"
     buildFeatures {
         buildConfig = false
     }

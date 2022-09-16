@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    namespace = "me.tylerbwong.compose.preference"
     buildFeatures {
         compose = true
         buildConfig = false
