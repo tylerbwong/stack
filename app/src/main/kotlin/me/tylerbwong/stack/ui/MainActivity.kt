@@ -10,7 +10,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
@@ -22,14 +21,12 @@ import me.tylerbwong.stack.databinding.ActivityMainBinding
 import me.tylerbwong.stack.ui.bookmarks.BookmarksFragment
 import me.tylerbwong.stack.ui.drafts.DraftsFragment
 import me.tylerbwong.stack.ui.home.HomeFragment
-import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.settings.SettingsActivity
+import me.tylerbwong.stack.ui.sites.SitesBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
-import me.tylerbwong.stack.ui.utils.showLogInDialog
-import me.tylerbwong.stack.ui.utils.showRegisterOnSiteDialog
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
 
@@ -77,40 +74,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             if (bottomNav.selectedItemId in authTabIds) {
                 bottomNav.selectedItemId = R.id.home
             }
-
-            if (isAuthenticated) {
-                viewModel.fetchUser()
-            } else {
-                with(binding.profileIcon) {
-                    setImageResource(R.drawable.ic_account_circle)
-                    setThrottledOnClickListener { showLogInDialog() }
-                }
-            }
         }
-        viewModel.user.observe(this) { user ->
-            binding.profileIcon.apply {
-                if (user != null) {
-                    load(user.profileImage) {
-                        error(R.drawable.user_image_placeholder)
-                        placeholder(R.drawable.user_image_placeholder)
-                        transformations(CircleCropTransformation())
-                    }
+        viewModel.siteLiveData.observe(this) { viewModel.fetchSites() }
+        viewModel.currentSite.observe(this) { site ->
+            if (site != null) {
+                binding.siteIcon.apply {
+                    load(site.iconUrl)
                     setThrottledOnClickListener {
-                        ProfileActivity.startActivity(this@MainActivity, userId = user.userId)
+                        SitesBottomSheetDialogFragment.show(supportFragmentManager)
                     }
-                } else if (viewModel.isAuthenticatedLiveData.value == true) {
-                    setImageResource(R.drawable.ic_account_circle)
-                    setThrottledOnClickListener {
-                        viewModel.currentSite.value?.let {
-                            showRegisterOnSiteDialog(
-                                site = it,
-                                siteUrl = viewModel.buildSiteJoinUrl(it),
-                            )
-                        }
-                    }
-                } else {
-                    setImageResource(R.drawable.ic_account_circle)
-                    setThrottledOnClickListener { showLogInDialog() }
                 }
             }
         }
@@ -122,7 +94,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onResume() {
         super.onResume()
-        viewModel.fetchUser()
         viewModel.fetchSites()
         checkForPendingInstall()
         appReviewer.initializeReviewFlow(activity = this)

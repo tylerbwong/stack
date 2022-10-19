@@ -20,11 +20,11 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/profileIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:id="@+id/siteIcon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_account_circle" />
+                android:contentDescription="@string/current_site" />
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
