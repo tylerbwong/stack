@@ -16,7 +16,7 @@ android {
 }
 
 metalava {
-    sourcePaths = mutableSetOf("src/main")
+    sourcePaths.setFrom("src/main")
 }
 
 dependencies {

@@ -19,8 +19,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -74,8 +74,7 @@ fun CreateQuestionLayout(
     StackTheme {
         Scaffold(
             topBar = {
-                SmallTopAppBar(
-                    title = { Text(text = stringResource(R.string.create_question)) },
+                TopAppBar(title = { Text(text = stringResource(R.string.create_question)) },
                     navigationIcon = {
                         IconButton(onClick = onBackPressed) {
                             Icon(
@@ -109,8 +108,7 @@ fun CreateQuestionLayout(
                                 )
                             }
                         }
-                    },
-                )
+                    })
             },
             floatingActionButton = {
                 if (isValidTitle() && isValidBody() && isValidTags()) {

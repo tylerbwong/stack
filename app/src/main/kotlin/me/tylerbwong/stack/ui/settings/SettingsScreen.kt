@@ -21,8 +21,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -72,8 +72,7 @@ fun SettingsScreen(
     ) {
         Scaffold(
             topBar = {
-                SmallTopAppBar(
-                    title = { Text(text = stringResource(R.string.settings)) },
+                TopAppBar(title = { Text(text = stringResource(R.string.settings)) },
                     navigationIcon = {
                         IconButton(onClick = onBackPressed) {
                             Icon(

@@ -29,9 +29,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -73,7 +73,7 @@ fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
     StackTheme {
         Scaffold(
             topBar = {
-                SmallTopAppBar(
+                TopAppBar(
                     title = {
                         if (isSearchActive) {
                             TextField(
