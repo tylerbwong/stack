@@ -68,6 +68,7 @@ object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
         oldItem is AnswerHeaderItem && newItem is AnswerHeaderItem -> true
         oldItem is AnswerVotesHeaderItem && newItem is AnswerVotesHeaderItem ->
             oldItem.id == newItem.id
+        oldItem is DividerItem && newItem is DividerItem -> true
         else -> false
     }
 
@@ -99,6 +100,7 @@ object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
             oldItem.id == newItem.id && oldItem.isAccepted == newItem.isAccepted &&
                     oldItem.upVoteCount == newItem.upVoteCount &&
                     oldItem.downVoteCount == newItem.downVoteCount
+        oldItem is DividerItem && newItem is DividerItem -> true
         else -> false
     }
 }
