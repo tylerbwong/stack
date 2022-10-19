@@ -78,6 +78,10 @@ class BookmarksFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding:
         }
 
         binding.refreshLayout.setOnRefreshListener { viewModel.fetchBookmarks() }
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.fetchBookmarks()
     }
 
