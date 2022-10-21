@@ -74,7 +74,7 @@ class BadgesBottomSheetDialogFragment : BottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         dialog.behavior.apply {
-            state = BottomSheetBehavior.STATE_EXPANDED
+            state = BottomSheetBehavior.STATE_COLLAPSED
             skipCollapsed = true
         }
         return dialog

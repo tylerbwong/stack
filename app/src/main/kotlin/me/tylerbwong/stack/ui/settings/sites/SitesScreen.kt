@@ -32,9 +32,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -52,7 +50,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
@@ -149,12 +146,6 @@ fun SitesLayout(modifier: Modifier = Modifier, changeSite: (String) -> Unit) {
     val sites by viewModel.sites.observeAsState(initial = emptyList())
     val searchQuery by viewModel.searchQuery.observeAsState()
     val listState = rememberLazyListState()
-    val isFirstItemVisible by remember {
-        derivedStateOf {
-            listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0
-        }
-    }
-    val headerElevation = if (isFirstItemVisible) 0.dp else 3.dp
 
     StackTheme {
         LazyColumn(
@@ -164,7 +155,6 @@ fun SitesLayout(modifier: Modifier = Modifier, changeSite: (String) -> Unit) {
             if (associatedSites.isNotEmpty()) {
                 stickyHeader {
                     SitesHeader(
-                        elevation = headerElevation,
                         headerResId = R.string.my_sites,
                     )
                 }
@@ -179,7 +169,6 @@ fun SitesLayout(modifier: Modifier = Modifier, changeSite: (String) -> Unit) {
                 if (associatedSites.isNotEmpty()) {
                     stickyHeader {
                         SitesHeader(
-                            elevation = headerElevation,
                             headerResId = R.string.other_sites,
                         )
                     }
@@ -196,15 +185,12 @@ fun SitesLayout(modifier: Modifier = Modifier, changeSite: (String) -> Unit) {
 }
 
 @Composable
-fun SitesHeader(
-    elevation: Dp,
-    @StringRes headerResId: Int,
-) {
+fun SitesHeader(@StringRes headerResId: Int) {
     Text(
         text = stringResource(headerResId),
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.surfaceColorAtElevation(elevation))
+            .background(color = MaterialTheme.colorScheme.surface)
             .padding(
                 horizontal = 16.dp,
                 vertical = 8.dp,

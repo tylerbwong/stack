@@ -24,7 +24,7 @@ import me.tylerbwong.stack.ui.home.HomeFragment
 import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.settings.SettingsActivity
-import me.tylerbwong.stack.ui.sites.SitesBottomSheetDialogFragment
+import me.tylerbwong.stack.ui.settings.sites.SitesActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
@@ -81,7 +81,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 binding.siteIcon.apply {
                     load(site.iconUrl)
                     setThrottledOnClickListener {
-                        SitesBottomSheetDialogFragment.show(supportFragmentManager)
+                        // TODO Switch to bottom sheet?
+                        SitesActivity.startActivity(this@MainActivity)
                     }
                 }
             }

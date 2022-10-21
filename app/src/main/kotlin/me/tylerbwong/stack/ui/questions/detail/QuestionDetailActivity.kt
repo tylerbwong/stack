@@ -1,6 +1,5 @@
 package me.tylerbwong.stack.ui.questions.detail
 
-import android.animation.AnimatorInflater
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -65,18 +64,6 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
 
         adapter = QuestionDetailPagerAdapter(this, viewModel.questionId)
         binding.viewPager.adapter = adapter
-        binding.viewPager.registerOnPageChangeCallback(
-            QuestionDetailPageChangeCallback { position ->
-                binding.appBar.stateListAnimator = AnimatorInflater.loadStateListAnimator(
-                    this@QuestionDetailActivity,
-                    if (position == 0) {
-                        R.animator.app_bar_elevation
-                    } else {
-                        R.animator.app_bar_no_elevation
-                    }
-                )
-            }
-        )
 
         val isInAnswerMode = savedInstanceState?.getBoolean(IS_IN_ANSWER_MODE, false)
             ?: intent.getBooleanExtra(IS_IN_ANSWER_MODE, false)
