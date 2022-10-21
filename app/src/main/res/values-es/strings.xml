@@ -107,6 +107,7 @@
 
     <!-- Drafts -->
     <string name="save_draft">Guardar un borrador</string>
+    <string name="save_draft_message">Podrás acceder a tus borradores guardados hasta que cierres sesión.</string>
     <string name="draft_saved">El borrador se salva</string>
     <string name="last_updated">Editado por última vez %1$s</string>
 

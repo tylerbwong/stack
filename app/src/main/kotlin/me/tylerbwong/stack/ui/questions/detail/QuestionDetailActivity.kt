@@ -96,7 +96,7 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
         if (viewModel.isInAnswerMode) {
             if (viewModel.hasContent) {
                 showDialog {
-                    setTitle(R.string.discard_answer)
+                    setMessage(R.string.discard_answer)
                     setPositiveButton(R.string.discard) { _, _ ->
                         toggleAnswerMode(isInAnswerMode = false)
                     }

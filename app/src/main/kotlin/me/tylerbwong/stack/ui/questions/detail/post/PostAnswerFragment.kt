@@ -158,7 +158,9 @@ class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
         when (item.itemId) {
             R.id.save_draft -> {
                 requireContext().showDialog {
+                    setIcon(R.drawable.ic_baseline_save)
                     setTitle(R.string.save_draft)
+                    setMessage(R.string.save_draft_message)
                     setPositiveButton(R.string.save_draft) { _, _ ->
                         viewModel.saveDraft(binding.markdownEditText.text.toString())
                         Toast.makeText(
@@ -172,7 +174,7 @@ class PostAnswerFragment : BaseFragment<PostAnswerFragmentBinding>(
             }
             R.id.discard -> {
                 requireContext().showDialog {
-                    setTitle(R.string.discard_answer)
+                    setMessage(R.string.discard_answer)
                     setPositiveButton(R.string.discard) { _, _ ->
                         clearFields()
                         viewModel.deleteDraft()
