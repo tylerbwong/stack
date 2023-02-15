@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingHorizontal="@dimen/item_spacing_question_detail">
@@ -10,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="false"
-        android:focusable="false">
+        android:focusable="false"
+        app:cardBackgroundColor="?attr/colorErrorContainer">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,7 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="@string/duplicate_question_notice" />
+                android:text="@string/duplicate_question_notice"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/originalQuestion"
