@@ -84,6 +84,8 @@
     <string name="item_count" translatable="false">(%1$d)</string>
     <string name="no_comments">No comments found</string>
     <string name="open_browser">Open in browser</string>
+    <string name="duplicate_question_notice">This question already has an answer here:</string>
+    <string name="closed_timestamp">Closed</string>
 
     <!-- Create Question -->
     <string name="create_question">Create Question</string>

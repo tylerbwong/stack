@@ -182,8 +182,8 @@ interface QuestionService {
         internal const val ANSWER_FILTER =
             "!)qHt3-n4W*f.gPKawPE(XNpsQRxcWdBxS2t8_drqo0.DgldgGwePa9Pib9nUlpc.1r"
         internal const val DETAIL_FILTER =
-            "!3r.zRmD4l6rHdTgXfBOo(qq6rg_D3I7uaTO)p123.RRrNwbbeBOKxJp8dch552I"
+            "!)aHQ9FGlxVZ-FDR2obogNxnqETJo9DXW96ZvzK5vlX6vPZyppY0(xIhvmblvbX1t7Ksu.RrM6rzoGU65Iq40VAPTIPb"
         internal const val DETAIL_FILTER_AUTH =
-            "!-(5KXGCBWX*gwD0lF1ueU_AM.fuZ5ajPdCrHQ*dmgQbj)i3*BIgm2.4v22"
+            "!WIhweFOWj1JJVd8aIoXaKw_xBAvzlbepSsY*owj6SlEC.GRu4lutLm80gFJDfdinXuISFpMqUSyzm18iEZiHM"
     }
 }

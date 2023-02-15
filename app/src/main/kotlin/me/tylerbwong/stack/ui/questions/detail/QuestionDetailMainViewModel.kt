@@ -101,6 +101,16 @@ class QuestionDetailMainViewModel @Inject constructor(
             val detailItems = withContext(Dispatchers.Default) {
                 mutableListOf<QuestionDetailItem>().apply {
                     add(0, QuestionTitleItem(questionResult.title))
+                    questionResult.closedDetails?.let { closedDetails ->
+                        val hasDuplicateQuestion = questionResult.closedDetails
+                            ?.originalQuestions
+                            ?.singleOrNull() != null
+                        if (closedDetails.isDuplicate && hasDuplicateQuestion) {
+                            questionResult.closedDate?.let { closedDate ->
+                                add(QuestionNoticeItem(closedDetails, closedDate))
+                            }
+                        }
+                    }
                     addAll(
                         collectMarkdownItems(questionResult.bodyMarkdown).also {
                             it.filterIsInstance<BaseMarkdownItem>().forEach { item ->

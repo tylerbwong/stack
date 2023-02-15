@@ -124,6 +124,7 @@ dependencies {
     implementation(libs.markwon.tasklist)
 
     // misc
+    implementation(libs.betterlinkmovementmethod)
     implementation(libs.processPhoenix)
 
     // networking

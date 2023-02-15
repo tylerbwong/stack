@@ -19,7 +19,6 @@ buildscript {
 
 allprojects {
     repositories {
-        maven(url = "https://androidx.dev/storage/compose-compiler/repository/")
         google()
         mavenCentral()
         jitpack()

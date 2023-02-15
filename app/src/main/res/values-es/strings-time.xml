@@ -4,6 +4,7 @@
     <string name="asked">formulada %1$s</string>
     <string name="answered">respondida %1$s</string>
     <string name="commented">comentada %1$s</string>
+    <string name="closed">Cerrado %1$s</string>
 
     <!-- Timestamp setup -->
     <plurals name="seconds">

@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import androidx.recyclerview.widget.DiffUtil
 import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.adapter.ViewHolderProvider
+import me.tylerbwong.stack.api.model.ClosedDetails
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.markdown.Renderer
@@ -18,6 +19,12 @@ abstract class BaseMarkdownItem(
     abstract fun render(renderer: Renderer): Spanned
 }
 data class QuestionTitleItem(internal val title: String) : QuestionDetailItem(::QuestionTitleHolder)
+
+data class QuestionNoticeItem(
+    internal val closedDetails: ClosedDetails,
+    internal val closedDate: Long,
+) : QuestionDetailItem(::QuestionNoticeHolder)
+
 data class FooterItem(
     internal val entityId: Int,
     internal val creationDate: Long,
@@ -56,6 +63,8 @@ object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
     override fun areItemsTheSame(oldItem: DynamicItem, newItem: DynamicItem) = when {
         oldItem is QuestionTitleItem && newItem is QuestionTitleItem ->
             oldItem.title == newItem.title
+        oldItem is QuestionNoticeItem && newItem is QuestionNoticeItem ->
+            oldItem.closedDetails == newItem.closedDetails
         oldItem is FooterItem && newItem is FooterItem ->
             oldItem.entityId == newItem.entityId
         oldItem is QuestionTagsItem && newItem is QuestionTagsItem ->
@@ -76,6 +85,8 @@ object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
     override fun areContentsTheSame(oldItem: DynamicItem, newItem: DynamicItem) = when {
         oldItem is QuestionTitleItem && newItem is QuestionTitleItem ->
             oldItem.title == newItem.title
+        oldItem is QuestionNoticeItem && newItem is QuestionNoticeItem ->
+            oldItem.closedDetails == newItem.closedDetails
         oldItem is FooterItem && newItem is FooterItem ->
             oldItem.entityId == newItem.entityId && oldItem.creationDate == newItem.creationDate &&
                     oldItem.commentCount == newItem.commentCount &&

@@ -7,6 +7,7 @@ import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -70,7 +71,9 @@ class StackPlugin : Plugin<Project> {
 
             afterEvaluate {
                 applicationVariants.all {
-                    val formattedName = name.capitalize(Locale.getDefault())
+                    val formattedName = name.replaceFirstChar {
+                        if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+                    }
                     with(tasks) {
                         listOfNotNull(
                             findByName("process${formattedName}GoogleServices"),
@@ -98,6 +101,11 @@ class StackPlugin : Plugin<Project> {
 
     private fun BaseExtension.configureCommonOptions(project: Project) {
         compileSdkVersion(AndroidConfig.COMPILE_SDK)
+
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_11
+            targetCompatibility = JavaVersion.VERSION_11
+        }
 
         defaultConfig {
             minSdk = AndroidConfig.MIN_SDK

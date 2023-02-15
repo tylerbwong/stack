@@ -73,6 +73,7 @@
     <string name="settings">Configuración</string>
     <string name="no_comments">No hay comentarios</string>
     <string name="open_browser">Abrirla en navegador</string>
+    <string name="duplicate_question_notice">Esta pregunta ya tiene respuesta aquí:</string>
 
     <!-- Create Question -->
     <string name="create_question">Formular una pregunta</string>
