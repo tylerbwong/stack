@@ -17,28 +17,27 @@ class ViewHolderItemDecoration(
         state: RecyclerView.State
     ) {
         val position = parent.getChildAdapterPosition(view)
+        val adapter = parent.adapter ?: return
+        val size = adapter.itemCount
         if (position != RecyclerView.NO_POSITION) {
-            val adapter = parent.adapter ?: return
-            val size = adapter.itemCount
-            val viewType = adapter.getItemViewType(position)
-            if (applicableViewTypes != null && viewType !in applicableViewTypes) return
-            outRect.apply {
-                if (position == 0) {
-                    top = spacing / 4
-                }
+            if (applicableViewTypes != null && adapter.getItemViewType(position) !in applicableViewTypes) return
+        }
+        outRect.apply {
+            if (position == 0) {
+                top = spacing / 4
+            }
 
-                if (position == size - 1 || removeTopSpacing) {
-                    bottom = spacing
-                }
+            if (position == size - 1 || removeTopSpacing) {
+                bottom = spacing
+            }
 
-                if (!removeTopSpacing) {
-                    top = spacing
-                }
+            if (!removeTopSpacing) {
+                top = spacing
+            }
 
-                if (!removeSideSpacing) {
-                    left = spacing
-                    right = spacing
-                }
+            if (!removeSideSpacing) {
+                left = spacing
+                right = spacing
             }
         }
     }
