@@ -84,8 +84,14 @@
     <string name="item_count" translatable="false">(%1$d)</string>
     <string name="no_comments">No comments found</string>
     <string name="open_browser">Open in browser</string>
-    <string name="duplicate_question_notice">This question already has an answer here:</string>
-    <string name="closed_timestamp">Closed</string>
+
+    <!-- Closed Question Notices -->
+    <string name="duplicate_question_notice">This question has been asked before already has an answer:</string>
+    <string name="not_suitable_notice">This question is not suitable for this site. It is not currently accepting answers.</string>
+    <string name="needs_details_notice">This question needs details or clarity. It is not currently accepting answers.</string>
+    <string name="needs_focus_notice">This question needs to be more focused. It is not currently accepting answers.</string>
+    <string name="opinion_based_notice">This question is too opinion based. It is not currently accepting answers.</string>
+    <string name="unknown_notice">This question was closed for an unknown reason.</string>
 
     <!-- Create Question -->
     <string name="create_question">Create Question</string>

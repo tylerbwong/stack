@@ -12,14 +12,28 @@ data class ClosedDetails(
     @Json(name = "reason")
     val reason: String,
 ) {
-    val isDuplicate: Boolean
-        get() = reason.equals("duplicate", ignoreCase = true)
+    val closedReason: ClosedReason
+        get() = ClosedReason.values()
+            .firstOrNull { reason.contains(it.reason, ignoreCase = true) }
+            ?: ClosedReason.UNKNOWN
+
+    val hasReason: Boolean
+        get() = closedReason != ClosedReason.UNKNOWN
+
+    enum class ClosedReason(val reason: String) {
+        DUPLICATE("duplicate"),
+        NOT_SUITABLE("not suitable for this site"),
+        NEEDS_DETAILS("needs details"),
+        NEEDS_FOCUS("needs more focus"),
+        OPINION_BASED("opinion based"),
+        UNKNOWN("unknown");
+    }
 }
 
 @JsonClass(generateAdapter = true)
 data class OriginalQuestion(
     @Json(name = "accepted_answer_id")
-    val acceptedAnswerId: Int,
+    val acceptedAnswerId: Int? = null,
     @Json(name = "answer_count")
     val answerCount: Int,
     @Json(name = "question_id")

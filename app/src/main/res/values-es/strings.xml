@@ -73,8 +73,14 @@
     <string name="settings">Configuración</string>
     <string name="no_comments">No hay comentarios</string>
     <string name="open_browser">Abrirla en navegador</string>
-    <string name="duplicate_question_notice">Esta pregunta ya tiene respuesta aquí:</string>
-    <string name="closed_timestamp">Cerrado</string>
+
+    <!-- Closed Question Notices -->
+    <string name="duplicate_question_notice">Esta pregunta que se ha hecho antes ya tiene respuesta:</string>
+    <string name="not_suitable_notice">Esta pregunta no es adecuada para este sitio. Actualmente no está aceptando respuestas.</string>
+    <string name="needs_details_notice">Esta pregunta necesita detalles o claridad. Actualmente no está aceptando respuestas.</string>
+    <string name="needs_focus_notice">Esta pregunta necesita ser más enfocada. Actualmente no está aceptando respuestas.</string>
+    <string name="opinion_based_notice">Esta pregunta está demasiado basada en opiniones. Actualmente no está aceptando respuestas.</string>
+    <string name="unknown_notice">Esta pregunta se cerró por una razón desconocida.</string>
 
     <!-- Create Question -->
     <string name="create_question">Formular una pregunta</string>

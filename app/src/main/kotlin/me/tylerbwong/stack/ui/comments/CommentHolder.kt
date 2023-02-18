@@ -76,7 +76,7 @@ class AddCommentHolder(
     private var textWatcher: TextWatcher? = null
 
     override fun AddCommentHolderBinding.bind(item: AddCommentItem) {
-        addCommentButton.isEnabled = item.initialBody.length >= MIN_COMMENT_LENGTH
+        addCommentButton.isEnabled = item.initialBody.trim().length >= MIN_COMMENT_LENGTH
         bodyInputLayout.isEnabled = true
         bodyInput.setText(item.initialBody)
         addCommentButton.setOnClickListener {
@@ -87,7 +87,7 @@ class AddCommentHolder(
 
         if (textWatcher == null) {
             textWatcher = bodyInput.addTextChangedListener {
-                val length = it?.length ?: 0
+                val length = it?.trim()?.length ?: 0
                 addCommentButton.isEnabled = length >= MIN_COMMENT_LENGTH
             }
         } else {

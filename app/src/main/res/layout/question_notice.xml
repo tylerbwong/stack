@@ -21,14 +21,14 @@
             android:padding="@dimen/item_spacing_question_detail">
 
             <TextView
+                android:id="@+id/closedReason"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="@string/duplicate_question_notice"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/originalQuestion"
+                android:id="@+id/originalQuestions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"

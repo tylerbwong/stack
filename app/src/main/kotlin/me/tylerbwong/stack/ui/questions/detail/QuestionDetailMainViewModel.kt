@@ -102,10 +102,7 @@ class QuestionDetailMainViewModel @Inject constructor(
                 mutableListOf<QuestionDetailItem>().apply {
                     add(0, QuestionTitleItem(questionResult.title))
                     questionResult.closedDetails?.let { closedDetails ->
-                        val hasDuplicateQuestion = questionResult.closedDetails
-                            ?.originalQuestions
-                            ?.singleOrNull() != null
-                        if (closedDetails.isDuplicate && hasDuplicateQuestion) {
+                        if (closedDetails.hasReason) {
                             questionResult.closedDate?.let { closedDate ->
                                 add(QuestionNoticeItem(closedDetails, closedDate))
                             }
