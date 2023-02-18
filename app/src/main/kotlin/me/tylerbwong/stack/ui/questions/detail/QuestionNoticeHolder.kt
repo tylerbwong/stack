@@ -13,6 +13,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.ClosedDetails
 import me.tylerbwong.stack.databinding.QuestionNoticeBinding
 import me.tylerbwong.stack.ui.utils.formatElapsedTime
+import me.tylerbwong.stack.ui.utils.toHtml
 
 class QuestionNoticeHolder(
     parent: ViewGroup
@@ -35,8 +36,9 @@ class QuestionNoticeHolder(
         originalQuestions.text = buildSpannedString {
             var startIndex = 0
             item.closedDetails.originalQuestions.forEachIndexed { index, originalQuestion ->
-                append(originalQuestion.title)
-                this[startIndex, startIndex + originalQuestion.title.length] =
+                val title = originalQuestion.title.toHtml()
+                append(title)
+                this[startIndex, startIndex + title.length] =
                     object : ClickableSpan() {
                         override fun onClick(view: View) {
                             QuestionDetailActivity.startActivity(
@@ -45,11 +47,12 @@ class QuestionNoticeHolder(
                             )
                         }
                     }
-                startIndex += originalQuestion.title.length
+                startIndex += title.length
                 if (index != item.closedDetails.originalQuestions.lastIndex) {
-                    appendLine()
-                    appendLine()
-                    startIndex++
+                    repeat(2) {
+                        appendLine()
+                        startIndex++
+                    }
                 }
             }
         }

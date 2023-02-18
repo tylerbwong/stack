@@ -86,7 +86,7 @@
     <string name="open_browser">Open in browser</string>
 
     <!-- Closed Question Notices -->
-    <string name="duplicate_question_notice">This question has been asked before already has an answer:</string>
+    <string name="duplicate_question_notice">This question has been asked before and already has an answer:</string>
     <string name="not_suitable_notice">This question is not suitable for this site. It is not currently accepting answers.</string>
     <string name="needs_details_notice">This question needs details or clarity. It is not currently accepting answers.</string>
     <string name="needs_focus_notice">This question needs to be more focused. It is not currently accepting answers.</string>
