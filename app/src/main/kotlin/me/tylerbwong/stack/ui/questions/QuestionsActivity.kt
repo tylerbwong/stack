@@ -54,7 +54,9 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
         }
 
         viewModel.data.observe(this) {
-            adapter.submitList(it)
+            adapter.submitList(it) {
+                binding.recyclerView.scrollToPosition(0)
+            }
             if (it.isEmpty()) {
                 Snackbar.make(binding.rootLayout, R.string.nothing_here, Snackbar.LENGTH_INDEFINITE).show()
             }

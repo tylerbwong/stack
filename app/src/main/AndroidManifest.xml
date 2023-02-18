@@ -179,6 +179,11 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
+            android:name=".ui.questions.create.CreateQuestionActivity"
+            android:theme="@style/AppTheme.Primary"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
             android:name=".ui.profile.ProfileActivity"
             android:theme="@style/AppTheme.Primary" />
 

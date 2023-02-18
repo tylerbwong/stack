@@ -21,6 +21,7 @@ import me.tylerbwong.stack.databinding.ActivityMainBinding
 import me.tylerbwong.stack.ui.bookmarks.BookmarksFragment
 import me.tylerbwong.stack.ui.drafts.DraftsFragment
 import me.tylerbwong.stack.ui.home.HomeFragment
+import me.tylerbwong.stack.ui.questions.create.CreateQuestionActivity
 import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.settings.SettingsActivity
@@ -151,6 +152,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private fun setupBottomNavigation() {
         with(binding.bottomNav) {
             setOnItemSelectedListener { menuItem ->
+                if (menuItem.itemId == R.id.create) {
+                    CreateQuestionActivity.startActivity(this@MainActivity)
+                    return@setOnItemSelectedListener false
+                }
+
                 val fragment = when (menuItem.itemId) {
                     R.id.search -> searchFragment
                     R.id.bookmarks -> bookmarksFragment

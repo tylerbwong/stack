@@ -1,25 +1,27 @@
 package me.tylerbwong.stack.ui.questions.create
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.TextView
-import androidx.fragment.app.viewModels
+import androidx.activity.viewModels
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.databinding.CreateQuestionFragmentBinding
-import me.tylerbwong.stack.ui.BaseFragment
+import me.tylerbwong.stack.databinding.ActivityCreateQuestionBinding
+import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.formatElapsedTime
 
 @AndroidEntryPoint
-class CreateQuestionFragment : BaseFragment<CreateQuestionFragmentBinding>(
-    CreateQuestionFragmentBinding::inflate
+class CreateQuestionActivity : BaseActivity<ActivityCreateQuestionBinding>(
+    ActivityCreateQuestionBinding::inflate
 ) {
     private val viewModel by viewModels<CreateQuestionViewModel>()
-    private val timestampProvider: (Long) -> String = { it.formatElapsedTime(requireContext()) }
+    private val timestampProvider: (Long) -> String = { it.formatElapsedTime(this) }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         binding.composeContent.setContent {
             CreateQuestionLayout(
                 draftLiveData = viewModel.questionDraft,
@@ -28,20 +30,24 @@ class CreateQuestionFragment : BaseFragment<CreateQuestionFragmentBinding>(
                     viewModel.saveDraft(title, body, tags, timestampProvider)
                 },
                 deleteDraft = viewModel::deleteDraft,
-                onBackPressed = { requireActivity().onBackPressed() }
+                onBackPressed = ::finish
             )
         }
-        viewModel.createQuestionState.observe(viewLifecycleOwner) { state ->
+        viewModel.createQuestionState.observe(this) { state ->
             when (state) {
                 is CreateQuestionSuccessPreview -> showSnackbar(getString(R.string.preview_success))
                 is CreateQuestionSuccess -> {
-                    QuestionDetailActivity.startActivity(requireContext(), state.questionId)
-                    requireActivity().finish()
+                    QuestionDetailActivity.startActivity(this, state.questionId)
+                    finish()
                 }
                 is CreateQuestionError -> showSnackbar(state.errorMessage)
             }
         }
         viewModel.fetchDraft( -1, timestampProvider)
+    }
+
+    override fun applyFullscreenWindowInsets() {
+        // No-op, handled manually for Compose
     }
 
     private fun showSnackbar(message: String?) {
@@ -59,6 +65,13 @@ class CreateQuestionFragment : BaseFragment<CreateQuestionFragmentBinding>(
             }
             setAction(R.string.dismiss) { dismiss() }
             show()
+        }
+    }
+
+    companion object {
+        fun startActivity(context: Context) {
+            val intent = Intent(context, CreateQuestionActivity::class.java)
+            context.startActivity(intent)
         }
     }
 }

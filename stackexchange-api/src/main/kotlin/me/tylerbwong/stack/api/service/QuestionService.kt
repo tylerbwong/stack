@@ -174,9 +174,9 @@ interface QuestionService {
 
     companion object {
         private const val TITLE_PARAM = "title"
-        private const val BODY_PARAM = "body"
+        internal const val BODY_PARAM = "body"
         private const val TAGS_PARAM = "tags"
-        private const val PREVIEW_PARAM = "preview"
+        internal const val PREVIEW_PARAM = "preview"
 
         internal const val DEFAULT_FILTER = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9("
         internal const val ANSWER_FILTER =

@@ -93,6 +93,10 @@
     <string name="body">Body</string>
     <string name="preview_success">Successfully posted as preview</string>
 
+    <!-- Add Comment -->
+    <string name="add_comment">Add comment</string>
+    <string name="add_comment_failure">Failed to add comment</string>
+
     <!-- Search -->
     <string name="search_hint">Search by keyword or phrase</string>
     <string name="popular_tags">Popular Tags</string>

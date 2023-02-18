@@ -74,12 +74,17 @@
     <string name="no_comments">No hay comentarios</string>
     <string name="open_browser">Abrirla en navegador</string>
     <string name="duplicate_question_notice">Esta pregunta ya tiene respuesta aquí:</string>
+    <string name="closed_timestamp">Cerrado</string>
 
     <!-- Create Question -->
     <string name="create_question">Formular una pregunta</string>
     <string name="title">Título</string>
     <string name="body">Cuerpo</string>
     <string name="preview_success">Lo publicamos como una vista previa</string>
+
+    <!-- Add Comment -->
+    <string name="add_comment">Agregar comentario</string>
+    <string name="add_comment_failure">No se pudo agregar el comentario</string>
 
     <!-- Search -->
     <string name="search_hint">Buscar por palabra clave o frase</string>

@@ -2,6 +2,7 @@
 package me.tylerbwong.stack.ui.questions.create
 
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -138,45 +139,47 @@ fun CreateQuestionLayout(
                 }
             },
         ) {
-            Column(modifier = Modifier.padding(it)) {
-                OutlinedTextField(
-                    value = title,
-                    onValueChange = { title = it },
-                    label = { Text(text = stringResource(R.string.title)) },
-                    modifier = Modifier.fillMaxWidth(),
-                    isError = !isValidTitle(),
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                OutlinedTextField(
-                    value = body,
-                    onValueChange = { body = it },
-                    label = { Text(text = stringResource(R.string.body)) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(dimensionResource(R.dimen.body_height)),
-                    isError = !isValidBody(),
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                OutlinedTextField(
-                    value = tags,
-                    onValueChange = { tags = it },
-                    label = { Text(text = stringResource(R.string.tags_title)) },
-                    modifier = Modifier.fillMaxWidth(),
-                    isError = !isValidTags(),
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                if (BuildConfig.DEBUG) {
-                    LabeledCheckbox(
-                        label = stringResource(R.string.post_preview),
-                        checked = isPreview,
-                        onCheckedChange = { isPreview = it }
+            Box(modifier = Modifier.padding(it)) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    OutlinedTextField(
+                        value = title,
+                        onValueChange = { title = it },
+                        label = { Text(text = stringResource(R.string.title)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        isError = !isValidTitle(),
                     )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    OutlinedTextField(
+                        value = body,
+                        onValueChange = { body = it },
+                        label = { Text(text = stringResource(R.string.body)) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(dimensionResource(R.dimen.body_height)),
+                        isError = !isValidBody(),
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    OutlinedTextField(
+                        value = tags,
+                        onValueChange = { tags = it },
+                        label = { Text(text = stringResource(R.string.tags_title)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        isError = !isValidTags(),
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    if (BuildConfig.DEBUG) {
+                        LabeledCheckbox(
+                            label = stringResource(R.string.post_preview),
+                            checked = isPreview,
+                            onCheckedChange = { isPreview = it }
+                        )
+                    }
                 }
             }
         }
