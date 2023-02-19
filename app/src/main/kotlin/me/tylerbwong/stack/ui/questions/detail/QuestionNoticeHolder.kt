@@ -38,15 +38,14 @@ class QuestionNoticeHolder(
             item.closedDetails.originalQuestions.forEachIndexed { index, originalQuestion ->
                 val title = originalQuestion.title.toHtml()
                 append(title)
-                this[startIndex, startIndex + title.length] =
-                    object : ClickableSpan() {
-                        override fun onClick(view: View) {
-                            QuestionDetailActivity.startActivity(
-                                view.context,
-                                originalQuestion.questionId
-                            )
-                        }
+                this[startIndex, startIndex + title.length] = object : ClickableSpan() {
+                    override fun onClick(view: View) {
+                        QuestionDetailActivity.startActivity(
+                            view.context,
+                            originalQuestion.questionId
+                        )
                     }
+                }
                 startIndex += title.length
                 if (index != item.closedDetails.originalQuestions.lastIndex) {
                     repeat(2) {
