@@ -84,6 +84,12 @@
     <string name="item_count" translatable="false">(%1$d)</string>
     <string name="no_comments">No comments found</string>
     <string name="open_browser">Open in browser</string>
+    <string name="copy_question_content">Copy question content</string>
+    <string name="copy_answer_content">Copy answer content</string>
+    <string name="copy_title">Title</string>
+    <string name="copy_body">Body</string>
+    <string name="copy_body_markdown">Body markdown</string>
+    <string name="copy_link">Share link</string>
 
     <!-- Closed Question Notices -->
     <string name="duplicate_question_notice">This question has been asked before and already has an answer:</string>

@@ -11,14 +11,21 @@ import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.markdown.Renderer
 import org.commonmark.node.Node
 
-sealed class QuestionDetailItem(viewHolderProvider: ViewHolderProvider) : DynamicItem(viewHolderProvider)
+sealed class QuestionDetailItem(viewHolderProvider: ViewHolderProvider) :
+    DynamicItem(viewHolderProvider)
+
 abstract class BaseMarkdownItem(
     viewHolderProvider: ViewHolderProvider,
     internal var renderedMarkdown: Spanned? = null,
+    internal var onLongPress: (() -> Unit)? = null,
 ) : QuestionDetailItem(viewHolderProvider) {
     abstract fun render(renderer: Renderer): Spanned
 }
-data class QuestionTitleItem(internal val title: String) : QuestionDetailItem(::QuestionTitleHolder)
+
+data class QuestionTitleItem(
+    internal val title: String,
+    internal var onLongPress: () -> Unit,
+) : QuestionDetailItem(::QuestionTitleHolder)
 
 data class QuestionNoticeItem(
     internal val closedDetails: ClosedDetails,
@@ -33,28 +40,38 @@ data class FooterItem(
     internal val commentCount: Int?,
     internal val owner: User,
 ) : QuestionDetailItem(::FooterHolder)
-data class QuestionTagsItem(internal val tags: List<String>) : QuestionDetailItem(::QuestionTagsHolder)
+
+data class QuestionTagsItem(internal val tags: List<String>) :
+    QuestionDetailItem(::QuestionTagsHolder)
+
 data class MarkdownItem(internal val node: Node) : BaseMarkdownItem(::MarkdownHolder) {
     override fun render(
         renderer: Renderer
     ): Spanned = this.renderedMarkdown ?: renderer.render(node).also { this.renderedMarkdown = it }
 }
-data class FencedCodeBlockItem(internal val node: Node) : BaseMarkdownItem(::FencedCodeBlockHolder) {
+
+data class FencedCodeBlockItem(internal val node: Node) :
+    BaseMarkdownItem(::FencedCodeBlockHolder) {
     override fun render(
         renderer: Renderer
     ): Spanned = this.renderedMarkdown ?: renderer.render(node).also { this.renderedMarkdown = it }
 }
+
 data class QuestionActionItem(
     internal val handler: QuestionDetailActionHandler,
     internal val question: Question
 ) : QuestionDetailItem(::QuestionDetailActionHolder)
-data class AnswerHeaderItem(internal val answerCount: Int) : QuestionDetailItem(::AnswerHeaderViewHolder)
+
+data class AnswerHeaderItem(internal val answerCount: Int) :
+    QuestionDetailItem(::AnswerHeaderViewHolder)
+
 data class AnswerVotesHeaderItem(
     internal val id: Int,
     internal val isAccepted: Boolean,
     internal val upVoteCount: Int,
     internal val downVoteCount: Int
 ) : QuestionDetailItem(::AnswerVotesHeaderHolder)
+
 object DividerItem : QuestionDetailItem(::DividerHolder)
 
 object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {

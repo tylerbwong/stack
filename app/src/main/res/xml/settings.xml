@@ -9,6 +9,9 @@
             android:icon="@drawable/ic_account_circle"
             android:key="@string/account"
             android:title="@string/log_in" />
+        <Preference
+            android:key="@string/log_out"
+            android:title="@string/log_out" />
     </PreferenceCategory>
 
     <PreferenceCategory

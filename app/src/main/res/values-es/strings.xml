@@ -73,6 +73,12 @@
     <string name="settings">Configuración</string>
     <string name="no_comments">No hay comentarios</string>
     <string name="open_browser">Abrirla en navegador</string>
+    <string name="copy_question_content">Copiar contenido de la pregunta</string>
+    <string name="copy_answer_content">Copiar el contenido de la respuesta</string>
+    <string name="copy_title">Título</string>
+    <string name="copy_body">Cuerpo</string>
+    <string name="copy_body_markdown">Cuerpo markdown</string>
+    <string name="copy_link">Compartir enlace</string>
 
     <!-- Closed Question Notices -->
     <string name="duplicate_question_notice">Esta pregunta se ha hecho antes y ya tiene respuesta:</string>

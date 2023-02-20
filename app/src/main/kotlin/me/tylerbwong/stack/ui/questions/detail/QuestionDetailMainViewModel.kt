@@ -68,6 +68,10 @@ class QuestionDetailMainViewModel @Inject constructor(
         get() = _showRegisterDialog
     private val _showRegisterDialog = SingleLiveEvent<Unit>()
 
+    val showCopyDialog: LiveData<CopyData>
+        get() = _showCopyDialog
+    private val _showCopyDialog = SingleLiveEvent<CopyData>()
+
     internal val isAuthenticated: Boolean
         get() = authRepository.isAuthenticated
 
@@ -97,10 +101,26 @@ class QuestionDetailMainViewModel @Inject constructor(
         launchRequest {
             val questionResult = question ?: questionRepository.getQuestion(questionId)
             val answersResult = questionRepository.getQuestionAnswers(questionId)
+            val questionLongClickListener = {
+                questionResult.bodyMarkdown?.let { bodyMarkdown ->
+                    viewModelScope.launch {
+                        val copyData = withContext(Dispatchers.Default) {
+                            CopyData(
+                                titleText = questionResult.title.toHtml().toString(),
+                                bodyText = markdown.render(bodyMarkdown).toString(),
+                                bodyMarkdown = bodyMarkdown,
+                                linkText = questionResult.shareLink,
+                            )
+                        }
+                        _showCopyDialog.value = copyData
+                    }
+                }
+                Unit
+            }
 
             val detailItems = withContext(Dispatchers.Default) {
                 mutableListOf<QuestionDetailItem>().apply {
-                    add(0, QuestionTitleItem(questionResult.title))
+                    add(0, QuestionTitleItem(questionResult.title, questionLongClickListener))
                     questionResult.closedDetails?.let { closedDetails ->
                         if (closedDetails.hasReason) {
                             questionResult.closedDate?.let { closedDate ->
@@ -112,6 +132,7 @@ class QuestionDetailMainViewModel @Inject constructor(
                         collectMarkdownItems(questionResult.bodyMarkdown).also {
                             it.filterIsInstance<BaseMarkdownItem>().forEach { item ->
                                 item.render(markdown)
+                                item.onLongPress = questionLongClickListener
                             }
                         }
                     )
@@ -145,6 +166,19 @@ class QuestionDetailMainViewModel @Inject constructor(
                                     collectMarkdownItems(answer.bodyMarkdown).also {
                                         it.filterIsInstance<BaseMarkdownItem>().forEach { item ->
                                             item.render(markdown)
+                                            item.onLongPress = {
+                                                viewModelScope.launch {
+                                                    val copyData = withContext(Dispatchers.Default) {
+                                                        CopyData(
+                                                            titleText = null,
+                                                            bodyText = markdown.render(answer.bodyMarkdown).toString(),
+                                                            bodyMarkdown = answer.bodyMarkdown,
+                                                            linkText = answer.shareLink,
+                                                        )
+                                                    }
+                                                    _showCopyDialog.value = copyData
+                                                }
+                                            }
                                         }
                                     }
                                 )
@@ -286,4 +320,11 @@ class QuestionDetailMainViewModel @Inject constructor(
             }
         }
     }
+
+    data class CopyData(
+        val titleText: String?,
+        val bodyText: String,
+        val bodyMarkdown: String,
+        val linkText: String,
+    )
 }

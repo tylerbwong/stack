@@ -20,9 +20,11 @@ import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
 import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.copyToClipboard
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchUrl
 import me.tylerbwong.stack.ui.utils.ofType
+import me.tylerbwong.stack.ui.utils.showDialog
 import me.tylerbwong.stack.ui.utils.showRegisterOnSiteDialog
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
@@ -73,6 +75,9 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
         }
         viewModel.showRegisterDialog.observe(viewLifecycleOwner) {
             showRegisterOnSiteDialog()
+        }
+        viewModel.showCopyDialog.observe(viewLifecycleOwner) {
+            showCopyDialog(it)
         }
         viewModel.data.observe(viewLifecycleOwner) {
             adapter.submitList(it)
@@ -166,6 +171,40 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
                 siteUrl = viewModel.buildSiteJoinUrl(site),
                 titleResId = R.string.register_on_site_contribute,
             )
+        }
+    }
+
+    private fun showCopyDialog(copyData: QuestionDetailMainViewModel.CopyData) {
+        requireContext().showDialog {
+            setIcon(R.drawable.ic_baseline_content_copy)
+            setTitle(
+                if (copyData.titleText != null) {
+                    R.string.copy_question_content
+                } else {
+                    R.string.copy_answer_content
+                }
+            )
+            val titleText = getString(R.string.copy_title)
+            val bodyText = getString(R.string.copy_body)
+            val bodyMarkdownText = getString(R.string.copy_body_markdown)
+            val linkText = getString(R.string.copy_link)
+            val choices = if (copyData.titleText != null) {
+                listOf(titleText)
+            } else {
+                emptyList()
+            } + listOf(bodyText, bodyMarkdownText, linkText)
+            setItems(choices.toTypedArray()) { _, which ->
+                val content = when (choices[which]) {
+                    titleText -> titleText to (copyData.titleText ?: "")
+                    bodyText -> bodyText to copyData.bodyText
+                    bodyMarkdownText -> bodyMarkdownText to copyData.bodyMarkdown
+                    linkText -> linkText to copyData.linkText
+                    else -> null
+                }
+                if (content != null) {
+                    requireContext().copyToClipboard(label = content.first, text = content.second)
+                }
+            }
         }
     }
 

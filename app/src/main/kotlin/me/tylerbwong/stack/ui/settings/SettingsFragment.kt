@@ -20,6 +20,7 @@ import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.MainActivity
+import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.settings.libraries.LibrariesActivity
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
 import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
@@ -57,6 +58,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 findPreference(getString(R.string.experimental)),
                 findPreference(getString(R.string.debug))
             ).forEach { it.isVisible = BuildConfig.DEBUG }
+            findPreference<Preference>(getString(R.string.log_out))?.isVisible = false
 
             if (BuildConfig.DEBUG) {
                 findPreference<TwoStatePreference>(getString(R.string.syntax_highlighting))?.apply {
@@ -115,8 +117,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         .build()
                     imageLoader.enqueue(request)
                     setOnPreferenceClickListener {
-                        requireContext().showLogOutDialog { viewModel.logOut() }
+                        ProfileActivity.startActivity(context, userId = user.userId)
                         true
+                    }
+                    findPreference<Preference>(getString(R.string.log_out))?.apply {
+                        isVisible = true
+                        setOnPreferenceClickListener {
+                            requireContext().showLogOutDialog { viewModel.logOut() }
+                            true
+                        }
                     }
                 } else if (viewModel.isAuthenticated.value == true) {
                     title = getString(R.string.register)
@@ -131,6 +140,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         }
                         true
                     }
+                    findPreference<Preference>(getString(R.string.log_out))?.isVisible = false
                 } else {
                     title = getString(R.string.log_in)
                     summary = null
@@ -139,6 +149,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         requireContext().showLogInDialog()
                         true
                     }
+                    findPreference<Preference>(getString(R.string.log_out))?.isVisible = false
                 }
             }
         }

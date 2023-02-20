@@ -180,7 +180,7 @@ interface QuestionService {
 
         internal const val DEFAULT_FILTER = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9("
         internal const val ANSWER_FILTER =
-            "!)qHt3-n4W*f.gPKawPE(XNpsQRxcWdBxS2t8_drqo0.DgldgGwePa9Pib9nUlpc.1r"
+            "!)aHQ9FGlxVZ-FDR2obogNxnqETJo9DXW96Zvv3FLjN(pPDs04v10AoUeW*Sb9Wk7MEfS51yyUe8irexGAEU0UkW6vBU"
         internal const val DETAIL_FILTER =
             "!)aHQ9FGlxVZ-FDR2obogNxnqETJo9DXW96ZvzK5vlX6vPZyppY0(xIhvmblvbX1t7Ksu.RrM6rzoGU65Iq40VAPTIPb"
         internal const val DETAIL_FILTER_AUTH =

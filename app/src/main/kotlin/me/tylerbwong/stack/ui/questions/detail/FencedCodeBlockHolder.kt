@@ -17,5 +17,11 @@ class FencedCodeBlockHolder(
 
     override fun FencedCodeBlockHolderBinding.bind(item: FencedCodeBlockItem) {
         codeBlock.setMarkdown(item.render(codeBlock))
+        item.onLongPress?.let { onLongPress ->
+            codeBlock.setOnLongClickListener {
+                onLongPress()
+                true
+            }
+        }
     }
 }

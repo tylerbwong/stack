@@ -26,5 +26,7 @@ data class Answer(
     @Json(name = "question_id")
     val questionId: Int,
     @Json(name = "comment_count")
-    val commentCount: Int?
+    val commentCount: Int?,
+    @Json(name = "share_link")
+    val shareLink: String,
 )

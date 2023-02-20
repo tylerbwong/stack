@@ -19,5 +19,9 @@ class QuestionTitleHolder(
 
     override fun QuestionTitleHolderBinding.bind(item: QuestionTitleItem) {
         questionTitle.setLatex(item.title.toHtml().toString())
+        questionTitle.setOnLongClickListener {
+            item.onLongPress()
+            true
+        }
     }
 }

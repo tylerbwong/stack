@@ -44,6 +44,9 @@ class Markdown @Inject constructor(@MarkdownMarkwon private val markwon: Markwon
         markdown.stripSpecials().sanitizeLanguageBlocks()
     )
 
+    @WorkerThread
+    fun render(markdown: String): Spanned = render(parse(markdown))
+
     fun reduce(node: Node): List<Node> = reducer.reduce(node)
 
     @WorkerThread

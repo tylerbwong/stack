@@ -119,7 +119,8 @@ fun Answer.toAnswerEntity(): AnswerEntity =
         owner = owner.userId,
         lastEditDate = lastEditDate,
         lastEditor = lastEditor?.userId,
-        commentCount = commentCount
+        commentCount = commentCount,
+        shareLink = shareLink,
     )
 
 fun AnswerEntity.toAnswer(owner: UserEntity, lastEditor: UserEntity?): Answer =
@@ -135,7 +136,8 @@ fun AnswerEntity.toAnswer(owner: UserEntity, lastEditor: UserEntity?): Answer =
         owner = owner.toUser(),
         lastEditDate = lastEditDate,
         lastEditor = lastEditor?.toUser(),
-        commentCount = commentCount
+        commentCount = commentCount,
+        shareLink = shareLink,
     )
 
 fun AnswerDraftEntity.toAnswerDraft(toFormattedTimestamp: Long.() -> String): AnswerDraft =
