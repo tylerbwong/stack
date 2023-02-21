@@ -30,7 +30,7 @@ class SiteInterceptorTest : BaseTest() {
 
         siteStore = SiteStore(testSharedPreferences)
         okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(SiteInterceptor("127.0.0.1", siteStore))
+            .addInterceptor(SiteInterceptor("localhost", siteStore))
             .build()
     }
 
