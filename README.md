@@ -24,7 +24,7 @@ The goal of this project is to provide examples for the latest Android libraries
 * View questions, answers, and comments with rich Markdown/LaTeX previews
 * Browse any Stack Exchange site
 * Log in to vote for questions or post new questions, answers, and comments
-* Bookmark questions to save for later (Temporarily broken. See #126)
+* Bookmark questions to save for later (Temporarily broken. See [#126](https://github.com/tylerbwong/stack/issues/126))
 * Search for questions with advanced filter controls
 * View other users' profiles
 * Material 3 dynamic theming available
