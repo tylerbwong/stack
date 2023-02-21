@@ -2,7 +2,6 @@ package me.tylerbwong.stack
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Build
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ApplicationProvider
 import org.junit.After
@@ -14,7 +13,7 @@ import org.robolectric.annotation.Config
 
 @Suppress("UnnecessaryAbstractClass")
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.P], application = TestApplication::class)
+@Config(application = TestApplication::class)
 abstract class BaseTest {
     protected val context: Context
         get() = ApplicationProvider.getApplicationContext()

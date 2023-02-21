@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace = "me.tylerbwong.adapter"
     buildFeatures {
         buildConfig = false
     }

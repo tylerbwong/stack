@@ -1,8 +1,8 @@
 object AndroidConfig {
     const val APPLICATION_ID = "me.tylerbwong.stack"
-    const val COMPILE_SDK = 32
-    const val MIN_SDK = 21
-    const val TARGET_SDK = 32
-    const val VERSION_CODE = 14
-    const val VERSION_NAME = "1.0.4"
+    const val COMPILE_SDK = 33
+    const val MIN_SDK = 26
+    const val TARGET_SDK = 33
+    const val VERSION_CODE = 15
+    const val VERSION_NAME = "2.0.0"
 }

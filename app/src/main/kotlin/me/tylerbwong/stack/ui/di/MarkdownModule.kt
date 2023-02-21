@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.ui.di
 
 import android.content.Context
-import androidx.core.content.ContextCompat
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,7 +10,6 @@ import dagger.multibindings.ElementsIntoSet
 import dagger.multibindings.IntoSet
 import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
-import io.noties.markwon.PrecomputedTextSetterCompat
 import io.noties.markwon.ext.latex.JLatexMathPlugin
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.ext.tables.TablePlugin
@@ -25,9 +23,8 @@ import io.noties.markwon.syntax.Prism4jThemeBase
 import io.noties.markwon.syntax.Prism4jThemeDarkula
 import io.noties.markwon.syntax.Prism4jThemeDefault
 import io.noties.markwon.syntax.SyntaxHighlightPlugin
+import io.noties.prism4j.GrammarLocator
 import io.noties.prism4j.Prism4j
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.asExecutor
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.latex.LatexMarkdown
 import me.tylerbwong.stack.markdown.GrammarLocatorDef
@@ -38,7 +35,6 @@ import me.tylerbwong.stack.ui.utils.markdown.CustomTabsLinkResolver
 import me.tylerbwong.stack.ui.utils.markdown.CustomUrlProcessor
 import me.tylerbwong.stack.ui.utils.markdown.LatexInlineProcessor
 import me.tylerbwong.stack.ui.utils.markdown.UrlPlugin
-import java.util.concurrent.Executor
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -106,11 +102,7 @@ class MarkdownModule {
     @[Provides IntoSet MarkwonPlugin]
     fun provideTaskListPlugin(
         @ApplicationContext context: Context
-    ): AbstractMarkwonPlugin = TaskListPlugin.create(
-        ContextCompat.getColor(context, R.color.colorAccent),
-        ContextCompat.getColor(context, R.color.colorAccent),
-        ContextCompat.getColor(context, R.color.white)
-    )
+    ): AbstractMarkwonPlugin = TaskListPlugin.create(context)
 
     @[Provides IntoSet MarkwonPlugin]
     fun provideUrlPlugin(
@@ -119,7 +111,10 @@ class MarkdownModule {
     ): AbstractMarkwonPlugin = UrlPlugin(urlProcessor, tabsResolver)
 
     @Provides
-    fun providePrism4j() = Prism4j(GrammarLocatorDef())
+    fun provideGrammarLocatorDef(): GrammarLocator = GrammarLocatorDef()
+
+    @Provides
+    fun providePrism4j(grammarLocator: GrammarLocator) = Prism4j(grammarLocator)
 
     @Provides
     fun providePrism4jTheme(
@@ -130,25 +125,15 @@ class MarkdownModule {
         Prism4jThemeDefault.create()
     }
 
-    @Provides
-    fun provideExecutor(): Executor = Dispatchers.Default.asExecutor()
-
-    @Provides
-    fun provideTextSetter(
-        executor: Executor
-    ): Markwon.TextSetter = PrecomputedTextSetterCompat.create(executor)
-
     @[Provides Singleton MarkdownMarkwon]
     fun provideMarkdownMarkwon(
         @ApplicationContext context: Context,
         @MarkwonPlugin plugins: Set<@JvmSuppressWildcards AbstractMarkwonPlugin>,
         @SharedMarkwonPlugin sharedPlugins: Set<@JvmSuppressWildcards AbstractMarkwonPlugin>,
         @ExperimentalMarkwonPlugin experimentalPlugins: Set<@JvmSuppressWildcards AbstractMarkwonPlugin>,
-//        textSetter: Markwon.TextSetter
     ): Markwon {
         return Markwon.builder(context)
             .usePlugins(plugins + sharedPlugins + experimentalPlugins)
-//            .textSetter(textSetter) /* Causing stuttering in [RecyclerView] */
             .build()
     }
 
@@ -156,12 +141,10 @@ class MarkdownModule {
     fun provideLatexMarkwon(
         @ApplicationContext context: Context,
         @SharedMarkwonPlugin sharedPlugins: Set<@JvmSuppressWildcards AbstractMarkwonPlugin>,
-//        textSetter: Markwon.TextSetter
     ): Markwon {
         return Markwon.builder(context)
             .usePlugin(MovementMethodPlugin.none())
             .usePlugins(sharedPlugins)
-//            .textSetter(textSetter) /* Causing stuttering in [RecyclerView] */
             .build()
     }
 }

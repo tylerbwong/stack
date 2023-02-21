@@ -12,10 +12,14 @@ import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Response
+import me.tylerbwong.stack.api.model.Site
+import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.api.service.QuestionService
+import me.tylerbwong.stack.api.utils.ERROR_ID_INVALID_ACCESS_TOKEN
 import me.tylerbwong.stack.api.utils.toErrorResponse
 import me.tylerbwong.stack.data.auth.AuthRepository
 import me.tylerbwong.stack.data.repository.QuestionRepository
+import me.tylerbwong.stack.data.repository.SiteRepository
 import me.tylerbwong.stack.markdown.Markdown
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
@@ -30,6 +34,7 @@ import javax.inject.Inject
 @HiltViewModel
 class QuestionDetailMainViewModel @Inject constructor(
     private val authRepository: AuthRepository,
+    private val siteRepository: SiteRepository,
     private val questionRepository: QuestionRepository,
     private val service: QuestionService,
     private val markdown: Markdown,
@@ -59,8 +64,24 @@ class QuestionDetailMainViewModel @Inject constructor(
         get() = mutableMessageSnackbar
     private val mutableMessageSnackbar = SingleLiveEvent<String>()
 
+    val showRegisterDialog: LiveData<Unit>
+        get() = _showRegisterDialog
+    private val _showRegisterDialog = SingleLiveEvent<Unit>()
+
+    val showCopyDialog: LiveData<CopyData>
+        get() = _showCopyDialog
+    private val _showCopyDialog = SingleLiveEvent<CopyData>()
+
     internal val isAuthenticated: Boolean
         get() = authRepository.isAuthenticated
+
+    internal val user: LiveData<User?>
+        get() = _user
+    private val _user = MutableLiveData<User?>()
+
+    internal val site: LiveData<Site>
+        get() = _site
+    private val _site = MutableLiveData<Site>()
 
     internal val canAnswerQuestion = authRepository.isAuthenticatedLiveData.zipWith(
         data,
@@ -74,18 +95,45 @@ class QuestionDetailMainViewModel @Inject constructor(
     internal var answerId = -1
     internal var question: Question? = null
 
+    internal fun buildSiteJoinUrl(site: Site): String = siteRepository.buildSiteJoinUrl(site)
+
+    @Suppress("LongMethod", "ComplexMethod")
     internal fun getQuestionDetails(question: Question? = null) {
         launchRequest {
             val questionResult = question ?: questionRepository.getQuestion(questionId)
             val answersResult = questionRepository.getQuestionAnswers(questionId)
+            val questionLongClickListener = {
+                questionResult.bodyMarkdown?.let { bodyMarkdown ->
+                    viewModelScope.launch {
+                        val copyData = withContext(Dispatchers.Default) {
+                            CopyData(
+                                titleText = questionResult.title.toHtml().toString(),
+                                bodyText = markdown.render(bodyMarkdown).toString(),
+                                bodyMarkdown = bodyMarkdown,
+                                linkText = questionResult.shareLink,
+                            )
+                        }
+                        _showCopyDialog.value = copyData
+                    }
+                }
+                Unit
+            }
 
             val detailItems = withContext(Dispatchers.Default) {
                 mutableListOf<QuestionDetailItem>().apply {
-                    add(0, QuestionTitleItem(questionResult.title))
+                    add(0, QuestionTitleItem(questionResult.title, questionLongClickListener))
+                    questionResult.closedDetails?.let { closedDetails ->
+                        if (closedDetails.hasReason) {
+                            questionResult.closedDate?.let { closedDate ->
+                                add(QuestionNoticeItem(closedDetails, closedDate))
+                            }
+                        }
+                    }
                     addAll(
                         collectMarkdownItems(questionResult.bodyMarkdown).also {
                             it.filterIsInstance<BaseMarkdownItem>().forEach { item ->
                                 item.render(markdown)
+                                item.onLongPress = questionLongClickListener
                             }
                         }
                     )
@@ -94,6 +142,7 @@ class QuestionDetailMainViewModel @Inject constructor(
                         FooterItem(
                             entityId = questionResult.questionId,
                             creationDate = questionResult.creationDate,
+                            creationResId = R.string.asked,
                             lastEditor = questionResult.lastEditor,
                             commentCount = questionResult.commentCount,
                             owner = questionResult.owner,
@@ -104,7 +153,7 @@ class QuestionDetailMainViewModel @Inject constructor(
                     }
                     add(AnswerHeaderItem(questionResult.answerCount))
                     addAll(
-                        answersResult.flatMap { answer ->
+                        answersResult.flatMapIndexed { index, answer ->
                             mutableListOf<QuestionDetailItem>().apply {
                                 add(
                                     AnswerVotesHeaderItem(
@@ -118,6 +167,19 @@ class QuestionDetailMainViewModel @Inject constructor(
                                     collectMarkdownItems(answer.bodyMarkdown).also {
                                         it.filterIsInstance<BaseMarkdownItem>().forEach { item ->
                                             item.render(markdown)
+                                            item.onLongPress = {
+                                                viewModelScope.launch {
+                                                    val copyData = withContext(Dispatchers.Default) {
+                                                        CopyData(
+                                                            titleText = null,
+                                                            bodyText = markdown.render(answer.bodyMarkdown).toString(),
+                                                            bodyMarkdown = answer.bodyMarkdown,
+                                                            linkText = answer.shareLink,
+                                                        )
+                                                    }
+                                                    _showCopyDialog.value = copyData
+                                                }
+                                            }
                                         }
                                     }
                                 )
@@ -125,11 +187,15 @@ class QuestionDetailMainViewModel @Inject constructor(
                                     FooterItem(
                                         entityId = answer.answerId,
                                         creationDate = answer.creationDate,
+                                        creationResId = R.string.answered,
                                         lastEditor = answer.lastEditor,
                                         commentCount = answer.commentCount,
                                         owner = answer.owner,
                                     )
                                 )
+                                if (index != answersResult.lastIndex) {
+                                    add(DividerItem)
+                                }
                             }
                         }
                     )
@@ -146,6 +212,8 @@ class QuestionDetailMainViewModel @Inject constructor(
                 _scrollToIndex.value = detailItems
                     .indexOfFirst { it is AnswerVotesHeaderItem && it.id == answerId }
             }
+            _user.value = authRepository.getCurrentUser()
+            _site.value = siteRepository.getCurrentSite()
         }
     }
 
@@ -227,9 +295,12 @@ class QuestionDetailMainViewModel @Inject constructor(
                     getQuestionDetails(result.items.firstOrNull())
                 }
             } catch (ex: HttpException) {
-                val errorResponse = ex.toErrorResponse()
-                if (errorResponse != null) {
-                    mutableMessageSnackbar.postValue(errorResponse.errorMessage)
+                ex.toErrorResponse()?.let {
+                    if (it.errorId == ERROR_ID_INVALID_ACCESS_TOKEN) {
+                        _showRegisterDialog.value = Unit
+                    } else {
+                        mutableMessageSnackbar.postValue(it.errorMessage.toHtml().toString())
+                    }
                 }
             } catch (ex: Exception) {
                 Timber.e(ex)
@@ -250,4 +321,11 @@ class QuestionDetailMainViewModel @Inject constructor(
             }
         }
     }
+
+    data class CopyData(
+        val titleText: String?,
+        val bodyText: String,
+        val bodyMarkdown: String,
+        val linkText: String,
+    )
 }

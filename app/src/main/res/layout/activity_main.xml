@@ -10,23 +10,22 @@
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/viewBackgroundColor"
-        app:elevation="0dp">
+        android:fitsSystemWindows="true"
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@id/recyclerView">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="@style/MainToolbarStyle"
-            app:layout_scrollFlags="scroll">
+            android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/profileIcon"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:id="@+id/siteIcon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_account_circle" />
-        </androidx.appcompat.widget.Toolbar>
+                android:contentDescription="@string/current_site" />
+        </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
@@ -40,9 +39,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:backgroundTint="?attr/viewBackgroundColor"
-        app:itemIconTint="@color/bottom_navigation_selector"
-        app:labelVisibilityMode="unlabeled"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:menu="@menu/menu_bottom_navigation" />
 

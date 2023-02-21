@@ -35,7 +35,7 @@ class SitesActivity : BaseActivity<ActivitySitesBinding>(
         }
 
         binding.composeContent.setContent {
-            SitesLayout(::changeSite)
+            SitesLayout(changeSite = ::changeSite)
         }
 
         viewModel.snackbar.observe(this) {
@@ -50,12 +50,6 @@ class SitesActivity : BaseActivity<ActivitySitesBinding>(
                 snackbar?.dismiss()
             }
         }
-        viewModel.logOutState.observe(this) { state ->
-            when (state) {
-                is SiteLogOutResult.SiteLogOutSuccess -> changeSite(state.siteParameter)
-                else -> Unit // No-op
-            }
-        }
         viewModel.filter.observe(this) {
             supportActionBar?.title = getString(R.string.sites, getString(it.filterNameRes))
         }
@@ -65,6 +59,7 @@ class SitesActivity : BaseActivity<ActivitySitesBinding>(
 
     override fun onResume() {
         super.onResume()
+        viewModel.forceFetchSites()
         viewModel.currentQuery?.let { searchView?.setQuery(it, true) }
     }
 

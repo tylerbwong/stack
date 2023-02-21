@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup>
+        <include
+            domain="database"
+            path="stack-database" />
+        <include
+            domain="sharedpref"
+            path="me.tylerbwong.stack_preferences.xml" />
+    </cloud-backup>
+    <device-transfer>
+        <include
+            domain="database"
+            path="stack-database" />
+        <include
+            domain="sharedpref"
+            path="me.tylerbwong.stack_preferences.xml" />
+    </device-transfer>
+</data-extraction-rules>

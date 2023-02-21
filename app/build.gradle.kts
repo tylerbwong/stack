@@ -11,6 +11,7 @@ plugins {
 }
 
 android {
+    namespace = "me.tylerbwong.stack"
     defaultConfig {
         testInstrumentationRunner = "me.tylerbwong.stack.StackTestRunner"
 
@@ -24,7 +25,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.get()
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
 }
 
@@ -69,11 +70,11 @@ dependencies {
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling)
 
     // google
-    implementation(libs.coil.compose)
     playImplementation(platform(libs.google.firebase.bom))
     playImplementation(libs.google.firebase.analytics.ktx)
     playImplementation(libs.google.firebase.crashlytics)
@@ -81,6 +82,7 @@ dependencies {
 
     // licenses
     implementation(libs.aboutLibraries.core)
+    implementation(libs.aboutLibraries.compose)
 
     // debug
     debugImplementation(libs.chucker)
@@ -95,6 +97,7 @@ dependencies {
 
     // coil
     implementation(libs.coil)
+    implementation(libs.coil.compose)
 
     // dagger
     kapt(libs.google.dagger.hilt.android.compiler)
@@ -108,6 +111,7 @@ dependencies {
 
     // markdown
     implementation(projects.markdown)
+    implementation(libs.apache.commonsText)
     implementation(libs.markwon.core)
     implementation(libs.markwon.html)
     implementation(libs.markwon.imageCoil)
@@ -120,6 +124,7 @@ dependencies {
     implementation(libs.markwon.tasklist)
 
     // misc
+    implementation(libs.betterlinkmovementmethod)
     implementation(libs.processPhoenix)
 
     // networking
@@ -132,7 +137,8 @@ dependencies {
     implementation(libs.retrofit.moshi)
 
     // play
-    playImplementation(libs.google.playCore)
+    playImplementation(libs.google.play.appUpdate)
+    playImplementation(libs.google.play.review)
 
     // testing
     testImplementation(libs.androidx.test.core.ktx)

@@ -5,11 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.data.auth.AuthRepository
-import me.tylerbwong.stack.data.auth.LogOutResult
 import me.tylerbwong.stack.data.repository.SiteRepository
 import me.tylerbwong.stack.data.toSite
 import me.tylerbwong.stack.ui.BaseViewModel
-import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,9 +16,9 @@ class SitesViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : BaseViewModel() {
 
-    internal val logOutState: LiveData<SiteLogOutResult>
-        get() = mutableLogOutState
-    private val mutableLogOutState = SingleLiveEvent<SiteLogOutResult>()
+    internal val associatedSites: LiveData<List<Site>>
+        get() = mutableAssociatedSites
+    private val mutableAssociatedSites = MutableLiveData<List<Site>>()
 
     internal val sites: LiveData<List<Site>>
         get() = mutableSites
@@ -46,33 +44,34 @@ class SitesViewModel @Inject constructor(
     internal fun fetchSites(query: String? = currentQuery, filter: SiteFilter = currentFilter) {
         currentFilter = filter
         mutableFilter.value = filter
-        launchRequest { siteRepository.fetchSitesIfNecessary() }
         mutableSearchQuery.value = query ?: ""
         if (query.isNullOrEmpty()) {
             currentQuery = null
             streamRequest(siteRepository.getSites()) { results ->
                 searchCatalog = results.map { it.toSite() }
-                mutableSites.value = searchCatalog.applyFilter(filter)
+                mutableAssociatedSites.value = searchCatalog
+                    .applyFilter(filter)
+                    .filter { it.isUserRegistered }
+                mutableSites.value = searchCatalog
+                    .applyFilter(filter)
+                    .filterNot { it.isUserRegistered }
             }
         } else {
             currentQuery = query
-            mutableSites.value = searchCatalog.applyFilter(filter).filter { site ->
-                val containsName = site.name.contains(query, ignoreCase = true)
-                val containsAudience = site.audience.contains(query, ignoreCase = true)
-                containsName || containsAudience
-            }
+            mutableAssociatedSites.value = searchCatalog
+                .applyFilter(filter)
+                .applySearch(query)
+                .filter { it.isUserRegistered }
+            mutableSites.value = searchCatalog
+                .applyFilter(filter)
+                .applySearch(query)
+                .filterNot { it.isUserRegistered }
         }
     }
 
-    internal fun logOut(siteParameter: String) {
+    internal fun forceFetchSites() {
         launchRequest {
-            when (authRepository.logOut()) {
-                is LogOutResult.LogOutError -> mutableSnackbar.value = Unit
-                is LogOutResult.LogOutSuccess -> {
-                    mutableSnackbar.value = null
-                    mutableLogOutState.value = SiteLogOutResult.SiteLogOutSuccess(siteParameter)
-                }
-            }
+            siteRepository.fetchSitesIfNecessary(forceUpdate = true)
         }
     }
 
@@ -86,11 +85,11 @@ class SitesViewModel @Inject constructor(
         }
     }
 
-    companion object {
-        private val whitespaceRegex = "\\s".toRegex()
+    private fun List<Site>.applySearch(query: String): List<Site> {
+        return filter {
+            val containsName = it.name.contains(query, ignoreCase = true)
+            val containsAudience = it.audience.contains(query, ignoreCase = true)
+            containsName || containsAudience
+        }
     }
-}
-
-sealed class SiteLogOutResult {
-    class SiteLogOutSuccess(val siteParameter: String) : SiteLogOutResult()
 }

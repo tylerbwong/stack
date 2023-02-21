@@ -25,13 +25,19 @@ abstract class BaseViewModel : ViewModel() {
         get() = mutableSnackbar
     protected val mutableSnackbar = SingleLiveEvent<Unit?>()
 
-    protected fun launchRequest(block: suspend CoroutineScope.() -> Unit): Job {
+    protected fun launchRequest(
+        onSuccess: () -> Unit = {},
+        onFailure: (Throwable) -> Unit = {},
+        block: suspend CoroutineScope.() -> Unit,
+    ): Job {
         return viewModelScope.launch {
             try {
                 _refreshing.value = true
                 mutableSnackbar.value = null
                 block()
+                onSuccess()
             } catch (exception: Exception) {
+                onFailure(exception)
                 Timber.e(exception)
                 mutableSnackbar.value = Unit
             } finally {

@@ -2,10 +2,8 @@ package me.tylerbwong.stack.ui.utils
 
 import android.view.View
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.BaseTransientBottomBar.Duration
 import com.google.android.material.snackbar.Snackbar
-import me.tylerbwong.stack.R
 import kotlin.math.abs
 
 private const val MINIMUM_CLICK_INTERVAL = 1000
@@ -42,7 +40,6 @@ fun View.showSnackbar(
 
     if (actionTextId != null && onActionClicked != null) {
         snackbar.setAction(actionTextId, onActionClicked)
-            .setActionTextColor(ContextCompat.getColor(context, R.color.snackbarActionTextColor))
     }
 
     return snackbar.also { it.show() }

@@ -10,7 +10,7 @@ import me.tylerbwong.stack.R
  * Receiver [Long] is in milliseconds.
  */
 fun Long.formatElapsedTime(context: Context): String {
-    val startDate = DateTime.fromUnix(toDouble().milliseconds.millisecondsLong)
+    val startDate = DateTime.fromUnixMillis(toDouble().milliseconds.millisecondsLong)
     val elapsedTime = (startDate until DateTime.now()).span
     val resources = context.resources
 

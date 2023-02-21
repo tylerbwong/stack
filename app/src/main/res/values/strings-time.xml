@@ -5,6 +5,7 @@
     <string name="asked">asked %1$s</string>
     <string name="answered">answered %1$s</string>
     <string name="commented">commented %1$s</string>
+    <string name="closed">Closed %1$s</string>
 
     <!-- Timestamp setup -->
     <plurals name="seconds">

@@ -1,6 +1,5 @@
 package me.tylerbwong.stack.ui.questions.detail
 
-import android.animation.AnimatorInflater
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,11 +8,14 @@ import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.reviewer.AppReviewer
 import me.tylerbwong.stack.databinding.ActivityQuestionDetailBinding
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showDialog
+import me.tylerbwong.stack.ui.utils.showRegisterOnSiteDialog
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
@@ -21,6 +23,9 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
 ) {
     private val viewModel by viewModels<QuestionDetailMainViewModel>()
     private lateinit var adapter: QuestionDetailPagerAdapter
+
+    @Inject
+    lateinit var appReviewer: AppReviewer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,27 +49,26 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
         }
 
         binding.postAnswerButton.setThrottledOnClickListener {
-            toggleAnswerMode(isInAnswerMode = true)
+            if (viewModel.isAuthenticated && viewModel.user.value == null) {
+                viewModel.site.value?.let { site ->
+                    showRegisterOnSiteDialog(
+                        site = site,
+                        siteUrl = viewModel.buildSiteJoinUrl(site),
+                        titleResId = R.string.register_on_site_contribute,
+                    )
+                }
+            } else {
+                toggleAnswerMode(isInAnswerMode = true)
+            }
         }
 
         adapter = QuestionDetailPagerAdapter(this, viewModel.questionId)
         binding.viewPager.adapter = adapter
-        binding.viewPager.registerOnPageChangeCallback(
-            QuestionDetailPageChangeCallback { position ->
-                binding.appBar.stateListAnimator = AnimatorInflater.loadStateListAnimator(
-                    this@QuestionDetailActivity,
-                    if (position == 0) {
-                        R.animator.app_bar_elevation
-                    } else {
-                        R.animator.app_bar_no_elevation
-                    }
-                )
-            }
-        )
 
         val isInAnswerMode = savedInstanceState?.getBoolean(IS_IN_ANSWER_MODE, false)
             ?: intent.getBooleanExtra(IS_IN_ANSWER_MODE, false)
         toggleAnswerMode(isInAnswerMode = isInAnswerMode)
+        appReviewer.markReviewImpression()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -92,7 +96,7 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
         if (viewModel.isInAnswerMode) {
             if (viewModel.hasContent) {
                 showDialog {
-                    setTitle(R.string.discard_answer)
+                    setMessage(R.string.discard_answer)
                     setPositiveButton(R.string.discard) { _, _ ->
                         toggleAnswerMode(isInAnswerMode = false)
                     }

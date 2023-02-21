@@ -119,7 +119,8 @@ fun Answer.toAnswerEntity(): AnswerEntity =
         owner = owner.userId,
         lastEditDate = lastEditDate,
         lastEditor = lastEditor?.userId,
-        commentCount = commentCount
+        commentCount = commentCount,
+        shareLink = shareLink,
     )
 
 fun AnswerEntity.toAnswer(owner: UserEntity, lastEditor: UserEntity?): Answer =
@@ -135,7 +136,8 @@ fun AnswerEntity.toAnswer(owner: UserEntity, lastEditor: UserEntity?): Answer =
         owner = owner.toUser(),
         lastEditDate = lastEditDate,
         lastEditor = lastEditor?.toUser(),
-        commentCount = commentCount
+        commentCount = commentCount,
+        shareLink = shareLink,
     )
 
 fun AnswerDraftEntity.toAnswerDraft(toFormattedTimestamp: Long.() -> String): AnswerDraft =
@@ -184,13 +186,14 @@ fun SiteEntity.toSite(): Site =
             .toHtml()
             .toString(),
         iconUrl = iconUrl
-    )
+    ).apply { isUserRegistered = this@toSite.isUserRegistered }
 
-fun Site.toSiteEntity(): SiteEntity =
+fun Site.toSiteEntity(associatedParameters: List<String>): SiteEntity =
     SiteEntity(
         name = name,
         parameter = parameter,
         url = url,
         audience = audience,
-        iconUrl = iconUrl
+        iconUrl = iconUrl,
+        isUserRegistered = parameter in associatedParameters,
     )

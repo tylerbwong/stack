@@ -8,10 +8,7 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.util.TypedValue
 import android.widget.Toast
-import androidx.annotation.AttrRes
-import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import me.tylerbwong.stack.R
 
@@ -33,12 +30,6 @@ inline fun <reified T : Context> Context.ofType(): T? {
     return null
 }
 
-fun Context.resolveThemeAttribute(@AttrRes attr: Int): Int {
-    val typedValue = TypedValue()
-    theme.resolveAttribute(attr, typedValue, true)
-    return typedValue.data
-}
-
 fun Context.copyToClipboard(label: String, text: String): Boolean {
     val clipboardManager = systemService<ClipboardManager>(Context.CLIPBOARD_SERVICE)
     return if (clipboardManager != null) {
@@ -53,10 +44,7 @@ fun Context.launchUrl(url: String, forceExternal: Boolean = false) {
     try {
         if (forceExternal) {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            val resolveInfo = packageManager.queryIntentActivities(
-                intent,
-                PackageManager.MATCH_DEFAULT_ONLY
-            )
+            val resolveInfo = packageManager.queryIntentActivities(intent, PackageManager.MATCH_ALL)
             // Explicitly look for packages that are not this application to avoid opening the url
             // with the deep linker
             intent.`package` = resolveInfo
@@ -76,15 +64,6 @@ fun Context.launchUrl(url: String, forceExternal: Boolean = false) {
 }
 
 fun Context.launchCustomTab(url: String) {
-    val themeColor = resolveThemeAttribute(R.attr.viewBackgroundColor)
-    val customTabsIntent = CustomTabsIntent.Builder()
-        .setDefaultColorSchemeParams(
-            CustomTabColorSchemeParams.Builder()
-                .setNavigationBarColor(themeColor)
-                .setToolbarColor(themeColor)
-                .setSecondaryToolbarColor(themeColor)
-                .build()
-        )
-        .build()
+    val customTabsIntent = CustomTabsIntent.Builder().build()
     customTabsIntent.launchUrl(this, Uri.parse(url))
 }

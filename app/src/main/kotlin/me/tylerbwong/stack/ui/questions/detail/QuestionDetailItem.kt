@@ -1,45 +1,70 @@
 package me.tylerbwong.stack.ui.questions.detail
 
 import android.text.Spanned
+import androidx.annotation.StringRes
 import androidx.recyclerview.widget.DiffUtil
 import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.adapter.ViewHolderProvider
+import me.tylerbwong.stack.api.model.ClosedDetails
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.markdown.Renderer
 import org.commonmark.node.Node
 
-sealed class QuestionDetailItem(viewHolderProvider: ViewHolderProvider) : DynamicItem(viewHolderProvider)
+sealed class QuestionDetailItem(viewHolderProvider: ViewHolderProvider) :
+    DynamicItem(viewHolderProvider)
+
 abstract class BaseMarkdownItem(
     viewHolderProvider: ViewHolderProvider,
     internal var renderedMarkdown: Spanned? = null,
+    internal var onLongPress: (() -> Unit)? = null,
 ) : QuestionDetailItem(viewHolderProvider) {
     abstract fun render(renderer: Renderer): Spanned
 }
-data class QuestionTitleItem(internal val title: String) : QuestionDetailItem(::QuestionTitleHolder)
+
+data class QuestionTitleItem(
+    internal val title: String,
+    internal var onLongPress: () -> Unit,
+) : QuestionDetailItem(::QuestionTitleHolder)
+
+data class QuestionNoticeItem(
+    internal val closedDetails: ClosedDetails,
+    internal val closedDate: Long,
+) : QuestionDetailItem(::QuestionNoticeHolder)
+
 data class FooterItem(
     internal val entityId: Int,
     internal val creationDate: Long,
+    @StringRes internal val creationResId: Int? = null,
     internal val lastEditor: User?,
     internal val commentCount: Int?,
     internal val owner: User,
 ) : QuestionDetailItem(::FooterHolder)
-data class QuestionTagsItem(internal val tags: List<String>) : QuestionDetailItem(::QuestionTagsHolder)
+
+data class QuestionTagsItem(internal val tags: List<String>) :
+    QuestionDetailItem(::QuestionTagsHolder)
+
 data class MarkdownItem(internal val node: Node) : BaseMarkdownItem(::MarkdownHolder) {
     override fun render(
         renderer: Renderer
     ): Spanned = this.renderedMarkdown ?: renderer.render(node).also { this.renderedMarkdown = it }
 }
-data class FencedCodeBlockItem(internal val node: Node) : BaseMarkdownItem(::FencedCodeBlockHolder) {
+
+data class FencedCodeBlockItem(internal val node: Node) :
+    BaseMarkdownItem(::FencedCodeBlockHolder) {
     override fun render(
         renderer: Renderer
     ): Spanned = this.renderedMarkdown ?: renderer.render(node).also { this.renderedMarkdown = it }
 }
+
 data class QuestionActionItem(
     internal val handler: QuestionDetailActionHandler,
     internal val question: Question
 ) : QuestionDetailItem(::QuestionDetailActionHolder)
-data class AnswerHeaderItem(internal val answerCount: Int) : QuestionDetailItem(::AnswerHeaderViewHolder)
+
+data class AnswerHeaderItem(internal val answerCount: Int) :
+    QuestionDetailItem(::AnswerHeaderViewHolder)
+
 data class AnswerVotesHeaderItem(
     internal val id: Int,
     internal val isAccepted: Boolean,
@@ -47,12 +72,16 @@ data class AnswerVotesHeaderItem(
     internal val downVoteCount: Int
 ) : QuestionDetailItem(::AnswerVotesHeaderHolder)
 
+object DividerItem : QuestionDetailItem(::DividerHolder)
+
 object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
 
     @Suppress("ComplexMethod") // TODO Delegate to each item
     override fun areItemsTheSame(oldItem: DynamicItem, newItem: DynamicItem) = when {
         oldItem is QuestionTitleItem && newItem is QuestionTitleItem ->
             oldItem.title == newItem.title
+        oldItem is QuestionNoticeItem && newItem is QuestionNoticeItem ->
+            oldItem.closedDetails == newItem.closedDetails
         oldItem is FooterItem && newItem is FooterItem ->
             oldItem.entityId == newItem.entityId
         oldItem is QuestionTagsItem && newItem is QuestionTagsItem ->
@@ -65,6 +94,7 @@ object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
         oldItem is AnswerHeaderItem && newItem is AnswerHeaderItem -> true
         oldItem is AnswerVotesHeaderItem && newItem is AnswerVotesHeaderItem ->
             oldItem.id == newItem.id
+        oldItem is DividerItem && newItem is DividerItem -> true
         else -> false
     }
 
@@ -72,6 +102,8 @@ object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
     override fun areContentsTheSame(oldItem: DynamicItem, newItem: DynamicItem) = when {
         oldItem is QuestionTitleItem && newItem is QuestionTitleItem ->
             oldItem.title == newItem.title
+        oldItem is QuestionNoticeItem && newItem is QuestionNoticeItem ->
+            oldItem.closedDetails == newItem.closedDetails
         oldItem is FooterItem && newItem is FooterItem ->
             oldItem.entityId == newItem.entityId && oldItem.creationDate == newItem.creationDate &&
                     oldItem.commentCount == newItem.commentCount &&
@@ -96,6 +128,7 @@ object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
             oldItem.id == newItem.id && oldItem.isAccepted == newItem.isAccepted &&
                     oldItem.upVoteCount == newItem.upVoteCount &&
                     oldItem.downVoteCount == newItem.downVoteCount
+        oldItem is DividerItem && newItem is DividerItem -> true
         else -> false
     }
 }

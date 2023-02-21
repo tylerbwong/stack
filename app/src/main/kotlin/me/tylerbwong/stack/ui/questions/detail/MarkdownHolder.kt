@@ -17,5 +17,11 @@ class MarkdownHolder(
 
     override fun MarkdownHolderBinding.bind(item: MarkdownItem) {
         markdownTextView.setMarkdown(item.render(markdownTextView))
+        item.onLongPress?.let { onLongPress ->
+            markdownTextView.setOnLongClickListener {
+                onLongPress()
+                true
+            }
+        }
     }
 }

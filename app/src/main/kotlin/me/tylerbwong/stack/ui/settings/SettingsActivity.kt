@@ -16,10 +16,7 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>(ActivitySettingsB
         super.onCreate(savedInstanceState)
         setSupportActionBar(binding.toolbar)
 
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            title = getString(R.string.settings)
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         supportFragmentManager
             .beginTransaction()

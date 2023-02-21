@@ -22,6 +22,12 @@ interface UserService {
         @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<User>
 
+    @GET("me/associated")
+    suspend fun getCurrentUserNetworkUsers(
+        @Query(FILTER_PARAM) filter: String = NETWORK_USER_FILTER,
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
+    ): Response<NetworkUser>
+
     @GET("users/{userId}")
     suspend fun getUser(
         @Path(USER_ID) userId: Int?,
@@ -58,12 +64,6 @@ interface UserService {
         @Query(FILTER_PARAM) filter: String = BADGE_FILTER,
         @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Badge>
-
-    @GET("me/associated")
-    suspend fun getCurrentUserNetworkUsers(
-        @Query(FILTER_PARAM) filter: String = NETWORK_USER_FILTER,
-        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
-    ): Response<NetworkUser>
 
     companion object {
         private const val USER_ID = "userId"

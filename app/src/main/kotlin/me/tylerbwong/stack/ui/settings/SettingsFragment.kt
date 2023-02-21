@@ -16,17 +16,20 @@ import com.chuckerteam.chucker.api.Chucker
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.processphoenix.ProcessPhoenix
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.ui.MainActivity
+import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.settings.libraries.LibrariesActivity
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
 import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
 import me.tylerbwong.stack.ui.theme.nightModeOptions
 import me.tylerbwong.stack.ui.theme.showThemeChooserDialog
 import me.tylerbwong.stack.ui.utils.launchUrl
-import me.tylerbwong.stack.ui.utils.showDialog
+import me.tylerbwong.stack.ui.utils.showLogInDialog
+import me.tylerbwong.stack.ui.utils.showLogOutDialog
+import me.tylerbwong.stack.ui.utils.showRegisterOnSiteDialog
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
 import java.util.Locale
@@ -55,6 +58,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 findPreference(getString(R.string.experimental)),
                 findPreference(getString(R.string.debug))
             ).forEach { it.isVisible = BuildConfig.DEBUG }
+            findPreference<Preference>(getString(R.string.log_out))?.isVisible = false
 
             if (BuildConfig.DEBUG) {
                 findPreference<TwoStatePreference>(getString(R.string.syntax_highlighting))?.apply {
@@ -62,14 +66,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     isVisible = BuildConfig.DEBUG
                     setOnPreferenceChangeListener { _, newValue ->
                         experimental.syntaxHighlightingEnabled = newValue as Boolean
-                        view?.showSnackbar(
-                            messageId = R.string.restart_toggle,
-                            actionTextId = R.string.restart,
-                            duration = Snackbar.LENGTH_INDEFINITE
-                        ) {
-                            val intent = Intent(it.context, MainActivity::class.java)
-                            ProcessPhoenix.triggerRebirth(it.context, intent)
-                        }
+                        view?.showRestartSnackbar()
                         true
                     }
                 }
@@ -79,14 +76,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     isVisible = false
                     setOnPreferenceChangeListener { _, newValue ->
                         experimental.createQuestionEnabled = newValue as Boolean
-                        view?.showSnackbar(
-                            messageId = R.string.restart_toggle,
-                            actionTextId = R.string.restart,
-                            duration = Snackbar.LENGTH_INDEFINITE
-                        ) {
-                            val intent = Intent(it.context, MainActivity::class.java)
-                            ProcessPhoenix.triggerRebirth(it.context, intent)
-                        }
+                        view?.showRestartSnackbar()
                         true
                     }
                     authPreferences.add(this)
@@ -111,6 +101,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     @SuppressLint("DefaultLocale")
+    @Suppress("LongMethod")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listView?.isVerticalScrollBarEnabled = false
@@ -127,17 +118,39 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         .build()
                     imageLoader.enqueue(request)
                     setOnPreferenceClickListener {
-                        showLogOutDialog()
+                        ProfileActivity.startActivity(context, userId = user.userId)
                         true
                     }
+                    findPreference<Preference>(getString(R.string.log_out))?.apply {
+                        isVisible = true
+                        setOnPreferenceClickListener {
+                            requireContext().showLogOutDialog { viewModel.logOut() }
+                            true
+                        }
+                    }
+                } else if (viewModel.isAuthenticated.value == true) {
+                    title = getString(R.string.register)
+                    summary = null
+                    setIcon(R.drawable.ic_account_circle)
+                    setOnPreferenceClickListener {
+                        viewModel.currentSite.value?.let {
+                            requireContext().showRegisterOnSiteDialog(
+                                site = it,
+                                siteUrl = viewModel.buildSiteJoinUrl(it),
+                            )
+                        }
+                        true
+                    }
+                    findPreference<Preference>(getString(R.string.log_out))?.isVisible = false
                 } else {
                     title = getString(R.string.log_in)
                     summary = null
                     setIcon(R.drawable.ic_account_circle)
                     setOnPreferenceClickListener {
-                        showLogInDialog()
+                        requireContext().showLogInDialog()
                         true
                     }
+                    findPreference<Preference>(getString(R.string.log_out))?.isVisible = false
                 }
             }
         }
@@ -164,11 +177,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 imageLoader.enqueue(request)
             }
         }
+        listView.apply {
+            applyInsetter {
+                type(ime = true, statusBars = true, navigationBars = true) {
+                    padding(bottom = true)
+                }
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.fetchData()
+        setDivider(null)
+        setDividerHeight(0)
     }
 
     private fun PreferenceManager.setUpAppSection() {
@@ -236,22 +258,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun showLogOutDialog() {
-        requireContext().showDialog {
-            setTitle(R.string.log_out_title)
-            setMessage(R.string.log_out_message)
-            setPositiveButton(R.string.log_out) { _, _ -> viewModel.logOut() }
-            setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-        }
-    }
-
-    private fun showLogInDialog() {
-        requireContext().showDialog {
-            setTitle(R.string.log_in_title)
-            setPositiveButton(R.string.log_in) { _, _ ->
-                requireContext().launchUrl(AuthStore.authUrl)
-            }
-            setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+    private fun View.showRestartSnackbar() {
+        showSnackbar(
+            messageId = R.string.restart_toggle,
+            actionTextId = R.string.restart,
+            duration = Snackbar.LENGTH_INDEFINITE
+        ) {
+            val intent = Intent(it.context, MainActivity::class.java)
+            ProcessPhoenix.triggerRebirth(it.context, intent)
         }
     }
 }

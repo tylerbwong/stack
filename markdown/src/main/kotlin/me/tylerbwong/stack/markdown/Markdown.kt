@@ -2,10 +2,11 @@ package me.tylerbwong.stack.markdown
 
 import android.text.Spanned
 import android.widget.TextView
+import androidx.annotation.WorkerThread
 import io.noties.markwon.Markwon
 import io.noties.markwon.MarkwonReducer
 import io.noties.prism4j.annotations.PrismBundle
-import org.apache.commons.text.StringEscapeUtils
+import me.tylerbwong.stack.markdown.utils.stripSpecials
 import org.commonmark.node.Node
 import javax.inject.Inject
 import javax.inject.Qualifier
@@ -20,6 +21,11 @@ annotation class MarkdownMarkwon
 class Markdown @Inject constructor(@MarkdownMarkwon private val markwon: Markwon) : Renderer {
 
     private val reducer = MarkwonReducer.directChildren()
+    private val languageBlockMapping = mapOf(
+        "c++" to "cpp",
+        "kt" to "kotlin",
+        "py" to "python",
+    )
 
     fun setMarkdown(textView: TextView, markdown: String) {
         markwon.setMarkdown(textView, markdown.stripSpecials())
@@ -33,11 +39,27 @@ class Markdown @Inject constructor(@MarkdownMarkwon private val markwon: Markwon
         markwon.setParsedMarkdown(textView, spanned)
     }
 
-    fun parse(markdown: String): Node = markwon.parse(markdown.stripSpecials())
+    @WorkerThread
+    fun parse(markdown: String): Node = markwon.parse(
+        markdown.stripSpecials().sanitizeLanguageBlocks()
+    )
+
+    @WorkerThread
+    fun render(markdown: String): Spanned = render(parse(markdown))
 
     fun reduce(node: Node): List<Node> = reducer.reduce(node)
 
-    override fun render(node: Node): Spanned = markwon.render(node)
+    @WorkerThread
+    private fun String.sanitizeLanguageBlocks(): String {
+        var sanitizedMarkdown = this
+        languageBlockMapping.forEach { (actual, expected) ->
+            sanitizedMarkdown = sanitizedMarkdown.replace(
+                oldValue = "```$actual\r",
+                newValue = "```$expected\r",
+            )
+        }
+        return sanitizedMarkdown
+    }
 
-    private fun String.stripSpecials() = StringEscapeUtils.unescapeHtml4(this)
+    override fun render(node: Node): Spanned = markwon.render(node)
 }

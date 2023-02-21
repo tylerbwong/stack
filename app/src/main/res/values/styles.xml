@@ -1,75 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme.Base" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu.ContextMenu</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:navigationBarColor">@android:color/white</item>
-    </style>
-
-    <style name="AppTheme.Base.Primary">
-        <item name="android:windowBackground">@color/windowBackground</item>
-        <item name="android:statusBarColor">@color/viewBackgroundColor</item>
-        <item name="android:textColorPrimary">@color/primaryTextColor</item>
-        <item name="android:textColorSecondary">@color/secondaryTextColor</item>
-        <item name="android:textColorHint">@color/secondaryTextColor</item>
-        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
-        <item name="viewBackgroundColor">@color/viewBackgroundColor</item>
-        <item name="materialAlertDialogTheme">@style/MaterialAlertDialogTheme</item>
-        <item name="materialAlertDialogTitlePanelStyle">
-            @style/MaterialAlertDialog.MaterialComponents.Title.Panel
-        </item>
-        <item name="materialAlertDialogTitleTextStyle">
-            @style/MaterialAlertDialog.MaterialComponents.Title.Text
-        </item>
+    <style name="AppTheme.Primary" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="iconColor">@color/iconColor</item>
+        <item name="searchViewStyle">@style/Widget.Stack.SearchView</item>
+        <item name="switchStyle">@style/Widget.Material3.CompoundButton.MaterialSwitch</item>
     </style>
 
-    <style name="MaterialAlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="buttonBarPositiveButtonStyle">@style/MaterialAlertDialogButtonStyle</item>
-        <item name="buttonBarNegativeButtonStyle">@style/MaterialAlertDialogButtonStyle</item>
-    </style>
-
-    <style name="MaterialAlertDialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@color/primaryTextColor</item>
-        <item name="rippleColor">@color/colorAccent</item>
-    </style>
-
-    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
-    </style>
-
-    <style name="CollapsingToolbarLayoutExpandedTextAppearance">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="MainToolbarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:actionOverflowButtonStyle">@style/ActionBarOverflowButtonStyle</item>
-    </style>
-
-    <style name="ActionBarOverflowButtonStyle" parent="Widget.AppCompat.Light.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_more_vert</item>
-    </style>
-
-    <style name="TabTextAppearance" parent="@style/TextAppearance.Design.Tab">
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="textAllCaps">false</item>
-    </style>
-
-    <style name="TextInputEditTextStyle">
-        <item name="android:colorControlActivated">@color/colorAccent</item>
-    </style>
-
-    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/bottom_sheet_dialog_bg</item>
+    <style name="Widget.Stack.SearchView" parent="Widget.AppCompat.SearchView">
+        <item name="queryHint">@string/search</item>
+        <item name="queryBackground">@null</item>
+        <item name="searchHintIcon">@null</item>
     </style>
 
 </resources>

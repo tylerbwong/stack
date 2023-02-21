@@ -21,14 +21,14 @@ The goal of this project is to provide examples for the latest Android libraries
 
 ### Features
 
-* View questions, answers, and comments with rich Markdown previews
-* Switch to any Stack Exchange site
-* Log in to vote for questions or post new questions and answers (Saving drafts supported)
-* Bookmark questions to save for later (Supports offline)
+* View questions, answers, and comments with rich Markdown/LaTeX previews
+* Browse any Stack Exchange site
+* Log in to vote for questions or post new questions, answers, and comments
+* Bookmark questions to save for later (Temporarily broken. See #126)
 * Search for questions with advanced filter controls
 * View other users' profiles
-* Dark mode
-* Question deep linking
+* Material 3 dynamic theming available
+* Question/answer deep linking
 
 ### Subprojects
 
@@ -42,7 +42,7 @@ Here you can also find a few useful Gradle modules as well:
 
 # License
 
-    Copyright (C) 2022 Tyler Wong
+    Copyright (C) 2023 Tyler Wong
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

@@ -6,26 +6,24 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Slider
-import androidx.compose.material.Switch
-import androidx.compose.material.SwitchDefaults
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.SearchPayload
-import me.tylerbwong.stack.ui.utils.colorAttribute
+import me.tylerbwong.stack.ui.utils.compose.StackTheme
 
 @Composable
 fun FiltersLayout(
@@ -33,7 +31,7 @@ fun FiltersLayout(
     onUpdateFilters: (SearchPayload) -> Unit = {}
 ) {
     val payload = remember { mutableStateOf(initialPayload) }
-    MaterialTheme {
+    StackTheme {
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.SpaceEvenly
@@ -47,9 +45,7 @@ fun FiltersLayout(
                         bottom = 8.dp
                     ),
                 text = stringResource(R.string.filters),
-                style = MaterialTheme.typography.h4,
-                color = colorAttribute(android.R.attr.textColorPrimary),
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.headlineSmall,
             )
             SwitchItem(
                 text = stringResource(R.string.has_accepted_answer),
@@ -86,16 +82,10 @@ private fun SwitchItem(
         modifier = modifier.then(Modifier.fillMaxWidth()),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(
-            text = text,
-            color = colorAttribute(android.R.attr.textColorPrimary)
-        )
+        Text(text = text)
         Switch(
             checked = isChecked,
             onCheckedChange = onCheckedChange,
-            colors = SwitchDefaults.colors(
-                checkedThumbColor = colorResource(R.color.colorAccent)
-            )
         )
     }
 }
@@ -140,6 +130,7 @@ private fun WorkInProgress() {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TextFieldItem(
     text: String,

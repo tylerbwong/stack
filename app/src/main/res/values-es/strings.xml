@@ -23,11 +23,10 @@
     </plurals>
 
     <!-- Theme Chooser -->
-    <string name="theme_title">Tema</string>
+    <string name="theme_title">Escoge un tema</string>
     <string name="theme_light">Claro</string>
     <string name="theme_dark">Oscuro</string>
     <string name="theme_system_default">Sistema</string>
-    <string name="theme_battery_saver">Ahorro de bateria solamente</string>
 
     <!-- Error -->
     <string name="nothing_here">¡Nada aquí!</string>
@@ -39,11 +38,15 @@
 
     <!-- Auth -->
     <string name="log_in_title">¿Quiere iniciar sesión?</string>
+    <string name="log_in_message">Responder preguntas. Obtenga acceso a cuotas de solicitud más altas, borradores y más.</string>
     <string name="log_out_title">¿Quiere cerrar sesión?</string>
-    <string name="log_out_site_switch">Necesita cerrar sesión para cambiar el sitio</string>
-    <string name="log_out_message">Perderá todos los datos de su sesión actual, incluidos los borradores</string>
+    <string name="log_out_message">Perderá todos los datos de su sesión actual, incluidos los borradores.</string>
     <string name="log_in">Iniciar sesión</string>
     <string name="log_out">Cerrar sesión</string>
+    <string name="register_on_site_message">Asegúrese de usar el mismo usuario en todas las cuentas de Stack Exchange. Una vez terminado, cierre el navegador.</string>
+    <string name="register_on_site">Regístrese en %1$s</string>
+    <string name="register_on_site_contribute">Regístrese para contribuir con %1$s</string>
+    <string name="register">Registro</string>
     <string name="cancel">Cancelar</string>
 
     <!-- In-App Update -->
@@ -70,12 +73,30 @@
     <string name="settings">Configuración</string>
     <string name="no_comments">No hay comentarios</string>
     <string name="open_browser">Abrirla en navegador</string>
+    <string name="copy_question_content">Copiar contenido de la pregunta</string>
+    <string name="copy_answer_content">Copiar el contenido de la respuesta</string>
+    <string name="copy_title">Título</string>
+    <string name="copy_body">Cuerpo</string>
+    <string name="copy_body_markdown">Cuerpo markdown</string>
+    <string name="copy_link">Compartir enlace</string>
+
+    <!-- Closed Question Notices -->
+    <string name="duplicate_question_notice">Esta pregunta se ha hecho antes y ya tiene respuesta:</string>
+    <string name="not_suitable_notice">Esta pregunta no es adecuada para este sitio. Actualmente no está aceptando respuestas.</string>
+    <string name="needs_details_notice">Esta pregunta necesita detalles o claridad. Actualmente no está aceptando respuestas.</string>
+    <string name="needs_focus_notice">Esta pregunta necesita ser más enfocada. Actualmente no está aceptando respuestas.</string>
+    <string name="opinion_based_notice">Esta pregunta está demasiado basada en opiniones. Actualmente no está aceptando respuestas.</string>
+    <string name="unknown_notice">Esta pregunta se cerró por una razón desconocida.</string>
 
     <!-- Create Question -->
     <string name="create_question">Formular una pregunta</string>
     <string name="title">Título</string>
     <string name="body">Cuerpo</string>
     <string name="preview_success">Lo publicamos como una vista previa</string>
+
+    <!-- Add Comment -->
+    <string name="add_comment">Agregar comentario</string>
+    <string name="add_comment_failure">No se pudo agregar el comentario</string>
 
     <!-- Search -->
     <string name="search_hint">Buscar por palabra clave o frase</string>
@@ -104,27 +125,30 @@
 
     <!-- Drafts -->
     <string name="save_draft">Guardar un borrador</string>
+    <string name="save_draft_message">Podrás acceder a tus borradores guardados hasta que cierres sesión.</string>
     <string name="draft_saved">El borrador se salva</string>
     <string name="last_updated">Editado por última vez %1$s</string>
 
     <!-- Settings -->
     <string name="app">App</string>
     <string name="about">Información</string>
-    <string name="experimental">Experimental </string>
+    <string name="experimental">Experimental</string>
     <string name="account">Cuenta</string>
     <string name="debug">Depurar</string>
     <string name="theme">Tema</string>
-    <string name="source">Código Fuente</string>
+    <string name="source">Código fuente</string>
     <string name="source_description">Stack es gratuito y de código abierto en GitHub</string>
-    <string name="libraries">Módulos de Código Abierto</string>
-    <string name="libraries_description">Estos impresionantes módulos de código ayudaron a construir Stack</string>
+    <string name="libraries">Módulos de código abierto</string>
+    <string name="libraries_description">Estos increíbles módulos ayudaron a hacer posible Stack</string>
     <string name="api">Funciona con la API de Stack Exchange</string>
-    <string name="privacy">Política de Privacidad</string>
-    <string name="terms">Términos y Condiciones</string>
+    <string name="privacy">Política de privacidad</string>
+    <string name="terms">Términos y condiciones</string>
     <string name="license">Licencia de %1$s</string>
 
     <!-- Sites -->
-    <string name="current_site">Sitio Actual</string>
+    <string name="my_sites">Mis sitios web</string>
+    <string name="other_sites">Otros sitios web</string>
+    <string name="current_site">Sitio actual</string>
     <string name="sites">Sitios (%1$s)</string>
     <string name="filter">Filtrar</string>
     <string name="all_sites">Todos</string>
@@ -132,11 +156,11 @@
     <string name="meta_sites">Meta</string>
 
     <!-- Debug -->
-    <string name="inspect_network_traffic">Inspeccionar el Tráfico de Red</string>
+    <string name="inspect_network_traffic">Inspeccionar el tráfico de red</string>
 
     <!-- App version -->
     <string name="version">Versión</string>
-    <string name="syntax_highlighting">Resaltado de Sintaxis</string>
+    <string name="syntax_highlighting">Resaltado de sintaxis</string>
     <string name="syntax_highlighting_summary">Habilita el resaltado de sintaxis para los bloques de código Markdown admitidos</string>
     <string name="create_question_summary">Permite la capacidad de formular preguntas</string>
 

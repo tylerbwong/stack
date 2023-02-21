@@ -11,13 +11,8 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/viewBackgroundColor"
         android:elevation="@dimen/default_app_bar_elevation"
-        app:tabIndicatorColor="@color/colorAccent"
-        app:tabIndicatorFullWidth="false"
-        app:tabSelectedTextColor="?android:attr/textColorPrimary"
-        app:tabTextAppearance="@style/TabTextAppearance"
-        app:tabTextColor="?android:attr/textColorSecondary">
+        app:tabIndicatorFullWidth="false">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -53,11 +48,9 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/markdownInputLayout"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:boxStrokeColor="@color/text_input_box_color"
-                        app:hintTextColor="@color/text_input_box_color">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/markdownEditText"
@@ -65,8 +58,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="start|top"
                             android:imeOptions="flagNoExtractUi"
-                            android:minHeight="@dimen/body_height"
-                            android:theme="@style/TextInputEditTextStyle" />
+                            android:minHeight="@dimen/body_height" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,11 +94,7 @@
             android:layout_margin="16dp"
             android:padding="16dp"
             android:text="@string/post"
-            android:textAllCaps="false"
-            android:textColor="@color/colorTextPrimaryDark"
-            app:backgroundTint="?attr/colorAccent"
             app:icon="@drawable/ic_send"
-            app:iconTint="@color/colorTextPrimaryDark"
             app:layout_anchor="@id/scrollView"
             app:layout_anchorGravity="bottom|end" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

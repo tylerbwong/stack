@@ -22,6 +22,7 @@ import me.tylerbwong.stack.api.model.VOTES
 import me.tylerbwong.stack.api.model.WEEK
 import me.tylerbwong.stack.databinding.ActivityQuestionsBinding
 import me.tylerbwong.stack.ui.BaseActivity
+import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
@@ -53,8 +54,9 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
         }
 
         viewModel.data.observe(this) {
-            adapter.submitList(it)
-
+            adapter.submitList(it) {
+                binding.recyclerView.scrollToPosition(0)
+            }
             if (it.isEmpty()) {
                 Snackbar.make(binding.rootLayout, R.string.nothing_here, Snackbar.LENGTH_INDEFINITE).show()
             }
@@ -63,6 +65,15 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
         binding.recyclerView.apply {
             adapter = this@QuestionsActivity.adapter
             layoutManager = LinearLayoutManager(context)
+            if (itemDecorationCount == 0) {
+                addItemDecoration(
+                    ViewHolderItemDecoration(
+                        spacing = context.resources.getDimensionPixelSize(
+                            R.dimen.item_spacing_question_detail
+                        ),
+                    )
+                )
+            }
             applyInsetter {
                 type(ime = true, statusBars = true, navigationBars = true) {
                     padding(bottom = true)

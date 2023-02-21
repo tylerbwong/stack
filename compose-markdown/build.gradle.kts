@@ -6,18 +6,19 @@ plugins {
 }
 
 android {
+    namespace = "me.tylerbwong.compose.markdown"
     buildFeatures {
         compose = true
         buildConfig = false
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.get()
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
 }
 
 metalava {
-    sourcePaths = mutableSetOf("src/main")
+    sourcePaths.setFrom("src/main")
 }
 
 dependencies {

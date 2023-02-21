@@ -10,7 +10,6 @@
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/viewBackgroundColor"
         app:liftOnScroll="true"
         app:liftOnScrollTargetViewId="@id/recyclerView">
 
@@ -18,9 +17,7 @@
             android:id="@+id/collapsingToolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentScrim="?attr/viewBackgroundColor"
-            app:expandedTitleGravity="center|top"
-            app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextAppearance"
+            app:titleEnabled="false"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <androidx.compose.ui.platform.ComposeView
@@ -30,15 +27,12 @@
                 android:layout_marginTop="72dp"
                 app:layout_collapseMode="parallax" />
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/viewBackgroundColor"
-                android:theme="@style/MainToolbarStyle"
+                android:layout_height="wrap_content"
                 app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back"
-                app:titleTextColor="?android:attr/textColorPrimary" />
+                app:navigationIcon="@drawable/ic_arrow_back" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -17,6 +17,8 @@ data class Question(
     val closedDate: Long?,
     @Json(name = "closed_reason")
     val closedReason: String?,
+    @Json(name = "closed_details")
+    val closedDetails: ClosedDetails? = null,
     @Json(name = "comment_count")
     val commentCount: Int?,
     @Json(name = "creation_date")

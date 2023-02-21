@@ -9,7 +9,12 @@ import me.tylerbwong.stack.api.model.Order
 import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.model.SORT_PARAM
 import me.tylerbwong.stack.api.model.Sort
+import me.tylerbwong.stack.api.service.QuestionService.Companion.BODY_PARAM
+import me.tylerbwong.stack.api.service.QuestionService.Companion.PREVIEW_PARAM
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -35,6 +40,16 @@ interface CommentService {
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
         @Query(FILTER_PARAM) filter: String = COMMENTS_FILTER_AUTH,
         @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
+    ): Response<Comment>
+
+    @FormUrlEncoded
+    @POST("posts/{id}/comments/add")
+    suspend fun addComment(
+        @Path("id") postId: Int,
+        @Field(BODY_PARAM) body: String,
+        @Field(PREVIEW_PARAM) preview: Boolean = false,
+        @Field(FILTER_PARAM) filter: String = COMMENTS_FILTER_AUTH,
+        @Field(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Comment>
 
     companion object {

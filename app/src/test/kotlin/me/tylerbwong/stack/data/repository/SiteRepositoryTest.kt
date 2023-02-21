@@ -5,6 +5,8 @@ import me.tylerbwong.stack.BaseTest
 import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.api.service.SiteService
+import me.tylerbwong.stack.api.service.UserService
+import me.tylerbwong.stack.data.auth.AuthRepository
 import me.tylerbwong.stack.data.persistence.dao.SiteDao
 import me.tylerbwong.stack.data.site.SiteStore
 import org.junit.Before
@@ -25,13 +27,19 @@ class SiteRepositoryTest : BaseTest() {
     private lateinit var siteService: SiteService
 
     @Mock
+    private lateinit var userService: UserService
+
+    @Mock
     private lateinit var siteStore: SiteStore
+
+    @Mock
+    private lateinit var authRepository: AuthRepository
 
     private lateinit var repository: SiteRepository
 
     @Before
     fun setUp() {
-        repository = SiteRepository(siteDao, siteService, siteStore)
+        repository = SiteRepository(siteDao, siteService, userService, siteStore, authRepository)
     }
 
     @Test

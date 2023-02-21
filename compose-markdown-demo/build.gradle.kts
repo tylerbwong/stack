@@ -5,13 +5,14 @@ plugins {
 }
 
 android {
+    namespace = "me.tylerbwong.compose.markdown.demo"
     buildFeatures {
         compose = true
         buildConfig = false
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.get()
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
 }
 

@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace = "me.tylerbwong.adapter.viewbinding"
     buildFeatures {
         buildConfig = false
         viewBinding = true

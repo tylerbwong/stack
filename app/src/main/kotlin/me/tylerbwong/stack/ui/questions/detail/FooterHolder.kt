@@ -2,6 +2,7 @@ package me.tylerbwong.stack.ui.questions.detail
 
 import android.view.ViewGroup
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import com.soywiz.klock.seconds
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
@@ -21,10 +22,13 @@ class FooterHolder(
 ) {
     override fun FooterHolderBinding.bind(item: FooterItem) {
         creationDate.apply {
-            text = context.getString(
-                R.string.asked,
-                item.creationDate.seconds.millisecondsLong.formatElapsedTime(context)
-            )
+            isVisible = item.creationResId != null
+            item.creationResId?.let {
+                text = context.getString(
+                    it,
+                    item.creationDate.seconds.millisecondsLong.formatElapsedTime(context)
+                )
+            }
         }
         lastEditor.apply {
             isInvisible = item.lastEditor == null

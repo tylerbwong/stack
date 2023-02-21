@@ -1,3 +1,5 @@
+rootProject.name = "stack"
+
 include(
     ":app",
     ":compose-markdown",
@@ -9,5 +11,4 @@ include(
     ":stackexchange-api"
 )
 
-enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

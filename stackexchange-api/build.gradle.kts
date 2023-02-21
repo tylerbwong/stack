@@ -8,6 +8,7 @@ plugins {
 }
 
 android {
+    namespace = "me.tylerbwong.stack.api"
     defaultConfig {
         buildConfigField("String", "API_VERSION", "\"2.3\"")
         buildConfigField("String", "API_KEY", stringProperty("stackApiKey"))
@@ -15,7 +16,7 @@ android {
 }
 
 metalava {
-    sourcePaths = mutableSetOf("src/main")
+    sourcePaths.setFrom("src/main")
 }
 
 dependencies {

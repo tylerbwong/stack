@@ -11,6 +11,7 @@ import me.tylerbwong.stack.data.persistence.dao.AnswerDao
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
+import me.tylerbwong.stack.data.persistence.dao.SiteDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
 import timber.log.Timber
 import javax.inject.Inject
@@ -23,6 +24,7 @@ class AuthRepository @Inject constructor(
     private val answerDao: AnswerDao,
     private val userDao: UserDao,
     private val searchDao: SearchDao,
+    private val siteDao: SiteDao,
     private val userService: UserService,
     private val authService: AuthService,
     private val authStore: AuthStore
@@ -49,15 +51,16 @@ class AuthRepository @Inject constructor(
 
         return try {
             if (!accessToken.isNullOrBlank()) {
+                authService.logOut(accessToken = accessToken)
+                authStore.clear()
                 withContext(Dispatchers.IO) {
                     answerDraftDao.clearDrafts()
                     questionDao.clearQuestions()
                     answerDao.clearAnswers()
                     userDao.clearUsers()
                     searchDao.clearSearches()
+                    siteDao.clearAssociatedSites()
                 }
-                authService.logOut(accessToken = accessToken)
-                authStore.clear()
                 LogOutResult.LogOutSuccess
             } else {
                 throw IllegalStateException("Could not log user out for null access token")

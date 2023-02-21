@@ -24,4 +24,18 @@ class MigrationModule {
             database.execSQL("ALTER TABLE answer ADD COLUMN commentCount INTEGER")
         }
     }
+
+    @[Provides IntoSet StackMigration]
+    fun provideSiteRegisteredUserMigration(): Migration = object : Migration(9, 10) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE site ADD COLUMN isUserRegistered INTEGER NOT NULL default 0")
+        }
+    }
+
+    @[Provides IntoSet StackMigration]
+    fun provideAnswerShareLinkMigration(): Migration = object : Migration(10, 11) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE answer ADD COLUMN shareLink TEXT NOT NULL")
+        }
+    }
 }

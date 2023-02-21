@@ -21,7 +21,7 @@ class SiteInterceptor @Inject constructor(
         val request = chain.request()
 
         // We do not want to add site to any request not going to api.stackexchange.com
-        if (!request.isBaseUrl || request.url.encodedPathSegments.any { it in unsupportedEndpoints }) {
+        if (!request.isBaseUrl || unsupportedEndpoints.any { it in request.url.encodedPath }) {
             return chain.proceed(request)
         }
 
@@ -44,7 +44,8 @@ class SiteInterceptor @Inject constructor(
         // These endpoints do not accept a site parameter
         private val unsupportedEndpoints = listOf(
             "access-tokens",
-            "sites"
+            "sites",
+            "me/associated",
         )
     }
 }

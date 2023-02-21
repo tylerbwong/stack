@@ -11,6 +11,7 @@
 
     <me.tylerbwong.stack.markdown.MarkdownTextView
         android:id="@+id/codeBlock"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:breakStrategy="simple"
@@ -21,8 +22,5 @@
         android:paddingTop="8dp"
         android:paddingEnd="16dp"
         android:paddingBottom="8dp"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="14sp"
-        tools:targetApi="m"
         tools:text="Question body" />
 </HorizontalScrollView>

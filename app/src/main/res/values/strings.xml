@@ -32,11 +32,10 @@
     </plurals>
 
     <!-- Theme Chooser -->
-    <string name="theme_title">Theme</string>
+    <string name="theme_title">Choose theme</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_system_default">System default</string>
-    <string name="theme_battery_saver">Battery saver only</string>
 
     <!-- Error -->
     <string name="nothing_here">Nothing here!</string>
@@ -48,11 +47,15 @@
 
     <!-- Auth -->
     <string name="log_in_title">Would you like to log in?</string>
+    <string name="log_in_message">Answer questions. Get access to higher request quotas, drafts, and more.</string>
     <string name="log_out_title">Would you like to log out?</string>
-    <string name="log_out_site_switch">Switching sites requires logging out</string>
-    <string name="log_out_message">You\'ll lose all of your current session data including saved drafts</string>
+    <string name="log_out_message">You\'ll lose all of your current session data including saved drafts.</string>
     <string name="log_in">Log in</string>
     <string name="log_out">Log out</string>
+    <string name="register_on_site_message">Make sure to use the same user across all Stack Exchange accounts. Once finished please close the browser.</string>
+    <string name="register_on_site">Register on %1$s</string>
+    <string name="register_on_site_contribute">Register to contribute to %1$s</string>
+    <string name="register">Register</string>
     <string name="cancel">Cancel</string>
 
     <!-- In-App Update -->
@@ -81,12 +84,30 @@
     <string name="item_count" translatable="false">(%1$d)</string>
     <string name="no_comments">No comments found</string>
     <string name="open_browser">Open in browser</string>
+    <string name="copy_question_content">Copy question content</string>
+    <string name="copy_answer_content">Copy answer content</string>
+    <string name="copy_title">Title</string>
+    <string name="copy_body">Body</string>
+    <string name="copy_body_markdown">Body markdown</string>
+    <string name="copy_link">Share link</string>
+
+    <!-- Closed Question Notices -->
+    <string name="duplicate_question_notice">This question has been asked before and already has an answer:</string>
+    <string name="not_suitable_notice">This question is not suitable for this site. It is not currently accepting answers.</string>
+    <string name="needs_details_notice">This question needs details or clarity. It is not currently accepting answers.</string>
+    <string name="needs_focus_notice">This question needs to be more focused. It is not currently accepting answers.</string>
+    <string name="opinion_based_notice">This question is too opinion based. It is not currently accepting answers.</string>
+    <string name="unknown_notice">This question was closed for an unknown reason.</string>
 
     <!-- Create Question -->
     <string name="create_question">Create Question</string>
     <string name="title">Title</string>
     <string name="body">Body</string>
     <string name="preview_success">Successfully posted as preview</string>
+
+    <!-- Add Comment -->
+    <string name="add_comment">Add comment</string>
+    <string name="add_comment_failure">Failed to add comment</string>
 
     <!-- Search -->
     <string name="search_hint">Search by keyword or phrase</string>
@@ -116,7 +137,8 @@
     <string name="clear_filters">Clear</string>
 
     <!-- Drafts -->
-    <string name="save_draft">Save Draft</string>
+    <string name="save_draft">Save draft</string>
+    <string name="save_draft_message">You\'ll be able to access your saved drafts until you log out.</string>
     <string name="draft_saved">Draft saved</string>
     <string name="last_updated">Last updated %1$s</string>
 
@@ -129,15 +151,17 @@
     <string name="theme">Theme</string>
     <string name="source">Source</string>
     <string name="source_description">Stack is free and open-source on GitHub</string>
-    <string name="libraries">Open Source Libraries</string>
-    <string name="libraries_description">These awesome libraries helped build Stack</string>
+    <string name="libraries">Open source libraries</string>
+    <string name="libraries_description">These awesome libraries helped make Stack possible</string>
     <string name="api">Powered by the Stack Exchange API</string>
-    <string name="privacy">Privacy Policy</string>
-    <string name="terms">Terms and Conditions</string>
+    <string name="privacy">Privacy policy</string>
+    <string name="terms">Terms and conditions</string>
     <string name="license">%1$s License</string>
 
     <!-- Sites -->
-    <string name="current_site">Current Site</string>
+    <string name="my_sites">My sites</string>
+    <string name="other_sites">Other sites</string>
+    <string name="current_site">Current site</string>
     <string name="sites">Sites (%1$s)</string>
     <string name="filter">Filter</string>
     <string name="all_sites">All</string>
@@ -145,11 +169,11 @@
     <string name="meta_sites">Meta</string>
 
     <!-- Debug -->
-    <string name="inspect_network_traffic">Inspect Network Traffic</string>
+    <string name="inspect_network_traffic">Inspect network traffic</string>
 
     <!-- App version -->
     <string name="version">Version</string>
-    <string name="syntax_highlighting">Syntax Highlighting</string>
+    <string name="syntax_highlighting">Syntax highlighting</string>
     <string name="syntax_highlighting_summary">Enables syntax highlighting for supported markdown code blocks</string>
     <string name="create_question_summary">Enables create question support</string>
 

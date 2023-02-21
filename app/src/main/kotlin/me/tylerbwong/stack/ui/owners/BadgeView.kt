@@ -26,16 +26,24 @@ class BadgeView : View {
         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, BADGE_PADDING, context.resources.displayMetrics)
 
     // colors
-    private val iconColors = listOf(
-        ContextCompat.getColor(context, R.color.goldBadgeColor),
-        ContextCompat.getColor(context, R.color.silverBadgeColor),
-        ContextCompat.getColor(context, R.color.bronzeBadgeColor)
-    )
+    private val iconColors by lazy {
+        listOf(
+            ContextCompat.getColor(context, R.color.goldBadgeColor),
+            ContextCompat.getColor(context, R.color.silverBadgeColor),
+            ContextCompat.getColor(context, R.color.bronzeBadgeColor)
+        )
+    }
 
     // paint
     private val iconPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = ContextCompat.getColor(context, R.color.colorTextPrimary)
+        val typedValue = TypedValue()
+        context.theme.resolveAttribute(
+            com.google.android.material.R.attr.colorOnSurface,
+            typedValue,
+            true,
+        )
+        color = typedValue.data
         textSize = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_SP,
             TEXT_SIZE,

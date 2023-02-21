@@ -26,7 +26,7 @@ data class NetworkUser(
     @Json(name = "question_count")
     val questionCount: Int,
     @Json(name = "top_answers")
-    val topAnswers: List<NetworkPost>,
+    val topAnswers: List<NetworkPost>?,
     @Json(name = "top_questions")
-    val topQuestions: List<NetworkPost>
+    val topQuestions: List<NetworkPost>?,
 )

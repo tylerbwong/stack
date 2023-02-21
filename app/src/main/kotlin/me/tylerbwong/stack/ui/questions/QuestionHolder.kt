@@ -10,6 +10,7 @@ import me.tylerbwong.stack.databinding.QuestionHolderBinding
 import me.tylerbwong.stack.ui.home.QuestionItem
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.copyToClipboard
+import me.tylerbwong.stack.ui.utils.format
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.toHtml
 
@@ -38,7 +39,9 @@ class QuestionHolder(
     override fun QuestionHolderBinding.bind(item: QuestionItem) {
         val question = item.question
         questionTitle.setLatex(question.title.toHtml().toString())
-        answerCount.text = question.answerCount.toString()
+        voteCount.text = (question.upVoteCount - question.downVoteCount).toLong().format()
+        viewCount.text = question.viewCount.toLong().format()
+        answerCount.text = question.answerCount.toLong().format()
 
         ownerView.bind(question.owner)
 
@@ -57,6 +60,6 @@ class QuestionHolder(
     }
 
     companion object {
-        private const val LABEL = "linkText"
+        internal const val LABEL = "linkText"
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -33,7 +34,7 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = CommentsFragmentBinding.inflate(inflater)
         return binding.root
     }
@@ -49,11 +50,20 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 binding.loadingIndicator.show()
             }
         }
+        viewModel.errorToast.observe(viewLifecycleOwner) { errorToast ->
+            if (errorToast != null) {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.add_comment_failure,
+                    Toast.LENGTH_LONG,
+                ).show()
+            }
+        }
         viewModel.data.observe(viewLifecycleOwner) {
             binding.loadingIndicator.hide()
             adapter.submitList(it)
             binding.header.subtitle.text = if (it.isNotEmpty()) {
-                getString(R.string.item_count, it.size)
+                getString(R.string.item_count, it.filterIsInstance<CommentItem>().size)
             } else {
                 getString(R.string.no_comments)
             }

@@ -34,5 +34,6 @@ data class AnswerEntity(
     val owner: Int,
     val lastEditDate: Long?,
     val lastEditor: Int?,
-    val commentCount: Int?
+    val commentCount: Int?,
+    val shareLink: String,
 )
