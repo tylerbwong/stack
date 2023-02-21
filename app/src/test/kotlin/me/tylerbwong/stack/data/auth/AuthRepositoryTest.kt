@@ -14,6 +14,7 @@ import me.tylerbwong.stack.data.persistence.dao.AnswerDao
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
+import me.tylerbwong.stack.data.persistence.dao.SiteDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
@@ -49,6 +50,9 @@ class AuthRepositoryTest : BaseTest() {
     private lateinit var searchDao: SearchDao
 
     @Mock
+    private lateinit var siteDao: SiteDao
+
+    @Mock
     private lateinit var userDao: UserDao
 
     @Mock
@@ -69,6 +73,7 @@ class AuthRepositoryTest : BaseTest() {
             answerDao,
             userDao,
             searchDao,
+            siteDao,
             userService,
             authService,
             authStore

@@ -97,6 +97,7 @@ class QuestionDetailMainViewModel @Inject constructor(
 
     internal fun buildSiteJoinUrl(site: Site): String = siteRepository.buildSiteJoinUrl(site)
 
+    @Suppress("LongMethod", "ComplexMethod")
     internal fun getQuestionDetails(question: Question? = null) {
         launchRequest {
             val questionResult = question ?: questionRepository.getQuestion(questionId)

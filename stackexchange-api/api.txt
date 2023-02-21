@@ -29,11 +29,12 @@ package me.tylerbwong.stack.api.di {
 package me.tylerbwong.stack.api.model {
 
   @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Answer {
-    ctor public Answer(@com.squareup.moshi.Json(name="answer_id") int answerId, me.tylerbwong.stack.api.model.User owner, optional @com.squareup.moshi.Json(name="down_vote_count") int downVoteCount, optional @com.squareup.moshi.Json(name="up_vote_count") int upVoteCount, @com.squareup.moshi.Json(name="is_accepted") boolean isAccepted, int score, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="body_markdown") String bodyMarkdown, @com.squareup.moshi.Json(name="last_edit_date") Long? lastEditDate, @com.squareup.moshi.Json(name="last_editor") me.tylerbwong.stack.api.model.User? lastEditor, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="comment_count") Integer? commentCount);
+    ctor public Answer(@com.squareup.moshi.Json(name="answer_id") int answerId, me.tylerbwong.stack.api.model.User owner, optional @com.squareup.moshi.Json(name="down_vote_count") int downVoteCount, optional @com.squareup.moshi.Json(name="up_vote_count") int upVoteCount, @com.squareup.moshi.Json(name="is_accepted") boolean isAccepted, int score, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="body_markdown") String bodyMarkdown, @com.squareup.moshi.Json(name="last_edit_date") Long? lastEditDate, @com.squareup.moshi.Json(name="last_editor") me.tylerbwong.stack.api.model.User? lastEditor, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="comment_count") Integer? commentCount, @com.squareup.moshi.Json(name="share_link") String shareLink);
     method public int component1();
     method public me.tylerbwong.stack.api.model.User? component10();
     method public int component11();
     method public Integer? component12();
+    method public String component13();
     method public me.tylerbwong.stack.api.model.User component2();
     method public int component3();
     method public int component4();
@@ -42,7 +43,7 @@ package me.tylerbwong.stack.api.model {
     method public long component7();
     method public String component8();
     method public Long? component9();
-    method public me.tylerbwong.stack.api.model.Answer copy(@com.squareup.moshi.Json(name="answer_id") int answerId, me.tylerbwong.stack.api.model.User owner, @com.squareup.moshi.Json(name="down_vote_count") int downVoteCount, @com.squareup.moshi.Json(name="up_vote_count") int upVoteCount, @com.squareup.moshi.Json(name="is_accepted") boolean isAccepted, int score, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="body_markdown") String bodyMarkdown, @com.squareup.moshi.Json(name="last_edit_date") Long? lastEditDate, @com.squareup.moshi.Json(name="last_editor") me.tylerbwong.stack.api.model.User? lastEditor, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="comment_count") Integer? commentCount);
+    method public me.tylerbwong.stack.api.model.Answer copy(@com.squareup.moshi.Json(name="answer_id") int answerId, me.tylerbwong.stack.api.model.User owner, @com.squareup.moshi.Json(name="down_vote_count") int downVoteCount, @com.squareup.moshi.Json(name="up_vote_count") int upVoteCount, @com.squareup.moshi.Json(name="is_accepted") boolean isAccepted, int score, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="body_markdown") String bodyMarkdown, @com.squareup.moshi.Json(name="last_edit_date") Long? lastEditDate, @com.squareup.moshi.Json(name="last_editor") me.tylerbwong.stack.api.model.User? lastEditor, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="comment_count") Integer? commentCount, @com.squareup.moshi.Json(name="share_link") String shareLink);
     method public int getAnswerId();
     method public String getBodyMarkdown();
     method public Integer? getCommentCount();
@@ -53,6 +54,7 @@ package me.tylerbwong.stack.api.model {
     method public me.tylerbwong.stack.api.model.User getOwner();
     method public int getQuestionId();
     method public int getScore();
+    method public String getShareLink();
     method public int getUpVoteCount();
     method public boolean isAccepted();
     property public final int answerId;
@@ -66,6 +68,7 @@ package me.tylerbwong.stack.api.model {
     property public final me.tylerbwong.stack.api.model.User owner;
     property public final int questionId;
     property public final int score;
+    property public final String shareLink;
     property public final int upVoteCount;
   }
 
@@ -607,7 +610,7 @@ package me.tylerbwong.stack.api.service {
     method @retrofit2.http.FormUrlEncoded @retrofit2.http.POST("questions/{id}/favorite/undo") public suspend Object? undoQuestionFavoriteById(@retrofit2.http.Path("id") int questionId, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.QuestionService.PREVIEW_PARAM) boolean preview, optional kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<? extends me.tylerbwong.stack.api.model.Question>>);
     method @retrofit2.http.FormUrlEncoded @retrofit2.http.POST("questions/{id}/upvote/undo") public suspend Object? undoQuestionUpvoteById(@retrofit2.http.Path("id") int questionId, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.QuestionService.PREVIEW_PARAM) boolean preview, optional kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<? extends me.tylerbwong.stack.api.model.Question>>);
     method @retrofit2.http.FormUrlEncoded @retrofit2.http.POST("questions/{id}/upvote") public suspend Object? upvoteQuestionById(@retrofit2.http.Path("id") int questionId, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.QuestionService.PREVIEW_PARAM) boolean preview, optional kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<? extends me.tylerbwong.stack.api.model.Question>>);
-    field public static final String ANSWER_FILTER = "!)qHt3-n4W*f.gPKawPE(XNpsQRxcWdBxS2t8_drqo0.DgldgGwePa9Pib9nUlpc.1r";
+    field public static final String ANSWER_FILTER = "!)aHQ9FGlxVZ-FDR2obogNxnqETJo9DXW96Zvv3FLjN(pPDs04v10AoUeW*Sb9Wk7MEfS51yyUe8irexGAEU0UkW6vBU";
     field public static final String BODY_PARAM = "body";
     field public static final me.tylerbwong.stack.api.service.QuestionService.Companion Companion;
     field public static final String DEFAULT_FILTER = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9(";

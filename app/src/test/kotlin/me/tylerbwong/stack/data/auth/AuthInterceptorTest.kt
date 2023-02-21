@@ -29,7 +29,7 @@ class AuthInterceptorTest : BaseTest() {
 
         authStore = AuthStore(testSharedPreferences)
         okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(AuthInterceptor("localhost", authStore))
+            .addInterceptor(AuthInterceptor("127.0.0.1", authStore))
             .build()
 
         val validUri =

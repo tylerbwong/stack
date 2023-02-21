@@ -101,6 +101,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     @SuppressLint("DefaultLocale")
+    @Suppress("LongMethod")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listView?.isVerticalScrollBarEnabled = false
