@@ -38,7 +38,7 @@
 
     <!-- Auth -->
     <string name="log_in_title">¿Quiere iniciar sesión?</string>
-    <string name="log_in_message">Haz y responde preguntas. Obtenga acceso a marcadores, borradores y más.</string>
+    <string name="log_in_message">Responder preguntas. Obtenga acceso a cuotas de solicitud más altas, borradores y más.</string>
     <string name="log_out_title">¿Quiere cerrar sesión?</string>
     <string name="log_out_message">Perderá todos los datos de su sesión actual, incluidos los borradores.</string>
     <string name="log_in">Iniciar sesión</string>

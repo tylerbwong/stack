@@ -47,7 +47,7 @@
 
     <!-- Auth -->
     <string name="log_in_title">Would you like to log in?</string>
-    <string name="log_in_message">Ask and answer questions. Get access to bookmarks, drafts, and more.</string>
+    <string name="log_in_message">Answer questions. Get access to higher request quotas, drafts, and more.</string>
     <string name="log_out_title">Would you like to log out?</string>
     <string name="log_out_message">You\'ll lose all of your current session data including saved drafts.</string>
     <string name="log_in">Log in</string>
