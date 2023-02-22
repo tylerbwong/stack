@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.preference)
+    implementation(libs.androidx.profileinstaller)
     implementation(libs.androidx.recyclerview)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
