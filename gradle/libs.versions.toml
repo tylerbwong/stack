@@ -33,6 +33,7 @@ coil = "2.2.2"
 dagger = "2.44.2"
 detekt = "1.19.0"
 espresso = "3.4.0"
+google-accompanist = "0.28.0"
 google-firebase-bom = "31.2.0"
 google-firebase-crashlytics-gradle = "2.9.2"
 google-ksp = "1.8.10-1.0.9"
@@ -123,6 +124,7 @@ detekt-gradlePlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plug
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "espresso" }
 
+google-accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "google-accompanist" }
 google-dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 google-dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger" }
 google-dagger-hilt-gradlePlugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }

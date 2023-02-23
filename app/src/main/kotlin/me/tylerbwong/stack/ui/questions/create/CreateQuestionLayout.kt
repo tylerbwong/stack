@@ -1,19 +1,15 @@
 @file:Suppress("LongMethod")
 package me.tylerbwong.stack.ui.questions.create
 
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -28,9 +24,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -40,6 +34,7 @@ import androidx.lifecycle.LiveData
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.QuestionDraft
+import me.tylerbwong.stack.ui.utils.compose.LabeledCheckbox
 import me.tylerbwong.stack.ui.utils.compose.StackTheme
 
 private const val MIN_TITLE_LENGTH = 15
@@ -183,26 +178,5 @@ fun CreateQuestionLayout(
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun LabeledCheckbox(
-    label: String,
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
-) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Checkbox(
-            checked = checked,
-            onCheckedChange = onCheckedChange,
-        )
-        Spacer(modifier = Modifier.width(4.dp))
-        Text(
-            text = label,
-            modifier = Modifier.pointerInput(null) {
-                detectTapGestures { onCheckedChange(!checked) }
-            },
-        )
     }
 }
