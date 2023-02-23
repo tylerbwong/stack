@@ -42,10 +42,10 @@ class QuestionRepository @Inject constructor(
 //            questionService.getQuestionDetails(questionId).items.first()
 //        }
         return if (authRepository.isAuthenticated) {
-            questionService.getQuestionDetailsAuth(questionId)
+            safeCall { questionService.getQuestionDetailsAuth(questionId) }
         } else {
-            questionService.getQuestionDetails(questionId)
-        }.items.first()
+            safeCall { questionService.getQuestionDetails(questionId) }
+        }.first()
     }
 
     // TODO Enable Offline
@@ -65,8 +65,11 @@ class QuestionRepository @Inject constructor(
 //        } else {
 //            safeCall { questionService.getQuestionAnswers(questionId) }
 //        }.sortedBy { !it.isAccepted }
-        return safeCall { questionService.getQuestionAnswers(questionId) }
-            .sortedBy { !it.isAccepted }
+        return if (authRepository.isAuthenticated) {
+            safeCall { questionService.getQuestionAnswersAuth(questionId) }
+        } else {
+            safeCall { questionService.getQuestionAnswers(questionId) }
+        }.sortedBy { !it.isAccepted }
     }
 
     // TODO Enable Offline

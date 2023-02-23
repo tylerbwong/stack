@@ -8,6 +8,7 @@ import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import me.tylerbwong.stack.api.BuildConfig
 import me.tylerbwong.stack.api.UnitConverterFactory
+import me.tylerbwong.stack.api.service.AnswerService
 import me.tylerbwong.stack.api.service.AuthService
 import me.tylerbwong.stack.api.service.CommentService
 import me.tylerbwong.stack.api.service.QuestionService
@@ -58,6 +59,12 @@ class ApiModule {
         converterFactories.forEach { builder.addConverterFactory(it) }
         return builder.build()
     }
+
+    @Singleton
+    @Provides
+    fun provideAnswerService(
+        retrofit: Retrofit
+    ): AnswerService = retrofit.create(AnswerService::class.java)
 
     @Singleton
     @Provides

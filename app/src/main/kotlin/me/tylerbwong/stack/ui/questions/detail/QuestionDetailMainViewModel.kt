@@ -10,10 +10,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.api.model.Answer
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.api.model.User
+import me.tylerbwong.stack.api.service.AnswerService
 import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.api.utils.ERROR_ID_INVALID_ACCESS_TOKEN
 import me.tylerbwong.stack.api.utils.toErrorResponse
@@ -36,9 +38,10 @@ class QuestionDetailMainViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val siteRepository: SiteRepository,
     private val questionRepository: QuestionRepository,
-    private val service: QuestionService,
+    private val questionService: QuestionService,
+    private val answerService: AnswerService,
     private val markdown: Markdown,
-) : BaseViewModel(), QuestionDetailActionHandler {
+) : BaseViewModel(), PostActionHandler {
 
     internal val data: LiveData<List<QuestionDetailItem>>
         get() = _data
@@ -98,7 +101,10 @@ class QuestionDetailMainViewModel @Inject constructor(
     internal fun buildSiteJoinUrl(site: Site): String = siteRepository.buildSiteJoinUrl(site)
 
     @Suppress("LongMethod", "ComplexMethod")
-    internal fun getQuestionDetails(question: Question? = null) {
+    internal fun getQuestionDetails(
+        question: Question? = null,
+        answers: List<Answer> = emptyList(),
+    ) {
         launchRequest {
             val questionResult = question ?: questionRepository.getQuestion(questionId)
             val answersResult = questionRepository.getQuestionAnswers(questionId)
@@ -152,15 +158,24 @@ class QuestionDetailMainViewModel @Inject constructor(
                         add(QuestionActionItem(this@QuestionDetailMainViewModel, questionResult))
                     }
                     add(AnswerHeaderItem(questionResult.answerCount))
+
+                    val finalAnswers = answersResult.toMutableList().also {
+                        it.replaceAll { existing ->
+                            answers.find { new -> new.answerId == existing.answerId } ?: existing
+                        }
+                    }.toList()
                     addAll(
-                        answersResult.flatMapIndexed { index, answer ->
+                        finalAnswers.flatMapIndexed { index, answer ->
                             mutableListOf<QuestionDetailItem>().apply {
                                 add(
                                     AnswerVotesHeaderItem(
                                         id = answer.answerId,
                                         isAccepted = answer.isAccepted,
+                                        isUpvoted = answer.isUpvoted,
+                                        isDownvoted = answer.isDownvoted,
                                         upVoteCount = answer.upVoteCount,
-                                        downVoteCount = answer.downVoteCount
+                                        downVoteCount = answer.downVoteCount,
+                                        handler = this@QuestionDetailMainViewModel,
                                     )
                                 )
                                 addAll(
@@ -232,15 +247,25 @@ class QuestionDetailMainViewModel @Inject constructor(
         }
     }
 
-    override fun toggleDownvote(isSelected: Boolean) {
+    override fun toggleQuestionDownvote(questionId: Int, isSelected: Boolean) {
         toggleAction(
             isSelected,
-            { service.downvoteQuestionById(it) },
-            { service.undoQuestionDownvoteById(it) }
+            { questionService.downvoteQuestionById(questionId) },
+            { questionService.undoQuestionDownvoteById(questionId) },
+            { getQuestionDetails(it) },
         )
     }
 
-    override fun toggleFavorite(isSelected: Boolean) {
+    override fun toggleAnswerDownvote(answerId: Int, isSelected: Boolean) {
+        toggleAction(
+            isSelected,
+            { answerService.downvoteAnswerById(answerId) },
+            { answerService.undoAnswerDownvoteById(answerId) },
+            { getQuestionDetails(question = null, listOfNotNull(it)) },
+        )
+    }
+
+    override fun toggleQuestionFavorite(questionId: Int, isSelected: Boolean) {
         toggleAction(
             isSelected,
             {
@@ -253,7 +278,7 @@ class QuestionDetailMainViewModel @Inject constructor(
 //                    }
 //                }
 //                response
-                service.favoriteQuestionById(it)
+                questionService.favoriteQuestionById(questionId)
             },
             {
                 // TODO Enable Offline
@@ -265,34 +290,46 @@ class QuestionDetailMainViewModel @Inject constructor(
 //                    }
 //                }
 //                response
-                service.undoQuestionFavoriteById(it)
-            }
+                questionService.undoQuestionFavoriteById(questionId)
+            },
+            { getQuestionDetails(it) },
         )
     }
 
-    override fun toggleUpvote(isSelected: Boolean) {
+    override fun toggleQusetionUpvote(questionId: Int, isSelected: Boolean) {
         toggleAction(
             isSelected,
-            { service.upvoteQuestionById(it) },
-            { service.undoQuestionUpvoteById(it) }
+            { questionService.upvoteQuestionById(questionId) },
+            { questionService.undoQuestionUpvoteById(questionId) },
+            { getQuestionDetails(it) },
         )
     }
 
-    private fun toggleAction(
+    override fun toggleAnswerUpvote(answerId: Int, isSelected: Boolean) {
+        toggleAction(
+            isSelected,
+            { answerService.upvoteAnswerById(answerId) },
+            { answerService.undoAnswerUpvoteById(answerId) },
+            { getQuestionDetails(question = null, listOfNotNull(it)) },
+        )
+    }
+
+    private fun <T> toggleAction(
         isSelected: Boolean,
-        selectedAction: suspend (Int) -> Response<Question>,
-        unselectedAction: suspend (Int) -> Response<Question>
+        selectedAction: suspend () -> Response<T>,
+        unselectedAction: suspend () -> Response<T>,
+        onSuccess: (T?) -> Unit,
     ) {
         viewModelScope.launch {
             try {
                 val result = if (isSelected) {
-                    selectedAction(questionId)
+                    selectedAction()
                 } else {
-                    unselectedAction(questionId)
+                    unselectedAction()
                 }
 
                 if (result.items.isNotEmpty()) {
-                    getQuestionDetails(result.items.firstOrNull())
+                    onSuccess(result.items.firstOrNull())
                 }
             } catch (ex: HttpException) {
                 ex.toErrorResponse()?.let {

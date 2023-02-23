@@ -58,7 +58,7 @@ data class FencedCodeBlockItem(internal val node: Node) :
 }
 
 data class QuestionActionItem(
-    internal val handler: QuestionDetailActionHandler,
+    internal val handler: PostActionHandler,
     internal val question: Question
 ) : QuestionDetailItem(::QuestionDetailActionHolder)
 
@@ -68,8 +68,11 @@ data class AnswerHeaderItem(internal val answerCount: Int) :
 data class AnswerVotesHeaderItem(
     internal val id: Int,
     internal val isAccepted: Boolean,
+    internal val isUpvoted: Boolean?,
+    internal val isDownvoted: Boolean?,
     internal val upVoteCount: Int,
-    internal val downVoteCount: Int
+    internal val downVoteCount: Int,
+    internal val handler: PostActionHandler,
 ) : QuestionDetailItem(::AnswerVotesHeaderHolder)
 
 object DividerItem : QuestionDetailItem(::DividerHolder)
@@ -126,6 +129,8 @@ object QuestionDetailItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
             oldItem.answerCount == newItem.answerCount
         oldItem is AnswerVotesHeaderItem && newItem is AnswerVotesHeaderItem ->
             oldItem.id == newItem.id && oldItem.isAccepted == newItem.isAccepted &&
+                    oldItem.isUpvoted == newItem.isUpvoted &&
+                    oldItem.isDownvoted == newItem.isDownvoted &&
                     oldItem.upVoteCount == newItem.upVoteCount &&
                     oldItem.downVoteCount == newItem.downVoteCount
         oldItem is DividerItem && newItem is DividerItem -> true

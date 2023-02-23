@@ -10,6 +10,8 @@ import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.model.SORT_PARAM
 import me.tylerbwong.stack.api.model.Sort
 import me.tylerbwong.stack.api.model.VOTES
+import me.tylerbwong.stack.api.service.AnswerService.Companion.ANSWER_FILTER
+import me.tylerbwong.stack.api.service.AnswerService.Companion.ANSWER_FILTER_AUTH
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -97,6 +99,17 @@ interface QuestionService {
         @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Answer>
 
+    @GET("questions/{id}/answers")
+    suspend fun getQuestionAnswersAuth(
+        @Path("id") questionId: Int,
+        @Query(SORT_PARAM) @Sort sort: String = VOTES,
+        @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
+        @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
+        @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
+        @Query(FILTER_PARAM) filter: String = ANSWER_FILTER_AUTH,
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
+    ): Response<Answer>
+
     @FormUrlEncoded
     @POST("questions/{id}/answers/add")
     suspend fun postAnswer(
@@ -179,8 +192,6 @@ interface QuestionService {
         internal const val PREVIEW_PARAM = "preview"
 
         internal const val DEFAULT_FILTER = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9("
-        internal const val ANSWER_FILTER =
-            "!)aHQ9FGlxVZ-FDR2obogNxnqETJo9DXW96Zvv3FLjN(pPDs04v10AoUeW*Sb9Wk7MEfS51yyUe8irexGAEU0UkW6vBU"
         internal const val DETAIL_FILTER =
             "!)aHQ9FGlxVZ-FDR2obogNxnqETJo9DXW96ZvzK5vlX6vPZyppY0(xIhvmblvbX1t7Ksu.RrM6rzoGU65Iq40VAPTIPb"
         internal const val DETAIL_FILTER_AUTH =

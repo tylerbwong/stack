@@ -3,17 +3,17 @@ package me.tylerbwong.stack.ui.questions.detail
 import android.view.ViewGroup
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.databinding.QuestionDetailActionHolderBinding
+import me.tylerbwong.stack.databinding.PostActionHolderBinding
 import me.tylerbwong.stack.ui.utils.renderSelectedState
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class QuestionDetailActionHolder(
     container: ViewGroup
-) : DynamicViewBindingHolder<QuestionActionItem, QuestionDetailActionHolderBinding>(
+) : DynamicViewBindingHolder<QuestionActionItem, PostActionHolderBinding>(
     container,
-    QuestionDetailActionHolderBinding::inflate
+    PostActionHolderBinding::inflate
 ) {
-    override fun QuestionDetailActionHolderBinding.bind(item: QuestionActionItem) {
+    override fun PostActionHolderBinding.bind(item: QuestionActionItem) {
         val (handler, question) = item
         upvote.apply {
             renderSelectedState(
@@ -22,7 +22,10 @@ class QuestionDetailActionHolder(
                 isSelected = question.isUpVoted
             )
             setThrottledOnClickListener {
-                handler.toggleUpvote(isSelected = !question.isUpVoted)
+                handler.toggleQusetionUpvote(
+                    questionId = item.question.questionId,
+                    isSelected = !question.isUpVoted,
+                )
             }
         }
         bookmark.apply {
@@ -32,7 +35,10 @@ class QuestionDetailActionHolder(
                 isSelected = question.isBookmarked
             )
             setThrottledOnClickListener {
-                handler.toggleFavorite(isSelected = !question.isBookmarked)
+                handler.toggleQuestionFavorite(
+                    questionId = item.question.questionId,
+                    isSelected = !question.isBookmarked,
+                )
             }
         }
         downvote.apply {
@@ -42,7 +48,10 @@ class QuestionDetailActionHolder(
                 isSelected = question.isDownVoted
             )
             setThrottledOnClickListener {
-                handler.toggleDownvote(isSelected = !question.isDownVoted)
+                handler.toggleQuestionDownvote(
+                    questionId = item.question.questionId,
+                    isSelected = !question.isDownVoted,
+                )
             }
         }
     }

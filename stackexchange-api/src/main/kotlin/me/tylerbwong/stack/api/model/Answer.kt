@@ -14,6 +14,10 @@ data class Answer(
     val upVoteCount: Int = 0,
     @Json(name = "is_accepted")
     val isAccepted: Boolean,
+    @Json(name = "upvoted")
+    val isUpvoted: Boolean? = null,
+    @Json(name = "downvoted")
+    val isDownvoted: Boolean? = null,
     val score: Int,
     @Json(name = "creation_date")
     val creationDate: Long,
