@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,6 +16,9 @@
         android:hyphenationFrequency="none"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="This is a test comment" />
 
     <TextView
@@ -27,11 +31,35 @@
         android:gravity="start"
         android:lines="1"
         android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@id/ownerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/commentBody"
         tools:text="commented 2 hours ago" />
 
     <me.tylerbwong.stack.ui.owners.OwnerView
         android:id="@+id/ownerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/upvote"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/commentBody" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/upvote"
+        style="@style/TextAppearance.Material3.LabelMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/question_detail_action_item_bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/ic_arrow_upward"
+        app:layout_constraintBottom_toBottomOf="@id/ownerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="25k"
+        tools:visibility="visible"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

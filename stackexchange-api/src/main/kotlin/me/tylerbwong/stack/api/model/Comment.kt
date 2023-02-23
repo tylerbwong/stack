@@ -17,4 +17,5 @@ data class Comment(
     @Json(name = "owner")
     val owner: User,
     val score: Int? = null,
+    val upvoted: Boolean? = null,
 )

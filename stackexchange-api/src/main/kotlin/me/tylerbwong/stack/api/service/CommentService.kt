@@ -52,6 +52,24 @@ interface CommentService {
         @Field(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Comment>
 
+    @FormUrlEncoded
+    @POST("comments/{id}/upvote")
+    suspend fun upvoteComment(
+        @Path("id") commentId: Int,
+        @Field(PREVIEW_PARAM) preview: Boolean = false,
+        @Field(FILTER_PARAM) filter: String = COMMENTS_FILTER_AUTH,
+        @Field(KEY_PARAM) key: String = BuildConfig.API_KEY
+    ): Response<Comment>
+
+    @FormUrlEncoded
+    @POST("comments/{id}/upvote/undo")
+    suspend fun undoUpvoteComment(
+        @Path("id") commentId: Int,
+        @Field(PREVIEW_PARAM) preview: Boolean = false,
+        @Field(FILTER_PARAM) filter: String = COMMENTS_FILTER_AUTH,
+        @Field(KEY_PARAM) key: String = BuildConfig.API_KEY
+    ): Response<Comment>
+
     companion object {
         private const val COMMENTS_FILTER =
             "!L8StSPzV0U0)z0AORjbSP2D5RygsAsRFu7EKUgPZ6hbH)YC_S_mZJdz(*.y2xYh0QPq6"

@@ -1,17 +1,10 @@
 package me.tylerbwong.stack.ui.questions.detail
 
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.util.TypedValue
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.QuestionDetailActionHolderBinding
-import me.tylerbwong.stack.ui.utils.format
+import me.tylerbwong.stack.ui.utils.renderSelectedState
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class QuestionDetailActionHolder(
@@ -50,27 +43,6 @@ class QuestionDetailActionHolder(
             )
             setThrottledOnClickListener {
                 handler.toggleDownvote(isSelected = !question.isDownVoted)
-            }
-        }
-    }
-
-    private fun TextView.renderSelectedState(
-        @ColorRes selectedColor: Int,
-        value: Int,
-        isSelected: Boolean
-    ) {
-        @ColorInt val color = if (isSelected) {
-            ContextCompat.getColor(context, selectedColor)
-        } else {
-            val typedValue = TypedValue()
-            context.theme.resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true)
-            typedValue.data
-        }
-        setTextColor(color)
-        text = value.toLong().format()
-        compoundDrawables.forEach {
-            if (it != null) {
-                it.mutate().colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
             }
         }
     }

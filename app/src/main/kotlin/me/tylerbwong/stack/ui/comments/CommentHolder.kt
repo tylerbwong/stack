@@ -2,6 +2,7 @@ package me.tylerbwong.stack.ui.comments
 
 import android.text.TextWatcher
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DiffUtil
 import com.soywiz.klock.seconds
@@ -14,6 +15,8 @@ import me.tylerbwong.stack.databinding.AddCommentHolderBinding
 import me.tylerbwong.stack.databinding.CommentHolderBinding
 import me.tylerbwong.stack.ui.utils.formatElapsedTime
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
+import me.tylerbwong.stack.ui.utils.renderSelectedState
+import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 object CommentItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
     override fun areItemsTheSame(
@@ -31,13 +34,19 @@ object CommentItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
         oldItem is CommentItem && newItem is CommentItem ->
             oldItem.comment.bodyMarkdown == newItem.comment.bodyMarkdown &&
                     oldItem.comment.owner == newItem.comment.owner &&
-                    oldItem.comment.creationDate == newItem.comment.creationDate
+                    oldItem.comment.creationDate == newItem.comment.creationDate &&
+                    oldItem.comment.upvoted == newItem.comment.upvoted &&
+                    oldItem.comment.score == newItem.comment.score
         else -> false
     }
 
 }
 
-class CommentItem(internal val comment: Comment) : DynamicItem(::CommentHolder)
+class CommentItem(
+    internal val comment: Comment,
+    internal val upvoteToggle: (Int, Boolean) -> Unit,
+) : DynamicItem(::CommentHolder)
+
 class AddCommentItem(
     internal val initialBody: String,
     internal val onSubmitComment: (body: String, isPreview: Boolean) -> Unit,
@@ -55,7 +64,7 @@ class CommentHolder(
     }
 
     override fun CommentHolderBinding.bind(item: CommentItem) {
-        val (bodyMarkdown, _, _, creationDate, _, owner, _) = item.comment
+        val (bodyMarkdown, commentId, _, creationDate, _, owner, _) = item.comment
         commentBody.setMarkdown(bodyMarkdown)
         commentedDate.apply {
             text = context.getString(
@@ -64,6 +73,24 @@ class CommentHolder(
             )
         }
         ownerView.bind(owner)
+        val score = item.comment.score
+        val upvoted = item.comment.upvoted
+        val showUpvote = score != null && upvoted != null
+        upvote.isVisible = showUpvote
+        if (score != null && upvoted != null) {
+            upvote.apply {
+                renderSelectedState(
+                    R.color.upvoted,
+                    score,
+                    isSelected = upvoted,
+                )
+                setThrottledOnClickListener {
+                    if (commentId != null) {
+                        item.upvoteToggle(commentId, !upvoted)
+                    }
+                }
+            }
+        }
     }
 }
 

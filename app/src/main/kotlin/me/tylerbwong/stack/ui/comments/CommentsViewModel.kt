@@ -2,12 +2,21 @@ package me.tylerbwong.stack.ui.comments
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.tylerbwong.adapter.DynamicItem
+import me.tylerbwong.stack.api.model.Comment
 import me.tylerbwong.stack.api.service.CommentService
+import me.tylerbwong.stack.api.utils.toErrorResponse
 import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
+import me.tylerbwong.stack.ui.utils.toHtml
+import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,9 +29,9 @@ class CommentsViewModel @Inject constructor(
         get() = _data
     private val _data = MutableLiveData<List<DynamicItem>>()
 
-    val errorToast: LiveData<Unit?>
+    val errorToast: LiveData<CommentError?>
         get() = _errorToast
-    private val _errorToast = SingleLiveEvent<Unit?>()
+    private val _errorToast = SingleLiveEvent<CommentError?>()
 
     private val isAuthenticated: Boolean
         get() = authStore.isAuthenticatedLiveData.value ?: false
@@ -30,7 +39,7 @@ class CommentsViewModel @Inject constructor(
     internal var postId = -1
     internal var initialBody = ""
 
-    fun fetchComments() {
+    fun fetchComments(newComments: List<Comment> = emptyList()) {
         launchRequest {
             val commentsResponse = if (isAuthenticated) {
                 service.getPostCommentsAuth(postId)
@@ -38,29 +47,76 @@ class CommentsViewModel @Inject constructor(
                 service.getPostComments(postId)
             }
 
-            _data.value = commentsResponse.items.map {
-                CommentItem(it)
-            } + if (isAuthenticated) {
-                listOf(
-                    AddCommentItem(initialBody = initialBody) { body, isPreview ->
-                        launchRequest(
-                            onSuccess = {
-                                _errorToast.value = null
-                                initialBody = ""
-                                fetchComments()
-                            },
-                            onFailure = {
-                                _errorToast.value = Unit
-                                initialBody = body
-                                fetchComments()
-                            },
-                            block = { service.addComment(postId, body, isPreview) }
-                        )
+            val result = withContext(Dispatchers.Default) {
+                val finalComments = if (newComments.isNotEmpty()) {
+                    commentsResponse.items.toMutableList().also {
+                        it.replaceAll { existing ->
+                            newComments.find { new -> new.commentId == existing.commentId }
+                                ?: existing
+                        }
+                    }.toList()
+                } else {
+                    commentsResponse.items
+                }
+                finalComments.map {
+                    CommentItem(it) { commentId, upvoteValue ->
+                        toggleAction(commentId = commentId, isSelected = upvoteValue)
                     }
-                )
-            } else {
-                emptyList()
+                } + if (isAuthenticated) {
+                    listOf(
+                        AddCommentItem(initialBody = initialBody) { body, isPreview ->
+                            launchRequest(
+                                onSuccess = {
+                                    _errorToast.value = null
+                                    initialBody = ""
+                                    fetchComments()
+                                },
+                                onFailure = {
+                                    _errorToast.value = CommentError.AddCommentFailed
+                                    initialBody = body
+                                    fetchComments()
+                                },
+                                block = { service.addComment(postId, body, isPreview) }
+                            )
+                        }
+                    )
+                } else {
+                    emptyList()
+                }
+            }
+            _data.value = result
+        }
+    }
+
+    private fun toggleAction(
+        commentId: Int,
+        isSelected: Boolean,
+    ) {
+        viewModelScope.launch {
+            try {
+                val result = if (isSelected) {
+                    service.upvoteComment(commentId)
+                } else {
+                    service.undoUpvoteComment(commentId)
+                }
+
+                if (result.items.isNotEmpty()) {
+                    fetchComments(result.items)
+                }
+            } catch (ex: HttpException) {
+                ex.toErrorResponse()?.let {
+                    _errorToast.postValue(
+                        CommentError.UpvoteFailed(it.errorMessage.toHtml().toString())
+                    )
+                }
+            } catch (ex: Exception) {
+                Timber.e(ex)
             }
         }
+    }
+
+    sealed class CommentError {
+        object AddCommentFailed : CommentError()
+        class UpvoteFailed(val reason: String? = null) : CommentError()
     }
 }
