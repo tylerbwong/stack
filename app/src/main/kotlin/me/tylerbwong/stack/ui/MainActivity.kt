@@ -21,7 +21,7 @@ import me.tylerbwong.stack.databinding.ActivityMainBinding
 import me.tylerbwong.stack.ui.bookmarks.BookmarksFragment
 import me.tylerbwong.stack.ui.drafts.DraftsFragment
 import me.tylerbwong.stack.ui.home.HomeFragment
-import me.tylerbwong.stack.ui.questions.create.CreateQuestionActivity
+import me.tylerbwong.stack.ui.questions.ask.AskQuestionActivity
 import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.settings.SettingsActivity
@@ -53,7 +53,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private val bookmarksFragment by lazy { initializeFragment(BOOKMARKS_FRAGMENT_TAG) { BookmarksFragment() } }
     private val draftsFragment by lazy { initializeFragment(DRAFTS_FRAGMENT_TAG) { DraftsFragment() } }
 
-    private val authTabIds = listOf(R.id.create, R.id.bookmarks, R.id.drafts)
+    private val authTabIds = listOf(R.id.ask, R.id.bookmarks, R.id.drafts)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,9 +64,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
         viewModel.isAuthenticatedLiveData.observe(this) { isAuthenticated ->
             val bottomNav = binding.bottomNav
-            val isCreateQuestionEnabled = experimental.createQuestionEnabled
+            val isCreateQuestionEnabled = experimental.askQuestionEnabled
             authTabIds.forEach {
-                bottomNav.menu.findItem(it)?.isVisible = if (it == R.id.create) {
+                bottomNav.menu.findItem(it)?.isVisible = if (it == R.id.ask) {
                     isAuthenticated && isCreateQuestionEnabled
                 } else {
                     isAuthenticated
@@ -152,8 +152,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private fun setupBottomNavigation() {
         with(binding.bottomNav) {
             setOnItemSelectedListener { menuItem ->
-                if (menuItem.itemId == R.id.create) {
-                    CreateQuestionActivity.startActivity(this@MainActivity)
+                if (menuItem.itemId == R.id.ask) {
+                    AskQuestionActivity.startActivity(this@MainActivity)
                     return@setOnItemSelectedListener false
                 }
 

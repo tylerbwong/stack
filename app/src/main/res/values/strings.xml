@@ -99,8 +99,8 @@
     <string name="opinion_based_notice">This question is too opinion based. It is not currently accepting answers.</string>
     <string name="unknown_notice">This question was closed for an unknown reason.</string>
 
-    <!-- Create Question -->
-    <string name="create_question">Create Question</string>
+    <!-- Ask Question -->
+    <string name="ask_question">Ask Question</string>
     <string name="title">Title</string>
     <string name="body">Body</string>
     <string name="preview_success">Successfully posted as preview</string>
@@ -175,7 +175,7 @@
     <string name="version">Version</string>
     <string name="syntax_highlighting">Syntax highlighting</string>
     <string name="syntax_highlighting_summary">Enables syntax highlighting for supported markdown code blocks</string>
-    <string name="create_question_summary">Enables create question support</string>
+    <string name="ask_question_summary">Enables ask question support</string>
 
     <string name="restart_toggle">Toggling this requires a restart</string>
     <string name="link_copied">Link copied to clipboard</string>

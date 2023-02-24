@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.ui.questions.create
+package me.tylerbwong.stack.ui.questions.ask
 
 import android.content.Context
 import android.content.Intent
@@ -8,14 +8,14 @@ import androidx.activity.viewModels
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.databinding.ActivityCreateQuestionBinding
+import me.tylerbwong.stack.databinding.ActivityAskQuestionBinding
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.formatElapsedTime
 
 @AndroidEntryPoint
-class CreateQuestionActivity : BaseActivity<ActivityCreateQuestionBinding>(
-    ActivityCreateQuestionBinding::inflate
+class AskQuestionActivity : BaseActivity<ActivityAskQuestionBinding>(
+    ActivityAskQuestionBinding::inflate
 ) {
     private val viewModel by viewModels<CreateQuestionViewModel>()
     private val timestampProvider: (Long) -> String = { it.formatElapsedTime(this) }
@@ -23,24 +23,16 @@ class CreateQuestionActivity : BaseActivity<ActivityCreateQuestionBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.composeContent.setContent {
-            CreateQuestionLayout(
-                draftLiveData = viewModel.questionDraft,
-                createQuestion = viewModel::createQuestion,
-                saveDraft = { title, body, tags ->
-                    viewModel.saveDraft(title, body, tags, timestampProvider)
-                },
-                deleteDraft = viewModel::deleteDraft,
-                onBackPressed = ::finish
-            )
+            AskQuestionLayout2(onFinish = ::finish)
         }
-        viewModel.createQuestionState.observe(this) { state ->
+        viewModel.askQuestionState.observe(this) { state ->
             when (state) {
-                is CreateQuestionSuccessPreview -> showSnackbar(getString(R.string.preview_success))
-                is CreateQuestionSuccess -> {
+                is AskQuestionSuccessPreview -> showSnackbar(getString(R.string.preview_success))
+                is AskQuestionSuccess -> {
                     QuestionDetailActivity.startActivity(this, state.questionId)
                     finish()
                 }
-                is CreateQuestionError -> showSnackbar(state.errorMessage)
+                is AskQuestionError -> showSnackbar(state.errorMessage)
             }
         }
         viewModel.fetchDraft( -1, timestampProvider)
@@ -70,7 +62,7 @@ class CreateQuestionActivity : BaseActivity<ActivityCreateQuestionBinding>(
 
     companion object {
         fun startActivity(context: Context) {
-            val intent = Intent(context, CreateQuestionActivity::class.java)
+            val intent = Intent(context, AskQuestionActivity::class.java)
             context.startActivity(intent)
         }
     }

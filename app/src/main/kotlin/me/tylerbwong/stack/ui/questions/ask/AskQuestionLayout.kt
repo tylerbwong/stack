@@ -1,15 +1,20 @@
 @file:Suppress("LongMethod")
-package me.tylerbwong.stack.ui.questions.create
 
+package me.tylerbwong.stack.ui.questions.ask
+
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -22,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -31,6 +37,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.model.QuestionDraft
@@ -40,11 +51,82 @@ import me.tylerbwong.stack.ui.utils.compose.StackTheme
 private const val MIN_TITLE_LENGTH = 15
 private const val MIN_BODY_LENGTH = 30
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
+@Composable
+fun AskQuestionLayout2(onFinish: () -> Unit) {
+    val pagerState = rememberPagerState()
+    StackTheme {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {},
+                    navigationIcon = {
+                        IconButton(onClick = onFinish) {
+                            Icon(
+                                imageVector = Icons.Filled.Close,
+                                contentDescription = null,
+                            )
+                        }
+                    },
+                    actions = {}
+                )
+            },
+            bottomBar = { BottomNavigationBar(state = pagerState) }
+        ) {
+            HorizontalPager(
+                count = 5,
+                modifier = Modifier.padding(it),
+                state = pagerState,
+                userScrollEnabled = false,
+            ) { page ->
+                when (page) {
+                    0 -> TitleLayoutPreview()
+                    1 -> DetailsLayoutPreview()
+                    2 -> ExpandLayoutPreview()
+                    3 -> TagsLayoutPreview()
+                    4 -> DuplicateQuestionLayoutPreview()
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+private fun BottomNavigationBar(state: PagerState) {
+    val scope = rememberCoroutineScope()
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Button(
+            onClick = {
+                scope.launch {
+                    state.animateScrollToPage((state.currentPage - 1).coerceAtLeast(0))
+                }
+            },
+            modifier = Modifier.padding(16.dp),
+        ) {
+            Text(text = "Back")
+        }
+        Button(
+            onClick = {
+                scope.launch {
+                    state.animateScrollToPage((state.currentPage + 1).coerceAtMost(state.pageCount - 1))
+                }
+            },
+            modifier = Modifier.padding(16.dp),
+        ) {
+            Text(text = "Next")
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateQuestionLayout(
+fun AskQuestionLayout(
     draftLiveData: LiveData<QuestionDraft>,
-    createQuestion: (String, String, String, Boolean) -> Unit = { _, _, _, _ -> },
+    askQuestion: (String, String, String, Boolean) -> Unit = { _, _, _, _ -> },
     saveDraft: (String, String, String) -> Unit = { _, _, _ -> },
     deleteDraft: (Int) -> Unit = { _ -> },
     onBackPressed: () -> Unit = {}
@@ -70,7 +152,7 @@ fun CreateQuestionLayout(
     StackTheme {
         Scaffold(
             topBar = {
-                TopAppBar(title = { Text(text = stringResource(R.string.create_question)) },
+                TopAppBar(title = { Text(text = stringResource(R.string.ask_question)) },
                     navigationIcon = {
                         IconButton(onClick = onBackPressed) {
                             Icon(
@@ -116,7 +198,7 @@ fun CreateQuestionLayout(
                             )
                         },
                         onClick = {
-                            createQuestion(
+                            askQuestion(
                                 title.text,
                                 body.text,
                                 tags.text,

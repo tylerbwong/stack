@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.ui.questions.create
+package me.tylerbwong.stack.ui.questions.ask
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -40,7 +40,7 @@ import me.tylerbwong.stack.ui.utils.compose.LabeledCheckbox
  * 3. Tags should show results as typed, and then tag-ified when selected.
  */
 @Composable
-fun CreateQuestionDetailsLayout(
+fun AskQuestionDetailsLayout(
     title: String,
     description: String,
     trailing: @Composable () -> Unit,
@@ -49,6 +49,7 @@ fun CreateQuestionDetailsLayout(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth()
+            .fillMaxHeight(),
     ) {
         Text(
             text = title,
@@ -69,9 +70,9 @@ private const val TITLE_LENGTH_LIMIT = 150
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-private fun TitleLayoutPreview() {
+fun TitleLayoutPreview() {
     var titleText by remember { mutableStateOf(TextFieldValue("")) }
-    CreateQuestionDetailsLayout(
+    AskQuestionDetailsLayout(
         title = "Title",
         description = "Be specific and imagine you're asking a question to another person.",
     ) {
@@ -101,9 +102,9 @@ private const val MIN_DETAILS_LENGTH = 20
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-private fun DetailsLayoutPreview() {
+fun DetailsLayoutPreview() {
     var detailsText by remember { mutableStateOf(TextFieldValue("")) }
-    CreateQuestionDetailsLayout(
+    AskQuestionDetailsLayout(
         title = "What are the details of your problem?",
         description = "Introduce the problem and expand on what you put in the title. Minimum $MIN_DETAILS_LENGTH characters.",
     ) {
@@ -121,9 +122,9 @@ private fun DetailsLayoutPreview() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-private fun ExpandLayoutPreview() {
+fun ExpandLayoutPreview() {
     var detailsText by remember { mutableStateOf(TextFieldValue("")) }
-    CreateQuestionDetailsLayout(
+    AskQuestionDetailsLayout(
         title = "What did you try?",
         description = "Describe what you tried, what you expected, and what actually resulted. Minimum $MIN_DETAILS_LENGTH characters.",
     ) {
@@ -143,9 +144,9 @@ private const val MAX_NUM_TAGS = 5
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-private fun TagsLayoutPreview() {
+fun TagsLayoutPreview() {
     val tags by remember { mutableStateOf(listOf("android", "kotlin", "jetpack-compose", "java", "chips")) }
-    CreateQuestionDetailsLayout(
+    AskQuestionDetailsLayout(
         title = "Tags",
         description = "Add up to $MAX_NUM_TAGS tags to describe what your question is about.",
     ) {
@@ -192,9 +193,9 @@ private fun TagsLayoutPreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun DuplicateQuestionLayoutPreview() {
+fun DuplicateQuestionLayoutPreview() {
     var isConfirmed by remember { mutableStateOf(false) }
-    CreateQuestionDetailsLayout(
+    AskQuestionDetailsLayout(
         title = "Review existing questions",
         description = "Click a post to review if your question is a duplicate.",
     ) {
@@ -219,7 +220,7 @@ private fun DuplicateQuestionLayoutPreview() {
 }
 
 @Composable
-private fun QuestionItem(title: String) {
+fun QuestionItem(title: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

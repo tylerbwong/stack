@@ -34,9 +34,9 @@
 
         <SwitchPreferenceCompat
             android:icon="@drawable/ic_baseline_add_circle"
-            android:key="@string/create_question"
-            android:summary="@string/create_question_summary"
-            android:title="@string/create_question" />
+            android:key="@string/ask_question"
+            android:summary="@string/ask_question_summary"
+            android:title="@string/ask_question" />
     </PreferenceCategory>
 
     <PreferenceCategory

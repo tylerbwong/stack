@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.ui.questions.create
+package me.tylerbwong.stack.ui.questions.ask
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,15 +26,15 @@ class CreateQuestionViewModel @Inject constructor(
 
     private var id: Int = -1
 
-    val createQuestionState: LiveData<CreateQuestionState>
-        get() = _createQuestionState
-    private val _createQuestionState = SingleLiveEvent<CreateQuestionState>()
+    val askQuestionState: LiveData<AskQuestionState>
+        get() = _askQuestionState
+    private val _askQuestionState = SingleLiveEvent<AskQuestionState>()
 
     val questionDraft: LiveData<QuestionDraft>
         get() = _questionDraft
     private val _questionDraft = MutableLiveData<QuestionDraft>()
 
-    fun createQuestion(title: String, body: String, tags: String, isPreview: Boolean) {
+    fun askQuestion(title: String, body: String, tags: String, isPreview: Boolean) {
         viewModelScope.launch {
             try {
                 val response = questionService.addQuestion(
@@ -43,18 +43,18 @@ class CreateQuestionViewModel @Inject constructor(
                     tags.replace(",", ";"),
                     preview = isPreview
                 )
-                _createQuestionState.value = if (isPreview) {
-                    CreateQuestionSuccessPreview
+                _askQuestionState.value = if (isPreview) {
+                    AskQuestionSuccessPreview
                 } else {
                     val question = response.items.firstOrNull()
                     if (question != null) {
-                        CreateQuestionSuccess(question.questionId)
+                        AskQuestionSuccess(question.questionId)
                     } else {
-                        CreateQuestionError()
+                        AskQuestionError()
                     }
                 }
             } catch (ex: Exception) {
-                _createQuestionState.value = CreateQuestionError(
+                _askQuestionState.value = AskQuestionError(
                     (ex as? HttpException)?.toErrorResponse()?.errorMessage
                 )
             }
@@ -87,7 +87,7 @@ class CreateQuestionViewModel @Inject constructor(
     }
 }
 
-sealed class CreateQuestionState
-data class CreateQuestionSuccess(val questionId: Int) : CreateQuestionState()
-object CreateQuestionSuccessPreview : CreateQuestionState()
-data class CreateQuestionError(val errorMessage: String? = null) : CreateQuestionState()
+sealed class AskQuestionState
+data class AskQuestionSuccess(val questionId: Int) : AskQuestionState()
+object AskQuestionSuccessPreview : AskQuestionState()
+data class AskQuestionError(val errorMessage: String? = null) : AskQuestionState()

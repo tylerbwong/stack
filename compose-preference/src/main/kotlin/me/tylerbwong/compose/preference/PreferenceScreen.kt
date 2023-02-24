@@ -44,7 +44,7 @@ internal fun PreferenceScreenPreview() {
         mutableStateOf(preferences.getBoolean("syntax_highlighting", false))
     }
     var createPref by remember {
-        mutableStateOf(preferences.getBoolean("create_question", false))
+        mutableStateOf(preferences.getBoolean("ask_question", false))
     }
     var sliderPref by remember {
         mutableStateOf(preferences.getFloat("num_questions", 0f))
@@ -76,10 +76,10 @@ internal fun PreferenceScreenPreview() {
                 )
                 SwitchPreference(
                     checked = createPref,
-                    title = { Text(text = "Create Question") },
-                    summary = { Text(text = "Enables create question support.") },
+                    title = { Text(text = "Ask Question") },
+                    summary = { Text(text = "Enables ask question support.") },
                     onCheckedChange = {
-                        preferences.edit().putBoolean("create_question", it).apply()
+                        preferences.edit().putBoolean("ask_question", it).apply()
                         createPref = it
                     },
                     icon = {

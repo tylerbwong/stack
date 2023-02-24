@@ -125,6 +125,7 @@ espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref =
 espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "espresso" }
 
 google-accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "google-accompanist" }
+google-accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "google-accompanist" }
 google-dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 google-dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger" }
 google-dagger-hilt-gradlePlugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }

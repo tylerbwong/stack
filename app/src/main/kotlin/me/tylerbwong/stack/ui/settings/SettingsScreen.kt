@@ -171,10 +171,10 @@ fun SettingsScreen(
                         )
                         SwitchPreference(
                             checked = false,
-                            title = { Text(text = stringResource(R.string.create_question)) },
+                            title = { Text(text = stringResource(R.string.ask_question)) },
                             onCheckedChange = { isSnackbarVisible = true },
                             summary = {
-                                Text(text = stringResource(R.string.create_question_summary))
+                                Text(text = stringResource(R.string.ask_question_summary))
                             },
                             icon = {
                                 Icon(

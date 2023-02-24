@@ -71,11 +71,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     }
                 }
 
-                findPreference<TwoStatePreference>(getString(R.string.create_question))?.apply {
-                    isChecked = experimental.createQuestionEnabled
+                findPreference<TwoStatePreference>(getString(R.string.ask_question))?.apply {
+                    isChecked = experimental.askQuestionEnabled
                     isVisible = false
                     setOnPreferenceChangeListener { _, newValue ->
-                        experimental.createQuestionEnabled = newValue as Boolean
+                        experimental.askQuestionEnabled = newValue as Boolean
                         view?.showRestartSnackbar()
                         true
                     }

@@ -88,8 +88,8 @@
     <string name="opinion_based_notice">Esta pregunta está demasiado basada en opiniones. Actualmente no está aceptando respuestas.</string>
     <string name="unknown_notice">Esta pregunta se cerró por una razón desconocida.</string>
 
-    <!-- Create Question -->
-    <string name="create_question">Formular una pregunta</string>
+    <!-- Ask Question -->
+    <string name="ask_question">Pregunta</string>
     <string name="title">Título</string>
     <string name="body">Cuerpo</string>
     <string name="preview_success">Lo publicamos como una vista previa</string>
@@ -162,7 +162,7 @@
     <string name="version">Versión</string>
     <string name="syntax_highlighting">Resaltado de sintaxis</string>
     <string name="syntax_highlighting_summary">Habilita el resaltado de sintaxis para los bloques de código Markdown admitidos</string>
-    <string name="create_question_summary">Permite la capacidad de formular preguntas</string>
+    <string name="ask_question_summary">Habilita el soporte para hacer preguntas</string>
 
     <string name="restart_toggle">Para activar esta es necesario reiniciar</string>
     <string name="link_copied">El enlace se copia en el portapapeles</string>
