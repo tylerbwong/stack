@@ -2,6 +2,7 @@
 
 package me.tylerbwong.stack.ui.questions.ask
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -55,6 +57,7 @@ private const val MIN_BODY_LENGTH = 30
 @Composable
 fun AskQuestionLayout2(onFinish: () -> Unit) {
     val pagerState = rememberPagerState()
+    var isConfirmed by remember { mutableStateOf(false) }
     StackTheme {
         Scaffold(
             topBar = {
@@ -71,20 +74,33 @@ fun AskQuestionLayout2(onFinish: () -> Unit) {
                     actions = {}
                 )
             },
-            bottomBar = { BottomNavigationBar(state = pagerState) }
+            bottomBar = {
+                Column {
+                    AnimatedVisibility(visible = pagerState.currentPage == 5) {
+                        LabeledCheckbox(
+                            label = "I confirm that none of these existing posts answers my question.",
+                            checked = isConfirmed,
+                            onCheckedChange = { isConfirmed = it },
+                        )
+                    }
+                    BottomNavigationBar(state = pagerState, onFinish = onFinish)
+                }
+            }
         ) {
             HorizontalPager(
-                count = 5,
+                count = 7,
                 modifier = Modifier.padding(it),
                 state = pagerState,
                 userScrollEnabled = false,
             ) { page ->
                 when (page) {
-                    0 -> TitleLayoutPreview()
-                    1 -> DetailsLayoutPreview()
-                    2 -> ExpandLayoutPreview()
-                    3 -> TagsLayoutPreview()
-                    4 -> DuplicateQuestionLayoutPreview()
+                    0 -> StartPage()
+                    1 -> TitlePage()
+                    2 -> DetailsPage()
+                    3 -> ExpandDetailsPage()
+                    4 -> TagsPage()
+                    5 -> DuplicateQuestionPage()
+                    6 -> ReviewPage()
                 }
             }
         }
@@ -93,7 +109,7 @@ fun AskQuestionLayout2(onFinish: () -> Unit) {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun BottomNavigationBar(state: PagerState) {
+private fun BottomNavigationBar(state: PagerState, onFinish: () -> Unit) {
     val scope = rememberCoroutineScope()
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -101,23 +117,39 @@ private fun BottomNavigationBar(state: PagerState) {
     ) {
         Button(
             onClick = {
-                scope.launch {
-                    state.animateScrollToPage((state.currentPage - 1).coerceAtLeast(0))
+                if (state.currentPage != 0) {
+                    scope.launch {
+                        val previousPage = (state.currentPage - 1).coerceAtLeast(0)
+                        state.animateScrollToPage(previousPage)
+                    }
+                } else {
+                    onFinish()
                 }
             },
             modifier = Modifier.padding(16.dp),
         ) {
-            Text(text = "Back")
+            Text(text = if (state.currentPage == 0) "Exit" else "Back")
         }
         Button(
             onClick = {
-                scope.launch {
-                    state.animateScrollToPage((state.currentPage + 1).coerceAtMost(state.pageCount - 1))
+                if (state.currentPage != state.pageCount - 1) {
+                    scope.launch {
+                        val nextPage = (state.currentPage + 1).coerceAtMost(state.pageCount - 1)
+                        state.animateScrollToPage(nextPage)
+                    }
+                } else {
+                    onFinish()
                 }
             },
             modifier = Modifier.padding(16.dp),
         ) {
-            Text(text = "Next")
+            Text(
+                text = when (state.currentPage) {
+                    state.pageCount - 2 -> "Review"
+                    state.pageCount - 1 -> "Submit"
+                    else -> "Next"
+                }
+            )
         }
     }
 }

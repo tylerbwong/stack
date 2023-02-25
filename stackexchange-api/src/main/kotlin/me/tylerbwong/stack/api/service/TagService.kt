@@ -14,6 +14,7 @@ interface TagService {
 
     @GET("tags")
     suspend fun getPopularTags(
+        @Query(INNAME_PARAM) inname: String? = null,
         @Query(SORT_PARAM) sort: String = TAGS_SORT,
         @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = TAGS_PAGE_SIZE,
@@ -31,6 +32,7 @@ interface TagService {
     ): Response<TagPreference>
 
     companion object {
+        private const val INNAME_PARAM = "inname"
         private const val TAGS_SORT = "popular"
         private const val TAGS_PAGE_SIZE = 30
         private const val TAGS_FILTER = "!0XrIP(5mCa0R7ys-I*Wa36*Jm"

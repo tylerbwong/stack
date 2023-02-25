@@ -17,7 +17,7 @@ import me.tylerbwong.stack.ui.utils.formatElapsedTime
 class AskQuestionActivity : BaseActivity<ActivityAskQuestionBinding>(
     ActivityAskQuestionBinding::inflate
 ) {
-    private val viewModel by viewModels<CreateQuestionViewModel>()
+    private val viewModel by viewModels<AskQuestionViewModel>()
     private val timestampProvider: (Long) -> String = { it.formatElapsedTime(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
