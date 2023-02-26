@@ -1,5 +1,8 @@
 package me.tylerbwong.stack.ui.questions.ask
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -43,17 +46,15 @@ class AskQuestionViewModel @Inject constructor(
         get() = _questionDraft
     private val _questionDraft = MutableLiveData<QuestionDraft>()
 
-    val title: LiveData<String>
-        get() = _title
-    private val _title = MutableLiveData<String>()
+    var title by mutableStateOf(value = "")
+    var details by mutableStateOf(value = "")
+    var expandDetails by mutableStateOf(value = "")
+    var selectedTags by mutableStateOf(value = emptySet<Tag>())
+    var isReviewed by mutableStateOf(value = false)
 
     val tags: LiveData<List<Tag>>
         get() = _tags
     private val _tags = MutableLiveData<List<Tag>>()
-
-    val selectedTags: LiveData<Set<Tag>>
-        get() = _selectedTags
-    private val _selectedTags = MutableLiveData<Set<Tag>>()
 
     internal val currentSite: LiveData<Site?>
         get() = _currentSite
@@ -90,10 +91,6 @@ class AskQuestionViewModel @Inject constructor(
         }
     }
 
-    fun setTitle(title: String) {
-        _title.value = title
-    }
-
     fun fetchSite() {
         viewModelScope.launch {
             try {
@@ -124,19 +121,13 @@ class AskQuestionViewModel @Inject constructor(
         }
     }
 
-    fun setSelectedTags(tags: Set<Tag>) {
-        if (tags.size <= 5) {
-            _selectedTags.value = tags
-        }
-    }
-
     fun searchSimilar() {
-        title.value?.let {
+        title?.let {
             viewModelScope.launch {
                 try {
                     _similarQuestions.value = searchService.search(
                         query = it,
-                        tags = selectedTags.value?.joinToString(";") { it.name } ?: "",
+                        tags = selectedTags.joinToString(";") { it.name } ?: "",
                         pageSize = 10,
                     ).items
                 } catch (ex: Exception) {

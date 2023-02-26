@@ -23,7 +23,7 @@ class AskQuestionActivity : BaseActivity<ActivityAskQuestionBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.composeContent.setContent {
-            AskQuestionLayout2(onFinish = ::finish)
+            AskQuestionLayout(onFinish = ::finish)
         }
         viewModel.askQuestionState.observe(this) { state ->
             when (state) {
