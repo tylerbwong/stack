@@ -118,13 +118,14 @@ private fun BottomNavigationBar(
         }
         Button(
             onClick = {
-                if (page != AskQuestionPage.Review) {
-                    scope.launch {
-                        val nextPage = (state.currentPage + 1).coerceAtMost(state.pageCount - 1)
-                        state.animateScrollToPage(nextPage)
+                when (page) {
+                    AskQuestionPage.Review -> viewModel.askQuestion()
+                    else -> {
+                        scope.launch {
+                            val nextPage = (state.currentPage + 1).coerceAtMost(state.pageCount - 1)
+                            state.animateScrollToPage(nextPage)
+                        }
                     }
-                } else {
-                    onFinish()
                 }
             },
             modifier = Modifier.padding(16.dp),

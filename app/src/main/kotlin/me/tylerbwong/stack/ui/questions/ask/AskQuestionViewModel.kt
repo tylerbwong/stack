@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.api.model.Tag
@@ -64,27 +65,27 @@ class AskQuestionViewModel @Inject constructor(
         get() = _similarQuestions
     private val _similarQuestions = MutableLiveData<List<Question>>()
 
-    fun askQuestion(title: String, body: String, tags: String, isPreview: Boolean) {
+    fun askQuestion() {
         viewModelScope.launch {
             try {
                 val response = questionService.addQuestion(
-                    title,
-                    body,
-                    tags.replace(",", ";"),
-                    preview = isPreview
+                    title = title,
+                    body = listOf(details, expandDetails).joinToString("\n"),
+                    tags = selectedTags.joinToString(";"),
+                    preview = BuildConfig.DEBUG,
                 )
-                _askQuestionState.value = if (isPreview) {
-                    AskQuestionSuccessPreview
+                _askQuestionState.value = if (BuildConfig.DEBUG) {
+                    AskQuestionState.SuccessPreview
                 } else {
                     val question = response.items.firstOrNull()
                     if (question != null) {
-                        AskQuestionSuccess(question.questionId)
+                        AskQuestionState.Success(question.questionId)
                     } else {
-                        AskQuestionError()
+                        AskQuestionState.Error()
                     }
                 }
             } catch (ex: Exception) {
-                _askQuestionState.value = AskQuestionError(
+                _askQuestionState.value = AskQuestionState.Error(
                     (ex as? HttpException)?.toErrorResponse()?.errorMessage
                 )
             }
@@ -122,17 +123,15 @@ class AskQuestionViewModel @Inject constructor(
     }
 
     fun searchSimilar() {
-        title?.let {
-            viewModelScope.launch {
-                try {
-                    _similarQuestions.value = searchService.search(
-                        query = it,
-                        tags = selectedTags.joinToString(";") { it.name } ?: "",
-                        pageSize = 10,
-                    ).items
-                } catch (ex: Exception) {
-                    _similarQuestions.value = emptyList()
-                }
+        viewModelScope.launch {
+            try {
+                _similarQuestions.value = searchService.search(
+                    query = title,
+                    tags = selectedTags.joinToString(";") { it.name },
+                    pageSize = 10,
+                ).items
+            } catch (ex: Exception) {
+                _similarQuestions.value = emptyList()
             }
         }
     }
@@ -169,7 +168,9 @@ class AskQuestionViewModel @Inject constructor(
     }
 }
 
-sealed class AskQuestionState
-data class AskQuestionSuccess(val questionId: Int) : AskQuestionState()
-object AskQuestionSuccessPreview : AskQuestionState()
-data class AskQuestionError(val errorMessage: String? = null) : AskQuestionState()
+sealed class AskQuestionState {
+    object Asking : AskQuestionState()
+    data class Success(val questionId: Int) : AskQuestionState()
+    object SuccessPreview : AskQuestionState()
+    data class Error(val errorMessage: String? = null) : AskQuestionState()
+}
