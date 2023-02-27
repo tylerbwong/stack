@@ -22,7 +22,6 @@ import me.tylerbwong.stack.data.persistence.dao.QuestionDraftDao
 import me.tylerbwong.stack.data.persistence.entity.QuestionDraftEntity
 import me.tylerbwong.stack.data.persistence.entity.SiteEntity
 import me.tylerbwong.stack.data.repository.SiteRepository
-import me.tylerbwong.stack.data.toQuestionDraft
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import retrofit2.HttpException
@@ -42,7 +41,7 @@ class AskQuestionViewModel @Inject constructor(
 
     val askQuestionState: LiveData<AskQuestionState>
         get() = _askQuestionState
-    private val _askQuestionState = SingleLiveEvent<AskQuestionState>()
+    private val _askQuestionState = MutableLiveData<AskQuestionState>()
 
     val draftStatus: LiveData<DraftStatus>
         get() = _draftStatus
@@ -66,35 +65,40 @@ class AskQuestionViewModel @Inject constructor(
         get() = _similarQuestions
     private val _similarQuestions = MutableLiveData<List<Question>>()
 
+    val hasActiveDraft: Boolean
+        get() = id != -1
+
+    /**
+     * Even if content is blank, if we already have an active draft save the draft anyways
+     */
     val shouldSaveDraft: Boolean
         get() = listOf(
-            { this.id != -1 }, // Only save draft if one was created for current session
             { title.isNotBlank() },
             { body.isNotBlank() },
             { expandBody.isNotBlank() },
             { selectedTags.isNotEmpty() },
-        ).any { it() }
+        ).any { it() } || hasActiveDraft
 
     fun askQuestion() {
         viewModelScope.launch {
             try {
+                _askQuestionState.value = AskQuestionState.Posting
                 val response = questionService.addQuestion(
                     title = title.trim(),
                     body = listOf(body, expandBody).joinToString("\n\n").trim(),
                     tags = selectedTags.joinToString(";") { it.name },
                     preview = BuildConfig.DEBUG,
                 )
-                _askQuestionState.value = if (BuildConfig.DEBUG) {
-                    deleteDraft(id)
-                    AskQuestionState.SuccessPreview
-                } else {
-                    val question = response.items.firstOrNull()
-                    if (question != null) {
-                        deleteDraft(id)
-                        AskQuestionState.Success(question.questionId)
+                val question = response.items.firstOrNull()
+                _askQuestionState.value = if (question != null) {
+                    if (BuildConfig.DEBUG) {
+                        AskQuestionState.SuccessPreview
                     } else {
-                        AskQuestionState.Error()
+                        questionDraftDao.deleteDraftById(id, siteRepository.site)
+                        AskQuestionState.Success(question.questionId)
                     }
+                } else {
+                    AskQuestionState.Error()
                 }
             } catch (ex: Exception) {
                 _askQuestionState.value = AskQuestionState.Error(
@@ -177,18 +181,23 @@ class AskQuestionViewModel @Inject constructor(
         }
     }
 
-    fun deleteDraft(id: Int) {
+    fun deleteDraft() {
         launchRequest {
             questionDraftDao.deleteDraftById(id, siteRepository.site)
+            title = ""
+            body = ""
+            expandBody = ""
+            selectedTags = emptySet()
+            isReviewed = false
+            _askQuestionState.value = AskQuestionState.DraftDeleted
         }
     }
 
-    fun fetchDraft(id: Int, timestampProvider: (Long) -> String) {
+    fun fetchDraft(id: Int) {
         if (id != -1) {
             this.id = id
             launchRequest {
                 val draft = questionDraftDao.getQuestionDraft(id, siteRepository.site)
-                    .toQuestionDraft(timestampProvider)
                 title = draft.title
                 body = draft.body
                 expandBody = draft.expandBody
@@ -202,7 +211,9 @@ class AskQuestionViewModel @Inject constructor(
 }
 
 sealed class AskQuestionState {
-    object Asking : AskQuestionState()
+    object Idle : AskQuestionState()
+    object DraftDeleted : AskQuestionState()
+    object Posting : AskQuestionState()
     data class Success(val questionId: Int) : AskQuestionState()
     object SuccessPreview : AskQuestionState()
     data class Error(val errorMessage: String? = null) : AskQuestionState()

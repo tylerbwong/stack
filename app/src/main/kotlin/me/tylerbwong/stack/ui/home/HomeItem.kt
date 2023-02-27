@@ -6,9 +6,11 @@ import me.tylerbwong.adapter.ViewHolderProvider
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Tag
 import me.tylerbwong.stack.data.model.AnswerDraft
+import me.tylerbwong.stack.data.model.QuestionDraft
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.ui.HeaderHolder
 import me.tylerbwong.stack.ui.drafts.AnswerDraftHolder
+import me.tylerbwong.stack.ui.drafts.QuestionDraftHolder
 import me.tylerbwong.stack.ui.home.tags.TagHeaderHolder
 import me.tylerbwong.stack.ui.questions.QuestionCardHolder
 import me.tylerbwong.stack.ui.questions.QuestionCarouselHolder
@@ -22,6 +24,7 @@ sealed class HomeItem(viewHolderProvider: ViewHolderProvider) : DynamicItem(view
 data class HeaderItem(val title: String, val subtitle: String? = null) : HomeItem(::HeaderHolder)
 data class QuestionItem(val question: Question) : HomeItem(::QuestionHolder)
 data class AnswerDraftItem(val draft: AnswerDraft) : HomeItem(::AnswerDraftHolder)
+data class QuestionDraftItem(val draft: QuestionDraft) : HomeItem(::QuestionDraftHolder)
 data class SearchInputItem(
     val searchPayload: SearchPayload,
     val onPayloadReceived: (SearchPayload) -> Unit
@@ -53,6 +56,8 @@ object HomeItemDiffCallback : DiffUtil.ItemCallback<DynamicItem>() {
                         oldItem.question.questionId == newItem.question.questionId ||
                         oldItem is AnswerDraftItem && newItem is AnswerDraftItem &&
                         oldItem.draft.questionId == newItem.draft.questionId ||
+                        oldItem is QuestionDraftItem && newItem is QuestionDraftItem &&
+                        oldItem.draft.id == newItem.draft.id ||
                         oldItem is SearchInputItem && newItem is SearchInputItem ||
                         oldItem is FilterInputItem && newItem is FilterInputItem ||
                         oldItem is TagsItem && newItem is TagsItem ||
@@ -74,6 +79,10 @@ object HomeItemDiffCallback : DiffUtil.ItemCallback<DynamicItem>() {
             oldItem.draft.questionTitle == newItem.draft.questionTitle &&
                     oldItem.draft.formattedTimestamp == newItem.draft.formattedTimestamp &&
                     oldItem.draft.bodyMarkdown == newItem.draft.bodyMarkdown
+        oldItem is QuestionDraftItem && newItem is QuestionDraftItem ->
+            oldItem.draft.title == newItem.draft.title &&
+                    oldItem.draft.formattedTimestamp == newItem.draft.formattedTimestamp &&
+                    oldItem.draft.body == newItem.draft.body
         oldItem is SearchInputItem && newItem is SearchInputItem ->
             oldItem.searchPayload == newItem.searchPayload
         oldItem is FilterInputItem && newItem is FilterInputItem ->

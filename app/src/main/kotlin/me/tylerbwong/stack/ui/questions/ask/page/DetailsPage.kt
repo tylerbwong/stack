@@ -18,7 +18,7 @@ import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Details.MIN_DET
 fun DetailsPage() {
     val viewModel = viewModel<AskQuestionViewModel>()
     LaunchedEffect(viewModel.body) {
-        if (viewModel.shouldSaveDraft && viewModel.body.isNotBlank()) {
+        if (viewModel.shouldSaveDraft) {
             delay(1_000)
             viewModel.saveDraft()
         }
@@ -43,7 +43,7 @@ fun DetailsPage() {
 fun ExpandDetailsPage() {
     val viewModel = viewModel<AskQuestionViewModel>()
     LaunchedEffect(viewModel.expandBody) {
-        if (viewModel.shouldSaveDraft && viewModel.expandBody.isNotBlank()) {
+        if (viewModel.shouldSaveDraft) {
             delay(1_000)
             viewModel.saveDraft()
         }

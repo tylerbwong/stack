@@ -3,7 +3,8 @@ package me.tylerbwong.stack.ui.questions.ask.page
 import androidx.compose.runtime.Composable
 import me.tylerbwong.stack.api.model.Tag
 import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Details.MIN_DETAILS_LENGTH
-import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Title.TITLE_LENGTH_LIMIT
+import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Title.TITLE_LENGTH_MAX
+import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Title.TITLE_LENGTH_MIN
 
 sealed class AskQuestionPage<ContentType : Any>(
     val page: @Composable () -> Unit,
@@ -15,9 +16,12 @@ sealed class AskQuestionPage<ContentType : Any>(
     object Start : AskQuestionPage<Nothing>(page = { StartPage() })
     object Title : AskQuestionPage<String>(
         page = { TitlePage() },
-        canContinue = { title -> title.isNotBlank() && title.length <= TITLE_LENGTH_LIMIT },
+        canContinue = { title ->
+            title.isNotBlank() && title.length in TITLE_LENGTH_MIN .. TITLE_LENGTH_MAX
+                      },
     ) {
-        internal const val TITLE_LENGTH_LIMIT = 150
+        internal const val TITLE_LENGTH_MIN = 15
+        internal const val TITLE_LENGTH_MAX = 150
     }
     object Details : AskQuestionPage<String>(
         page = { DetailsPage() },
@@ -38,6 +42,7 @@ sealed class AskQuestionPage<ContentType : Any>(
         canContinue = { isChecked -> isChecked },
     )
     object Review : AskQuestionPage<Nothing>(page = { ReviewPage() })
+    object Success : AskQuestionPage<Nothing>(page = { SuccessPage() })
 
     companion object {
         fun values(): List<AskQuestionPage<*>> = listOf(
@@ -48,6 +53,7 @@ sealed class AskQuestionPage<ContentType : Any>(
             Tags,
             DuplicateQuestion,
             Review,
+            Success,
         )
 
         fun getCurrentPage(page: Int): AskQuestionPage<*>? = values().getOrNull(page)

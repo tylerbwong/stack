@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.ElevatedFilterChip
@@ -50,7 +48,7 @@ fun TagsPage() {
         derivedStateOf { viewModel.selectedTags.isNotEmpty() }
     }
     LaunchedEffect(viewModel.selectedTags) {
-        if (viewModel.shouldSaveDraft && viewModel.selectedTags.isNotEmpty()) {
+        if (viewModel.shouldSaveDraft) {
             delay(1_000)
             viewModel.saveDraft()
         }
@@ -89,12 +87,9 @@ fun TagsPage() {
         )
         Spacer(modifier = Modifier.height(16.dp))
         AnimatedVisibility(visible = isSearchTagsVisible) {
-            val scrollState = rememberScrollState()
             Spacer(modifier = Modifier.height(64.dp))
             FlowRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(scrollState),
+                modifier = Modifier.fillMaxWidth(),
                 mainAxisSpacing = 8.dp,
             ) {
                 searchTags.forEach {

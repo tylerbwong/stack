@@ -7,15 +7,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applyInsetter
+import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.model.AnswerDraft
 import me.tylerbwong.stack.databinding.HomeFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.home.AnswerDraftItem
 import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeItem
 import me.tylerbwong.stack.ui.home.HomeItemDiffCallback
+import me.tylerbwong.stack.ui.home.QuestionDraftItem
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.formatElapsedTime
 import me.tylerbwong.stack.ui.utils.showSnackbar
@@ -57,7 +58,7 @@ class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
                 snackbar?.dismiss()
             }
         }
-        viewModel.answerDrafts.observe(viewLifecycleOwner, ::updateContent)
+        viewModel.drafts.observe(viewLifecycleOwner, ::updateContent)
 
         binding.recyclerView.apply {
             adapter = this@DraftsFragment.adapter
@@ -68,7 +69,10 @@ class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
                         spacing = context.resources.getDimensionPixelSize(
                             R.dimen.item_spacing_question_detail
                         ),
-                        applicableViewTypes = listOf(AnswerDraftItem::class.java.name.hashCode()),
+                        applicableViewTypes = listOf(
+                            AnswerDraftItem::class.java.name.hashCode(),
+                            QuestionDraftItem::class.java.name.hashCode(),
+                        ),
                     )
                 )
             }
@@ -89,7 +93,7 @@ class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
         viewModel.fetchDrafts(timestampProvider)
     }
 
-    private fun updateContent(drafts: List<AnswerDraft>) {
+    private fun updateContent(drafts: List<DynamicItem>) {
         val homeItems: List<HomeItem> = listOf(
             HeaderItem(
                 getString(R.string.drafts),
@@ -101,6 +105,6 @@ class DraftsFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::in
             )
         )
 
-        adapter.submitList(homeItems + drafts.map { AnswerDraftItem(it) })
+        adapter.submitList(homeItems + drafts)
     }
 }

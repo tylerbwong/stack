@@ -14,20 +14,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -36,14 +40,31 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage
+import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.compose.LabeledCheckbox
 import me.tylerbwong.stack.ui.utils.compose.StackTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
 fun AskQuestionLayout(onFinish: () -> Unit) {
-    val pagerState = rememberPagerState()
     val viewModel = viewModel<AskQuestionViewModel>()
+    val askQuestionState by viewModel.askQuestionState.observeAsState(
+        initial = AskQuestionState.Idle,
+    )
+    val pagerState = rememberPagerState(
+        initialPage = if (viewModel.hasActiveDraft) {
+            AskQuestionPage.Title
+        } else {
+            AskQuestionPage.Start
+        }.ordinal
+    )
+    LaunchedEffect(askQuestionState) {
+        if (askQuestionState is AskQuestionState.Success || askQuestionState == AskQuestionState.SuccessPreview) {
+            pagerState.animateScrollToPage(AskQuestionPage.Success.ordinal)
+        } else if (askQuestionState == AskQuestionState.DraftDeleted) {
+            pagerState.animateScrollToPage(AskQuestionPage.Start.ordinal)
+        }
+    }
     val draftStatus by viewModel.draftStatus.observeAsState(initial = DraftStatus.Idle)
     val currentPage by remember {
         derivedStateOf { AskQuestionPage.getCurrentPage(pagerState.currentPage) }
@@ -86,7 +107,16 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
                             )
                         }
                     },
-                    actions = {}
+                    actions = {
+                        IconButton(
+                            onClick = { viewModel.deleteDraft() },
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Delete,
+                                contentDescription = null,
+                            )
+                        }
+                    }
                 )
             },
             bottomBar = {
@@ -101,18 +131,23 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
                     }
                     BottomNavigationBar(
                         state = pagerState,
+                        askQuestionState = askQuestionState,
                         page = currentPage,
                         onFinish = onFinish,
                     )
                 }
             }
         ) {
-            HorizontalPager(
-                count = AskQuestionPage.values().size,
-                modifier = Modifier.padding(it),
-                state = pagerState,
-                userScrollEnabled = false,
-            ) { page -> AskQuestionPage.getCurrentPage(page)?.page?.invoke() }
+            Column(modifier = Modifier.padding(it)) {
+                AnimatedVisibility(visible = askQuestionState == AskQuestionState.Posting) {
+                    LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                }
+                HorizontalPager(
+                    count = AskQuestionPage.values().size,
+                    state = pagerState,
+                    userScrollEnabled = false,
+                ) { page -> AskQuestionPage.getCurrentPage(page)?.page?.invoke() }
+            }
         }
     }
 }
@@ -121,9 +156,11 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
 @Composable
 private fun BottomNavigationBar(
     state: PagerState,
+    askQuestionState: AskQuestionState,
     page: AskQuestionPage<*>?,
     onFinish: () -> Unit,
 ) {
+    val context = LocalContext.current
     val viewModel = viewModel<AskQuestionViewModel>()
     val scope = rememberCoroutineScope()
     Row(
@@ -132,7 +169,7 @@ private fun BottomNavigationBar(
     ) {
         Button(
             onClick = {
-                if (page != AskQuestionPage.Start) {
+                if (page !in listOf(AskQuestionPage.Start, AskQuestionPage.Success)) {
                     scope.launch {
                         val previousPage = (state.currentPage - 1).coerceAtLeast(0)
                         state.animateScrollToPage(previousPage)
@@ -142,17 +179,33 @@ private fun BottomNavigationBar(
                 }
             },
             modifier = Modifier.padding(16.dp),
+            enabled = askQuestionState != AskQuestionState.Posting,
         ) {
-            Text(text = if (page == AskQuestionPage.Start) "Exit" else "Back")
+            Text(
+                text = if (page in listOf(AskQuestionPage.Start, AskQuestionPage.Success)) {
+                    "Exit"
+                } else {
+                    "Back"
+                }
+            )
         }
         Button(
             onClick = {
                 when (page) {
                     AskQuestionPage.Review -> viewModel.askQuestion()
-                    else -> {
-                        scope.launch {
-                            val nextPage = (state.currentPage + 1).coerceAtMost(state.pageCount - 1)
-                            state.animateScrollToPage(nextPage)
+                    else -> when (askQuestionState) {
+                        is AskQuestionState.Success -> {
+                            QuestionDetailActivity.startActivity(context, askQuestionState.questionId)
+                            onFinish()
+                        }
+                        AskQuestionState.SuccessPreview -> {
+                            onFinish()
+                        }
+                        else -> {
+                            scope.launch {
+                                val nextPage = (state.currentPage + 1).coerceAtMost(state.pageCount - 1)
+                                state.animateScrollToPage(nextPage)
+                            }
                         }
                     }
                 }
@@ -164,14 +217,18 @@ private fun BottomNavigationBar(
                 is AskQuestionPage.ExpandDetails -> page.canContinue(viewModel.expandBody)
                 is AskQuestionPage.Tags -> page.canContinue(viewModel.selectedTags)
                 is AskQuestionPage.DuplicateQuestion -> page.canContinue(viewModel.isReviewed)
-                else -> true
+                else -> askQuestionState != AskQuestionState.Posting
             },
         ) {
             Text(
                 text = when (page) {
                     AskQuestionPage.DuplicateQuestion -> "Review"
                     AskQuestionPage.Review -> "Post"
-                    else -> "Next"
+                    else -> if (askQuestionState is AskQuestionState.Success || askQuestionState == AskQuestionState.SuccessPreview) {
+                        "View"
+                    } else {
+                        "Next"
+                    }
                 }
             )
         }

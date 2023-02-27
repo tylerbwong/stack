@@ -46,6 +46,7 @@ fun DuplicateQuestionPage() {
     AskQuestionDetailsLayout(
         title = "Review existing questions",
         description = "Click a post to review if your question is a duplicate.",
+        scrollable = false,
     ) {
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             itemsIndexed(similarQuestions) { index, item ->

@@ -15,14 +15,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
-import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Title.TITLE_LENGTH_LIMIT
+import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Title.TITLE_LENGTH_MAX
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TitlePage() {
     val viewModel = viewModel<AskQuestionViewModel>()
     LaunchedEffect(viewModel.title) {
-        if (viewModel.shouldSaveDraft && viewModel.title.isNotBlank()) {
+        if (viewModel.shouldSaveDraft) {
             delay(1_000)
             viewModel.saveDraft()
         }
@@ -34,7 +34,7 @@ fun TitlePage() {
         OutlinedTextField(
             value = viewModel.title,
             onValueChange = {
-                if (it.length <= TITLE_LENGTH_LIMIT) {
+                if (it.length <= TITLE_LENGTH_MAX) {
                     viewModel.title = it
                 }
             },
@@ -44,7 +44,7 @@ fun TitlePage() {
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(
-            text = "${viewModel.title.length} / $TITLE_LENGTH_LIMIT",
+            text = "${viewModel.title.length} / $TITLE_LENGTH_MAX",
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.End,
             style = MaterialTheme.typography.labelSmall,
