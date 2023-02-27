@@ -49,6 +49,12 @@ fun TagsPage() {
     val isSelectedTagsVisible by remember(viewModel.selectedTags) {
         derivedStateOf { viewModel.selectedTags.isNotEmpty() }
     }
+    LaunchedEffect(viewModel.selectedTags) {
+        if (viewModel.shouldSaveDraft && viewModel.selectedTags.isNotEmpty()) {
+            delay(1_000)
+            viewModel.saveDraft()
+        }
+    }
     AskQuestionDetailsLayout(
         title = "Tags",
         description = "Add up to $MAX_NUM_TAGS tags to describe what your question is about.",

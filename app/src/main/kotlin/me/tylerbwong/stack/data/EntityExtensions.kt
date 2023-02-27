@@ -155,6 +155,7 @@ fun QuestionDraftEntity.toQuestionDraft(toFormattedTimestamp: Long.() -> String)
         title = title,
         formattedTimestamp = updatedDate.toFormattedTimestamp(),
         body = body,
+        expandBody = expandBody,
         tags = tags,
         site = site
     )

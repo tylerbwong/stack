@@ -29,7 +29,10 @@ sealed class AskQuestionPage<ContentType : Any>(
         page = { ExpandDetailsPage() },
         canContinue = { details -> details.length > MIN_DETAILS_LENGTH },
     )
-    object Tags : AskQuestionPage<Set<Tag>>(page = { TagsPage() })
+    object Tags : AskQuestionPage<Set<Tag>>(
+        page = { TagsPage() },
+        canContinue = { tags -> tags.isNotEmpty() }
+    )
     object DuplicateQuestion : AskQuestionPage<Boolean>(
         page = { DuplicateQuestionPage() },
         canContinue = { isChecked -> isChecked },

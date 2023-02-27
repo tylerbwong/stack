@@ -5,6 +5,7 @@ data class QuestionDraft(
     val title: String,
     val formattedTimestamp: String,
     val body: String,
+    val expandBody: String,
     val tags: String,
     val site: String
 )

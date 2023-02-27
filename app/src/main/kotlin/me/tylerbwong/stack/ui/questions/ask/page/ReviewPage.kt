@@ -1,12 +1,17 @@
 package me.tylerbwong.stack.ui.questions.ask.page
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,28 +29,46 @@ fun ReviewPage() {
         title = "Review your question",
         description = "Please do a final review of your question and then post.",
     ) {
-        Text(
-            text = viewModel.title,
-            style = MaterialTheme.typography.bodyLarge,
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        MarkdownText(
-            markdown = listOf(viewModel.details, viewModel.expandDetails)
-                .joinToString("\n"),
-            modifier = Modifier.fillMaxWidth(),
-            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        AnimatedVisibility(visible = viewModel.selectedTags.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(32.dp))
-            FlowRow(mainAxisSpacing = 8.dp) {
-                viewModel.selectedTags.forEach {
-                    InputChip(
-                        selected = false,
-                        onClick = {},
-                        label = { Text(text = it.name) },
-                    )
+        val scrollState = rememberScrollState()
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(scrollState),
+        ) {
+            OutlinedCard(modifier = Modifier.fillMaxWidth()) {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = viewModel.title.trim(),
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                MarkdownText(
+                    markdown = listOf(viewModel.body, viewModel.expandBody)
+                        .joinToString("\r\n\r\n")
+                        .trim(),
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth(),
+                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                AnimatedVisibility(visible = viewModel.selectedTags.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(32.dp))
+                    FlowRow(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        mainAxisSpacing = 8.dp,
+                    ) {
+                        viewModel.selectedTags.forEach {
+                            InputChip(
+                                selected = false,
+                                onClick = {},
+                                label = { Text(text = it.name) },
+                            )
+                        }
+                    }
                 }
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }

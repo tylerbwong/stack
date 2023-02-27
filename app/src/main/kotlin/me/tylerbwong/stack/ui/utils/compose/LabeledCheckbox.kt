@@ -14,10 +14,12 @@ import androidx.compose.ui.unit.dp
 fun LabeledCheckbox(
     label: String,
     checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
+    modifier: Modifier = Modifier,
+    onCheckedChange: (Boolean) -> Unit,
 ) {
     TextButton(
         onClick = { onCheckedChange(!checked) },
+        modifier = modifier,
     ) {
         Spacer(modifier = Modifier.width(8.dp))
         Checkbox(

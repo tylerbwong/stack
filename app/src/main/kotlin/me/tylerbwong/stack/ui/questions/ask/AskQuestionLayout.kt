@@ -3,6 +3,10 @@
 package me.tylerbwong.stack.ui.questions.ask
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,6 +24,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -39,6 +44,7 @@ import me.tylerbwong.stack.ui.utils.compose.StackTheme
 fun AskQuestionLayout(onFinish: () -> Unit) {
     val pagerState = rememberPagerState()
     val viewModel = viewModel<AskQuestionViewModel>()
+    val draftStatus by viewModel.draftStatus.observeAsState(initial = DraftStatus.Idle)
     val currentPage by remember {
         derivedStateOf { AskQuestionPage.getCurrentPage(pagerState.currentPage) }
     }
@@ -49,7 +55,29 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = {},
+                    title = {
+                        AnimatedVisibility(
+                            visible = draftStatus == DraftStatus.Saving,
+                            enter = fadeIn() + slideInHorizontally(),
+                            exit = slideOutHorizontally { it / 2 } + fadeOut(),
+                        ) {
+                            Text(text = "Saving draft...")
+                        }
+                        AnimatedVisibility(
+                            visible = draftStatus == DraftStatus.Complete,
+                            enter = fadeIn() + slideInHorizontally(),
+                            exit = slideOutHorizontally { it / 2 } + fadeOut(),
+                        ) {
+                            Text(text = "Draft saved!")
+                        }
+                        AnimatedVisibility(
+                            visible = draftStatus == DraftStatus.Failed,
+                            enter = fadeIn() + slideInHorizontally(),
+                            exit = slideOutHorizontally { it / 2 } + fadeOut(),
+                        ) {
+                            Text(text = "Could not save draft")
+                        }
+                    },
                     navigationIcon = {
                         IconButton(onClick = onFinish) {
                             Icon(
@@ -67,6 +95,7 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
                         LabeledCheckbox(
                             label = "I confirm that none of these existing posts answers my question.",
                             checked = viewModel.isReviewed,
+                            modifier = Modifier.padding(horizontal = 16.dp),
                             onCheckedChange = { viewModel.isReviewed = it },
                         )
                     }
@@ -131,8 +160,8 @@ private fun BottomNavigationBar(
             modifier = Modifier.padding(16.dp),
             enabled = when (page) {
                 is AskQuestionPage.Title -> page.canContinue(viewModel.title)
-                is AskQuestionPage.Details -> page.canContinue(viewModel.details)
-                is AskQuestionPage.ExpandDetails -> page.canContinue(viewModel.expandDetails)
+                is AskQuestionPage.Details -> page.canContinue(viewModel.body)
+                is AskQuestionPage.ExpandDetails -> page.canContinue(viewModel.expandBody)
                 is AskQuestionPage.Tags -> page.canContinue(viewModel.selectedTags)
                 is AskQuestionPage.DuplicateQuestion -> page.canContinue(viewModel.isReviewed)
                 else -> true

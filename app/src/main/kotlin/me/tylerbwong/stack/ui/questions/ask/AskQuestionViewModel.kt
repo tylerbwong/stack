@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.BuildConfig
@@ -17,7 +18,6 @@ import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.api.service.SearchService
 import me.tylerbwong.stack.api.service.TagService
 import me.tylerbwong.stack.api.utils.toErrorResponse
-import me.tylerbwong.stack.data.model.QuestionDraft
 import me.tylerbwong.stack.data.persistence.dao.QuestionDraftDao
 import me.tylerbwong.stack.data.persistence.entity.QuestionDraftEntity
 import me.tylerbwong.stack.data.persistence.entity.SiteEntity
@@ -26,6 +26,7 @@ import me.tylerbwong.stack.data.toQuestionDraft
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,13 +44,13 @@ class AskQuestionViewModel @Inject constructor(
         get() = _askQuestionState
     private val _askQuestionState = SingleLiveEvent<AskQuestionState>()
 
-    val questionDraft: LiveData<QuestionDraft>
-        get() = _questionDraft
-    private val _questionDraft = MutableLiveData<QuestionDraft>()
+    val draftStatus: LiveData<DraftStatus>
+        get() = _draftStatus
+    private val _draftStatus = SingleLiveEvent<DraftStatus>()
 
     var title by mutableStateOf(value = "")
-    var details by mutableStateOf(value = "")
-    var expandDetails by mutableStateOf(value = "")
+    var body by mutableStateOf(value = "")
+    var expandBody by mutableStateOf(value = "")
     var selectedTags by mutableStateOf(value = emptySet<Tag>())
     var isReviewed by mutableStateOf(value = false)
 
@@ -65,20 +66,31 @@ class AskQuestionViewModel @Inject constructor(
         get() = _similarQuestions
     private val _similarQuestions = MutableLiveData<List<Question>>()
 
+    val shouldSaveDraft: Boolean
+        get() = listOf(
+            { this.id != -1 }, // Only save draft if one was created for current session
+            { title.isNotBlank() },
+            { body.isNotBlank() },
+            { expandBody.isNotBlank() },
+            { selectedTags.isNotEmpty() },
+        ).any { it() }
+
     fun askQuestion() {
         viewModelScope.launch {
             try {
                 val response = questionService.addQuestion(
-                    title = title,
-                    body = listOf(details, expandDetails).joinToString("\n"),
-                    tags = selectedTags.joinToString(";"),
+                    title = title.trim(),
+                    body = listOf(body, expandBody).joinToString("\n\n").trim(),
+                    tags = selectedTags.joinToString(";") { it.name },
                     preview = BuildConfig.DEBUG,
                 )
                 _askQuestionState.value = if (BuildConfig.DEBUG) {
+                    deleteDraft(id)
                     AskQuestionState.SuccessPreview
                 } else {
                     val question = response.items.firstOrNull()
                     if (question != null) {
+                        deleteDraft(id)
                         AskQuestionState.Success(question.questionId)
                     } else {
                         AskQuestionState.Error()
@@ -136,18 +148,32 @@ class AskQuestionViewModel @Inject constructor(
         }
     }
 
-    fun saveDraft(title: String, body: String, tags: String, timestampProvider: (Long) -> String) {
-        launchRequest {
-            val id = questionDraftDao.insertQuestionDraft(
-                QuestionDraftEntity(
-                    title,
-                    System.currentTimeMillis(),
-                    body,
-                    tags,
-                    siteRepository.site
+    fun saveDraft() {
+        viewModelScope.launch {
+            try {
+                _draftStatus.value = DraftStatus.Saving
+                val id = questionDraftDao.insertQuestionDraft(
+                    QuestionDraftEntity(
+                        title = title,
+                        System.currentTimeMillis(),
+                        body = body,
+                        expandBody = expandBody,
+                        selectedTags.joinToString(";") { it.name },
+                        siteRepository.site
+                    ).also {
+                        if (this@AskQuestionViewModel.id != -1) {
+                            it.id = this@AskQuestionViewModel.id
+                        }
+                    }
                 )
-            )
-            fetchDraft(id.toInt(), timestampProvider)
+                this@AskQuestionViewModel.id = id.toInt()
+                delay(1_000)
+                _draftStatus.value = DraftStatus.Complete
+            } catch (exception: Exception) {
+                delay(1_000)
+                _draftStatus.value = DraftStatus.Failed
+                Timber.e(exception)
+            }
         }
     }
 
@@ -161,8 +187,15 @@ class AskQuestionViewModel @Inject constructor(
         if (id != -1) {
             this.id = id
             launchRequest {
-                _questionDraft.value = questionDraftDao.getQuestionDraft(id, siteRepository.site)
+                val draft = questionDraftDao.getQuestionDraft(id, siteRepository.site)
                     .toQuestionDraft(timestampProvider)
+                title = draft.title
+                body = draft.body
+                expandBody = draft.expandBody
+                selectedTags = tagService.getTagsInfo(
+                    tags = draft.tags
+                ).items.filter { it.name in draft.tags }.toSet()
+                isReviewed = false
             }
         }
     }
@@ -173,4 +206,15 @@ sealed class AskQuestionState {
     data class Success(val questionId: Int) : AskQuestionState()
     object SuccessPreview : AskQuestionState()
     data class Error(val errorMessage: String? = null) : AskQuestionState()
+}
+
+sealed class DraftStatus {
+    object Idle : DraftStatus()
+    object Saving : DraftStatus()
+    object Complete : DraftStatus()
+    object Failed : DraftStatus()
+
+    companion object {
+        fun values(): Set<DraftStatus> = setOf(Idle, Saving, Complete, Failed)
+    }
 }

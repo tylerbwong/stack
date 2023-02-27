@@ -10,7 +10,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.ActivityAskQuestionBinding
 import me.tylerbwong.stack.ui.BaseActivity
-import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.formatElapsedTime
 
 @AndroidEntryPoint
@@ -24,16 +23,6 @@ class AskQuestionActivity : BaseActivity<ActivityAskQuestionBinding>(
         super.onCreate(savedInstanceState)
         binding.composeContent.setContent {
             AskQuestionLayout(onFinish = ::finish)
-        }
-        viewModel.askQuestionState.observe(this) { state ->
-            when (state) {
-                is AskQuestionSuccessPreview -> showSnackbar(getString(R.string.preview_success))
-                is AskQuestionSuccess -> {
-                    QuestionDetailActivity.startActivity(this, state.questionId)
-                    finish()
-                }
-                is AskQuestionError -> showSnackbar(state.errorMessage)
-            }
         }
         viewModel.fetchDraft( -1, timestampProvider)
     }
