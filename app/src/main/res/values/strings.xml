@@ -175,7 +175,6 @@
     <string name="version">Version</string>
     <string name="syntax_highlighting">Syntax highlighting</string>
     <string name="syntax_highlighting_summary">Enables syntax highlighting for supported markdown code blocks</string>
-    <string name="ask_question_summary">Enables ask question support</string>
 
     <string name="restart_toggle">Toggling this requires a restart</string>
     <string name="link_copied">Link copied to clipboard</string>

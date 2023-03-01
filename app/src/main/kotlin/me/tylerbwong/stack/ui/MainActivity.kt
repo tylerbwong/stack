@@ -64,13 +64,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
         viewModel.isAuthenticatedLiveData.observe(this) { isAuthenticated ->
             val bottomNav = binding.bottomNav
-            val isCreateQuestionEnabled = experimental.askQuestionEnabled
             authTabIds.forEach {
-                bottomNav.menu.findItem(it)?.isVisible = if (it == R.id.ask) {
-                    isAuthenticated && isCreateQuestionEnabled
-                } else {
-                    isAuthenticated
-                }
+                bottomNav.menu.findItem(it)?.isVisible = isAuthenticated
             }
             if (bottomNav.selectedItemId in authTabIds) {
                 bottomNav.selectedItemId = R.id.home

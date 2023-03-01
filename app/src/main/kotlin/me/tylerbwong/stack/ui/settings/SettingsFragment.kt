@@ -71,17 +71,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     }
                 }
 
-                findPreference<TwoStatePreference>(getString(R.string.ask_question))?.apply {
-                    isChecked = experimental.askQuestionEnabled
-                    isVisible = false
-                    setOnPreferenceChangeListener { _, newValue ->
-                        experimental.askQuestionEnabled = newValue as Boolean
-                        view?.showRestartSnackbar()
-                        true
-                    }
-                    authPreferences.add(this)
-                }
-
                 findPreference<Preference>(getString(R.string.inspect_network_traffic))?.apply {
                     setOnPreferenceClickListener {
                         val context = requireContext()

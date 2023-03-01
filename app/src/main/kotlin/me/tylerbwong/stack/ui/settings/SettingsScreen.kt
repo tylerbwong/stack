@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Brightness2
@@ -165,20 +164,6 @@ fun SettingsScreen(
                             icon = {
                                 Icon(
                                     imageVector = Icons.Default.Code,
-                                    contentDescription = null,
-                                )
-                            },
-                        )
-                        SwitchPreference(
-                            checked = false,
-                            title = { Text(text = stringResource(R.string.ask_question)) },
-                            onCheckedChange = { isSnackbarVisible = true },
-                            summary = {
-                                Text(text = stringResource(R.string.ask_question_summary))
-                            },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Default.AddCircle,
                                     contentDescription = null,
                                 )
                             },
