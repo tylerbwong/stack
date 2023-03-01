@@ -1,6 +1,7 @@
 package me.tylerbwong.stack.ui.questions.ask.page
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,18 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-/**
- * Requirements for create question flow:
- * 1. Should be a multi-step process with a step-progress indicator and back + next, review, and submit buttons
- * 2. Needs to support formatting tools for long body descriptions
- * 3. Tags should show results as typed, and then tag-ified when selected.
- */
 @Composable
 fun AskQuestionDetailsLayout(
     title: String,
     description: String,
     scrollable: Boolean = true,
-    trailing: @Composable () -> Unit = {},
+    trailing: @Composable ColumnScope.() -> Unit = {},
 ) {
     Column(
         modifier = Modifier

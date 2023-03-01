@@ -18,6 +18,7 @@ fun DetailsPage() {
     AskQuestionDetailsLayout(
         title = "What are the details of your problem?",
         description = "Introduce the problem and expand on what you put in the title. Minimum $MIN_DETAILS_LENGTH characters.",
+        scrollable = false,
     ) {
         OutlinedTextField(
             value = viewModel.body,
@@ -37,6 +38,7 @@ fun ExpandDetailsPage() {
     AskQuestionDetailsLayout(
         title = "What did you try?",
         description = "Describe what you tried, what you expected, and what actually resulted. Minimum $MIN_DETAILS_LENGTH characters.",
+        scrollable = false,
     ) {
         OutlinedTextField(
             value = viewModel.expandBody,
