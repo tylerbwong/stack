@@ -181,7 +181,7 @@ class AskQuestionViewModel @Inject constructor(
         }
     }
 
-    fun saveDraft() {
+    private fun saveDraft() {
         saveDraftJob?.cancel()
         saveDraftJob = viewModelScope.launch {
             delay(1_000)
@@ -221,6 +221,7 @@ class AskQuestionViewModel @Inject constructor(
             selectedTags = emptySet()
             isReviewed = false
             _askQuestionState.value = AskQuestionState.DraftDeleted
+            _draftStatus.value = DraftStatus.None
         }
     }
 
@@ -232,10 +233,15 @@ class AskQuestionViewModel @Inject constructor(
                 title = draft.title
                 body = draft.body
                 expandBody = draft.expandBody
-                selectedTags = tagService.getTagsInfo(
-                    tags = draft.tags
-                ).items.filter { it.name in draft.tags }.toSet()
+                selectedTags = if (draft.tags.isNotBlank()) {
+                    tagService.getTagsInfo(
+                        tags = draft.tags
+                    ).items.filter { it.name in draft.tags }.toSet()
+                } else {
+                    emptySet()
+                }
                 isReviewed = false
+                _draftStatus.value = DraftStatus.Complete
             }
         }
     }
@@ -251,12 +257,8 @@ sealed class AskQuestionState {
 }
 
 sealed class DraftStatus {
-    object Idle : DraftStatus()
+    object None : DraftStatus()
     object Saving : DraftStatus()
     object Complete : DraftStatus()
     object Failed : DraftStatus()
-
-    companion object {
-        fun values(): Set<DraftStatus> = setOf(Idle, Saving, Complete, Failed)
-    }
 }
