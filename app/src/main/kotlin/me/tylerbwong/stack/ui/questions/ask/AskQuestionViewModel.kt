@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -23,6 +24,8 @@ import me.tylerbwong.stack.data.persistence.entity.QuestionDraftEntity
 import me.tylerbwong.stack.data.persistence.entity.SiteEntity
 import me.tylerbwong.stack.data.repository.SiteRepository
 import me.tylerbwong.stack.ui.BaseViewModel
+import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Tags.MAX_NUM_TAGS
+import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Title.TITLE_LENGTH_MAX
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import retrofit2.HttpException
 import timber.log.Timber
@@ -48,9 +51,13 @@ class AskQuestionViewModel @Inject constructor(
     private val _draftStatus = SingleLiveEvent<DraftStatus>()
 
     var title by mutableStateOf(value = "")
+        private set
     var body by mutableStateOf(value = "")
+        private set
     var expandBody by mutableStateOf(value = "")
+        private set
     var selectedTags by mutableStateOf(value = emptySet<Tag>())
+        private set
     var isReviewed by mutableStateOf(value = false)
 
     val tags: LiveData<List<Tag>>
@@ -68,16 +75,35 @@ class AskQuestionViewModel @Inject constructor(
     val hasActiveDraft: Boolean
         get() = id != -1
 
-    /**
-     * Even if content is blank, if we already have an active draft save the draft anyways
-     */
-    val shouldSaveDraft: Boolean
-        get() = listOf(
-            { title.isNotBlank() },
-            { body.isNotBlank() },
-            { expandBody.isNotBlank() },
-            { selectedTags.isNotEmpty() },
-        ).any { it() } || hasActiveDraft
+    private var saveDraftJob: Job? = null
+
+    fun updateTitle(newTitle: String) {
+        if (title != newTitle && newTitle.length <= TITLE_LENGTH_MAX) {
+            title = newTitle
+            saveDraft()
+        }
+    }
+
+    fun updateBody(newBody: String) {
+        if (body != newBody) {
+            body = newBody
+            saveDraft()
+        }
+    }
+
+    fun updateExpandBody(newExpandBody: String) {
+        if (expandBody != newExpandBody) {
+            expandBody = newExpandBody
+            saveDraft()
+        }
+    }
+
+    fun updateSelectedTags(newSelectedTags: Set<Tag>) {
+        if (selectedTags != newSelectedTags && newSelectedTags.size < MAX_NUM_TAGS) {
+            selectedTags = newSelectedTags
+            saveDraft()
+        }
+    }
 
     fun askQuestion() {
         viewModelScope.launch {
@@ -118,9 +144,12 @@ class AskQuestionViewModel @Inject constructor(
         }
     }
 
-    fun setCurrentSite(site: String) {
-        siteRepository.changeSite(site)
-        fetchSite()
+    fun setCurrentSite(newSite: String) {
+        if (currentSite.value?.parameter != newSite) {
+            siteRepository.changeSite(newSite)
+            fetchSite()
+            saveDraft()
+        }
     }
 
     fun getSites(): Flow<List<SiteEntity>> = siteRepository.getSites()
@@ -153,7 +182,9 @@ class AskQuestionViewModel @Inject constructor(
     }
 
     fun saveDraft() {
-        viewModelScope.launch {
+        saveDraftJob?.cancel()
+        saveDraftJob = viewModelScope.launch {
+            delay(1_000)
             try {
                 _draftStatus.value = DraftStatus.Saving
                 val id = questionDraftDao.insertQuestionDraft(

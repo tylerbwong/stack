@@ -36,7 +36,9 @@ sealed class AskQuestionPage<ContentType : Any>(
     object Tags : AskQuestionPage<Set<Tag>>(
         page = { TagsPage() },
         canContinue = { tags -> tags.isNotEmpty() }
-    )
+    ) {
+        internal const val MAX_NUM_TAGS = 5
+    }
     object DuplicateQuestion : AskQuestionPage<Boolean>(
         page = { DuplicateQuestionPage() },
         canContinue = { isChecked -> isChecked },

@@ -28,8 +28,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.flowlayout.FlowRow
 import kotlinx.coroutines.delay
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
-
-private const val MAX_NUM_TAGS = 5
+import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Tags.MAX_NUM_TAGS
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,12 +46,6 @@ fun TagsPage() {
     val isSelectedTagsVisible by remember(viewModel.selectedTags) {
         derivedStateOf { viewModel.selectedTags.isNotEmpty() }
     }
-    LaunchedEffect(viewModel.selectedTags) {
-        if (viewModel.shouldSaveDraft) {
-            delay(1_000)
-            viewModel.saveDraft()
-        }
-    }
     AskQuestionDetailsLayout(
         title = "Tags",
         description = "Add up to $MAX_NUM_TAGS tags to describe what your question is about.",
@@ -63,7 +56,7 @@ fun TagsPage() {
                 viewModel.selectedTags.forEach {
                     ElevatedFilterChip(
                         selected = true,
-                        onClick = { viewModel.selectedTags = viewModel.selectedTags - it },
+                        onClick = { viewModel.updateSelectedTags(viewModel.selectedTags - it) },
                         label = { Text(text = it.name) },
                         trailingIcon = {
                             Icon(
@@ -95,11 +88,7 @@ fun TagsPage() {
                 searchTags.forEach {
                     InputChip(
                         selected = false,
-                        onClick = {
-                            if (viewModel.selectedTags.size < MAX_NUM_TAGS) {
-                                viewModel.selectedTags = viewModel.selectedTags + it
-                            }
-                        },
+                        onClick = { viewModel.updateSelectedTags(viewModel.selectedTags + it) },
                         label = { Text(text = it.name) },
                     )
                 }

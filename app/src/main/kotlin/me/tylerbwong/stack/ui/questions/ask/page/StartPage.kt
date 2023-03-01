@@ -46,7 +46,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.android.material.color.MaterialColors
-import kotlinx.coroutines.delay
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
 import me.tylerbwong.stack.ui.utils.compose.MarkdownText
 import me.tylerbwong.stack.ui.utils.compose.StackTheme
@@ -61,12 +60,6 @@ fun StartPage() {
     val sites by viewModel.getSites().collectAsState(initial = emptyList())
     LaunchedEffect(key1 = null) {
         viewModel.fetchSite()
-    }
-    LaunchedEffect(currentSite) {
-        if (viewModel.shouldSaveDraft) {
-            delay(1_000)
-            viewModel.saveDraft()
-        }
     }
     AskQuestionDetailsLayout(
         title = "Ask a public question",
