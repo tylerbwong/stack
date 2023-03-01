@@ -20,6 +20,7 @@ class QuestionDraftHolder(
         questionTitle.text = draft.title.toHtml()
         timestamp.text = itemView.context.getString(R.string.last_updated, draft.formattedTimestamp)
         draftPreview.setMarkdown(draft.body)
+        draftPreview.movementMethod = null
 
         itemView.setThrottledOnClickListener {
             AskQuestionActivity.startActivity(it.context, draft.id)

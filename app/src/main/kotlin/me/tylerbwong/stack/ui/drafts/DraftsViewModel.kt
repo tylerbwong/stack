@@ -3,7 +3,6 @@ package me.tylerbwong.stack.ui.drafts
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.merge
 import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDraftDao
@@ -24,6 +23,8 @@ internal class DraftsViewModel @Inject constructor(
     private val siteStore: SiteStore
 ) : BaseViewModel() {
 
+    internal var currentPage = DraftsPage.QUESTIONS
+
     val drafts: LiveData<List<DynamicItem>>
         get() = _drafts
     private val _drafts = MutableLiveData<List<DynamicItem>>()
@@ -33,10 +34,10 @@ internal class DraftsViewModel @Inject constructor(
 
     internal fun fetchDrafts(timestampProvider: (Long) -> String) {
         streamRequest(
-            merge(
-                questionDraftDao.getQuestionDrafts(siteStore.site),
-                answerDraftDao.getAnswerDrafts(siteStore.site),
-            )
+            when (currentPage) {
+                DraftsPage.QUESTIONS -> questionDraftDao.getQuestionDrafts(siteStore.site)
+                DraftsPage.ANSWERS -> answerDraftDao.getAnswerDrafts(siteStore.site)
+            }
         ) { drafts ->
             _drafts.value = drafts.mapNotNull { draft ->
                 when (draft) {
@@ -46,5 +47,10 @@ internal class DraftsViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    enum class DraftsPage {
+        QUESTIONS,
+        ANSWERS,
     }
 }

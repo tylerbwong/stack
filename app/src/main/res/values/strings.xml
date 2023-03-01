@@ -137,6 +137,7 @@
     <string name="clear_filters">Clear</string>
 
     <!-- Drafts -->
+    <string name="answers">Answers</string>
     <string name="save_draft">Save draft</string>
     <string name="save_draft_message">You\'ll be able to access your saved drafts until you log out.</string>
     <string name="draft_saved">Draft saved</string>

@@ -20,6 +20,7 @@ class AnswerDraftHolder(
         questionTitle.text = draft.questionTitle.toHtml()
         timestamp.text = itemView.context.getString(R.string.last_updated, draft.formattedTimestamp)
         draftPreview.setMarkdown(draft.bodyMarkdown)
+        draftPreview.movementMethod = null
 
         itemView.setThrottledOnClickListener {
             val intent = QuestionDetailActivity.makeIntent(
