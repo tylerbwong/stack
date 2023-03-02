@@ -67,12 +67,18 @@ class AskQuestionViewModel @Inject constructor(
         get() = _currentSite
     private val _currentSite = MutableLiveData<Site?>()
 
+    internal val currentSiteParameter: LiveData<String>
+        get() = siteRepository.siteLiveData
+
     internal val similarQuestions: LiveData<List<Question>>
         get() = _similarQuestions
     private val _similarQuestions = MutableLiveData<List<Question>>()
 
     val hasActiveDraft: Boolean
         get() = id != -1
+
+    var showDeleteIcon by mutableStateOf(false)
+        private set
 
     private var saveDraftJob: Job? = null
 
@@ -98,7 +104,7 @@ class AskQuestionViewModel @Inject constructor(
     }
 
     fun updateSelectedTags(newSelectedTags: Set<Tag>) {
-        if (selectedTags != newSelectedTags && newSelectedTags.size < MAX_NUM_TAGS) {
+        if (selectedTags != newSelectedTags && newSelectedTags.size <= MAX_NUM_TAGS) {
             selectedTags = newSelectedTags
             saveDraft()
         }
@@ -137,17 +143,10 @@ class AskQuestionViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _currentSite.value = siteRepository.getCurrentSite()
+                saveDraft()
             } catch (ex: Exception) {
                 _currentSite.value = null
             }
-        }
-    }
-
-    fun setCurrentSite(newSite: String) {
-        if (currentSite.value?.parameter != newSite) {
-            siteRepository.changeSite(newSite)
-            fetchSite()
-            saveDraft()
         }
     }
 
@@ -199,6 +198,7 @@ class AskQuestionViewModel @Inject constructor(
                     }
                 )
                 this@AskQuestionViewModel.id = id.toInt()
+                showDeleteIcon = true
                 delay(1_000)
                 _draftStatus.value = DraftStatus.Complete
             } catch (exception: Exception) {
@@ -219,6 +219,7 @@ class AskQuestionViewModel @Inject constructor(
             isReviewed = false
             _askQuestionState.value = AskQuestionState.DraftDeleted
             _draftStatus.value = DraftStatus.None
+            showDeleteIcon = false
         }
     }
 
@@ -231,14 +232,15 @@ class AskQuestionViewModel @Inject constructor(
                 body = TextFieldValue(draft.body)
                 expandBody = TextFieldValue(draft.expandBody)
                 selectedTags = if (draft.tags.isNotBlank()) {
-                    tagService.getTagsInfo(
-                        tags = draft.tags
-                    ).items.filter { it.name in draft.tags }.toSet()
+                    tagService.getTagsInfo(tags = draft.tags)
+                        .items
+                        .filter { it.name in draft.tags }
+                        .toSet()
                 } else {
                     emptySet()
                 }
                 isReviewed = false
-                _draftStatus.value = DraftStatus.Complete
+                showDeleteIcon = true
             }
         }
     }

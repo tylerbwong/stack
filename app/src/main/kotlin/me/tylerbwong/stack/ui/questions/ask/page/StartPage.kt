@@ -37,8 +37,9 @@ import me.tylerbwong.stack.ui.utils.compose.MarkdownText
 fun StartPage() {
     val viewModel = viewModel<AskQuestionViewModel>()
     val context = LocalContext.current
+    val currentSiteParameter by viewModel.currentSiteParameter.observeAsState()
     val currentSite by viewModel.currentSite.observeAsState()
-    LaunchedEffect(key1 = null) {
+    LaunchedEffect(currentSiteParameter) {
         viewModel.fetchSite()
     }
     AskQuestionDetailsLayout(

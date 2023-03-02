@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.tylerbwong.stack.api.service.DEFAULT_SITE
 import me.tylerbwong.stack.data.di.SiteSharedPreferences
-import okhttp3.HttpUrl.Companion.toHttpUrl
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -35,16 +34,6 @@ class SiteStore @Inject constructor(
     val siteLiveData: LiveData<String>
         get() = mutableSiteLiveData
     private val mutableSiteLiveData = MutableLiveData(site)
-
-    val siteJoinUrl: String
-        get() {
-            val httpUrl = "https://${site}.com".toHttpUrl()
-            return httpUrl.newBuilder()
-                .addEncodedPathSegments(USER_JOIN_PATH)
-                .build()
-                .toString()
-
-        }
 
     companion object {
         internal const val SITE_PREFERENCES = "site_preferences"

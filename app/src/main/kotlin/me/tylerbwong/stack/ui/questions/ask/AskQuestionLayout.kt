@@ -114,7 +114,7 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
                     actions = {
                         var isDeleteDraftDialogVisible by remember { mutableStateOf(false) }
                         AnimatedVisibility(
-                            visible = draftStatus == DraftStatus.Complete,
+                            visible = viewModel.showDeleteIcon,
                             enter = fadeIn(),
                             exit = fadeOut(),
                         ) {
