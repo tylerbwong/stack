@@ -1,7 +1,7 @@
 package me.tylerbwong.compose.markdown.builder
 
 import androidx.compose.foundation.text.InlineTextContent
-import androidx.compose.material.Typography
+import androidx.compose.material3.Typography
 import androidx.compose.ui.text.AnnotatedString
 import me.tylerbwong.compose.markdown.visitors.BlockQuoteVisitor
 import me.tylerbwong.compose.markdown.visitors.CheckboxVisitor

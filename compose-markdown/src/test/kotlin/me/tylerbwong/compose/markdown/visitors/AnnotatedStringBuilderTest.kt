@@ -1,7 +1,7 @@
 @file:Suppress("MaxLineLength")
 package me.tylerbwong.compose.markdown.visitors
 
-import androidx.compose.material.Typography
+import androidx.compose.material3.Typography
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -73,12 +73,12 @@ class AnnotatedStringBuilderTest {
     @Test
     fun `headers are parsed properly`() {
         mapOf(
-            "# I am an h1 heading" to typography.h1,
-            "## I am an h2 heading" to typography.h2,
-            "### I am an h3 heading" to typography.h3,
-            "#### I am an h4 heading" to typography.h4,
-            "##### I am an h5 heading" to typography.h5,
-            "###### I am an h6 heading" to typography.h6
+            "# I am an h1 heading" to typography.headlineLarge,
+            "## I am an h2 heading" to typography.headlineMedium,
+            "### I am an h3 heading" to typography.headlineSmall,
+            "#### I am an h4 heading" to typography.bodyLarge,
+            "##### I am an h5 heading" to typography.bodyMedium,
+            "###### I am an h6 heading" to typography.bodySmall
         ).forEach { (rawHeading, textStyle) ->
             val (
                 annotatedString,

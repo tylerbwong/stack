@@ -3,13 +3,13 @@ package me.tylerbwong.stack.ui.questions.ask
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.api.model.Question
@@ -21,7 +21,6 @@ import me.tylerbwong.stack.api.service.TagService
 import me.tylerbwong.stack.api.utils.toErrorResponse
 import me.tylerbwong.stack.data.persistence.dao.QuestionDraftDao
 import me.tylerbwong.stack.data.persistence.entity.QuestionDraftEntity
-import me.tylerbwong.stack.data.persistence.entity.SiteEntity
 import me.tylerbwong.stack.data.repository.SiteRepository
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Tags.MAX_NUM_TAGS
@@ -52,9 +51,9 @@ class AskQuestionViewModel @Inject constructor(
 
     var title by mutableStateOf(value = "")
         private set
-    var body by mutableStateOf(value = "")
+    var body by mutableStateOf(value = TextFieldValue())
         private set
-    var expandBody by mutableStateOf(value = "")
+    var expandBody by mutableStateOf(value = TextFieldValue())
         private set
     var selectedTags by mutableStateOf(value = emptySet<Tag>())
         private set
@@ -84,14 +83,14 @@ class AskQuestionViewModel @Inject constructor(
         }
     }
 
-    fun updateBody(newBody: String) {
+    fun updateBody(newBody: TextFieldValue) {
         if (body != newBody) {
             body = newBody
             saveDraft()
         }
     }
 
-    fun updateExpandBody(newExpandBody: String) {
+    fun updateExpandBody(newExpandBody: TextFieldValue) {
         if (expandBody != newExpandBody) {
             expandBody = newExpandBody
             saveDraft()
@@ -152,8 +151,6 @@ class AskQuestionViewModel @Inject constructor(
         }
     }
 
-    fun getSites(): Flow<List<SiteEntity>> = siteRepository.getSites()
-
     fun fetchPopularTags(searchQuery: String) {
         if (searchQuery.isBlank()) {
             _tags.value = emptyList()
@@ -191,8 +188,8 @@ class AskQuestionViewModel @Inject constructor(
                     QuestionDraftEntity(
                         title = title,
                         System.currentTimeMillis(),
-                        body = body,
-                        expandBody = expandBody,
+                        body = body.text,
+                        expandBody = expandBody.text,
                         selectedTags.joinToString(";") { it.name },
                         siteRepository.site
                     ).also {
@@ -216,8 +213,8 @@ class AskQuestionViewModel @Inject constructor(
         launchRequest {
             questionDraftDao.deleteDraftById(id, siteRepository.site)
             title = ""
-            body = ""
-            expandBody = ""
+            body = TextFieldValue()
+            expandBody = TextFieldValue()
             selectedTags = emptySet()
             isReviewed = false
             _askQuestionState.value = AskQuestionState.DraftDeleted
@@ -231,8 +228,8 @@ class AskQuestionViewModel @Inject constructor(
             launchRequest {
                 val draft = questionDraftDao.getQuestionDraft(id, siteRepository.site)
                 title = draft.title
-                body = draft.body
-                expandBody = draft.expandBody
+                body = TextFieldValue(draft.body)
+                expandBody = TextFieldValue(draft.expandBody)
                 selectedTags = if (draft.tags.isNotBlank()) {
                     tagService.getTagsInfo(
                         tags = draft.tags

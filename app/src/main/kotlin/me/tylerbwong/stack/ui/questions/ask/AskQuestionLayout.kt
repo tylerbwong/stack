@@ -258,8 +258,8 @@ private fun BottomNavigationBar(
             modifier = Modifier.padding(16.dp),
             enabled = when (page) {
                 is AskQuestionPage.Title -> page.canContinue(viewModel.title)
-                is AskQuestionPage.Details -> page.canContinue(viewModel.body)
-                is AskQuestionPage.ExpandDetails -> page.canContinue(viewModel.expandBody)
+                is AskQuestionPage.Details -> page.canContinue(viewModel.body.text)
+                is AskQuestionPage.ExpandDetails -> page.canContinue(viewModel.expandBody.text)
                 is AskQuestionPage.Tags -> page.canContinue(viewModel.selectedTags)
                 is AskQuestionPage.DuplicateQuestion -> page.canContinue(viewModel.isReviewed)
                 else -> askQuestionState != AskQuestionState.Posting
