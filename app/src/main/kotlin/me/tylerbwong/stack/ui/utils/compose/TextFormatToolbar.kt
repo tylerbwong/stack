@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.Link
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -25,10 +26,11 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.getSelectedText
-import androidx.compose.ui.text.input.getTextAfterSelection
-import androidx.compose.ui.text.input.getTextBeforeSelection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 
 /**
@@ -188,33 +190,37 @@ fun TextFormatToolbar(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
 ) {
+    val scope = rememberCoroutineScope()
     LazyRow {
         itemsIndexed(ToolbarItem.values()) { index, item ->
             BarItem(
                 onClick = {
-                    val selection = value.selection
-                    val selectionStart = selection.start
-                    val selectionEnd = selection.end
-                    val oldTextSelection = value.getSelectedText().text
-                    val newTextWithFormat = AnnotatedString(
-                        text = item.token.replace("|", oldTextSelection)
-                    )
-                    val textBeforeSelection = value.getTextBeforeSelection(selection.max)
-                    val textAfterSelection = value.getTextAfterSelection(selection.max)
-                    val textBeforeSelectionLength = textBeforeSelection.length
-                    val newBodyText = textBeforeSelection + newTextWithFormat + textAfterSelection
-                    onValueChange(
-                        TextFieldValue(
-                            text = newBodyText.text,
-                            selection = if (selectionStart != selectionEnd) {
-                                // Text was selected, put cursor after formatted text
-                                TextRange(textBeforeSelectionLength + newTextWithFormat.length)
-                            } else {
-                                // Format was inserted at cursor, put cursor at cursorPosition
-                                TextRange(textBeforeSelectionLength + item.cursorPosition)
-                            }
-                        )
-                    )
+                    scope.launch {
+                        val newValue = withContext(Dispatchers.Default) {
+                            val selection = value.selection
+                            val selectionStart = selection.start
+                            val selectionEnd = selection.end
+                            val oldTextSelection = value.getSelectedText().text
+                            val newTextWithFormat = AnnotatedString(
+                                text = item.token.replace("|", oldTextSelection)
+                            )
+                            val textBeforeSelection = value.annotatedString.subSequence(0, selection.start)
+                            val textAfterSelection = value.annotatedString.subSequence(selection.end, value.text.length)
+                            val textBeforeSelectionLength = textBeforeSelection.length
+                            val newBodyText = textBeforeSelection + newTextWithFormat + textAfterSelection
+                            TextFieldValue(
+                                text = newBodyText.text,
+                                selection = if (selectionStart != selectionEnd) {
+                                    // Text was selected, put cursor after formatted text
+                                    TextRange(textBeforeSelectionLength + newTextWithFormat.length)
+                                } else {
+                                    // Format was inserted at cursor, put cursor at cursorPosition
+                                    TextRange(textBeforeSelectionLength + item.cursorPosition)
+                                }
+                            )
+                        }
+                        onValueChange(newValue)
+                    }
                 }
             ) {
                 Box(modifier = Modifier.padding(4.dp)) {
