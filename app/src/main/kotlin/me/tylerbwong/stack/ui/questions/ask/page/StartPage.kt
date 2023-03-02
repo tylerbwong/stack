@@ -40,7 +40,7 @@ fun StartPage() {
     val currentSiteParameter by viewModel.currentSiteParameter.observeAsState()
     val currentSite by viewModel.currentSite.observeAsState()
     LaunchedEffect(currentSiteParameter) {
-        viewModel.fetchSite()
+        viewModel.fetchSite(currentSiteParameter)
     }
     AskQuestionDetailsLayout(
         title = "Ask a public question",

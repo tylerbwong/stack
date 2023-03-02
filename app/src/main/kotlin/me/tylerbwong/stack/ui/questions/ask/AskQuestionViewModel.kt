@@ -139,11 +139,18 @@ class AskQuestionViewModel @Inject constructor(
         }
     }
 
-    fun fetchSite() {
+    fun fetchSite(siteParameter: String?) {
         viewModelScope.launch {
             try {
+                val currentSiteParameter = _currentSite.value?.parameter
+                val areParametersValid = listOf(
+                    siteParameter,
+                    currentSiteParameter
+                ).all { it != null }
+                if (areParametersValid && siteParameter != currentSiteParameter) {
+                    saveDraft()
+                }
                 _currentSite.value = siteRepository.getCurrentSite()
-                saveDraft()
             } catch (ex: Exception) {
                 _currentSite.value = null
             }
@@ -198,8 +205,8 @@ class AskQuestionViewModel @Inject constructor(
                     }
                 )
                 this@AskQuestionViewModel.id = id.toInt()
-                showDeleteIcon = true
                 delay(1_000)
+                showDeleteIcon = true
                 _draftStatus.value = DraftStatus.Complete
             } catch (exception: Exception) {
                 delay(1_000)
