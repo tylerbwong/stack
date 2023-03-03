@@ -90,17 +90,17 @@ class AskQuestionViewModel @Inject constructor(
     }
 
     fun updateBody(newBody: TextFieldValue) {
-        if (body != newBody) {
-            body = newBody
+        if (body.text != newBody.text) {
             saveDraft()
         }
+        body = newBody
     }
 
     fun updateExpandBody(newExpandBody: TextFieldValue) {
-        if (expandBody != newExpandBody) {
-            expandBody = newExpandBody
+        if (expandBody.text != newExpandBody.text) {
             saveDraft()
         }
+        expandBody = newExpandBody
     }
 
     fun updateSelectedTags(newSelectedTags: Set<Tag>) {
