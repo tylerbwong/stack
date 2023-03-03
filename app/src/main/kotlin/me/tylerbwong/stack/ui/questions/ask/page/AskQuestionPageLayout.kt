@@ -24,11 +24,12 @@ fun AskQuestionDetailsLayout(
 ) {
     Column(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             .fillMaxWidth()
             .fillMaxHeight()
             .then(if (scrollable) Modifier.verticalScroll(rememberScrollState()) else Modifier),
     ) {
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = title,
             style = MaterialTheme.typography.headlineSmall,

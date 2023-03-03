@@ -17,32 +17,37 @@ sealed class AskQuestionPage<ContentType : Any>(
     object Title : AskQuestionPage<String>(
         page = { TitlePage() },
         canContinue = { title ->
-            title.isNotBlank() && title.length in TITLE_LENGTH_MIN .. TITLE_LENGTH_MAX
-                      },
+            title.isNotBlank() && title.length in TITLE_LENGTH_MIN..TITLE_LENGTH_MAX
+        },
     ) {
         internal const val TITLE_LENGTH_MIN = 15
         internal const val TITLE_LENGTH_MAX = 150
     }
+
     object Details : AskQuestionPage<String>(
         page = { DetailsPage() },
         canContinue = { details -> details.length > MIN_DETAILS_LENGTH },
     ) {
         internal const val MIN_DETAILS_LENGTH = 20
     }
+
     object ExpandDetails : AskQuestionPage<String>(
         page = { ExpandDetailsPage() },
         canContinue = { details -> details.length > MIN_DETAILS_LENGTH },
     )
+
     object Tags : AskQuestionPage<Set<Tag>>(
         page = { TagsPage() },
         canContinue = { tags -> tags.isNotEmpty() }
     ) {
         internal const val MAX_NUM_TAGS = 5
     }
+
     object DuplicateQuestion : AskQuestionPage<Boolean>(
         page = { DuplicateQuestionPage() },
         canContinue = { isChecked -> isChecked },
     )
+
     object Review : AskQuestionPage<Nothing>(page = { ReviewPage() })
     object Success : AskQuestionPage<Nothing>(page = { SuccessPage() })
 

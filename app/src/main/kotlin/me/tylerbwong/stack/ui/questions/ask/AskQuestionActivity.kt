@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.databinding.ActivityAskQuestionBinding
 import me.tylerbwong.stack.ui.BaseActivity
@@ -16,6 +17,7 @@ class AskQuestionActivity : BaseActivity<ActivityAskQuestionBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         viewModel.fetchDraft(id = intent.getIntExtra(DRAFT_ID_EXTRA, -1))
         binding.composeContent.setContent {
             AskQuestionLayout(onFinish = ::finish)

@@ -33,7 +33,7 @@ fun ReviewPage() {
     )
     AskQuestionDetailsLayout(
         title = "Review your question",
-        description = "Please do a final review of your question before attempting to post. Your question may be rejected due to low quality.",
+        description = "Please do a final review of your question before attempting to post. Questions may be rejected due to low quality.",
     ) {
         AnimatedVisibility(visible = askQuestionState is AskQuestionState.Error) {
             Card(
@@ -67,7 +67,7 @@ fun ReviewPage() {
             Text(
                 text = viewModel.title.trim(),
                 modifier = Modifier.padding(horizontal = 16.dp),
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.titleMedium,
             )
             Spacer(modifier = Modifier.height(16.dp))
             MarkdownText(

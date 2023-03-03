@@ -45,16 +45,22 @@ fun DuplicateQuestionPage() {
     val similarQuestions by viewModel.similarQuestions.observeAsState(initial = emptyList())
     AskQuestionDetailsLayout(
         title = "Review existing questions",
-        description = "Click a post to review if your question is a duplicate.",
+        description = if (similarQuestions.isNotEmpty()) {
+            "Click a post to review if your question is a duplicate."
+        } else {
+            "No potential duplicate questions found."
+        },
         scrollable = false,
     ) {
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            itemsIndexed(similarQuestions) { index, item ->
-                QuestionItem(question = item) {
-                    QuestionDetailActivity.startActivity(context, item.questionId)
-                }
-                if (index < similarQuestions.lastIndex) {
-                    Spacer(modifier = Modifier.height(16.dp))
+        if (similarQuestions.isNotEmpty()) {
+            LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                itemsIndexed(similarQuestions) { index, item ->
+                    QuestionItem(question = item) {
+                        QuestionDetailActivity.startActivity(context, item.questionId)
+                    }
+                    if (index < similarQuestions.lastIndex) {
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
                 }
             }
         }

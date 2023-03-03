@@ -19,9 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -34,10 +32,9 @@ import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Tags.MAX_NUM_TA
 @Composable
 fun TagsPage() {
     val viewModel = viewModel<AskQuestionViewModel>()
-    var searchQuery by remember { mutableStateOf("") }
-    LaunchedEffect(key1 = searchQuery) {
+    LaunchedEffect(viewModel.searchQuery) {
         delay(500)
-        viewModel.fetchPopularTags(searchQuery)
+        viewModel.fetchPopularTags(viewModel.searchQuery)
     }
     val searchTags by viewModel.tags.observeAsState(initial = emptyList())
     val isSearchTagsVisible by remember(searchTags) {
@@ -71,8 +68,8 @@ fun TagsPage() {
         }
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
-            value = searchQuery,
-            onValueChange = { searchQuery = it },
+            value = viewModel.searchQuery,
+            onValueChange = { viewModel.searchQuery = it },
             modifier = Modifier
                 .fillMaxWidth(),
             placeholder = { Text(text = "Start typing to see suggestions") },

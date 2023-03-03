@@ -59,6 +59,8 @@ class AskQuestionViewModel @Inject constructor(
         private set
     var isReviewed by mutableStateOf(value = false)
 
+    var searchQuery by mutableStateOf("")
+
     val tags: LiveData<List<Tag>>
         get() = _tags
     private val _tags = MutableLiveData<List<Tag>>()
@@ -158,12 +160,12 @@ class AskQuestionViewModel @Inject constructor(
     }
 
     fun fetchPopularTags(searchQuery: String) {
-        if (searchQuery.isBlank()) {
-            _tags.value = emptyList()
-        }
         viewModelScope.launch {
             try {
-                _tags.value = tagService.getPopularTags(inname = searchQuery, pageSize = 15).items
+                val items = tagService.getPopularTags(inname = searchQuery, pageSize = 15).items
+                if (_tags.value != items) {
+                    _tags.value = items
+                }
             } catch (ex: Exception) {
                 _tags.value = emptyList()
             }
@@ -173,11 +175,15 @@ class AskQuestionViewModel @Inject constructor(
     fun searchSimilar() {
         viewModelScope.launch {
             try {
-                _similarQuestions.value = searchService.search(
+                val result = searchService.search(
                     query = title,
                     tags = selectedTags.joinToString(";") { it.name },
                     pageSize = 10,
                 ).items
+                _similarQuestions.value = result
+                if (result.isEmpty()) {
+                    isReviewed = true
+                }
             } catch (ex: Exception) {
                 _similarQuestions.value = emptyList()
             }
