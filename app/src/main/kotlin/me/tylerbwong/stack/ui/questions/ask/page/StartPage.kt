@@ -16,6 +16,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,6 +26,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
@@ -32,6 +36,7 @@ import coil.request.ImageRequest
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,6 +88,19 @@ fun StartPage() {
                 ) {}
             }
             Spacer(modifier = Modifier.height(16.dp))
+            val audience = currentSite?.audience?.replaceFirstChar {
+                it.lowercase(Locale.getDefault())
+            } ?: ""
+            val warningText = stringResource(R.string.start_page_warning, audience)
+            val start = warningText.indexOf(audience)
+            val spanStyles = listOf(
+                AnnotatedString.Range(
+                    SpanStyle(fontWeight = FontWeight.Bold),
+                    start = start,
+                    end = start + audience.length,
+                )
+            )
+            Text(text = AnnotatedString(text = warningText, spanStyles = spanStyles))
         }
     }
 }
