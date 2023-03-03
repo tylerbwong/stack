@@ -7,8 +7,10 @@ import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Title.TITLE_LEN
 import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Title.TITLE_LENGTH_MIN
 
 sealed class AskQuestionPage<ContentType : Any>(
-    val page: @Composable () -> Unit,
-    val canContinue: (ContentType) -> Boolean = { true },
+    val page: @Composable (isDetailedQuestionRequired: Boolean) -> Unit,
+    val canContinue: (ContentType, isDetailedQuestionRequired: Boolean) -> Boolean = { _, _ ->
+        true
+    },
 ) {
     val ordinal: Int
         get() = values().indexOf(this)
@@ -16,7 +18,7 @@ sealed class AskQuestionPage<ContentType : Any>(
     object Start : AskQuestionPage<Nothing>(page = { StartPage() })
     object Title : AskQuestionPage<String>(
         page = { TitlePage() },
-        canContinue = { title ->
+        canContinue = { title, _ ->
             title.isNotBlank() && title.length in TITLE_LENGTH_MIN..TITLE_LENGTH_MAX
         },
     ) {
@@ -25,27 +27,29 @@ sealed class AskQuestionPage<ContentType : Any>(
     }
 
     object Details : AskQuestionPage<String>(
-        page = { DetailsPage() },
-        canContinue = { details -> details.length > MIN_DETAILS_LENGTH },
+        page = { DetailsPage(it) },
+        canContinue = { details, _ -> details.length > MIN_DETAILS_LENGTH },
     ) {
         internal const val MIN_DETAILS_LENGTH = 20
     }
 
     object ExpandDetails : AskQuestionPage<String>(
-        page = { ExpandDetailsPage() },
-        canContinue = { details -> details.length > MIN_DETAILS_LENGTH },
+        page = { ExpandDetailsPage(it) },
+        canContinue = { details, isDetailedQuestionRequired ->
+            !isDetailedQuestionRequired || details.length > MIN_DETAILS_LENGTH
+        },
     )
 
     object Tags : AskQuestionPage<Set<Tag>>(
         page = { TagsPage() },
-        canContinue = { tags -> tags.isNotEmpty() }
+        canContinue = { tags, _ -> tags.isNotEmpty() }
     ) {
         internal const val MAX_NUM_TAGS = 5
     }
 
     object DuplicateQuestion : AskQuestionPage<Boolean>(
         page = { DuplicateQuestionPage() },
-        canContinue = { isChecked -> isChecked },
+        canContinue = { isChecked, _ -> isChecked },
     )
 
     object Review : AskQuestionPage<Nothing>(page = { ReviewPage() })

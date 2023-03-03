@@ -27,13 +27,26 @@ import me.tylerbwong.stack.ui.utils.compose.TextFormatToolbar
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun DetailsPage() {
+fun DetailsPage(isDetailedQuestionRequired: Boolean) {
     val viewModel = viewModel<AskQuestionViewModel>()
     val requester = remember { BringIntoViewRequester() }
     val scope = rememberCoroutineScope()
     AskQuestionDetailsLayout(
-        title = stringResource(R.string.details_page_title),
-        description = stringResource(R.string.details_page_description, MIN_DETAILS_LENGTH),
+        title = stringResource(
+            if (isDetailedQuestionRequired) {
+                R.string.details_page_title_detailed
+            } else {
+                R.string.details_page_title
+            }
+        ),
+        description = stringResource(
+            if (isDetailedQuestionRequired) {
+                R.string.details_page_description_detailed
+            } else {
+                R.string.details_page_description
+            },
+            MIN_DETAILS_LENGTH
+        ),
     ) {
         TextFormatToolbar(
             value = viewModel.body,
@@ -55,20 +68,40 @@ fun DetailsPage() {
                         }
                     }
                 },
-            placeholder = { Text(text = stringResource(R.string.details_page_hint)) },
+            placeholder = {
+                Text(
+                    text = stringResource(
+                        if (isDetailedQuestionRequired) {
+                            R.string.details_page_hint_detailed
+                        } else {
+                            R.string.details_page_hint
+                        }
+                    )
+                )
+            },
         )
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun ExpandDetailsPage() {
+fun ExpandDetailsPage(isDetailedQuestionRequired: Boolean) {
     val viewModel = viewModel<AskQuestionViewModel>()
     val requester = remember { BringIntoViewRequester() }
     val scope = rememberCoroutineScope()
     AskQuestionDetailsLayout(
-        title = stringResource(R.string.expand_details_page_title),
-        description = stringResource(R.string.expand_details_page_description, MIN_DETAILS_LENGTH),
+        title = stringResource(
+            if (isDetailedQuestionRequired) {
+                R.string.expand_details_page_title_detailed
+            } else {
+                R.string.expand_details_page_title
+            }
+        ),
+        description = if (isDetailedQuestionRequired) {
+            stringResource(R.string.expand_details_page_description_detailed, MIN_DETAILS_LENGTH)
+        } else {
+            stringResource(R.string.expand_details_page_description)
+        },
     ) {
         TextFormatToolbar(
             value = viewModel.expandBody,
@@ -90,7 +123,17 @@ fun ExpandDetailsPage() {
                         }
                     }
                 },
-            placeholder = { Text(text = stringResource(R.string.expand_details_hint)) },
+            placeholder = {
+                Text(
+                    text = stringResource(
+                        if (isDetailedQuestionRequired) {
+                            R.string.expand_details_hint_detailed
+                        } else {
+                            R.string.expand_details_hint
+                        }
+                    )
+                )
+            },
         )
     }
 }

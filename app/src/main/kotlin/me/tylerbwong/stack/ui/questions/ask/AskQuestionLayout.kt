@@ -57,6 +57,10 @@ import me.tylerbwong.stack.ui.utils.compose.StackTheme
 @Composable
 fun AskQuestionLayout(onFinish: () -> Unit) {
     val viewModel = viewModel<AskQuestionViewModel>()
+    val currentSiteParameter by viewModel.currentSiteParameter.observeAsState()
+    val isDetailedQuestionRequired by remember {
+        derivedStateOf { currentSiteParameter == "stackoverflow" } // TODO Figure out better way
+    }
     val askQuestionState by viewModel.askQuestionState.observeAsState(
         initial = AskQuestionState.Idle,
     )
@@ -183,6 +187,7 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
                         state = pagerState,
                         askQuestionState = askQuestionState,
                         page = currentPage,
+                        isDetailedQuestionRequired = isDetailedQuestionRequired,
                         onFinish = onFinish,
                     )
                 }
@@ -196,7 +201,9 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
                     count = AskQuestionPage.values().size,
                     state = pagerState,
                     userScrollEnabled = false,
-                ) { page -> AskQuestionPage.getCurrentPage(page)?.page?.invoke() }
+                ) { page ->
+                    AskQuestionPage.getCurrentPage(page)?.page?.invoke(isDetailedQuestionRequired)
+                }
             }
         }
     }
@@ -208,6 +215,7 @@ private fun BottomNavigationBar(
     state: PagerState,
     askQuestionState: AskQuestionState,
     page: AskQuestionPage<*>?,
+    isDetailedQuestionRequired: Boolean,
     onFinish: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -270,11 +278,26 @@ private fun BottomNavigationBar(
             },
             modifier = Modifier.padding(16.dp),
             enabled = when (page) {
-                is AskQuestionPage.Title -> page.canContinue(viewModel.title)
-                is AskQuestionPage.Details -> page.canContinue(viewModel.body.text)
-                is AskQuestionPage.ExpandDetails -> page.canContinue(viewModel.expandBody.text)
-                is AskQuestionPage.Tags -> page.canContinue(viewModel.selectedTags)
-                is AskQuestionPage.DuplicateQuestion -> page.canContinue(viewModel.isReviewed)
+                is AskQuestionPage.Title -> page.canContinue(
+                    viewModel.title,
+                    isDetailedQuestionRequired
+                )
+                is AskQuestionPage.Details -> page.canContinue(
+                    viewModel.body.text,
+                    isDetailedQuestionRequired
+                )
+                is AskQuestionPage.ExpandDetails -> page.canContinue(
+                    viewModel.expandBody.text,
+                    isDetailedQuestionRequired
+                )
+                is AskQuestionPage.Tags -> page.canContinue(
+                    viewModel.selectedTags,
+                    isDetailedQuestionRequired
+                )
+                is AskQuestionPage.DuplicateQuestion -> page.canContinue(
+                    viewModel.isReviewed,
+                    isDetailedQuestionRequired
+                )
                 else -> askQuestionState != AskQuestionState.Posting
             },
         ) {
