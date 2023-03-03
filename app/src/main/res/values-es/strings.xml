@@ -88,11 +88,52 @@
     <string name="opinion_based_notice">Esta pregunta está demasiado basada en opiniones. Actualmente no está aceptando respuestas.</string>
     <string name="unknown_notice">Esta pregunta se cerró por una razón desconocida.</string>
 
-    <!-- Create Question -->
-    <string name="create_question">Formular una pregunta</string>
+    <!-- Ask Question -->
+    <string name="ask_question">Pregunta</string>
     <string name="title">Título</string>
     <string name="body">Cuerpo</string>
     <string name="preview_success">Lo publicamos como una vista previa</string>
+    <string name="draft_status_saving">Guardando borrador…</string>
+    <string name="draft_status_saved">¡Borrador guardado!</string>
+    <string name="draft_status_failed">No se pudo guardar el borrador</string>
+    <string name="confirm">Confirmar</string>
+    <string name="delete_draft">Eliminar borrador</string>
+    <string name="delete_draft_summary">¿Confirmar para eliminar su borrador?</string>
+    <string name="confirm_existing_posts">Confirmo que ninguna de estas publicaciones existentes responde a mi pregunta.</string>
+    <string name="exit">Salida</string>
+    <string name="back">Regresa</string>
+    <string name="review">Revisar</string>
+    <string name="view">Ver</string>
+    <string name="next">Siguiente</string>
+    <string name="start_page_title">Haz una pregunta pública</string>
+    <string name="start_page_description">Publicar una pregunta a:</string>
+    <string name="start_page_warning">Antes de hacer una pregunta, asegúrese de que sea relevante para %1$s. Asegúrese de buscar en el sitio para asegurarse de que su pregunta aún no haya sido respondida.</string>
+    <string name="title_page_description">Sea específico e imagine que le está haciendo una pregunta a otra persona.</string>
+    <string name="title_page_hint">Resume el problema aquí</string>
+    <string name="details_page_title">¿Cuáles son los detalles de tu pregunta?</string>
+    <string name="details_page_title_detailed">¿Cuáles son los detalles de su problema?</string>
+    <string name="details_page_description">Incluya toda la información que alguien necesitaría para responder a su pregunta. Mínimo %1$d caracteres.</string>
+    <string name="details_page_description_detailed">Presente el problema y amplíe lo que puso en el título. Mínimo %1$d caracteres.</string>
+    <string name="details_page_hint">Explica tu pregunta</string>
+    <string name="details_page_hint_detailed">Explica cómo encontraste el problema.</string>
+    <string name="expand_details_page_title">Proporcione cualquier otro detalle</string>
+    <string name="expand_details_page_title_detailed">¿Qué intentaste?</string>
+    <string name="expand_details_page_description">Describa la pregunta con más detalle si es necesario. Este paso es opcional.</string>
+    <string name="expand_details_page_description_detailed">Describa lo que intentó, lo que esperaba y el resultado real. Mínimo %1$d caracteres.</string>
+    <string name="expand_details_hint">Ampliar la pregunta</string>
+    <string name="expand_details_hint_detailed">Ampliar el problema</string>
+    <string name="tags_page_title">Etiquetas</string>
+    <string name="tags_page_description">Agregue hasta %1$d etiquetas para describir de qué se trata su pregunta.</string>
+    <string name="tags_page_hint">Empieza a escribir para ver sugerencias</string>
+    <string name="duplicate_page_title">Revisar las preguntas existentes</string>
+    <string name="duplicate_page_description">Haga clic en una publicación para revisar si su pregunta es un duplicado.</string>
+    <string name="duplicate_page_description_none">No se encontraron posibles preguntas duplicadas.</string>
+    <string name="review_page_title">Revisa tu pregunta</string>
+    <string name="review_page_description">Realice una revisión final de su pregunta antes de intentar publicarla. Las preguntas pueden ser rechazadas debido a la baja calidad.</string>
+    <string name="review_page_error">Hubo un problema al publicar tu pregunta:</string>
+    <string name="review_page_error_unknown">Error desconocido</string>
+    <string name="success_page_title">Pregunta publicada con éxito</string>
+    <string name="success_page_description">¡Lindo! Tu pregunta ha sido hecha.</string>
 
     <!-- Add Comment -->
     <string name="add_comment">Agregar comentario</string>
@@ -124,6 +165,7 @@
     <string name="clear_filters">Despejar</string>
 
     <!-- Drafts -->
+    <string name="answers">Respuestas</string>
     <string name="save_draft">Guardar un borrador</string>
     <string name="save_draft_message">Podrás acceder a tus borradores guardados hasta que cierres sesión.</string>
     <string name="draft_saved">El borrador se salva</string>
@@ -162,7 +204,6 @@
     <string name="version">Versión</string>
     <string name="syntax_highlighting">Resaltado de sintaxis</string>
     <string name="syntax_highlighting_summary">Habilita el resaltado de sintaxis para los bloques de código Markdown admitidos</string>
-    <string name="create_question_summary">Permite la capacidad de formular preguntas</string>
 
     <string name="restart_toggle">Para activar esta es necesario reiniciar</string>
     <string name="link_copied">El enlace se copia en el portapapeles</string>

@@ -1,7 +1,7 @@
 package me.tylerbwong.compose.markdown.visitors
 
 import androidx.compose.foundation.text.InlineTextContent
-import androidx.compose.material.Typography
+import androidx.compose.material3.Typography
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.withStyle
@@ -43,12 +43,12 @@ internal class HeaderVisitor(private val typography: Typography) : Visitor {
     private fun resolveHeaderTextStyle(nodeType: IElementType): TextStyle {
         return with(typography) {
             when (nodeType) {
-                MarkdownElementTypes.SETEXT_1, MarkdownElementTypes.ATX_1 -> h1
-                MarkdownElementTypes.SETEXT_2, MarkdownElementTypes.ATX_2 -> h2
-                MarkdownElementTypes.ATX_3 -> h3
-                MarkdownElementTypes.ATX_4 -> h4
-                MarkdownElementTypes.ATX_5 -> h5
-                MarkdownElementTypes.ATX_6 -> h6
+                MarkdownElementTypes.SETEXT_1, MarkdownElementTypes.ATX_1 -> headlineLarge
+                MarkdownElementTypes.SETEXT_2, MarkdownElementTypes.ATX_2 -> headlineMedium
+                MarkdownElementTypes.ATX_3 -> headlineSmall
+                MarkdownElementTypes.ATX_4 -> bodyLarge
+                MarkdownElementTypes.ATX_5 -> bodyMedium
+                MarkdownElementTypes.ATX_6 -> bodySmall
                 else -> TextStyle.Default
             }
         }

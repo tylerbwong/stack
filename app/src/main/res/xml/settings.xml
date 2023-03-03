@@ -31,12 +31,6 @@
             android:key="@string/syntax_highlighting"
             android:summary="@string/syntax_highlighting_summary"
             android:title="@string/syntax_highlighting" />
-
-        <SwitchPreferenceCompat
-            android:icon="@drawable/ic_baseline_add_circle"
-            android:key="@string/create_question"
-            android:summary="@string/create_question_summary"
-            android:title="@string/create_question" />
     </PreferenceCategory>
 
     <PreferenceCategory

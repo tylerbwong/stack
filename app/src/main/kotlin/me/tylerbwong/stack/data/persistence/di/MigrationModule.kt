@@ -38,4 +38,11 @@ class MigrationModule {
             database.execSQL("ALTER TABLE answer ADD COLUMN shareLink TEXT NOT NULL default ''")
         }
     }
+
+    @[Provides IntoSet StackMigration]
+    fun provideQuestionDraftDetailsMigration(): Migration = object : Migration(11, 12) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE question_drafts ADD COLUMN expand_body TEXT NOT NULL default ''")
+        }
+    }
 }

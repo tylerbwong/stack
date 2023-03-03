@@ -25,7 +25,7 @@ data class ClosedDetails(
         NOT_SUITABLE("not suitable for this site"),
         NEEDS_DETAILS("needs details"),
         NEEDS_FOCUS("needs more focus"),
-        OPINION_BASED("opinion based"),
+        OPINION_BASED("opinion-based"),
         UNKNOWN("unknown");
     }
 }

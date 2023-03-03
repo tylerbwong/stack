@@ -3,14 +3,17 @@ package me.tylerbwong.stack.ui.drafts
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import me.tylerbwong.stack.data.model.AnswerDraft
-import me.tylerbwong.stack.data.model.QuestionDraft
+import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDraftDao
+import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
+import me.tylerbwong.stack.data.persistence.entity.QuestionDraftEntity
 import me.tylerbwong.stack.data.site.SiteStore
 import me.tylerbwong.stack.data.toAnswerDraft
 import me.tylerbwong.stack.data.toQuestionDraft
 import me.tylerbwong.stack.ui.BaseViewModel
+import me.tylerbwong.stack.ui.home.AnswerDraftItem
+import me.tylerbwong.stack.ui.home.QuestionDraftItem
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,23 +23,34 @@ internal class DraftsViewModel @Inject constructor(
     private val siteStore: SiteStore
 ) : BaseViewModel() {
 
-    val questionDrafts: LiveData<List<QuestionDraft>>
-        get() = _questionDrafts
-    private val _questionDrafts = MutableLiveData<List<QuestionDraft>>()
+    internal var currentPage = DraftsPage.QUESTIONS
 
-    val answerDrafts: LiveData<List<AnswerDraft>>
-        get() = _answerDrafts
-    private val _answerDrafts = MutableLiveData<List<AnswerDraft>>()
+    val drafts: LiveData<List<DynamicItem>>
+        get() = _drafts
+    private val _drafts = MutableLiveData<List<DynamicItem>>()
 
     val siteLiveData: LiveData<String>
         get() = siteStore.siteLiveData
 
     internal fun fetchDrafts(timestampProvider: (Long) -> String) {
-        streamRequest(questionDraftDao.getQuestionDrafts(siteStore.site)) { entities ->
-            _questionDrafts.value = entities.map { it.toQuestionDraft(timestampProvider) }
+        streamRequest(
+            when (currentPage) {
+                DraftsPage.QUESTIONS -> questionDraftDao.getQuestionDrafts(siteStore.site)
+                DraftsPage.ANSWERS -> answerDraftDao.getAnswerDrafts(siteStore.site)
+            }
+        ) { drafts ->
+            _drafts.value = drafts.mapNotNull { draft ->
+                when (draft) {
+                    is AnswerDraftEntity -> AnswerDraftItem(draft.toAnswerDraft(timestampProvider))
+                    is QuestionDraftEntity -> QuestionDraftItem(draft.toQuestionDraft(timestampProvider))
+                    else -> null
+                }
+            }
         }
-        streamRequest(answerDraftDao.getAnswerDrafts(siteStore.site)) { entities ->
-            _answerDrafts.value = entities.map { it.toAnswerDraft(timestampProvider) }
-        }
+    }
+
+    enum class DraftsPage {
+        QUESTIONS,
+        ANSWERS,
     }
 }

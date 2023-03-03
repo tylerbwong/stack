@@ -5,10 +5,8 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Brightness2
@@ -56,7 +54,7 @@ import me.tylerbwong.stack.ui.utils.toHtml
 import java.util.Locale
 import me.tylerbwong.stack.api.BuildConfig as ApiBuildConfig
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     preferences: SharedPreferences,
@@ -165,20 +163,6 @@ fun SettingsScreen(
                             icon = {
                                 Icon(
                                     imageVector = Icons.Default.Code,
-                                    contentDescription = null,
-                                )
-                            },
-                        )
-                        SwitchPreference(
-                            checked = false,
-                            title = { Text(text = stringResource(R.string.create_question)) },
-                            onCheckedChange = { isSnackbarVisible = true },
-                            summary = {
-                                Text(text = stringResource(R.string.create_question_summary))
-                            },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Default.AddCircle,
                                     contentDescription = null,
                                 )
                             },

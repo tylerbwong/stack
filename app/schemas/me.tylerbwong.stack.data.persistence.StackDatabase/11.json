@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 11,
-    "identityHash": "e2ab48e1143141b66c3a1e64bcbd1eb1",
+    "identityHash": "192aa204f5eb09ea61a5f67980bd241b",
     "entities": [
       {
         "tableName": "question",
@@ -600,7 +600,7 @@
       },
       {
         "tableName": "question_drafts",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`title` TEXT NOT NULL, `updated_date` INTEGER NOT NULL, `body` TEXT NOT NULL, `tags` TEXT NOT NULL, `site` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`title` TEXT NOT NULL, `updated_date` INTEGER NOT NULL, `body` TEXT NOT NULL, `expand_body` TEXT NOT NULL, `tags` TEXT NOT NULL, `site` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
             "fieldPath": "title",
@@ -617,6 +617,12 @@
           {
             "fieldPath": "body",
             "columnName": "body",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "expandBody",
+            "columnName": "expand_body",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -652,7 +658,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e2ab48e1143141b66c3a1e64bcbd1eb1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '192aa204f5eb09ea61a5f67980bd241b')"
     ]
   }
 }

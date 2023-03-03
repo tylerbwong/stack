@@ -12,11 +12,13 @@ data class QuestionDraftEntity(
     val updatedDate: Long,
     @ColumnInfo(name = "body")
     val body: String,
+    @ColumnInfo(name = "expand_body")
+    val expandBody: String,
     @ColumnInfo(name = "tags")
     val tags: String,
     @ColumnInfo(name = "site")
     val site: String
 ) {
     @PrimaryKey(autoGenerate = true)
-    var id: Int = -1
+    var id: Int = 0
 }

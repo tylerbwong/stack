@@ -14,17 +14,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Checkbox
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ListItem
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProvideTextStyle
-import androidx.compose.material.RadioButton
-import androidx.compose.material.Slider
-import androidx.compose.material.Switch
-import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,7 +41,7 @@ import androidx.compose.ui.window.Dialog
 private val DefaultIconSize = 24.dp
 private val DefaultIconPadding = 8.dp
 
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 fun PreferenceScope.ListPreference(
     selectedIndex: Int,
     title: @Composable () -> Unit,
@@ -49,7 +49,6 @@ fun PreferenceScope.ListPreference(
     items: List<String>,
     onConfirm: (String, Int) -> Unit,
     icon: (@Composable () -> Unit)? = null,
-    singleLineSecondaryText: Boolean = true,
 ) {
     require(selectedIndex in 0..items.size) {
         "Selected index is out of bounds"
@@ -65,7 +64,6 @@ fun PreferenceScope.ListPreference(
             title = title,
             summary = { Text(text = items[selectedIndex]) },
             icon = icon,
-            singleLineSecondaryText = singleLineSecondaryText,
             onClick = { isAlertDialogVisible = true },
         )
 
@@ -76,8 +74,8 @@ fun PreferenceScope.ListPreference(
                     Card(shape = RoundedCornerShape(8.dp)) {
                         Column(modifier = Modifier.fillMaxWidth()) {
                             ProvideTextStyle(
-                                value = TextStyle(color = MaterialTheme.colors.onSurface) +
-                                        MaterialTheme.typography.h6
+                                value = TextStyle(color = MaterialTheme.colorScheme.onSurface) +
+                                        MaterialTheme.typography.headlineSmall
                             ) {
                                 Box(
                                     modifier = Modifier.padding(
@@ -108,7 +106,7 @@ fun PreferenceScope.ListPreference(
                                     Spacer(modifier = Modifier.width(24.dp))
                                     Text(
                                         text = item,
-                                        color = MaterialTheme.colors.onSurface,
+                                        color = MaterialTheme.colorScheme.onSurface,
                                         fontSize = 18.sp
                                     )
                                 }
@@ -122,7 +120,7 @@ fun PreferenceScope.ListPreference(
     }
 }
 
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 fun PreferenceScope.SliderPreference(
     value: Float,
     onValueChange: (Float) -> Unit,
@@ -135,21 +133,17 @@ fun PreferenceScope.SliderPreference(
 ) {
     item {
         ListItem(
-            icon = icon?.let {
-                {
-                    Box(
-                        modifier = Modifier
-                            .padding(DefaultIconPadding)
-                            .size(DefaultIconSize),
-                    ) { it() }
+            headlineText = {
+                ProvideTextStyle(value = TextStyle(color = MaterialTheme.colorScheme.onBackground)) {
+                    title()
                 }
             },
-            secondaryText = {
+            supportingText = {
                 Column {
                     summary?.let {
                         ProvideTextStyle(
                             value = TextStyle(
-                                color = MaterialTheme.colors.onBackground.copy(alpha = 0.5f)
+                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
                             )
                         ) { it() }
                     }
@@ -167,23 +161,26 @@ fun PreferenceScope.SliderPreference(
                     }
                 }
             },
-            text = {
-                ProvideTextStyle(value = TextStyle(color = MaterialTheme.colors.onBackground)) {
-                    title()
+            leadingContent = icon?.let {
+                {
+                    Box(
+                        modifier = Modifier
+                            .padding(DefaultIconPadding)
+                            .size(DefaultIconSize),
+                    ) { it() }
                 }
             },
         )
     }
 }
 
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 fun PreferenceScope.CheckboxPreference(
     checked: Boolean,
     title: @Composable () -> Unit,
     onCheckedChange: (Boolean) -> Unit = {},
     summary: (@Composable () -> Unit)? = null,
     icon: (@Composable () -> Unit)? = null,
-    singleLineSecondaryText: Boolean = true,
 ) {
     TwoStatePreference(
         checked = checked,
@@ -191,7 +188,6 @@ fun PreferenceScope.CheckboxPreference(
         title = title,
         summary = summary,
         icon = icon,
-        singleLineSecondaryText = singleLineSecondaryText,
         trailing = { checked, toggle ->
             Checkbox(
                 checked = checked,
@@ -201,14 +197,13 @@ fun PreferenceScope.CheckboxPreference(
     )
 }
 
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 fun PreferenceScope.SwitchPreference(
     checked: Boolean,
     title: @Composable () -> Unit,
     onCheckedChange: (Boolean) -> Unit = {},
     summary: (@Composable () -> Unit)? = null,
     icon: (@Composable () -> Unit)? = null,
-    singleLineSecondaryText: Boolean = true,
 ) {
     TwoStatePreference(
         checked = checked,
@@ -216,7 +211,6 @@ fun PreferenceScope.SwitchPreference(
         title = title,
         summary = summary,
         icon = icon,
-        singleLineSecondaryText = singleLineSecondaryText,
         trailing = { checked, toggle ->
             Switch(
                 checked = checked,
@@ -226,12 +220,11 @@ fun PreferenceScope.SwitchPreference(
     )
 }
 
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 fun PreferenceScope.Preference(
     title: @Composable () -> Unit,
     summary: (@Composable () -> Unit)? = null,
     icon: (@Composable () -> Unit)? = null,
-    singleLineSecondaryText: Boolean = true,
     onClick: () -> Unit = {},
 ) {
     item {
@@ -239,20 +232,18 @@ fun PreferenceScope.Preference(
             title = title,
             summary = summary,
             icon = icon,
-            singleLineSecondaryText = singleLineSecondaryText,
             onClick = onClick,
         )
     }
 }
 
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 internal fun PreferenceScope.TwoStatePreference(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     title: @Composable () -> Unit,
     summary: (@Composable () -> Unit)? = null,
     icon: (@Composable () -> Unit)? = null,
-    singleLineSecondaryText: Boolean = true,
     trailing: @Composable (Boolean, (Boolean) -> Unit) -> Unit,
 ) {
     item {
@@ -260,21 +251,19 @@ internal fun PreferenceScope.TwoStatePreference(
             title = title,
             summary = summary,
             icon = icon,
-            singleLineSecondaryText = singleLineSecondaryText,
             onClick = { onCheckedChange(!checked) },
             trailing = { trailing(checked, onCheckedChange) },
         )
     }
 }
 
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 @Composable
 internal fun PreferenceInternal(
     title: @Composable () -> Unit,
     summary: (@Composable () -> Unit)?,
     icon: (@Composable () -> Unit)?,
     modifier: Modifier = Modifier,
-    singleLineSecondaryText: Boolean = true,
     onClick: () -> Unit = {},
     trailing: (@Composable () -> Unit) = {},
 ) {
@@ -286,26 +275,28 @@ internal fun PreferenceInternal(
             indication = rememberRipple(),
             onClick = onClick
         ),
-        icon = {
+        headlineText = {
+            ProvideTextStyle(value = TextStyle(color = MaterialTheme.colorScheme.onBackground)) {
+                title()
+            }
+        },
+        supportingText = summary?.let {
+            {
+                ProvideTextStyle(
+                    value = TextStyle(
+                        color = MaterialTheme
+                            .colorScheme
+                            .onBackground.copy(alpha = 0.5f))
+                ) { it() }
+            }
+        },
+        leadingContent = {
             Box(
                 modifier = Modifier
                     .padding(DefaultIconPadding)
                     .size(DefaultIconSize),
             ) { icon?.invoke() }
         },
-        secondaryText = summary?.let {
-            {
-                ProvideTextStyle(
-                    value = TextStyle(color = MaterialTheme.colors.onBackground.copy(alpha = 0.5f))
-                ) { it() }
-            }
-        },
-        singleLineSecondaryText = singleLineSecondaryText,
-        text = {
-            ProvideTextStyle(value = TextStyle(color = MaterialTheme.colors.onBackground)) {
-                title()
-            }
-        },
-        trailing = trailing,
+        trailingContent = trailing,
     )
 }
