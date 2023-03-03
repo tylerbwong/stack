@@ -1,11 +1,13 @@
 package me.tylerbwong.stack.ui.questions.ask.page
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import me.tylerbwong.stack.R
 
 @Composable
 fun SuccessPage() {
     AskQuestionDetailsLayout(
-        title = "Question posted successfully",
-        description = "Nice! Your question has been asked."
+        title = stringResource(R.string.success_page_title),
+        description = stringResource(R.string.success_page_description),
     )
 }

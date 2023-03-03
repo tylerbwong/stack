@@ -9,9 +9,11 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
 import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Title.TITLE_LENGTH_MAX
 
@@ -20,15 +22,15 @@ import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Title.TITLE_LEN
 fun TitlePage() {
     val viewModel = viewModel<AskQuestionViewModel>()
     AskQuestionDetailsLayout(
-        title = "Title",
-        description = "Be specific and imagine you're asking a question to another person.",
+        title = stringResource(R.string.title),
+        description = stringResource(R.string.title_page_description),
     ) {
         OutlinedTextField(
             value = viewModel.title,
             onValueChange = viewModel::updateTitle,
             modifier = Modifier
                 .fillMaxWidth(),
-            placeholder = { Text(text = "Summarize the problem here") },
+            placeholder = { Text(text = stringResource(R.string.title_page_hint)) },
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(

@@ -21,10 +21,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.flowlayout.FlowRow
 import kotlinx.coroutines.delay
+import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
 import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Tags.MAX_NUM_TAGS
 
@@ -44,8 +46,8 @@ fun TagsPage() {
         derivedStateOf { viewModel.selectedTags.isNotEmpty() }
     }
     AskQuestionDetailsLayout(
-        title = "Tags",
-        description = "Add up to $MAX_NUM_TAGS tags to describe what your question is about.",
+        title = stringResource(R.string.tags_page_title),
+        description = stringResource(R.string.tags_page_description, MAX_NUM_TAGS),
     ) {
         AnimatedVisibility(visible = isSelectedTagsVisible) {
             Spacer(modifier = Modifier.height(32.dp))
@@ -72,7 +74,7 @@ fun TagsPage() {
             onValueChange = { viewModel.searchQuery = it },
             modifier = Modifier
                 .fillMaxWidth(),
-            placeholder = { Text(text = "Start typing to see suggestions") },
+            placeholder = { Text(text = stringResource(R.string.tags_page_hint)) },
             singleLine = true,
         )
         Spacer(modifier = Modifier.height(16.dp))

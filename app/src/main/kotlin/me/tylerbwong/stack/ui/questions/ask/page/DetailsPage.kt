@@ -15,10 +15,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
 import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Details.MIN_DETAILS_LENGTH
 import me.tylerbwong.stack.ui.utils.compose.TextFormatToolbar
@@ -30,8 +32,8 @@ fun DetailsPage() {
     val requester = remember { BringIntoViewRequester() }
     val scope = rememberCoroutineScope()
     AskQuestionDetailsLayout(
-        title = "What are the details of your problem?",
-        description = "Introduce the problem and expand on what you put in the title. Minimum $MIN_DETAILS_LENGTH characters.",
+        title = stringResource(R.string.details_page_title),
+        description = stringResource(R.string.details_page_description, MIN_DETAILS_LENGTH),
     ) {
         TextFormatToolbar(
             value = viewModel.body,
@@ -53,7 +55,7 @@ fun DetailsPage() {
                         }
                     }
                 },
-            placeholder = { Text(text = "Explain how you encountered the problem") },
+            placeholder = { Text(text = stringResource(R.string.details_page_hint)) },
         )
     }
 }
@@ -65,8 +67,8 @@ fun ExpandDetailsPage() {
     val requester = remember { BringIntoViewRequester() }
     val scope = rememberCoroutineScope()
     AskQuestionDetailsLayout(
-        title = "What did you try?",
-        description = "Describe what you tried, what you expected, and what actually resulted. Minimum $MIN_DETAILS_LENGTH characters.",
+        title = stringResource(R.string.expand_details_page_title),
+        description = stringResource(R.string.expand_details_page_description, MIN_DETAILS_LENGTH),
     ) {
         TextFormatToolbar(
             value = viewModel.expandBody,
@@ -88,7 +90,7 @@ fun ExpandDetailsPage() {
                         }
                     }
                 },
-            placeholder = { Text(text = "Expand on the problem") },
+            placeholder = { Text(text = stringResource(R.string.expand_details_hint)) },
         )
     }
 }

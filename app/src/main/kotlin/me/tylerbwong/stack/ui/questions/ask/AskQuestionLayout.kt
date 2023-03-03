@@ -39,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -46,6 +47,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
+import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.compose.LabeledCheckbox
@@ -92,21 +94,21 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
                             enter = fadeIn() + slideInHorizontally(),
                             exit = slideOutHorizontally { it / 2 } + fadeOut(),
                         ) {
-                            Text(text = "Saving draft...")
+                            Text(text = stringResource(R.string.draft_status_saving))
                         }
                         AnimatedVisibility(
                             visible = draftStatus == DraftStatus.Complete,
                             enter = fadeIn() + slideInHorizontally(),
                             exit = slideOutHorizontally { it / 2 } + fadeOut(),
                         ) {
-                            Text(text = "Draft saved!")
+                            Text(text = stringResource(R.string.draft_status_saved))
                         }
                         AnimatedVisibility(
                             visible = draftStatus == DraftStatus.Failed,
                             enter = fadeIn() + slideInHorizontally(),
                             exit = slideOutHorizontally { it / 2 } + fadeOut(),
                         ) {
-                            Text(text = "Could not save draft")
+                            Text(text = stringResource(R.string.draft_status_failed))
                         }
                     },
                     navigationIcon = {
@@ -141,14 +143,14 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
                                             isDeleteDraftDialogVisible = false
                                         },
                                     ) {
-                                        Text("Confirm")
+                                        Text(text = stringResource(R.string.confirm))
                                     }
                                 },
                                 dismissButton = {
                                     TextButton(
                                         onClick = { isDeleteDraftDialogVisible = false },
                                     ) {
-                                        Text("Cancel")
+                                        Text(text = stringResource(R.string.cancel))
                                     }
                                 },
                                 icon = {
@@ -157,9 +159,9 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
                                         contentDescription = null,
                                     )
                                 },
-                                title = { Text(text = "Delete draft") },
+                                title = { Text(text = stringResource(R.string.delete_draft)) },
                                 text = {
-                                    Text(text = "Are you sure you want to delete your draft?")
+                                    Text(text = stringResource(R.string.delete_draft_summary))
                                 },
                             )
                         }
@@ -171,7 +173,7 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
                 Column {
                     AnimatedVisibility(visible = isDuplicateQuestionPage && similarQuestions.isNotEmpty()) {
                         LabeledCheckbox(
-                            label = "I confirm that none of these existing posts answers my question.",
+                            label = stringResource(R.string.confirm_existing_posts),
                             checked = viewModel.isReviewed,
                             modifier = Modifier.padding(horizontal = 16.dp),
                             onCheckedChange = { viewModel.isReviewed = it },
@@ -232,11 +234,13 @@ private fun BottomNavigationBar(
             enabled = askQuestionState != AskQuestionState.Posting,
         ) {
             Text(
-                text = if (page in listOf(AskQuestionPage.Start, AskQuestionPage.Success)) {
-                    "Exit"
-                } else {
-                    "Back"
-                }
+                text = stringResource(
+                    if (page in listOf(AskQuestionPage.Start, AskQuestionPage.Success)) {
+                        R.string.exit
+                    } else {
+                        R.string.back
+                    }
+                )
             )
         }
         Button(
@@ -275,15 +279,17 @@ private fun BottomNavigationBar(
             },
         ) {
             Text(
-                text = when (page) {
-                    AskQuestionPage.DuplicateQuestion -> "Review"
-                    AskQuestionPage.Review -> "Post"
-                    else -> if (askQuestionState is AskQuestionState.Success || askQuestionState == AskQuestionState.SuccessPreview) {
-                        "View"
-                    } else {
-                        "Next"
+                text = stringResource(
+                    when (page) {
+                        AskQuestionPage.DuplicateQuestion -> R.string.review
+                        AskQuestionPage.Review -> R.string.post
+                        else -> if (askQuestionState is AskQuestionState.Success || askQuestionState == AskQuestionState.SuccessPreview) {
+                            R.string.view
+                        } else {
+                            R.string.next
+                        }
                     }
-                }
+                )
             )
         }
     }

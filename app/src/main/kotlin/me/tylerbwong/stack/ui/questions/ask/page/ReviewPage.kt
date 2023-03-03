@@ -16,10 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.flowlayout.FlowRow
+import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionState
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
 import me.tylerbwong.stack.ui.utils.compose.MarkdownText
@@ -32,8 +34,8 @@ fun ReviewPage() {
         initial = AskQuestionState.Idle,
     )
     AskQuestionDetailsLayout(
-        title = "Review your question",
-        description = "Please do a final review of your question before attempting to post. Questions may be rejected due to low quality.",
+        title = stringResource(R.string.review_page_title),
+        description = stringResource(R.string.review_page_description),
     ) {
         AnimatedVisibility(visible = askQuestionState is AskQuestionState.Error) {
             Card(
@@ -44,7 +46,7 @@ fun ReviewPage() {
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "There was a problem posting your question:",
+                    text = stringResource(R.string.review_page_error),
                     modifier = Modifier.padding(horizontal = 16.dp),
                     color = MaterialTheme.colorScheme.onErrorContainer,
                     fontWeight = FontWeight.Bold,
@@ -53,7 +55,7 @@ fun ReviewPage() {
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = (askQuestionState as? AskQuestionState.Error)?.errorMessage
-                        ?: "Error unknown",
+                        ?: stringResource(R.string.review_page_error_unknown),
                     modifier = Modifier.padding(horizontal = 16.dp),
                     color = MaterialTheme.colorScheme.onErrorContainer,
                     style = MaterialTheme.typography.labelLarge,

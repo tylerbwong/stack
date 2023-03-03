@@ -26,8 +26,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
@@ -44,12 +46,14 @@ fun DuplicateQuestionPage() {
     }
     val similarQuestions by viewModel.similarQuestions.observeAsState(initial = emptyList())
     AskQuestionDetailsLayout(
-        title = "Review existing questions",
-        description = if (similarQuestions.isNotEmpty()) {
-            "Click a post to review if your question is a duplicate."
-        } else {
-            "No potential duplicate questions found."
-        },
+        title = stringResource(R.string.duplicate_page_title),
+        description = stringResource(
+            if (similarQuestions.isNotEmpty()) {
+                R.string.duplicate_page_description
+            } else {
+                R.string.duplicate_page_description_none
+            }
+        ),
         scrollable = false,
     ) {
         if (similarQuestions.isNotEmpty()) {

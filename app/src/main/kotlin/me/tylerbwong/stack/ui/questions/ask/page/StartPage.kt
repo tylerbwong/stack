@@ -24,13 +24,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
-import me.tylerbwong.stack.ui.utils.compose.MarkdownText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,8 +44,8 @@ fun StartPage() {
         viewModel.fetchSite(currentSiteParameter)
     }
     AskQuestionDetailsLayout(
-        title = "Ask a public question",
-        description = "Posting a question to:"
+        title = stringResource(R.string.start_page_title),
+        description = stringResource(R.string.start_page_description),
     ) {
         if (currentSite != null) {
             Box(modifier = Modifier.height(IntrinsicSize.Min)) {
@@ -83,16 +84,5 @@ fun StartPage() {
             }
             Spacer(modifier = Modifier.height(16.dp))
         }
-        MarkdownText(
-            markdown = """
-                ### Steps
-                * Summarize your problem in a one-line title.  
-                * Describe your problem in more detail.  
-                * Describe what you tried and what you expected to happen.
-                * Add "tags" which help surface your question to members of the community.
-                * Review your question and post it to the site.
-            """.trimIndent(),
-            fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-        )
     }
 }
