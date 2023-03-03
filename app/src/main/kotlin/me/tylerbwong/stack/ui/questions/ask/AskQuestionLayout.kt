@@ -48,6 +48,7 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.api.service.DEFAULT_SITE
 import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.compose.LabeledCheckbox
@@ -59,7 +60,7 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
     val viewModel = viewModel<AskQuestionViewModel>()
     val currentSiteParameter by viewModel.currentSiteParameter.observeAsState()
     val isDetailedQuestionRequired by remember {
-        derivedStateOf { currentSiteParameter == "stackoverflow" } // TODO Figure out better way
+        derivedStateOf { currentSiteParameter == DEFAULT_SITE }
     }
     val askQuestionState by viewModel.askQuestionState.observeAsState(
         initial = AskQuestionState.Idle,
