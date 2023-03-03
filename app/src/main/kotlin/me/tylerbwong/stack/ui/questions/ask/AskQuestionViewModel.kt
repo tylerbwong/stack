@@ -193,7 +193,7 @@ class AskQuestionViewModel @Inject constructor(
     private fun saveDraft() {
         saveDraftJob?.cancel()
         saveDraftJob = viewModelScope.launch {
-            delay(1_000)
+            delay(SAVE_DRAFT_DELAY_MILLIS)
             try {
                 _draftStatus.value = DraftStatus.Saving
                 val id = questionDraftDao.insertQuestionDraft(
@@ -211,11 +211,11 @@ class AskQuestionViewModel @Inject constructor(
                     }
                 )
                 this@AskQuestionViewModel.id = id.toInt()
-                delay(1_000)
+                delay(SAVE_DRAFT_DELAY_MILLIS)
                 showDeleteIcon = true
                 _draftStatus.value = DraftStatus.Complete
             } catch (exception: Exception) {
-                delay(1_000)
+                delay(SAVE_DRAFT_DELAY_MILLIS)
                 _draftStatus.value = DraftStatus.Failed
                 Timber.e(exception)
             }
@@ -256,6 +256,10 @@ class AskQuestionViewModel @Inject constructor(
                 showDeleteIcon = true
             }
         }
+    }
+
+    companion object {
+        private const val SAVE_DRAFT_DELAY_MILLIS = 1_000L
     }
 }
 

@@ -210,6 +210,7 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
     }
 }
 
+@Suppress("ComplexMethod") // TODO Break this component up
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun BottomNavigationBar(
@@ -307,7 +308,9 @@ private fun BottomNavigationBar(
                     when (page) {
                         AskQuestionPage.DuplicateQuestion -> R.string.review
                         AskQuestionPage.Review -> R.string.post
-                        else -> if (askQuestionState is AskQuestionState.Success || askQuestionState == AskQuestionState.SuccessPreview) {
+                        else -> if (askQuestionState is AskQuestionState.Success ||
+                            askQuestionState == AskQuestionState.SuccessPreview
+                        ) {
                             R.string.view
                         } else {
                             R.string.next

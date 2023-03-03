@@ -25,6 +25,8 @@ import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
 import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Details.MIN_DETAILS_LENGTH
 import me.tylerbwong.stack.ui.utils.compose.TextFormatToolbar
 
+private const val FOCUS_DELAY_MILLIS = 200L
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun DetailsPage(isDetailedQuestionRequired: Boolean) {
@@ -63,7 +65,7 @@ fun DetailsPage(isDetailedQuestionRequired: Boolean) {
                 .onFocusChanged {
                     if (it.isFocused) {
                         scope.launch {
-                            delay(200)
+                            delay(FOCUS_DELAY_MILLIS)
                             requester.bringIntoView()
                         }
                     }
@@ -118,7 +120,7 @@ fun ExpandDetailsPage(isDetailedQuestionRequired: Boolean) {
                 .onFocusChanged {
                     if (it.isFocused) {
                         scope.launch {
-                            delay(200)
+                            delay(FOCUS_DELAY_MILLIS)
                             requester.bringIntoView()
                         }
                     }

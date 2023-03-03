@@ -1,3 +1,4 @@
+@file:Suppress("MatchingDeclarationName")
 package me.tylerbwong.stack.ui.utils.compose
 
 import androidx.compose.foundation.clickable

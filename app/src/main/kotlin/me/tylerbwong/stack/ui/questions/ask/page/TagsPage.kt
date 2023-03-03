@@ -30,12 +30,14 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
 import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Tags.MAX_NUM_TAGS
 
+private const val SEARCH_DELAY_MILLIS = 500L
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TagsPage() {
     val viewModel = viewModel<AskQuestionViewModel>()
     LaunchedEffect(viewModel.searchQuery) {
-        delay(500)
+        delay(SEARCH_DELAY_MILLIS)
         viewModel.fetchPopularTags(viewModel.searchQuery)
     }
     val searchTags by viewModel.tags.observeAsState(initial = emptyList())
