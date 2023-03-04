@@ -188,9 +188,9 @@ fun PreferenceScope.CheckboxPreference(
         title = title,
         summary = summary,
         icon = icon,
-        trailing = { checked, toggle ->
+        trailing = { isChecked, toggle ->
             Checkbox(
-                checked = checked,
+                checked = isChecked,
                 onCheckedChange = toggle,
             )
         },
@@ -211,9 +211,9 @@ fun PreferenceScope.SwitchPreference(
         title = title,
         summary = summary,
         icon = icon,
-        trailing = { checked, toggle ->
+        trailing = { isChecked, toggle ->
             Switch(
-                checked = checked,
+                checked = isChecked,
                 onCheckedChange = toggle,
             )
         },
