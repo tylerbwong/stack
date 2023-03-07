@@ -53,8 +53,8 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         viewModel.errorToast.observe(viewLifecycleOwner) { errorToast ->
             if (errorToast != null) {
                 val message = when (errorToast) {
-                    CommentsViewModel.CommentError.AddCommentFailed ->
-                        getString(R.string.add_comment_failure)
+                    is CommentsViewModel.CommentError.AddCommentFailed ->
+                        errorToast.reason ?: getString(R.string.add_comment_failure)
                     is CommentsViewModel.CommentError.UpvoteFailed -> errorToast.reason
                 }
                 Toast.makeText(

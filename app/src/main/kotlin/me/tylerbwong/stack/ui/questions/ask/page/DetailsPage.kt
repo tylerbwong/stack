@@ -27,6 +27,8 @@ import me.tylerbwong.stack.ui.utils.compose.TextFormatToolbar
 
 private const val FOCUS_DELAY_MILLIS = 200L
 
+// TODO Figure out how to move context actions
+// TODO Scroll content above keyboard when focused
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun DetailsPage(isDetailedQuestionRequired: Boolean) {

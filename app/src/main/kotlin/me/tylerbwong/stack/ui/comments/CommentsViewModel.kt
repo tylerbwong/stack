@@ -71,8 +71,14 @@ class CommentsViewModel @Inject constructor(
                                     initialBody = ""
                                     fetchComments()
                                 },
-                                onFailure = {
-                                    _errorToast.value = CommentError.AddCommentFailed
+                                onFailure = { ex ->
+                                    _errorToast.postValue(
+                                        (ex as? HttpException)?.toErrorResponse()?.let {
+                                            CommentError.AddCommentFailed(
+                                                reason = it.errorMessage.toHtml().toString()
+                                            )
+                                        } ?: CommentError.AddCommentFailed()
+                                    )
                                     initialBody = body
                                     fetchComments()
                                 },
@@ -116,7 +122,7 @@ class CommentsViewModel @Inject constructor(
     }
 
     sealed class CommentError {
-        object AddCommentFailed : CommentError()
+        class AddCommentFailed(val reason: String? = null) : CommentError()
         class UpvoteFailed(val reason: String? = null) : CommentError()
     }
 }

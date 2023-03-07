@@ -127,7 +127,7 @@ class AskQuestionViewModel @Inject constructor(
                     if (BuildConfig.DEBUG) {
                         AskQuestionState.SuccessPreview
                     } else {
-                        questionDraftDao.deleteDraftById(id, siteRepository.site)
+                        deleteDraft()
                         AskQuestionState.Success(question.questionId)
                     }
                 } else {
