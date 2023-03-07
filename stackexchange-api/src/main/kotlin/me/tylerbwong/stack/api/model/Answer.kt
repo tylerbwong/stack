@@ -34,5 +34,5 @@ data class Answer(
     @Json(name = "share_link")
     val shareLink: String,
     @Json(name = "title")
-    val title: String,
+    val title: String = "",
 )
