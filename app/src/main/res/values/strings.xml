@@ -31,6 +31,10 @@
         <item quantity="other">%1$d Votes</item>
     </plurals>
 
+    <!-- Profile -->
+    <string name="profile_summary">Summary</string>
+    <string name="profile_activity">Activity</string>
+
     <!-- Theme Chooser -->
     <string name="theme_title">Choose theme</string>
     <string name="theme_light">Light</string>

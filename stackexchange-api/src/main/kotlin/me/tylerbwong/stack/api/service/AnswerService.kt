@@ -48,8 +48,8 @@ interface AnswerService {
 
     companion object {
         internal const val ANSWER_FILTER =
-            "!HzgO6Jg6sME4H_1vS70d6DFK5mYr)2q1N44cbmn5TW)L6gY9nV-Fj8ZYP1cBg6yrUwoXjNbrH5Z**AepUh.i0op2_hMhQ"
+            "!HzgO6Jg6sME4H_1vS70d6DFK5mYr)2q1N44cbmn5TW)L6gY9nV-Fj8ZYP1cBg6yrUwoXjNbrH5Z**AZ0K6WAi(e*BgAoz"
         internal const val ANSWER_FILTER_AUTH =
-            "!)aHQ9FGlxVZ-FDR2obogNxnqETJo9DXW96Zvv3FLjN(pPDs04v10AoUeW*Sb9Wk7MEfS51yyUe8irkMqfVxdA9yBv3-"
+            "!)aHQ9FGlxVZ-FDR2obogNxnqETJo9DXW96Zvv3FLjN(pPDs04v10AoUeW*Sb9Wk7MEfS51yyUe8irkMLAlVu0.uRXjY"
     }
 }

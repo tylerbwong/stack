@@ -3,6 +3,7 @@ package me.tylerbwong.stack.ui.home
 import androidx.recyclerview.widget.DiffUtil
 import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.adapter.ViewHolderProvider
+import me.tylerbwong.stack.api.model.Answer
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Tag
 import me.tylerbwong.stack.data.model.AnswerDraft
@@ -12,6 +13,7 @@ import me.tylerbwong.stack.ui.HeaderHolder
 import me.tylerbwong.stack.ui.drafts.AnswerDraftHolder
 import me.tylerbwong.stack.ui.drafts.QuestionDraftHolder
 import me.tylerbwong.stack.ui.home.tags.TagHeaderHolder
+import me.tylerbwong.stack.ui.profile.AnswerHolder
 import me.tylerbwong.stack.ui.questions.QuestionCardHolder
 import me.tylerbwong.stack.ui.questions.QuestionCarouselHolder
 import me.tylerbwong.stack.ui.questions.QuestionHolder
@@ -23,6 +25,7 @@ import me.tylerbwong.stack.ui.search.tags.TagsHolder
 sealed class HomeItem(viewHolderProvider: ViewHolderProvider) : DynamicItem(viewHolderProvider)
 data class HeaderItem(val title: String, val subtitle: String? = null) : HomeItem(::HeaderHolder)
 data class QuestionItem(val question: Question) : HomeItem(::QuestionHolder)
+data class AnswerItem(val answer: Answer) : HomeItem(::AnswerHolder)
 data class AnswerDraftItem(val draft: AnswerDraft) : HomeItem(::AnswerDraftHolder)
 data class QuestionDraftItem(val draft: QuestionDraft) : HomeItem(::QuestionDraftHolder)
 data class SearchInputItem(
@@ -54,6 +57,8 @@ object HomeItemDiffCallback : DiffUtil.ItemCallback<DynamicItem>() {
         oldItem.javaClass == newItem.javaClass &&
                 (oldItem is HeaderItem || oldItem is QuestionItem && newItem is QuestionItem &&
                         oldItem.question.questionId == newItem.question.questionId ||
+                        oldItem is AnswerItem && newItem is AnswerItem &&
+                        oldItem.answer.answerId == newItem.answer.answerId ||
                         oldItem is AnswerDraftItem && newItem is AnswerDraftItem &&
                         oldItem.draft.questionId == newItem.draft.questionId ||
                         oldItem is QuestionDraftItem && newItem is QuestionDraftItem &&
@@ -75,6 +80,9 @@ object HomeItemDiffCallback : DiffUtil.ItemCallback<DynamicItem>() {
             oldItem.question.title == newItem.question.title &&
                     oldItem.question.answerCount == newItem.question.answerCount &&
                     oldItem.question.owner == newItem.question.owner
+        oldItem is AnswerItem && newItem is AnswerItem ->
+            oldItem.answer.commentCount == newItem.answer.commentCount &&
+                    oldItem.answer.owner == newItem.answer.owner
         oldItem is AnswerDraftItem && newItem is AnswerDraftItem ->
             oldItem.draft.questionTitle == newItem.draft.questionTitle &&
                     oldItem.draft.formattedTimestamp == newItem.draft.formattedTimestamp &&

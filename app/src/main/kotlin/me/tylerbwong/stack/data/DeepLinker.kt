@@ -3,6 +3,9 @@ package me.tylerbwong.stack.data
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.AUTH
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTIONS_BY_TAG
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTION_DETAILS
@@ -16,6 +19,12 @@ sealed class DeepLinkResult {
     class Success(val intent: Intent) : DeepLinkResult()
     object RequestingAuth : DeepLinkResult()
     object PathNotSupportedError : DeepLinkResult()
+}
+
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+interface DeepLinkerEntryPoint {
+    val deepLinker: DeepLinker
 }
 
 @Singleton

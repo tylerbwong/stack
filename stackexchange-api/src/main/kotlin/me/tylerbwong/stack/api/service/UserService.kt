@@ -1,6 +1,7 @@
 package me.tylerbwong.stack.api.service
 
 import me.tylerbwong.stack.api.BuildConfig
+import me.tylerbwong.stack.api.model.Answer
 import me.tylerbwong.stack.api.model.Badge
 import me.tylerbwong.stack.api.model.NetworkUser
 import me.tylerbwong.stack.api.model.ORDER_PARAM
@@ -36,13 +37,22 @@ interface UserService {
     ): Response<User>
 
     @GET("users/{userId}/questions")
-    suspend fun getUserQuestionsById(
+    suspend fun getQuestionsByUserId(
         @Path(USER_ID) userId: Int?,
         @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
         @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
         @Query(FILTER_PARAM) filter: String = QuestionService.DEFAULT_FILTER,
         @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
     ): Response<Question>
+
+    @GET("users/{userId}/answers")
+    suspend fun getAnswersByUserId(
+        @Path(USER_ID) userId: Int?,
+        @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
+        @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
+        @Query(FILTER_PARAM) filter: String = AnswerService.ANSWER_FILTER,
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
+    ): Response<Answer>
 
     @GET("users/{userId}/timeline")
     suspend fun getUserTimeline(

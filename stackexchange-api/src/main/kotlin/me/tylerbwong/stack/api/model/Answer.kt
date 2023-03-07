@@ -33,4 +33,6 @@ data class Answer(
     val commentCount: Int?,
     @Json(name = "share_link")
     val shareLink: String,
+    @Json(name = "title")
+    val title: String,
 )

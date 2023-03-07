@@ -138,6 +138,7 @@ fun AnswerEntity.toAnswer(owner: UserEntity, lastEditor: UserEntity?): Answer =
         lastEditor = lastEditor?.toUser(),
         commentCount = commentCount,
         shareLink = shareLink,
+        title = "", // TODO Link up title when answer entity is updated
     )
 
 fun AnswerDraftEntity.toAnswerDraft(toFormattedTimestamp: Long.() -> String): AnswerDraft =

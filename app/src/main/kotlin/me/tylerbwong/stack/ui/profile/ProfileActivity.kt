@@ -6,16 +6,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.insetter.applyInsetter
-import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.ActivityProfileBinding
 import me.tylerbwong.stack.ui.BaseActivity
-import me.tylerbwong.stack.ui.questions.QuestionItemCallback
-import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
 
@@ -23,7 +19,7 @@ import me.tylerbwong.stack.ui.utils.toHtml
 class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBinding::inflate) {
 
     private val viewModel by viewModels<ProfileViewModel>()
-    private val adapter = DynamicListAdapter(QuestionItemCallback)
+    private lateinit var adapter: ProfilePagerAdapter
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,13 +27,10 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
         setSupportActionBar(binding.toolbar)
 
         viewModel.userId = intent.getIntExtra(USER_ID, 0)
-        viewModel.refreshing.observe(this) {
-            binding.refreshLayout.isRefreshing = it
-        }
         viewModel.snackbar.observe(this) {
             if (it != null) {
                 snackbar = binding.rootLayout.showSnackbar(R.string.network_error, R.string.retry) {
-                    viewModel.getUserQuestionsAndAnswers()
+                    viewModel.fetchUserData()
                 }
             } else {
                 snackbar?.dismiss()
@@ -50,38 +43,26 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
                 ProfileHeader(user = it)
             }
         }
-        viewModel.questionsData.observe(this) {
-            adapter.submitList(it)
-        }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
 
-        binding.recyclerView.apply {
-            adapter = this@ProfileActivity.adapter
-            layoutManager = LinearLayoutManager(this@ProfileActivity)
-            if (itemDecorationCount == 0) {
-                addItemDecoration(
-                    ViewHolderItemDecoration(
-                        spacing = context.resources.getDimensionPixelSize(
-                            R.dimen.item_spacing_question_detail
-                        ),
-                    )
-                )
-            }
-            applyInsetter {
-                type(ime = true, statusBars = true, navigationBars = true) {
-                    padding(bottom = true)
+        adapter = ProfilePagerAdapter(this, viewModel.userId ?: 0)
+        binding.viewPager.offscreenPageLimit = ProfileViewModel.ProfilePage.values().size
+        binding.viewPager.adapter = adapter
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.setText(
+                when (ProfileViewModel.ProfilePage.values()[position]) {
+                    ProfileViewModel.ProfilePage.QUESTIONS -> R.string.questions
+                    ProfileViewModel.ProfilePage.ANSWERS -> R.string.answers
                 }
-            }
-        }
-
-        binding.refreshLayout.setOnRefreshListener { viewModel.getUserQuestionsAndAnswers() }
+            )
+        }.attach()
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.getUserQuestionsAndAnswers()
+        viewModel.fetchUserData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -102,7 +83,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
     }
 
     companion object {
-        private const val USER_ID = "userId"
+        internal const val USER_ID = "userId"
         private const val IS_FROM_DEEP_LINK = "isFromDeepLink"
 
         fun startActivity(
