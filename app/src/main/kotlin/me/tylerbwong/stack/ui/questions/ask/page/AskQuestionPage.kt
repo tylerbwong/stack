@@ -8,9 +8,7 @@ import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Title.TITLE_LEN
 
 sealed class AskQuestionPage<ContentType : Any>(
     val page: @Composable (isDetailedQuestionRequired: Boolean) -> Unit,
-    val canContinue: (ContentType, isDetailedQuestionRequired: Boolean) -> Boolean = { _, _ ->
-        true
-    },
+    val canContinue: (ContentType, isDetailedQuestionRequired: Boolean) -> Boolean = { _, _ -> true },
 ) {
     val ordinal: Int
         get() = values().indexOf(this)
@@ -28,7 +26,7 @@ sealed class AskQuestionPage<ContentType : Any>(
 
     object Details : AskQuestionPage<String>(
         page = { DetailsPage(it) },
-        canContinue = { details, _ -> details.length > MIN_DETAILS_LENGTH },
+        canContinue = { details, _ -> details.isNotBlank() && details.length > MIN_DETAILS_LENGTH },
     ) {
         internal const val MIN_DETAILS_LENGTH = 20
     }
@@ -36,7 +34,7 @@ sealed class AskQuestionPage<ContentType : Any>(
     object ExpandDetails : AskQuestionPage<String>(
         page = { ExpandDetailsPage(it) },
         canContinue = { details, isDetailedQuestionRequired ->
-            !isDetailedQuestionRequired || details.length > MIN_DETAILS_LENGTH
+            !isDetailedQuestionRequired || details.isNotBlank() && details.length > MIN_DETAILS_LENGTH
         },
     )
 

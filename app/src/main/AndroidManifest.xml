@@ -181,7 +181,7 @@
         <activity
             android:name=".ui.questions.ask.AskQuestionActivity"
             android:theme="@style/AppTheme.Primary"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".ui.profile.ProfileActivity"

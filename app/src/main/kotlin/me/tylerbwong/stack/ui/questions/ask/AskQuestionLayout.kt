@@ -6,11 +6,14 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -40,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -53,6 +57,7 @@ import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.compose.LabeledCheckbox
 import me.tylerbwong.stack.ui.utils.compose.StackTheme
+import me.tylerbwong.stack.ui.utils.compose.TextFormatToolbar
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
@@ -86,11 +91,20 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
     val isDuplicateQuestionPage by remember {
         derivedStateOf { currentPage == AskQuestionPage.DuplicateQuestion }
     }
+    val isDetailsPage by remember {
+        derivedStateOf { currentPage == AskQuestionPage.Details }
+    }
+    val isExpandDetailsPage by remember {
+        derivedStateOf { currentPage == AskQuestionPage.ExpandDetails }
+    }
     val similarQuestions by viewModel.similarQuestions.observeAsState(initial = emptyList())
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     StackTheme {
         Scaffold(
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            modifier = Modifier
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .navigationBarsPadding()
+                .imePadding(),
             topBar = {
                 TopAppBar(
                     title = {
@@ -176,12 +190,38 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
             },
             bottomBar = {
                 Column {
-                    AnimatedVisibility(visible = isDuplicateQuestionPage && similarQuestions.isNotEmpty()) {
+                    AnimatedVisibility(
+                        visible = isDuplicateQuestionPage && similarQuestions.isNotEmpty(),
+                        enter = fadeIn() + slideInVertically { it / 2 },
+                        exit = slideOutVertically { it / 2 } + fadeOut(),
+                    ) {
                         LabeledCheckbox(
                             label = stringResource(R.string.confirm_existing_posts),
                             checked = viewModel.isReviewed,
                             modifier = Modifier.padding(horizontal = 16.dp),
                             onCheckedChange = { viewModel.isReviewed = it },
+                        )
+                    }
+                    AnimatedVisibility(
+                        visible = isDetailsPage || isExpandDetailsPage,
+                        enter = fadeIn() + slideInVertically { it / 2 },
+                        exit = slideOutVertically { it / 2 } + fadeOut(),
+                    ) {
+                        TextFormatToolbar(
+                            value = if (isDetailsPage) {
+                                viewModel.body
+                            } else if (isExpandDetailsPage) {
+                                viewModel.expandBody
+                            } else {
+                                TextFieldValue()
+                            },
+                            onValueChange = {
+                                if (isDetailsPage) {
+                                    viewModel.updateBody(it)
+                                } else if (isExpandDetailsPage) {
+                                    viewModel.updateExpandBody(it)
+                                }
+                            },
                         )
                     }
                     BottomNavigationBar(
@@ -224,9 +264,7 @@ private fun BottomNavigationBar(
     val viewModel = viewModel<AskQuestionViewModel>()
     val scope = rememberCoroutineScope()
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .navigationBarsPadding(),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Button(
