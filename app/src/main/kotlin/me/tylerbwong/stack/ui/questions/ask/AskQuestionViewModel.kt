@@ -153,6 +153,8 @@ class AskQuestionViewModel @Inject constructor(
                     currentSiteParameter
                 ).all { it != null }
                 if (areParametersValid && siteParameter != currentSiteParameter) {
+                    // Clear out current tags since they probably do not exist on the new site
+                    updateSelectedTags(emptySet())
                     saveDraft()
                 }
                 _currentSite.value = siteRepository.getCurrentSite()
