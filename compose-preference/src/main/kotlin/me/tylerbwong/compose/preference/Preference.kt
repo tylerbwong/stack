@@ -133,12 +133,12 @@ fun PreferenceScope.SliderPreference(
 ) {
     item {
         ListItem(
-            headlineText = {
+            headlineContent = {
                 ProvideTextStyle(value = TextStyle(color = MaterialTheme.colorScheme.onBackground)) {
                     title()
                 }
             },
-            supportingText = {
+            supportingContent = {
                 Column {
                     summary?.let {
                         ProvideTextStyle(
@@ -275,12 +275,12 @@ internal fun PreferenceInternal(
             indication = rememberRipple(),
             onClick = onClick
         ),
-        headlineText = {
+        headlineContent = {
             ProvideTextStyle(value = TextStyle(color = MaterialTheme.colorScheme.onBackground)) {
                 title()
             }
         },
-        supportingText = summary?.let {
+        supportingContent = summary?.let {
             {
                 ProvideTextStyle(
                     value = TextStyle(

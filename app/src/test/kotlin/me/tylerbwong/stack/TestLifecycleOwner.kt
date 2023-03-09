@@ -7,5 +7,5 @@ class TestLifecycleOwner : LifecycleOwner {
 
     private val registry = LifecycleRegistry(this)
 
-    override fun getLifecycle() = registry
+    override val lifecycle = registry
 }
