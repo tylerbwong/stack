@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 fun AskQuestionDetailsLayout(
     title: String,
     description: String,
-    scrollable: Boolean = true,
     trailing: @Composable ColumnScope.() -> Unit = {},
 ) {
     Column(
@@ -27,7 +26,7 @@ fun AskQuestionDetailsLayout(
             .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             .fillMaxWidth()
             .fillMaxHeight()
-            .then(if (scrollable) Modifier.verticalScroll(rememberScrollState()) else Modifier),
+            .verticalScroll(rememberScrollState()),
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(

@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.material3.Card
@@ -54,18 +52,13 @@ fun DuplicateQuestionPage() {
                 R.string.duplicate_page_description_none
             }
         ),
-        scrollable = false,
     ) {
-        if (similarQuestions.isNotEmpty()) {
-            LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                itemsIndexed(similarQuestions) { index, item ->
-                    QuestionItem(question = item) {
-                        QuestionDetailActivity.startActivity(context, item.questionId)
-                    }
-                    if (index < similarQuestions.lastIndex) {
-                        Spacer(modifier = Modifier.height(16.dp))
-                    }
-                }
+        similarQuestions.forEachIndexed { index, item ->
+            QuestionItem(question = item) {
+                QuestionDetailActivity.startActivity(context, item.questionId)
+            }
+            if (index < similarQuestions.lastIndex) {
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }

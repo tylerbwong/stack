@@ -1,10 +1,8 @@
 package me.tylerbwong.stack.ui.questions.ask.page
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,7 +13,6 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
 import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Details.MIN_DETAILS_LENGTH
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsPage(isDetailedQuestionRequired: Boolean) {
     val viewModel = viewModel<AskQuestionViewModel>()
@@ -57,7 +54,6 @@ fun DetailsPage(isDetailedQuestionRequired: Boolean) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun ExpandDetailsPage(isDetailedQuestionRequired: Boolean) {
     val viewModel = viewModel<AskQuestionViewModel>()

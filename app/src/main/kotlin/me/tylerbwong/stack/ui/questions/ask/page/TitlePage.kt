@@ -1,7 +1,6 @@
 package me.tylerbwong.stack.ui.questions.ask.page
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,7 +13,6 @@ import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
 import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Title.TITLE_LENGTH_MAX
 import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Title.TITLE_LENGTH_MIN
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TitlePage() {
     val viewModel = viewModel<AskQuestionViewModel>()
