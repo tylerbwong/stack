@@ -13,6 +13,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.api.model.Question
+import me.tylerbwong.stack.api.model.RELEVANCE
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.api.model.Tag
 import me.tylerbwong.stack.api.service.QuestionService
@@ -87,6 +88,7 @@ class AskQuestionViewModel @Inject constructor(
     fun updateTitle(newTitle: String) {
         if (title != newTitle && newTitle.length <= TITLE_LENGTH_MAX) {
             title = newTitle
+            isReviewed = false
             saveDraft()
         }
     }
@@ -108,6 +110,7 @@ class AskQuestionViewModel @Inject constructor(
     fun updateSelectedTags(newSelectedTags: Set<Tag>) {
         if (selectedTags != newSelectedTags && newSelectedTags.size <= MAX_NUM_TAGS) {
             selectedTags = newSelectedTags
+            isReviewed = false
             saveDraft()
         }
     }
@@ -178,6 +181,7 @@ class AskQuestionViewModel @Inject constructor(
                 val result = searchService.search(
                     query = title,
                     tags = selectedTags.joinToString(";") { it.name },
+                    sort = RELEVANCE,
                     pageSize = 10,
                 ).items
                 _similarQuestions.value = result
