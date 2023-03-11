@@ -15,5 +15,7 @@ interface BillingManager {
 
     fun launchBillingFlow(activity: Activity, product: Product)
 
+    fun markConfirmationSeen()
+
     fun endConnection()
 }

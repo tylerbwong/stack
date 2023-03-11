@@ -25,4 +25,6 @@ class DonationViewModel @Inject constructor(
         activity: Activity,
         product: Product,
     ) = billingManager.launchBillingFlow(activity, product)
+
+    internal fun markConfirmationSeen() = billingManager.markConfirmationSeen()
 }

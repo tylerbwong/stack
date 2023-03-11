@@ -21,6 +21,10 @@ class NoOpBillingManager : BillingManager {
         // No-op
     }
 
+    override fun markConfirmationSeen() {
+        // No-op
+    }
+
     override fun endConnection() {
         // No-op
     }

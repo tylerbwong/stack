@@ -54,7 +54,6 @@ import me.tylerbwong.stack.ui.utils.ofType
 fun DonationScreen(viewModel: DonationViewModel = viewModel(), onBackPressed: () -> Unit) {
     val items by viewModel.availableProducts.observeAsState(emptyList())
     val purchaseSuccess by viewModel.purchaseSuccess.observeAsState()
-    var isPurchaseStateDialogVisible by remember(purchaseSuccess) { mutableStateOf(purchaseSuccess != null) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val context = LocalContext.current
     val appIcon = remember {
@@ -153,13 +152,13 @@ fun DonationScreen(viewModel: DonationViewModel = viewModel(), onBackPressed: ()
             }
         }
 
-        if (isPurchaseStateDialogVisible) {
+        if (purchaseSuccess != null) {
             AlertDialog(
-                onDismissRequest = { isPurchaseStateDialogVisible = false },
+                onDismissRequest = { viewModel.markConfirmationSeen() },
                 confirmButton = {},
                 dismissButton = {
                     TextButton(
-                        onClick = { isPurchaseStateDialogVisible = false },
+                        onClick = { viewModel.markConfirmationSeen() },
                     ) {
                         Text(text = stringResource(R.string.dismiss))
                     }

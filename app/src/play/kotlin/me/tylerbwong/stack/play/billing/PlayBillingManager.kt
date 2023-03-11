@@ -115,6 +115,10 @@ class PlayBillingManager(context: Context) : BillingManager, PurchasesUpdatedLis
         billingClient.launchBillingFlow(activity, params)
     }
 
+    override fun markConfirmationSeen() {
+        _purchaseSuccess.postValue(null)
+    }
+
     override fun endConnection() = billingClient.endConnection()
 
     override fun onPurchasesUpdated(result: BillingResult, purchases: MutableList<Purchase>?) {
