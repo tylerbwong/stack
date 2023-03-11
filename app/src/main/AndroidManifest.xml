@@ -207,6 +207,10 @@
             android:name=".ui.settings.libraries.LibrariesActivity"
             android:theme="@style/AppTheme.Primary" />
 
+        <activity
+            android:name=".ui.settings.donation.DonationActivity"
+            android:theme="@style/AppTheme.Primary" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"

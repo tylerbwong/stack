@@ -74,8 +74,6 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.google.accompanist.flowlayout) // TODO Remove when 1.4.0 goes stable
-    implementation(libs.google.accompanist.pager) // TODO Remove when 1.4.0 goes stable
 
     // google
     playImplementation(platform(libs.google.firebase.bom))
@@ -141,6 +139,7 @@ dependencies {
 
     // play
     playImplementation(libs.google.play.appUpdate)
+    playImplementation(libs.google.play.billing)
     playImplementation(libs.google.play.review)
 
     // testing

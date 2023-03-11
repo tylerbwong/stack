@@ -191,6 +191,16 @@
     <string name="terms">Términos y condiciones</string>
     <string name="license">Licencia de %1$s</string>
 
+    <!-- Donation -->
+    <string name="support_development">Apoyar el desarrollo</string>
+    <string name="support_development_summary">¡Muestre su apoyo al desarrollo de Stack!</string>
+    <string name="support_development_message">Hola 👋,\n\nSoy Tyler, el desarrollador de Stack. Si está disfrutando especialmente de la aplicación, puede apoyar el desarrollo eligiendo una de las siguientes opciones para ayudarme a continuar.</string>
+    <string name="support_development_price_unavailable">Indisponible</string>
+    <string name="support_development_success_title">Gracias</string>
+    <string name="support_development_success_message">¡Eres increíble! Gracias por apoyar el desarrollo. No podría hacerlo sin ti.</string>
+    <string name="support_development_failure_title">Algo salió mal</string>
+    <string name="support_development_failure_message">Desafortunadamente, sucedió algo inesperado. Inténtalo de nuevo.</string>
+
     <!-- Sites -->
     <string name="my_sites">Mis sitios web</string>
     <string name="other_sites">Otros sitios web</string>

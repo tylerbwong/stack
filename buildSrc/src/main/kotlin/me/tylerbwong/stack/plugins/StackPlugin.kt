@@ -51,7 +51,7 @@ class StackPlugin : Plugin<Project> {
 
             buildTypes {
                 getByName("debug") {
-                    applicationIdSuffix = ".debug"
+//                    applicationIdSuffix = ".debug"
                     versionNameSuffix = "-debug"
                 }
                 getByName("release") {

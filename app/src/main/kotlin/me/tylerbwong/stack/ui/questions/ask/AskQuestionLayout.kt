@@ -9,6 +9,7 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
@@ -46,10 +50,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.service.DEFAULT_SITE
@@ -59,7 +59,7 @@ import me.tylerbwong.stack.ui.utils.compose.LabeledCheckbox
 import me.tylerbwong.stack.ui.utils.compose.StackTheme
 import me.tylerbwong.stack.ui.utils.compose.TextFormatToolbar
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun AskQuestionLayout(onFinish: () -> Unit) {
     val viewModel = viewModel<AskQuestionViewModel>()
@@ -239,7 +239,7 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
                     LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
                 }
                 HorizontalPager(
-                    count = AskQuestionPage.values().size,
+                    pageCount = AskQuestionPage.values().size,
                     state = pagerState,
                     userScrollEnabled = false,
                 ) { page ->
@@ -251,7 +251,7 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
 }
 
 @Suppress("ComplexMethod") // TODO Break this component up
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun BottomNavigationBar(
     state: PagerState,
@@ -308,8 +308,8 @@ private fun BottomNavigationBar(
                         }
                         else -> {
                             scope.launch {
-                                val nextPage =
-                                    (state.currentPage + 1).coerceAtMost(state.pageCount - 1)
+                                val nextPage = (state.currentPage + 1)
+                                    .coerceAtMost(AskQuestionPage.values().size - 1)
                                 state.animateScrollToPage(nextPage)
                             }
                         }

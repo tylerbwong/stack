@@ -21,6 +21,8 @@ import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.profile.ProfileActivity
+import me.tylerbwong.stack.ui.settings.donation.DonationActivity
+import me.tylerbwong.stack.ui.settings.donation.DonationViewModel
 import me.tylerbwong.stack.ui.settings.libraries.LibrariesActivity
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
 import me.tylerbwong.stack.ui.theme.ThemeManager.delegateMode
@@ -46,6 +48,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     lateinit var experimental: Experimental
 
     private val viewModel by viewModels<SettingsViewModel>()
+    private val donationViewModel by viewModels<DonationViewModel>()
 
     private val authPreferences = mutableSetOf<Preference>()
 
@@ -210,6 +213,19 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun PreferenceManager.setUpAboutSection() {
+        findPreference<Preference>(getString(R.string.support_development))?.apply {
+            if (donationViewModel.isBillingAvailable) {
+                isVisible = true
+                setOnPreferenceClickListener {
+                    DonationActivity.startActivity(requireContext())
+                    true
+                }
+            } else {
+                isVisible = false
+                onPreferenceClickListener = null
+            }
+        }
+
         findPreference<Preference>(getString(R.string.source))?.apply {
             setOnPreferenceClickListener {
                 requireContext().launchUrl(getString(R.string.repository_url))

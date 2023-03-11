@@ -1,6 +1,9 @@
 package me.tylerbwong.stack.ui.questions.ask.page
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement.spacedBy
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.flowlayout.FlowRow
 import kotlinx.coroutines.delay
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
@@ -32,7 +34,7 @@ import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Tags.MAX_NUM_TA
 
 private const val SEARCH_DELAY_MILLIS = 500L
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun TagsPage() {
     val viewModel = viewModel<AskQuestionViewModel>()
@@ -53,7 +55,7 @@ fun TagsPage() {
     ) {
         AnimatedVisibility(visible = isSelectedTagsVisible) {
             Spacer(modifier = Modifier.height(32.dp))
-            FlowRow(mainAxisSpacing = 8.dp) {
+            FlowRow(horizontalArrangement = spacedBy(8.dp)) {
                 viewModel.selectedTags.forEach {
                     ElevatedFilterChip(
                         selected = true,
@@ -84,7 +86,7 @@ fun TagsPage() {
             Spacer(modifier = Modifier.height(64.dp))
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
-                mainAxisSpacing = 8.dp,
+                horizontalArrangement = spacedBy(8.dp),
             ) {
                 searchTags.forEach {
                     InputChip(

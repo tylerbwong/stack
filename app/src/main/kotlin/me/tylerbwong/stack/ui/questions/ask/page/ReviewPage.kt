@@ -1,6 +1,9 @@
 package me.tylerbwong.stack.ui.questions.ask.page
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement.spacedBy
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,13 +23,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.flowlayout.FlowRow
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionState
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
 import me.tylerbwong.stack.ui.utils.compose.MarkdownText
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun ReviewPage() {
     val viewModel = viewModel<AskQuestionViewModel>()
@@ -86,7 +88,7 @@ fun ReviewPage() {
                 Spacer(modifier = Modifier.height(32.dp))
                 FlowRow(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    mainAxisSpacing = 8.dp,
+                    horizontalArrangement = spacedBy(8.dp),
                 ) {
                     viewModel.selectedTags.forEach {
                         InputChip(

@@ -192,6 +192,7 @@ class AskQuestionViewModel @Inject constructor(
                 }
             } catch (ex: Exception) {
                 _similarQuestions.value = emptyList()
+                isReviewed = true
             }
         }
     }

@@ -61,6 +61,13 @@
     <PreferenceCategory
         android:layout="@layout/preference_category_layout"
         android:title="@string/about">
+
+        <Preference
+            android:icon="@drawable/ic_baseline_favorite"
+            android:key="@string/support_development"
+            android:summary="@string/support_development_summary"
+            android:title="@string/support_development" />
+
         <Preference
             android:icon="@drawable/ic_github"
             android:key="@string/source"

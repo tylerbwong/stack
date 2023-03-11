@@ -204,6 +204,16 @@
     <string name="terms">Terms and conditions</string>
     <string name="license">%1$s License</string>
 
+    <!-- Donation -->
+    <string name="support_development">Support development</string>
+    <string name="support_development_summary">Show your support for the development of Stack!</string>
+    <string name="support_development_message">Hey there 👋,\n\nI\'m Tyler, the developer of Stack. If you\'re especially enjoying the app, you can support development by choosing one of the options below to help keep me going!</string>
+    <string name="support_development_price_unavailable">Unavailable</string>
+    <string name="support_development_success_title">Thank you!</string>
+    <string name="support_development_success_message">You\'re awesome. Thank you for your continued support. I couldn\'t do it without you!</string>
+    <string name="support_development_failure_title">Something went wrong</string>
+    <string name="support_development_failure_message">Unfortunately, something unexpected happened. Please try again.</string>
+
     <!-- Sites -->
     <string name="my_sites">My sites</string>
     <string name="other_sites">Other sites</string>
