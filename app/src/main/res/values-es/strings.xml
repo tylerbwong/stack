@@ -218,6 +218,9 @@
     <string name="version">Versión</string>
     <string name="syntax_highlighting">Resaltado de sintaxis</string>
     <string name="syntax_highlighting_summary">Habilita el resaltado de sintaxis para los bloques de código Markdown admitidos</string>
+    <string name="behavior">Comportamiento</string>
+    <string name="back_button_deep_link_behavior_title">Comportamiento de enlace profundo</string>
+    <string name="back_button_deep_link_behavior_summary">Regrese a la pantalla de inicio después de iniciar desde un enlace profundo</string>
 
     <string name="restart_toggle">Para activar esta es necesario reiniciar</string>
     <string name="link_copied">El enlace se copia en el portapapeles</string>

@@ -231,6 +231,9 @@
     <string name="version">Version</string>
     <string name="syntax_highlighting">Syntax highlighting</string>
     <string name="syntax_highlighting_summary">Enables syntax highlighting for supported markdown code blocks</string>
+    <string name="behavior">Behavior</string>
+    <string name="back_button_deep_link_behavior_title">Deep link back behavior</string>
+    <string name="back_button_deep_link_behavior_summary">Return to the home screen after launching from a deep link</string>
 
     <string name="restart_toggle">Toggling this requires a restart</string>
     <string name="link_copied">Link copied to clipboard</string>

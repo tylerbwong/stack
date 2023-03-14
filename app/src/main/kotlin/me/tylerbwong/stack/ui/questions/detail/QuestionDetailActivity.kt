@@ -8,9 +8,11 @@ import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.preferences.UserPreferences
 import me.tylerbwong.stack.data.reviewer.AppReviewer
 import me.tylerbwong.stack.databinding.ActivityQuestionDetailBinding
 import me.tylerbwong.stack.ui.BaseActivity
+import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showDialog
@@ -26,6 +28,9 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
 
     @Inject
     lateinit var appReviewer: AppReviewer
+
+    @Inject
+    lateinit var userPreferences: UserPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,7 +111,13 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
                 toggleAnswerMode(isInAnswerMode = false)
             }
         } else {
-            super.onBackPressed()
+            if (isTaskRoot && userPreferences.shouldGoToMainOnBackFromDeepLink) {
+                val intent = MainActivity.makeIntentClearTop(this)
+                startActivity(intent)
+                super.onBackPressed()
+            } else {
+                super.onBackPressed()
+            }
         }
     }
 

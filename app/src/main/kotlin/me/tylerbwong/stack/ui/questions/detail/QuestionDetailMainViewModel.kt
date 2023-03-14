@@ -296,7 +296,7 @@ class QuestionDetailMainViewModel @Inject constructor(
         )
     }
 
-    override fun toggleQusetionUpvote(questionId: Int, isSelected: Boolean) {
+    override fun toggleQuestionUpvote(questionId: Int, isSelected: Boolean) {
         toggleAction(
             isSelected,
             { questionService.upvoteQuestionById(questionId) },

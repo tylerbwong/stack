@@ -19,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.preferences.UserPreferences
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.settings.donation.DonationActivity
@@ -46,6 +47,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var experimental: Experimental
+
+    @Inject
+    lateinit var userPreferences: UserPreferences
 
     private val viewModel by viewModels<SettingsViewModel>()
     private val donationViewModel by viewModels<DonationViewModel>()
@@ -81,6 +85,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         context.startActivity(intent)
                         true
                     }
+                }
+            }
+
+            findPreference<TwoStatePreference>(
+                getString(R.string.back_button_deep_link_behavior_title)
+            )?.apply {
+                isChecked = userPreferences.shouldGoToMainOnBackFromDeepLink
+                setOnPreferenceChangeListener { _, newValue ->
+                    userPreferences.shouldGoToMainOnBackFromDeepLink = newValue as Boolean
+                    true
                 }
             }
 

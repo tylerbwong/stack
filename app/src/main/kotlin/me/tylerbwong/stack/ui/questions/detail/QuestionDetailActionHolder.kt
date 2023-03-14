@@ -22,7 +22,7 @@ class QuestionDetailActionHolder(
                 isSelected = question.isUpVoted
             )
             setThrottledOnClickListener {
-                handler.toggleQusetionUpvote(
+                handler.toggleQuestionUpvote(
                     questionId = item.question.questionId,
                     isSelected = !question.isUpVoted,
                 )
