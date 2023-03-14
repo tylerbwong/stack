@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_search"
+        android:shortcutId="shortcut_search"
+        android:shortcutLongLabel="@string/shortcut_search_short_label"
+        android:shortcutShortLabel="@string/shortcut_search_long_label">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="me.tylerbwong.stack.ui.MainActivity"
+            android:targetPackage="me.tylerbwong.stack">
+            <!-- Test shortcuts on release builds since targetPackage has to be hardcoded -->
+            <extra android:name="selected_tab" android:value="1" />
+        </intent>
+    </shortcut>
+</shortcuts>

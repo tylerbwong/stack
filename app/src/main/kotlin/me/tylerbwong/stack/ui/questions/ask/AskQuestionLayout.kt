@@ -61,7 +61,7 @@ import me.tylerbwong.stack.ui.utils.compose.TextFormatToolbar
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun AskQuestionLayout(onFinish: () -> Unit) {
+fun AskQuestionLayout(onBackPressed: () -> Unit) {
     val viewModel = viewModel<AskQuestionViewModel>()
     val currentSiteParameter by viewModel.currentSiteParameter.observeAsState()
     val isDetailedQuestionRequired by remember {
@@ -131,7 +131,7 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
                         }
                     },
                     navigationIcon = {
-                        IconButton(onClick = onFinish) {
+                        IconButton(onClick = onBackPressed) {
                             Icon(
                                 imageVector = Icons.Filled.Close,
                                 contentDescription = null,
@@ -229,7 +229,7 @@ fun AskQuestionLayout(onFinish: () -> Unit) {
                         askQuestionState = askQuestionState,
                         page = currentPage,
                         isDetailedQuestionRequired = isDetailedQuestionRequired,
-                        onFinish = onFinish,
+                        onFinish = onBackPressed,
                     )
                 }
             }

@@ -238,4 +238,10 @@
     <string name="restart_toggle">Toggling this requires a restart</string>
     <string name="link_copied">Link copied to clipboard</string>
     <string name="no_browser_found">No browser found. Link has been copied to clipboard.</string>
+
+    <!-- Shortcuts -->
+    <string name="shortcut_ask_question_short_label">Ask</string>
+    <string name="shortcut_ask_question_long_label">Ask a question</string>
+    <string name="shortcut_search_short_label">Search</string>
+    <string name="shortcut_search_long_label">Search</string>
 </resources>

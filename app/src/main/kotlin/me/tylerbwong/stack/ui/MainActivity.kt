@@ -26,6 +26,8 @@ import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
+import me.tylerbwong.stack.ui.shortcuts.pushAskQuestionShortcut
+import me.tylerbwong.stack.ui.shortcuts.removeAskQuestionShortcut
 import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showSnackbar
@@ -70,6 +72,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             if (bottomNav.selectedItemId in authTabIds) {
                 bottomNav.selectedItemId = R.id.home
             }
+            if (isAuthenticated) {
+                pushAskQuestionShortcut()
+            } else {
+                removeAskQuestionShortcut()
+            }
         }
         viewModel.siteLiveData.observe(this) { viewModel.fetchSites() }
         viewModel.currentSite.observe(this) { site ->
@@ -87,6 +94,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         appUpdater.checkForUpdate(this)
         workScheduler.schedule()
         populateContent(savedInstanceState)
+        val selectedTab = intent.getIntExtra(SELECTED_TAB, 0)
+        if (selectedTab != 0) {
+            binding.bottomNav.selectedItemId = binding.bottomNav.menu.getItem(selectedTab).itemId
+        }
     }
 
     override fun onResume() {
@@ -227,8 +238,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         private const val SEARCH_FRAGMENT_TAG = "search_fragment"
         private const val BOOKMARKS_FRAGMENT_TAG = "bookmarks_fragment"
         private const val DRAFTS_FRAGMENT_TAG = "drafts_fragment"
+        private const val SELECTED_TAB = "selected_tab"
 
-        fun makeIntentClearTop(context: Context) = Intent(context, MainActivity::class.java)
+        fun makeIntentClearTop(
+            context: Context,
+            selectedTab: Int = 0,
+        ) = Intent(context, MainActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            .putExtra(SELECTED_TAB, selectedTab)
     }
 }

@@ -225,4 +225,10 @@
     <string name="restart_toggle">Para activar esta es necesario reiniciar</string>
     <string name="link_copied">El enlace se copia en el portapapeles</string>
     <string name="no_browser_found">No pudimos encontrar un navegador. El enlace se copia en el portapapeles.</string>
+
+    <!-- Shortcuts -->
+    <string name="shortcut_ask_question_short_label">Preguntar</string>
+    <string name="shortcut_ask_question_long_label">Hacer una pregunta</string>
+    <string name="shortcut_search_short_label">Buscar</string>
+    <string name="shortcut_search_long_label">Buscar</string>
 </resources>
