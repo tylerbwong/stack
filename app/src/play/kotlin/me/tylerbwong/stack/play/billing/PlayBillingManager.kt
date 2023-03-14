@@ -129,6 +129,9 @@ class PlayBillingManager(context: Context) : BillingManager, PurchasesUpdatedLis
                     _purchaseSuccess.postValue(true)
                 }
             }
+            BillingClient.BillingResponseCode.USER_CANCELED -> {
+                // No-op
+            }
             else -> _purchaseSuccess.postValue(false)
         }
     }
