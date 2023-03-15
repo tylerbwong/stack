@@ -178,11 +178,13 @@
 
         <activity
             android:name=".ui.questions.detail.QuestionDetailActivity"
+            android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.Primary"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".ui.questions.ask.AskQuestionActivity"
+            android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.Primary"
             android:windowSoftInputMode="adjustResize" />
 
@@ -192,6 +194,7 @@
 
         <activity
             android:name=".ui.questions.QuestionsActivity"
+            android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.Primary" />
 
         <activity

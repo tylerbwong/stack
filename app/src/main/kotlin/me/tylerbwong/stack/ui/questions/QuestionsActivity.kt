@@ -23,7 +23,6 @@ import me.tylerbwong.stack.api.model.WEEK
 import me.tylerbwong.stack.data.preferences.UserPreferences
 import me.tylerbwong.stack.databinding.ActivityQuestionsBinding
 import me.tylerbwong.stack.ui.BaseActivity
-import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import javax.inject.Inject
@@ -126,16 +125,6 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
         }
         viewModel.getQuestions(sort = sort)
         return true
-    }
-
-    override fun onBackPressed() {
-        if (isTaskRoot && userPreferences.shouldGoToMainOnBackFromDeepLink) {
-            val intent = MainActivity.makeIntentClearTop(this)
-            startActivity(intent)
-            super.onBackPressed()
-        } else {
-            super.onBackPressed()
-        }
     }
 
     private fun setUpPageForKey(page: QuestionPage, key: String) {

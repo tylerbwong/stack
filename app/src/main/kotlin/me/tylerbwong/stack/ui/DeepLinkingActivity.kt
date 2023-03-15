@@ -3,17 +3,23 @@ package me.tylerbwong.stack.ui
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.app.TaskStackBuilder
 import androidx.viewbinding.ViewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.DeepLinkResult
 import me.tylerbwong.stack.data.auth.LoginResult
+import me.tylerbwong.stack.data.preferences.UserPreferences
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DeepLinkingActivity : BaseActivity<ViewBinding>(
     bindingProvider = null // TODO Remove when Hilt supports default constructor values
 ) {
     private val viewModel by viewModels<DeepLinkingViewModel>()
+
+    @Inject
+    lateinit var userPreferences: UserPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +39,13 @@ class DeepLinkingActivity : BaseActivity<ViewBinding>(
         intent.data?.let {
             when (val result = viewModel.resolvePath(this, it)) {
                 is DeepLinkResult.Success -> {
-                    startActivity(result.intent)
+                    if (userPreferences.shouldGoToMainOnBackFromDeepLink) {
+                        val stackBuilder = TaskStackBuilder.create(this)
+                        stackBuilder.addNextIntentWithParentStack(result.intent)
+                        stackBuilder.startActivities()
+                    } else {
+                        startActivity(result.intent)
+                    }
                     finish()
                 }
                 is DeepLinkResult.RequestingAuth -> viewModel.logIn(it)
