@@ -85,6 +85,9 @@ class AskQuestionViewModel @Inject constructor(
 
     private var saveDraftJob: Job? = null
 
+    val fullBodyText: String
+        get() = listOf(body.text, expandBody.text).joinToString("\n\n").trim()
+
     fun updateTitle(newTitle: String) {
         if (title != newTitle && newTitle.length <= TITLE_LENGTH_MAX) {
             title = newTitle
@@ -121,7 +124,7 @@ class AskQuestionViewModel @Inject constructor(
                 _askQuestionState.value = AskQuestionState.Posting
                 val response = questionService.addQuestion(
                     title = title.trim(),
-                    body = listOf(body, expandBody).joinToString("\n\n").trim(),
+                    body = fullBodyText,
                     tags = selectedTags.joinToString(";") { it.name },
                     preview = BuildConfig.DEBUG,
                 )

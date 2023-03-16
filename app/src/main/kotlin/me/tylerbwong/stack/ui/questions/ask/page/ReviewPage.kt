@@ -75,9 +75,7 @@ fun ReviewPage() {
             )
             Spacer(modifier = Modifier.height(16.dp))
             MarkdownText(
-                markdown = listOf(viewModel.body.text, viewModel.expandBody.text)
-                    .joinToString("\r\n\r\n")
-                    .trim(),
+                markdown = viewModel.fullBodyText,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
