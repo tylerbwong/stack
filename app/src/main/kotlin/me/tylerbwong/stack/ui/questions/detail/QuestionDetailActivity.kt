@@ -4,11 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.data.preferences.UserPreferences
 import me.tylerbwong.stack.data.reviewer.AppReviewer
 import me.tylerbwong.stack.databinding.ActivityQuestionDetailBinding
 import me.tylerbwong.stack.ui.BaseActivity
@@ -24,12 +24,10 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
 ) {
     private val viewModel by viewModels<QuestionDetailMainViewModel>()
     private lateinit var adapter: QuestionDetailPagerAdapter
+    override val isDefaultBackBehaviorEnabled = false
 
     @Inject
     lateinit var appReviewer: AppReviewer
-
-    @Inject
-    lateinit var userPreferences: UserPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +71,28 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
             ?: intent.getBooleanExtra(IS_IN_ANSWER_MODE, false)
         toggleAnswerMode(isInAnswerMode = isInAnswerMode)
         appReviewer.markReviewImpression()
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (viewModel.isInAnswerMode) {
+                        if (viewModel.hasContent) {
+                            showDialog {
+                                setMessage(R.string.discard_answer)
+                                setPositiveButton(R.string.discard) { _, _ ->
+                                    toggleAnswerMode(isInAnswerMode = false)
+                                }
+                                setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                            }
+                        } else {
+                            toggleAnswerMode(isInAnswerMode = false)
+                        }
+                    } else {
+                        defaultOnBackPressed()
+                    }
+                }
+            }
+        )
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -94,24 +114,6 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
             android.R.id.home -> onBackPressed()
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onBackPressed() {
-        if (viewModel.isInAnswerMode) {
-            if (viewModel.hasContent) {
-                showDialog {
-                    setMessage(R.string.discard_answer)
-                    setPositiveButton(R.string.discard) { _, _ ->
-                        toggleAnswerMode(isInAnswerMode = false)
-                    }
-                    setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-                }
-            } else {
-                toggleAnswerMode(isInAnswerMode = false)
-            }
-        } else {
-            super.onBackPressed()
-        }
     }
 
     internal fun setTitle(title: String) {

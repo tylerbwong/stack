@@ -20,7 +20,7 @@ class DonationActivity : BaseActivity<ViewBinding>(
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            DonationScreen(viewModel) { this.onBackPressed() }
+            DonationScreen(viewModel, onBackPressedDispatcher::onBackPressed)
         }
     }
 

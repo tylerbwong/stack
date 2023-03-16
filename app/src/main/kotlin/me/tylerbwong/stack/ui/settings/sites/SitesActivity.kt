@@ -76,7 +76,7 @@ class SitesActivity : BaseActivity<ActivitySitesBinding>(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> onBackPressed()
+            android.R.id.home -> onBackPressedDispatcher.onBackPressed()
             R.id.filter -> PopupMenu(this, findViewById(R.id.filter)).also {
                 it.inflate(R.menu.menu_sites_filter)
                 it.setOnMenuItemClickListener(this)

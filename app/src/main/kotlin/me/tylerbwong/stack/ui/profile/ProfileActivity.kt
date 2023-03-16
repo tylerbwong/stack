@@ -72,7 +72,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> onBackPressed()
+            android.R.id.home -> onBackPressedDispatcher.onBackPressed()
             R.id.badges -> BadgesBottomSheetDialogFragment.show(
                 supportFragmentManager,
                 userId = viewModel.userId ?: -1

@@ -25,7 +25,7 @@ class SettingsComposeActivity : BaseActivity<ViewBinding>(bindingProvider = null
         setContent {
             SettingsScreen(
                 preferences = stackSharedPreferences,
-                onBackPressed = { onBackPressed() }
+                onBackPressed = onBackPressedDispatcher::onBackPressed,
             )
         }
     }

@@ -17,7 +17,7 @@ class LibrariesActivity : BaseActivity<ViewBinding>(
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            LibrariesScreen { onBackPressed() }
+            LibrariesScreen(onBackPressedDispatcher::onBackPressed)
         }
     }
 

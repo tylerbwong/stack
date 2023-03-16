@@ -1,8 +1,10 @@
 package me.tylerbwong.stack.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import dev.chrisbanes.insetter.applyInsetter
@@ -18,6 +20,8 @@ abstract class BaseActivity<T : ViewBinding>(
 
     protected lateinit var binding: T
 
+    protected open val isDefaultBackBehaviorEnabled = true
+
     @Inject
     lateinit var siteStore: SiteStore
 
@@ -30,6 +34,14 @@ abstract class BaseActivity<T : ViewBinding>(
         }
         applyFullscreenWindowInsets()
         overrideDeepLinkSite()
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(isDefaultBackBehaviorEnabled) {
+                override fun handleOnBackPressed() {
+                    defaultOnBackPressed()
+                }
+            }
+        )
     }
 
     override fun onResume() {
@@ -48,6 +60,13 @@ abstract class BaseActivity<T : ViewBinding>(
                 padding(top = true)
             }
         }
+    }
+
+    protected fun defaultOnBackPressed() {
+        if (isTaskRoot && this@BaseActivity !is MainActivity) {
+            startActivity(Intent(this@BaseActivity, MainActivity::class.java))
+        }
+        finish()
     }
 
     private fun overrideDeepLinkSite() {

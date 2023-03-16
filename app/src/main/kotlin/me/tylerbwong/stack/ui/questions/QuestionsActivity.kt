@@ -20,12 +20,10 @@ import me.tylerbwong.stack.api.model.HOT
 import me.tylerbwong.stack.api.model.MONTH
 import me.tylerbwong.stack.api.model.VOTES
 import me.tylerbwong.stack.api.model.WEEK
-import me.tylerbwong.stack.data.preferences.UserPreferences
 import me.tylerbwong.stack.databinding.ActivityQuestionsBinding
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.showSnackbar
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
@@ -35,9 +33,6 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
     private val viewModel by viewModels<QuestionsViewModel>()
     private val adapter = DynamicListAdapter(QuestionItemCallback)
     private var snackbar: Snackbar? = null
-
-    @Inject
-    lateinit var userPreferences: UserPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,7 +89,7 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> onBackPressed()
+            android.R.id.home -> onBackPressedDispatcher.onBackPressed()
             R.id.sort -> {
                 PopupMenu(this, findViewById(R.id.sort)).also { popupMenu ->
                     popupMenu.inflate(R.menu.menu_sort)

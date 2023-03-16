@@ -23,16 +23,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:layout="@layout/preference_category_layout"
-        android:title="@string/behavior">
-        <SwitchPreferenceCompat
-            android:icon="@drawable/ic_baseline_keyboard_return"
-            android:key="@string/back_button_deep_link_behavior_title"
-            android:summary="@string/back_button_deep_link_behavior_summary"
-            android:title="@string/back_button_deep_link_behavior_title" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:key="@string/experimental"
         android:layout="@layout/preference_category_layout"
         android:title="@string/experimental">
