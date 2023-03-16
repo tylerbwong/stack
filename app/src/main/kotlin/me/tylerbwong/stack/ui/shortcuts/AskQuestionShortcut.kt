@@ -14,7 +14,7 @@ private const val SHORTCUT_ASK_QUESTION = "shortcut_ask_question"
 fun Context.pushAskQuestionShortcut() {
     val shortcut = ShortcutInfoCompat.Builder(this, SHORTCUT_ASK_QUESTION)
         .setShortLabel(getString(R.string.ask_question))
-        .setIcon(IconCompat.createWithResource(this, R.drawable.ic_shortcut_add_circle))
+        .setIcon(IconCompat.createWithResource(this, R.drawable.ic_shortcut_question_answer))
         .setIntents(
             arrayOf(
                 MainActivity.makeIntentClearTop(this)
