@@ -13,6 +13,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Comment
 import me.tylerbwong.stack.databinding.AddCommentHolderBinding
 import me.tylerbwong.stack.databinding.CommentHolderBinding
+import me.tylerbwong.stack.ui.flag.FlagActivity
 import me.tylerbwong.stack.ui.utils.formatElapsedTime
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 import me.tylerbwong.stack.ui.utils.renderSelectedState
@@ -75,8 +76,9 @@ class CommentHolder(
         ownerView.bind(owner)
         val score = item.comment.score
         val upvoted = item.comment.upvoted
-        val showUpvote = score != null && upvoted != null
-        upvote.isVisible = showUpvote
+        val showAuthContent = score != null && upvoted != null
+        flag.isVisible = showAuthContent
+        upvote.isVisible = showAuthContent
         if (score != null && upvoted != null) {
             upvote.apply {
                 renderSelectedState(
@@ -88,6 +90,16 @@ class CommentHolder(
                     if (commentId != null) {
                         item.upvoteToggle(commentId, !upvoted)
                     }
+                }
+            }
+            flag.setThrottledOnClickListener {
+                if (commentId != null) {
+                    val intent = FlagActivity.makeIntent(
+                        context = itemView.context,
+                        postId = commentId,
+                        postType = 2,
+                    )
+                    itemView.context.startActivity(intent)
                 }
             }
         }

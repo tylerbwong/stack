@@ -150,6 +150,16 @@
     <string name="success_page_title">Question posted successfully</string>
     <string name="success_page_description">Nice! Your question has been asked.</string>
 
+    <!-- Flag Post -->
+    <string name="flag">Flag</string>
+    <string name="flag_post">I am flagging to report this post as…</string>
+    <string name="flag_question">I am flagging to report this question as…</string>
+    <string name="flag_answer">I am flagging to report this answer as…</string>
+    <string name="flag_comment">I am flagging to report this comment as…</string>
+    <string name="flag_comment_placeholder">Enter at least %1$d characters</string>
+    <string name="flag_success">Flag added successfully</string>
+    <string name="flag_fail">Could not add flag</string>
+
     <!-- Add Comment -->
     <string name="add_comment">Add comment</string>
     <string name="add_comment_failure">Failed to add comment</string>

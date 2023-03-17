@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.PostActionHolderBinding
+import me.tylerbwong.stack.ui.flag.FlagActivity
 import me.tylerbwong.stack.ui.utils.renderSelectedState
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
@@ -53,6 +54,14 @@ class QuestionDetailActionHolder(
                     isSelected = !question.isDownVoted,
                 )
             }
+        }
+        flag.setThrottledOnClickListener {
+            val intent = FlagActivity.makeIntent(
+                context = itemView.context,
+                postId = question.questionId,
+                postType = 0,
+            )
+            itemView.context.startActivity(intent)
         }
     }
 }

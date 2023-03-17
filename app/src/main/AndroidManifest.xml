@@ -184,6 +184,10 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
+            android:name=".ui.flag.FlagActivity"
+            android:theme="@style/AppTheme.Primary" />
+
+        <activity
             android:name=".ui.questions.ask.AskQuestionActivity"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.Primary"

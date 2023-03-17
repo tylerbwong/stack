@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.AnswerVotesHeaderHolderBinding
+import me.tylerbwong.stack.ui.flag.FlagActivity
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 
 class AnswerVotesHeaderHolder(
@@ -30,7 +31,10 @@ class AnswerVotesHeaderHolder(
         acceptedAnswerCheck.isVisible = item.isAccepted
         val isUpvoted = item.isUpvoted
         val isDownvoted = item.isDownvoted
+        // Presence of these indicates auth
+        val showFlag = item.isUpvoted != null && item.isDownvoted != null
 
+        flag.isVisible = showFlag
         upvote.isVisible = isUpvoted != null
         downvote.isVisible = isDownvoted != null
         if (isUpvoted != null && isDownvoted != null) {
@@ -57,6 +61,14 @@ class AnswerVotesHeaderHolder(
                         isSelected = !item.isDownvoted,
                     )
                 }
+            }
+            flag.setThrottledOnClickListener {
+                val intent = FlagActivity.makeIntent(
+                    context = itemView.context,
+                    postId = item.id,
+                    postType = 1,
+                )
+                itemView.context.startActivity(intent)
             }
         }
     }

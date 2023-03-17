@@ -139,6 +139,16 @@
     <string name="success_page_title">Pregunta publicada con éxito</string>
     <string name="success_page_description">¡Lindo! Tu pregunta ha sido hecha.</string>
 
+    <!-- Flag Post -->
+    <string name="flag">Marcar</string>
+    <string name="flag_post">Estoy marcando para reportar esta publicación como…</string>
+    <string name="flag_question">Estoy marcando para reportar esta pregunta como…</string>
+    <string name="flag_answer">Estoy marcando para reportar esta respuesta como…</string>
+    <string name="flag_comment">Estoy marcando para reportar este comentario como…</string>
+    <string name="flag_comment_placeholder">Introduzca al menos %1$d caracteres</string>
+    <string name="flag_success">Marcar añadida con éxito</string>
+    <string name="flag_fail">No se pudo marcar</string>
+
     <!-- Add Comment -->
     <string name="add_comment">Agregar comentario</string>
     <string name="add_comment_failure">No se pudo agregar el comentario</string>

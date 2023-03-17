@@ -10,7 +10,6 @@ import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.model.SORT_PARAM
 import me.tylerbwong.stack.api.model.Sort
 import me.tylerbwong.stack.api.service.QuestionService.Companion.BODY_PARAM
-import me.tylerbwong.stack.api.service.QuestionService.Companion.PREVIEW_PARAM
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET

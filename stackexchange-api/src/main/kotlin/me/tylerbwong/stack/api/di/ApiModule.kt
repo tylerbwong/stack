@@ -11,6 +11,7 @@ import me.tylerbwong.stack.api.UnitConverterFactory
 import me.tylerbwong.stack.api.service.AnswerService
 import me.tylerbwong.stack.api.service.AuthService
 import me.tylerbwong.stack.api.service.CommentService
+import me.tylerbwong.stack.api.service.FlagService
 import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.api.service.SearchService
 import me.tylerbwong.stack.api.service.SiteService
@@ -107,6 +108,12 @@ class ApiModule {
     fun provideSiteService(
         retrofit: Retrofit
     ): SiteService = retrofit.create(SiteService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideFlagService(
+        retrofit: Retrofit
+    ): FlagService = retrofit.create(FlagService::class.java)
 
     companion object {
         private const val BASE_URL = "https://api.stackexchange.com/${BuildConfig.API_VERSION}/"

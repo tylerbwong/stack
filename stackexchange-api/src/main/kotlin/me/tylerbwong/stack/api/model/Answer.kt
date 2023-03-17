@@ -22,7 +22,7 @@ data class Answer(
     @Json(name = "creation_date")
     val creationDate: Long,
     @Json(name = "body_markdown")
-    val bodyMarkdown: String,
+    val bodyMarkdown: String = "",
     @Json(name = "last_edit_date")
     val lastEditDate: Long?,
     @Json(name = "last_editor")
@@ -32,7 +32,7 @@ data class Answer(
     @Json(name = "comment_count")
     val commentCount: Int?,
     @Json(name = "share_link")
-    val shareLink: String,
+    val shareLink: String = "",
     @Json(name = "title")
     val title: String = "",
 )

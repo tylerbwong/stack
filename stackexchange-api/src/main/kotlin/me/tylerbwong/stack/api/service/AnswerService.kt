@@ -16,7 +16,7 @@ interface AnswerService {
         @Path("id") answerId: Int,
         @Field(FILTER_PARAM) filter: String = ANSWER_FILTER_AUTH,
         @Field(KEY_PARAM) key: String = BuildConfig.API_KEY,
-        @Field(QuestionService.PREVIEW_PARAM) preview: Boolean = false
+        @Field(PREVIEW_PARAM) preview: Boolean = false
     ): Response<Answer>
 
     @FormUrlEncoded
@@ -25,7 +25,7 @@ interface AnswerService {
         @Path("id") answerId: Int,
         @Field(FILTER_PARAM) filter: String = ANSWER_FILTER_AUTH,
         @Field(KEY_PARAM) key: String = BuildConfig.API_KEY,
-        @Field(QuestionService.PREVIEW_PARAM) preview: Boolean = false
+        @Field(PREVIEW_PARAM) preview: Boolean = false
     ): Response<Answer>
 
     @FormUrlEncoded
@@ -34,7 +34,7 @@ interface AnswerService {
         @Path("id") answerId: Int,
         @Field(FILTER_PARAM) filter: String = ANSWER_FILTER_AUTH,
         @Field(KEY_PARAM) key: String = BuildConfig.API_KEY,
-        @Field(QuestionService.PREVIEW_PARAM) preview: Boolean = false
+        @Field(PREVIEW_PARAM) preview: Boolean = false
     ): Response<Answer>
 
     @FormUrlEncoded
@@ -43,7 +43,7 @@ interface AnswerService {
         @Path("id") answerId: Int,
         @Field(FILTER_PARAM) filter: String = ANSWER_FILTER_AUTH,
         @Field(KEY_PARAM) key: String = BuildConfig.API_KEY,
-        @Field(QuestionService.PREVIEW_PARAM) preview: Boolean = false
+        @Field(PREVIEW_PARAM) preview: Boolean = false
     ): Response<Answer>
 
     companion object {

@@ -189,7 +189,6 @@ interface QuestionService {
         private const val TITLE_PARAM = "title"
         internal const val BODY_PARAM = "body"
         private const val TAGS_PARAM = "tags"
-        internal const val PREVIEW_PARAM = "preview"
 
         internal const val DEFAULT_FILTER = "!BKmYcFXnoJ*)bD9xee.1*pffbdPT9("
         internal const val DETAIL_FILTER =

@@ -42,9 +42,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/upvote"
+        app:layout_constraintEnd_toStartOf="@id/flag"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/commentBody" />
+
+    <ImageView
+        android:id="@+id/flag"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/question_detail_action_item_bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/ownerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/upvote"
+        app:layout_constraintTop_toBottomOf="@id/commentedDate"
+        app:srcCompat="@drawable/ic_baseline_flag"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/upvote"
@@ -60,6 +76,6 @@
         app:layout_constraintBottom_toBottomOf="@id/ownerView"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="25k"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
