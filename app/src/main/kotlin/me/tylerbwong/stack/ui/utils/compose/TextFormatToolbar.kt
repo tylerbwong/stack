@@ -43,12 +43,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 
-private const val CURSOR_POSITION_NONE = -1
-
 /**
  * This denotes all the available toolbar item options.
- * @param token The text that should be inserted. "|" represents the cursor position when inserted.
- * @param cursorPosition Precomputed token.indexOf("|").
+ * @param token The text that should be inserted. "%" represents the cursor position when inserted.
+ * @param cursorPosition Precomputed token.indexOf("%").
  */
 enum class ToolbarItem(
     val token: String,
@@ -57,7 +55,7 @@ enum class ToolbarItem(
     internal val icon: @Composable () -> Unit,
 ) {
     BOLD(
-        token = "**|**",
+        token = "**%**",
         cursorPosition = 2,
         icon = {
             Icon(
@@ -67,7 +65,7 @@ enum class ToolbarItem(
         },
     ),
     ITALIC(
-        token = "_|_",
+        token = "_%_",
         cursorPosition = 1,
         icon = {
             Icon(
@@ -77,7 +75,7 @@ enum class ToolbarItem(
         },
     ),
     STRIKETHROUGH(
-        token = "~~|~~",
+        token = "~~%~~",
         cursorPosition = 2,
         icon = {
             Icon(
@@ -87,7 +85,7 @@ enum class ToolbarItem(
         }
     ),
     SUPERSCRIPT(
-        token = "<sup>|</sup>",
+        token = "<sup>%</sup>",
         cursorPosition = 5,
         icon = {
             Icon(
@@ -97,7 +95,7 @@ enum class ToolbarItem(
         }
     ),
     SUBSCRIPT(
-        token = "<sub>|</sub>",
+        token = "<sub>%</sub>",
         cursorPosition = 5,
         icon = {
             Icon(
@@ -107,7 +105,7 @@ enum class ToolbarItem(
         }
     ),
     LINK(
-        token = "[|](url)",
+        token = "[%](url)",
         cursorPosition = 1,
         icon = {
             Icon(
@@ -117,7 +115,7 @@ enum class ToolbarItem(
         },
     ),
     INLINE_CODE(
-        token = "`|`",
+        token = "`%`",
         cursorPosition = 1,
         icon = {
             Icon(
@@ -127,7 +125,7 @@ enum class ToolbarItem(
         },
     ),
     CODE_BLOCK(
-        token = "```\n|\n```",
+        token = "```\n%\n```",
         cursorPosition = 4,
         icon = {
             Icon(
@@ -137,7 +135,7 @@ enum class ToolbarItem(
         }
     ),
     BLOCK_QUOTE(
-        token = "> |",
+        token = "> %",
         cursorPosition = 2,
         icon = {
             Icon(
@@ -147,13 +145,8 @@ enum class ToolbarItem(
         },
     ),
     TABLE(
-        token = """
-            | Column A | Column B |
-            | -------- | -------- |
-            | Cell 1   | Cell 2   |
-            | Cell 3   | Cell 4   |
-        """.trimIndent(),
-        cursorPosition = CURSOR_POSITION_NONE,
+        token = "| Column A | Column B |\n| -------- | -------- |\n| Cell 1   | Cell 2   |\n| Cell 3   | Cell 4   |\n%",
+        cursorPosition = 96,
         canFormatSelectedText = false,
         icon = {
             Icon(
@@ -163,7 +156,7 @@ enum class ToolbarItem(
         },
     ),
     BULLETED_LIST(
-        token = "* |",
+        token = "* %",
         cursorPosition = 2,
         icon = {
             Icon(
@@ -173,7 +166,7 @@ enum class ToolbarItem(
         },
     ),
     NUMBERED_LIST(
-        token = "1. |",
+        token = "1. %",
         cursorPosition = 3,
         icon = {
             Icon(
@@ -183,8 +176,8 @@ enum class ToolbarItem(
         },
     ),
     HORIZONTAL_RULE(
-        token = "---\n",
-        cursorPosition = -1,
+        token = "---\n%",
+        cursorPosition = 4,
         canFormatSelectedText = false,
         icon = {
             Icon(
@@ -194,7 +187,7 @@ enum class ToolbarItem(
         }
     ),
     H1(
-        token = "# |",
+        token = "# %",
         cursorPosition = 2,
         icon = {
             Icon(
@@ -204,7 +197,7 @@ enum class ToolbarItem(
         }
     ),
     H2(
-        token = "## |",
+        token = "## %",
         cursorPosition = 3,
         icon = {
             Icon(
@@ -214,7 +207,7 @@ enum class ToolbarItem(
         }
     ),
     H3(
-        token = "### |",
+        token = "### %",
         cursorPosition = 4,
         icon = {
             Icon(
@@ -224,7 +217,7 @@ enum class ToolbarItem(
         }
     ),
     H4(
-        token = "#### |",
+        token = "#### %",
         cursorPosition = 5,
         icon = {
             Icon(
@@ -234,7 +227,7 @@ enum class ToolbarItem(
         }
     ),
     H5(
-        token = "##### |",
+        token = "##### %",
         cursorPosition = 6,
         icon = {
             Icon(
@@ -244,7 +237,7 @@ enum class ToolbarItem(
         }
     ),
     H6(
-        token = "###### |",
+        token = "###### %",
         cursorPosition = 7,
         icon = {
             Icon(
@@ -279,12 +272,7 @@ fun TextFormatToolbar(
                             val selectionEnd = selection.end
                             val oldTextSelection = value.getSelectedText().text
                             val newTextWithFormat = AnnotatedString(
-                                text = if (item.cursorPosition != CURSOR_POSITION_NONE) {
-                                    // Only replace if we have a cursor position
-                                    item.token.replace("|", oldTextSelection)
-                                } else {
-                                    item.token
-                                }
+                                text = item.token.replace("%", oldTextSelection)
                             )
                             val textBeforeSelection =
                                 value.annotatedString.subSequence(0, selection.start)
@@ -300,13 +288,7 @@ fun TextFormatToolbar(
                                     TextRange(textBeforeSelectionLength + newTextWithFormat.length)
                                 } else {
                                     // Format was inserted at cursor, put cursor at cursorPosition
-                                    TextRange(
-                                        textBeforeSelectionLength + if (item.cursorPosition != CURSOR_POSITION_NONE) {
-                                            item.cursorPosition
-                                        } else {
-                                            item.token.length
-                                        }
-                                    )
+                                    TextRange(textBeforeSelectionLength + item.cursorPosition)
                                 }
                             )
                         }
