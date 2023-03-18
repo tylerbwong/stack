@@ -41,6 +41,7 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/question_detail_action_item_bg"
         android:clickable="true"
+        android:contentDescription="@string/flag"
         android:focusable="true"
         android:src="@drawable/ic_baseline_flag"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -26,6 +26,7 @@ import me.tylerbwong.stack.ui.utils.hideKeyboard
 import me.tylerbwong.stack.ui.utils.launchUrl
 import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.showDialog
+import me.tylerbwong.stack.ui.utils.showLogInDialog
 import me.tylerbwong.stack.ui.utils.showRegisterOnSiteDialog
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
@@ -162,12 +163,16 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
                 requireContext().launchUrl(it, forceExternal = true)
             }
             R.id.flag -> {
-                val intent = FlagActivity.makeIntent(
-                    context = requireContext(),
-                    postId = viewModel.questionId,
-                    postType = 0,
-                )
-                startActivity(intent)
+                if (viewModel.isAuthenticated) {
+                    val intent = FlagActivity.makeIntent(
+                        context = requireContext(),
+                        postId = viewModel.questionId,
+                        postType = 0,
+                    )
+                    startActivity(intent)
+                } else {
+                    requireContext().showLogInDialog(alternateLogInMessage = R.string.log_in_message_flag)
+                }
             }
         }
         return super.onOptionsItemSelected(item)

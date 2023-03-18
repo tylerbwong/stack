@@ -18,6 +18,7 @@ import me.tylerbwong.stack.ui.utils.formatElapsedTime
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 import me.tylerbwong.stack.ui.utils.renderSelectedState
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import me.tylerbwong.stack.ui.utils.showLogInDialog
 
 object CommentItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
     override fun areItemsTheSame(
@@ -77,7 +78,6 @@ class CommentHolder(
         val score = item.comment.score
         val upvoted = item.comment.upvoted
         val showAuthContent = score != null && upvoted != null
-        flag.isVisible = showAuthContent
         upvote.isVisible = showAuthContent
         if (score != null && upvoted != null) {
             upvote.apply {
@@ -92,7 +92,9 @@ class CommentHolder(
                     }
                 }
             }
-            flag.setThrottledOnClickListener {
+        }
+        flag.setThrottledOnClickListener {
+            if (showAuthContent) {
                 if (commentId != null) {
                     val intent = FlagActivity.makeIntent(
                         context = itemView.context,
@@ -101,6 +103,8 @@ class CommentHolder(
                     )
                     itemView.context.startActivity(intent)
                 }
+            } else {
+                itemView.context.showLogInDialog(alternateLogInMessage = R.string.log_in_message_flag)
             }
         }
     }

@@ -10,7 +10,6 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.DeepLinkResult
 import me.tylerbwong.stack.data.auth.LoginResult
 
-
 @AndroidEntryPoint
 class DeepLinkingActivity : BaseActivity<ViewBinding>(
     bindingProvider = null // TODO Remove when Hilt supports default constructor values
@@ -20,16 +19,14 @@ class DeepLinkingActivity : BaseActivity<ViewBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.loginResult.observe(this) { result ->
-            when (result) {
-                is LoginResult.LoginSuccess -> startActivity(
-                    MainActivity.makeIntentClearTop(this)
-                )
-                is LoginResult.LoginError -> Toast.makeText(
-                    this,
-                    R.string.deep_link_user_not_found,
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            Toast.makeText(
+                this,
+                when (result) {
+                    is LoginResult.LoginSuccess -> R.string.log_in_success
+                    is LoginResult.LoginError -> R.string.deep_link_user_not_found
+                },
+                Toast.LENGTH_LONG,
+            ).show()
             finish()
         }
         handleIntent(intent)

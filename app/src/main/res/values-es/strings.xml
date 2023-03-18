@@ -41,8 +41,10 @@
     <string name="deep_link_user_not_found">Usuario no encontrado en este sitio</string>
 
     <!-- Auth -->
+    <string name="log_in_success">Iniciado sesión con éxito</string>
     <string name="log_in_title">¿Quiere iniciar sesión?</string>
-    <string name="log_in_message">Responder preguntas. Obtenga acceso a cuotas de solicitud más altas, borradores y más.</string>
+    <string name="log_in_message"><![CDATA[Preguntar, responder y comentar. Obtenga acceso a cuotas de solicitud más altas, borradores y más. Asegúrese de revisar los <a href="https://stackoverflow.com/legal/terms-of-service">Términos de servicio</a> de este sitio, <a href="https://stackoverflow. com/legal/privacy-policy">Política de privacidad</a> y <a href="https://stackoverflow.com/legal/acceptable-use-policy">Política de uso aceptable</a>.]]></string>
+    <string name="log_in_message_flag"><![CDATA[Debe iniciar sesión para marcar esta publicación. Asegúrese de revisar los <a href="https://stackoverflow.com/legal/terms-of-service">Términos de servicio</a> de este sitio, <a href="https://stackoverflow. com/legal/privacy-policy">Política de privacidad</a> y <a href="https://stackoverflow.com/legal/acceptable-use-policy">Política de uso aceptable</a>.]]></string>
     <string name="log_out_title">¿Quiere cerrar sesión?</string>
     <string name="log_out_message">Perderá todos los datos de su sesión actual, incluidos los borradores.</string>
     <string name="log_in">Iniciar sesión</string>
@@ -146,6 +148,8 @@
     <string name="flag_answer">Estoy marcando para reportar esta respuesta como…</string>
     <string name="flag_comment">Estoy marcando para reportar este comentario como…</string>
     <string name="flag_comment_placeholder">Introduzca al menos %1$d caracteres</string>
+    <string name="flag_pending">Ya tienes una bandera pendiente en esta pregunta</string>
+    <string name="flag_currently_raised">Esta es la bandera que ha agregado actualmente</string>
     <string name="flag_success">Marcar añadida con éxito</string>
     <string name="flag_fail">No se pudo marcar</string>
 

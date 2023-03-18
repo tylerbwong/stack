@@ -74,7 +74,10 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
             }
             binding.emptySpace.isVisible = it.isEmpty()
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
         viewModel.fetchComments()
     }
 

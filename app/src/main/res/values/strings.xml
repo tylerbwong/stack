@@ -2,8 +2,8 @@
     <string name="app_name" translatable="false">Stack</string>
     <string name="api_home_url" translatable="false">https://api.stackexchange.com/</string>
     <string name="repository_url" translatable="false">https://github.com/tylerbwong/stack</string>
-    <string name="privacy_url" translatable="false">https://github.com/tylerbwong/stack/blob/master/PRIVACY.md</string>
     <string name="terms_url" translatable="false">https://github.com/tylerbwong/stack/blob/master/TERMS.md</string>
+    <string name="privacy_url" translatable="false">https://github.com/tylerbwong/stack/blob/master/PRIVACY.md</string>
 
     <string name="search">Search</string>
     <string name="share">Share</string>
@@ -50,8 +50,10 @@
     <string name="deep_link_user_not_found">User not found on this site</string>
 
     <!-- Auth -->
+    <string name="log_in_success">Successfully logged in</string>
     <string name="log_in_title">Would you like to log in?</string>
-    <string name="log_in_message">Answer questions. Get access to higher request quotas, drafts, and more.</string>
+    <string name="log_in_message"><![CDATA[Ask, answer, and comment. Get access to higher request quotas, drafts, and more. Be sure to review this site\'s <a href="https://stackoverflow.com/legal/terms-of-service">Terms of Service</a>, <a href="https://stackoverflow.com/legal/privacy-policy">Privacy Policy</a>, and <a href="https://stackoverflow.com/legal/acceptable-use-policy">Acceptable Use Policy</a>.]]></string>
+    <string name="log_in_message_flag"><![CDATA[You must be logged in to flag this post. Be sure to review this site\'s <a href="https://stackoverflow.com/legal/terms-of-service">Terms of Service</a>, <a href="https://stackoverflow.com/legal/privacy-policy">Privacy Policy</a>, and <a href="https://stackoverflow.com/legal/acceptable-use-policy">Acceptable Use Policy</a>.]]></string>
     <string name="log_out_title">Would you like to log out?</string>
     <string name="log_out_message">You\'ll lose all of your current session data including saved drafts.</string>
     <string name="log_in">Log in</string>
@@ -157,7 +159,9 @@
     <string name="flag_answer">I am flagging to report this answer as…</string>
     <string name="flag_comment">I am flagging to report this comment as…</string>
     <string name="flag_comment_placeholder">Enter at least %1$d characters</string>
-    <string name="flag_success">Flag added successfully</string>
+    <string name="flag_pending">You already have a pending flag on this question</string>
+    <string name="flag_currently_raised">This is the flag you currently have raised</string>
+    <string name="flag_success">Thanks, we\'ll take a look at it</string>
     <string name="flag_fail">Could not add flag</string>
 
     <!-- Add Comment -->

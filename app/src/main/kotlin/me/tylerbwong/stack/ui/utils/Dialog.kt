@@ -2,8 +2,10 @@ package me.tylerbwong.stack.ui.utils
 
 import android.app.Dialog
 import android.content.Context
+import android.widget.TextView
 import androidx.annotation.StringRes
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.data.auth.AuthStore
@@ -30,13 +32,21 @@ internal fun Context.showLogOutDialog(onLogOutClicked: () -> Unit) {
     }
 }
 
-internal fun Context.showLogInDialog() {
+internal fun Context.showLogInDialog(@StringRes alternateLogInMessage: Int? = null) {
     showDialog {
         setIcon(R.drawable.ic_account_circle)
         setTitle(R.string.log_in_title)
-        setMessage(R.string.log_in_message)
+        if (alternateLogInMessage != null) {
+            setMessage(getString(alternateLogInMessage).toHtml().replaceUrlSpans())
+        } else {
+            setMessage(getString(R.string.log_in_message).toHtml().replaceUrlSpans())
+        }
         setPositiveButton(R.string.log_in) { _, _ -> launchUrl(AuthStore.authUrl) }
         setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+    }.also {
+        it.findViewById<TextView>(android.R.id.message)?.apply {
+            movementMethod = BetterLinkMovementMethod.getInstance()
+        }
     }
 }
 

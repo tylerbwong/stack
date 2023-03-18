@@ -42,6 +42,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -93,9 +94,15 @@ fun FlagScreen(viewModel: FlagViewModel = viewModel()) {
     val nextPage by remember {
         derivedStateOf { viewModel.getNextPageForOption(selectedOption) }
     }
+    val hasRetraction by remember {
+        derivedStateOf { startFlagOptions.any { it.isRetraction == true } }
+    }
     val isLoading by viewModel.refreshing.observeAsState(initial = false)
     var isCommenting by remember { mutableStateOf(false) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    LaunchedEffect(startFlagOptions) {
+        selectedOption = startFlagOptions.find { it.isRetraction == true }
+    }
     BackHandler {
         if ((currentFlagOptions == null || currentFlagOptions == startFlagOptions) && !isCommenting) {
             context.ofType<Activity>()?.finish()
@@ -150,49 +157,53 @@ fun FlagScreen(viewModel: FlagViewModel = viewModel()) {
                             )
                         )
                     }
-                    Button(
-                        onClick = {
-                            if (nextPage == null || (isCommenting && (viewModel.extraComment?.length
-                                    ?: 0) >= MINIMUM_COMMENT_LENGTH)
-                            ) {
-                                viewModel.addFlag(option = selectedOption)
-                            } else {
-                                when (nextPage) {
-                                    FlagPage.Options -> {
-                                        currentFlagOptions?.let {
-                                            previousFlagOptions = previousFlagOptions + listOf(it)
-                                        }
-                                        currentFlagOptions =
-                                            selectedOption?.subOptions ?: currentFlagOptions
-                                        selectedOption = null
-                                    }
-                                    FlagPage.Comment -> isCommenting = true
-                                    FlagPage.Duplicate -> {
-                                        currentFlagOptions?.let {
-                                            previousFlagOptions = previousFlagOptions + listOf(it)
-                                        }
-                                        currentFlagOptions =
-                                            selectedOption?.subOptions ?: currentFlagOptions
-                                        selectedOption = null
-                                    }
-                                    else -> viewModel.addFlag(option = selectedOption)
-                                }
-                            }
-                        },
-                        modifier = Modifier.padding(16.dp),
-                        enabled = (selectedOption != null && !isCommenting)
-                                || (isCommenting && (viewModel.extraComment?.length
-                            ?: 0) >= MINIMUM_COMMENT_LENGTH),
-                    ) {
-                        Text(
-                            text = stringResource(
-                                if (nextPage != null && !isCommenting) {
-                                    R.string.next
+                    if (!hasRetraction) {
+                        Button(
+                            onClick = {
+                                if (nextPage == null || (isCommenting && (viewModel.extraComment?.length
+                                        ?: 0) >= MINIMUM_COMMENT_LENGTH)
+                                ) {
+                                    viewModel.addFlag(option = selectedOption)
                                 } else {
-                                    R.string.flag
+                                    when (nextPage) {
+                                        FlagPage.Options -> {
+                                            currentFlagOptions?.let {
+                                                previousFlagOptions =
+                                                    previousFlagOptions + listOf(it)
+                                            }
+                                            currentFlagOptions =
+                                                selectedOption?.subOptions ?: currentFlagOptions
+                                            selectedOption = null
+                                        }
+                                        FlagPage.Comment -> isCommenting = true
+                                        FlagPage.Duplicate -> {
+                                            currentFlagOptions?.let {
+                                                previousFlagOptions =
+                                                    previousFlagOptions + listOf(it)
+                                            }
+                                            currentFlagOptions =
+                                                selectedOption?.subOptions ?: currentFlagOptions
+                                            selectedOption = null
+                                        }
+                                        else -> viewModel.addFlag(option = selectedOption)
+                                    }
                                 }
+                            },
+                            modifier = Modifier.padding(16.dp),
+                            enabled = (selectedOption != null && !isCommenting)
+                                    || (isCommenting && (viewModel.extraComment?.length
+                                ?: 0) >= MINIMUM_COMMENT_LENGTH),
+                        ) {
+                            Text(
+                                text = stringResource(
+                                    if (nextPage != null && !isCommenting) {
+                                        R.string.next
+                                    } else {
+                                        R.string.flag
+                                    }
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }
@@ -213,7 +224,7 @@ fun FlagScreen(viewModel: FlagViewModel = viewModel()) {
                     }
                     item {
                         Text(
-                            text = title,
+                            text = if (hasRetraction) stringResource(R.string.flag_pending) else title,
                             modifier = Modifier.padding(horizontal = 16.dp),
                             style = MaterialTheme.typography.headlineSmall,
                         )
@@ -229,6 +240,7 @@ fun FlagScreen(viewModel: FlagViewModel = viewModel()) {
                             onClick = { selectedOption = option },
                             modifier = Modifier
                                 .padding(horizontal = 16.dp),
+                            enabled = !hasRetraction,
                         ) {
                             Row(
                                 modifier = Modifier.padding(vertical = 16.dp),
@@ -259,6 +271,14 @@ fun FlagScreen(viewModel: FlagViewModel = viewModel()) {
                                         text = option.description?.toHtml()?.toString() ?: "",
                                         style = MaterialTheme.typography.bodyMedium,
                                     )
+                                    if (option.isRetraction == true && option == selectedOption) {
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Text(
+                                            text = stringResource(R.string.flag_currently_raised),
+                                            color = MaterialTheme.colorScheme.error,
+                                            style = MaterialTheme.typography.titleSmall,
+                                        )
+                                    }
                                 }
                                 if (index == (currentFlagOptions ?: startFlagOptions).lastIndex) {
                                     Spacer(modifier = Modifier.height(16.dp))

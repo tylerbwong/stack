@@ -14,6 +14,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.AnswerVotesHeaderHolderBinding
 import me.tylerbwong.stack.ui.flag.FlagActivity
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import me.tylerbwong.stack.ui.utils.showLogInDialog
 
 class AnswerVotesHeaderHolder(
     parent: ViewGroup
@@ -32,9 +33,8 @@ class AnswerVotesHeaderHolder(
         val isUpvoted = item.isUpvoted
         val isDownvoted = item.isDownvoted
         // Presence of these indicates auth
-        val showFlag = item.isUpvoted != null && item.isDownvoted != null
+        val isAuthenticated = item.isUpvoted != null && item.isDownvoted != null
 
-        flag.isVisible = showFlag
         upvote.isVisible = isUpvoted != null
         downvote.isVisible = isDownvoted != null
         if (isUpvoted != null && isDownvoted != null) {
@@ -62,13 +62,17 @@ class AnswerVotesHeaderHolder(
                     )
                 }
             }
-            flag.setThrottledOnClickListener {
+        }
+        flag.setThrottledOnClickListener {
+            if (isAuthenticated) {
                 val intent = FlagActivity.makeIntent(
                     context = itemView.context,
                     postId = item.id,
                     postType = 1,
                 )
                 itemView.context.startActivity(intent)
+            } else {
+                itemView.context.showLogInDialog(alternateLogInMessage = R.string.log_in_message_flag)
             }
         }
     }
