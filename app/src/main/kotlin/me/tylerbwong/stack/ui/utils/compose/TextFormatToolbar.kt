@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.FormatListBulleted
 import androidx.compose.material.icons.filled.FormatListNumbered
 import androidx.compose.material.icons.filled.FormatQuote
 import androidx.compose.material.icons.filled.FormatStrikethrough
+import androidx.compose.material.icons.filled.HorizontalRule
 import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.Subscript
 import androidx.compose.material.icons.filled.Superscript
@@ -181,6 +182,17 @@ enum class ToolbarItem(
             )
         },
     ),
+    HORIZONTAL_RULE(
+        token = "---\n",
+        cursorPosition = -1,
+        canFormatSelectedText = false,
+        icon = {
+            Icon(
+                imageVector = Icons.Default.HorizontalRule,
+                contentDescription = Icons.Default.HorizontalRule.name,
+            )
+        }
+    ),
     H1(
         token = "# |",
         cursorPosition = 2,
@@ -317,7 +329,7 @@ private const val DISABLED_ALPHA = 0.38f
 
 @Composable
 private fun BarItem(
-    enabled: Boolean = true,
+    enabled: Boolean,
     onClick: () -> Unit,
     icon: @Composable () -> Unit
 ) {
