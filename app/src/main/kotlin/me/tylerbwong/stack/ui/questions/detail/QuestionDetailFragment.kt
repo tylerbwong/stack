@@ -16,6 +16,7 @@ import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.QuestionDetailFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
+import me.tylerbwong.stack.ui.flag.FlagActivity
 import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
 import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
@@ -159,6 +160,14 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
             )
             R.id.open_browser -> viewModel.question?.shareLink?.let {
                 requireContext().launchUrl(it, forceExternal = true)
+            }
+            R.id.flag -> {
+                val intent = FlagActivity.makeIntent(
+                    context = requireContext(),
+                    postId = viewModel.questionId,
+                    postType = 0,
+                )
+                startActivity(intent)
             }
         }
         return super.onOptionsItemSelected(item)

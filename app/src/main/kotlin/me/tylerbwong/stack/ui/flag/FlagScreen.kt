@@ -1,6 +1,13 @@
 package me.tylerbwong.stack.ui.flag
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Arrangement.spacedBy
@@ -53,6 +60,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.FlagOption
 import me.tylerbwong.stack.ui.utils.compose.StackTheme
+import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.toHtml
 
 private const val MINIMUM_COMMENT_LENGTH = 10
@@ -61,8 +69,9 @@ private const val MINIMUM_COMMENT_LENGTH = 10
 @Suppress("LongMethod", "ComplexMethod")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun FlagScreen(viewModel: FlagViewModel = viewModel(), onBackPressed: () -> Unit) {
+fun FlagScreen(viewModel: FlagViewModel = viewModel()) {
     val context = LocalContext.current
+    val backPressedDispatcher = LocalOnBackPressedDispatcherOwner.current
     val startFlagOptions by viewModel.flagOptions.observeAsState(initial = emptyList())
     var currentFlagOptions by remember { mutableStateOf<List<FlagOption>?>(null) }
     var previousFlagOptions by remember { mutableStateOf<List<List<FlagOption>>>(emptyList()) }
@@ -86,6 +95,19 @@ fun FlagScreen(viewModel: FlagViewModel = viewModel(), onBackPressed: () -> Unit
     val isLoading by viewModel.refreshing.observeAsState(initial = false)
     var isCommenting by remember { mutableStateOf(false) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    BackHandler {
+        if ((currentFlagOptions == null || currentFlagOptions == startFlagOptions) && !isCommenting) {
+            context.ofType<Activity>()?.finish()
+        } else if (isCommenting) {
+            isCommenting = false
+            viewModel.extraComment = null
+        } else {
+            currentFlagOptions = previousFlagOptions.lastOrNull()?.also {
+                previousFlagOptions = previousFlagOptions.dropLast(1)
+            }
+            selectedOption = null
+        }
+    }
     StackTheme {
         Scaffold(
             modifier = Modifier
@@ -96,7 +118,7 @@ fun FlagScreen(viewModel: FlagViewModel = viewModel(), onBackPressed: () -> Unit
                 TopAppBar(
                     title = {},
                     navigationIcon = {
-                        IconButton(onClick = onBackPressed) {
+                        IconButton(onClick = { context.ofType<Activity>()?.finish() }) {
                             Icon(
                                 imageVector = Icons.Filled.Close,
                                 contentDescription = null,
@@ -112,21 +134,7 @@ fun FlagScreen(viewModel: FlagViewModel = viewModel(), onBackPressed: () -> Unit
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Button(
-                        onClick = {
-                            if ((currentFlagOptions == null ||
-                                        currentFlagOptions == startFlagOptions) && !isCommenting
-                            ) {
-                                onBackPressed()
-                            } else if (isCommenting) {
-                                isCommenting = false
-                                viewModel.extraComment = null
-                            } else {
-                                currentFlagOptions = previousFlagOptions.lastOrNull()?.also {
-                                    previousFlagOptions = previousFlagOptions.dropLast(1)
-                                }
-                                selectedOption = null
-                            }
-                        },
+                        onClick = { backPressedDispatcher?.onBackPressedDispatcher?.onBackPressed() },
                         modifier = Modifier.padding(16.dp),
                     ) {
                         Text(
@@ -188,7 +196,11 @@ fun FlagScreen(viewModel: FlagViewModel = viewModel(), onBackPressed: () -> Unit
                 }
             }
         ) {
-            if (!isCommenting) {
+            AnimatedVisibility(
+                visible = !isCommenting,
+                enter = fadeIn(),
+                exit = fadeOut(),
+            ) {
                 LazyColumn(
                     modifier = Modifier.padding(it),
                     verticalArrangement = spacedBy(16.dp),
@@ -211,13 +223,11 @@ fun FlagScreen(viewModel: FlagViewModel = viewModel(), onBackPressed: () -> Unit
                                 // TODO Support requires question id and requires site
                                 option.requiresQuestionId != true && option.requiresSite != true
                             },
-                        key = { index, option -> "$index$option" },
                     ) { index, option ->
                         OutlinedCard(
                             onClick = { selectedOption = option },
                             modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .animateItemPlacement(),
+                                .padding(horizontal = 16.dp),
                         ) {
                             Row(
                                 modifier = Modifier.padding(vertical = 16.dp),
@@ -256,7 +266,13 @@ fun FlagScreen(viewModel: FlagViewModel = viewModel(), onBackPressed: () -> Unit
                         }
                     }
                 }
-            } else {
+            }
+
+            AnimatedVisibility(
+                visible = isCommenting,
+                enter = fadeIn() + slideInHorizontally { fullWidth -> fullWidth / 2 },
+                exit = slideOutHorizontally { fullWidth -> fullWidth / 2 } + fadeOut(),
+            ) {
                 Box(modifier = Modifier.padding(it)) {
                     Column(
                         modifier = Modifier

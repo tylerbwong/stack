@@ -49,7 +49,7 @@ class FlagActivity : BaseActivity<ViewBinding>(
         viewModel.getFlagOptions()
 
         setContent {
-            FlagScreen(onBackPressed = onBackPressedDispatcher::onBackPressed)
+            FlagScreen()
         }
     }
 

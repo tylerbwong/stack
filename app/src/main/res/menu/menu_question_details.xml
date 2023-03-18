@@ -17,4 +17,9 @@
         android:id="@+id/open_browser"
         android:title="@string/open_browser"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/flag"
+        android:title="@string/flag"
+        app:showAsAction="never" />
 </menu>

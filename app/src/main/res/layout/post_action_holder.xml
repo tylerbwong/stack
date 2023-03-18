@@ -49,23 +49,8 @@
         android:gravity="center"
         app:drawableTopCompat="@drawable/ic_baseline_bookmark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/flag"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/downvote"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="25k" />
-
-    <ImageView
-        android:id="@+id/flag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/question_detail_action_item_bg"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:padding="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/bookmark"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_flag" />
 </androidx.constraintlayout.widget.ConstraintLayout>
