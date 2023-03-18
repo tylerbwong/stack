@@ -1,4 +1,5 @@
 @file:Suppress("MatchingDeclarationName")
+
 package me.tylerbwong.stack.ui.utils.compose
 
 import androidx.compose.foundation.clickable
@@ -26,6 +27,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -40,6 +42,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 
+private const val CURSOR_POSITION_NONE = -1
+
 /**
  * This denotes all the available toolbar item options.
  * @param token The text that should be inserted. "|" represents the cursor position when inserted.
@@ -48,6 +52,7 @@ import me.tylerbwong.stack.R
 enum class ToolbarItem(
     val token: String,
     val cursorPosition: Int,
+    val canFormatSelectedText: Boolean = true,
     internal val icon: @Composable () -> Unit,
 ) {
     BOLD(
@@ -137,6 +142,22 @@ enum class ToolbarItem(
             Icon(
                 imageVector = Icons.Default.FormatQuote,
                 contentDescription = Icons.Default.FormatQuote.name,
+            )
+        },
+    ),
+    TABLE(
+        token = """
+            | Column A | Column B |
+            | -------- | -------- |
+            | Cell 1   | Cell 2   |
+            | Cell 3   | Cell 4   |
+        """.trimIndent(),
+        cursorPosition = CURSOR_POSITION_NONE,
+        canFormatSelectedText = false,
+        icon = {
+            Icon(
+                painter = painterResource(R.drawable.ic_table),
+                contentDescription = toString(),
             )
         },
     ),
@@ -234,6 +255,10 @@ fun TextFormatToolbar(
                 Spacer(modifier = Modifier.width(4.dp))
             }
             BarItem(
+                enabled = when {
+                    value.selection.start != value.selection.end -> item.canFormatSelectedText
+                    else -> true
+                },
                 onClick = {
                     scope.launch {
                         val newValue = withContext(Dispatchers.Default) {
@@ -242,12 +267,20 @@ fun TextFormatToolbar(
                             val selectionEnd = selection.end
                             val oldTextSelection = value.getSelectedText().text
                             val newTextWithFormat = AnnotatedString(
-                                text = item.token.replace("|", oldTextSelection)
+                                text = if (item.cursorPosition != CURSOR_POSITION_NONE) {
+                                    // Only replace if we have a cursor position
+                                    item.token.replace("|", oldTextSelection)
+                                } else {
+                                    item.token
+                                }
                             )
-                            val textBeforeSelection = value.annotatedString.subSequence(0, selection.start)
-                            val textAfterSelection = value.annotatedString.subSequence(selection.end, value.text.length)
+                            val textBeforeSelection =
+                                value.annotatedString.subSequence(0, selection.start)
+                            val textAfterSelection =
+                                value.annotatedString.subSequence(selection.end, value.text.length)
                             val textBeforeSelectionLength = textBeforeSelection.length
-                            val newBodyText = textBeforeSelection + newTextWithFormat + textAfterSelection
+                            val newBodyText =
+                                textBeforeSelection + newTextWithFormat + textAfterSelection
                             TextFieldValue(
                                 text = newBodyText.text,
                                 selection = if (selectionStart != selectionEnd) {
@@ -255,7 +288,13 @@ fun TextFormatToolbar(
                                     TextRange(textBeforeSelectionLength + newTextWithFormat.length)
                                 } else {
                                     // Format was inserted at cursor, put cursor at cursorPosition
-                                    TextRange(textBeforeSelectionLength + item.cursorPosition)
+                                    TextRange(
+                                        textBeforeSelectionLength + if (item.cursorPosition != CURSOR_POSITION_NONE) {
+                                            item.cursorPosition
+                                        } else {
+                                            item.token.length
+                                        }
+                                    )
                                 }
                             )
                         }
@@ -274,8 +313,11 @@ fun TextFormatToolbar(
     }
 }
 
+private const val DISABLED_ALPHA = 0.38f
+
 @Composable
 private fun BarItem(
+    enabled: Boolean = true,
     onClick: () -> Unit,
     icon: @Composable () -> Unit
 ) {
@@ -283,7 +325,8 @@ private fun BarItem(
         modifier = Modifier
             .padding(2.dp)
             .clip(RoundedCornerShape(4.dp))
-            .clickable { onClick() },
+            .alpha(if (enabled) 1f else DISABLED_ALPHA)
+            .clickable(enabled) { onClick() },
         color = Color.Transparent,
     ) { icon() }
 }
