@@ -2,6 +2,9 @@
 
 package me.tylerbwong.stack.ui.questions.ask
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -58,10 +61,12 @@ import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.utils.compose.LabeledCheckbox
 import me.tylerbwong.stack.ui.utils.compose.StackTheme
 import me.tylerbwong.stack.ui.utils.compose.TextFormatToolbar
+import me.tylerbwong.stack.ui.utils.ofType
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun AskQuestionLayout(onBackPressed: () -> Unit) {
+fun AskQuestionLayout() {
+    val context = LocalContext.current
     val viewModel = viewModel<AskQuestionViewModel>()
     val currentSiteParameter by viewModel.currentSiteParameter.observeAsState()
     val isDetailedQuestionRequired by remember {
@@ -131,7 +136,7 @@ fun AskQuestionLayout(onBackPressed: () -> Unit) {
                         }
                     },
                     navigationIcon = {
-                        IconButton(onClick = onBackPressed) {
+                        IconButton(onClick = { context.ofType<Activity>()?.finish() }) {
                             Icon(
                                 imageVector = Icons.Filled.Close,
                                 contentDescription = null,
@@ -229,7 +234,7 @@ fun AskQuestionLayout(onBackPressed: () -> Unit) {
                         askQuestionState = askQuestionState,
                         page = currentPage,
                         isDetailedQuestionRequired = isDetailedQuestionRequired,
-                        onFinish = onBackPressed,
+                        onFinish = { context.ofType<Activity>()?.finish() },
                     )
                 }
             }
@@ -261,23 +266,25 @@ private fun BottomNavigationBar(
     onFinish: () -> Unit,
 ) {
     val context = LocalContext.current
+    val backPressedDispatcher = LocalOnBackPressedDispatcherOwner.current
     val viewModel = viewModel<AskQuestionViewModel>()
     val scope = rememberCoroutineScope()
+    BackHandler {
+        if (page !in listOf(AskQuestionPage.Start, AskQuestionPage.Success)) {
+            scope.launch {
+                val previousPage = (state.currentPage - 1).coerceAtLeast(0)
+                state.animateScrollToPage(previousPage)
+            }
+        } else {
+            onFinish()
+        }
+    }
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Button(
-            onClick = {
-                if (page !in listOf(AskQuestionPage.Start, AskQuestionPage.Success)) {
-                    scope.launch {
-                        val previousPage = (state.currentPage - 1).coerceAtLeast(0)
-                        state.animateScrollToPage(previousPage)
-                    }
-                } else {
-                    onFinish()
-                }
-            },
+            onClick = { backPressedDispatcher?.onBackPressedDispatcher?.onBackPressed() },
             modifier = Modifier.padding(16.dp),
             enabled = askQuestionState != AskQuestionState.Posting,
         ) {

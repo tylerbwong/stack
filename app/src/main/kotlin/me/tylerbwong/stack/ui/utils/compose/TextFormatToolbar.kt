@@ -17,7 +17,10 @@ import androidx.compose.material.icons.filled.FormatItalic
 import androidx.compose.material.icons.filled.FormatListBulleted
 import androidx.compose.material.icons.filled.FormatListNumbered
 import androidx.compose.material.icons.filled.FormatQuote
+import androidx.compose.material.icons.filled.FormatStrikethrough
 import androidx.compose.material.icons.filled.Link
+import androidx.compose.material.icons.filled.Subscript
+import androidx.compose.material.icons.filled.Superscript
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -66,6 +69,36 @@ enum class ToolbarItem(
                 contentDescription = Icons.Default.FormatItalic.name,
             )
         },
+    ),
+    STRIKETHROUGH(
+        token = "~~|~~",
+        cursorPosition = 2,
+        icon = {
+            Icon(
+                imageVector = Icons.Default.FormatStrikethrough,
+                contentDescription = Icons.Default.FormatStrikethrough.name
+            )
+        }
+    ),
+    SUPERSCRIPT(
+        token = "<sup>|</sup>",
+        cursorPosition = 5,
+        icon = {
+            Icon(
+                imageVector = Icons.Default.Superscript,
+                contentDescription = Icons.Default.Superscript.name
+            )
+        }
+    ),
+    SUBSCRIPT(
+        token = "<sub>|</sub>",
+        cursorPosition = 5,
+        icon = {
+            Icon(
+                imageVector = Icons.Default.Subscript,
+                contentDescription = Icons.Default.Subscript.name
+            )
+        }
     ),
     LINK(
         token = "[|](url)",

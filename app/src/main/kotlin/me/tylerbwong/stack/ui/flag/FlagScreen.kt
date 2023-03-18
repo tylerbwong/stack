@@ -59,6 +59,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.FlagOption
+import me.tylerbwong.stack.ui.utils.compose.MarkdownText
 import me.tylerbwong.stack.ui.utils.compose.StackTheme
 import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.toHtml
@@ -245,15 +246,15 @@ fun FlagScreen(viewModel: FlagViewModel = viewModel()) {
                                 ) {
                                     option.title
                                         ?.capitalize(Locale.current)
-                                        ?.toHtml()
-                                        ?.toString()
                                         ?.let { optionTitle ->
-                                            Text(
-                                                text = optionTitle,
-                                                style = MaterialTheme.typography.titleMedium,
+                                            MarkdownText(
+                                                markdown = optionTitle,
+                                                fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                                                isBold = true,
                                             )
                                             Spacer(modifier = Modifier.height(4.dp))
                                         }
+                                    // Do not use MarkdownText as links are only path suffixes
                                     Text(
                                         text = option.description?.toHtml()?.toString() ?: "",
                                         style = MaterialTheme.typography.bodyMedium,
