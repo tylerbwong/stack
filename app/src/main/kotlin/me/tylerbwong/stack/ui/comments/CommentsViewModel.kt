@@ -12,6 +12,7 @@ import me.tylerbwong.stack.api.model.Comment
 import me.tylerbwong.stack.api.service.CommentService
 import me.tylerbwong.stack.api.utils.toErrorResponse
 import me.tylerbwong.stack.data.auth.AuthStore
+import me.tylerbwong.stack.data.content.ContentFilter
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import me.tylerbwong.stack.ui.utils.toHtml
@@ -22,12 +23,16 @@ import javax.inject.Inject
 @HiltViewModel
 class CommentsViewModel @Inject constructor(
     private val service: CommentService,
-    private val authStore: AuthStore
+    private val authStore: AuthStore,
+    private val contentFilter: ContentFilter,
 ) : BaseViewModel() {
 
     internal val data: LiveData<List<DynamicItem>>
         get() = _data
     private val _data = MutableLiveData<List<DynamicItem>>()
+
+    internal val contentFilteredUpdated: LiveData<Unit>
+        get() = contentFilter.contentFilteredUpdated
 
     val errorToast: LiveData<CommentError?>
         get() = _errorToast
@@ -58,8 +63,11 @@ class CommentsViewModel @Inject constructor(
                 } else {
                     commentsResponse.items
                 }
-                finalComments.map {
-                    CommentItem(it) { commentId, upvoteValue ->
+                with(contentFilter) { finalComments.applyCommentFilter() }.map {
+                    CommentItem(
+                        comment = it,
+                        hideComment = { id -> contentFilter.addFilteredCommentId(id) },
+                    ) { commentId, upvoteValue ->
                         toggleAction(commentId = commentId, isSelected = upvoteValue)
                     }
                 } + if (isAuthenticated) {

@@ -6,6 +6,7 @@ import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.model.Sort
 import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.data.auth.AuthRepository
+import me.tylerbwong.stack.data.content.ContentFilter
 import me.tylerbwong.stack.data.persistence.dao.AnswerDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
@@ -21,10 +22,11 @@ class QuestionRepository @Inject constructor(
     private val questionDao: QuestionDao,
     private val userDao: UserDao,
     private val answerDao: AnswerDao,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val contentFilter: ContentFilter,
 ) {
     suspend fun getQuestions(@Sort sort: String): List<Question> {
-        return getQuestionsFromNetwork(sort)
+        return with(contentFilter) { getQuestionsFromNetwork(sort).applyQuestionFilter() }
     }
 
     // TODO Enable Offline
@@ -65,11 +67,13 @@ class QuestionRepository @Inject constructor(
 //        } else {
 //            safeCall { questionService.getQuestionAnswers(questionId) }
 //        }.sortedBy { !it.isAccepted }
-        return if (authRepository.isAuthenticated) {
-            safeCall { questionService.getQuestionAnswersAuth(questionId) }
-        } else {
-            safeCall { questionService.getQuestionAnswers(questionId) }
-        }.sortedBy { !it.isAccepted }
+        return with(contentFilter) {
+            if (authRepository.isAuthenticated) {
+                safeCall { questionService.getQuestionAnswersAuth(questionId) }
+            } else {
+                safeCall { questionService.getQuestionAnswers(questionId) }
+            }.sortedBy { !it.isAccepted }.applyAnswerFilter()
+        }
     }
 
     // TODO Enable Offline
@@ -84,7 +88,7 @@ class QuestionRepository @Inject constructor(
 //                    )
 //                }
 //        }
-        return questionService.getBookmarks().items
+        return with(contentFilter) { questionService.getBookmarks().items.applyQuestionFilter() }
     }
 
     // TODO Enable Offline

@@ -42,30 +42,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/flag"
+        app:layout_constraintEnd_toStartOf="@id/moreOptions"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/commentBody" />
-
-    <ImageView
-        android:id="@+id/flag"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/question_detail_action_item_bg"
-        android:clickable="true"
-        android:contentDescription="@string/flag"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="@id/ownerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/upvote"
-        app:layout_constraintTop_toBottomOf="@id/commentedDate"
-        app:srcCompat="@drawable/ic_baseline_flag" />
 
     <TextView
         android:id="@+id/upvote"
         style="@style/TextAppearance.Material3.LabelMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/question_detail_action_item_bg"
         android:clickable="true"
         android:focusable="true"
@@ -73,8 +59,19 @@
         android:visibility="gone"
         app:drawableTopCompat="@drawable/ic_arrow_upward"
         app:layout_constraintBottom_toBottomOf="@id/ownerView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/moreOptions"
         tools:text="25k"
         tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/moreOptions"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:background="@drawable/question_detail_action_item_bg"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="@id/ownerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_more_vert" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

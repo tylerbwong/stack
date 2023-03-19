@@ -20,6 +20,7 @@ import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.api.utils.ERROR_ID_INVALID_ACCESS_TOKEN
 import me.tylerbwong.stack.api.utils.toErrorResponse
 import me.tylerbwong.stack.data.auth.AuthRepository
+import me.tylerbwong.stack.data.content.ContentFilter
 import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.data.repository.SiteRepository
 import me.tylerbwong.stack.markdown.Markdown
@@ -41,6 +42,7 @@ class QuestionDetailMainViewModel @Inject constructor(
     private val questionService: QuestionService,
     private val answerService: AnswerService,
     private val markdown: Markdown,
+    private val contentFilter: ContentFilter,
 ) : BaseViewModel(), PostActionHandler {
 
     internal val data: LiveData<List<QuestionDetailItem>>
@@ -85,6 +87,9 @@ class QuestionDetailMainViewModel @Inject constructor(
     internal val site: LiveData<Site>
         get() = _site
     private val _site = MutableLiveData<Site>()
+
+    internal val contentFilteredUpdated: LiveData<Unit>
+        get() = contentFilter.contentFilteredUpdated
 
     internal val canAnswerQuestion = authRepository.isAuthenticatedLiveData.zipWith(
         data,
@@ -175,6 +180,7 @@ class QuestionDetailMainViewModel @Inject constructor(
                                         isDownvoted = answer.isDownvoted,
                                         upVoteCount = answer.upVoteCount,
                                         downVoteCount = answer.downVoteCount,
+                                        hideAnswer = { contentFilter.addFilteredAnswerId(it) },
                                         handler = this@QuestionDetailMainViewModel,
                                     )
                                 )
@@ -208,7 +214,7 @@ class QuestionDetailMainViewModel @Inject constructor(
                                         owner = answer.owner,
                                     )
                                 )
-                                if (index != answersResult.lastIndex) {
+                                if (index != finalAnswers.lastIndex) {
                                     add(DividerItem)
                                 }
                             }
@@ -313,6 +319,8 @@ class QuestionDetailMainViewModel @Inject constructor(
             { getQuestionDetails(question = null, listOfNotNull(it)) },
         )
     }
+
+    internal fun hideQuestion() = contentFilter.addFilteredQuestionId(questionId)
 
     private fun <T> toggleAction(
         isSelected: Boolean,

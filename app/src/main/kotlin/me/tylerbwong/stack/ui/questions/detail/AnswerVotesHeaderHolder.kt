@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
@@ -14,6 +15,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.AnswerVotesHeaderHolderBinding
 import me.tylerbwong.stack.ui.flag.FlagActivity
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import me.tylerbwong.stack.ui.utils.showDialog
 import me.tylerbwong.stack.ui.utils.showLogInDialog
 
 class AnswerVotesHeaderHolder(
@@ -63,17 +65,38 @@ class AnswerVotesHeaderHolder(
                 }
             }
         }
-        flag.setThrottledOnClickListener {
-            if (isAuthenticated) {
-                val intent = FlagActivity.makeIntent(
-                    context = itemView.context,
-                    postId = item.id,
-                    postType = 1,
-                )
-                itemView.context.startActivity(intent)
-            } else {
-                itemView.context.showLogInDialog(alternateLogInMessage = R.string.log_in_message_flag)
+        moreOptions.setThrottledOnClickListener {
+            val popup = PopupMenu(it.context, it)
+            popup.setOnMenuItemClickListener { menuItem ->
+                return@setOnMenuItemClickListener when (menuItem.itemId) {
+                    R.id.hide -> {
+                        it.context.showDialog {
+                            setIcon(R.drawable.ic_baseline_visibility_off)
+                            setTitle(R.string.hide_answer)
+                            setMessage(R.string.hide_answer_message)
+                            setPositiveButton(R.string.hide) { _, _ -> item.hideAnswer(item.id) }
+                            setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                        }
+                        true
+                    }
+                    R.id.flag -> {
+                        if (isAuthenticated) {
+                            val intent = FlagActivity.makeIntent(
+                                context = itemView.context,
+                                postId = item.id,
+                                postType = 1,
+                            )
+                            itemView.context.startActivity(intent)
+                        } else {
+                            itemView.context.showLogInDialog(alternateLogInMessage = R.string.log_in_message_flag)
+                        }
+                        true
+                    }
+                    else -> false
+                }
             }
+            popup.menuInflater.inflate(R.menu.menu_content_filter, popup.menu)
+            popup.show()
         }
     }
 

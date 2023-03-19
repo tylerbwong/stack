@@ -48,6 +48,9 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
             adapter.submitList(null)
             viewModel.fetchQuestions()
         }
+        viewModel.contentFilterUpdated.observe(viewLifecycleOwner) {
+            viewModel.fetchQuestions()
+        }
         viewModel.refreshing.observe(viewLifecycleOwner) {
             binding.refreshLayout.isRefreshing = it
         }

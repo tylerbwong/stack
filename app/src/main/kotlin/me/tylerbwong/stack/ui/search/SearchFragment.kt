@@ -73,6 +73,10 @@ class SearchFragment : BaseFragment<HomeFragmentBinding>(
             }
         }
 
+        viewModel.contentFilteredUpdated.observe(viewLifecycleOwner) {
+            viewModel.search()
+        }
+
         viewModel.siteLiveData.observe(viewLifecycleOwner) {
             adapter.submitList(null)
             viewModel.search(SearchPayload.empty())

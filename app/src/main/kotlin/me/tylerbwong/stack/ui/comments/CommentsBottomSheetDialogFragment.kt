@@ -45,6 +45,9 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
             layoutManager = LinearLayoutManager(context)
         }
         binding.header.title.text = getString(R.string.comments)
+        viewModel.contentFilteredUpdated.observe(viewLifecycleOwner) {
+            viewModel.fetchComments()
+        }
         viewModel.refreshing.observe(viewLifecycleOwner) { isRefreshing ->
             if (isRefreshing) {
                 binding.loadingIndicator.show()

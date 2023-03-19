@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.ActivityProfileBinding
 import me.tylerbwong.stack.ui.BaseActivity
+import me.tylerbwong.stack.ui.utils.showDialog
 import me.tylerbwong.stack.ui.utils.showSnackbar
 import me.tylerbwong.stack.ui.utils.toHtml
 
@@ -35,6 +36,10 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
             } else {
                 snackbar?.dismiss()
             }
+        }
+
+        viewModel.contentFilterUpdated.observe(this) {
+            viewModel.fetchProfileData()
         }
 
         viewModel.userData.observe(this) {
@@ -78,6 +83,18 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
                 userId = viewModel.userId ?: -1
             )
             R.id.share -> viewModel.startShareIntent(this)
+            R.id.hide -> {
+                showDialog {
+                    setIcon(R.drawable.ic_baseline_visibility_off)
+                    setTitle(R.string.hide_user)
+                    setMessage(R.string.hide_user_message)
+                    setPositiveButton(R.string.hide) { _, _ ->
+                        viewModel.hideUser()
+                        finish()
+                    }
+                    setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }

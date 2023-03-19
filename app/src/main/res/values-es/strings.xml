@@ -242,4 +242,16 @@
     <string name="shortcut_ask_question_long_label">Hacer una pregunta</string>
     <string name="shortcut_search_short_label">Buscar</string>
     <string name="shortcut_search_long_label">Buscar</string>
+
+    <!-- Content Filter -->
+    <string name="hide">Esconder</string>
+    <string name="hide_post_hidden">Esta publicación se ha ocultado globalmente. Esto se puede deshacer en la configuración.</string>
+    <string name="hide_question">Ocultar pregunta</string>
+    <string name="hide_question_message">Oculte esta pregunta globalmente. Esto se puede revertir en la configuración.</string>
+    <string name="hide_answer">Ocultar respuesta</string>
+    <string name="hide_answer_message">Oculte esta respuesta globalmente. Esto se puede revertir en la configuración.</string>
+    <string name="hide_comment">Ocultar comentario</string>
+    <string name="hide_comment_message">Ocultar este comentario globalmente. Esto se puede revertir en la configuración.</string>
+    <string name="hide_user">Ocultar usuario</string>
+    <string name="hide_user_message">Oculte este usuario y todo el contenido asociado globalmente. Esto se puede revertir en la configuración.</string>
 </resources>

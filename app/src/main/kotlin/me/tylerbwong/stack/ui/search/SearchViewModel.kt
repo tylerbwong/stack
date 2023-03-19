@@ -6,6 +6,7 @@ import me.tylerbwong.stack.api.model.ACTIVITY
 import me.tylerbwong.stack.api.model.Sort
 import me.tylerbwong.stack.api.service.SearchService
 import me.tylerbwong.stack.api.service.TagService
+import me.tylerbwong.stack.data.content.ContentFilter
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import me.tylerbwong.stack.data.persistence.entity.SearchEntity
@@ -20,7 +21,8 @@ class SearchViewModel @Inject constructor(
     private val tagService: TagService,
     private val searchService: SearchService,
     private val searchDao: SearchDao,
-    private val siteStore: SiteStore
+    private val siteStore: SiteStore,
+    private val contentFilter: ContentFilter,
 ) : BaseViewModel() {
 
     internal val emptySearchData: LiveData<EmptySearchData>
@@ -33,6 +35,9 @@ class SearchViewModel @Inject constructor(
 
     internal val siteLiveData: LiveData<String>
         get() = siteStore.siteLiveData
+
+    internal val contentFilteredUpdated: LiveData<Unit>
+        get() = contentFilter.contentFilteredUpdated
 
     internal var searchPayload = SearchPayload.empty()
     @Sort
@@ -58,16 +63,18 @@ class SearchViewModel @Inject constructor(
                         site = siteStore.site
                     )
                 )
-                val result = searchService.search(
-                    query = searchPayload.query,
-                    isAccepted = searchPayload.isAccepted,
-                    minNumAnswers = searchPayload.minNumAnswers,
-                    bodyContains = searchPayload.bodyContains,
-                    isClosed = searchPayload.isClosed,
-                    tags = searchPayload.tags?.joinToString(";"),
-                    titleContains = searchPayload.titleContains,
-                    sort = sort
-                ).items
+                val result = with(contentFilter) {
+                    searchService.search(
+                        query = searchPayload.query,
+                        isAccepted = searchPayload.isAccepted,
+                        minNumAnswers = searchPayload.minNumAnswers,
+                        bodyContains = searchPayload.bodyContains,
+                        isClosed = searchPayload.isClosed,
+                        tags = searchPayload.tags?.joinToString(";"),
+                        titleContains = searchPayload.titleContains,
+                        sort = sort
+                    ).items.applyQuestionFilter()
+                }
                 if (result.isEmpty()) {
                     fetchEmptySearchData(sort)
                 } else {

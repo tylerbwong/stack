@@ -72,6 +72,7 @@ data class AnswerVotesHeaderItem(
     internal val isDownvoted: Boolean?,
     internal val upVoteCount: Int,
     internal val downVoteCount: Int,
+    internal val hideAnswer: (Int) -> Unit,
     internal val handler: PostActionHandler,
 ) : QuestionDetailItem(::AnswerVotesHeaderHolder)
 

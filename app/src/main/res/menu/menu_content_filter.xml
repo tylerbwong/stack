@@ -2,22 +2,6 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item
-        android:id="@+id/linked"
-        android:title="@string/linked"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/related"
-        android:title="@string/related"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/open_browser"
-        android:title="@string/open_browser"
-        app:showAsAction="never" />
-
     <item
         android:id="@+id/hide"
         android:title="@string/hide"

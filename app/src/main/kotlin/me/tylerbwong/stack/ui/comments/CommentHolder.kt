@@ -2,6 +2,7 @@ package me.tylerbwong.stack.ui.comments
 
 import android.text.TextWatcher
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DiffUtil
@@ -18,6 +19,7 @@ import me.tylerbwong.stack.ui.utils.formatElapsedTime
 import me.tylerbwong.stack.ui.utils.noCopySpannableFactory
 import me.tylerbwong.stack.ui.utils.renderSelectedState
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
+import me.tylerbwong.stack.ui.utils.showDialog
 import me.tylerbwong.stack.ui.utils.showLogInDialog
 
 object CommentItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
@@ -46,6 +48,7 @@ object CommentItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
 
 class CommentItem(
     internal val comment: Comment,
+    internal val hideComment: (Int) -> Unit,
     internal val upvoteToggle: (Int, Boolean) -> Unit,
 ) : DynamicItem(::CommentHolder)
 
@@ -93,19 +96,44 @@ class CommentHolder(
                 }
             }
         }
-        flag.setThrottledOnClickListener {
-            if (showAuthContent) {
-                if (commentId != null) {
-                    val intent = FlagActivity.makeIntent(
-                        context = itemView.context,
-                        postId = commentId,
-                        postType = 2,
-                    )
-                    itemView.context.startActivity(intent)
+        moreOptions.setThrottledOnClickListener {
+            val popup = PopupMenu(it.context, it)
+            popup.setOnMenuItemClickListener { menuItem ->
+                return@setOnMenuItemClickListener when (menuItem.itemId) {
+                    R.id.hide -> {
+                        it.context.showDialog {
+                            setIcon(R.drawable.ic_baseline_visibility_off)
+                            setTitle(R.string.hide_comment)
+                            setMessage(R.string.hide_comment_message)
+                            setPositiveButton(R.string.hide) { _, _ ->
+                                if (commentId != null) {
+                                    item.hideComment(commentId)
+                                }
+                            }
+                            setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                        }
+                        true
+                    }
+                    R.id.flag -> {
+                        if (showAuthContent) {
+                            if (commentId != null) {
+                                val intent = FlagActivity.makeIntent(
+                                    context = itemView.context,
+                                    postId = commentId,
+                                    postType = 2,
+                                )
+                                itemView.context.startActivity(intent)
+                            }
+                        } else {
+                            itemView.context.showLogInDialog(alternateLogInMessage = R.string.log_in_message_flag)
+                        }
+                        true
+                    }
+                    else -> false
                 }
-            } else {
-                itemView.context.showLogInDialog(alternateLogInMessage = R.string.log_in_message_flag)
             }
+            popup.menuInflater.inflate(R.menu.menu_content_filter, popup.menu)
+            popup.show()
         }
     }
 }

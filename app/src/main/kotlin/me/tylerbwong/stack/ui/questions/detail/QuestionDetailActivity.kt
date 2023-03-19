@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.content.ContentFilter
 import me.tylerbwong.stack.data.reviewer.AppReviewer
 import me.tylerbwong.stack.databinding.ActivityQuestionDetailBinding
 import me.tylerbwong.stack.ui.BaseActivity
@@ -27,6 +29,9 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
     override val isDefaultBackBehaviorEnabled = false
 
     @Inject
+    lateinit var contentFilter: ContentFilter
+
+    @Inject
     lateinit var appReviewer: AppReviewer
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +40,10 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
 
         if (viewModel.questionId == -1) {
             viewModel.questionId = intent.getIntExtra(QUESTION_ID, -1)
+            if (viewModel.questionId in contentFilter.filteredQuestionIds) {
+                Toast.makeText(this, R.string.hide_post_hidden, Toast.LENGTH_LONG).show()
+                finish()
+            }
         }
 
         if (viewModel.answerId == -1) {

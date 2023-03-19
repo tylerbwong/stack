@@ -9,6 +9,7 @@ import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.api.service.UserService
+import me.tylerbwong.stack.data.content.ContentFilter
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.home.AnswerItem
 import me.tylerbwong.stack.ui.home.QuestionItem
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val service: UserService
+    private val service: UserService,
+    private val contentFilter: ContentFilter,
 ) : BaseViewModel() {
 
     internal var userId: Int? = null
@@ -33,6 +35,9 @@ class ProfileViewModel @Inject constructor(
         get() = _data
     private val _data = MutableLiveData<List<DynamicItem>>()
 
+    internal val contentFilterUpdated: LiveData<Unit>
+        get() = contentFilter.contentFilteredUpdated
+
     internal fun fetchUserData() {
         launchRequest {
             user = service.getUser(userId).items.firstOrNull()?.also { _userData.value = it }
@@ -42,8 +47,12 @@ class ProfileViewModel @Inject constructor(
     internal fun fetchProfileData(page: ProfilePage = currentPage) {
         launchRequest {
             _data.value = when (page) {
-                ProfilePage.QUESTIONS -> service.getQuestionsByUserId(userId).items.map { QuestionItem(it) }
-                ProfilePage.ANSWERS -> service.getAnswersByUserId(userId).items.map { AnswerItem(it) }
+                ProfilePage.QUESTIONS -> with(contentFilter) {
+                    service.getQuestionsByUserId(userId).items.applyQuestionFilter()
+                }.map { QuestionItem(it) }
+                ProfilePage.ANSWERS -> with(contentFilter) {
+                    service.getAnswersByUserId(userId).items.applyAnswerFilter()
+                }.map { AnswerItem(it) }
 //                ProfilePage.ACTIVITY -> service.getUserTimeline(userId).items.mapNotNull {
 //                    when (it.timelineType) {
 //                        "accepted" -> AcceptedItem(it)
@@ -69,6 +78,12 @@ class ProfileViewModel @Inject constructor(
                 putExtra(Intent.EXTRA_TEXT, it.link)
             }
             context.startActivity(Intent.createChooser(intent, context.getString(R.string.share)))
+        }
+    }
+
+    internal fun hideUser() {
+        userId?.let {
+            contentFilter.addFilteredUserId(it)
         }
     }
 

@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import me.tylerbwong.stack.api.model.CREATION
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Sort
+import me.tylerbwong.stack.data.content.ContentFilter
 import me.tylerbwong.stack.data.repository.QuestionRepository
 import me.tylerbwong.stack.data.repository.SiteRepository
 import me.tylerbwong.stack.ui.BaseViewModel
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 internal class HomeViewModel @Inject constructor(
     private val repository: QuestionRepository,
-    private val siteRepository: SiteRepository
+    private val siteRepository: SiteRepository,
+    private val contentFilter: ContentFilter,
 ) : BaseViewModel() {
 
     internal val questions: LiveData<List<Question>>
@@ -23,6 +25,9 @@ internal class HomeViewModel @Inject constructor(
 
     internal val siteLiveData: LiveData<String>
         get() = siteRepository.siteLiveData
+
+    internal val contentFilterUpdated: LiveData<Unit>
+        get() = contentFilter.contentFilteredUpdated
 
     @Sort
     internal var currentSort: String = CREATION

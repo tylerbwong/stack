@@ -34,21 +34,6 @@
         tools:text="1234 Votes" />
 
     <ImageView
-        android:id="@+id/flag"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/question_detail_action_item_bg"
-        android:clickable="true"
-        android:contentDescription="@string/flag"
-        android:focusable="true"
-        android:src="@drawable/ic_baseline_flag"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/upvote"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
         android:id="@+id/upvote"
         android:layout_width="24dp"
         android:layout_height="24dp"
@@ -72,6 +57,21 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_arrow_downward"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/moreOptions"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/moreOptions"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/question_detail_action_item_bg"
+        android:clickable="true"
+        android:contentDescription="@string/flag"
+        android:focusable="true"
+        android:src="@drawable/ic_more_vert"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

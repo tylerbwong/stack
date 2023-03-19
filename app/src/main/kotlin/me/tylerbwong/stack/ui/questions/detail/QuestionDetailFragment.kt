@@ -46,7 +46,9 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
     @Suppress("LongMethod")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.contentFilteredUpdated.observe(viewLifecycleOwner) {
+            viewModel.getQuestionDetails()
+        }
         viewModel.refreshing.observe(viewLifecycleOwner) {
             binding.refreshLayout.isRefreshing = it
         }
@@ -161,6 +163,18 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
             )
             R.id.open_browser -> viewModel.question?.shareLink?.let {
                 requireContext().launchUrl(it, forceExternal = true)
+            }
+            R.id.hide -> {
+                requireContext().showDialog {
+                    setIcon(R.drawable.ic_baseline_visibility_off)
+                    setTitle(R.string.hide_question)
+                    setMessage(R.string.hide_question_message)
+                    setPositiveButton(R.string.hide) { _, _ ->
+                        viewModel.hideQuestion()
+                        requireActivity().finish()
+                    }
+                    setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                }
             }
             R.id.flag -> {
                 if (viewModel.isAuthenticated) {
