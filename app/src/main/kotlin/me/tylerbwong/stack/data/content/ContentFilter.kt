@@ -71,24 +71,24 @@ class ContentFilter @Inject constructor(
         val questionIds = filteredQuestionIds
         val userIds = filteredUserIds
         return this
-//            .filter { it.questionId !in questionIds }
-//            .filter { it.owner.userId !in userIds }
+            .filter { it.questionId !in questionIds }
+            .filter { it.owner.userId !in userIds }
     }
 
     fun List<Answer>.applyAnswerFilter(): List<Answer> {
         val answerIds = filteredAnswerIds
         val userIds = filteredUserIds
         return this
-//            .filter { it.answerId !in answerIds }
-//            .filter { it.owner.userId !in userIds }
+            .filter { it.answerId !in answerIds }
+            .filter { it.owner.userId !in userIds }
     }
 
     fun List<Comment>.applyCommentFilter(): List<Comment> {
         val commentIds = filteredCommentIds
         val userIds = filteredUserIds
         return this
-//            .filter { it.commentId !in commentIds }
-//            .filter { it.owner.userId !in userIds }
+            .filter { it.commentId !in commentIds }
+            .filter { it.owner.userId !in userIds }
     }
 
     private fun getFilteredContent(key: String): Set<Int> {

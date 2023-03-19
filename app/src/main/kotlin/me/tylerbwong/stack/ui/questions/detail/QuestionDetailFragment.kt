@@ -46,9 +46,6 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
     @Suppress("LongMethod")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.contentFilteredUpdated.observe(viewLifecycleOwner) {
-            viewModel.getQuestionDetails()
-        }
         viewModel.refreshing.observe(viewLifecycleOwner) {
             binding.refreshLayout.isRefreshing = it
         }

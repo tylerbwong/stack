@@ -88,9 +88,6 @@ class QuestionDetailMainViewModel @Inject constructor(
         get() = _site
     private val _site = MutableLiveData<Site>()
 
-    internal val contentFilteredUpdated: LiveData<Unit>
-        get() = contentFilter.contentFilteredUpdated
-
     internal val canAnswerQuestion = authRepository.isAuthenticatedLiveData.zipWith(
         data,
         initialValue = false
@@ -109,6 +106,7 @@ class QuestionDetailMainViewModel @Inject constructor(
     internal fun getQuestionDetails(
         question: Question? = null,
         answers: List<Answer> = emptyList(),
+        removeAnswers: List<Answer> = emptyList(),
     ) {
         launchRequest {
             val questionResult = question ?: questionRepository.getQuestion(questionId)
@@ -180,7 +178,10 @@ class QuestionDetailMainViewModel @Inject constructor(
                                         isDownvoted = answer.isDownvoted,
                                         upVoteCount = answer.upVoteCount,
                                         downVoteCount = answer.downVoteCount,
-                                        hideAnswer = { contentFilter.addFilteredAnswerId(it) },
+                                        hideAnswer = {
+                                            contentFilter.addFilteredAnswerId(it)
+                                            getQuestionDetails(question = null, removeAnswers = listOf(answer))
+                                        },
                                         handler = this@QuestionDetailMainViewModel,
                                     )
                                 )
@@ -190,14 +191,16 @@ class QuestionDetailMainViewModel @Inject constructor(
                                             item.render(markdown)
                                             item.onLongPress = {
                                                 viewModelScope.launch {
-                                                    val copyData = withContext(Dispatchers.Default) {
-                                                        CopyData(
-                                                            titleText = null,
-                                                            bodyText = markdown.render(answer.bodyMarkdown).toString(),
-                                                            bodyMarkdown = answer.bodyMarkdown,
-                                                            linkText = answer.shareLink,
-                                                        )
-                                                    }
+                                                    val copyData =
+                                                        withContext(Dispatchers.Default) {
+                                                            CopyData(
+                                                                titleText = null,
+                                                                bodyText = markdown.render(answer.bodyMarkdown)
+                                                                    .toString(),
+                                                                bodyMarkdown = answer.bodyMarkdown,
+                                                                linkText = answer.shareLink,
+                                                            )
+                                                        }
                                                     _showCopyDialog.value = copyData
                                                 }
                                             }
