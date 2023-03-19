@@ -7,10 +7,12 @@ import me.tylerbwong.stack.api.model.Response
 import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.data.auth.AuthRepository
+import me.tylerbwong.stack.data.content.ContentFilter
 import me.tylerbwong.stack.data.persistence.dao.AnswerDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
 import me.tylerbwong.stack.data.persistence.entity.QuestionEntity
+import me.tylerbwong.stack.data.site.SiteStore
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Ignore
@@ -39,6 +41,9 @@ class QuestionRepositoryTest : BaseTest() {
     @Mock
     private lateinit var authRepository: AuthRepository
 
+    @Mock
+    private lateinit var siteStore: SiteStore
+
     private lateinit var repository: QuestionRepository
 
     @Before
@@ -48,7 +53,8 @@ class QuestionRepositoryTest : BaseTest() {
             questionDao,
             userDao,
             answerDao,
-            authRepository
+            authRepository,
+            ContentFilter(siteStore, testSharedPreferences),
         )
     }
 
