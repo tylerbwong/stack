@@ -66,7 +66,10 @@ class CommentsViewModel @Inject constructor(
                 with(contentFilter) { finalComments.applyCommentFilter() }.map {
                     CommentItem(
                         comment = it,
-                        hideComment = { id -> contentFilter.addFilteredCommentId(id) },
+                        hideComment = { id ->
+                            contentFilter.addFilteredCommentId(id)
+                            fetchComments()
+                        },
                     ) { commentId, upvoteValue ->
                         toggleAction(commentId = commentId, isSelected = upvoteValue)
                     }

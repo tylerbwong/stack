@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -19,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.data.content.ContentFilter
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.settings.donation.DonationActivity
@@ -46,6 +48,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var experimental: Experimental
+
+    @Inject
+    lateinit var contentFilter: ContentFilter
 
     private val viewModel by viewModels<SettingsViewModel>()
     private val donationViewModel by viewModels<DonationViewModel>()
@@ -81,6 +86,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         context.startActivity(intent)
                         true
                     }
+                }
+            }
+
+            findPreference<Preference>(getString(R.string.content_filters_clear))?.apply {
+                setOnPreferenceClickListener {
+                    contentFilter.clearAllFilters()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.content_filters_cleared,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    true
                 }
             }
 

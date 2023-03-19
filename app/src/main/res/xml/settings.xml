@@ -45,6 +45,17 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="@string/content_filters"
+        android:layout="@layout/preference_category_layout"
+        android:title="@string/content_filters">
+
+        <Preference
+            android:icon="@drawable/ic_baseline_filter_list"
+            android:key="@string/content_filters_clear"
+            android:title="@string/content_filters_clear" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:layout="@layout/preference_category_layout"
         android:title="@string/app">
         <Preference

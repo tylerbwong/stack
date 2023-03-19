@@ -257,14 +257,17 @@
     <string name="shortcut_search_long_label">Search</string>
 
     <!-- Content Filter -->
+    <string name="content_filters">Content filters</string>
+    <string name="content_filters_clear">Clear all content filters</string>
+    <string name="content_filters_cleared">Cleared content filters</string>
     <string name="hide">Hide</string>
-    <string name="hide_post_hidden">This post has been hidden globally. This can be undone in settings.</string>
+    <string name="hide_post_hidden">This post has been hidden globally.</string>
     <string name="hide_question">Hide question</string>
-    <string name="hide_question_message">Hide this question globally. This can be reverted in settings.</string>
+    <string name="hide_question_message">Hide this question globally. If there is an issue with this question, please flag it first.</string>
     <string name="hide_answer">Hide answer</string>
-    <string name="hide_answer_message">Hide this answer globally. This can be reverted in settings.</string>
+    <string name="hide_answer_message">Hide this answer globally. If there is an issue with this answer, please flag it first.</string>
     <string name="hide_comment">Hide comment</string>
-    <string name="hide_comment_message">Hide this comment globally. This can be reverted in settings.</string>
+    <string name="hide_comment_message">Hide this comment globally. If there is an issue with this comment, please flag it first.</string>
     <string name="hide_user">Hide user</string>
-    <string name="hide_user_message">Hide this user and all associated content globally. This can be reverted in settings.</string>
+    <string name="hide_user_message">Hide this user and all associated content globally. If there is an issue with a specific post, please flag it first.</string>
 </resources>

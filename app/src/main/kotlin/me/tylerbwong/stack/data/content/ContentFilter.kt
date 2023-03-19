@@ -67,6 +67,13 @@ class ContentFilter @Inject constructor(
         clearFilteredContent(USER_ID_CONTENT_FILTER)
     }
 
+    fun clearAllFilters() {
+        clearFilteredQuestionIds()
+        clearFilteredAnswerIds()
+        clearFilteredCommentIds()
+        clearFilteredUserIds()
+    }
+
     fun List<Question>.applyQuestionFilter(): List<Question> {
         val questionIds = filteredQuestionIds
         val userIds = filteredUserIds

@@ -106,7 +106,6 @@ class QuestionDetailMainViewModel @Inject constructor(
     internal fun getQuestionDetails(
         question: Question? = null,
         answers: List<Answer> = emptyList(),
-        removeAnswers: List<Answer> = emptyList(),
     ) {
         launchRequest {
             val questionResult = question ?: questionRepository.getQuestion(questionId)
@@ -180,7 +179,7 @@ class QuestionDetailMainViewModel @Inject constructor(
                                         downVoteCount = answer.downVoteCount,
                                         hideAnswer = {
                                             contentFilter.addFilteredAnswerId(it)
-                                            getQuestionDetails(question = null, removeAnswers = listOf(answer))
+                                            getQuestionDetails()
                                         },
                                         handler = this@QuestionDetailMainViewModel,
                                     )
