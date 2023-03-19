@@ -40,10 +40,7 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
 
         if (viewModel.questionId == -1) {
             viewModel.questionId = intent.getIntExtra(QUESTION_ID, -1)
-            if (viewModel.questionId in contentFilter.filteredQuestionIds) {
-                Toast.makeText(this, R.string.hide_post_hidden, Toast.LENGTH_LONG).show()
-                finish()
-            }
+            checkContentFilter()
         }
 
         if (viewModel.answerId == -1) {
@@ -102,6 +99,11 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
                 }
             }
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkContentFilter()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -167,6 +169,15 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
         binding.postAnswerButton.show()
     } else {
         binding.postAnswerButton.hide()
+    }
+
+    private fun checkContentFilter() {
+        val isQuestionIdHidden = viewModel.questionId in contentFilter.filteredQuestionIds
+        val isUserIdHidden = viewModel.question?.owner?.userId in contentFilter.filteredUserIds
+        if (isQuestionIdHidden || isUserIdHidden) {
+            Toast.makeText(this, R.string.hide_post_hidden, Toast.LENGTH_LONG).show()
+            finish()
+        }
     }
 
     companion object {

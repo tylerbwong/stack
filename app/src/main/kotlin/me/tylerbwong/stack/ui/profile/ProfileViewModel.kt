@@ -35,7 +35,7 @@ class ProfileViewModel @Inject constructor(
         get() = _data
     private val _data = MutableLiveData<List<DynamicItem>>()
 
-    internal val contentFilterUpdated: LiveData<Unit>
+    internal val contentFilterUpdated: LiveData<ContentFilter.ContentFilterData>
         get() = contentFilter.contentFilteredUpdated
 
     internal fun fetchUserData() {

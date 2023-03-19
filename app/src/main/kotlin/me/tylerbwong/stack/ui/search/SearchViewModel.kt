@@ -36,7 +36,7 @@ class SearchViewModel @Inject constructor(
     internal val siteLiveData: LiveData<String>
         get() = siteStore.siteLiveData
 
-    internal val contentFilteredUpdated: LiveData<Unit>
+    internal val contentFilteredUpdated: LiveData<ContentFilter.ContentFilterData>
         get() = contentFilter.contentFilteredUpdated
 
     internal var searchPayload = SearchPayload.empty()

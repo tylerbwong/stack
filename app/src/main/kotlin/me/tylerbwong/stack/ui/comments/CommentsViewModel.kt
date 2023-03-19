@@ -31,7 +31,7 @@ class CommentsViewModel @Inject constructor(
         get() = _data
     private val _data = MutableLiveData<List<DynamicItem>>()
 
-    internal val contentFilteredUpdated: LiveData<Unit>
+    internal val contentFilteredUpdated: LiveData<ContentFilter.ContentFilterData>
         get() = contentFilter.contentFilteredUpdated
 
     val errorToast: LiveData<CommentError?>

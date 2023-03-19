@@ -36,6 +36,11 @@ class ProfilePageFragment : BaseFragment<ProfilePageFragmentBinding>(
         viewModel.refreshing.observe(viewLifecycleOwner) {
             binding.refreshLayout.isRefreshing = it
         }
+        viewModel.contentFilterUpdated.observe(viewLifecycleOwner) {
+            if (viewModel.userId !in it.filteredUserIds) {
+                viewModel.fetchProfileData()
+            }
+        }
         viewModel.data.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }

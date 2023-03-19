@@ -26,7 +26,7 @@ internal class HomeViewModel @Inject constructor(
     internal val siteLiveData: LiveData<String>
         get() = siteRepository.siteLiveData
 
-    internal val contentFilterUpdated: LiveData<Unit>
+    internal val contentFilterUpdated: LiveData<ContentFilter.ContentFilterData>
         get() = contentFilter.contentFilteredUpdated
 
     @Sort

@@ -38,10 +38,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
             }
         }
 
-        viewModel.contentFilterUpdated.observe(this) {
-            viewModel.fetchProfileData()
-        }
-
         viewModel.userData.observe(this) {
             binding.toolbar.title = it.displayName.toHtml()
             binding.profileHeader.setContent {

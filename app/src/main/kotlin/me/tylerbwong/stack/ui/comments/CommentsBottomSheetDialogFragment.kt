@@ -45,8 +45,23 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
             layoutManager = LinearLayoutManager(context)
         }
         binding.header.title.text = getString(R.string.comments)
-        viewModel.contentFilteredUpdated.observe(viewLifecycleOwner) {
-            viewModel.fetchComments()
+        viewModel.contentFilteredUpdated.observe(viewLifecycleOwner) { filterData ->
+            if (filterData.isEmpty) {
+                viewModel.fetchComments()
+            } else {
+                viewModel.data.value?.let {
+                    adapter.submitList(
+                        it.filter { item ->
+                            if (item is CommentItem) {
+                                item.comment.commentId !in filterData.filteredCommentIds &&
+                                        item.comment.owner.userId !in filterData.filteredUserIds
+                            } else {
+                                true
+                            }
+                        }
+                    )
+                }
+            }
         }
         viewModel.refreshing.observe(viewLifecycleOwner) { isRefreshing ->
             if (isRefreshing) {

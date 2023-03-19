@@ -19,9 +19,9 @@ class ContentFilter @Inject constructor(
     private val siteStore: SiteStore,
     @StackSharedPreferences private val preferences: SharedPreferences,
 ) {
-    val contentFilteredUpdated: LiveData<Unit>
+    val contentFilteredUpdated: LiveData<ContentFilterData>
         get() = _contentFilterUpdated
-    private val _contentFilterUpdated = MutableLiveData<Unit>()
+    private val _contentFilterUpdated = MutableLiveData<ContentFilterData>()
 
     val filteredQuestionIds: Set<Int>
         get() = getFilteredContent(QUESTION_ID_CONTENT_FILTER)
@@ -117,7 +117,12 @@ class ContentFilter @Inject constructor(
             preferences.edit()
                 .putStringSet(key, (currentIds + id).map { "${it},${siteStore.site}" }.toSet())
                 .apply()
-            _contentFilterUpdated.value = Unit
+            _contentFilterUpdated.value = ContentFilterData(
+                filteredQuestionIds = filteredQuestionIds,
+                filteredAnswerIds = filteredAnswerIds,
+                filteredCommentIds = filteredCommentIds,
+                filteredUserIds = filteredUserIds,
+            )
         }
     }
 
@@ -125,7 +130,27 @@ class ContentFilter @Inject constructor(
         preferences.edit()
             .putStringSet(key, emptySet())
             .apply()
-        _contentFilterUpdated.value = Unit
+        _contentFilterUpdated.value = ContentFilterData(
+            filteredQuestionIds = filteredQuestionIds,
+            filteredAnswerIds = filteredAnswerIds,
+            filteredCommentIds = filteredCommentIds,
+            filteredUserIds = filteredUserIds,
+        )
+    }
+
+    data class ContentFilterData(
+        val filteredQuestionIds: Set<Int>,
+        val filteredAnswerIds: Set<Int>,
+        val filteredCommentIds: Set<Int>,
+        val filteredUserIds: Set<Int>,
+    ) {
+        val isEmpty: Boolean
+            get() = listOf(
+                filteredQuestionIds,
+                filteredAnswerIds,
+                filteredCommentIds,
+                filteredUserIds,
+            ).all { it.isEmpty() }
     }
 
     companion object {

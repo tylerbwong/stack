@@ -48,8 +48,19 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
             adapter.submitList(null)
             viewModel.fetchQuestions()
         }
-        viewModel.contentFilterUpdated.observe(viewLifecycleOwner) {
-            viewModel.fetchQuestions()
+        viewModel.contentFilterUpdated.observe(viewLifecycleOwner) { filterData ->
+            if (filterData.isEmpty) {
+                viewModel.fetchQuestions()
+            } else {
+                viewModel.questions.value?.let {
+                    updateContent(
+                        it.filter { question ->
+                            question.questionId !in filterData.filteredQuestionIds &&
+                                    question.owner.userId !in filterData.filteredUserIds
+                        }
+                    )
+                }
+            }
         }
         viewModel.refreshing.observe(viewLifecycleOwner) {
             binding.refreshLayout.isRefreshing = it
