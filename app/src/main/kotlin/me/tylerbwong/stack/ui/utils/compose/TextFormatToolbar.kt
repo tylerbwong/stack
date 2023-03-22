@@ -47,10 +47,15 @@ import me.tylerbwong.stack.R
  * This denotes all the available toolbar item options.
  * @param token The text that should be inserted. "%" represents the cursor position when inserted.
  * @param cursorPosition Precomputed token.indexOf("%").
+ * @param secondaryCursorPosition If the cursor should be placed at a position even after formatting
+ * selected text, specify it here. `textOffset` allows for making the calculation based on any text
+ * that was inserted into the token.
+ * @param canFormatSelectedText If this format option can format highlighted text
  */
 enum class ToolbarItem(
     val token: String,
     val cursorPosition: Int,
+    val secondaryCursorPosition: ((textOffset: Int) -> Int)? = null,
     val canFormatSelectedText: Boolean = true,
     internal val icon: @Composable () -> Unit,
 ) {
@@ -105,8 +110,9 @@ enum class ToolbarItem(
         }
     ),
     LINK(
-        token = "[%](url)",
+        token = "[%]()",
         cursorPosition = 1,
+        secondaryCursorPosition = { it + 3 }, // placed at 1 + x + 2 after beginning
         icon = {
             Icon(
                 imageVector = Icons.Default.Link,
@@ -284,8 +290,16 @@ fun TextFormatToolbar(
                             TextFieldValue(
                                 text = newBodyText.text,
                                 selection = if (selectionStart != selectionEnd) {
-                                    // Text was selected, put cursor after formatted text
-                                    TextRange(textBeforeSelectionLength + newTextWithFormat.length)
+                                    val secondaryCursorPosition = item.secondaryCursorPosition?.invoke(
+                                        oldTextSelection.length
+                                    )
+                                    if (secondaryCursorPosition != null) {
+                                        // This item supports placing the cursor at a secondary position
+                                        TextRange(textBeforeSelectionLength + secondaryCursorPosition)
+                                    } else {
+                                        // Text was selected, put cursor after formatted text
+                                        TextRange(textBeforeSelectionLength + newTextWithFormat.length)
+                                    }
                                 } else {
                                     // Format was inserted at cursor, put cursor at cursorPosition
                                     TextRange(textBeforeSelectionLength + item.cursorPosition)
