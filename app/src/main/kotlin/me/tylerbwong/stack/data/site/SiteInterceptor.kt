@@ -21,7 +21,9 @@ class SiteInterceptor @Inject constructor(
         val request = chain.request()
 
         // We do not want to add site to any request not going to api.stackexchange.com
-        if (!request.isBaseUrl || unsupportedEndpoints.any { it in request.url.encodedPath }) {
+        // Also do not add site to a request that already has it to respect the override
+        if (!request.isBaseUrl || unsupportedEndpoints.any { it in request.url.encodedPath } ||
+            request.url.queryParameter(SITE_PARAM) != null) {
             return chain.proceed(request)
         }
 

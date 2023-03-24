@@ -8,6 +8,7 @@ package me.tylerbwong.stack.api.di {
     method @dagger.Provides @me.tylerbwong.stack.api.di.BaseUrl public String provideBaseUrl();
     method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.CommentService provideCommentService(retrofit2.Retrofit retrofit);
     method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.FlagService provideFlagService(retrofit2.Retrofit retrofit);
+    method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.InboxService provideInboxService(retrofit2.Retrofit retrofit);
     method @dagger.Provides @javax.inject.Singleton public com.squareup.moshi.Moshi provideMoshi();
     method @dagger.Provides @dagger.multibindings.IntoSet public retrofit2.Converter.Factory provideMoshiConverterFactory(com.squareup.moshi.Moshi moshi);
     method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.QuestionService provideQuestionService(retrofit2.Retrofit retrofit);
@@ -249,6 +250,42 @@ package me.tylerbwong.stack.api.model {
     property public final Boolean? requiresSite;
     property public final java.util.List<me.tylerbwong.stack.api.model.FlagOption>? subOptions;
     property public final String? title;
+  }
+
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class InboxItem {
+    ctor public InboxItem(@com.squareup.moshi.Json(name="answer_id") Integer? answerId, @com.squareup.moshi.Json(name="body") String? body, @com.squareup.moshi.Json(name="comment_id") Integer? commentId, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="is_unread") boolean isUnread, @com.squareup.moshi.Json(name="item_type") String itemType, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="question_id") Integer? questionId, @com.squareup.moshi.Json(name="site") me.tylerbwong.stack.api.model.Site? site, @com.squareup.moshi.Json(name="title") String title);
+    method public Integer? component1();
+    method public String component10();
+    method public String? component2();
+    method public Integer? component3();
+    method public long component4();
+    method public boolean component5();
+    method public String component6();
+    method public String component7();
+    method public Integer? component8();
+    method public me.tylerbwong.stack.api.model.Site? component9();
+    method public me.tylerbwong.stack.api.model.InboxItem copy(@com.squareup.moshi.Json(name="answer_id") Integer? answerId, @com.squareup.moshi.Json(name="body") String? body, @com.squareup.moshi.Json(name="comment_id") Integer? commentId, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="is_unread") boolean isUnread, @com.squareup.moshi.Json(name="item_type") String itemType, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="question_id") Integer? questionId, @com.squareup.moshi.Json(name="site") me.tylerbwong.stack.api.model.Site? site, @com.squareup.moshi.Json(name="title") String title);
+    method public Integer? getAnswerId();
+    method public String? getBody();
+    method public Integer? getCommentId();
+    method public long getCreationDate();
+    method public String getItemType();
+    method public String getLink();
+    method public Integer? getQuestionId();
+    method public me.tylerbwong.stack.api.model.Site? getSite();
+    method public String getTitle();
+    method public boolean isUnread();
+    method public void setQuestionId(Integer?);
+    property public final Integer? answerId;
+    property public final String? body;
+    property public final Integer? commentId;
+    property public final long creationDate;
+    property public final boolean isUnread;
+    property public final String itemType;
+    property public final String link;
+    property public final Integer? questionId;
+    property public final me.tylerbwong.stack.api.model.Site? site;
+    property public final String title;
   }
 
   @com.squareup.moshi.JsonClass(generateAdapter=true) public final class NetworkPost {
@@ -631,6 +668,7 @@ package me.tylerbwong.stack.api.service {
 
   public interface AnswerService {
     method @retrofit2.http.FormUrlEncoded @retrofit2.http.POST("answers/{id}/downvote") public suspend Object? downvoteAnswerById(@retrofit2.http.Path("id") int answerId, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.PREVIEW_PARAM) boolean preview, optional kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<? extends me.tylerbwong.stack.api.model.Answer>>);
+    method @retrofit2.http.GET("answers/{id}") public suspend Object? getAnswerByIdAuth(@retrofit2.http.Path("id") int answerId, optional @me.tylerbwong.stack.api.model.Sort @retrofit2.http.Query(me.tylerbwong.stack.api.model.SortKt.SORT_PARAM) String sort, optional @me.tylerbwong.stack.api.model.Order @retrofit2.http.Query(me.tylerbwong.stack.api.model.OrderKt.ORDER_PARAM) String order, optional @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_SIZE_PARAM) int pageSize, optional @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_PARAM) int page, optional @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.SITE_PARAM) String? site, optional @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter, optional @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key, optional kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<? extends me.tylerbwong.stack.api.model.Answer>>);
     method @retrofit2.http.FormUrlEncoded @retrofit2.http.POST("answers/{id}/downvote/undo") public suspend Object? undoAnswerDownvoteById(@retrofit2.http.Path("id") int answerId, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.PREVIEW_PARAM) boolean preview, optional kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<? extends me.tylerbwong.stack.api.model.Answer>>);
     method @retrofit2.http.FormUrlEncoded @retrofit2.http.POST("answers/{id}/upvote/undo") public suspend Object? undoAnswerUpvoteById(@retrofit2.http.Path("id") int answerId, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.PREVIEW_PARAM) boolean preview, optional kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<? extends me.tylerbwong.stack.api.model.Answer>>);
     method @retrofit2.http.FormUrlEncoded @retrofit2.http.POST("answers/{id}/upvote") public suspend Object? upvoteAnswerById(@retrofit2.http.Path("id") int answerId, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key, optional @retrofit2.http.Field(me.tylerbwong.stack.api.service.StackConstantsKt.PREVIEW_PARAM) boolean preview, optional kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<? extends me.tylerbwong.stack.api.model.Answer>>);
@@ -676,6 +714,15 @@ package me.tylerbwong.stack.api.service {
   }
 
   public static final class FlagService.Companion {
+  }
+
+  public interface InboxService {
+    method @retrofit2.http.GET("inbox") public suspend Object? getInbox(optional @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_SIZE_PARAM) int pageSize, optional @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.PAGE_PARAM) int page, optional @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.FILTER_PARAM) String filter, optional @retrofit2.http.Query(me.tylerbwong.stack.api.service.StackConstantsKt.KEY_PARAM) String key, optional kotlin.coroutines.Continuation<? super me.tylerbwong.stack.api.model.Response<? extends me.tylerbwong.stack.api.model.InboxItem>>);
+    field public static final me.tylerbwong.stack.api.service.InboxService.Companion Companion;
+    field public static final String INBOX_FILTER = "!FmdZhk)FozDf*_(motx6Ztdnab";
+  }
+
+  public static final class InboxService.Companion {
   }
 
   public interface QuestionService {

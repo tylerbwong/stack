@@ -40,7 +40,7 @@ class InboxViewModel @Inject constructor(
         launchRequest {
             // We need the original questionId to be able to deep link to the right place
             // We fetch here to avoid rate-limiting by fetching all at once
-            (inboxItem.questionId ?: getQuestionIdByAnswerId(inboxItem.answerId))?.let {
+            (inboxItem.questionId ?: getQuestionIdByAnswerId(inboxItem))?.let {
                 val intent = QuestionDetailActivity.makeIntent(
                     context = context,
                     questionId = it,
@@ -53,12 +53,13 @@ class InboxViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getQuestionIdByAnswerId(answerId: Int?): Int? {
+    private suspend fun getQuestionIdByAnswerId(inboxItem: InboxItem): Int? {
+        val answerId = inboxItem.answerId
         return try {
             if (answerId != null) {
                 withContext(Dispatchers.IO) {
                     answerService
-                        .getAnswerByIdAuth(answerId = answerId)
+                        .getAnswerByIdAuth(answerId = answerId, site = inboxItem.site?.parameter)
                         .items
                         .firstOrNull()
                         ?.questionId

@@ -83,6 +83,29 @@ class SiteInterceptorTest : BaseTest() {
         assertNull(request.requestUrl?.queryParameter(SITE_PARAM))
     }
 
+    @Test
+    fun `does not append site if request already has site parameter`() {
+        okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(SiteInterceptor("https://google.com", siteStore))
+            .build()
+
+        okHttpClient.newCall(
+            Request.Builder()
+                .url(
+                    mockWebServer.url("/")
+                        .newBuilder()
+                        .addEncodedQueryParameter(SITE_PARAM, "superuser")
+                        .build()
+                )
+                .get()
+                .build()
+        ).execute()
+
+        val request = mockWebServer.takeRequest()
+
+        assertEquals("superuser", request.requestUrl?.queryParameter(SITE_PARAM))
+    }
+
     @After
     fun tearDown() {
         mockWebServer.shutdown()
