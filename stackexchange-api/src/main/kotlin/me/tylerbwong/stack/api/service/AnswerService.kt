@@ -2,13 +2,42 @@ package me.tylerbwong.stack.api.service
 
 import me.tylerbwong.stack.api.BuildConfig
 import me.tylerbwong.stack.api.model.Answer
+import me.tylerbwong.stack.api.model.ORDER_PARAM
+import me.tylerbwong.stack.api.model.Order
 import me.tylerbwong.stack.api.model.Response
+import me.tylerbwong.stack.api.model.SORT_PARAM
+import me.tylerbwong.stack.api.model.Sort
+import me.tylerbwong.stack.api.model.VOTES
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface AnswerService {
+
+    @GET("answers/{id}")
+    suspend fun getAnswerById(
+        @Path("id") answerId: Int,
+        @Query(SORT_PARAM) @Sort sort: String = VOTES,
+        @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
+        @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
+        @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
+        @Query(FILTER_PARAM) filter: String = ANSWER_FILTER,
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
+    ): Response<Answer>
+
+    @GET("answers/{id}")
+    suspend fun getAnswerByIdAuth(
+        @Path("id") answerId: Int,
+        @Query(SORT_PARAM) @Sort sort: String = VOTES,
+        @Query(ORDER_PARAM) @Order order: String = DEFAULT_ORDER,
+        @Query(PAGE_SIZE_PARAM) pageSize: Int = DEFAULT_PAGE_SIZE,
+        @Query(PAGE_PARAM) page: Int = DEFAULT_PAGE,
+        @Query(FILTER_PARAM) filter: String = ANSWER_FILTER_AUTH,
+        @Query(KEY_PARAM) key: String = BuildConfig.API_KEY
+    ): Response<Answer>
 
     @FormUrlEncoded
     @POST("answers/{id}/downvote")

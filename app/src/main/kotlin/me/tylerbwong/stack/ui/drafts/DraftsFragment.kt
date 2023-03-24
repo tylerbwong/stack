@@ -2,11 +2,6 @@ package me.tylerbwong.stack.ui.drafts
 
 import android.os.Bundle
 import android.view.View
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -22,12 +17,14 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.DraftsFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.Header
+import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.home.AnswerDraftItem
 import me.tylerbwong.stack.ui.home.HomeItemDiffCallback
 import me.tylerbwong.stack.ui.home.QuestionDraftItem
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.compose.StackTheme
 import me.tylerbwong.stack.ui.utils.formatElapsedTime
+import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
@@ -50,6 +47,7 @@ class DraftsFragment : BaseFragment<DraftsFragmentBinding>(DraftsFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this.appBarLiftOnScrollTargetId = R.id.draftsRecycler
         binding.header.setContent {
             StackTheme {
                 Header(title = title, subtitle = subtitle)
@@ -93,7 +91,7 @@ class DraftsFragment : BaseFragment<DraftsFragmentBinding>(DraftsFragmentBinding
         }
         viewModel.drafts.observe(viewLifecycleOwner, ::updateContent)
 
-        binding.recyclerView.apply {
+        binding.draftsRecycler.apply {
             adapter = this@DraftsFragment.adapter
             layoutManager = LinearLayoutManager(context)
             if (itemDecorationCount == 0) {
@@ -133,6 +131,7 @@ class DraftsFragment : BaseFragment<DraftsFragmentBinding>(DraftsFragmentBinding
             null
         }
         adapter.submitList(drafts)
+        context?.ofType<MainActivity>()?.setLiftOnScrollTarget(this)
     }
 
     private fun onTabChanged(position: Int) {

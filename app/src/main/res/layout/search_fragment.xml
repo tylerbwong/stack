@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/homeRecycler"
+        android:id="@+id/searchRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false" />

@@ -18,8 +18,8 @@
 
     <item
         android:id="@+id/bookmarks"
-        android:icon="@drawable/ic_baseline_bookmark"
-        android:title="@string/bookmarks" />
+        android:icon="@drawable/ic_baseline_inbox"
+        android:title="@string/inbox" />
 
     <item
         android:id="@+id/drafts"

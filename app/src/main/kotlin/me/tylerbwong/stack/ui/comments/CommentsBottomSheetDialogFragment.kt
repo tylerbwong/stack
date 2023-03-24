@@ -28,6 +28,7 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.postId = arguments?.getInt(POST_ID) ?: -1
+        viewModel.commentId = arguments?.getInt(COMMENT_ID) ?: -1
     }
 
     override fun onCreateView(
@@ -92,6 +93,11 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
             }
             binding.emptySpace.isVisible = it.isEmpty()
         }
+        viewModel.scrollToIndex.observe(viewLifecycleOwner) { index ->
+            if (index != null && index != -1) {
+                binding.recyclerView.scrollToPosition(index)
+            }
+        }
     }
 
     override fun onResume() {
@@ -110,11 +116,17 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     companion object {
         private const val POST_ID = "post_id"
+        private const val COMMENT_ID = "comment_id"
 
-        fun show(fragmentManager: FragmentManager, postId: Int) {
+        fun show(
+            fragmentManager: FragmentManager,
+            postId: Int,
+            commentId: Int? = null,
+        ) {
             val fragment = CommentsBottomSheetDialogFragment().apply {
                 arguments = Bundle().apply {
                     putInt(POST_ID, postId)
+                    putInt(COMMENT_ID, commentId ?: -1)
                 }
             }
             fragment.show(fragmentManager, CommentsBottomSheetDialogFragment::class.java.simpleName)

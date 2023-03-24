@@ -11,6 +11,10 @@
     <string name="create">Formular</string>
     <string name="drafts">Borradores</string>
     <string name="bookmarks">Favoritas</string>
+    <string name="inbox">Bandeja de entrada</string>
+    <string name="all">Todos</string>
+    <string name="unread">No leído</string>
+    <string name="unread_count">%1$d no leído</string>
 
     <plurals name="answers">
         <item quantity="one">%1$d Respuesta</item>

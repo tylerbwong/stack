@@ -49,9 +49,9 @@ class QuestionDetailMainViewModel @Inject constructor(
         get() = _data
     private val _data = MutableLiveData<List<QuestionDetailItem>>()
 
-    internal val scrollToIndex: LiveData<Int>
-        get() = _scrollToIndex
-    private val _scrollToIndex = SingleLiveEvent<Int>()
+    internal val deepLinkAnswerId: LiveData<Int>
+        get() = _deepLinkAnswerId
+    private val _deepLinkAnswerId = SingleLiveEvent<Int>()
 
     internal val liveQuestion: LiveData<Question>
         get() = _liveQuestion
@@ -64,6 +64,10 @@ class QuestionDetailMainViewModel @Inject constructor(
     internal val clearFields: LiveData<Unit>
         get() = _clearFields
     private val _clearFields = SingleLiveEvent<Unit>()
+
+    internal val deepLinkedCommentId: LiveData<Pair<Int, Int>>
+        get() = _deepLinkedCommentId
+    private val _deepLinkedCommentId = SingleLiveEvent<Pair<Int, Int>>()
 
     val messageSnackbar: LiveData<String>
         get() = mutableMessageSnackbar
@@ -98,6 +102,7 @@ class QuestionDetailMainViewModel @Inject constructor(
     internal var hasContent = false
     internal var questionId = -1
     internal var answerId = -1
+    internal var commentId = -1
     internal var question: Question? = null
 
     internal fun buildSiteJoinUrl(site: Site): String = siteRepository.buildSiteJoinUrl(site)
@@ -231,8 +236,11 @@ class QuestionDetailMainViewModel @Inject constructor(
             _data.value = detailItems
             _voteCount.value = questionResult.upVoteCount - questionResult.downVoteCount
 
+            if (answerId != -1 && commentId != -1) {
+                _deepLinkedCommentId.value = answerId to commentId
+            }
             if (answerId != -1) {
-                _scrollToIndex.value = detailItems
+                _deepLinkAnswerId.value = detailItems
                     .indexOfFirst { it is AnswerVotesHeaderItem && it.id == answerId }
             }
             _user.value = authRepository.getCurrentUser()

@@ -16,6 +16,10 @@
     <string name="create">Create</string>
     <string name="drafts">Drafts</string>
     <string name="bookmarks">Bookmarks</string>
+    <string name="inbox">Inbox</string>
+    <string name="all">All</string>
+    <string name="unread">Unread</string>
+    <string name="unread_count">%1$d Unread</string>
 
     <plurals name="answers">
         <item quantity="zero">%1$d Answers</item>

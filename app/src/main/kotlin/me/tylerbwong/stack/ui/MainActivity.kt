@@ -18,9 +18,9 @@ import me.tylerbwong.stack.data.reviewer.AppReviewer
 import me.tylerbwong.stack.data.updater.AppUpdater
 import me.tylerbwong.stack.data.work.WorkScheduler
 import me.tylerbwong.stack.databinding.ActivityMainBinding
-import me.tylerbwong.stack.ui.bookmarks.BookmarksFragment
 import me.tylerbwong.stack.ui.drafts.DraftsFragment
 import me.tylerbwong.stack.ui.home.HomeFragment
+import me.tylerbwong.stack.ui.inbox.InboxFragment
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionActivity
 import me.tylerbwong.stack.ui.search.SearchFragment
 import me.tylerbwong.stack.ui.settings.Experimental
@@ -50,9 +50,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private val viewModel by viewModels<MainViewModel>()
 
-    private val homeFragment by lazy { initializeFragment(HOME_FRAGMENT_TAG) { HomeFragment() } }
+    private val homeFragment by lazy {
+        initializeFragment(HOME_FRAGMENT_TAG) {
+            HomeFragment().also { setLiftOnScrollTarget(it) }
+        }
+    }
     private val searchFragment by lazy { initializeFragment(SEARCH_FRAGMENT_TAG) { SearchFragment() } }
-    private val bookmarksFragment by lazy { initializeFragment(BOOKMARKS_FRAGMENT_TAG) { BookmarksFragment() } }
+    private val bookmarksFragment by lazy { initializeFragment(BOOKMARKS_FRAGMENT_TAG) { InboxFragment() } }
     private val draftsFragment by lazy { initializeFragment(DRAFTS_FRAGMENT_TAG) { DraftsFragment() } }
 
     private val authTabIds = listOf(R.id.ask, R.id.bookmarks, R.id.drafts)
@@ -74,6 +78,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
             if (isAuthenticated) {
                 pushAskQuestionShortcut()
+                viewModel.fetchInboxUnread()
             } else {
                 removeAskQuestionShortcut()
             }
@@ -87,6 +92,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         // TODO Switch to bottom sheet?
                         SitesActivity.startActivity(this@MainActivity)
                     }
+                }
+            }
+        }
+        viewModel.inboxUnreadCount.observe(this) { unreadCount ->
+            if (unreadCount != null) {
+                val inboxBadge = binding.bottomNav.getOrCreateBadge(R.id.bookmarks)
+                if (unreadCount > 0) {
+                    inboxBadge.isVisible = true
+                    inboxBadge.number = unreadCount
+                } else {
+                    inboxBadge.isVisible = false
+                    inboxBadge.number = 0
                 }
             }
         }
@@ -179,6 +196,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     .show(fragment)
                     .commit()
 
+                setLiftOnScrollTarget(fragment)
+
                 invalidateOptionsMenu()
 
                 hideKeyboard()
@@ -194,6 +213,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 .beginTransaction()
                 .show(homeFragment)
                 .commit()
+            setLiftOnScrollTarget(homeFragment)
+        }
+    }
+
+    internal fun setLiftOnScrollTarget(fragment: Fragment) {
+        (fragment as? BaseFragment<*>)?.appBarLiftOnScrollTargetId?.let {
+            binding.appBar.liftOnScrollTargetViewId = it
         }
     }
 

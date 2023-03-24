@@ -1,4 +1,4 @@
-package me.tylerbwong.stack.ui.home
+package me.tylerbwong.stack.ui.inbox
 
 import android.os.Bundle
 import android.view.Menu
@@ -13,27 +13,26 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
-import me.tylerbwong.stack.api.model.ACTIVITY
-import me.tylerbwong.stack.api.model.CREATION
-import me.tylerbwong.stack.api.model.HOT
-import me.tylerbwong.stack.api.model.MONTH
-import me.tylerbwong.stack.api.model.Question
-import me.tylerbwong.stack.api.model.VOTES
-import me.tylerbwong.stack.api.model.WEEK
-import me.tylerbwong.stack.api.model.sortResourceId
-import me.tylerbwong.stack.databinding.HomeFragmentBinding
+import me.tylerbwong.stack.api.model.InboxItem
+import me.tylerbwong.stack.data.repository.ALL
+import me.tylerbwong.stack.data.repository.UNREAD
+import me.tylerbwong.stack.databinding.InboxFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.MainActivity
+import me.tylerbwong.stack.ui.home.HeaderItem
+import me.tylerbwong.stack.ui.home.HomeItem
+import me.tylerbwong.stack.ui.home.HomeItemDiffCallback
+import me.tylerbwong.stack.ui.home.InboxHomeItem
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<HomeFragmentBinding>(
-    HomeFragmentBinding::inflate
+class InboxFragment : BaseFragment<InboxFragmentBinding>(
+    InboxFragmentBinding::inflate
 ), PopupMenu.OnMenuItemClickListener {
 
-    private val viewModel by viewModels<HomeViewModel>()
+    private val viewModel by viewModels<InboxViewModel>()
     private val adapter = DynamicListAdapter(HomeItemDiffCallback)
     private var snackbar: Snackbar? = null
 
@@ -46,28 +45,11 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.appBarLiftOnScrollTargetId = R.id.homeRecycler
-        viewModel.siteLiveData.observe(viewLifecycleOwner) {
-            adapter.submitList(null)
-            viewModel.fetchQuestions()
-        }
-        viewModel.contentFilterUpdated.observe(viewLifecycleOwner) { filterData ->
-            if (filterData.isEmpty) {
-                viewModel.fetchQuestions()
-            } else {
-                viewModel.questions.value?.let {
-                    updateContent(
-                        it.filter { question ->
-                            question.questionId !in filterData.filteredQuestionIds &&
-                                    question.owner.userId !in filterData.filteredUserIds
-                        }
-                    )
-                }
-            }
-        }
+        this.appBarLiftOnScrollTargetId = R.id.inboxRecycler
         viewModel.refreshing.observe(viewLifecycleOwner) {
             binding.refreshLayout.isRefreshing = it
         }
+        binding.refreshLayout.setOnRefreshListener { viewModel.fetchInbox() }
         viewModel.snackbar.observe(viewLifecycleOwner) {
             if (it != null) {
                 bottomNav?.post {
@@ -75,18 +57,16 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
                         R.string.network_error,
                         R.string.retry,
                         shouldAnchorView = true
-                    ) {
-                        viewModel.fetchQuestions()
-                    }
+                    ) { viewModel.fetchInbox() }
                 }
             } else {
                 snackbar?.dismiss()
             }
         }
-        viewModel.questions.observe(viewLifecycleOwner, ::updateContent)
+        viewModel.inboxItems.observe(viewLifecycleOwner, ::updateContent)
 
-        binding.homeRecycler.apply {
-            adapter = this@HomeFragment.adapter
+        binding.inboxRecycler.apply {
+            adapter = this@InboxFragment.adapter
             layoutManager = LinearLayoutManager(context)
             if (itemDecorationCount == 0) {
                 addItemDecoration(
@@ -94,7 +74,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
                         spacing = context.resources.getDimensionPixelSize(
                             R.dimen.item_spacing_question_detail
                         ),
-                        applicableViewTypes = listOf(QuestionItem::class.java.name.hashCode()),
+                        applicableViewTypes = listOf(InboxHomeItem::class.java.name.hashCode()),
                     )
                 )
             }
@@ -104,22 +84,23 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
                 }
             }
         }
+    }
 
-        binding.refreshLayout.setOnRefreshListener {
-            viewModel.fetchQuestions()
-        }
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchInbox()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_sort_item, menu)
+        inflater.inflate(R.menu.menu_inbox_item, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.sort -> {
+            R.id.filter -> {
                 activity?.let { activity ->
-                    PopupMenu(activity, activity.findViewById(R.id.sort)).also {
-                        it.inflate(R.menu.menu_sort)
+                    PopupMenu(activity, activity.findViewById(R.id.filter)).also {
+                        it.inflate(R.menu.menu_inbox)
                         it.setOnMenuItemClickListener(this)
                         it.show()
                     }
@@ -130,28 +111,28 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
     }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
-        val sort = when (item.itemId) {
-            R.id.creation -> CREATION
-            R.id.activity -> ACTIVITY
-            R.id.votes -> VOTES
-            R.id.hot -> HOT
-            R.id.week -> WEEK
-            R.id.month -> MONTH
-            else -> CREATION
+        val filter = when (item.itemId) {
+            R.id.all -> ALL
+            R.id.unread -> UNREAD
+            else -> ALL
         }
-        viewModel.fetchQuestions(sort)
+        viewModel.fetchInbox(filter)
         return true
     }
 
-    private fun updateContent(questions: List<Question>) {
+    private fun updateContent(inboxItems: List<InboxItem>) {
         val homeItems: List<HomeItem> = listOf(
             HeaderItem(
-                getString(R.string.questions),
-                getString(viewModel.currentSort.sortResourceId)
+                getString(R.string.inbox),
+                getString(R.string.unread_count, viewModel.unreadCount.value)
             )
         )
 
-        adapter.submitList(homeItems + questions.map { QuestionItem(it) })
+        adapter.submitList(
+            homeItems + inboxItems.map {
+                InboxHomeItem(it) { context, item -> viewModel.onItemClicked(context, item) }
+            }
+        )
         context?.ofType<MainActivity>()?.setLiftOnScrollTarget(this)
     }
 }

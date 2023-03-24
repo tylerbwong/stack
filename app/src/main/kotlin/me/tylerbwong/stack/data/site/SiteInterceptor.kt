@@ -46,6 +46,7 @@ class SiteInterceptor @Inject constructor(
             "access-tokens",
             "sites",
             "me/associated",
+            "inbox",
         )
     }
 }

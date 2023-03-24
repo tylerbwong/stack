@@ -16,6 +16,7 @@ import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.QuestionDetailFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
+import me.tylerbwong.stack.ui.comments.CommentsBottomSheetDialogFragment
 import me.tylerbwong.stack.ui.flag.FlagActivity
 import me.tylerbwong.stack.ui.questions.QuestionPage.LINKED
 import me.tylerbwong.stack.ui.questions.QuestionPage.RELATED
@@ -43,7 +44,7 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
         setHasOptionsMenu(true)
     }
 
-    @Suppress("LongMethod")
+    @Suppress("ComplexMethod", "LongMethod")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.refreshing.observe(viewLifecycleOwner) {
@@ -83,9 +84,20 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
         viewModel.data.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
-        viewModel.scrollToIndex.observe(viewLifecycleOwner) { index ->
+        viewModel.deepLinkAnswerId.observe(viewLifecycleOwner) { index ->
             if (index != null && index != -1) {
                 binding.recyclerView.scrollToPosition(index)
+                viewModel.answerId = -1 // Only scroll to answer once
+            }
+        }
+        viewModel.deepLinkedCommentId.observe(viewLifecycleOwner) { (answerId, commentId) ->
+            if (commentId != -1) {
+                CommentsBottomSheetDialogFragment.show(
+                    fragmentManager = childFragmentManager,
+                    postId = if (answerId != -1) answerId else viewModel.questionId,
+                    commentId = commentId,
+                )
+                viewModel.commentId = -1 // Only show dialog once
             }
         }
         viewModel.voteCount.observe(viewLifecycleOwner) {

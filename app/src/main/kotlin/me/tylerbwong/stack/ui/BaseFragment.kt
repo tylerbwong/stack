@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
+import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
@@ -13,6 +14,9 @@ abstract class BaseFragment<T : ViewBinding>(
 ) : Fragment() {
 
     protected lateinit var binding: T
+
+    @IdRes
+    internal var appBarLiftOnScrollTargetId: Int? = null
 
     @CallSuper
     override fun onCreateView(

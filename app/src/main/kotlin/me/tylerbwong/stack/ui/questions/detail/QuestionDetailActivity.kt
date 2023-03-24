@@ -47,6 +47,10 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
             viewModel.answerId = intent.getIntExtra(ANSWER_ID, -1)
         }
 
+        if (viewModel.commentId == -1) {
+            viewModel.commentId = intent.getIntExtra(COMMENT_ID, -1)
+        }
+
         viewModel.canAnswerQuestion.observe(this) {
             binding.viewPager.offscreenPageLimit = if (it) {
                 2
@@ -183,17 +187,20 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
     companion object {
         internal const val QUESTION_ID = "question_id"
         internal const val ANSWER_ID = "answer_id"
+        internal const val COMMENT_ID = "comment_id"
         internal const val IS_IN_ANSWER_MODE = "is_in_answer_mode"
 
         fun makeIntent(
             context: Context,
             questionId: Int,
             answerId: Int? = null,
+            commentId: Int? = null,
             isInAnswerMode: Boolean = false,
             deepLinkSite: String? = null
         ) = Intent(context, QuestionDetailActivity::class.java)
             .putExtra(QUESTION_ID, questionId)
             .putExtra(ANSWER_ID, answerId)
+            .putExtra(COMMENT_ID, commentId)
             .putExtra(IS_IN_ANSWER_MODE, isInAnswerMode)
             .putExtra(DEEP_LINK_SITE, deepLinkSite)
 

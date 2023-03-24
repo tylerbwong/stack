@@ -1,10 +1,14 @@
 package me.tylerbwong.stack.ui.utils
 
 import android.content.Context
+import com.soywiz.klock.DateFormat
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.milliseconds
+import com.soywiz.klock.seconds
 import com.soywiz.klock.until
 import me.tylerbwong.stack.R
+
+private const val DATE_FORMAT = "MMM d, yyyy 'at' HH:mm"
 
 /**
  * Receiver [Long] is in milliseconds.
@@ -51,4 +55,12 @@ fun Long.formatElapsedTime(context: Context): String {
             elapsedTime.seconds
         )
     }
+}
+
+/**
+ * Receiver [Long] is in seconds.
+ */
+fun Long.formatFullDate(): String {
+    val startDate = DateTime.fromUnixMillis(toDouble().seconds.millisecondsLong)
+    return startDate.format(DateFormat(DATE_FORMAT))
 }

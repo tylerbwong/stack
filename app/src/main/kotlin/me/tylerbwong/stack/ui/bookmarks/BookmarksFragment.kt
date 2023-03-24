@@ -10,17 +10,21 @@ import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Question
-import me.tylerbwong.stack.databinding.HomeFragmentBinding
+import me.tylerbwong.stack.databinding.BookmarksFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
+import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeItem
 import me.tylerbwong.stack.ui.home.HomeItemDiffCallback
 import me.tylerbwong.stack.ui.home.QuestionItem
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
-class BookmarksFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::inflate) {
+class BookmarksFragment : BaseFragment<BookmarksFragmentBinding>(
+    BookmarksFragmentBinding::inflate
+) {
 
     private val viewModel by viewModels<BookmarksViewModel>()
     private val adapter = DynamicListAdapter(HomeItemDiffCallback)
@@ -35,6 +39,7 @@ class BookmarksFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding:
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this.appBarLiftOnScrollTargetId = R.id.bookmarksRecycler
         viewModel.siteLiveData.observe(viewLifecycleOwner) {
             adapter.submitList(null)
             viewModel.fetchBookmarks()
@@ -57,7 +62,7 @@ class BookmarksFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding:
         }
         viewModel.bookmarks.observe(viewLifecycleOwner, ::updateContent)
 
-        binding.recyclerView.apply {
+        binding.bookmarksRecycler.apply {
             adapter = this@BookmarksFragment.adapter
             layoutManager = LinearLayoutManager(context)
             if (itemDecorationCount == 0) {
@@ -98,5 +103,6 @@ class BookmarksFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding:
         )
 
         adapter.submitList(homeItems + drafts.map { QuestionItem(it) })
+        context?.ofType<MainActivity>()?.setLiftOnScrollTarget(this)
     }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.data.auth.AuthRepository
+import me.tylerbwong.stack.data.repository.InboxRepository
 import me.tylerbwong.stack.data.repository.SiteRepository
 import retrofit2.HttpException
 import timber.log.Timber
@@ -14,6 +15,7 @@ import javax.inject.Inject
 internal class MainViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val siteRepository: SiteRepository,
+    private val inboxRepository: InboxRepository,
 ) : BaseViewModel() {
 
     internal val isAuthenticatedLiveData: LiveData<Boolean>
@@ -26,6 +28,9 @@ internal class MainViewModel @Inject constructor(
         get() = _currentSite
     private val _currentSite = MutableLiveData<Site>()
 
+    internal val inboxUnreadCount: LiveData<Int>
+        get() = inboxRepository.unreadCount
+
     internal fun fetchSites() {
         launchRequest {
             try {
@@ -34,6 +39,12 @@ internal class MainViewModel @Inject constructor(
             } catch (ex: HttpException) {
                 Timber.e(ex)
             }
+        }
+    }
+
+    internal fun fetchInboxUnread() {
+        launchRequest {
+            inboxRepository.fetchInbox()
         }
     }
 }

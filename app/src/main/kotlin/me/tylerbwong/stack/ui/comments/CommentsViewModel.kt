@@ -31,6 +31,10 @@ class CommentsViewModel @Inject constructor(
         get() = _data
     private val _data = MutableLiveData<List<DynamicItem>>()
 
+    internal val scrollToIndex: LiveData<Int>
+        get() = _scrollToIndex
+    private val _scrollToIndex = SingleLiveEvent<Int>()
+
     internal val contentFilteredUpdated: LiveData<ContentFilter.ContentFilterData>
         get() = contentFilter.contentFilteredUpdated
 
@@ -42,6 +46,7 @@ class CommentsViewModel @Inject constructor(
         get() = authStore.isAuthenticatedLiveData.value ?: false
 
     internal var postId = -1
+    internal var commentId = -1
     internal var initialBody = ""
 
     fun fetchComments(newComments: List<Comment> = emptyList()) {
@@ -102,6 +107,10 @@ class CommentsViewModel @Inject constructor(
                 }
             }
             _data.value = result
+            if (commentId != -1) {
+                _scrollToIndex.value = result
+                    .indexOfFirst { it is CommentItem && it.comment.commentId == commentId }
+            }
         }
     }
 
