@@ -47,7 +47,7 @@ class CommentsViewModel @Inject constructor(
 
     internal var postId = -1
     internal var commentId = -1
-    internal var initialBody = ""
+    internal var body = ""
 
     fun fetchComments(newComments: List<Comment> = emptyList()) {
         launchRequest {
@@ -80,11 +80,14 @@ class CommentsViewModel @Inject constructor(
                     }
                 } + if (isAuthenticated) {
                     listOf(
-                        AddCommentItem(initialBody = initialBody) { body, isPreview ->
+                        AddCommentItem(
+                            getBody = { body },
+                            setBody = { body = it },
+                        ) { body, isPreview ->
                             launchRequest(
                                 onSuccess = {
                                     _errorToast.value = null
-                                    initialBody = ""
+                                    this@CommentsViewModel.body = ""
                                     fetchComments()
                                 },
                                 onFailure = { ex ->
@@ -95,7 +98,7 @@ class CommentsViewModel @Inject constructor(
                                             )
                                         } ?: CommentError.AddCommentFailed()
                                     )
-                                    initialBody = body
+                                    this@CommentsViewModel.body = body
                                     fetchComments()
                                 },
                                 block = { service.addComment(postId, body, isPreview) }

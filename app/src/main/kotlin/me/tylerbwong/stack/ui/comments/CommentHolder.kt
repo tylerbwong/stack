@@ -1,11 +1,13 @@
 package me.tylerbwong.stack.ui.comments
 
+import android.content.Context
 import android.text.TextWatcher
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DiffUtil
+import com.google.android.material.textfield.TextInputLayout
 import com.soywiz.klock.seconds
 import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
@@ -53,7 +55,8 @@ class CommentItem(
 ) : DynamicItem(::CommentHolder)
 
 class AddCommentItem(
-    internal val initialBody: String,
+    internal val getBody: () -> String,
+    internal val setBody: (String) -> Unit,
     internal val onSubmitComment: (body: String, isPreview: Boolean) -> Unit,
 ) : DynamicItem(::AddCommentHolder)
 
@@ -147,26 +150,74 @@ class AddCommentHolder(
     private var textWatcher: TextWatcher? = null
 
     override fun AddCommentHolderBinding.bind(item: AddCommentItem) {
-        addCommentButton.isEnabled = item.initialBody.trim().length >= MIN_COMMENT_LENGTH
+        bodyInputLayout.hint = itemView.context.getString(
+            R.string.add_comment_min_character,
+            MIN_COMMENT_LENGTH,
+        )
+        val bodyLength = item.getBody().length
+        addCommentButton.isEnabled = bodyLength in MIN_COMMENT_LENGTH .. MAX_COMMENT_LENGTH
         bodyInputLayout.isEnabled = true
-        bodyInput.setText(item.initialBody)
+        bodyInput.setText(item.getBody())
+        setInputLayoutStatus(itemView.context, bodyInputLayout, bodyLength)
         addCommentButton.setOnClickListener {
             item.onSubmitComment(bodyInput.text?.toString() ?: "", BuildConfig.DEBUG)
             addCommentButton.isEnabled = false
             bodyInputLayout.isEnabled = false
         }
-
         if (textWatcher == null) {
             textWatcher = bodyInput.addTextChangedListener {
-                val length = it?.trim()?.length ?: 0
-                addCommentButton.isEnabled = length >= MIN_COMMENT_LENGTH
+                val text = it
+                val length = text?.length ?: 0
+                addCommentButton.isEnabled = length in MIN_COMMENT_LENGTH .. MAX_COMMENT_LENGTH
+                setInputLayoutStatus(itemView.context, bodyInputLayout, length)
+                if (text != null) {
+                    item.setBody(text.toString())
+                }
             }
         } else {
             bodyInput.addTextChangedListener(textWatcher)
         }
     }
 
+    private fun setInputLayoutStatus(context: Context, layout: TextInputLayout, length: Int) {
+        when {
+            length in 1 until MIN_COMMENT_LENGTH -> {
+                layout.error = null
+                layout.hint = context.getString(
+                    R.string.add_comment_min_character_progress,
+                    MIN_COMMENT_LENGTH - length,
+                )
+            }
+            length in MIN_COMMENT_LENGTH .. MAX_COMMENT_LENGTH -> {
+                val remaining = MAX_COMMENT_LENGTH - length
+                layout.error = null
+                layout.hint = context.resources.getQuantityString(
+                    R.plurals.add_comment_max_character,
+                    remaining,
+                    remaining,
+                )
+            }
+            length > MAX_COMMENT_LENGTH -> {
+                val overflow = length - MAX_COMMENT_LENGTH
+                layout.hint = context.getString(R.string.add_comment)
+                layout.error = context.resources.getQuantityString(
+                    R.plurals.add_comment_too_many_characters,
+                    overflow,
+                    overflow,
+                )
+            }
+            else -> {
+                layout.error = null
+                layout.hint = context.getString(
+                    R.string.add_comment_min_character,
+                    MIN_COMMENT_LENGTH,
+                )
+            }
+        }
+    }
+
     companion object {
         private const val MIN_COMMENT_LENGTH = 15
+        private const val MAX_COMMENT_LENGTH = 600
     }
 }

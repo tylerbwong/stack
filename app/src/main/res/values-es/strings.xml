@@ -160,6 +160,16 @@
     <!-- Add Comment -->
     <string name="add_comment">Agregar comentario</string>
     <string name="add_comment_failure">No se pudo agregar el comentario</string>
+    <string name="add_comment_min_character">Introduzca al menos %1$d caracteres</string>
+    <string name="add_comment_min_character_progress">%1$d más para ir…</string>
+    <plurals name="add_comment_max_character">
+        <item quantity="one">Queda %1$d carácter</item>
+        <item quantity="other">Quedan %1$d caracteres</item>
+    </plurals>
+    <plurals name="add_comment_too_many_characters">
+        <item quantity="one">Demasiado largo por %1$d carácter</item>
+        <item quantity="other">Demasiado largo por %1$d caracteres</item>
+    </plurals>
 
     <!-- Search -->
     <string name="search_hint">Buscar por palabra clave o frase</string>

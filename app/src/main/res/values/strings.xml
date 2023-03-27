@@ -171,6 +171,20 @@
     <!-- Add Comment -->
     <string name="add_comment">Add comment</string>
     <string name="add_comment_failure">Failed to add comment</string>
+    <string name="add_comment_min_character">Enter at least %1$d characters</string>
+    <string name="add_comment_min_character_progress">%1$d more to go…</string>
+    <plurals name="add_comment_max_character">
+        <item quantity="zero">%1$d characters left</item>
+        <item quantity="one">%1$d character left</item>
+        <item quantity="many">%1$d characters left</item>
+        <item quantity="other">%1$d characters left</item>
+    </plurals>
+    <plurals name="add_comment_too_many_characters">
+        <item quantity="zero">Too long by %1$d characters</item>
+        <item quantity="one">Too long by %1$d character</item>
+        <item quantity="many">Too long by %1$d characters</item>
+        <item quantity="other">Too long by %1$d characters</item>
+    </plurals>
 
     <!-- Search -->
     <string name="search_hint">Search by keyword or phrase</string>
