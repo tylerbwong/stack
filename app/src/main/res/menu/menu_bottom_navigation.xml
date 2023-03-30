@@ -17,7 +17,7 @@
         android:title="@string/ask_question" />
 
     <item
-        android:id="@+id/bookmarks"
+        android:id="@+id/inbox"
         android:icon="@drawable/ic_baseline_inbox"
         android:title="@string/inbox" />
 

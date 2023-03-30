@@ -20,7 +20,6 @@ import me.tylerbwong.stack.api.model.sortResourceId
 import me.tylerbwong.stack.data.model.SearchPayload
 import me.tylerbwong.stack.databinding.SearchFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
-import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.home.FilterInputItem
 import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeItem
@@ -31,7 +30,6 @@ import me.tylerbwong.stack.ui.home.SearchInputItem
 import me.tylerbwong.stack.ui.home.SectionHeaderItem
 import me.tylerbwong.stack.ui.home.TagsItem
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
-import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.api.R as ApiR
 
 @AndroidEntryPoint
@@ -55,7 +53,6 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.appBarLiftOnScrollTargetId = R.id.searchRecycler
         binding.searchRecycler.apply {
             adapter = this@SearchFragment.adapter
             layoutManager = LinearLayoutManager(context)
@@ -98,7 +95,6 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(
                     QuestionItem(question)
                 }
             )
-            context?.ofType<MainActivity>()?.setLiftOnScrollTarget(this)
         }
 
         viewModel.emptySearchData.observe(viewLifecycleOwner) { data ->
@@ -119,7 +115,6 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(
                     emptyList()
                 }
             )
-            context?.ofType<MainActivity>()?.setLiftOnScrollTarget(this)
         }
 
         binding.refreshLayout.setOnRefreshListener {

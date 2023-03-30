@@ -50,16 +50,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private val viewModel by viewModels<MainViewModel>()
 
-    private val homeFragment by lazy {
-        initializeFragment(HOME_FRAGMENT_TAG) {
-            HomeFragment().also { setLiftOnScrollTarget(it) }
-        }
-    }
+    private val homeFragment by lazy { initializeFragment(HOME_FRAGMENT_TAG) { HomeFragment() } }
     private val searchFragment by lazy { initializeFragment(SEARCH_FRAGMENT_TAG) { SearchFragment() } }
-    private val bookmarksFragment by lazy { initializeFragment(BOOKMARKS_FRAGMENT_TAG) { InboxFragment() } }
+    private val inboxFragment by lazy { initializeFragment(INBOX_FRAGMENT_TAG) { InboxFragment() } }
     private val draftsFragment by lazy { initializeFragment(DRAFTS_FRAGMENT_TAG) { DraftsFragment() } }
 
-    private val authTabIds = listOf(R.id.ask, R.id.bookmarks, R.id.drafts)
+    private val authTabIds = listOf(R.id.ask, R.id.inbox, R.id.drafts)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +93,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
         viewModel.inboxUnreadCount.observe(this) { unreadCount ->
             if (unreadCount != null) {
-                val inboxBadge = binding.bottomNav.getOrCreateBadge(R.id.bookmarks)
+                val inboxBadge = binding.bottomNav.getOrCreateBadge(R.id.inbox)
                 if (unreadCount > 0) {
                     inboxBadge.isVisible = true
                     inboxBadge.number = unreadCount
@@ -180,11 +176,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     return@setOnItemSelectedListener false
                 }
 
-                val fragment = when (menuItem.itemId) {
-                    R.id.search -> searchFragment
-                    R.id.bookmarks -> bookmarksFragment
-                    R.id.drafts -> draftsFragment
-                    else -> homeFragment
+                val (fragment, liftOnScrollId) = when (menuItem.itemId) {
+                    R.id.search -> searchFragment to R.id.searchRecycler
+                    R.id.inbox -> inboxFragment to R.id.inboxRecycler
+                    R.id.drafts -> draftsFragment to R.id.draftsRecycler
+                    else -> homeFragment to R.id.homeRecycler
                 }
                 val currentFragment = supportFragmentManager.fragments
                     .firstOrNull { !it.isHidden }
@@ -196,7 +192,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     .show(fragment)
                     .commit()
 
-                setLiftOnScrollTarget(fragment)
+                binding.appBar.liftOnScrollTargetViewId = liftOnScrollId
 
                 invalidateOptionsMenu()
 
@@ -213,13 +209,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 .beginTransaction()
                 .show(homeFragment)
                 .commit()
-            setLiftOnScrollTarget(homeFragment)
-        }
-    }
-
-    internal fun setLiftOnScrollTarget(fragment: Fragment) {
-        (fragment as? BaseFragment<*>)?.appBarLiftOnScrollTargetId?.let {
-            binding.appBar.liftOnScrollTargetViewId = it
+            binding.appBar.liftOnScrollTargetViewId = R.id.homeRecycler
         }
     }
 
@@ -262,7 +252,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     companion object {
         private const val HOME_FRAGMENT_TAG = "home_fragment"
         private const val SEARCH_FRAGMENT_TAG = "search_fragment"
-        private const val BOOKMARKS_FRAGMENT_TAG = "bookmarks_fragment"
+        private const val INBOX_FRAGMENT_TAG = "inbox_fragment"
         private const val DRAFTS_FRAGMENT_TAG = "drafts_fragment"
         private const val SELECTED_TAB = "selected_tab"
 

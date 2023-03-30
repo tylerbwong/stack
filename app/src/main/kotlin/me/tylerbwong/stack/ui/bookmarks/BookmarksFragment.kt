@@ -12,13 +12,11 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.databinding.BookmarksFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
-import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeItem
 import me.tylerbwong.stack.ui.home.HomeItemDiffCallback
 import me.tylerbwong.stack.ui.home.QuestionItem
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
-import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
@@ -39,7 +37,6 @@ class BookmarksFragment : BaseFragment<BookmarksFragmentBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.appBarLiftOnScrollTargetId = R.id.bookmarksRecycler
         viewModel.siteLiveData.observe(viewLifecycleOwner) {
             adapter.submitList(null)
             viewModel.fetchBookmarks()
@@ -103,6 +100,5 @@ class BookmarksFragment : BaseFragment<BookmarksFragmentBinding>(
         )
 
         adapter.submitList(homeItems + drafts.map { QuestionItem(it) })
-        context?.ofType<MainActivity>()?.setLiftOnScrollTarget(this)
     }
 }

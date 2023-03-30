@@ -18,13 +18,11 @@ import me.tylerbwong.stack.data.repository.ALL
 import me.tylerbwong.stack.data.repository.UNREAD
 import me.tylerbwong.stack.databinding.InboxFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
-import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.home.HeaderItem
 import me.tylerbwong.stack.ui.home.HomeItem
 import me.tylerbwong.stack.ui.home.HomeItemDiffCallback
 import me.tylerbwong.stack.ui.home.InboxHomeItem
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
-import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
@@ -45,7 +43,6 @@ class InboxFragment : BaseFragment<InboxFragmentBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.appBarLiftOnScrollTargetId = R.id.inboxRecycler
         viewModel.refreshing.observe(viewLifecycleOwner) {
             binding.refreshLayout.isRefreshing = it
         }
@@ -133,6 +130,5 @@ class InboxFragment : BaseFragment<InboxFragmentBinding>(
                 InboxHomeItem(it) { context, item -> viewModel.onItemClicked(context, item) }
             }
         )
-        context?.ofType<MainActivity>()?.setLiftOnScrollTarget(this)
     }
 }

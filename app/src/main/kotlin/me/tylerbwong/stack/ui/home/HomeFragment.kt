@@ -23,9 +23,7 @@ import me.tylerbwong.stack.api.model.WEEK
 import me.tylerbwong.stack.api.model.sortResourceId
 import me.tylerbwong.stack.databinding.HomeFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
-import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
-import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
@@ -46,7 +44,6 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.appBarLiftOnScrollTargetId = R.id.homeRecycler
         viewModel.siteLiveData.observe(viewLifecycleOwner) {
             adapter.submitList(null)
             viewModel.fetchQuestions()
@@ -152,6 +149,5 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(
         )
 
         adapter.submitList(homeItems + questions.map { QuestionItem(it) })
-        context?.ofType<MainActivity>()?.setLiftOnScrollTarget(this)
     }
 }

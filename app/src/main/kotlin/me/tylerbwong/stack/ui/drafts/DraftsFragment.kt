@@ -17,14 +17,12 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.databinding.DraftsFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.Header
-import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.home.AnswerDraftItem
 import me.tylerbwong.stack.ui.home.HomeItemDiffCallback
 import me.tylerbwong.stack.ui.home.QuestionDraftItem
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.compose.StackTheme
 import me.tylerbwong.stack.ui.utils.formatElapsedTime
-import me.tylerbwong.stack.ui.utils.ofType
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
@@ -47,7 +45,6 @@ class DraftsFragment : BaseFragment<DraftsFragmentBinding>(DraftsFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.appBarLiftOnScrollTargetId = R.id.draftsRecycler
         binding.header.setContent {
             StackTheme {
                 Header(title = title, subtitle = subtitle)
@@ -131,7 +128,6 @@ class DraftsFragment : BaseFragment<DraftsFragmentBinding>(DraftsFragmentBinding
             null
         }
         adapter.submitList(drafts)
-        context?.ofType<MainActivity>()?.setLiftOnScrollTarget(this)
     }
 
     private fun onTabChanged(position: Int) {
