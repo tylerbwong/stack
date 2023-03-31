@@ -18,6 +18,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Suppress("LongParameterList")
 @Singleton
 class AuthRepository @Inject constructor(
     private val questionDraftDao: QuestionDraftDao,
