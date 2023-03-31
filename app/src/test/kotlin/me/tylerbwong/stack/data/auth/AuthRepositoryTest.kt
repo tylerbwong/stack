@@ -13,6 +13,7 @@ import me.tylerbwong.stack.data.auth.LoginResult.LoginSuccess
 import me.tylerbwong.stack.data.persistence.dao.AnswerDao
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDao
+import me.tylerbwong.stack.data.persistence.dao.QuestionDraftDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import me.tylerbwong.stack.data.persistence.dao.SiteDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
@@ -36,6 +37,9 @@ import retrofit2.Response
 import me.tylerbwong.stack.api.model.Response as StackResponse
 
 class AuthRepositoryTest : BaseTest() {
+
+    @Mock
+    private lateinit var questionDraftDao: QuestionDraftDao
 
     @Mock
     private lateinit var answerDraftDao: AnswerDraftDao
@@ -68,6 +72,7 @@ class AuthRepositoryTest : BaseTest() {
     fun setUp() {
         authStore = AuthStore(testSharedPreferences)
         repository = AuthRepository(
+            questionDraftDao,
             answerDraftDao,
             questionDao,
             answerDao,
@@ -132,8 +137,13 @@ class AuthRepositoryTest : BaseTest() {
             val result = repository.logOut()
             assertTrue(result is LogOutSuccess)
             verify(authService, times(1)).logOut("test")
+            verify(questionDraftDao, times(1)).clearDrafts()
             verify(answerDraftDao, times(1)).clearDrafts()
+            verify(questionDao, times(1)).clearQuestions()
+            verify(answerDao, times(1)).clearAnswers()
+            verify(userDao, times(1)).clearUsers()
             verify(searchDao, times(1)).clearSearches()
+            verify(siteDao, times(1)).clearAssociatedSites()
             assertTrue(authStore.accessToken.isNullOrBlank())
         }
     }
@@ -145,8 +155,13 @@ class AuthRepositoryTest : BaseTest() {
             val result = repository.logOut()
             assertTrue(result is LogOutError)
             verify(authService, never()).logOut(any(), any())
+            verify(questionDraftDao, never()).clearDrafts()
             verify(answerDraftDao, never()).clearDrafts()
+            verify(questionDao, never()).clearQuestions()
+            verify(answerDao, never()).clearAnswers()
+            verify(userDao, never()).clearUsers()
             verify(searchDao, never()).clearSearches()
+            verify(siteDao, never()).clearAssociatedSites()
         }
     }
 

@@ -68,6 +68,9 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(ActivityProfileBind
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_profile, menu)
+        viewModel.isCurrentUser.observe(this) {
+            menu.findItem(R.id.hide).isVisible = !it
+        }
         return true
     }
 

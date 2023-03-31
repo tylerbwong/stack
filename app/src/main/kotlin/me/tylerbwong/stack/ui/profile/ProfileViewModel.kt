@@ -9,16 +9,19 @@ import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.api.service.UserService
+import me.tylerbwong.stack.data.auth.AuthRepository
 import me.tylerbwong.stack.data.content.ContentFilter
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.home.AnswerItem
 import me.tylerbwong.stack.ui.home.QuestionItem
+import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import me.tylerbwong.stack.ui.utils.toHtml
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val service: UserService,
+    private val authRepository: AuthRepository,
     private val contentFilter: ContentFilter,
 ) : BaseViewModel() {
 
@@ -38,9 +41,15 @@ class ProfileViewModel @Inject constructor(
     internal val contentFilterUpdated: LiveData<ContentFilter.ContentFilterData>
         get() = contentFilter.contentFilteredUpdated
 
+    internal val isCurrentUser: LiveData<Boolean>
+        get() = _isCurrentUser
+    private val _isCurrentUser = SingleLiveEvent<Boolean>()
+
     internal fun fetchUserData() {
         launchRequest {
             user = service.getUser(userId).items.firstOrNull()?.also { _userData.value = it }
+            val currentUser = authRepository.getCurrentUser()
+            _isCurrentUser.value = currentUser?.userId == user?.userId
         }
     }
 

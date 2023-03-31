@@ -10,6 +10,7 @@ import me.tylerbwong.stack.api.service.UserService
 import me.tylerbwong.stack.data.persistence.dao.AnswerDao
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDao
+import me.tylerbwong.stack.data.persistence.dao.QuestionDraftDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
 import me.tylerbwong.stack.data.persistence.dao.SiteDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
@@ -19,6 +20,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AuthRepository @Inject constructor(
+    private val questionDraftDao: QuestionDraftDao,
     private val answerDraftDao: AnswerDraftDao,
     private val questionDao: QuestionDao,
     private val answerDao: AnswerDao,
@@ -54,6 +56,7 @@ class AuthRepository @Inject constructor(
                 authService.logOut(accessToken = accessToken)
                 authStore.clear()
                 withContext(Dispatchers.IO) {
+                    questionDraftDao.clearDrafts()
                     answerDraftDao.clearDrafts()
                     questionDao.clearQuestions()
                     answerDao.clearAnswers()
