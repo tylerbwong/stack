@@ -10,6 +10,7 @@ import me.tylerbwong.stack.data.auth.LogOutResult.LogOutError
 import me.tylerbwong.stack.data.auth.LogOutResult.LogOutSuccess
 import me.tylerbwong.stack.data.auth.LoginResult.LoginError
 import me.tylerbwong.stack.data.auth.LoginResult.LoginSuccess
+import me.tylerbwong.stack.data.logging.Logger
 import me.tylerbwong.stack.data.persistence.dao.AnswerDao
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDao
@@ -65,6 +66,9 @@ class AuthRepositoryTest : BaseTest() {
     @Mock
     private lateinit var authService: AuthService
 
+    @Mock
+    private lateinit var logger: Logger
+
     private lateinit var authStore: AuthStore
     private lateinit var repository: AuthRepository
 
@@ -81,7 +85,8 @@ class AuthRepositoryTest : BaseTest() {
             siteDao,
             userService,
             authService,
-            authStore
+            authStore,
+            logger,
         )
     }
 
