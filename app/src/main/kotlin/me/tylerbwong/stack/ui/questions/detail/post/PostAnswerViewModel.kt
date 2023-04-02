@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.service.QuestionService
+import me.tylerbwong.stack.data.logging.Logger
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
 import me.tylerbwong.stack.data.site.SiteStore
@@ -23,7 +24,8 @@ import javax.inject.Inject
 class PostAnswerViewModel @Inject constructor(
     private val service: QuestionService,
     private val draftDao: AnswerDraftDao,
-    private val siteStore: SiteStore
+    private val siteStore: SiteStore,
+    private val logger: Logger,
 ) : ViewModel() {
     internal var markdownTextWatcher: TextWatcher? = null
     internal var selectedTabPosition = 0
@@ -51,12 +53,18 @@ class PostAnswerViewModel @Inject constructor(
 
                 _snackbar.value = if (answer.isNotEmpty()) {
                     deleteDraft()
+                    logger.logEvent(eventName = LOGGER_POST_ANSWER_SUCCESS_EVENT_NAME)
                     PostAnswerState.Success
                 } else {
                     throw IllegalStateException("Could not post answer")
                 }
             } catch (ex: Exception) {
                 Timber.e(ex)
+                logger.logEvent(
+                    eventName = LOGGER_POST_ANSWER_ERROR_EVENT_NAME,
+                    LOGGER_QUESTION_ID_PARAM_NAME to questionId.toString(),
+                    LOGGER_ERROR_MESSAGE_PARAM_NAME to (ex.localizedMessage ?: ""),
+                )
                 _snackbar.value = PostAnswerState.Error
             }
         }
@@ -101,6 +109,13 @@ class PostAnswerViewModel @Inject constructor(
                 Timber.e(ex)
             }
         }
+    }
+
+    companion object {
+        private const val LOGGER_POST_ANSWER_SUCCESS_EVENT_NAME = "post_answer_success"
+        private const val LOGGER_POST_ANSWER_ERROR_EVENT_NAME = "post_answer_error"
+        private const val LOGGER_QUESTION_ID_PARAM_NAME = "question_id"
+        private const val LOGGER_ERROR_MESSAGE_PARAM_NAME = "error_message"
     }
 }
 

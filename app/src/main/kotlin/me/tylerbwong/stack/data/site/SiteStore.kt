@@ -49,6 +49,5 @@ class SiteStore @Inject constructor(
         private val supportedOtherLanguages = setOf("es", "ja", "pt", "ru")
         private const val SITE_KEY = "site"
         internal const val USER_JOIN_PATH = "users/join"
-        internal const val NEW_REG_PARAM = "newreg"
     }
 }

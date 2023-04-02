@@ -7,6 +7,7 @@ import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.api.service.AuthService
 import me.tylerbwong.stack.api.service.UserService
+import me.tylerbwong.stack.data.logging.Logger
 import me.tylerbwong.stack.data.persistence.dao.AnswerDao
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDao
@@ -30,7 +31,8 @@ class AuthRepository @Inject constructor(
     private val siteDao: SiteDao,
     private val userService: UserService,
     private val authService: AuthService,
-    private val authStore: AuthStore
+    private val authStore: AuthStore,
+    private val logger: Logger,
 ) {
     internal val isAuthenticated: Boolean
         get() = authStore.isAuthenticatedLiveData.value ?: false
@@ -42,8 +44,10 @@ class AuthRepository @Inject constructor(
         authStore.setAccessToken(uri)
         return if (authStore.accessToken != null && getCurrentUser() != null) {
             authStore.updateAuthenticatedState(isAuthenticated = true)
+            logger.logEvent(eventName = LOGGER_LOGIN_SUCCESS_EVENT_NAME)
             LoginResult.LoginSuccess
         } else {
+            logger.logEvent(eventName = LOGGER_LOGIN_ERROR_EVENT_NAME)
             authStore.clear()
             LoginResult.LoginError
         }
@@ -65,12 +69,14 @@ class AuthRepository @Inject constructor(
                     searchDao.clearSearches()
                     siteDao.clearAssociatedSites()
                 }
+                logger.logEvent(eventName = LOGGER_LOGOUT_SUCCESS_EVENT_NAME)
                 LogOutResult.LogOutSuccess
             } else {
                 throw IllegalStateException("Could not log user out for null access token")
             }
         } catch (ex: Exception) {
             Timber.e(ex)
+            logger.logEvent(eventName = LOGGER_LOGOUT_ERROR_EVENT_NAME)
             LogOutResult.LogOutError
         }
     }
@@ -91,6 +97,13 @@ class AuthRepository @Inject constructor(
             Timber.e(ex)
             null
         }
+    }
+
+    companion object {
+        private const val LOGGER_LOGIN_SUCCESS_EVENT_NAME = "login_success"
+        private const val LOGGER_LOGIN_ERROR_EVENT_NAME = "login_error"
+        private const val LOGGER_LOGOUT_SUCCESS_EVENT_NAME = "logout_success"
+        private const val LOGGER_LOGOUT_ERROR_EVENT_NAME = "logout_error"
     }
 }
 

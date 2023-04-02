@@ -20,6 +20,7 @@ import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.api.service.SearchService
 import me.tylerbwong.stack.api.service.TagService
 import me.tylerbwong.stack.api.utils.toErrorResponse
+import me.tylerbwong.stack.data.logging.Logger
 import me.tylerbwong.stack.data.persistence.dao.QuestionDraftDao
 import me.tylerbwong.stack.data.persistence.entity.QuestionDraftEntity
 import me.tylerbwong.stack.data.repository.SiteRepository
@@ -38,6 +39,7 @@ class AskQuestionViewModel @Inject constructor(
     private val questionDraftDao: QuestionDraftDao,
     private val siteRepository: SiteRepository,
     private val searchService: SearchService,
+    private val logger: Logger,
 ) : BaseViewModel() {
 
     private var id: Int = -1
@@ -130,6 +132,7 @@ class AskQuestionViewModel @Inject constructor(
                 )
                 val question = response.items.firstOrNull()
                 _askQuestionState.value = if (question != null) {
+                    logger.logEvent(eventName = LOGGER_ASK_SUCCESS_EVENT_NAME)
                     if (BuildConfig.DEBUG) {
                         AskQuestionState.SuccessPreview
                     } else {
@@ -137,12 +140,16 @@ class AskQuestionViewModel @Inject constructor(
                         AskQuestionState.Success(question.questionId)
                     }
                 } else {
+                    logger.logEvent(eventName = LOGGER_ASK_ERROR_EVENT_NAME)
                     AskQuestionState.Error()
                 }
             } catch (ex: Exception) {
-                _askQuestionState.value = AskQuestionState.Error(
-                    (ex as? HttpException)?.toErrorResponse()?.errorMessage
+                val errorMessage = (ex as? HttpException)?.toErrorResponse()?.errorMessage
+                logger.logEvent(
+                    eventName = LOGGER_ASK_ERROR_EVENT_NAME,
+                    LOGGER_ERROR_MESSAGE_PARAM_NAME to (errorMessage ?: ""),
                 )
+                _askQuestionState.value = AskQuestionState.Error(errorMessage)
             }
         }
     }
@@ -270,6 +277,9 @@ class AskQuestionViewModel @Inject constructor(
 
     companion object {
         private const val SAVE_DRAFT_DELAY_MILLIS = 1_000L
+        private const val LOGGER_ASK_SUCCESS_EVENT_NAME = "ask_question_success"
+        private const val LOGGER_ASK_ERROR_EVENT_NAME = "ask_question_error"
+        private const val LOGGER_ERROR_MESSAGE_PARAM_NAME = "error_message"
     }
 }
 

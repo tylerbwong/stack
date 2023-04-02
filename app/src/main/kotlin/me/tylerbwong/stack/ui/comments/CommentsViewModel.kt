@@ -13,6 +13,7 @@ import me.tylerbwong.stack.api.service.CommentService
 import me.tylerbwong.stack.api.utils.toErrorResponse
 import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.content.ContentFilter
+import me.tylerbwong.stack.data.logging.Logger
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import me.tylerbwong.stack.ui.utils.toHtml
@@ -25,6 +26,7 @@ class CommentsViewModel @Inject constructor(
     private val service: CommentService,
     private val authStore: AuthStore,
     private val contentFilter: ContentFilter,
+    private val logger: Logger,
 ) : BaseViewModel() {
 
     internal val data: LiveData<List<DynamicItem>>
@@ -49,6 +51,7 @@ class CommentsViewModel @Inject constructor(
     internal var commentId = -1
     internal var body = ""
 
+    @Suppress("LongMethod")
     fun fetchComments(newComments: List<Comment> = emptyList()) {
         launchRequest {
             val commentsResponse = if (isAuthenticated) {
@@ -88,17 +91,26 @@ class CommentsViewModel @Inject constructor(
                                 onSuccess = {
                                     _errorToast.value = null
                                     this@CommentsViewModel.body = ""
+                                    logger.logEvent(
+                                        eventName = LOGGER_ADD_COMMENT_SUCCESS_EVENT_NAME,
+                                        LOGGER_POST_ID_PARAM_NAME to postId.toString(),
+                                    )
                                     fetchComments()
                                 },
                                 onFailure = { ex ->
+                                    val errorMessage = (ex as? HttpException)?.toErrorResponse()
+                                        ?.errorMessage?.toHtml()?.toString()
                                     _errorToast.postValue(
-                                        (ex as? HttpException)?.toErrorResponse()?.let {
-                                            CommentError.AddCommentFailed(
-                                                reason = it.errorMessage.toHtml().toString()
-                                            )
+                                        errorMessage?.let {
+                                            CommentError.AddCommentFailed(reason = it)
                                         } ?: CommentError.AddCommentFailed()
                                     )
                                     this@CommentsViewModel.body = body
+                                    logger.logEvent(
+                                        eventName = LOGGER_ADD_COMMENT_ERROR_EVENT_NAME,
+                                        LOGGER_POST_ID_PARAM_NAME to postId.toString(),
+                                        LOGGER_ERROR_MESSAGE_PARAM_NAME to (errorMessage ?: ""),
+                                    )
                                     fetchComments()
                                 },
                                 block = { service.addComment(postId, body, isPreview) }
@@ -147,5 +159,12 @@ class CommentsViewModel @Inject constructor(
     sealed class CommentError {
         class AddCommentFailed(val reason: String? = null) : CommentError()
         class UpvoteFailed(val reason: String? = null) : CommentError()
+    }
+
+    companion object {
+        private const val LOGGER_ADD_COMMENT_SUCCESS_EVENT_NAME = "add_comment_success"
+        private const val LOGGER_ADD_COMMENT_ERROR_EVENT_NAME = "add_comment_error"
+        private const val LOGGER_POST_ID_PARAM_NAME = "post_id"
+        private const val LOGGER_ERROR_MESSAGE_PARAM_NAME = "error_message"
     }
 }
