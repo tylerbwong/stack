@@ -70,6 +70,24 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="@string/privacy"
+        android:layout="@layout/preference_category_layout"
+        android:title="@string/privacy">
+
+        <SwitchPreferenceCompat
+            android:icon="@drawable/ic_baseline_bug_report"
+            android:key="@string/crashlytics"
+            android:summary="@string/crashlytics_description"
+            android:title="@string/crashlytics" />
+
+        <SwitchPreferenceCompat
+            android:icon="@drawable/ic_baseline_track_changes"
+            android:key="@string/event_logging"
+            android:summary="@string/event_logging_description"
+            android:title="@string/event_logging" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:layout="@layout/preference_category_layout"
         android:title="@string/about">
 
@@ -97,8 +115,8 @@
             android:title="@string/api" />
 
         <Preference
-            android:key="@string/privacy"
-            android:title="@string/privacy" />
+            android:key="@string/privacy_policy"
+            android:title="@string/privacy_policy" />
 
         <Preference
             android:key="@string/terms"

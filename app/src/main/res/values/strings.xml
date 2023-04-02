@@ -223,6 +223,11 @@
     <!-- Settings -->
     <string name="app">App</string>
     <string name="about">About</string>
+    <string name="privacy">Privacy</string>
+    <string name="crashlytics" translatable="false">Crashlytics</string>
+    <string name="crashlytics_description">Help diagnose issues within the app</string>
+    <string name="event_logging">Event logging</string>
+    <string name="event_logging_description">Allow app events to be logged</string>
     <string name="experimental">Experimental</string>
     <string name="account">Account</string>
     <string name="debug">Debug</string>
@@ -232,7 +237,7 @@
     <string name="libraries">Open source libraries</string>
     <string name="libraries_description">These awesome libraries helped make Stack possible</string>
     <string name="api">Powered by the Stack Exchange API</string>
-    <string name="privacy">Privacy policy</string>
+    <string name="privacy_policy">Privacy policy</string>
     <string name="terms">Terms and conditions</string>
     <string name="license">%1$s License</string>
 

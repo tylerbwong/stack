@@ -1,6 +1,7 @@
 package me.tylerbwong.stack.play.logging.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
@@ -13,6 +14,7 @@ import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.di.Initializer
+import me.tylerbwong.stack.data.di.StackSharedPreferences
 import me.tylerbwong.stack.data.logging.Logger
 import me.tylerbwong.stack.data.site.SiteStore
 import me.tylerbwong.stack.play.logging.FirebaseLogger
@@ -35,5 +37,6 @@ class FirebaseModule {
         analytics: FirebaseAnalytics,
         authStore: AuthStore,
         siteStore: SiteStore,
-    ): Logger = FirebaseLogger(analytics, authStore, siteStore)
+        @StackSharedPreferences preferences: SharedPreferences,
+    ): Logger = FirebaseLogger(analytics, authStore, siteStore, preferences)
 }

@@ -1,5 +1,6 @@
 package me.tylerbwong.stack.play.logging
 
+import android.content.SharedPreferences
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.ParametersBuilder
 import com.google.firebase.analytics.ktx.logEvent
@@ -11,12 +12,18 @@ class FirebaseLogger(
     private val analytics: FirebaseAnalytics,
     private val authStore: AuthStore,
     private val siteStore: SiteStore,
+    private val preferences: SharedPreferences,
 ) : Logger {
+    override var isLoggingEnabled: Boolean
+        get() = preferences.getBoolean(LOGGING_ENABLED_PREF, true)
+        set(value) = preferences.edit().putBoolean(LOGGING_ENABLED_PREF, value).apply()
 
     override fun logEvent(eventName: String, vararg params: Pair<String, String>) {
-        analytics.logEvent(eventName) {
-            params.forEach { param(it.first, it.second) }
-            appendBaseParams()
+        if (isLoggingEnabled) {
+            analytics.logEvent(eventName) {
+                params.forEach { param(it.first, it.second) }
+                appendBaseParams()
+            }
         }
     }
 
@@ -26,6 +33,7 @@ class FirebaseLogger(
     }
 
     companion object {
+        private const val LOGGING_ENABLED_PREF = "logging_enabled"
         private const val BASE_PARAM_AUTHENTICATED = "is_authenticated"
         private const val BASE_PARAM_SITE = "site"
     }

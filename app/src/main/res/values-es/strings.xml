@@ -206,6 +206,10 @@
     <!-- Settings -->
     <string name="app">App</string>
     <string name="about">Información</string>
+    <string name="privacy">Privacidad</string>
+    <string name="crashlytics_description">Ayudar a diagnosticar problemas dentro de la aplicación</string>
+    <string name="event_logging">El registro de eventos</string>
+    <string name="event_logging_description">Permitir que se registren eventos de la aplicación</string>
     <string name="experimental">Experimental</string>
     <string name="account">Cuenta</string>
     <string name="debug">Depurar</string>
@@ -215,7 +219,7 @@
     <string name="libraries">Módulos de código abierto</string>
     <string name="libraries_description">Estos increíbles módulos ayudaron a hacer posible Stack</string>
     <string name="api">Funciona con la API de Stack Exchange</string>
-    <string name="privacy">Política de privacidad</string>
+    <string name="privacy_policy">Política de privacidad</string>
     <string name="terms">Términos y condiciones</string>
     <string name="license">Licencia de %1$s</string>
 

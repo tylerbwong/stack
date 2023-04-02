@@ -21,6 +21,10 @@ import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.data.content.ContentFilter
+import me.tylerbwong.stack.data.logging.CrashReporting
+import me.tylerbwong.stack.data.logging.Logger
+import me.tylerbwong.stack.data.logging.NoOpCrashReporting
+import me.tylerbwong.stack.data.logging.NoOpLogger
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.profile.ProfileActivity
 import me.tylerbwong.stack.ui.settings.donation.DonationActivity
@@ -51,6 +55,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var contentFilter: ContentFilter
+
+    @Inject
+    lateinit var crashReporting: CrashReporting
+
+    @Inject
+    lateinit var logger: Logger
 
     private val viewModel by viewModels<SettingsViewModel>()
     private val donationViewModel by viewModels<DonationViewModel>()
@@ -102,6 +112,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
 
             setUpAppSection()
+            setUpPrivacySection()
             setUpAboutSection()
         }
         viewModel.isAuthenticated.observe(this) { isAuthenticated ->
@@ -229,6 +240,37 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
+    private fun PreferenceManager.setUpPrivacySection() {
+        findPreference<Preference>(getString(R.string.privacy))?.isVisible =
+            crashReporting !is NoOpCrashReporting || logger !is NoOpLogger
+        findPreference<TwoStatePreference>(getString(R.string.crashlytics))?.apply {
+            if (crashReporting !is NoOpCrashReporting) {
+                isChecked = crashReporting.isCrashReportingEnabled
+                isVisible = true
+                setOnPreferenceChangeListener { _, newValue ->
+                    crashReporting.isCrashReportingEnabled = newValue as Boolean
+                    true
+                }
+            } else {
+                isVisible = false
+                onPreferenceClickListener = null
+            }
+        }
+        findPreference<TwoStatePreference>(getString(R.string.event_logging))?.apply {
+            if (logger !is NoOpLogger) {
+                isChecked = logger.isLoggingEnabled
+                isVisible = true
+                setOnPreferenceChangeListener { _, newValue ->
+                    logger.isLoggingEnabled = newValue as Boolean
+                    true
+                }
+            } else {
+                isVisible = false
+                onPreferenceClickListener = null
+            }
+        }
+    }
+
     private fun PreferenceManager.setUpAboutSection() {
         findPreference<Preference>(getString(R.string.support_development))?.apply {
             if (donationViewModel.isBillingAvailable) {
@@ -265,7 +307,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         }
 
-        findPreference<Preference>(getString(R.string.privacy))?.apply {
+        findPreference<Preference>(getString(R.string.privacy_policy))?.apply {
             setOnPreferenceClickListener {
                 requireContext().launchUrl(getString(R.string.privacy_url))
                 true
