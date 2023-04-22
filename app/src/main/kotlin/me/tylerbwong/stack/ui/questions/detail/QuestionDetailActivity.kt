@@ -85,21 +85,7 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
             this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    if (viewModel.isInAnswerMode) {
-                        if (viewModel.hasContent) {
-                            showDialog {
-                                setMessage(R.string.discard_answer)
-                                setPositiveButton(R.string.discard) { _, _ ->
-                                    toggleAnswerMode(isInAnswerMode = false)
-                                }
-                                setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-                            }
-                        } else {
-                            toggleAnswerMode(isInAnswerMode = false)
-                        }
-                    } else {
-                        defaultOnBackPressed()
-                    }
+                    onBack()
                 }
             }
         )
@@ -126,7 +112,7 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> onBackPressed()
+            android.R.id.home -> onBack()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -181,6 +167,24 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
         if (isQuestionIdHidden || isUserIdHidden) {
             Toast.makeText(this, R.string.hide_post_hidden, Toast.LENGTH_LONG).show()
             finish()
+        }
+    }
+
+    private fun onBack() {
+        if (viewModel.isInAnswerMode) {
+            if (viewModel.hasContent) {
+                showDialog {
+                    setMessage(R.string.discard_answer)
+                    setPositiveButton(R.string.discard) { _, _ ->
+                        toggleAnswerMode(isInAnswerMode = false)
+                    }
+                    setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                }
+            } else {
+                toggleAnswerMode(isInAnswerMode = false)
+            }
+        } else {
+            defaultOnBackPressed()
         }
     }
 
