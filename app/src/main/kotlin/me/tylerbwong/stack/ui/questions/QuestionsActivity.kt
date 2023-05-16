@@ -89,7 +89,7 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> onBackPressedDispatcher.onBackPressed()
+            android.R.id.home -> defaultOnBackPressed(isSystemBack = false)
             R.id.sort -> {
                 PopupMenu(this, findViewById(R.id.sort)).also { popupMenu ->
                     popupMenu.inflate(R.menu.menu_sort)

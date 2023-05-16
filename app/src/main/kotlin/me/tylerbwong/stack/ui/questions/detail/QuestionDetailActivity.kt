@@ -112,7 +112,7 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> onBack()
+            android.R.id.home -> onBack(isSystemBack = false)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -170,7 +170,7 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
         }
     }
 
-    private fun onBack() {
+    private fun onBack(isSystemBack: Boolean = true) {
         if (viewModel.isInAnswerMode) {
             if (viewModel.hasContent) {
                 showDialog {
@@ -184,7 +184,7 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
                 toggleAnswerMode(isInAnswerMode = false)
             }
         } else {
-            defaultOnBackPressed()
+            defaultOnBackPressed(isSystemBack = isSystemBack)
         }
     }
 

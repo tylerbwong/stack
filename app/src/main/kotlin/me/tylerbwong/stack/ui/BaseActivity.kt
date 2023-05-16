@@ -62,8 +62,9 @@ abstract class BaseActivity<T : ViewBinding>(
         }
     }
 
-    protected fun defaultOnBackPressed() {
-        if (isTaskRoot && this@BaseActivity !is MainActivity) {
+    protected fun defaultOnBackPressed(isSystemBack: Boolean = true) {
+        val isDeepLink = intent.hasExtra(DEEP_LINK_SITE)
+        if (isDeepLink && !isSystemBack && isTaskRoot && this@BaseActivity !is MainActivity) {
             startActivity(Intent(this@BaseActivity, MainActivity::class.java))
         }
         finish()
