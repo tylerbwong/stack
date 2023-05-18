@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import me.tylerbwong.stack.data.persistence.dao.AnswerDao
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
+import me.tylerbwong.stack.data.persistence.dao.CommentDraftDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDraftDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
@@ -12,6 +13,7 @@ import me.tylerbwong.stack.data.persistence.dao.SiteDao
 import me.tylerbwong.stack.data.persistence.dao.UserDao
 import me.tylerbwong.stack.data.persistence.entity.AnswerDraftEntity
 import me.tylerbwong.stack.data.persistence.entity.AnswerEntity
+import me.tylerbwong.stack.data.persistence.entity.CommentDraftEntity
 import me.tylerbwong.stack.data.persistence.entity.QuestionDraftEntity
 import me.tylerbwong.stack.data.persistence.entity.QuestionEntity
 import me.tylerbwong.stack.data.persistence.entity.SearchEntity
@@ -27,9 +29,10 @@ import me.tylerbwong.stack.data.persistence.typeconverter.ListTypeConverter
         AnswerDraftEntity::class,
         SearchEntity::class,
         SiteEntity::class,
-        QuestionDraftEntity::class
+        QuestionDraftEntity::class,
+        CommentDraftEntity::class,
     ],
-    version = 12,
+    version = 13,
 )
 @TypeConverters(ListTypeConverter::class)
 abstract class StackDatabase : RoomDatabase() {
@@ -47,4 +50,6 @@ abstract class StackDatabase : RoomDatabase() {
     abstract fun getSiteDao(): SiteDao
 
     abstract fun getQuestionDraftDao(): QuestionDraftDao
+
+    abstract fun getCommentDraftDao(): CommentDraftDao
 }

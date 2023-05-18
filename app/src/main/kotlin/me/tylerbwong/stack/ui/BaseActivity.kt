@@ -63,8 +63,8 @@ abstract class BaseActivity<T : ViewBinding>(
     }
 
     protected fun defaultOnBackPressed(isSystemBack: Boolean = true) {
-        val isDeepLink = intent.hasExtra(DEEP_LINK_SITE)
-        if (isDeepLink && !isSystemBack && isTaskRoot && this@BaseActivity !is MainActivity) {
+        val shouldBuildBackstack = intent.hasExtra(DEEP_LINK_SITE) && !isSystemBack
+        if (shouldBuildBackstack && isTaskRoot && this@BaseActivity !is MainActivity) {
             startActivity(Intent(this@BaseActivity, MainActivity::class.java))
         }
         finish()

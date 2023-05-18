@@ -45,4 +45,12 @@ class MigrationModule {
             database.execSQL("ALTER TABLE question_drafts ADD COLUMN expand_body TEXT NOT NULL default ''")
         }
     }
+
+    @[Provides IntoSet StackMigration]
+    fun provideCommentDraftsMigration(): Migration = object : Migration(12, 13) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS comment_drafts (`post_id` INTEGER NOT " +
+                    "NULL, `body_markdown` TEXT NOT NULL, `site` TEXT NOT NULL, PRIMARY KEY(`post_id`))")
+        }
+    }
 }

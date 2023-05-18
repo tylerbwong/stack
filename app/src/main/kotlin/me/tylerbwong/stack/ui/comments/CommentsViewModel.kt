@@ -14,6 +14,9 @@ import me.tylerbwong.stack.api.utils.toErrorResponse
 import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.content.ContentFilter
 import me.tylerbwong.stack.data.logging.Logger
+import me.tylerbwong.stack.data.persistence.dao.CommentDraftDao
+import me.tylerbwong.stack.data.persistence.entity.CommentDraftEntity
+import me.tylerbwong.stack.data.site.SiteStore
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import me.tylerbwong.stack.ui.utils.toHtml
@@ -25,6 +28,8 @@ import javax.inject.Inject
 class CommentsViewModel @Inject constructor(
     private val service: CommentService,
     private val authStore: AuthStore,
+    private val commentDraftDao: CommentDraftDao,
+    private val siteStore: SiteStore,
     private val contentFilter: ContentFilter,
     private val logger: Logger,
 ) : BaseViewModel() {
@@ -51,11 +56,19 @@ class CommentsViewModel @Inject constructor(
     internal var commentId = -1
     internal var body = ""
 
-    @Suppress("LongMethod")
+    @Suppress("ComplexMethod", "LongMethod")
     fun fetchComments(newComments: List<Comment> = emptyList()) {
         launchRequest {
             val commentsResponse = if (isAuthenticated) {
-                service.getPostCommentsAuth(postId)
+                service.getPostCommentsAuth(postId).also {
+                    if (postId != -1) {
+                        val draft = commentDraftDao.getCommentDraft(
+                            postId = postId,
+                            site = siteStore.site,
+                        )
+                        body = draft?.bodyMarkdown ?: ""
+                    }
+                }
             } else {
                 service.getPostComments(postId)
             }
@@ -85,7 +98,10 @@ class CommentsViewModel @Inject constructor(
                     listOf(
                         AddCommentItem(
                             getBody = { body },
-                            setBody = { body = it },
+                            setBody = {
+                                body = it
+                                saveCommentDraft()
+                            },
                         ) { body, isPreview ->
                             launchRequest(
                                 onSuccess = {
@@ -96,6 +112,7 @@ class CommentsViewModel @Inject constructor(
                                         LOGGER_POST_ID_PARAM_NAME to postId.toString(),
                                     )
                                     fetchComments()
+                                    deleteCommentDraft()
                                 },
                                 onFailure = { ex ->
                                     val errorMessage = (ex as? HttpException)?.toErrorResponse()
@@ -125,6 +142,43 @@ class CommentsViewModel @Inject constructor(
             if (commentId != -1) {
                 _scrollToIndex.value = result
                     .indexOfFirst { it is CommentItem && it.comment.commentId == commentId }
+            }
+        }
+    }
+
+    fun saveCommentDraft() {
+        if (isAuthenticated && body.isNotEmpty()) {
+            viewModelScope.launch {
+                try {
+                    if (postId != -1) {
+                        commentDraftDao.insertCommentDraft(
+                            CommentDraftEntity(
+                                postId = postId,
+                                bodyMarkdown = body,
+                                site = siteStore.site,
+                            )
+                        )
+                    }
+                } catch (ex: Exception) {
+                    Timber.e(ex)
+                }
+            }
+        }
+    }
+
+    private fun deleteCommentDraft() {
+        if (isAuthenticated) {
+            viewModelScope.launch {
+                try {
+                    if (postId != -1) {
+                        commentDraftDao.deleteDraftById(
+                            postId = postId,
+                            site = siteStore.site,
+                        )
+                    }
+                } catch (ex: Exception) {
+                    Timber.e(ex)
+                }
             }
         }
     }
