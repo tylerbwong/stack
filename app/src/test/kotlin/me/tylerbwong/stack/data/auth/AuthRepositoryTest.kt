@@ -13,6 +13,7 @@ import me.tylerbwong.stack.data.auth.LoginResult.LoginSuccess
 import me.tylerbwong.stack.data.logging.Logger
 import me.tylerbwong.stack.data.persistence.dao.AnswerDao
 import me.tylerbwong.stack.data.persistence.dao.AnswerDraftDao
+import me.tylerbwong.stack.data.persistence.dao.CommentDraftDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDao
 import me.tylerbwong.stack.data.persistence.dao.QuestionDraftDao
 import me.tylerbwong.stack.data.persistence.dao.SearchDao
@@ -44,6 +45,9 @@ class AuthRepositoryTest : BaseTest() {
 
     @Mock
     private lateinit var answerDraftDao: AnswerDraftDao
+
+    @Mock
+    private lateinit var commentDraftDao: CommentDraftDao
 
     @Mock
     private lateinit var questionDao: QuestionDao
@@ -78,6 +82,7 @@ class AuthRepositoryTest : BaseTest() {
         repository = AuthRepository(
             questionDraftDao,
             answerDraftDao,
+            commentDraftDao,
             questionDao,
             answerDao,
             userDao,
@@ -144,6 +149,7 @@ class AuthRepositoryTest : BaseTest() {
             verify(authService, times(1)).logOut("test")
             verify(questionDraftDao, times(1)).clearDrafts()
             verify(answerDraftDao, times(1)).clearDrafts()
+            verify(commentDraftDao, times(1)).clearDrafts()
             verify(questionDao, times(1)).clearQuestions()
             verify(answerDao, times(1)).clearAnswers()
             verify(userDao, times(1)).clearUsers()
@@ -162,6 +168,7 @@ class AuthRepositoryTest : BaseTest() {
             verify(authService, never()).logOut(any(), any())
             verify(questionDraftDao, never()).clearDrafts()
             verify(answerDraftDao, never()).clearDrafts()
+            verify(commentDraftDao, never()).clearDrafts()
             verify(questionDao, never()).clearQuestions()
             verify(answerDao, never()).clearAnswers()
             verify(userDao, never()).clearUsers()
