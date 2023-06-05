@@ -11,6 +11,7 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.MainActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import me.tylerbwong.stack.ui.settings.SettingsActivity
+import me.tylerbwong.stack.ui.settings.sites.SitesActivity
 import org.junit.Test
 
 class MainActivityIntegrationTest : BaseIntegrationTest<MainActivity>(MainActivity::class.java) {
@@ -42,8 +43,8 @@ class MainActivityIntegrationTest : BaseIntegrationTest<MainActivity>(MainActivi
     }
 
     @Test
-    fun testClickingProfileOpensLogInDialog() {
-        clickOn(R.id.profileIcon)
-        assertDisplayed(R.string.log_in_title)
+    fun testClickingSiteIconOpensSiteActivity() {
+        clickOn(R.id.siteIcon)
+        intended(hasComponent(ComponentName(targetContext, SitesActivity::class.java)))
     }
 }

@@ -80,7 +80,8 @@ fun AskQuestionLayout() {
             AskQuestionPage.Title
         } else {
             AskQuestionPage.Start
-        }.ordinal
+        }.ordinal,
+        pageCount = { AskQuestionPage.values().size },
     )
     LaunchedEffect(askQuestionState) {
         if (askQuestionState is AskQuestionState.Success || askQuestionState == AskQuestionState.SuccessPreview) {
@@ -244,7 +245,6 @@ fun AskQuestionLayout() {
                     LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
                 }
                 HorizontalPager(
-                    pageCount = AskQuestionPage.values().size,
                     state = pagerState,
                     userScrollEnabled = false,
                 ) { page ->
