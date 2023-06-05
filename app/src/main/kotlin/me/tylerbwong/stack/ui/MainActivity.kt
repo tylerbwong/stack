@@ -74,7 +74,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
             if (isAuthenticated) {
                 pushAskQuestionShortcut()
-                viewModel.fetchInboxUnread()
+                // TODO Figure out unread status
+                // viewModel.fetchInboxUnread()
             } else {
                 removeAskQuestionShortcut()
             }
@@ -91,18 +92,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
             }
         }
-        viewModel.inboxUnreadCount.observe(this) { unreadCount ->
-            if (unreadCount != null) {
-                val inboxBadge = binding.bottomNav.getOrCreateBadge(R.id.inbox)
-                if (unreadCount > 0) {
-                    inboxBadge.isVisible = true
-                    inboxBadge.number = unreadCount
-                } else {
-                    inboxBadge.isVisible = false
-                    inboxBadge.number = 0
-                }
-            }
-        }
+        // TODO Figure out unread status
+//        viewModel.inboxUnreadCount.observe(this) { unreadCount ->
+//            if (unreadCount != null) {
+//                val inboxBadge = binding.bottomNav.getOrCreateBadge(R.id.inbox)
+//                if (unreadCount > 0) {
+//                    inboxBadge.isVisible = true
+//                    inboxBadge.number = unreadCount
+//                } else {
+//                    inboxBadge.isVisible = false
+//                    inboxBadge.number = 0
+//                }
+//            }
+//        }
 
         appUpdater.checkForUpdate(this)
         workScheduler.schedule()

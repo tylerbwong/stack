@@ -63,6 +63,7 @@ abstract class BaseActivity<T : ViewBinding>(
     }
 
     protected fun defaultOnBackPressed(isSystemBack: Boolean = true) {
+        siteStore.popCurrentDeepLinkSite()
         val shouldBuildBackstack = intent.hasExtra(DEEP_LINK_SITE) && !isSystemBack
         if (shouldBuildBackstack && isTaskRoot && this@BaseActivity !is MainActivity) {
             startActivity(Intent(this@BaseActivity, MainActivity::class.java))
@@ -71,7 +72,7 @@ abstract class BaseActivity<T : ViewBinding>(
     }
 
     private fun overrideDeepLinkSite() {
-        intent.getStringExtra(DEEP_LINK_SITE)?.let { siteStore.deepLinkSite = it }
+        intent.getStringExtra(DEEP_LINK_SITE)?.let { siteStore.pushCurrentDeepLinkSite(it) }
     }
 
     companion object {

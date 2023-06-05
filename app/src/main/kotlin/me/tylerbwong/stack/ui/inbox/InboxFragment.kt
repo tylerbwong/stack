@@ -121,7 +121,8 @@ class InboxFragment : BaseFragment<InboxFragmentBinding>(
         val homeItems: List<HomeItem> = listOf(
             HeaderItem(
                 getString(R.string.inbox),
-                getString(R.string.unread_count, viewModel.unreadCount.value)
+                // TODO Figure out unread status
+                subtitle = null, // getString(R.string.unread_count, viewModel.unreadCount.value)
             )
         )
 

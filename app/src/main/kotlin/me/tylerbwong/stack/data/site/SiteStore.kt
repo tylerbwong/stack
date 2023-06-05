@@ -15,7 +15,9 @@ class SiteStore @Inject constructor(
 ) {
     var site: String
         @Synchronized
-        get() = deepLinkSite ?: preferences.getString(SITE_KEY, defaultSite) ?: defaultSite
+        get() = deepLinkSites.firstOrNull()
+            ?: preferences.getString(SITE_KEY, defaultSite)
+            ?: defaultSite
         set(value) {
             preferences.edit().putString(SITE_KEY, value).apply()
             mutableSiteLiveData.value = value
@@ -24,16 +26,20 @@ class SiteStore @Inject constructor(
     /**
      * Used to determine the current site for the deep link session only.
      */
-    internal var deepLinkSite: String? = null
-        @Synchronized
-        get
-        set(value) {
-            if (value != site) field = value
-        }
+    private val deepLinkSites: MutableSet<String> = mutableSetOf()
 
     val siteLiveData: LiveData<String>
         get() = mutableSiteLiveData
     private val mutableSiteLiveData = MutableLiveData(site)
+
+    fun popCurrentDeepLinkSite() {
+        deepLinkSites.remove(this.site)
+        mutableSiteLiveData.value = this.site
+    }
+    fun pushCurrentDeepLinkSite(site: String) {
+        deepLinkSites.add(site)
+        mutableSiteLiveData.value = this.site
+    }
 
     companion object {
         internal const val SITE_PREFERENCES = "site_preferences"

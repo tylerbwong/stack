@@ -11,7 +11,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -126,15 +125,16 @@ private fun BaseInboxItem(
     onClick: () -> Unit,
     content: @Composable () -> Unit
 ) {
-    if (isUnread) {
-        Card(
-            onClick = onClick,
-            content = { content() },
-        )
-    } else {
-        OutlinedCard(
-            onClick = onClick,
-            content = { content() },
-        )
-    }
+    // TODO Figure out unread state
+//    if (isUnread) {
+    Card(
+        onClick = onClick,
+        content = { content() },
+    )
+//    } else {
+//        OutlinedCard(
+//            onClick = onClick,
+//            content = { content() },
+//        )
+//    }
 }
