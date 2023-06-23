@@ -233,5 +233,17 @@
                 android:value="androidx.startup"
                 tools:node="remove" />
         </provider>
+
+        <receiver
+            android:exported="false"
+            android:name=".ui.widgets.HotNetworkQuestionsWidget"
+            android:label="Hot Questions Widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/hot_network_questions_widget_info" />
+        </receiver>
     </application>
 </manifest>
