@@ -6,6 +6,9 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.view.View
 import android.widget.RemoteViews
 import android.widget.Toast
 import com.squareup.moshi.Moshi
@@ -22,6 +25,9 @@ import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.NetworkHotQuestion
 import me.tylerbwong.stack.data.repository.NetworkRepository
 import timber.log.Timber
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -98,11 +104,45 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         // Set the question title
         remoteViews.setTextViewText(R.id.questionTitleTextView, question.title)
 
+        // todo: it looks like we should try and use Coil for this?
+        try {
+            val iconBitmap = fetchQuestionIcon(question)
+            remoteViews.setImageViewBitmap(R.id.hotQuestionIcon, iconBitmap)
+            remoteViews.setViewVisibility(R.id.hotQuestionIcon, View.VISIBLE)
+        } catch (e: Exception) {
+            remoteViews.setViewVisibility(R.id.hotQuestionIcon, View.INVISIBLE)
+            e.printStackTrace()
+        }
+
         // Set click listeners for the question title and refresh button
         remoteViews.setOnClickPendingIntent(R.id.questionTitleTextView, getPendingIntent(context, ACTION_OPEN_QUESTION))
         remoteViews.setOnClickPendingIntent(R.id.fetchNewHotQuestionButton, getPendingIntent(context, ACTION_REFRESH))
 
         return remoteViews
+    }
+
+    private fun fetchQuestionIcon(question: NetworkHotQuestion): Bitmap? {
+        var inputStream: InputStream? = null
+        var connection: HttpURLConnection? = null
+        return try {
+            val url = URL(question.iconUrl)
+            connection = url.openConnection() as HttpURLConnection
+            connection.connect()
+
+            if (connection.responseCode == HttpURLConnection.HTTP_OK) {
+                inputStream = connection.inputStream
+                BitmapFactory.decodeStream(inputStream)
+            } else {
+                Timber.d("got " + connection.responseCode)
+                null
+            }
+        } catch (e: Exception) {
+            Timber.d(e)
+            null
+        } finally {
+            inputStream?.close()
+            connection?.disconnect()
+        }
     }
 
     // Create a pending intent for the specified action
