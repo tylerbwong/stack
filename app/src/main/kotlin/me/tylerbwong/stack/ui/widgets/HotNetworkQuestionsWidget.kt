@@ -8,6 +8,8 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import android.widget.Toast
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -19,6 +21,8 @@ import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.NetworkHotQuestion
 import me.tylerbwong.stack.data.repository.NetworkRepository
+import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,7 +37,7 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
     // Handle widget refresh action
     private fun refreshWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         externalScope.launch {
-            val question = getRandomHotNetworkQuestion()
+            val question = getRandomHotNetworkQuestion(context)
 
             // Update widget views with the fetched question
             val remoteViews = buildRemoteViews(context, question)
@@ -41,10 +45,44 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         }
     }
 
-    private suspend fun getRandomHotNetworkQuestion(): NetworkHotQuestion {
+    private suspend fun getHotNetworkQuestions(context: Context): List<NetworkHotQuestion> {
+        val sharedPreferences = context.getSharedPreferences("hot_network_questions_widget_cache", Context.MODE_PRIVATE)
+        val type = Types.newParameterizedType(MutableList::class.java, NetworkHotQuestion::class.java)
+        val jsonAdapter = Moshi.Builder().build().adapter<List<NetworkHotQuestion>>(type)
+
+        val questionsJson = sharedPreferences.getString("hot_network_questions", null)
+        val expiresAfter = sharedPreferences.getLong("hot_network_questions_expires_after", -1)
+
+        if (questionsJson != null && expiresAfter > System.currentTimeMillis()) {
+            Timber.d("hot network questions: cache hit")
+
+            // todo: we should actually probably not count null or an empty list as a cache hit
+            return jsonAdapter.fromJson(questionsJson) ?: emptyList()
+        }
+
+        Timber.d("hot network questions: cache miss")
+
+        val questions = networkRepository.getHotNetworkQuestions()
+        val editor = sharedPreferences.edit()
+
+        editor.putString("hot_network_questions", jsonAdapter.toJson(questions))
+        editor.putLong(
+            "hot_network_questions_expires_after",
+            System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(CACHE_EXPIRES_AFTER_MINUTES)
+        )
+
+        editor.apply()
+
+        return questions
+    }
+
+    private suspend fun getRandomHotNetworkQuestion(context: Context): NetworkHotQuestion {
         // todo: avoid picking the same hot question in a row (use setExtra)
-        // todo: we should catch this list for a short time
-        return withContext(ioDispatcher) { networkRepository.getHotNetworkQuestions().random() }
+        return withContext(ioDispatcher) {
+            getHotNetworkQuestions(context)
+                .also { Timber.d("hot network questions count is ${it.size}") }
+                .random()
+        }
     }
 
     // Handle widget question click action
@@ -110,5 +148,6 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
     companion object {
         private const val ACTION_REFRESH = "me.tylerbwong.stack.widget.ACTION_REFRESH"
         private const val ACTION_OPEN_QUESTION = "me.tylerbwong.stack.widget.ACTION_OPEN_QUESTION"
+        private const val CACHE_EXPIRES_AFTER_MINUTES = 5L
     }
 }
