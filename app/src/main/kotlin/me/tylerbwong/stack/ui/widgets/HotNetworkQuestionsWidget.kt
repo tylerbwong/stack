@@ -50,30 +50,30 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         val type = Types.newParameterizedType(MutableList::class.java, NetworkHotQuestion::class.java)
         val jsonAdapter = Moshi.Builder().build().adapter<List<NetworkHotQuestion>>(type)
 
-        val questionsJson = sharedPreferences.getString("hot_network_questions", null)
-        val expiresAfter = sharedPreferences.getLong("hot_network_questions_expires_after", -1)
+        sharedPreferences.getString("hot_network_questions", null)?.let {
+            val expiresAfter = sharedPreferences.getLong("hot_network_questions_expires_after", -1)
 
-        if (questionsJson != null && expiresAfter > System.currentTimeMillis()) {
-            Timber.d("hot network questions: cache hit")
+            if (expiresAfter > System.currentTimeMillis()) {
+                Timber.d("hot network questions: cache hit")
 
-            // todo: we should actually probably not count null or an empty list as a cache hit
-            return jsonAdapter.fromJson(questionsJson) ?: emptyList()
+                // todo: we should actually probably not count null or an empty list as a cache hit
+                return jsonAdapter.fromJson(it) ?: emptyList()
+            }
         }
 
         Timber.d("hot network questions: cache miss")
 
-        val questions = networkRepository.getHotNetworkQuestions()
-        val editor = sharedPreferences.edit()
+        return networkRepository.getHotNetworkQuestions().also {
+            sharedPreferences.edit().apply {
+                putString("hot_network_questions", jsonAdapter.toJson(it))
+                putLong(
+                    "hot_network_questions_expires_after",
+                    System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(CACHE_EXPIRES_AFTER_MINUTES)
+                )
 
-        editor.putString("hot_network_questions", jsonAdapter.toJson(questions))
-        editor.putLong(
-            "hot_network_questions_expires_after",
-            System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(CACHE_EXPIRES_AFTER_MINUTES)
-        )
-
-        editor.apply()
-
-        return questions
+                apply()
+            }
+        }
     }
 
     private suspend fun getRandomHotNetworkQuestion(context: Context): NetworkHotQuestion {
