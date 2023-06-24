@@ -100,7 +100,7 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
 
         // Set click listeners for the question title and refresh button
         remoteViews.setOnClickPendingIntent(R.id.questionTitleTextView, getPendingIntent(context, ACTION_OPEN_QUESTION))
-        remoteViews.setOnClickPendingIntent(R.id.refreshButton, getPendingIntent(context, ACTION_REFRESH))
+        remoteViews.setOnClickPendingIntent(R.id.fetchNewHotQuestionButton, getPendingIntent(context, ACTION_REFRESH))
 
         return remoteViews
     }

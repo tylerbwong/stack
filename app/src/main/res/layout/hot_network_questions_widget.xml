@@ -1,27 +1,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:background="#FFFFFF"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/questionTitleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="6dp"
         android:layout_weight="1"
-        android:background="@android:drawable/btn_default"
         android:clickable="true"
         android:focusable="true"
-        android:gravity="center_vertical"
-        android:padding="8dp"
         android:text="Hot Question Title"
-        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textAppearance="@android:style/TextAppearance.Small"
         android:textColor="@android:color/black" />
 
-    <Button
-        android:id="@+id/refreshButton"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        android:text="Refresh" />
-
+    <ImageButton
+        android:id="@+id/fetchNewHotQuestionButton"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Fetch new hot network question button"
+        android:src="@android:drawable/ic_popup_sync" />
 </LinearLayout>
