@@ -49,6 +49,10 @@ class SiteInterceptor @Inject constructor(
             "sites",
             "me/associated",
             "inbox",
+            // TODO having to list this when `site` should already be omitted from
+            //  requests that are not to api.stackexchange.com is probably a good
+            //  sign that we've abused the current service/repository pattern
+            "hot-questions-json",
         )
     }
 }

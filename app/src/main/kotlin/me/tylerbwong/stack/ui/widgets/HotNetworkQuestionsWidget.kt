@@ -8,34 +8,43 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import android.widget.Toast
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
+import me.tylerbwong.stack.api.model.NetworkHotQuestion
+import me.tylerbwong.stack.data.repository.NetworkRepository
+import javax.inject.Inject
 
-class HotNetworkQuestionsWidget : AppWidgetProvider() {
+@AndroidEntryPoint
+class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor(
+    // TODO there's probably a better way to coroutine this...
+    private val externalScope: CoroutineScope = GlobalScope,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) : AppWidgetProvider() {
+    @Inject
+    lateinit var networkRepository: NetworkRepository
+
     // Handle widget refresh action
     private fun refreshWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
-        // TODO: Implement the logic to fetch a random hot question from the Stack Exchange API
+        externalScope.launch {
+            val question = getRandomHotNetworkQuestion()
 
-        // Update widget views with the fetched question
-        val remoteViews = buildRemoteViews(context, getRandomTitle())
-        appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
+            // Update widget views with the fetched question
+            val remoteViews = buildRemoteViews(context, question)
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
+        }
     }
 
-    private fun getRandomTitle(): String {
-        val titles = arrayOf(
-            "What is the best programming language for beginners?",
-            "How to optimize SQL queries for better performance?",
-            "What are the key principles of object-oriented programming?",
-            "How does encryption work in network security?",
-            "What are the latest trends in artificial intelligence?",
-            "How to handle exceptions in Java programming?",
-            "What are the differences between HTTP and HTTPS?",
-            "What are the best practices for mobile app development?",
-            "How to implement data caching in Android applications?",
-            "What are the advantages of using a NoSQL database?"
-        )
-        val randomIndex = titles.indices.random()
-
-        return titles[randomIndex]
+    private suspend fun getRandomHotNetworkQuestion(): NetworkHotQuestion {
+        // todo: avoid picking the same hot question in a row (use setExtra)
+        // todo: we should catch this list for a short time
+        return withContext(ioDispatcher) { networkRepository.getHotNetworkQuestions().random() }
     }
 
     // Handle widget question click action
@@ -45,11 +54,11 @@ class HotNetworkQuestionsWidget : AppWidgetProvider() {
     }
 
     // Build the remote views for the widget
-    private fun buildRemoteViews(context: Context, questionTitle: String): RemoteViews {
+    private fun buildRemoteViews(context: Context, question: NetworkHotQuestion): RemoteViews {
         val remoteViews = RemoteViews(context.packageName, R.layout.hot_network_questions_widget)
 
         // Set the question title
-        remoteViews.setTextViewText(R.id.questionTitleTextView, questionTitle)
+        remoteViews.setTextViewText(R.id.questionTitleTextView, question.title)
 
         // Set click listeners for the question title and refresh button
         remoteViews.setOnClickPendingIntent(R.id.questionTitleTextView, getPendingIntent(context, ACTION_OPEN_QUESTION))
