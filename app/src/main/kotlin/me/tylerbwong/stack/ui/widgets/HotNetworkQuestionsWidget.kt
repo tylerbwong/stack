@@ -6,10 +6,11 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.view.View
 import android.widget.RemoteViews
+import androidx.core.graphics.drawable.toBitmap
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,9 +26,6 @@ import me.tylerbwong.stack.api.model.NetworkHotQuestion
 import me.tylerbwong.stack.data.repository.NetworkRepository
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import timber.log.Timber
-import java.io.InputStream
-import java.net.HttpURLConnection
-import java.net.URL
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -39,6 +37,9 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
 ) : AppWidgetProvider() {
     @Inject
     lateinit var networkRepository: NetworkRepository
+
+    @Inject
+    lateinit var imageLoader: ImageLoader
 
     private fun refreshWidgets(
         context: Context,
@@ -109,20 +110,24 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         }
     }
 
-    private fun buildRemoteViews(context: Context, question: NetworkHotQuestion): RemoteViews {
+    private suspend fun buildRemoteViews(context: Context, question: NetworkHotQuestion): RemoteViews {
         return RemoteViews(context.packageName, R.layout.hot_network_questions_widget).apply {
             // Set the question title
             setTextViewText(R.id.hotNetworkQuestionTitleTextView, question.title)
 
-            // todo: it looks like we should try and use Coil for this?
-            try {
-                val iconBitmap = fetchQuestionIcon(question)
-                setImageViewBitmap(R.id.hotQuestionIcon, iconBitmap)
-                setViewVisibility(R.id.hotQuestionIcon, View.VISIBLE)
-            } catch (e: Exception) {
-                setViewVisibility(R.id.hotQuestionIcon, View.INVISIBLE)
-                e.printStackTrace()
-            }
+            ImageRequest.Builder(context)
+                .data(question.iconUrl)
+                .target(
+                    onSuccess = {
+                        setImageViewBitmap(R.id.hotQuestionIcon, it.toBitmap())
+                        setViewVisibility(R.id.hotQuestionIcon, View.VISIBLE)
+                    },
+                    onError = {
+                        setViewVisibility(R.id.hotQuestionIcon, View.INVISIBLE)
+                    }
+                )
+                .build()
+                .let { imageLoader.execute(it) }
 
             // Set click listeners for the question title and refresh button
             setOnClickPendingIntent(R.id.hotNetworkQuestionTitleTextView, getOpenQuestionIntent(context, question))
@@ -158,30 +163,6 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-    }
-
-    private fun fetchQuestionIcon(question: NetworkHotQuestion): Bitmap? {
-        var inputStream: InputStream? = null
-        var connection: HttpURLConnection? = null
-        return try {
-            val url = URL(question.iconUrl)
-            connection = url.openConnection() as HttpURLConnection
-            connection.connect()
-
-            if (connection.responseCode == HttpURLConnection.HTTP_OK) {
-                inputStream = connection.inputStream
-                BitmapFactory.decodeStream(inputStream)
-            } else {
-                Timber.d("got " + connection.responseCode)
-                null
-            }
-        } catch (e: Exception) {
-            Timber.d(e)
-            null
-        } finally {
-            inputStream?.close()
-            connection?.disconnect()
-        }
     }
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
