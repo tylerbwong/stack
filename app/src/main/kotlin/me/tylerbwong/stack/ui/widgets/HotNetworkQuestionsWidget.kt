@@ -24,6 +24,7 @@ import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.NetworkHotQuestion
 import me.tylerbwong.stack.data.repository.NetworkRepository
+import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import timber.log.Timber
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -115,10 +116,26 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         }
 
         // Set click listeners for the question title and refresh button
-        remoteViews.setOnClickPendingIntent(R.id.questionTitleTextView, getPendingIntent(context, ACTION_OPEN_QUESTION))
+        remoteViews.setOnClickPendingIntent(R.id.questionTitleTextView, getOpenQuestionIntent(context, question))
         remoteViews.setOnClickPendingIntent(R.id.fetchNewHotQuestionButton, getPendingIntent(context, ACTION_REFRESH))
 
         return remoteViews
+    }
+
+    private fun getOpenQuestionIntent(context: Context, question: NetworkHotQuestion): PendingIntent {
+        val intent = QuestionDetailActivity.makeIntent(
+            context = context,
+            questionId = question.questionId,
+            deepLinkSite = question.site,
+            clearDeepLinkedSites = true
+        )
+
+        return PendingIntent.getActivity(
+            context,
+            System.currentTimeMillis().toInt(),
+            intent.setAction("OPEN_QUESTION_${question.questionId}_ON_${question.site}"),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
     }
 
     private fun fetchQuestionIcon(question: NetworkHotQuestion): Bitmap? {

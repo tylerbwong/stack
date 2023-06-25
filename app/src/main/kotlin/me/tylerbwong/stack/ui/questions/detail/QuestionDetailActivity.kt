@@ -200,13 +200,15 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
             answerId: Int? = null,
             commentId: Int? = null,
             isInAnswerMode: Boolean = false,
-            deepLinkSite: String? = null
+            deepLinkSite: String? = null,
+            clearDeepLinkedSites: Boolean = false,
         ) = Intent(context, QuestionDetailActivity::class.java)
             .putExtra(QUESTION_ID, questionId)
             .putExtra(ANSWER_ID, answerId)
             .putExtra(COMMENT_ID, commentId)
             .putExtra(IS_IN_ANSWER_MODE, isInAnswerMode)
             .putExtra(DEEP_LINK_SITE, deepLinkSite)
+            .putExtra(CLEAR_DEEP_LINKED_SITES, clearDeepLinkedSites)
 
         fun startActivity(context: Context, id: Int) {
             context.startActivity(makeIntent(context, id))
