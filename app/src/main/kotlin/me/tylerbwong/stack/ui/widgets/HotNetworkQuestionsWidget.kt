@@ -10,7 +10,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.view.View
 import android.widget.RemoteViews
-import android.widget.Toast
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,14 +40,14 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
     @Inject
     lateinit var networkRepository: NetworkRepository
 
-    // Handle widget refresh action
-    private fun refreshWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
-        externalScope.launch {
-            val question = getRandomHotNetworkQuestion(context)
+    private fun refreshWidgets(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+        for (appWidgetId in appWidgetIds) {
+            externalScope.launch {
+                val question = getRandomHotNetworkQuestion(context)
 
-            // Update widget views with the fetched question
-            val remoteViews = buildRemoteViews(context, question)
-            appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
+                val remoteViews = buildRemoteViews(context, question)
+                appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
+            }
         }
     }
 
@@ -92,13 +91,6 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         }
     }
 
-    // Handle widget question click action
-    private fun openQuestion(context: Context) {
-        // TODO: Implement the logic to open the tapped question in the Stack Android app
-        Toast.makeText(context, "Opening question...", Toast.LENGTH_SHORT).show()
-    }
-
-    // Build the remote views for the widget
     private fun buildRemoteViews(context: Context, question: NetworkHotQuestion): RemoteViews {
         val remoteViews = RemoteViews(context.packageName, R.layout.hot_network_questions_widget)
 
@@ -117,7 +109,7 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
 
         // Set click listeners for the question title and refresh button
         remoteViews.setOnClickPendingIntent(R.id.questionTitleTextView, getOpenQuestionIntent(context, question))
-        remoteViews.setOnClickPendingIntent(R.id.fetchNewHotQuestionButton, getPendingIntent(context, ACTION_REFRESH))
+        remoteViews.setOnClickPendingIntent(R.id.fetchNewHotQuestionButton, getFetchNewHotQuestionIntent(context))
 
         return remoteViews
     }
@@ -134,6 +126,18 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
             context,
             System.currentTimeMillis().toInt(),
             intent.setAction("OPEN_QUESTION_${question.questionId}_ON_${question.site}"),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+    }
+
+    private fun getFetchNewHotQuestionIntent(context: Context): PendingIntent {
+        val intent = Intent(context, HotNetworkQuestionsWidget::class.java)
+        intent.action = ACTION_REFRESH
+
+        return PendingIntent.getBroadcast(
+            context,
+            0,
+            intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
     }
@@ -162,22 +166,8 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         }
     }
 
-    // Create a pending intent for the specified action
-    private fun getPendingIntent(context: Context, action: String): PendingIntent {
-        val intent = Intent(context, HotNetworkQuestionsWidget::class.java)
-        intent.action = action
-        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-    }
-
-    override fun onUpdate(
-        context: Context,
-        appWidgetManager: AppWidgetManager,
-        appWidgetIds: IntArray
-    ) {
-        // Iterate through each widget instance
-        for (appWidgetId in appWidgetIds) {
-            refreshWidget(context, appWidgetManager, appWidgetId)
-        }
+    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+        refreshWidgets(context, appWidgetManager, appWidgetIds)
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -190,21 +180,13 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
                     ComponentName(context, HotNetworkQuestionsWidget::class.java)
                 )
 
-                // Iterate through each widget instance and refresh
-                for (appWidgetId in appWidgetIds) {
-                    refreshWidget(context, appWidgetManager, appWidgetId)
-                }
-            }
-
-            ACTION_OPEN_QUESTION -> {
-                openQuestion(context)
+                refreshWidgets(context, appWidgetManager, appWidgetIds)
             }
         }
     }
 
     companion object {
         private const val ACTION_REFRESH = "me.tylerbwong.stack.widget.ACTION_REFRESH"
-        private const val ACTION_OPEN_QUESTION = "me.tylerbwong.stack.widget.ACTION_OPEN_QUESTION"
         private const val CACHE_EXPIRES_AFTER_MINUTES = 5L
     }
 }
