@@ -40,10 +40,15 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
     @Inject
     lateinit var networkRepository: NetworkRepository
 
-    private fun refreshWidgets(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+    private fun refreshWidgets(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray,
+        currentQuestionId: Int = -1
+    ) {
         for (appWidgetId in appWidgetIds) {
             externalScope.launch {
-                val question = getRandomHotNetworkQuestion(context)
+                val question = getRandomHotNetworkQuestion(context, currentQuestionId)
 
                 val remoteViews = buildRemoteViews(context, question)
                 appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
@@ -82,12 +87,25 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         }
     }
 
-    private suspend fun getRandomHotNetworkQuestion(context: Context): NetworkHotQuestion {
-        // todo: avoid picking the same hot question in a row (use setExtra)
+    private suspend fun getRandomHotNetworkQuestion(context: Context, currentQuestionId: Int): NetworkHotQuestion {
         return withContext(ioDispatcher) {
-            getHotNetworkQuestions(context)
+            val questions = getHotNetworkQuestions(context)
                 .also { Timber.d("hot network questions count is ${it.size}") }
-                .random()
+
+            var question = questions.random()
+
+            // the exchange typically provides 100 hot network questions, so explicitly checking that the question
+            // id is different two times should ensure the odds of the same hot question being picked are very low
+            // without requiring us to worry about handling edge cases that could cause infinite loops
+            if (questions.size > 1 && question.questionId == currentQuestionId) {
+                question = questions.random()
+
+                if (question.questionId == currentQuestionId) {
+                    question = questions.random()
+                }
+            }
+
+            question
         }
     }
 
@@ -108,7 +126,7 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
 
             // Set click listeners for the question title and refresh button
             setOnClickPendingIntent(R.id.questionTitleTextView, getOpenQuestionIntent(context, question))
-            setOnClickPendingIntent(R.id.fetchNewHotQuestionButton, getFetchNewHotQuestionIntent(context))
+            setOnClickPendingIntent(R.id.fetchNewHotQuestionButton, getFetchNewHotQuestionIntent(context, question))
         }
     }
 
@@ -128,9 +146,11 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         )
     }
 
-    private fun getFetchNewHotQuestionIntent(context: Context): PendingIntent {
+    private fun getFetchNewHotQuestionIntent(context: Context, currentQuestion: NetworkHotQuestion): PendingIntent {
         val intent = Intent(context, HotNetworkQuestionsWidget::class.java)
+
         intent.action = ACTION_REFRESH
+        intent.putExtra(CURRENT_HOT_QUESTION_ID, currentQuestion.questionId)
 
         return PendingIntent.getBroadcast(
             context,
@@ -178,13 +198,19 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
                     ComponentName(context, HotNetworkQuestionsWidget::class.java)
                 )
 
-                refreshWidgets(context, appWidgetManager, appWidgetIds)
+                refreshWidgets(
+                    context,
+                    appWidgetManager,
+                    appWidgetIds,
+                    intent.getIntExtra(CURRENT_HOT_QUESTION_ID, -1)
+                )
             }
         }
     }
 
     companion object {
         private const val ACTION_REFRESH = "me.tylerbwong.stack.widget.ACTION_REFRESH"
+        private const val CURRENT_HOT_QUESTION_ID = "current_hot_question_id"
         private const val CACHE_EXPIRES_AFTER_MINUTES = 5L
     }
 }
