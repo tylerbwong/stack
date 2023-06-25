@@ -112,7 +112,7 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
     private fun buildRemoteViews(context: Context, question: NetworkHotQuestion): RemoteViews {
         return RemoteViews(context.packageName, R.layout.hot_network_questions_widget).apply {
             // Set the question title
-            setTextViewText(R.id.questionTitleTextView, question.title)
+            setTextViewText(R.id.hotNetworkQuestionTitleTextView, question.title)
 
             // todo: it looks like we should try and use Coil for this?
             try {
@@ -125,7 +125,7 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
             }
 
             // Set click listeners for the question title and refresh button
-            setOnClickPendingIntent(R.id.questionTitleTextView, getOpenQuestionIntent(context, question))
+            setOnClickPendingIntent(R.id.hotNetworkQuestionTitleTextView, getOpenQuestionIntent(context, question))
             setOnClickPendingIntent(R.id.fetchNewHotQuestionButton, getFetchNewHotQuestionIntent(context, question))
         }
     }

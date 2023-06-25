@@ -10,18 +10,18 @@
         android:id="@+id/hotQuestionIcon"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:contentDescription="Hot network question icon"
+        android:contentDescription="@string/hot_network_questions_question_icon"
         android:visibility="invisible" />
 
     <TextView
-        android:id="@+id/questionTitleTextView"
+        android:id="@+id/hotNetworkQuestionTitleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="6dp"
         android:layout_weight="1"
         android:clickable="true"
         android:focusable="true"
-        android:text="Hot Question Title"
+        android:text="@string/hot_network_questions_unable_to_load"
         android:textAppearance="@android:style/TextAppearance.Small"
         android:textColor="@android:color/black" />
 
@@ -30,6 +30,6 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:background="@android:color/transparent"
-        android:contentDescription="Fetch new hot network question button"
+        android:contentDescription="@string/hot_network_questions_fetch_new"
         android:src="@android:drawable/ic_popup_sync" />
 </LinearLayout>
