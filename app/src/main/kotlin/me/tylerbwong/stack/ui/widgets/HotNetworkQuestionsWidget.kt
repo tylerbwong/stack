@@ -92,26 +92,24 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
     }
 
     private fun buildRemoteViews(context: Context, question: NetworkHotQuestion): RemoteViews {
-        val remoteViews = RemoteViews(context.packageName, R.layout.hot_network_questions_widget)
+        return RemoteViews(context.packageName, R.layout.hot_network_questions_widget).apply {
+            // Set the question title
+            setTextViewText(R.id.questionTitleTextView, question.title)
 
-        // Set the question title
-        remoteViews.setTextViewText(R.id.questionTitleTextView, question.title)
+            // todo: it looks like we should try and use Coil for this?
+            try {
+                val iconBitmap = fetchQuestionIcon(question)
+                setImageViewBitmap(R.id.hotQuestionIcon, iconBitmap)
+                setViewVisibility(R.id.hotQuestionIcon, View.VISIBLE)
+            } catch (e: Exception) {
+                setViewVisibility(R.id.hotQuestionIcon, View.INVISIBLE)
+                e.printStackTrace()
+            }
 
-        // todo: it looks like we should try and use Coil for this?
-        try {
-            val iconBitmap = fetchQuestionIcon(question)
-            remoteViews.setImageViewBitmap(R.id.hotQuestionIcon, iconBitmap)
-            remoteViews.setViewVisibility(R.id.hotQuestionIcon, View.VISIBLE)
-        } catch (e: Exception) {
-            remoteViews.setViewVisibility(R.id.hotQuestionIcon, View.INVISIBLE)
-            e.printStackTrace()
+            // Set click listeners for the question title and refresh button
+            setOnClickPendingIntent(R.id.questionTitleTextView, getOpenQuestionIntent(context, question))
+            setOnClickPendingIntent(R.id.fetchNewHotQuestionButton, getFetchNewHotQuestionIntent(context))
         }
-
-        // Set click listeners for the question title and refresh button
-        remoteViews.setOnClickPendingIntent(R.id.questionTitleTextView, getOpenQuestionIntent(context, question))
-        remoteViews.setOnClickPendingIntent(R.id.fetchNewHotQuestionButton, getFetchNewHotQuestionIntent(context))
-
-        return remoteViews
     }
 
     private fun getOpenQuestionIntent(context: Context, question: NetworkHotQuestion): PendingIntent {
