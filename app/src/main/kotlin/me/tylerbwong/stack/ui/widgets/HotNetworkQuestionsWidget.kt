@@ -154,11 +154,11 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         )
     }
 
-    private fun getFetchNewHotQuestionIntent(context: Context, currentQuestion: NetworkHotQuestion): PendingIntent {
+    private fun getFetchNewHotQuestionIntent(context: Context, currentQuestion: NetworkHotQuestion?): PendingIntent {
         val intent = Intent(context, HotNetworkQuestionsWidget::class.java)
 
         intent.action = ACTION_REFRESH
-        intent.putExtra(CURRENT_HOT_QUESTION_ID, currentQuestion.questionId)
+        intent.putExtra(CURRENT_HOT_QUESTION_ID, currentQuestion?.questionId)
 
         return PendingIntent.getBroadcast(
             context,
@@ -169,6 +169,15 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
     }
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+        for (appWidgetId in appWidgetIds) {
+            val remoteViews = RemoteViews(context.packageName, R.layout.hot_network_questions_widget).apply {
+                setTextViewText(R.id.hotNetworkQuestionTitleTextView, "Loading hot network questions")
+
+                setOnClickPendingIntent(R.id.fetchNewHotQuestionButton, getFetchNewHotQuestionIntent(context, null))
+            }
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
+        }
+
         refreshWidgets(context, appWidgetManager, appWidgetIds)
     }
 
