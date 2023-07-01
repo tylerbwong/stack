@@ -25,11 +25,18 @@
         android:textAppearance="@android:style/TextAppearance.Small"
         android:textColor="@android:color/black" />
 
-    <ImageButton
+    <FrameLayout
         android:id="@+id/fetchNewHotQuestionButton"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/hot_network_questions_fetch_new"
-        android:src="@android:drawable/ic_popup_sync" />
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:background="?android:selectableItemBackground"
+        android:paddingHorizontal="6dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/hot_network_questions_fetch_new"
+            android:src="@drawable/ic_refresh_light" />
+    </FrameLayout>
 </LinearLayout>
