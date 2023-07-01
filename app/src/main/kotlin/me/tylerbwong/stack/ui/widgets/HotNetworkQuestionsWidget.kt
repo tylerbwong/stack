@@ -68,8 +68,11 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
             if (expiresAfter > System.currentTimeMillis()) {
                 Timber.d("hot network questions: cache hit")
 
-                // todo: we should actually probably not count null or an empty list as a cache hit
-                return jsonAdapter.fromJson(it) ?: emptyList()
+                val questions = jsonAdapter.fromJson(it) ?: emptyList()
+
+                if (questions.isNotEmpty()) {
+                    return questions
+                }
             }
         }
 
