@@ -4,7 +4,8 @@
     android:background="#FFFFFF"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:paddingStart="6dp"
+    android:paddingEnd="0dp">
 
     <ImageView
         android:id="@+id/hotQuestionIcon"
@@ -17,10 +18,11 @@
         android:id="@+id/hotNetworkQuestionTitleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="6dp"
+        android:layout_marginStart="6dp"
         android:layout_weight="1"
         android:clickable="true"
         android:focusable="true"
+        android:maxLines="3"
         android:text="@string/hot_network_questions_unable_to_load"
         android:textAppearance="@android:style/TextAppearance.Small"
         android:textColor="@android:color/black" />
