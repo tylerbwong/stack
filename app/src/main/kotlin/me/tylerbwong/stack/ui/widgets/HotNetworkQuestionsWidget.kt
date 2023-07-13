@@ -31,7 +31,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor(
-    // TODO there's probably a better way to coroutine this...
     private val externalScope: CoroutineScope = GlobalScope,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AppWidgetProvider() {
