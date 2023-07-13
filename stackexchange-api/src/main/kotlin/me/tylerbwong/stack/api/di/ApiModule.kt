@@ -13,7 +13,7 @@ import me.tylerbwong.stack.api.service.AuthService
 import me.tylerbwong.stack.api.service.CommentService
 import me.tylerbwong.stack.api.service.FlagService
 import me.tylerbwong.stack.api.service.InboxService
-import me.tylerbwong.stack.api.service.NetworkService
+import me.tylerbwong.stack.api.service.NetworkHotQuestionsService
 import me.tylerbwong.stack.api.service.QuestionService
 import me.tylerbwong.stack.api.service.SearchService
 import me.tylerbwong.stack.api.service.SiteService
@@ -89,13 +89,13 @@ class ApiModule {
 
     @Singleton
     @Provides
-    fun provideNetworkService(
+    fun provideNetworkHotQuestionsService(
         retrofit: Retrofit
-    ): NetworkService {
+    ): NetworkHotQuestionsService {
         return retrofit.newBuilder()
             .baseUrl("https://stackexchange.com")
             .build()
-            .create(NetworkService::class.java)
+            .create(NetworkHotQuestionsService::class.java)
     }
 
     @Singleton

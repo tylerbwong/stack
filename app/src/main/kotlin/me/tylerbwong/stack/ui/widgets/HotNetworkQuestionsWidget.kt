@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.NetworkHotQuestion
-import me.tylerbwong.stack.data.repository.NetworkRepository
+import me.tylerbwong.stack.data.repository.NetworkHotQuestionsRepository
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -35,7 +35,7 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AppWidgetProvider() {
     @Inject
-    lateinit var networkRepository: NetworkRepository
+    lateinit var networkHotQuestionsRepository: NetworkHotQuestionsRepository
 
     @Inject
     lateinit var imageLoader: ImageLoader
@@ -77,7 +77,7 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
 
         Timber.d("hot network questions: cache miss")
 
-        return networkRepository.getHotNetworkQuestions().also {
+        return networkHotQuestionsRepository.getHotNetworkQuestions().also {
             sharedPreferences.edit().apply {
                 putString(CACHE_QUESTIONS_KEY, jsonAdapter.toJson(it))
                 putLong(
