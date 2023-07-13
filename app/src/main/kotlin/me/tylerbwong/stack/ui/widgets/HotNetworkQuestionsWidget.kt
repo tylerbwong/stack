@@ -170,7 +170,10 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         for (appWidgetId in appWidgetIds) {
             val remoteViews = RemoteViews(context.packageName, R.layout.hot_network_questions_widget).apply {
-                setTextViewText(R.id.hotNetworkQuestionTitleTextView, "Loading hot network questions")
+                setTextViewText(
+                    R.id.hotNetworkQuestionTitleTextView,
+                    context.getString(R.string.hot_network_questions_loading)
+                )
 
                 setOnClickPendingIntent(R.id.fetchNewHotQuestionButton, getFetchNewHotQuestionIntent(context, null))
             }
