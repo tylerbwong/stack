@@ -1,4 +1,5 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:description="@string/hot_network_questions_description"
                     android:initialLayout="@layout/hot_network_questions_widget"
                     android:minWidth="300dp"
                     android:minHeight="50dp"
