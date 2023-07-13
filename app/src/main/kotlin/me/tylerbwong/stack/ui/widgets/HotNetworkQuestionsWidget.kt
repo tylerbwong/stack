@@ -57,12 +57,12 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
     }
 
     private suspend fun getHotNetworkQuestions(context: Context): List<NetworkHotQuestion> {
-        val sharedPreferences = context.getSharedPreferences("hot_network_questions_widget_cache", Context.MODE_PRIVATE)
+        val sharedPreferences = context.getSharedPreferences(CACHE_PREFERENCE_NAME, Context.MODE_PRIVATE)
         val type = Types.newParameterizedType(MutableList::class.java, NetworkHotQuestion::class.java)
         val jsonAdapter = Moshi.Builder().build().adapter<List<NetworkHotQuestion>>(type)
 
-        sharedPreferences.getString("hot_network_questions", null)?.let {
-            val expiresAfter = sharedPreferences.getLong("hot_network_questions_expires_after", -1)
+        sharedPreferences.getString(CACHE_QUESTIONS_KEY, null)?.let {
+            val expiresAfter = sharedPreferences.getLong(CACHE_EXPIRES_AFTER_KEY, -1)
 
             if (expiresAfter > System.currentTimeMillis()) {
                 Timber.d("hot network questions: cache hit")
@@ -79,9 +79,9 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
 
         return networkRepository.getHotNetworkQuestions().also {
             sharedPreferences.edit().apply {
-                putString("hot_network_questions", jsonAdapter.toJson(it))
+                putString(CACHE_QUESTIONS_KEY, jsonAdapter.toJson(it))
                 putLong(
-                    "hot_network_questions_expires_after",
+                    CACHE_EXPIRES_AFTER_KEY,
                     System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(CACHE_EXPIRES_AFTER_MINUTES)
                 )
 
@@ -203,6 +203,11 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
     companion object {
         private const val ACTION_REFRESH = "me.tylerbwong.stack.widget.ACTION_REFRESH"
         private const val CURRENT_HOT_QUESTION_ID = "current_hot_question_id"
+
         private const val CACHE_EXPIRES_AFTER_MINUTES = 5L
+
+        private const val CACHE_PREFERENCE_NAME = "hot_network_questions_widget_cache"
+        private const val CACHE_QUESTIONS_KEY = "hot_network_questions"
+        private const val CACHE_EXPIRES_AFTER_KEY = "hot_network_questions_expires_after"
     }
 }
