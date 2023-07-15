@@ -110,13 +110,13 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         val sort = when (item?.itemId) {
-            R.id.creation -> CREATION
-            R.id.activity -> ACTIVITY
-            R.id.votes -> VOTES
             R.id.hot -> HOT
+            R.id.activity -> ACTIVITY
             R.id.week -> WEEK
             R.id.month -> MONTH
-            else -> CREATION
+            R.id.votes -> VOTES
+            R.id.creation -> CREATION
+            else -> HOT
         }
         viewModel.getQuestions(sort = sort)
         return true

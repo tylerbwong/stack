@@ -3,7 +3,7 @@ package me.tylerbwong.stack.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import me.tylerbwong.stack.api.model.CREATION
+import me.tylerbwong.stack.api.model.HOT
 import me.tylerbwong.stack.api.model.Question
 import me.tylerbwong.stack.api.model.Sort
 import me.tylerbwong.stack.data.content.ContentFilter
@@ -30,7 +30,7 @@ internal class HomeViewModel @Inject constructor(
         get() = contentFilter.contentFilteredUpdated
 
     @Sort
-    internal var currentSort: String = CREATION
+    internal var currentSort: String = HOT
 
     internal fun fetchQuestions(@Sort sort: String = currentSort) {
         currentSort = sort

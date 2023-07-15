@@ -154,7 +154,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(
             R.id.activity -> ACTIVITY
             R.id.votes -> VOTES
             ApiR.string.relevance -> RELEVANCE
-            else -> RELEVANCE
+            else -> ACTIVITY
         }
         viewModel.search(sort = sort)
         return true
