@@ -18,12 +18,12 @@
 
     <plurals name="answers">
         <item quantity="one">%1$d Respuesta</item>
-        <item quantity="other">%1$d Respuestas</item>
+        <item quantity="many">%1$d Respuestas</item>
     </plurals>
 
     <plurals name="votes">
         <item quantity="one">%1$d Voto</item>
-        <item quantity="other">%1$d Votos</item>
+        <item quantity="many">%1$d Votos</item>
     </plurals>
 
     <!-- Profile -->
@@ -164,11 +164,11 @@
     <string name="add_comment_min_character_progress">%1$d más para ir…</string>
     <plurals name="add_comment_max_character">
         <item quantity="one">Queda %1$d carácter</item>
-        <item quantity="other">Quedan %1$d caracteres</item>
+        <item quantity="many">Quedan %1$d caracteres</item>
     </plurals>
     <plurals name="add_comment_too_many_characters">
         <item quantity="one">Demasiado largo por %1$d carácter</item>
-        <item quantity="other">Demasiado largo por %1$d caracteres</item>
+        <item quantity="many">Demasiado largo por %1$d caracteres</item>
     </plurals>
 
     <!-- Search -->
@@ -179,7 +179,7 @@
     <string name="min_answers_title">Número mínimo de respuestas</string>
     <plurals name="has_min_answers">
         <item quantity="one">Tiene al menos %1$d respuesta</item>
-        <item quantity="other">Tiene al menos %1$d respuestas</item>
+        <item quantity="many">Tiene al menos %1$d respuestas</item>
     </plurals>
     <string name="body_contains_title">El cuerpo contiene</string>
     <string name="body_contains">El cuerpo contiene \"%1$s\"</string>
@@ -278,7 +278,7 @@
 
     <!-- Hot Network Questions Widget -->
     <string name="hot_network_questions_description">Ver preguntas aleatorias de redes populares</string>
-    <string name="hot_network_questions_loading">Cargando preguntas calientes de la red</string>
+    <string name="hot_network_questions_loading">Cargando preguntas calientes de la red…</string>
     <string name="hot_network_questions_unable_to_load">No se pueden cargar las preguntas de la red caliente</string>
     <string name="hot_network_questions_question_icon">Icono de pregunta de red caliente</string>
     <string name="hot_network_questions_fetch_new">Obtener nueva pregunta de red activa</string>

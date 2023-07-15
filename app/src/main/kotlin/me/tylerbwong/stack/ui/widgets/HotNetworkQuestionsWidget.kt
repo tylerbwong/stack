@@ -34,31 +34,77 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
     private val externalScope: CoroutineScope = GlobalScope,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AppWidgetProvider() {
+
     @Inject
     lateinit var networkHotQuestionsRepository: NetworkHotQuestionsRepository
 
     @Inject
     lateinit var imageLoader: ImageLoader
 
-    private fun refreshWidgets(
+    override fun onEnabled(context: Context) {
+        super.onEnabled(context)
+        refreshWidgets(context)
+    }
+
+    override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
-        appWidgetIds: IntArray,
-        currentQuestionId: Int = -1
+        appWidgetIds: IntArray
     ) {
         for (appWidgetId in appWidgetIds) {
+            val remoteViews =
+                RemoteViews(context.packageName, R.layout.hot_network_questions_widget).apply {
+                    setTextViewText(
+                        R.id.hotNetworkQuestionTitleTextView,
+                        context.getString(R.string.hot_network_questions_loading)
+                    )
+
+                    setOnClickPendingIntent(
+                        R.id.fetchNewHotQuestionButton,
+                        getFetchNewHotQuestionIntent(context, null)
+                    )
+                }
+            appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews)
+        }
+
+        refreshWidgets(context, appWidgetManager, appWidgetIds)
+    }
+
+    override fun onReceive(context: Context, intent: Intent) {
+        super.onReceive(context, intent)
+
+        when (intent.action) {
+            ACTION_REFRESH -> refreshWidgets(
+                context,
+                currentQuestionId = intent.getIntExtra(CURRENT_HOT_QUESTION_ID, -1)
+            )
+        }
+    }
+
+    private fun refreshWidgets(
+        context: Context,
+        appWidgetManager: AppWidgetManager? = null,
+        appWidgetIds: IntArray? = null,
+        currentQuestionId: Int = -1
+    ) {
+        val manager = appWidgetManager ?: AppWidgetManager.getInstance(context)
+        val widgetIds = appWidgetIds ?: manager.getAppWidgetIds(
+            ComponentName(context, HotNetworkQuestionsWidget::class.java)
+        )
+        widgetIds.forEach { appWidgetId ->
             externalScope.launch {
                 val question = getRandomHotNetworkQuestion(context, currentQuestionId)
-
                 val remoteViews = buildRemoteViews(context, question)
-                appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
+                manager.updateAppWidget(appWidgetId, remoteViews)
             }
         }
     }
 
     private suspend fun getHotNetworkQuestions(context: Context): List<NetworkHotQuestion> {
-        val sharedPreferences = context.getSharedPreferences(CACHE_PREFERENCE_NAME, Context.MODE_PRIVATE)
-        val type = Types.newParameterizedType(MutableList::class.java, NetworkHotQuestion::class.java)
+        val sharedPreferences =
+            context.getSharedPreferences(CACHE_PREFERENCE_NAME, Context.MODE_PRIVATE)
+        val type =
+            Types.newParameterizedType(MutableList::class.java, NetworkHotQuestion::class.java)
         val jsonAdapter = Moshi.Builder().build().adapter<List<NetworkHotQuestion>>(type)
 
         sharedPreferences.getString(CACHE_QUESTIONS_KEY, null)?.let {
@@ -82,7 +128,9 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
                 putString(CACHE_QUESTIONS_KEY, jsonAdapter.toJson(it))
                 putLong(
                     CACHE_EXPIRES_AFTER_KEY,
-                    System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(CACHE_EXPIRES_AFTER_MINUTES)
+                    System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(
+                        CACHE_EXPIRES_AFTER_MINUTES
+                    )
                 )
 
                 apply()
@@ -90,10 +138,15 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         }
     }
 
-    private suspend fun getRandomHotNetworkQuestion(context: Context, currentQuestionId: Int): NetworkHotQuestion {
+    private suspend fun getRandomHotNetworkQuestion(
+        context: Context,
+        currentQuestionId: Int
+    ): NetworkHotQuestion? {
         return withContext(ioDispatcher) {
             val questions = getHotNetworkQuestions(context)
                 .also { Timber.d("hot network questions count is ${it.size}") }
+
+            if (questions.isEmpty()) return@withContext null
 
             var question = questions.random()
 
@@ -112,32 +165,55 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         }
     }
 
-    private suspend fun buildRemoteViews(context: Context, question: NetworkHotQuestion): RemoteViews {
+    private suspend fun buildRemoteViews(
+        context: Context,
+        question: NetworkHotQuestion?
+    ): RemoteViews {
         return RemoteViews(context.packageName, R.layout.hot_network_questions_widget).apply {
-            // Set the question title
-            setTextViewText(R.id.hotNetworkQuestionTitleTextView, question.title)
+            if (question != null) {
+                // Set the question title
+                setTextViewText(R.id.hotNetworkQuestionTitleTextView, question.title)
 
-            ImageRequest.Builder(context)
-                .data(question.iconUrl)
-                .target(
-                    onSuccess = {
-                        setImageViewBitmap(R.id.hotQuestionIcon, it.toBitmap())
-                        setViewVisibility(R.id.hotQuestionIcon, View.VISIBLE)
-                    },
-                    onError = {
-                        setViewVisibility(R.id.hotQuestionIcon, View.INVISIBLE)
-                    }
+                ImageRequest.Builder(context)
+                    .data(question.iconUrl)
+                    .target(
+                        onSuccess = {
+                            setImageViewBitmap(R.id.hotQuestionIcon, it.toBitmap())
+                            setViewVisibility(R.id.hotQuestionIcon, View.VISIBLE)
+                        },
+                        onError = {
+                            setViewVisibility(R.id.hotQuestionIcon, View.GONE)
+                        }
+                    )
+                    .build()
+                    .let { imageLoader.execute(it) }
+
+                // Set click listeners for the question title and refresh button
+                setOnClickPendingIntent(
+                    R.id.hotNetworkQuestionTitleTextView,
+                    getOpenQuestionIntent(context, question)
                 )
-                .build()
-                .let { imageLoader.execute(it) }
-
-            // Set click listeners for the question title and refresh button
-            setOnClickPendingIntent(R.id.hotNetworkQuestionTitleTextView, getOpenQuestionIntent(context, question))
-            setOnClickPendingIntent(R.id.fetchNewHotQuestionButton, getFetchNewHotQuestionIntent(context, question))
+                setOnClickPendingIntent(
+                    R.id.fetchNewHotQuestionButton,
+                    getFetchNewHotQuestionIntent(context, question)
+                )
+            } else {
+                setTextViewText(
+                    R.id.hotNetworkQuestionTitleTextView,
+                    context.resources.getString(R.string.hot_network_questions_unable_to_load),
+                )
+                setOnClickPendingIntent(
+                    R.id.fetchNewHotQuestionButton,
+                    getFetchNewHotQuestionIntent(context)
+                )
+            }
         }
     }
 
-    private fun getOpenQuestionIntent(context: Context, question: NetworkHotQuestion): PendingIntent {
+    private fun getOpenQuestionIntent(
+        context: Context,
+        question: NetworkHotQuestion
+    ): PendingIntent {
         val intent = QuestionDetailActivity.makeIntent(
             context = context,
             questionId = question.questionId,
@@ -153,7 +229,10 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         )
     }
 
-    private fun getFetchNewHotQuestionIntent(context: Context, currentQuestion: NetworkHotQuestion?): PendingIntent {
+    private fun getFetchNewHotQuestionIntent(
+        context: Context,
+        currentQuestion: NetworkHotQuestion? = null
+    ): PendingIntent {
         val intent = Intent(context, HotNetworkQuestionsWidget::class.java)
 
         intent.action = ACTION_REFRESH
@@ -165,42 +244,6 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-    }
-
-    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-        for (appWidgetId in appWidgetIds) {
-            val remoteViews = RemoteViews(context.packageName, R.layout.hot_network_questions_widget).apply {
-                setTextViewText(
-                    R.id.hotNetworkQuestionTitleTextView,
-                    context.getString(R.string.hot_network_questions_loading)
-                )
-
-                setOnClickPendingIntent(R.id.fetchNewHotQuestionButton, getFetchNewHotQuestionIntent(context, null))
-            }
-            appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
-        }
-
-        refreshWidgets(context, appWidgetManager, appWidgetIds)
-    }
-
-    override fun onReceive(context: Context, intent: Intent) {
-        super.onReceive(context, intent)
-
-        when (intent.action) {
-            ACTION_REFRESH -> {
-                val appWidgetManager = AppWidgetManager.getInstance(context)
-                val appWidgetIds = appWidgetManager.getAppWidgetIds(
-                    ComponentName(context, HotNetworkQuestionsWidget::class.java)
-                )
-
-                refreshWidgets(
-                    context,
-                    appWidgetManager,
-                    appWidgetIds,
-                    intent.getIntExtra(CURRENT_HOT_QUESTION_ID, -1)
-                )
-            }
-        }
     }
 
     companion object {

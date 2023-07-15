@@ -1,44 +1,51 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="?android:attr/colorBackground"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingStart="6dp"
-    android:paddingEnd="0dp">
+    android:paddingStart="16dp"
+    android:paddingEnd="0dp"
+    android:theme="@style/Theme.Material3.DynamicColors.DayNight">
 
     <ImageView
         android:id="@+id/hotQuestionIcon"
         android:layout_width="36dp"
         android:layout_height="36dp"
+        android:layout_marginVertical="16dp"
         android:contentDescription="@string/hot_network_questions_question_icon"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/hotNetworkQuestionTitleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
+        android:layout_marginVertical="16dp"
+        android:layout_marginStart="8dp"
         android:layout_weight="1"
         android:clickable="true"
         android:focusable="true"
         android:maxLines="3"
-        android:text="@string/hot_network_questions_unable_to_load"
-        android:textAppearance="@android:style/TextAppearance.Small"
-        android:textColor="@android:color/black" />
+        android:paddingHorizontal="8dp"
+        android:text="@string/hot_network_questions_loading"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
     <FrameLayout
         android:id="@+id/fetchNewHotQuestionButton"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:background="?android:selectableItemBackground"
-        android:paddingHorizontal="6dp">
+        android:paddingVertical="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/hot_network_questions_fetch_new"
-            android:src="@drawable/ic_refresh_light" />
+            android:src="@drawable/ic_baseline_refresh" />
     </FrameLayout>
 </LinearLayout>
