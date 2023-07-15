@@ -49,6 +49,7 @@ class SiteInterceptor @Inject constructor(
             "sites",
             "me/associated",
             "inbox",
+            "hot-questions-json",
         )
     }
 }

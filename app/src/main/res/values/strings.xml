@@ -293,4 +293,11 @@
     <string name="hide_comment_message">Hide this comment globally. If there is an issue with this comment, please flag it first.</string>
     <string name="hide_user">Hide user</string>
     <string name="hide_user_message">Hide this user and all associated content globally. If there is an issue with a specific post, please flag it first.</string>
+
+    <!-- Hot Network Questions Widget -->
+    <string name="hot_network_questions_description">View random hot network questions</string>
+    <string name="hot_network_questions_loading">Loading hot network questions</string>
+    <string name="hot_network_questions_unable_to_load">Unable to load hot network questions</string>
+    <string name="hot_network_questions_question_icon">Hot network question icon</string>
+    <string name="hot_network_questions_fetch_new">Fetch new hot network question</string>
 </resources>
