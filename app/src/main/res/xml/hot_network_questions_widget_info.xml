@@ -1,7 +1,10 @@
 <appwidget-provider
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:description="@string/hot_network_questions_description"
     android:initialLayout="@layout/hot_network_questions_widget"
-    android:minWidth="250dp"
-    android:minHeight="40dp"
-    android:updatePeriodMillis="3600000" />
+    android:minWidth="349dp"
+    android:minHeight="48dp"
+    android:previewLayout="@layout/hot_network_questions_widget_preview"
+    android:updatePeriodMillis="3600000"
+    tools:targetApi="s" />

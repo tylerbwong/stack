@@ -41,38 +41,16 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
     @Inject
     lateinit var imageLoader: ImageLoader
 
-    override fun onEnabled(context: Context) {
-        super.onEnabled(context)
-        refreshWidgets(context)
-    }
-
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        for (appWidgetId in appWidgetIds) {
-            val remoteViews =
-                RemoteViews(context.packageName, R.layout.hot_network_questions_widget).apply {
-                    setTextViewText(
-                        R.id.hotNetworkQuestionTitleTextView,
-                        context.getString(R.string.hot_network_questions_loading)
-                    )
-
-                    setOnClickPendingIntent(
-                        R.id.fetchNewHotQuestionButton,
-                        getFetchNewHotQuestionIntent(context, null)
-                    )
-                }
-            appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews)
-        }
-
         refreshWidgets(context, appWidgetManager, appWidgetIds)
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
-
         when (intent.action) {
             ACTION_REFRESH -> refreshWidgets(
                 context,
@@ -94,6 +72,7 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         widgetIds.forEach { appWidgetId ->
             externalScope.launch {
                 val question = getRandomHotNetworkQuestion(context, currentQuestionId)
+                Timber.e("Updating widget $appWidgetId and got question: ${question?.questionId}")
                 val remoteViews = buildRemoteViews(context, question)
                 manager.updateAppWidget(appWidgetId, remoteViews)
             }
@@ -103,8 +82,10 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
     private suspend fun getHotNetworkQuestions(context: Context): List<NetworkHotQuestion> {
         val sharedPreferences =
             context.getSharedPreferences(CACHE_PREFERENCE_NAME, Context.MODE_PRIVATE)
-        val type =
-            Types.newParameterizedType(MutableList::class.java, NetworkHotQuestion::class.java)
+        val type = Types.newParameterizedType(
+            MutableList::class.java,
+            NetworkHotQuestion::class.java
+        )
         val jsonAdapter = Moshi.Builder().build().adapter<List<NetworkHotQuestion>>(type)
 
         sharedPreferences.getString(CACHE_QUESTIONS_KEY, null)?.let {
@@ -188,9 +169,9 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
                     .build()
                     .let { imageLoader.execute(it) }
 
-                // Set click listeners for the question title and refresh button
+                // Set click listeners for the widget and refresh button
                 setOnClickPendingIntent(
-                    R.id.hotNetworkQuestionTitleTextView,
+                    android.R.id.background,
                     getOpenQuestionIntent(context, question)
                 )
                 setOnClickPendingIntent(

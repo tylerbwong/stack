@@ -282,4 +282,5 @@
     <string name="hot_network_questions_unable_to_load">No se pueden cargar las preguntas de la red caliente</string>
     <string name="hot_network_questions_question_icon">Icono de pregunta de red caliente</string>
     <string name="hot_network_questions_fetch_new">Obtener nueva pregunta de red activa</string>
+    <string name="hot_network_questions_title_preview">¿Cómo deshago las confirmaciones locales más recientes en Git?</string>
 </resources>
