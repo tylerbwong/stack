@@ -1,9 +1,13 @@
 package me.tylerbwong.stack.ui.inbox
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Arrangement.spacedBy
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -21,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
@@ -84,13 +89,18 @@ fun InboxItem(item: InboxItem, onClick: () -> Unit) {
             headlineContent = {
                 Text(
                     text = item.title.toHtml().toString(),
+                    modifier = Modifier.padding(top = 4.dp),
                     fontWeight = FontWeight.Bold,
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = 2,
+                    maxLines = 1,
                 )
             },
+            modifier = Modifier.padding(vertical = 4.dp),
             overlineContent = {
-                Column {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
                     Text(
                         text = item.itemType
                             .replace("_", " ")
@@ -103,13 +113,19 @@ fun InboxItem(item: InboxItem, onClick: () -> Unit) {
                 item.body?.let {
                     Text(
                         text = it.toHtml().toString(),
+                        modifier = Modifier.padding(top = 4.dp),
                         overflow = TextOverflow.Ellipsis,
-                        maxLines = 3,
+                        maxLines = 2,
                     )
                 }
             },
             leadingContent = {
-                AsyncImage(model = item.site?.iconUrl, contentDescription = item.site?.name)
+                AsyncImage(
+                    modifier = Modifier
+                        .size(dimensionResource(R.dimen.user_image_placeholder_size)),
+                    model = item.site?.iconUrl,
+                    contentDescription = item.site?.name,
+                )
             },
             colors = ListItemDefaults.colors(
                 containerColor = Color.Transparent,

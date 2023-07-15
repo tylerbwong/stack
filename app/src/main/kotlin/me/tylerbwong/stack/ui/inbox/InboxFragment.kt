@@ -1,11 +1,7 @@
 package me.tylerbwong.stack.ui.inbox
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
-import android.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -14,8 +10,6 @@ import dev.chrisbanes.insetter.applyInsetter
 import me.tylerbwong.adapter.DynamicListAdapter
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.InboxItem
-import me.tylerbwong.stack.data.repository.ALL
-import me.tylerbwong.stack.data.repository.UNREAD
 import me.tylerbwong.stack.databinding.InboxFragmentBinding
 import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.home.HeaderItem
@@ -26,20 +20,13 @@ import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
-class InboxFragment : BaseFragment<InboxFragmentBinding>(
-    InboxFragmentBinding::inflate
-), PopupMenu.OnMenuItemClickListener {
+class InboxFragment : BaseFragment<InboxFragmentBinding>(InboxFragmentBinding::inflate) {
 
     private val viewModel by viewModels<InboxViewModel>()
     private val adapter = DynamicListAdapter(HomeItemDiffCallback)
     private var snackbar: Snackbar? = null
 
     private val bottomNav by lazy { activity?.findViewById<View>(R.id.bottomNav) }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -88,34 +75,35 @@ class InboxFragment : BaseFragment<InboxFragmentBinding>(
         viewModel.fetchInbox()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_inbox_item, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.filter -> {
-                activity?.let { activity ->
-                    PopupMenu(activity, activity.findViewById(R.id.filter)).also {
-                        it.inflate(R.menu.menu_inbox)
-                        it.setOnMenuItemClickListener(this)
-                        it.show()
-                    }
-                }
-            }
-        }
-        return true
-    }
-
-    override fun onMenuItemClick(item: MenuItem): Boolean {
-        val filter = when (item.itemId) {
-            R.id.all -> ALL
-            R.id.unread -> UNREAD
-            else -> ALL
-        }
-        viewModel.fetchInbox(filter)
-        return true
-    }
+    // TODO Enable when read/unread is figured out
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.menu_inbox_item, menu)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when (item.itemId) {
+//            R.id.filter -> {
+//                activity?.let { activity ->
+//                    PopupMenu(activity, activity.findViewById(R.id.filter)).also {
+//                        it.inflate(R.menu.menu_inbox)
+//                        it.setOnMenuItemClickListener(this)
+//                        it.show()
+//                    }
+//                }
+//            }
+//        }
+//        return true
+//    }
+//
+//    override fun onMenuItemClick(item: MenuItem): Boolean {
+//        val filter = when (item.itemId) {
+//            R.id.all -> ALL
+//            R.id.unread -> UNREAD
+//            else -> ALL
+//        }
+//        viewModel.fetchInbox(filter)
+//        return true
+//    }
 
     private fun updateContent(inboxItems: List<InboxItem>) {
         val homeItems: List<HomeItem> = listOf(
