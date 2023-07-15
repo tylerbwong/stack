@@ -72,7 +72,6 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         widgetIds.forEach { appWidgetId ->
             externalScope.launch {
                 val question = getRandomHotNetworkQuestion(context, currentQuestionId)
-                Timber.e("Updating widget $appWidgetId and got question: ${question?.questionId}")
                 val remoteViews = buildRemoteViews(context, question)
                 manager.updateAppWidget(appWidgetId, remoteViews)
             }
