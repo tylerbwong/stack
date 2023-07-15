@@ -1,6 +1,7 @@
 package me.tylerbwong.stack.data.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.distinctUntilChanged
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -25,7 +26,7 @@ class SiteRepository @Inject constructor(
     private val authRepository: AuthRepository,
 ) {
     internal val siteLiveData: LiveData<String>
-        get() = siteStore.siteLiveData
+        get() = siteStore.siteLiveData.distinctUntilChanged()
 
     internal val site: String
         get() = siteStore.site
