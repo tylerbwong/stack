@@ -9,4 +9,8 @@
     <dimen name="question_detail_recycler_view_padding">48dp</dimen>
     <dimen name="inline_latex_text_size">16sp</dimen>
     <dimen name="block_latex_text_size">18sp</dimen>
+
+    <!-- Hot Network Questions Widget -->
+    <dimen name="hot_network_questions_min_width">349dp</dimen>
+    <dimen name="hot_network_questions_min_height">48dp</dimen>
 </resources>

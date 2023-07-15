@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:description="@string/hot_network_questions_description"
     android:initialLayout="@layout/hot_network_questions_widget"
-    android:minWidth="349dp"
-    android:minHeight="48dp"
+    android:minWidth="@dimen/hot_network_questions_min_width"
+    android:minHeight="@dimen/hot_network_questions_min_height"
     android:previewLayout="@layout/hot_network_questions_widget_preview"
-    android:updatePeriodMillis="3600000"
+    android:updatePeriodMillis="@integer/hot_network_questions_widget_update_period_millis"
     tools:targetApi="s" />
