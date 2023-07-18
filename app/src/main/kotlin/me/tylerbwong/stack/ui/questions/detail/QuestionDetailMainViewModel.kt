@@ -236,8 +236,12 @@ class QuestionDetailMainViewModel @Inject constructor(
             _data.value = detailItems
             _voteCount.value = questionResult.upVoteCount - questionResult.downVoteCount
 
-            if (answerId != -1 && commentId != -1) {
-                _deepLinkedCommentId.value = answerId to commentId
+            if (commentId != -1) {
+                _deepLinkedCommentId.value = if (answerId != -1) {
+                    answerId to commentId
+                } else {
+                    questionId to commentId
+                }
             }
             if (answerId != -1) {
                 _deepLinkAnswerId.value = detailItems

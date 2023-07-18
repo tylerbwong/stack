@@ -90,11 +90,11 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
                 viewModel.answerId = -1 // Only scroll to answer once
             }
         }
-        viewModel.deepLinkedCommentId.observe(viewLifecycleOwner) { (answerId, commentId) ->
+        viewModel.deepLinkedCommentId.observe(viewLifecycleOwner) { (postId, commentId) ->
             if (commentId != -1) {
                 CommentsBottomSheetDialogFragment.show(
                     fragmentManager = childFragmentManager,
-                    postId = if (answerId != -1) answerId else viewModel.questionId,
+                    postId = postId,
                     commentId = commentId,
                 )
                 viewModel.commentId = -1 // Only show dialog once
