@@ -100,7 +100,11 @@ class CommentsViewModel @Inject constructor(
                             getBody = { body },
                             setBody = {
                                 body = it
-                                saveCommentDraft()
+                                if (it.isNotEmpty()) {
+                                    saveCommentDraft()
+                                } else {
+                                    deleteCommentDraft()
+                                }
                             },
                         ) { body, isPreview ->
                             launchRequest(
@@ -146,8 +150,8 @@ class CommentsViewModel @Inject constructor(
         }
     }
 
-    fun saveCommentDraft() {
-        if (isAuthenticated && body.isNotEmpty()) {
+    private fun saveCommentDraft() {
+        if (isAuthenticated) {
             viewModelScope.launch {
                 try {
                     if (postId != -1) {
