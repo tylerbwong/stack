@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.AUTH
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTIONS_BY_TAG
 import me.tylerbwong.stack.data.DeepLinker.ResolvedPath.QUESTION_DETAILS
+import me.tylerbwong.stack.data.site.normalizeSite
 import me.tylerbwong.stack.ui.questions.QuestionPage.TAGS
 import me.tylerbwong.stack.ui.questions.QuestionsActivity
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
@@ -74,12 +75,4 @@ class DeepLinker @Inject constructor() {
             else -> DeepLinkResult.PathNotSupportedError
         }
     }
-
-    /**
-     * In order to extract the correct site parameter to pass around, all non Stack Exchange sites
-     * need to drop ".stackexchange.com" and all others need to drop ".com". This is a rudimentary
-     * solution and will need to be updated if any site is added that does not end in ".com".
-     */
-    private fun String.normalizeSite(): String =
-        removeSuffix(".com").removeSuffix(".stackexchange")
 }

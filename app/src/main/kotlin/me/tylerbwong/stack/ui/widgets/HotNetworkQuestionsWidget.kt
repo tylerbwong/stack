@@ -24,6 +24,7 @@ import kotlinx.coroutines.withContext
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.NetworkHotQuestion
 import me.tylerbwong.stack.data.repository.NetworkHotQuestionsRepository
+import me.tylerbwong.stack.data.site.normalizeSite
 import me.tylerbwong.stack.ui.questions.detail.QuestionDetailActivity
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -197,8 +198,7 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
         val intent = QuestionDetailActivity.makeIntent(
             context = context,
             questionId = question.questionId,
-            deepLinkSite = question.site,
-            clearDeepLinkedSites = true
+            deepLinkSite = question.site.normalizeSite(),
         )
 
         return PendingIntent.getActivity(

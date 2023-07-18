@@ -41,10 +41,6 @@ class SiteStore @Inject constructor(
         mutableSiteLiveData.value = this.site
     }
 
-    fun clearDeepLinkedSites() {
-        deepLinkSites.clear()
-    }
-
     companion object {
         internal const val SITE_PREFERENCES = "site_preferences"
         internal val defaultSite: String

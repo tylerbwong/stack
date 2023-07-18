@@ -72,15 +72,10 @@ abstract class BaseActivity<T : ViewBinding>(
     }
 
     private fun overrideDeepLinkSite() {
-        if (intent.getBooleanExtra(CLEAR_DEEP_LINKED_SITES, false)) {
-            siteStore.clearDeepLinkedSites()
-        }
-
         intent.getStringExtra(DEEP_LINK_SITE)?.let { siteStore.pushCurrentDeepLinkSite(it) }
     }
 
     companion object {
         internal const val DEEP_LINK_SITE = "deep_link_site"
-        internal const val CLEAR_DEEP_LINKED_SITES = "clear_deep_linked_sites"
     }
 }
