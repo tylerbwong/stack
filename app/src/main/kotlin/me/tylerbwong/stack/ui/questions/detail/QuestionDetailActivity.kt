@@ -111,10 +111,13 @@ class QuestionDetailActivity : BaseActivity<ActivityQuestionDetailBinding>(
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> onBack(isSystemBack = false)
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBack(isSystemBack = false)
+                true
+            }
+            else -> false
         }
-        return super.onOptionsItemSelected(item)
     }
 
     internal fun setTitle(title: String) {
