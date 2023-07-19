@@ -7,6 +7,7 @@ import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.adapter.ViewHolderProvider
 import me.tylerbwong.stack.api.model.ClosedDetails
 import me.tylerbwong.stack.api.model.Question
+import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.api.model.User
 import me.tylerbwong.stack.markdown.Renderer
 import org.commonmark.node.Node
@@ -72,6 +73,10 @@ data class AnswerVotesHeaderItem(
     internal val isDownvoted: Boolean?,
     internal val upVoteCount: Int,
     internal val downVoteCount: Int,
+    internal val isAuthenticated: Boolean,
+    internal val site: Site?,
+    internal val siteJoinUrl: (Site) -> String,
+    internal val isUserPresent: () -> Boolean,
     internal val hideAnswer: (Int) -> Unit,
     internal val handler: PostActionHandler,
 ) : QuestionDetailItem(::AnswerVotesHeaderHolder)

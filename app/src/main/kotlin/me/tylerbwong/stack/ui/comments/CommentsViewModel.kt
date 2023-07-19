@@ -11,11 +11,12 @@ import me.tylerbwong.adapter.DynamicItem
 import me.tylerbwong.stack.api.model.Comment
 import me.tylerbwong.stack.api.service.CommentService
 import me.tylerbwong.stack.api.utils.toErrorResponse
-import me.tylerbwong.stack.data.auth.AuthStore
+import me.tylerbwong.stack.data.auth.AuthRepository
 import me.tylerbwong.stack.data.content.ContentFilter
 import me.tylerbwong.stack.data.logging.Logger
 import me.tylerbwong.stack.data.persistence.dao.CommentDraftDao
 import me.tylerbwong.stack.data.persistence.entity.CommentDraftEntity
+import me.tylerbwong.stack.data.repository.SiteRepository
 import me.tylerbwong.stack.data.site.SiteStore
 import me.tylerbwong.stack.ui.BaseViewModel
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
@@ -27,9 +28,10 @@ import javax.inject.Inject
 @HiltViewModel
 class CommentsViewModel @Inject constructor(
     private val service: CommentService,
-    private val authStore: AuthStore,
+    private val authRepository: AuthRepository,
     private val commentDraftDao: CommentDraftDao,
     private val siteStore: SiteStore,
+    private val siteRepository: SiteRepository,
     private val contentFilter: ContentFilter,
     private val logger: Logger,
 ) : BaseViewModel() {
@@ -50,7 +52,7 @@ class CommentsViewModel @Inject constructor(
     private val _errorToast = SingleLiveEvent<CommentError?>()
 
     private val isAuthenticated: Boolean
-        get() = authStore.isAuthenticatedLiveData.value ?: false
+        get() = authRepository.isAuthenticated
 
     internal var postId = -1
     internal var commentId = -1
@@ -72,7 +74,8 @@ class CommentsViewModel @Inject constructor(
             } else {
                 service.getPostComments(postId)
             }
-
+            val user = authRepository.getCurrentUser()
+            val site = siteRepository.getCurrentSite()
             val result = withContext(Dispatchers.Default) {
                 val finalComments = if (newComments.isNotEmpty()) {
                     commentsResponse.items.toMutableList().also {
@@ -87,6 +90,10 @@ class CommentsViewModel @Inject constructor(
                 with(contentFilter) { finalComments.applyCommentFilter() }.map {
                     CommentItem(
                         comment = it,
+                        isAuthenticated = authRepository.isAuthenticated,
+                        site = site,
+                        siteJoinUrl = { site -> siteRepository.buildSiteJoinUrl(site) },
+                        isUserPresent = { user != null },
                         hideComment = { id ->
                             contentFilter.addFilteredCommentId(id)
                             fetchComments()
@@ -97,6 +104,10 @@ class CommentsViewModel @Inject constructor(
                 } + if (isAuthenticated) {
                     listOf(
                         AddCommentItem(
+                            isAuthenticated = authRepository.isAuthenticated,
+                            site = site,
+                            siteJoinUrl = { site -> siteRepository.buildSiteJoinUrl(site) },
+                            isUserPresent = { user != null },
                             getBody = { body },
                             setBody = {
                                 body = it

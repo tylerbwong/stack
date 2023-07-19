@@ -14,6 +14,7 @@ import me.tylerbwong.adapter.viewbinding.DynamicViewBindingHolder
 import me.tylerbwong.stack.BuildConfig
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.Comment
+import me.tylerbwong.stack.api.model.Site
 import me.tylerbwong.stack.databinding.AddCommentHolderBinding
 import me.tylerbwong.stack.databinding.CommentHolderBinding
 import me.tylerbwong.stack.ui.flag.FlagActivity
@@ -23,6 +24,7 @@ import me.tylerbwong.stack.ui.utils.renderSelectedState
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showDialog
 import me.tylerbwong.stack.ui.utils.showLogInDialog
+import me.tylerbwong.stack.ui.utils.showRegisterOnSiteDialog
 
 object CommentItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
     override fun areItemsTheSame(
@@ -50,11 +52,19 @@ object CommentItemCallback : DiffUtil.ItemCallback<DynamicItem>() {
 
 class CommentItem(
     internal val comment: Comment,
+    internal val isAuthenticated: Boolean,
+    internal val site: Site?,
+    internal val siteJoinUrl: (Site) -> String,
+    internal val isUserPresent: () -> Boolean,
     internal val hideComment: (Int) -> Unit,
     internal val upvoteToggle: (Int, Boolean) -> Unit,
 ) : DynamicItem(::CommentHolder)
 
 class AddCommentItem(
+    internal val isAuthenticated: Boolean,
+    internal val site: Site?,
+    internal val siteJoinUrl: (Site) -> String,
+    internal val isUserPresent: () -> Boolean,
     internal val getBody: () -> String,
     internal val setBody: (String) -> Unit,
     internal val onSubmitComment: (body: String, isPreview: Boolean) -> Unit,
@@ -118,14 +128,22 @@ class CommentHolder(
                         true
                     }
                     R.id.flag -> {
-                        if (showAuthContent) {
-                            if (commentId != null) {
-                                val intent = FlagActivity.makeIntent(
-                                    context = itemView.context,
-                                    postId = commentId,
-                                    postType = 2,
+                        if (item.isAuthenticated) {
+                            if (item.isUserPresent()) {
+                                if (commentId != null) {
+                                    val intent = FlagActivity.makeIntent(
+                                        context = itemView.context,
+                                        postId = commentId,
+                                        postType = 2,
+                                    )
+                                    itemView.context.startActivity(intent)
+                                }
+                            } else if (item.site != null) {
+                                itemView.context.showRegisterOnSiteDialog(
+                                    site = item.site,
+                                    siteUrl = item.siteJoinUrl(item.site),
+                                    titleResId = R.string.register_on_site_contribute,
                                 )
-                                itemView.context.startActivity(intent)
                             }
                         } else {
                             itemView.context.showLogInDialog(alternateLogInMessage = R.string.log_in_message_flag)
@@ -160,9 +178,21 @@ class AddCommentHolder(
         bodyInput.setText(item.getBody())
         setInputLayoutStatus(itemView.context, bodyInputLayout, bodyLength)
         addCommentButton.setOnClickListener {
-            item.onSubmitComment(bodyInput.text?.toString() ?: "", BuildConfig.DEBUG)
-            addCommentButton.isEnabled = false
-            bodyInputLayout.isEnabled = false
+            if (item.isAuthenticated) {
+                if (item.isUserPresent()) {
+                    item.onSubmitComment(bodyInput.text?.toString() ?: "", BuildConfig.DEBUG)
+                    addCommentButton.isEnabled = false
+                    bodyInputLayout.isEnabled = false
+                } else if (item.site != null) {
+                    itemView.context.showRegisterOnSiteDialog(
+                        site = item.site,
+                        siteUrl = item.siteJoinUrl(item.site),
+                        titleResId = R.string.register_on_site_contribute,
+                    )
+                }
+            } else {
+                itemView.context.showLogInDialog(alternateLogInMessage = R.string.log_in_message_flag)
+            }
         }
         if (textWatcher == null) {
             textWatcher = bodyInput.addTextChangedListener {

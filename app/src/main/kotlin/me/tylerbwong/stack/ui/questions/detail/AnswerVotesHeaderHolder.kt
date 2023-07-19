@@ -17,6 +17,7 @@ import me.tylerbwong.stack.ui.flag.FlagActivity
 import me.tylerbwong.stack.ui.utils.setThrottledOnClickListener
 import me.tylerbwong.stack.ui.utils.showDialog
 import me.tylerbwong.stack.ui.utils.showLogInDialog
+import me.tylerbwong.stack.ui.utils.showRegisterOnSiteDialog
 
 class AnswerVotesHeaderHolder(
     parent: ViewGroup
@@ -34,8 +35,6 @@ class AnswerVotesHeaderHolder(
         acceptedAnswerCheck.isVisible = item.isAccepted
         val isUpvoted = item.isUpvoted
         val isDownvoted = item.isDownvoted
-        // Presence of these indicates auth
-        val isAuthenticated = item.isUpvoted != null && item.isDownvoted != null
 
         upvote.isVisible = isUpvoted != null
         downvote.isVisible = isDownvoted != null
@@ -80,13 +79,21 @@ class AnswerVotesHeaderHolder(
                         true
                     }
                     R.id.flag -> {
-                        if (isAuthenticated) {
-                            val intent = FlagActivity.makeIntent(
-                                context = itemView.context,
-                                postId = item.id,
-                                postType = 1,
-                            )
-                            itemView.context.startActivity(intent)
+                        if (item.isAuthenticated) {
+                            if (item.isUserPresent()) {
+                                val intent = FlagActivity.makeIntent(
+                                    context = itemView.context,
+                                    postId = item.id,
+                                    postType = 1,
+                                )
+                                itemView.context.startActivity(intent)
+                            } else if (item.site != null) {
+                                itemView.context.showRegisterOnSiteDialog(
+                                    site = item.site,
+                                    siteUrl = item.siteJoinUrl(item.site),
+                                    titleResId = R.string.register_on_site_contribute,
+                                )
+                            }
                         } else {
                             itemView.context.showLogInDialog(alternateLogInMessage = R.string.log_in_message_flag)
                         }

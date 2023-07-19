@@ -187,12 +187,16 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
             }
             R.id.flag -> {
                 if (viewModel.isAuthenticated) {
-                    val intent = FlagActivity.makeIntent(
-                        context = requireContext(),
-                        postId = viewModel.questionId,
-                        postType = 0,
-                    )
-                    startActivity(intent)
+                    if (viewModel.user.value != null) {
+                        val intent = FlagActivity.makeIntent(
+                            context = requireContext(),
+                            postId = viewModel.questionId,
+                            postType = 0,
+                        )
+                        startActivity(intent)
+                    } else {
+                        showRegisterOnSiteDialog()
+                    }
                 } else {
                     requireContext().showLogInDialog(alternateLogInMessage = R.string.log_in_message_flag)
                 }
@@ -201,7 +205,7 @@ class QuestionDetailFragment : BaseFragment<QuestionDetailFragmentBinding>(
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showRegisterOnSiteDialog() {
+    internal fun showRegisterOnSiteDialog() {
         viewModel.site.value?.let { site ->
             requireContext().showRegisterOnSiteDialog(
                 site = site,

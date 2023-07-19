@@ -132,6 +132,11 @@ class QuestionDetailMainViewModel @Inject constructor(
                 Unit
             }
 
+            _user.value = authRepository.getCurrentUser()
+            val site = siteRepository.getCurrentSite().also {
+                _site.value = it
+            }
+
             val detailItems = withContext(Dispatchers.Default) {
                 mutableListOf<QuestionDetailItem>().apply {
                     add(0, QuestionTitleItem(questionResult.title, questionLongClickListener))
@@ -182,6 +187,10 @@ class QuestionDetailMainViewModel @Inject constructor(
                                         isDownvoted = answer.isDownvoted,
                                         upVoteCount = answer.upVoteCount,
                                         downVoteCount = answer.downVoteCount,
+                                        isAuthenticated = authRepository.isAuthenticated,
+                                        site = site,
+                                        siteJoinUrl = { buildSiteJoinUrl(it) },
+                                        isUserPresent = { user.value != null },
                                         hideAnswer = {
                                             contentFilter.addFilteredAnswerId(it)
                                             getQuestionDetails()
@@ -247,8 +256,6 @@ class QuestionDetailMainViewModel @Inject constructor(
                 _deepLinkAnswerId.value = detailItems
                     .indexOfFirst { it is AnswerVotesHeaderItem && it.id == answerId }
             }
-            _user.value = authRepository.getCurrentUser()
-            _site.value = siteRepository.getCurrentSite()
         }
     }
 
