@@ -25,6 +25,7 @@ class AnswerVotesHeaderHolder(
     parent,
     AnswerVotesHeaderHolderBinding::inflate
 ) {
+    @Suppress("LongMethod")
     override fun AnswerVotesHeaderHolderBinding.bind(item: AnswerVotesHeaderItem) {
         val voteCount = item.upVoteCount - item.downVoteCount
         votes.text = itemView.context.resources.getQuantityString(

@@ -81,6 +81,7 @@ class CommentHolder(
         binding.commentBody.setSpannableFactory(noCopySpannableFactory)
     }
 
+    @Suppress("ComplexMethod", "LongMethod")
     override fun CommentHolderBinding.bind(item: CommentItem) {
         val (bodyMarkdown, commentId, _, creationDate, _, owner, _) = item.comment
         commentBody.setMarkdown(bodyMarkdown)

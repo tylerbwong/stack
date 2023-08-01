@@ -86,10 +86,9 @@ class SitesViewModel @Inject constructor(
     }
 
     private fun List<Site>.applySearch(query: String): List<Site> {
-        return filter {
-            val containsName = it.name.contains(query, ignoreCase = true)
-            val containsAudience = it.audience.contains(query, ignoreCase = true)
-            containsName || containsAudience
-        }
+        fun Site.queryInName() = name.contains(query, ignoreCase = true)
+        fun Site.queryInAudience() = audience.contains(query, ignoreCase = true)
+        return filter { it.queryInName() || it.queryInAudience() }
+            .sortedByDescending { it.queryInName() }
     }
 }
