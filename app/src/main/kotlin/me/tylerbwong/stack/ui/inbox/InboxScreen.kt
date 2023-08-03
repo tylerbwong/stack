@@ -87,13 +87,15 @@ fun InboxItem(item: InboxItem, onClick: () -> Unit) {
     ) {
         ListItem(
             headlineContent = {
-                Text(
-                    text = item.title.toHtml().toString(),
-                    modifier = Modifier.padding(top = 4.dp),
-                    fontWeight = FontWeight.Bold,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                )
+                item.title?.let {
+                    Text(
+                        text = it.toHtml().toString(),
+                        modifier = Modifier.padding(top = 4.dp),
+                        fontWeight = FontWeight.Bold,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1,
+                    )
+                }
             },
             modifier = Modifier.padding(vertical = 4.dp),
             overlineContent = {

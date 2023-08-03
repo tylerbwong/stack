@@ -24,5 +24,5 @@ data class InboxItem(
     @Json(name = "site")
     val site: Site?,
     @Json(name = "title")
-    val title: String,
+    val title: String?,
 )
