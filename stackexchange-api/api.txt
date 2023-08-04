@@ -11,6 +11,7 @@ package me.tylerbwong.stack.api.di {
     method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.InboxService provideInboxService(retrofit2.Retrofit retrofit);
     method @dagger.Provides @javax.inject.Singleton public com.squareup.moshi.Moshi provideMoshi();
     method @dagger.Provides @dagger.multibindings.IntoSet public retrofit2.Converter.Factory provideMoshiConverterFactory(com.squareup.moshi.Moshi moshi);
+    method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.NetworkHotQuestionsService provideNetworkHotQuestionsService(retrofit2.Retrofit retrofit);
     method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.QuestionService provideQuestionService(retrofit2.Retrofit retrofit);
     method @dagger.Provides @javax.inject.Singleton public retrofit2.Retrofit provideRetrofit(@me.tylerbwong.stack.api.di.BaseUrl String baseUrl, okhttp3.Call.Factory callFactory, java.util.Set<retrofit2.Converter.Factory> converterFactories);
     method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.SearchService provideSearchService(retrofit2.Retrofit retrofit);
@@ -303,9 +304,9 @@ package me.tylerbwong.stack.api.model {
   }
 
   @com.squareup.moshi.JsonClass(generateAdapter=true) public final class InboxItem {
-    ctor public InboxItem(@com.squareup.moshi.Json(name="answer_id") Integer? answerId, @com.squareup.moshi.Json(name="body") String? body, @com.squareup.moshi.Json(name="comment_id") Integer? commentId, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="is_unread") boolean isUnread, @com.squareup.moshi.Json(name="item_type") String itemType, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="question_id") Integer? questionId, @com.squareup.moshi.Json(name="site") me.tylerbwong.stack.api.model.Site? site, @com.squareup.moshi.Json(name="title") String title);
+    ctor public InboxItem(@com.squareup.moshi.Json(name="answer_id") Integer? answerId, @com.squareup.moshi.Json(name="body") String? body, @com.squareup.moshi.Json(name="comment_id") Integer? commentId, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="is_unread") boolean isUnread, @com.squareup.moshi.Json(name="item_type") String itemType, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="question_id") Integer? questionId, @com.squareup.moshi.Json(name="site") me.tylerbwong.stack.api.model.Site? site, @com.squareup.moshi.Json(name="title") String? title);
     method public Integer? component1();
-    method public String component10();
+    method public String? component10();
     method public String? component2();
     method public Integer? component3();
     method public long component4();
@@ -314,7 +315,7 @@ package me.tylerbwong.stack.api.model {
     method public String component7();
     method public Integer? component8();
     method public me.tylerbwong.stack.api.model.Site? component9();
-    method public me.tylerbwong.stack.api.model.InboxItem copy(@com.squareup.moshi.Json(name="answer_id") Integer? answerId, @com.squareup.moshi.Json(name="body") String? body, @com.squareup.moshi.Json(name="comment_id") Integer? commentId, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="is_unread") boolean isUnread, @com.squareup.moshi.Json(name="item_type") String itemType, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="question_id") Integer? questionId, @com.squareup.moshi.Json(name="site") me.tylerbwong.stack.api.model.Site? site, @com.squareup.moshi.Json(name="title") String title);
+    method public me.tylerbwong.stack.api.model.InboxItem copy(@com.squareup.moshi.Json(name="answer_id") Integer? answerId, @com.squareup.moshi.Json(name="body") String? body, @com.squareup.moshi.Json(name="comment_id") Integer? commentId, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="is_unread") boolean isUnread, @com.squareup.moshi.Json(name="item_type") String itemType, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="question_id") Integer? questionId, @com.squareup.moshi.Json(name="site") me.tylerbwong.stack.api.model.Site? site, @com.squareup.moshi.Json(name="title") String? title);
     method public Integer? getAnswerId();
     method public String? getBody();
     method public Integer? getCommentId();
@@ -323,7 +324,7 @@ package me.tylerbwong.stack.api.model {
     method public String getLink();
     method public Integer? getQuestionId();
     method public me.tylerbwong.stack.api.model.Site? getSite();
-    method public String getTitle();
+    method public String? getTitle();
     method public boolean isUnread();
     method public void setQuestionId(Integer?);
     property public final Integer? answerId;
@@ -335,7 +336,39 @@ package me.tylerbwong.stack.api.model {
     property public final String link;
     property public final Integer? questionId;
     property public final me.tylerbwong.stack.api.model.Site? site;
+    property public final String? title;
+  }
+
+  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class NetworkHotQuestion {
+    ctor public NetworkHotQuestion(@com.squareup.moshi.Json(name="site") String site, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="title") String title, @com.squareup.moshi.Json(name="display_score") double displayScore, @com.squareup.moshi.Json(name="icon_url") String iconUrl, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="answer_count") int answerCount, @com.squareup.moshi.Json(name="user_name") String userName, @com.squareup.moshi.Json(name="tags") java.util.List<java.lang.String> tags);
+    method public String component1();
+    method public int component2();
+    method public String component3();
+    method public double component4();
+    method public String component5();
+    method public long component6();
+    method public int component7();
+    method public String component8();
+    method public java.util.List<java.lang.String> component9();
+    method public me.tylerbwong.stack.api.model.NetworkHotQuestion copy(@com.squareup.moshi.Json(name="site") String site, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="title") String title, @com.squareup.moshi.Json(name="display_score") double displayScore, @com.squareup.moshi.Json(name="icon_url") String iconUrl, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="answer_count") int answerCount, @com.squareup.moshi.Json(name="user_name") String userName, @com.squareup.moshi.Json(name="tags") java.util.List<java.lang.String> tags);
+    method public int getAnswerCount();
+    method public long getCreationDate();
+    method public double getDisplayScore();
+    method public String getIconUrl();
+    method public int getQuestionId();
+    method public String getSite();
+    method public java.util.List<java.lang.String> getTags();
+    method public String getTitle();
+    method public String getUserName();
+    property public final int answerCount;
+    property public final long creationDate;
+    property public final double displayScore;
+    property public final String iconUrl;
+    property public final int questionId;
+    property public final String site;
+    property public final java.util.List<java.lang.String> tags;
     property public final String title;
+    property public final String userName;
   }
 
   @com.squareup.moshi.JsonClass(generateAdapter=true) public final class NetworkPost {
@@ -784,6 +817,10 @@ package me.tylerbwong.stack.api.service {
   }
 
   public static final class InboxService.Companion {
+  }
+
+  public interface NetworkHotQuestionsService {
+    method @retrofit2.http.GET("hot-questions-json") public suspend Object? getHotNetworkQuestions(kotlin.coroutines.Continuation<? super java.util.List<? extends me.tylerbwong.stack.api.model.NetworkHotQuestion>>);
   }
 
   public interface QuestionService {
