@@ -1,4 +1,4 @@
 root = true
 
 [*]
-disabled_rules=import-ordering,indent
+ktlint_disabled_rules=import-ordering,indent,annotation

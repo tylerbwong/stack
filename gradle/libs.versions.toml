@@ -59,7 +59,7 @@ okhttp = "5.0.0-alpha.11"
 prism4j = "2.0.0"
 process-phoenix = "2.1.1"
 retrofit = "2.9.0"
-robolectric = "4.9.2"
+robolectric = "4.11.1"
 timber = "5.0.1"
 
 [plugins]
