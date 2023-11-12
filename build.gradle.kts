@@ -7,7 +7,6 @@ buildscript {
     dependencies {
         classpath(libs.aboutLibraries.gradlePlugin)
         classpath(libs.android.gradlePlugin)
-        classpath(libs.google.dagger.hilt.gradlePlugin)
         classpath(libs.google.firebase.crashlytics.gradlePlugin)
         classpath(libs.google.services.gradlePlugin)
         classpath(libs.detekt.gradlePlugin)

@@ -2,7 +2,8 @@ plugins {
     id("com.android.library")
     `kotlin-android`
     `kotlin-kapt`
-    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.google.ksp)
+    alias(libs.plugins.google.dagger.hilt)
     StackPlugin
 }
 
@@ -21,7 +22,7 @@ dependencies {
     implementation(libs.betterlinkmovementmethod)
 
     // dagger
-    kapt(libs.google.dagger.hilt.android.compiler)
+    ksp(libs.google.dagger.hilt.android.compiler)
     implementation(libs.google.dagger.hilt.android)
 
     // markdown

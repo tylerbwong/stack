@@ -1,7 +1,6 @@
 plugins {
     id("com.android.library")
     `kotlin-android`
-    `kotlin-kapt`
     alias(libs.plugins.google.ksp)
     StackPlugin
     id("me.tylerbwong.gradle.metalava")
@@ -21,7 +20,7 @@ metalava {
 
 dependencies {
     // dagger
-    kapt(libs.google.dagger.hilt.android.compiler)
+    ksp(libs.google.dagger.hilt.android.compiler)
     implementation(libs.google.dagger.hilt.android)
 
     // networking

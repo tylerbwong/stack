@@ -1,9 +1,13 @@
+import com.android.build.gradle.internal.tasks.databinding.DataBindingGenBaseClassesTask
+import dagger.hilt.android.plugin.util.capitalize
+import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompileTool
+import java.util.Locale
+
 plugins {
     id("com.android.application")
     `kotlin-android`
-    `kotlin-kapt`
     alias(libs.plugins.google.ksp)
-    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.google.dagger.hilt)
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.mikepenz.aboutlibraries.plugin")
@@ -29,6 +33,23 @@ android {
     }
 }
 
+// Workaround for https://github.com/google/dagger/issues/4049
+androidComponents {
+    onVariants {
+        afterEvaluate {
+            val variantName = it.name.capitalize(Locale.getDefault())
+            val dataBindingTask = tasks.named(
+                "dataBindingGenBaseClasses$variantName"
+            ).get() as? DataBindingGenBaseClassesTask
+            if (dataBindingTask != null) {
+                tasks.getByName("ksp${variantName}Kotlin") {
+                    (this as AbstractKotlinCompileTool<*>).source(dataBindingTask.sourceOutFolder)
+                }
+            }
+        }
+    }
+}
+
 ksp {
     arg("room.incremental", "true")
     arg("room.schemaLocation", "$projectDir/schemas")
@@ -47,7 +68,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.fragment.ktx)
-    kapt(libs.androidx.hilt.compiler)
+    ksp(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.work)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -101,7 +122,7 @@ dependencies {
     implementation(libs.coil.compose)
 
     // dagger
-    kapt(libs.google.dagger.hilt.android.compiler)
+    ksp(libs.google.dagger.hilt.android.compiler)
     implementation(libs.google.dagger.hilt.android)
 
     // insetter
