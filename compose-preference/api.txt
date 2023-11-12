@@ -13,9 +13,6 @@ package me.tylerbwong.compose.preference {
     method @androidx.compose.material3.ExperimentalMaterial3Api public static void SwitchPreference(androidx.compose.foundation.lazy.LazyListScope, boolean checked, kotlin.jvm.functions.Function0<kotlin.Unit> title, optional kotlin.jvm.functions.Function1<? super java.lang.Boolean,kotlin.Unit> onCheckedChange, optional kotlin.jvm.functions.Function0<kotlin.Unit>? summary, optional kotlin.jvm.functions.Function0<kotlin.Unit>? icon);
   }
 
-  public final class PreferenceScopeKt {
-  }
-
   public final class PreferenceScreenKt {
     method @androidx.compose.runtime.Composable public static void PreferenceScreen(optional androidx.compose.ui.Modifier modifier, kotlin.jvm.functions.Function1<? super androidx.compose.foundation.lazy.LazyListScope,kotlin.Unit> content);
   }

@@ -7,17 +7,3 @@ package me.tylerbwong.compose.markdown {
 
 }
 
-package me.tylerbwong.compose.markdown.builder {
-
-  public final class AnnotatedStringBuilderKt {
-  }
-
-}
-
-package me.tylerbwong.compose.markdown.visitors {
-
-  public final class VisitorKt {
-  }
-
-}
-
