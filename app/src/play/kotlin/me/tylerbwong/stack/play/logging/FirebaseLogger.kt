@@ -2,8 +2,8 @@ package me.tylerbwong.stack.play.logging
 
 import android.content.SharedPreferences
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.ParametersBuilder
-import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.analytics.ParametersBuilder
+import com.google.firebase.analytics.logEvent
 import me.tylerbwong.stack.data.auth.AuthStore
 import me.tylerbwong.stack.data.logging.Logger
 import me.tylerbwong.stack.data.site.SiteStore

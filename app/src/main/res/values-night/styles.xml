@@ -5,7 +5,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="searchViewStyle">@style/Widget.Stack.SearchView</item>
-        <item name="switchStyle">@style/Widget.Material3.CompoundButton.MaterialSwitch</item>
+        <item name="switchPreferenceCompatStyle">@style/switchPreferenceCompatStyle</item>
     </style>
 
 </resources>

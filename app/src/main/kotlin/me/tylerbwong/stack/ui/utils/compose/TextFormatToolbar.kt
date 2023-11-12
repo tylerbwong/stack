@@ -12,10 +12,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.FormatListBulleted
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.FormatBold
 import androidx.compose.material.icons.filled.FormatItalic
-import androidx.compose.material.icons.filled.FormatListBulleted
 import androidx.compose.material.icons.filled.FormatListNumbered
 import androidx.compose.material.icons.filled.FormatQuote
 import androidx.compose.material.icons.filled.FormatStrikethrough
@@ -166,8 +166,8 @@ enum class ToolbarItem(
         cursorPosition = 2,
         icon = {
             Icon(
-                imageVector = Icons.Default.FormatListBulleted,
-                contentDescription = Icons.Default.FormatListBulleted.name,
+                imageVector = Icons.AutoMirrored.Filled.FormatListBulleted,
+                contentDescription = Icons.AutoMirrored.Filled.FormatListBulleted.name,
             )
         },
     ),
