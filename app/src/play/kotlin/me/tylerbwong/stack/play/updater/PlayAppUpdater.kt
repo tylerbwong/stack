@@ -1,21 +1,26 @@
 package me.tylerbwong.stack.play.updater
 
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
 import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType.FLEXIBLE
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import me.tylerbwong.stack.data.updater.AppUpdater
-import me.tylerbwong.stack.ui.MainActivity
 
 class PlayAppUpdater(private val manager: AppUpdateManager) : AppUpdater {
 
     private var listener: InstallStateUpdatedListener? = null
 
-    override fun checkForUpdate(activity: MainActivity) {
+    override fun checkForUpdate(
+        checkForPendingInstall: () -> Unit,
+        activityResultLauncher: ActivityResultLauncher<IntentSenderRequest>,
+    ) {
         val listener = InstallStateUpdatedListener { state ->
             if (state.installStatus() == InstallStatus.DOWNLOADED) {
-                activity.checkForPendingInstall()
+                checkForPendingInstall()
             }
         }
         this.listener = listener
@@ -25,7 +30,11 @@ class PlayAppUpdater(private val manager: AppUpdateManager) : AppUpdater {
             if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
                 it.isUpdateTypeAllowed(FLEXIBLE)
             ) {
-                manager.startUpdateFlowForResult(it, FLEXIBLE, activity, APP_UPDATE_REQUEST_CODE)
+                manager.startUpdateFlowForResult(
+                    it,
+                    activityResultLauncher,
+                    AppUpdateOptions.defaultOptions(FLEXIBLE),
+                )
             }
         }
     }
@@ -48,9 +57,5 @@ class PlayAppUpdater(private val manager: AppUpdateManager) : AppUpdater {
 
     override fun unregisterListener() {
         listener?.let { manager.unregisterListener(it) }
-    }
-
-    companion object {
-        const val APP_UPDATE_REQUEST_CODE = 3141
     }
 }

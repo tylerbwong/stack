@@ -1,14 +1,14 @@
 package me.tylerbwong.stack.data.updater
 
-import me.tylerbwong.stack.ui.MainActivity
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
 
 interface AppUpdater {
-    fun checkForUpdate(activity: MainActivity)
+    fun checkForUpdate(
+        checkForPendingInstall: () -> Unit,
+        activityResultLauncher: ActivityResultLauncher<IntentSenderRequest>,
+    )
     fun checkForPendingInstall(onDownloadFinished: () -> Unit, onDownloadFailed: () -> Unit)
     fun completeUpdate()
     fun unregisterListener()
-
-    companion object {
-        const val APP_UPDATE_REQUEST_CODE = 3141
-    }
 }

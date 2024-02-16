@@ -11,12 +11,13 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 
-class CrashlyticsTree @Inject constructor() : Timber.Tree() {
+class CrashlyticsTree @Inject constructor(
+    private val firebaseCrashlytics: FirebaseCrashlytics,
+) : Timber.Tree() {
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
         when (priority) {
             Log.DEBUG, Log.INFO, Log.VERBOSE -> return
             else -> {
-                val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
                 if (t == null) {
                     firebaseCrashlytics.recordException(IllegalStateException(message))
                 } else {

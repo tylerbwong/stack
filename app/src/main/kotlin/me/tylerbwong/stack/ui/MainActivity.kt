@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -23,7 +24,6 @@ import me.tylerbwong.stack.ui.home.HomeFragment
 import me.tylerbwong.stack.ui.inbox.InboxFragment
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionActivity
 import me.tylerbwong.stack.ui.search.SearchFragment
-import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
 import me.tylerbwong.stack.ui.shortcuts.pushAskQuestionShortcut
@@ -40,9 +40,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     lateinit var workScheduler: WorkScheduler
 
     @Inject
-    lateinit var experimental: Experimental
-
-    @Inject
     lateinit var appUpdater: AppUpdater
 
     @Inject
@@ -56,6 +53,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private val draftsFragment by lazy { initializeFragment(DRAFTS_FRAGMENT_TAG) { DraftsFragment() } }
 
     private val authTabIds = listOf(R.id.ask, R.id.inbox, R.id.drafts)
+
+    private val activityResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult(),
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            checkForPendingInstall()
+        } else {
+            showUpdateNotDownloaded()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,7 +113,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 //            }
 //        }
 
-        appUpdater.checkForUpdate(this)
+        appUpdater.checkForUpdate(::checkForPendingInstall, activityResultLauncher)
         workScheduler.schedule()
         populateContent(savedInstanceState)
         val selectedTab = intent.getIntExtra(SELECTED_TAB, 0)
@@ -135,23 +142,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    @Suppress("deprecation") // Until play core supports new activity result API
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == AppUpdater.APP_UPDATE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                checkForPendingInstall()
-            } else {
-                binding.bottomNav.showSnackbar(
-                    R.string.update_not_downloaded,
-                    R.string.update,
-                    Snackbar.LENGTH_LONG,
-                    true
-                ) { appUpdater.checkForUpdate(this) }
-            }
-        }
     }
 
     override fun onDestroy() {
@@ -215,7 +205,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    internal fun checkForPendingInstall() {
+    private fun showUpdateNotDownloaded() {
+        binding.bottomNav.showSnackbar(
+            R.string.update_not_downloaded,
+            R.string.update,
+            Snackbar.LENGTH_LONG,
+            true
+        ) { appUpdater.checkForUpdate(::checkForPendingInstall, activityResultLauncher) }
+    }
+
+    private fun checkForPendingInstall() {
         appUpdater.checkForPendingInstall(
             onDownloadFinished = {
                 binding.bottomNav.showSnackbar(
@@ -235,7 +234,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     R.string.retry,
                     shouldAnchorView = true
                 ) {
-                    appUpdater.checkForUpdate(this)
+                    appUpdater.checkForUpdate(::checkForPendingInstall, activityResultLauncher)
                 }
             }
         )

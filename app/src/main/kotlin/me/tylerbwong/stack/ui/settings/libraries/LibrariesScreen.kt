@@ -2,7 +2,7 @@ package me.tylerbwong.stack.ui.settings.libraries
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -40,7 +40,7 @@ fun LibrariesScreen(onBackPressed: () -> Unit) {
                     navigationIcon = {
                         IconButton(onClick = onBackPressed) {
                             Icon(
-                                imageVector = Icons.Filled.ArrowBack,
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = null,
                             )
                         }
@@ -70,8 +70,8 @@ fun LibrariesScreen(onBackPressed: () -> Unit) {
                 padding = LibraryDefaults.libraryPadding(
                     badgeContentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp),
                 ),
-                onLibraryClick = { library ->
-                    val website = library.website
+                onLibraryClick = {
+                    val website = it.library.website
                     if (!website.isNullOrEmpty()) {
                         context.launchUrl(url = website)
                     }

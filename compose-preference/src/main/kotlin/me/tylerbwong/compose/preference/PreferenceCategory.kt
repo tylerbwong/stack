@@ -4,7 +4,7 @@ package me.tylerbwong.compose.preference
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.runtime.Composable
@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 
 fun PreferenceScope.PreferenceCategory(
     header: @Composable () -> Unit,
-    divider: (@Composable () -> Unit)? = { Divider() },
+    divider: (@Composable () -> Unit)? = { HorizontalDivider() },
     content: PreferenceScope.() -> Unit,
 ) {
     item {

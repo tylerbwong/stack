@@ -1,10 +1,14 @@
 package me.tylerbwong.stack.base.updater
 
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
 import me.tylerbwong.stack.data.updater.AppUpdater
-import me.tylerbwong.stack.ui.MainActivity
 
 class NoOpAppUpdater : AppUpdater {
-    override fun checkForUpdate(activity: MainActivity) {
+    override fun checkForUpdate(
+        checkForPendingInstall: () -> Unit,
+        activityResultLauncher: ActivityResultLauncher<IntentSenderRequest>,
+    ) {
         // No-op
     }
 

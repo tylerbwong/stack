@@ -26,6 +26,11 @@ class StackApplication : Application(), Configuration.Provider, ImageLoaderFacto
     @Inject
     lateinit var okHttpClient: Lazy<OkHttpClient>
 
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
+
     override fun onCreate() {
         if (ProcessPhoenix.isPhoenixProcess(this)) {
             return
@@ -33,12 +38,6 @@ class StackApplication : Application(), Configuration.Provider, ImageLoaderFacto
         super.onCreate()
         ThemeManager.init(this)
         initializers.forEach { initializer -> initializer() }
-    }
-
-    override fun getWorkManagerConfiguration(): Configuration {
-        return Configuration.Builder()
-            .setWorkerFactory(workerFactory)
-            .build()
     }
 
     override fun newImageLoader(): ImageLoader {
