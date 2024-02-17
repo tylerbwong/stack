@@ -27,6 +27,12 @@
         android:layout="@layout/preference_category_layout"
         android:title="@string/experimental">
         <SwitchPreferenceCompat
+            android:icon="@drawable/ic_baseline_auto_awesome_mosaic"
+            android:key="@string/site_drawer"
+            android:summary="@string/site_drawer_summary"
+            android:title="@string/site_drawer" />
+
+        <SwitchPreferenceCompat
             android:icon="@drawable/ic_baseline_code"
             android:key="@string/syntax_highlighting"
             android:summary="@string/syntax_highlighting_summary"

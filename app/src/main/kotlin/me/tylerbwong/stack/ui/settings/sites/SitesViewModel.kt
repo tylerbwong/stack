@@ -24,6 +24,10 @@ class SitesViewModel @Inject constructor(
         get() = mutableSites
     private val mutableSites = MutableLiveData<List<Site>>()
 
+    internal val currentSite: LiveData<Site>
+        get() = _currentSite
+    private val _currentSite = MutableLiveData<Site>()
+
     internal val searchQuery: LiveData<String>
         get() = mutableSearchQuery
     private val mutableSearchQuery = MutableLiveData<String>()
@@ -48,6 +52,7 @@ class SitesViewModel @Inject constructor(
         if (query.isNullOrEmpty()) {
             currentQuery = null
             streamRequest(siteRepository.getSites()) { results ->
+                _currentSite.value = siteRepository.getCurrentSite()
                 searchCatalog = results.map { it.toSite() }
                 mutableAssociatedSites.value = searchCatalog
                     .applyFilter(filter)

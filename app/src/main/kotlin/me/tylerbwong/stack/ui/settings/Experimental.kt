@@ -13,8 +13,13 @@ class Experimental @Inject constructor(
         get() = preferences.getBoolean(MARKDOWN_SYNTAX_HIGHLIGHT, false)
         set(value) = preferences.edit().putBoolean(MARKDOWN_SYNTAX_HIGHLIGHT, value).apply()
 
+    var siteDrawerEnabled: Boolean
+        get() = preferences.getBoolean(SITE_DRAWER, false)
+        set(value) = preferences.edit().putBoolean(SITE_DRAWER, value).apply()
+
     companion object {
         internal const val EXPERIMENTAL_SHARED_PREFS = "experimental_shared_prefs"
-        const val MARKDOWN_SYNTAX_HIGHLIGHT = "markdown_syntax_highlight"
+        private const val MARKDOWN_SYNTAX_HIGHLIGHT = "markdown_syntax_highlight"
+        private const val SITE_DRAWER = "site_drawer"
     }
 }

@@ -7,6 +7,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.ui.Modifier
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -24,8 +27,11 @@ import me.tylerbwong.stack.ui.home.HomeFragment
 import me.tylerbwong.stack.ui.inbox.InboxFragment
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionActivity
 import me.tylerbwong.stack.ui.search.SearchFragment
+import me.tylerbwong.stack.ui.settings.Experimental
 import me.tylerbwong.stack.ui.settings.SettingsActivity
 import me.tylerbwong.stack.ui.settings.sites.SitesActivity
+import me.tylerbwong.stack.ui.settings.sites.SitesLayout
+import me.tylerbwong.stack.ui.settings.sites.SitesViewModel
 import me.tylerbwong.stack.ui.shortcuts.pushAskQuestionShortcut
 import me.tylerbwong.stack.ui.shortcuts.removeAskQuestionShortcut
 import me.tylerbwong.stack.ui.utils.hideKeyboard
@@ -45,7 +51,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     @Inject
     lateinit var appReviewer: AppReviewer
 
+    @Inject
+    lateinit var experimental: Experimental
+
     private val viewModel by viewModels<MainViewModel>()
+    private val sitesViewModel by viewModels<SitesViewModel>()
 
     private val homeFragment by lazy { initializeFragment(HOME_FRAGMENT_TAG) { HomeFragment() } }
     private val searchFragment by lazy { initializeFragment(SEARCH_FRAGMENT_TAG) { SearchFragment() } }
@@ -93,8 +103,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 binding.siteIcon.apply {
                     load(site.iconUrl)
                     setThrottledOnClickListener {
-                        // TODO Switch to bottom sheet?
-                        SitesActivity.startActivity(this@MainActivity)
+                        if (experimental.siteDrawerEnabled) {
+                            binding.drawerLayout.open()
+                        } else {
+                            SitesActivity.startActivity(this@MainActivity)
+                        }
                     }
                 }
             }
@@ -125,6 +138,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onResume() {
         super.onResume()
         viewModel.fetchSites()
+        if (experimental.siteDrawerEnabled && sitesViewModel.sites.value == null) {
+            sitesViewModel.fetchSites()
+            binding.navigationViewLayout.consumeWindowInsets = false
+            binding.navigationViewLayout.setContent {
+                SitesLayout(
+                    modifier = Modifier.statusBarsPadding(),
+                    changeSite = {
+                        sitesViewModel.changeSite(it)
+                        binding.drawerLayout.close()
+                    },
+                    isCompact = true,
+                )
+            }
+        }
         checkForPendingInstall()
         appReviewer.initializeReviewFlow(activity = this)
     }

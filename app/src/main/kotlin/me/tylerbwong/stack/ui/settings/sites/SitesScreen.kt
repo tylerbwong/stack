@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
@@ -41,6 +42,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -139,7 +141,11 @@ fun SitesScreen(changeSite: (String) -> Unit, onBackPressed: () -> Unit) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SitesLayout(modifier: Modifier = Modifier, changeSite: (String) -> Unit) {
+fun SitesLayout(
+    modifier: Modifier = Modifier,
+    changeSite: (String) -> Unit,
+    isCompact: Boolean = false,
+) {
     val viewModel = viewModel<SitesViewModel>()
     val associatedSites by viewModel.associatedSites.observeAsState(initial = emptyList())
     val sites by viewModel.sites.observeAsState(initial = emptyList())
@@ -161,6 +167,7 @@ fun SitesLayout(modifier: Modifier = Modifier, changeSite: (String) -> Unit) {
                     SiteItem(
                         site = site,
                         searchQuery = searchQuery,
+                        isCompact = isCompact,
                     ) { changeSite(site.parameter) }
                 }
             }
@@ -176,6 +183,7 @@ fun SitesLayout(modifier: Modifier = Modifier, changeSite: (String) -> Unit) {
                     SiteItem(
                         site = site,
                         searchQuery = searchQuery,
+                        isCompact = isCompact,
                     ) { changeSite(site.parameter) }
                 }
             }
@@ -204,12 +212,84 @@ fun SitesHeader(@StringRes headerResId: Int) {
 fun SiteItem(
     site: Site,
     searchQuery: String?,
+    isCompact: Boolean,
     onItemClicked: () -> Unit,
 ) {
+    if (isCompact) {
+        CompactSiteItem(site = site, onItemClicked = onItemClicked)
+    } else {
+        val interactionSource = remember { MutableInteractionSource() }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = if (isSystemInDarkTheme()) {
+                        rememberRipple(color = Color.White)
+                    } else {
+                        rememberRipple()
+                    },
+                    onClick = onItemClicked
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            AsyncImage(
+                model = site.iconUrl,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(64.dp)
+                    .padding(
+                        start = 8.dp,
+                        top = 8.dp,
+                        end = 4.dp,
+                        bottom = 8.dp
+                    ),
+            )
+            Column(
+                modifier = Modifier
+                    .padding(
+                        start = 2.dp,
+                        top = 16.dp,
+                        end = 16.dp,
+                        bottom = 16.dp
+                    ),
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Text(
+                    text = site.name.toAnnotatedString(searchQuery),
+                    style = MaterialTheme.typography.titleMedium,
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = site.audience.toAnnotatedString(searchQuery),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun CompactSiteItem(
+    site: Site,
+    onItemClicked: () -> Unit,
+) {
+    val viewModel = viewModel<SitesViewModel>()
+    val currentSite by viewModel.currentSite.observeAsState()
     val interactionSource = remember { MutableInteractionSource() }
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(end = 24.dp)
+            .background(
+                color = if (site.parameter == currentSite?.parameter) {
+                    MaterialTheme.colorScheme.secondaryContainer
+                } else {
+                    Color.Transparent
+                },
+                shape = RoundedCornerShape(topEnd = 32.dp, bottomEnd = 32.dp)
+            )
+            .clip(shape = RoundedCornerShape(topEnd = 32.dp, bottomEnd = 32.dp))
             .clickable(
                 interactionSource = interactionSource,
                 indication = if (isSystemInDarkTheme()) {
@@ -225,7 +305,7 @@ fun SiteItem(
             model = site.iconUrl,
             contentDescription = null,
             modifier = Modifier
-                .size(64.dp)
+                .size(36.dp)
                 .padding(
                     start = 8.dp,
                     top = 8.dp,
@@ -244,12 +324,7 @@ fun SiteItem(
             verticalArrangement = Arrangement.Center,
         ) {
             Text(
-                text = site.name.toAnnotatedString(searchQuery),
-                style = MaterialTheme.typography.titleMedium,
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = site.audience.toAnnotatedString(searchQuery),
+                text = site.name,
                 style = MaterialTheme.typography.bodyMedium,
             )
         }

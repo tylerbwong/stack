@@ -255,6 +255,8 @@
     <string name="version">Versión</string>
     <string name="syntax_highlighting">Resaltado de sintaxis</string>
     <string name="syntax_highlighting_summary">Habilita el resaltado de sintaxis para los bloques de código Markdown admitidos</string>
+    <string name="site_drawer">Cajón de navegación del sitio</string>
+    <string name="site_drawer_summary">Habilita un cajón de navegación en la pantalla de inicio que permite cambiar de sitio más fácilmente</string>
 
     <string name="restart_toggle">Para activar esta es necesario reiniciar</string>
     <string name="link_copied">El enlace se copia en el portapapeles</string>

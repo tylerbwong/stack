@@ -268,6 +268,8 @@
     <string name="version">Version</string>
     <string name="syntax_highlighting">Syntax highlighting</string>
     <string name="syntax_highlighting_summary">Enables syntax highlighting for supported markdown code blocks</string>
+    <string name="site_drawer">Site navigation drawer</string>
+    <string name="site_drawer_summary">Enables a navigation drawer on the home screen that allows easier site switching</string>
 
     <string name="restart_toggle">Toggling this requires a restart</string>
     <string name="link_copied">Link copied to clipboard</string>

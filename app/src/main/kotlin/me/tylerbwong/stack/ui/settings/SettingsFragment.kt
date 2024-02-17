@@ -79,6 +79,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
             findPreference<Preference>(getString(R.string.log_out))?.isVisible = false
 
             if (BuildConfig.DEBUG) {
+                findPreference<TwoStatePreference>(getString(R.string.site_drawer))?.apply {
+                    isChecked = experimental.siteDrawerEnabled
+                    isVisible = BuildConfig.DEBUG
+                    setOnPreferenceChangeListener { _, newValue ->
+                        experimental.siteDrawerEnabled = newValue as Boolean
+                        true
+                    }
+                }
                 findPreference<TwoStatePreference>(getString(R.string.syntax_highlighting))?.apply {
                     isChecked = experimental.syntaxHighlightingEnabled
                     isVisible = BuildConfig.DEBUG

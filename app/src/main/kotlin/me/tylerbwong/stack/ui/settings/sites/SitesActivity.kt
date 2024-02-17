@@ -121,7 +121,7 @@ class SitesActivity : BaseActivity<ActivitySitesBinding>(
 }
 
 sealed class SiteFilter(@StringRes val filterNameRes: Int) {
-    object All : SiteFilter(R.string.all_sites)
-    object Main : SiteFilter(R.string.main_sites)
-    object Meta : SiteFilter(R.string.meta_sites)
+    data object All : SiteFilter(R.string.all_sites)
+    data object Main : SiteFilter(R.string.main_sites)
+    data object Meta : SiteFilter(R.string.meta_sites)
 }
