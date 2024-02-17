@@ -14,6 +14,7 @@ import me.tylerbwong.stack.ui.BaseFragment
 import me.tylerbwong.stack.ui.home.HomeItemDiffCallback
 import me.tylerbwong.stack.ui.profile.ProfileActivity.Companion.USER_ID
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.serializable
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
@@ -27,8 +28,8 @@ class ProfilePageFragment : BaseFragment<ProfilePageFragmentBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.userId = arguments?.getInt(USER_ID)
-        viewModel.currentPage =
-            arguments?.getSerializable(PAGE_EXTRA) as ProfileViewModel.ProfilePage
+        viewModel.currentPage = arguments?.serializable(PAGE_EXTRA)
+            ?: ProfileViewModel.ProfilePage.QUESTIONS
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

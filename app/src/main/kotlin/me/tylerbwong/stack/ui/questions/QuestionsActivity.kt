@@ -23,6 +23,7 @@ import me.tylerbwong.stack.api.model.WEEK
 import me.tylerbwong.stack.databinding.ActivityQuestionsBinding
 import me.tylerbwong.stack.ui.BaseActivity
 import me.tylerbwong.stack.ui.utils.ViewHolderItemDecoration
+import me.tylerbwong.stack.ui.utils.serializable
 import me.tylerbwong.stack.ui.utils.showSnackbar
 
 @AndroidEntryPoint
@@ -45,7 +46,7 @@ class QuestionsActivity : BaseActivity<ActivityQuestionsBinding>(
             finish()
         }
 
-        val page = intent.getSerializableExtra(PAGE_EXTRA) as QuestionPage
+        val page = intent.serializable<QuestionPage>(PAGE_EXTRA) ?: QuestionPage.LINKED
 
         setUpPageForKey(page, key)
 
