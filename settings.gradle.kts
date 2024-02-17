@@ -2,6 +2,7 @@ rootProject.name = "stack"
 
 include(
     ":app",
+    ":benchmark",
     ":compose-markdown",
     ":compose-markdown-demo",
     ":compose-preference",

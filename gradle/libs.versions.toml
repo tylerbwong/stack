@@ -3,6 +3,8 @@ about-libraries = "10.10.0"
 android-gradlePlugin = "8.2.2"
 androidx-activity = "1.8.2"
 androidx-appcompat = "1.6.1"
+androidx-benchmark-baselineProfile-gradlePlugin = "1.2.3"
+androidx-benchmark-macro-junit4 = "1.2.3"
 androidx-browser = "1.7.0"
 androidx-compose-foundation = "1.6.1"
 androidx-compose-compiler = "1.5.9"
@@ -24,6 +26,7 @@ androidx-swiperefreshlayout = "1.1.0"
 androidx-test-core = "1.5.0"
 androidx-test-runner = "1.5.2"
 androidx-test-ext = "1.1.5"
+androidx-uiautomator = "2.2.0"
 androidx-viewpager2 = "1.1.0-beta02"
 androidx-work = "2.9.0"
 apache-commons-text = "1.10.0"
@@ -76,6 +79,8 @@ android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref 
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+androidx-benchmark-baselineProfile-gradlePlugin = { group = "androidx.benchmark", name = "benchmark-baseline-profile-gradle-plugin", version.ref = "androidx-benchmark-baselineProfile-gradlePlugin" }
+androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "androidx-benchmark-macro-junit4" }
 androidx-browser = { module = "androidx.browser:browser", version.ref = "androidx-browser" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-compose-foundation" }
 androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "androidx-compose-foundation" }
@@ -106,6 +111,7 @@ androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefre
 androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core" }
 androidx-test-ext = { module = "androidx.test.ext:junit-ktx", version.ref = "androidx-test-ext" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
+androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "androidx-uiautomator" }
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "androidx-viewpager2" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work"}
 

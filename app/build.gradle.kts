@@ -11,6 +11,7 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.mikepenz.aboutlibraries.plugin")
+    id("androidx.baselineprofile")
     StackPlugin
 }
 
@@ -57,6 +58,8 @@ ksp {
 }
 
 dependencies {
+    baselineProfile(projects.benchmark)
+
     // kotlin
     implementation(libs.jetbrains.kotlinx.coroutines.core)
     implementation(libs.jetbrains.kotlinx.coroutines.android)
