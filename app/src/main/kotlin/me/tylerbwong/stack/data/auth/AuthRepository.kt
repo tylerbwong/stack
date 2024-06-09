@@ -111,11 +111,11 @@ class AuthRepository @Inject constructor(
 }
 
 sealed class LoginResult {
-    object LoginSuccess : LoginResult()
-    object LoginError : LoginResult()
+    data object LoginSuccess : LoginResult()
+    data object LoginError : LoginResult()
 }
 
 sealed class LogOutResult {
-    object LogOutSuccess : LogOutResult()
-    object LogOutError : LogOutResult()
+    data object LogOutSuccess : LogOutResult()
+    data object LogOutError : LogOutResult()
 }

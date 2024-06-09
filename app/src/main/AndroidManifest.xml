@@ -50,130 +50,105 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <!-- Accept URIs for OAuth 2.0 Implicit Flow -->
-                <data
-                    android:host="tylerbwong.me"
-                    android:pathPrefix="/auth/redirect"
-                    android:scheme="stack" />
+                <data android:scheme="stack"/>
+                <data android:host="tylerbwong.me"/>
+                <data android:pathPrefix="/auth/redirect"/>
 
-                <data
-                    android:host="stackoverflow.com"
-                    android:pathPrefix="/questions"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="stackoverflow.com"/>
+                <data android:pathPrefix="/questions"/>
 
-                <data
-                    android:host="stackoverflow.com"
-                    android:pathPrefix="/q"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="stackoverflow.com"/>
+                <data android:pathPrefix="/q"/>
 
-                <data
-                    android:host="*.stackoverflow.com"
-                    android:pathPrefix="/questions"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="*.stackoverflow.com"/>
+                <data android:pathPrefix="/questions"/>
 
-                <data
-                    android:host="*.stackoverflow.com"
-                    android:pathPrefix="/q"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="*.stackoverflow.com"/>
+                <data android:pathPrefix="/q"/>
 
-                <data
-                    android:host="serverfault.com"
-                    android:pathPrefix="/questions"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="serverfault.com"/>
+                <data android:pathPrefix="/questions"/>
 
-                <data
-                    android:host="serverfault.com"
-                    android:pathPrefix="/q"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="serverfault.com"/>
+                <data android:pathPrefix="/q"/>
 
-                <data
-                    android:host="*.serverfault.com"
-                    android:pathPrefix="/questions"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="*.serverfault.com"/>
+                <data android:pathPrefix="/questions"/>
 
-                <data
-                    android:host="*.serverfault.com"
-                    android:pathPrefix="/q"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="*.serverfault.com"/>
+                <data android:pathPrefix="/q"/>
 
-                <data
-                    android:host="superuser.com"
-                    android:pathPrefix="/questions"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="superuser.com"/>
+                <data android:pathPrefix="/questions"/>
 
-                <data
-                    android:host="superuser.com"
-                    android:pathPrefix="/q"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="superuser.com"/>
+                <data android:pathPrefix="/q"/>
 
-                <data
-                    android:host="*.superuser.com"
-                    android:pathPrefix="/questions"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="*.superuser.com"/>
+                <data android:pathPrefix="/questions"/>
 
-                <data
-                    android:host="*.superuser.com"
-                    android:pathPrefix="/q"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="*.superuser.com"/>
+                <data android:pathPrefix="/q"/>
 
-                <data
-                    android:host="askubuntu.com"
-                    android:pathPrefix="/questions"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="askubuntu.com"/>
+                <data android:pathPrefix="/questions"/>
 
-                <data
-                    android:host="askubuntu.com"
-                    android:pathPrefix="/q"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="askubuntu.com"/>
+                <data android:pathPrefix="/q"/>
 
-                <data
-                    android:host="*.askubuntu.com"
-                    android:pathPrefix="/questions"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="*.askubuntu.com"/>
+                <data android:pathPrefix="/questions"/>
 
-                <data
-                    android:host="*.askubuntu.com"
-                    android:pathPrefix="/q"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="*.askubuntu.com"/>
+                <data android:pathPrefix="/q"/>
 
-                <data
-                    android:host="mathoverflow.net"
-                    android:pathPrefix="/questions"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="mathoverflow.net"/>
+                <data android:pathPrefix="/questions"/>
 
-                <data
-                    android:host="mathoverflow.net"
-                    android:pathPrefix="/q"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="mathoverflow.net"/>
+                <data android:pathPrefix="/q"/>
 
-                <data
-                    android:host="*.mathoverflow.net"
-                    android:pathPrefix="/questions"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="*.mathoverflow.net"/>
+                <data android:pathPrefix="/questions"/>
 
-                <data
-                    android:host="*.mathoverflow.net"
-                    android:pathPrefix="/q"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="*.mathoverflow.net"/>
+                <data android:pathPrefix="/q"/>
 
-                <data
-                    android:host="stackapps.com"
-                    android:pathPrefix="/questions"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="stackapps.com"/>
+                <data android:pathPrefix="/questions"/>
 
-                <data
-                    android:host="stackapps.com"
-                    android:pathPrefix="/q"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="stackapps.com"/>
+                <data android:pathPrefix="/q"/>
 
-                <data
-                    android:host="*.stackexchange.com"
-                    android:pathPrefix="/questions"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="*.stackexchange.com"/>
+                <data android:pathPrefix="/questions"/>
 
-                <data
-                    android:host="*.stackexchange.com"
-                    android:pathPrefix="/q"
-                    android:scheme="https" />
+                <data android:scheme="https"/>
+                <data android:host="*.stackexchange.com"/>
+                <data android:pathPrefix="/q"/>
             </intent-filter>
         </activity>
 

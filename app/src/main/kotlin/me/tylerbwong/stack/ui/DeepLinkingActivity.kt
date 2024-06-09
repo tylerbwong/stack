@@ -27,6 +27,9 @@ class DeepLinkingActivity : BaseActivity<ViewBinding>(
                 },
                 Toast.LENGTH_LONG,
             ).show()
+            if (result == LoginResult.LoginSuccess) {
+                startActivity(MainActivity.makeIntentClearTop(this))
+            }
             finish()
         }
         handleIntent(intent)

@@ -18,8 +18,8 @@ import javax.inject.Singleton
 
 sealed class DeepLinkResult {
     class Success(val intent: Intent) : DeepLinkResult()
-    object RequestingAuth : DeepLinkResult()
-    object PathNotSupportedError : DeepLinkResult()
+    data object RequestingAuth : DeepLinkResult()
+    data object PathNotSupportedError : DeepLinkResult()
 }
 
 @EntryPoint
@@ -36,7 +36,7 @@ class DeepLinker @Inject constructor() {
         QUESTION_DETAILS("/q/", "/questions/");
 
         companion object {
-            fun fromPath(path: String) = values().firstOrNull { resolvedPath ->
+            fun fromPath(path: String) = entries.firstOrNull { resolvedPath ->
                 resolvedPath.paths.any { path.contains(it) }
             }
         }

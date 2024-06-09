@@ -65,5 +65,6 @@ fun Context.launchUrl(url: String, forceExternal: Boolean = false) {
 
 fun Context.launchCustomTab(url: String) {
     val customTabsIntent = CustomTabsIntent.Builder().build()
+    customTabsIntent.intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
     customTabsIntent.launchUrl(this, Uri.parse(url))
 }
