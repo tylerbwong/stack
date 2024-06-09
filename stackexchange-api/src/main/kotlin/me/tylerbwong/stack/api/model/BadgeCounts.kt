@@ -1,8 +1,8 @@
 package me.tylerbwong.stack.api.model
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class BadgeCounts(
     val bronze: Int,
     val silver: Int,

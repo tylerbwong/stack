@@ -1,56 +1,56 @@
 package me.tylerbwong.stack.api.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Question model.
  */
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Question(
-    @Json(name = "answer_count")
+    @SerialName("answer_count")
     val answerCount: Int = 0,
     val body: String?,
-    @Json(name = "body_markdown")
+    @SerialName("body_markdown")
     val bodyMarkdown: String?,
-    @Json(name = "closed_date")
+    @SerialName("closed_date")
     val closedDate: Long?,
-    @Json(name = "closed_reason")
+    @SerialName("closed_reason")
     val closedReason: String?,
-    @Json(name = "closed_details")
+    @SerialName("closed_details")
     val closedDetails: ClosedDetails? = null,
-    @Json(name = "comment_count")
+    @SerialName("comment_count")
     val commentCount: Int?,
-    @Json(name = "creation_date")
+    @SerialName("creation_date")
     val creationDate: Long,
-    @Json(name = "down_vote_count")
+    @SerialName("down_vote_count")
     val downVoteCount: Int = 0,
-    @Json(name = "downvoted")
+    @SerialName("downvoted")
     val isDownVoted: Boolean = false,
-    @Json(name = "favorited")
+    @SerialName("favorited")
     val isBookmarked: Boolean = false,
-    @Json(name = "favorite_count")
+    @SerialName("favorite_count")
     val bookmarkCount: Int = 0,
-    @Json(name = "is_answered")
+    @SerialName("is_answered")
     val isAnswered: Boolean,
-    @Json(name = "last_activity_date")
+    @SerialName("last_activity_date")
     val lastActivityDate: Long?,
-    @Json(name = "last_edit_date")
+    @SerialName("last_edit_date")
     val lastEditDate: Long?,
-    @Json(name = "last_editor")
+    @SerialName("last_editor")
     val lastEditor: User?,
     val owner: User,
-    @Json(name = "question_id")
+    @SerialName("question_id")
     val questionId: Int = -1,
     val score: Int,
-    @Json(name = "share_link")
+    @SerialName("share_link")
     val shareLink: String = "",
     val tags: List<String>?,
     val title: String,
-    @Json(name = "up_vote_count")
+    @SerialName("up_vote_count")
     val upVoteCount: Int = 0,
-    @Json(name = "upvoted")
+    @SerialName("upvoted")
     val isUpVoted: Boolean = false,
-    @Json(name = "view_count")
+    @SerialName("view_count")
     val viewCount: Int = 0
 )

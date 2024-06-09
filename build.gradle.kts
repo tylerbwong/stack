@@ -17,6 +17,11 @@ buildscript {
     }
 }
 
+plugins {
+    alias(libs.plugins.google.ksp) apply false
+    alias(libs.plugins.google.dagger.hilt) apply false
+}
+
 allprojects {
     repositories {
         google()

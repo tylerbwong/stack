@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     `kotlin-android`
+    kotlin("plugin.serialization") version libs.versions.jetbrains.kotlin
     alias(libs.plugins.google.ksp)
     StackPlugin
     id("me.tylerbwong.gradle.metalava")
@@ -27,9 +28,8 @@ dependencies {
     implementation(libs.google.dagger.hilt.android)
 
     // networking
-    implementation(libs.moshi)
-    ksp(libs.moshi.kotlinCodegen)
+    implementation(libs.jetbrains.kotlinx.serialization.json)
     implementation(libs.okhttp)
     implementation(libs.retrofit)
-    implementation(libs.retrofit.moshi)
+    implementation(libs.retrofit.serialization)
 }

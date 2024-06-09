@@ -1,15 +1,15 @@
 package me.tylerbwong.stack.api.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ClosedDetails(
-    @Json(name = "description")
+    @SerialName("description")
     val description: String,
-    @Json(name = "original_questions")
+    @SerialName("original_questions")
     val originalQuestions: List<OriginalQuestion> = emptyList(),
-    @Json(name = "reason")
+    @SerialName("reason")
     val reason: String,
 ) {
     val closedReason: ClosedReason
@@ -30,14 +30,14 @@ data class ClosedDetails(
     }
 }
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class OriginalQuestion(
-    @Json(name = "accepted_answer_id")
+    @SerialName("accepted_answer_id")
     val acceptedAnswerId: Int? = null,
-    @Json(name = "answer_count")
+    @SerialName("answer_count")
     val answerCount: Int,
-    @Json(name = "question_id")
+    @SerialName("question_id")
     val questionId: Int,
-    @Json(name = "title")
+    @SerialName("title")
     val title: String,
 )

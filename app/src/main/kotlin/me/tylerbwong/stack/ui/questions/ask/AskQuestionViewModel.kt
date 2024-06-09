@@ -25,8 +25,8 @@ import me.tylerbwong.stack.data.persistence.dao.QuestionDraftDao
 import me.tylerbwong.stack.data.persistence.entity.QuestionDraftEntity
 import me.tylerbwong.stack.data.repository.SiteRepository
 import me.tylerbwong.stack.ui.BaseViewModel
-import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Tags.MAX_NUM_TAGS
-import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Title.TITLE_LENGTH_MAX
+import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Companion.MAX_NUM_TAGS
+import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Companion.TITLE_LENGTH_MAX
 import me.tylerbwong.stack.ui.utils.SingleLiveEvent
 import retrofit2.HttpException
 import timber.log.Timber

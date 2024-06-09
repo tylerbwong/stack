@@ -1,8 +1,8 @@
 package me.tylerbwong.stack.api.model
 
 import androidx.annotation.StringDef
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 const val NAMED = "named"
 const val TAG_BASED = "tag_based"
@@ -17,20 +17,20 @@ const val BRONZE = "bronze"
 @StringDef(GOLD, SILVER, BRONZE)
 annotation class Rank
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Badge(
-    @Json(name = "award_count")
+    @SerialName("award_count")
     val awardCount: Int,
-    @Json(name = "badge_id")
+    @SerialName("badge_id")
     val badgeId: Int,
-    @[Json(name = "badge_type") BadgeType]
+    @[SerialName("badge_type") BadgeType]
     val badgeType: String,
-    @Json(name = "description")
+    @SerialName("description")
     val description: String,
-    @Json(name = "link")
+    @SerialName("link")
     val link: String,
-    @Json(name = "name")
+    @SerialName("name")
     val name: String,
-    @[Json(name = "rank") Rank]
+    @[SerialName("rank") Rank]
     val rank: String
 )

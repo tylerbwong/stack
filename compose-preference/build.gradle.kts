@@ -3,6 +3,7 @@ plugins {
     `kotlin-android`
     StackPlugin
     id("me.tylerbwong.gradle.metalava")
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -11,10 +12,10 @@ android {
         compose = true
         buildConfig = false
     }
+}
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
-    }
+composeCompiler {
+    enableStrongSkippingMode = true
 }
 
 metalava {

@@ -1,20 +1,20 @@
 package me.tylerbwong.stack.api.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Comment(
-    @Json(name = "body_markdown")
+    @SerialName("body_markdown")
     val bodyMarkdown: String = "",
-    @Json(name = "comment_id")
+    @SerialName("comment_id")
     val commentId: Int? = null,
-    @Json(name = "post_id")
+    @SerialName("post_id")
     val postId: Int? = null,
-    @Json(name = "creation_date")
+    @SerialName("creation_date")
     val creationDate: Long,
     val edited: Boolean,
-    @Json(name = "owner")
+    @SerialName("owner")
     val owner: User,
     val score: Int? = null,
     val upvoted: Boolean? = null,

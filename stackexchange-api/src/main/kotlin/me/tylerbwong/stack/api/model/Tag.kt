@@ -1,12 +1,12 @@
 package me.tylerbwong.stack.api.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Tag(
-    @Json(name = "name")
+    @SerialName("name")
     val name: String,
-    @Json(name = "count")
+    @SerialName("count")
     val count: Int
 )

@@ -2,23 +2,22 @@ package me.tylerbwong.stack.data.persistence.typeconverter
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.json.Json
 
 @ProvidedTypeConverter
-class ListTypeConverter(moshi: Moshi) {
+class ListTypeConverter(private val json: Json) {
 
-    private val listStringType = Types.newParameterizedType(List::class.java, String::class.java)
-    private val stringListAdapter = moshi.adapter<List<String>>(listStringType)
-    private val listAdapter = moshi.adapter(List::class.java)
+    private val listStringType = ListSerializer(String.serializer())
 
     @TypeConverter
-    fun jsonToStringList(json: String?): List<String>? = json?.let {
-        stringListAdapter.fromJson(it)
+    fun jsonToStringList(value: String?): List<String>? = value?.let {
+        json.decodeFromString(listStringType, it)
     }
 
     @TypeConverter
-    fun stringListToJson(stringList: List<String>?): String? = stringList?.let {
-        listAdapter.toJson(it)
+    fun stringListToJson(listValue: List<String>?): String? = listValue?.let {
+        json.encodeToString(listStringType, it)
     }
 }

@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     `kotlin-android`
     StackPlugin
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -10,10 +11,10 @@ android {
         compose = true
         buildConfig = false
     }
+}
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
-    }
+composeCompiler {
+    enableStrongSkippingMode = true
 }
 
 dependencies {

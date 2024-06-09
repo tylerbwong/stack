@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.questions.ask.AskQuestionViewModel
-import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Details.MIN_DETAILS_LENGTH
+import me.tylerbwong.stack.ui.questions.ask.page.AskQuestionPage.Companion.MIN_DETAILS_LENGTH
 
 @Composable
 fun DetailsPage(isDetailedQuestionRequired: Boolean) {

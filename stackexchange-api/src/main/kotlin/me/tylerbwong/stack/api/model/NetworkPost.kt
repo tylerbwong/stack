@@ -1,16 +1,16 @@
 package me.tylerbwong.stack.api.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class NetworkPost(
-    @Json(name = "post_id")
+    @SerialName("post_id")
     val postId: Int,
-    @Json(name = "post_type")
+    @SerialName("post_type")
     val postType: String,
-    @Json(name = "score")
+    @SerialName("score")
     val score: Int,
-    @Json(name = "title")
+    @SerialName("title")
     val title: String
 )

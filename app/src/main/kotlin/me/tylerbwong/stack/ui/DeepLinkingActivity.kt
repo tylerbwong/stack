@@ -32,13 +32,13 @@ class DeepLinkingActivity : BaseActivity<ViewBinding>(
         handleIntent(intent)
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         handleIntent(intent)
     }
 
-    private fun handleIntent(intent: Intent?) {
-        intent?.data?.let {
+    private fun handleIntent(intent: Intent) {
+        intent.data?.let {
             when (val result = viewModel.resolvePath(this, it)) {
                 is DeepLinkResult.Success -> {
                     startActivity(result.intent)

@@ -1,11 +1,7 @@
-import com.android.build.gradle.internal.tasks.databinding.DataBindingGenBaseClassesTask
-import dagger.hilt.android.plugin.util.capitalize
-import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompileTool
-import java.util.Locale
-
 plugins {
     id("com.android.application")
     `kotlin-android`
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.google.ksp)
     alias(libs.plugins.google.dagger.hilt)
     id("com.google.gms.google-services")
@@ -29,27 +25,10 @@ android {
         compose = true
         viewBinding = true
     }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
-    }
 }
 
-// Workaround for https://github.com/google/dagger/issues/4049
-androidComponents {
-    onVariants {
-        afterEvaluate {
-            val variantName = it.name.capitalize(Locale.getDefault())
-            val dataBindingTask = tasks.named(
-                "dataBindingGenBaseClasses$variantName"
-            ).get() as? DataBindingGenBaseClassesTask
-            if (dataBindingTask != null) {
-                tasks.getByName("ksp${variantName}Kotlin") {
-                    (this as AbstractKotlinCompileTool<*>).source(dataBindingTask.sourceOutFolder)
-                }
-            }
-        }
-    }
+composeCompiler {
+    enableStrongSkippingMode = true
 }
 
 ksp {
@@ -155,12 +134,10 @@ dependencies {
 
     // networking
     implementation(projects.stackexchangeApi)
-    implementation(libs.moshi)
-    ksp(libs.moshi.kotlinCodegen)
+    implementation(libs.jetbrains.kotlinx.serialization.json)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
     implementation(libs.retrofit)
-    implementation(libs.retrofit.moshi)
 
     // play
     playImplementation(libs.google.play.appUpdate)

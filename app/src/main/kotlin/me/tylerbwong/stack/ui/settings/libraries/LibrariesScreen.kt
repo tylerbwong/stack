@@ -22,6 +22,7 @@ import com.mikepenz.aboutlibraries.ui.compose.LibrariesContainer
 import com.mikepenz.aboutlibraries.ui.compose.LibraryDefaults
 import com.mikepenz.aboutlibraries.ui.compose.util.author
 import com.mikepenz.aboutlibraries.util.withContext
+import kotlinx.collections.immutable.toImmutableList
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.ui.utils.compose.StackTheme
 import me.tylerbwong.stack.ui.utils.launchUrl
@@ -59,6 +60,7 @@ fun LibrariesScreen(onBackPressed: () -> Unit) {
                         libraries = libs
                             .libraries
                             .distinctBy { it.name + it.author + it.artifactVersion }
+                            .toImmutableList()
                     )
                 },
                 colors = LibraryDefaults.libraryColors(
@@ -71,7 +73,7 @@ fun LibrariesScreen(onBackPressed: () -> Unit) {
                     badgeContentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp),
                 ),
                 onLibraryClick = {
-                    val website = it.library.website
+                    val website = it.website
                     if (!website.isNullOrEmpty()) {
                         context.launchUrl(url = website)
                     }

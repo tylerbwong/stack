@@ -1,11 +1,11 @@
 package me.tylerbwong.stack.api.di
 
-import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
+import kotlinx.serialization.json.Json
 import me.tylerbwong.stack.api.BuildConfig
 import me.tylerbwong.stack.api.UnitConverterFactory
 import me.tylerbwong.stack.api.service.AnswerService
@@ -20,9 +20,10 @@ import me.tylerbwong.stack.api.service.SiteService
 import me.tylerbwong.stack.api.service.TagService
 import me.tylerbwong.stack.api.service.UserService
 import okhttp3.Call
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -39,15 +40,18 @@ class ApiModule {
 
     @Singleton
     @Provides
-    fun provideMoshi(): Moshi = Moshi.Builder().build()
+    fun provideJson(): Json = Json {
+        ignoreUnknownKeys = true
+        explicitNulls = false
+    }
 
     @[Provides IntoSet]
     fun provideUnitConverterFactory(): Converter.Factory = UnitConverterFactory
 
     @[Provides IntoSet]
-    fun provideMoshiConverterFactory(
-        moshi: Moshi
-    ): Converter.Factory = MoshiConverterFactory.create(moshi)
+    fun provideConverterFactory(json: Json): Converter.Factory = json.asConverterFactory(
+        "application/json".toMediaType()
+    )
 
     @Singleton
     @Provides

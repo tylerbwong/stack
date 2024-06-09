@@ -3,13 +3,13 @@ package me.tylerbwong.stack.data.persistence.di
 import android.content.Context
 import androidx.room.Room
 import androidx.room.migration.Migration
-import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
+import kotlinx.serialization.json.Json
 import me.tylerbwong.stack.data.persistence.StackDatabase
 import me.tylerbwong.stack.data.persistence.typeconverter.ListTypeConverter
 import javax.inject.Qualifier
@@ -36,7 +36,7 @@ class PersistenceModule {
     }
 
     @[Provides IntoSet RoomTypeConverter]
-    fun provideListTypeConverter(moshi: Moshi): Any = ListTypeConverter(moshi)
+    fun provideListTypeConverter(json: Json): Any = ListTypeConverter(json)
 
     @Provides
     fun provideQuestionDao(stackDatabase: StackDatabase) = stackDatabase.getQuestionDao()

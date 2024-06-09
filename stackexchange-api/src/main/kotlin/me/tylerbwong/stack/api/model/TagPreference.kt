@@ -1,12 +1,12 @@
 package me.tylerbwong.stack.api.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class TagPreference(
-    @Json(name = "tag_name")
+    @SerialName("tag_name")
     val tagName: String,
-    @Json(name = "tag_preference_type")
+    @SerialName("tag_preference_type")
     val tagPreferenceType: String,
 )

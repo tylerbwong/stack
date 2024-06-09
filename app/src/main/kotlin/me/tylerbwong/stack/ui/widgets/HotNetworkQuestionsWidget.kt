@@ -11,8 +11,6 @@ import android.widget.RemoteViews
 import androidx.core.graphics.drawable.toBitmap
 import coil.ImageLoader
 import coil.request.ImageRequest
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -21,6 +19,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.json.Json
 import me.tylerbwong.stack.R
 import me.tylerbwong.stack.api.model.NetworkHotQuestion
 import me.tylerbwong.stack.data.repository.NetworkHotQuestionsRepository
@@ -41,6 +41,9 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
 
     @Inject
     lateinit var imageLoader: ImageLoader
+
+    @Inject
+    lateinit var json: Json
 
     override fun onUpdate(
         context: Context,
@@ -82,11 +85,7 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
     private suspend fun getHotNetworkQuestions(context: Context): List<NetworkHotQuestion> {
         val sharedPreferences =
             context.getSharedPreferences(CACHE_PREFERENCE_NAME, Context.MODE_PRIVATE)
-        val type = Types.newParameterizedType(
-            MutableList::class.java,
-            NetworkHotQuestion::class.java
-        )
-        val jsonAdapter = Moshi.Builder().build().adapter<List<NetworkHotQuestion>>(type)
+        val type = ListSerializer(NetworkHotQuestion.serializer())
 
         sharedPreferences.getString(CACHE_QUESTIONS_KEY, null)?.let {
             val expiresAfter = sharedPreferences.getLong(CACHE_EXPIRES_AFTER_KEY, -1)
@@ -94,7 +93,7 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
             if (expiresAfter > System.currentTimeMillis()) {
                 Timber.d("hot network questions: cache hit")
 
-                val questions = jsonAdapter.fromJson(it) ?: emptyList()
+                val questions = json.decodeFromString(type, it)
 
                 if (questions.isNotEmpty()) {
                     return questions
@@ -106,7 +105,7 @@ class HotNetworkQuestionsWidget @OptIn(DelicateCoroutinesApi::class) constructor
 
         return networkHotQuestionsRepository.getHotNetworkQuestions().also {
             sharedPreferences.edit().apply {
-                putString(CACHE_QUESTIONS_KEY, jsonAdapter.toJson(it))
+                putString(CACHE_QUESTIONS_KEY, json.encodeToString(type, it))
                 putLong(
                     CACHE_EXPIRES_AFTER_KEY,
                     System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(

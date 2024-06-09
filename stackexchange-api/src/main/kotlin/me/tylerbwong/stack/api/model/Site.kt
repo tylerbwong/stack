@@ -1,19 +1,19 @@
 package me.tylerbwong.stack.api.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Site(
-    @Json(name = "name")
+    @SerialName("name")
     val name: String,
-    @Json(name = "api_site_parameter")
+    @SerialName("api_site_parameter")
     val parameter: String,
-    @Json(name = "site_url")
+    @SerialName("site_url")
     val url: String,
-    @Json(name = "audience")
+    @SerialName("audience")
     val audience: String,
-    @Json(name = "icon_url")
+    @SerialName("icon_url")
     val iconUrl: String
 ) {
     var isUserRegistered: Boolean = false

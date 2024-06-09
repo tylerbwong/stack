@@ -1,30 +1,30 @@
 package me.tylerbwong.stack.api.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class FlagOption(
-    @Json(name = "count")
+    @SerialName("count")
     val count: Int?,
-    @Json(name = "description")
+    @SerialName("description")
     val description: String?,
-    @Json(name = "dialog_title")
+    @SerialName("dialog_title")
     val dialogTitle: String?,
-    @Json(name = "has_flagged")
+    @SerialName("has_flagged")
     val hasFlagged: Boolean?,
-    @Json(name = "is_retraction")
+    @SerialName("is_retraction")
     val isRetraction: Boolean?,
-    @Json(name = "option_id")
+    @SerialName("option_id")
     val optionId: Int?,
-    @Json(name = "requires_comment")
+    @SerialName("requires_comment")
     val requiresComment: Boolean?,
-    @Json(name = "requires_question_id")
+    @SerialName("requires_question_id")
     val requiresQuestionId: Boolean?,
-    @Json(name = "requires_site")
+    @SerialName("requires_site")
     val requiresSite: Boolean?,
-    @Json(name = "sub_options")
+    @SerialName("sub_options")
     val subOptions: List<FlagOption>?,
-    @Json(name = "title")
+    @SerialName("title")
     val title: String?,
 )

@@ -1,8 +1,8 @@
 package me.tylerbwong.stack.api.model
 
 import androidx.annotation.StringDef
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 const val COMMENTED = "commented"
 const val ASKED = "asked"
@@ -22,28 +22,28 @@ const val ANSWER = "answer"
 @StringDef(QUESTION, ANSWER)
 annotation class PostType
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class TimelineEvent(
-    @Json(name = "badge_id")
+    @SerialName("badge_id")
     val badgeId: Int?,
-    @Json(name = "comment_id")
+    @SerialName("comment_id")
     val commentId: Int?,
-    @Json(name = "creation_date")
+    @SerialName("creation_date")
     val creationDate: Long,
-    @Json(name = "detail")
+    @SerialName("detail")
     val detail: String?,
-    @Json(name = "link")
+    @SerialName("link")
     val link: String,
-    @Json(name = "post_id")
+    @SerialName("post_id")
     val postId: Int?,
-    @[Json(name = "post_type") PostType]
+    @[SerialName("post_type") PostType]
     val postType: String?,
-    @Json(name = "suggested_edit_id")
+    @SerialName("suggested_edit_id")
     val suggestedEditId: Int?,
-    @[Json(name = "timeline_type") TimelineType]
+    @[SerialName("timeline_type") TimelineType]
     val timelineType: String,
-    @Json(name = "title")
+    @SerialName("title")
     val title: String?,
-    @Json(name = "user_id")
+    @SerialName("user_id")
     val userId: Int
 )

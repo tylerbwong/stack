@@ -1,26 +1,26 @@
 package me.tylerbwong.stack.api.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class NetworkHotQuestion(
-    @Json(name = "site")
+    @SerialName("site")
     val site: String,
-    @Json(name = "question_id")
+    @SerialName("question_id")
     val questionId: Int,
-    @Json(name = "title")
+    @SerialName("title")
     val title: String,
-    @Json(name = "display_score")
+    @SerialName("display_score")
     val displayScore: Double,
-    @Json(name = "icon_url")
+    @SerialName("icon_url")
     val iconUrl: String,
-    @Json(name = "creation_date")
+    @SerialName("creation_date")
     val creationDate: Long,
-    @Json(name = "answer_count")
+    @SerialName("answer_count")
     val answerCount: Int,
-    @Json(name = "user_name")
+    @SerialName("user_name")
     val userName: String,
-    @Json(name = "tags")
+    @SerialName("tags")
     val tags: List<String>
 )

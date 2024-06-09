@@ -1,28 +1,28 @@
 package me.tylerbwong.stack.api.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class InboxItem(
-    @Json(name = "answer_id")
+    @SerialName("answer_id")
     val answerId: Int?,
-    @Json(name = "body")
+    @SerialName("body")
     val body: String?,
-    @Json(name = "comment_id")
+    @SerialName("comment_id")
     val commentId: Int?,
-    @Json(name = "creation_date")
+    @SerialName("creation_date")
     val creationDate: Long,
-    @Json(name = "is_unread")
+    @SerialName("is_unread")
     val isUnread: Boolean,
-    @Json(name = "item_type")
+    @SerialName("item_type")
     val itemType: String,
-    @Json(name = "link")
+    @SerialName("link")
     val link: String,
-    @Json(name = "question_id")
+    @SerialName("question_id")
     var questionId: Int?,
-    @Json(name = "site")
+    @SerialName("site")
     val site: Site?,
-    @Json(name = "title")
+    @SerialName("title")
     val title: String?,
 )

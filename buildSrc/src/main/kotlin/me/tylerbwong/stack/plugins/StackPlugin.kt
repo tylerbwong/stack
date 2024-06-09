@@ -138,10 +138,8 @@ class StackPlugin : Plugin<Project> {
         }
 
         project.tasks.withType<KotlinCompile>().configureEach {
-            kotlinOptions {
-                freeCompilerArgs += listOf(
-                    "-opt-in=kotlin.RequiresOptIn",
-                )
+            compilerOptions {
+                freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
             }
         }
     }

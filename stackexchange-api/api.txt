@@ -7,10 +7,10 @@ package me.tylerbwong.stack.api.di {
     method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.AuthService provideAuthService(retrofit2.Retrofit retrofit);
     method @dagger.Provides @me.tylerbwong.stack.api.di.BaseUrl public String provideBaseUrl();
     method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.CommentService provideCommentService(retrofit2.Retrofit retrofit);
+    method @dagger.Provides @dagger.multibindings.IntoSet public retrofit2.Converter.Factory provideConverterFactory(kotlinx.serialization.json.Json json);
     method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.FlagService provideFlagService(retrofit2.Retrofit retrofit);
     method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.InboxService provideInboxService(retrofit2.Retrofit retrofit);
-    method @dagger.Provides @javax.inject.Singleton public com.squareup.moshi.Moshi provideMoshi();
-    method @dagger.Provides @dagger.multibindings.IntoSet public retrofit2.Converter.Factory provideMoshiConverterFactory(com.squareup.moshi.Moshi moshi);
+    method @dagger.Provides @javax.inject.Singleton public kotlinx.serialization.json.Json provideJson();
     method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.NetworkHotQuestionsService provideNetworkHotQuestionsService(retrofit2.Retrofit retrofit);
     method @dagger.Provides @javax.inject.Singleton public me.tylerbwong.stack.api.service.QuestionService provideQuestionService(retrofit2.Retrofit retrofit);
     method @dagger.Provides @javax.inject.Singleton public retrofit2.Retrofit provideRetrofit(@me.tylerbwong.stack.api.di.BaseUrl String baseUrl, okhttp3.Call.Factory callFactory, java.util.Set<retrofit2.Converter.Factory> converterFactories);
@@ -32,8 +32,8 @@ package me.tylerbwong.stack.api.di {
 
 package me.tylerbwong.stack.api.model {
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Answer {
-    ctor public Answer(@com.squareup.moshi.Json(name="answer_id") int answerId, me.tylerbwong.stack.api.model.User owner, optional @com.squareup.moshi.Json(name="down_vote_count") int downVoteCount, optional @com.squareup.moshi.Json(name="up_vote_count") int upVoteCount, @com.squareup.moshi.Json(name="is_accepted") boolean isAccepted, optional @com.squareup.moshi.Json(name="upvoted") Boolean? isUpvoted, optional @com.squareup.moshi.Json(name="downvoted") Boolean? isDownvoted, int score, @com.squareup.moshi.Json(name="creation_date") long creationDate, optional @com.squareup.moshi.Json(name="body_markdown") String bodyMarkdown, @com.squareup.moshi.Json(name="last_edit_date") Long? lastEditDate, @com.squareup.moshi.Json(name="last_editor") me.tylerbwong.stack.api.model.User? lastEditor, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="comment_count") Integer? commentCount, optional @com.squareup.moshi.Json(name="share_link") String shareLink, optional @com.squareup.moshi.Json(name="title") String title);
+  @kotlinx.serialization.Serializable public final class Answer {
+    ctor public Answer(@kotlinx.serialization.SerialName("answer_id") int answerId, me.tylerbwong.stack.api.model.User owner, optional @kotlinx.serialization.SerialName("down_vote_count") int downVoteCount, optional @kotlinx.serialization.SerialName("up_vote_count") int upVoteCount, @kotlinx.serialization.SerialName("is_accepted") boolean isAccepted, optional @kotlinx.serialization.SerialName("upvoted") Boolean? isUpvoted, optional @kotlinx.serialization.SerialName("downvoted") Boolean? isDownvoted, int score, @kotlinx.serialization.SerialName("creation_date") long creationDate, optional @kotlinx.serialization.SerialName("body_markdown") String bodyMarkdown, @kotlinx.serialization.SerialName("last_edit_date") Long? lastEditDate, @kotlinx.serialization.SerialName("last_editor") me.tylerbwong.stack.api.model.User? lastEditor, @kotlinx.serialization.SerialName("question_id") int questionId, @kotlinx.serialization.SerialName("comment_count") Integer? commentCount, optional @kotlinx.serialization.SerialName("share_link") String shareLink, optional @kotlinx.serialization.SerialName("title") String title);
     method public int component1();
     method public String component10();
     method public Long? component11();
@@ -50,7 +50,7 @@ package me.tylerbwong.stack.api.model {
     method public Boolean? component7();
     method public int component8();
     method public long component9();
-    method public me.tylerbwong.stack.api.model.Answer copy(@com.squareup.moshi.Json(name="answer_id") int answerId, me.tylerbwong.stack.api.model.User owner, @com.squareup.moshi.Json(name="down_vote_count") int downVoteCount, @com.squareup.moshi.Json(name="up_vote_count") int upVoteCount, @com.squareup.moshi.Json(name="is_accepted") boolean isAccepted, @com.squareup.moshi.Json(name="upvoted") Boolean? isUpvoted, @com.squareup.moshi.Json(name="downvoted") Boolean? isDownvoted, int score, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="body_markdown") String bodyMarkdown, @com.squareup.moshi.Json(name="last_edit_date") Long? lastEditDate, @com.squareup.moshi.Json(name="last_editor") me.tylerbwong.stack.api.model.User? lastEditor, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="comment_count") Integer? commentCount, @com.squareup.moshi.Json(name="share_link") String shareLink, @com.squareup.moshi.Json(name="title") String title);
+    method public me.tylerbwong.stack.api.model.Answer copy(int answerId, me.tylerbwong.stack.api.model.User owner, int downVoteCount, int upVoteCount, boolean isAccepted, Boolean? isUpvoted, Boolean? isDownvoted, int score, long creationDate, String bodyMarkdown, Long? lastEditDate, me.tylerbwong.stack.api.model.User? lastEditor, int questionId, Integer? commentCount, String shareLink, String title);
     method public int getAnswerId();
     method public String getBodyMarkdown();
     method public Integer? getCommentCount();
@@ -85,8 +85,8 @@ package me.tylerbwong.stack.api.model {
     property public final int upVoteCount;
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Article {
-    ctor public Article(@com.squareup.moshi.Json(name="article_id") int id, @com.squareup.moshi.Json(name="article_type") String articleType, @com.squareup.moshi.Json(name="body_markdown") String? bodyMarkdown, @com.squareup.moshi.Json(name="comment_count") Integer? commentCount, @com.squareup.moshi.Json(name="comments") java.util.List<me.tylerbwong.stack.api.model.Comment>? comments, @com.squareup.moshi.Json(name="creation_date") Long? creationDate, @com.squareup.moshi.Json(name="last_activity_date") Long? lastActivityDate, @com.squareup.moshi.Json(name="last_edit_date") Long? lastEditDate, @com.squareup.moshi.Json(name="last_editor") me.tylerbwong.stack.api.model.User? lastEditor, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="owner") me.tylerbwong.stack.api.model.User owner, @com.squareup.moshi.Json(name="score") int score, @com.squareup.moshi.Json(name="tags") java.util.List<java.lang.String>? tags, @com.squareup.moshi.Json(name="title") String title, @com.squareup.moshi.Json(name="view_count") int viewCount);
+  @kotlinx.serialization.Serializable public final class Article {
+    ctor public Article(@kotlinx.serialization.SerialName("article_id") int id, @kotlinx.serialization.SerialName("article_type") String articleType, @kotlinx.serialization.SerialName("body_markdown") String? bodyMarkdown, @kotlinx.serialization.SerialName("comment_count") Integer? commentCount, @kotlinx.serialization.SerialName("comments") java.util.List<me.tylerbwong.stack.api.model.Comment>? comments, @kotlinx.serialization.SerialName("creation_date") Long? creationDate, @kotlinx.serialization.SerialName("last_activity_date") Long? lastActivityDate, @kotlinx.serialization.SerialName("last_edit_date") Long? lastEditDate, @kotlinx.serialization.SerialName("last_editor") me.tylerbwong.stack.api.model.User? lastEditor, @kotlinx.serialization.SerialName("link") String link, @kotlinx.serialization.SerialName("owner") me.tylerbwong.stack.api.model.User owner, @kotlinx.serialization.SerialName("score") int score, @kotlinx.serialization.SerialName("tags") java.util.List<java.lang.String>? tags, @kotlinx.serialization.SerialName("title") String title, @kotlinx.serialization.SerialName("view_count") int viewCount);
     method public int component1();
     method public String component10();
     method public me.tylerbwong.stack.api.model.User component11();
@@ -102,7 +102,7 @@ package me.tylerbwong.stack.api.model {
     method public Long? component7();
     method public Long? component8();
     method public me.tylerbwong.stack.api.model.User? component9();
-    method public me.tylerbwong.stack.api.model.Article copy(@com.squareup.moshi.Json(name="article_id") int id, @com.squareup.moshi.Json(name="article_type") String articleType, @com.squareup.moshi.Json(name="body_markdown") String? bodyMarkdown, @com.squareup.moshi.Json(name="comment_count") Integer? commentCount, @com.squareup.moshi.Json(name="comments") java.util.List<me.tylerbwong.stack.api.model.Comment>? comments, @com.squareup.moshi.Json(name="creation_date") Long? creationDate, @com.squareup.moshi.Json(name="last_activity_date") Long? lastActivityDate, @com.squareup.moshi.Json(name="last_edit_date") Long? lastEditDate, @com.squareup.moshi.Json(name="last_editor") me.tylerbwong.stack.api.model.User? lastEditor, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="owner") me.tylerbwong.stack.api.model.User owner, @com.squareup.moshi.Json(name="score") int score, @com.squareup.moshi.Json(name="tags") java.util.List<java.lang.String>? tags, @com.squareup.moshi.Json(name="title") String title, @com.squareup.moshi.Json(name="view_count") int viewCount);
+    method public me.tylerbwong.stack.api.model.Article copy(int id, String articleType, String? bodyMarkdown, Integer? commentCount, java.util.List<me.tylerbwong.stack.api.model.Comment>? comments, Long? creationDate, Long? lastActivityDate, Long? lastEditDate, me.tylerbwong.stack.api.model.User? lastEditor, String link, me.tylerbwong.stack.api.model.User owner, int score, java.util.List<java.lang.String>? tags, String title, int viewCount);
     method public String getArticleType();
     method public String? getBodyMarkdown();
     method public Integer? getCommentCount();
@@ -135,8 +135,8 @@ package me.tylerbwong.stack.api.model {
     property public final int viewCount;
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Badge {
-    ctor public Badge(@com.squareup.moshi.Json(name="award_count") int awardCount, @com.squareup.moshi.Json(name="badge_id") int badgeId, @com.squareup.moshi.Json(name="badge_type") @me.tylerbwong.stack.api.model.BadgeType String badgeType, @com.squareup.moshi.Json(name="description") String description, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="name") String name, @com.squareup.moshi.Json(name="rank") @me.tylerbwong.stack.api.model.Rank String rank);
+  @kotlinx.serialization.Serializable public final class Badge {
+    ctor public Badge(@kotlinx.serialization.SerialName("award_count") int awardCount, @kotlinx.serialization.SerialName("badge_id") int badgeId, @kotlinx.serialization.SerialName("badge_type") @me.tylerbwong.stack.api.model.BadgeType String badgeType, @kotlinx.serialization.SerialName("description") String description, @kotlinx.serialization.SerialName("link") String link, @kotlinx.serialization.SerialName("name") String name, @kotlinx.serialization.SerialName("rank") @me.tylerbwong.stack.api.model.Rank String rank);
     method public int component1();
     method public int component2();
     method public String component3();
@@ -144,7 +144,7 @@ package me.tylerbwong.stack.api.model {
     method public String component5();
     method public String component6();
     method public String component7();
-    method public me.tylerbwong.stack.api.model.Badge copy(@com.squareup.moshi.Json(name="award_count") int awardCount, @com.squareup.moshi.Json(name="badge_id") int badgeId, @com.squareup.moshi.Json(name="badge_type") @me.tylerbwong.stack.api.model.BadgeType String badgeType, @com.squareup.moshi.Json(name="description") String description, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="name") String name, @com.squareup.moshi.Json(name="rank") @me.tylerbwong.stack.api.model.Rank String rank);
+    method public me.tylerbwong.stack.api.model.Badge copy(int awardCount, int badgeId, @me.tylerbwong.stack.api.model.BadgeType String badgeType, String description, String link, String name, @me.tylerbwong.stack.api.model.Rank String rank);
     method public int getAwardCount();
     method public int getBadgeId();
     method public String getBadgeType();
@@ -161,7 +161,7 @@ package me.tylerbwong.stack.api.model {
     property public final String rank;
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class BadgeCounts {
+  @kotlinx.serialization.Serializable public final class BadgeCounts {
     ctor public BadgeCounts(int bronze, int silver, int gold);
     method public int component1();
     method public int component2();
@@ -186,12 +186,12 @@ package me.tylerbwong.stack.api.model {
   @StringDef({me.tylerbwong.stack.api.model.BadgeKt.NAMED, me.tylerbwong.stack.api.model.BadgeKt.TAG_BASED}) public @interface BadgeType {
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class ClosedDetails {
-    ctor public ClosedDetails(@com.squareup.moshi.Json(name="description") String description, optional @com.squareup.moshi.Json(name="original_questions") java.util.List<me.tylerbwong.stack.api.model.OriginalQuestion> originalQuestions, @com.squareup.moshi.Json(name="reason") String reason);
+  @kotlinx.serialization.Serializable public final class ClosedDetails {
+    ctor public ClosedDetails(@kotlinx.serialization.SerialName("description") String description, optional @kotlinx.serialization.SerialName("original_questions") java.util.List<me.tylerbwong.stack.api.model.OriginalQuestion> originalQuestions, @kotlinx.serialization.SerialName("reason") String reason);
     method public String component1();
     method public java.util.List<me.tylerbwong.stack.api.model.OriginalQuestion> component2();
     method public String component3();
-    method public me.tylerbwong.stack.api.model.ClosedDetails copy(@com.squareup.moshi.Json(name="description") String description, @com.squareup.moshi.Json(name="original_questions") java.util.List<me.tylerbwong.stack.api.model.OriginalQuestion> originalQuestions, @com.squareup.moshi.Json(name="reason") String reason);
+    method public me.tylerbwong.stack.api.model.ClosedDetails copy(String description, java.util.List<me.tylerbwong.stack.api.model.OriginalQuestion> originalQuestions, String reason);
     method public me.tylerbwong.stack.api.model.ClosedDetails.ClosedReason getClosedReason();
     method public String getDescription();
     method public boolean getHasReason();
@@ -217,8 +217,8 @@ package me.tylerbwong.stack.api.model {
     enum_constant public static final me.tylerbwong.stack.api.model.ClosedDetails.ClosedReason UNKNOWN;
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Comment {
-    ctor public Comment(optional @com.squareup.moshi.Json(name="body_markdown") String bodyMarkdown, optional @com.squareup.moshi.Json(name="comment_id") Integer? commentId, optional @com.squareup.moshi.Json(name="post_id") Integer? postId, @com.squareup.moshi.Json(name="creation_date") long creationDate, boolean edited, @com.squareup.moshi.Json(name="owner") me.tylerbwong.stack.api.model.User owner, optional Integer? score, optional Boolean? upvoted);
+  @kotlinx.serialization.Serializable public final class Comment {
+    ctor public Comment(optional @kotlinx.serialization.SerialName("body_markdown") String bodyMarkdown, optional @kotlinx.serialization.SerialName("comment_id") Integer? commentId, optional @kotlinx.serialization.SerialName("post_id") Integer? postId, @kotlinx.serialization.SerialName("creation_date") long creationDate, boolean edited, @kotlinx.serialization.SerialName("owner") me.tylerbwong.stack.api.model.User owner, optional Integer? score, optional Boolean? upvoted);
     method public String component1();
     method public Integer? component2();
     method public Integer? component3();
@@ -227,7 +227,7 @@ package me.tylerbwong.stack.api.model {
     method public me.tylerbwong.stack.api.model.User component6();
     method public Integer? component7();
     method public Boolean? component8();
-    method public me.tylerbwong.stack.api.model.Comment copy(@com.squareup.moshi.Json(name="body_markdown") String bodyMarkdown, @com.squareup.moshi.Json(name="comment_id") Integer? commentId, @com.squareup.moshi.Json(name="post_id") Integer? postId, @com.squareup.moshi.Json(name="creation_date") long creationDate, boolean edited, @com.squareup.moshi.Json(name="owner") me.tylerbwong.stack.api.model.User owner, Integer? score, Boolean? upvoted);
+    method public me.tylerbwong.stack.api.model.Comment copy(String bodyMarkdown, Integer? commentId, Integer? postId, long creationDate, boolean edited, me.tylerbwong.stack.api.model.User owner, Integer? score, Boolean? upvoted);
     method public String getBodyMarkdown();
     method public Integer? getCommentId();
     method public long getCreationDate();
@@ -246,27 +246,22 @@ package me.tylerbwong.stack.api.model {
     property public final Boolean? upvoted;
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class ErrorResponse {
-    ctor public ErrorResponse(optional @com.squareup.moshi.Json(name="error_id") int errorId, optional @com.squareup.moshi.Json(name="error_message") String errorMessage, optional @com.squareup.moshi.Json(name="error_name") String errorName);
+  @kotlinx.serialization.Serializable public final class ErrorResponse {
+    ctor public ErrorResponse(optional @kotlinx.serialization.SerialName("error_id") int errorId, optional @kotlinx.serialization.SerialName("error_message") String errorMessage, optional @kotlinx.serialization.SerialName("error_name") String errorName);
     method public int component1();
     method public String component2();
     method public String component3();
-    method public me.tylerbwong.stack.api.model.ErrorResponse copy(@com.squareup.moshi.Json(name="error_id") int errorId, @com.squareup.moshi.Json(name="error_message") String errorMessage, @com.squareup.moshi.Json(name="error_name") String errorName);
+    method public me.tylerbwong.stack.api.model.ErrorResponse copy(int errorId, String errorMessage, String errorName);
     method public int getErrorId();
     method public String getErrorMessage();
     method public String getErrorName();
     property public final int errorId;
     property public final String errorMessage;
     property public final String errorName;
-    field public static final me.tylerbwong.stack.api.model.ErrorResponse.Companion Companion;
-    field public static final String WRITE_FAILED = "write_failed";
   }
 
-  public static final class ErrorResponse.Companion {
-  }
-
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class FlagOption {
-    ctor public FlagOption(@com.squareup.moshi.Json(name="count") Integer? count, @com.squareup.moshi.Json(name="description") String? description, @com.squareup.moshi.Json(name="dialog_title") String? dialogTitle, @com.squareup.moshi.Json(name="has_flagged") Boolean? hasFlagged, @com.squareup.moshi.Json(name="is_retraction") Boolean? isRetraction, @com.squareup.moshi.Json(name="option_id") Integer? optionId, @com.squareup.moshi.Json(name="requires_comment") Boolean? requiresComment, @com.squareup.moshi.Json(name="requires_question_id") Boolean? requiresQuestionId, @com.squareup.moshi.Json(name="requires_site") Boolean? requiresSite, @com.squareup.moshi.Json(name="sub_options") java.util.List<me.tylerbwong.stack.api.model.FlagOption>? subOptions, @com.squareup.moshi.Json(name="title") String? title);
+  @kotlinx.serialization.Serializable public final class FlagOption {
+    ctor public FlagOption(@kotlinx.serialization.SerialName("count") Integer? count, @kotlinx.serialization.SerialName("description") String? description, @kotlinx.serialization.SerialName("dialog_title") String? dialogTitle, @kotlinx.serialization.SerialName("has_flagged") Boolean? hasFlagged, @kotlinx.serialization.SerialName("is_retraction") Boolean? isRetraction, @kotlinx.serialization.SerialName("option_id") Integer? optionId, @kotlinx.serialization.SerialName("requires_comment") Boolean? requiresComment, @kotlinx.serialization.SerialName("requires_question_id") Boolean? requiresQuestionId, @kotlinx.serialization.SerialName("requires_site") Boolean? requiresSite, @kotlinx.serialization.SerialName("sub_options") java.util.List<me.tylerbwong.stack.api.model.FlagOption>? subOptions, @kotlinx.serialization.SerialName("title") String? title);
     method public Integer? component1();
     method public java.util.List<me.tylerbwong.stack.api.model.FlagOption>? component10();
     method public String? component11();
@@ -278,7 +273,7 @@ package me.tylerbwong.stack.api.model {
     method public Boolean? component7();
     method public Boolean? component8();
     method public Boolean? component9();
-    method public me.tylerbwong.stack.api.model.FlagOption copy(@com.squareup.moshi.Json(name="count") Integer? count, @com.squareup.moshi.Json(name="description") String? description, @com.squareup.moshi.Json(name="dialog_title") String? dialogTitle, @com.squareup.moshi.Json(name="has_flagged") Boolean? hasFlagged, @com.squareup.moshi.Json(name="is_retraction") Boolean? isRetraction, @com.squareup.moshi.Json(name="option_id") Integer? optionId, @com.squareup.moshi.Json(name="requires_comment") Boolean? requiresComment, @com.squareup.moshi.Json(name="requires_question_id") Boolean? requiresQuestionId, @com.squareup.moshi.Json(name="requires_site") Boolean? requiresSite, @com.squareup.moshi.Json(name="sub_options") java.util.List<me.tylerbwong.stack.api.model.FlagOption>? subOptions, @com.squareup.moshi.Json(name="title") String? title);
+    method public me.tylerbwong.stack.api.model.FlagOption copy(Integer? count, String? description, String? dialogTitle, Boolean? hasFlagged, Boolean? isRetraction, Integer? optionId, Boolean? requiresComment, Boolean? requiresQuestionId, Boolean? requiresSite, java.util.List<me.tylerbwong.stack.api.model.FlagOption>? subOptions, String? title);
     method public Integer? getCount();
     method public String? getDescription();
     method public String? getDialogTitle();
@@ -303,8 +298,8 @@ package me.tylerbwong.stack.api.model {
     property public final String? title;
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class InboxItem {
-    ctor public InboxItem(@com.squareup.moshi.Json(name="answer_id") Integer? answerId, @com.squareup.moshi.Json(name="body") String? body, @com.squareup.moshi.Json(name="comment_id") Integer? commentId, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="is_unread") boolean isUnread, @com.squareup.moshi.Json(name="item_type") String itemType, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="question_id") Integer? questionId, @com.squareup.moshi.Json(name="site") me.tylerbwong.stack.api.model.Site? site, @com.squareup.moshi.Json(name="title") String? title);
+  @kotlinx.serialization.Serializable public final class InboxItem {
+    ctor public InboxItem(@kotlinx.serialization.SerialName("answer_id") Integer? answerId, @kotlinx.serialization.SerialName("body") String? body, @kotlinx.serialization.SerialName("comment_id") Integer? commentId, @kotlinx.serialization.SerialName("creation_date") long creationDate, @kotlinx.serialization.SerialName("is_unread") boolean isUnread, @kotlinx.serialization.SerialName("item_type") String itemType, @kotlinx.serialization.SerialName("link") String link, @kotlinx.serialization.SerialName("question_id") Integer? questionId, @kotlinx.serialization.SerialName("site") me.tylerbwong.stack.api.model.Site? site, @kotlinx.serialization.SerialName("title") String? title);
     method public Integer? component1();
     method public String? component10();
     method public String? component2();
@@ -315,7 +310,7 @@ package me.tylerbwong.stack.api.model {
     method public String component7();
     method public Integer? component8();
     method public me.tylerbwong.stack.api.model.Site? component9();
-    method public me.tylerbwong.stack.api.model.InboxItem copy(@com.squareup.moshi.Json(name="answer_id") Integer? answerId, @com.squareup.moshi.Json(name="body") String? body, @com.squareup.moshi.Json(name="comment_id") Integer? commentId, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="is_unread") boolean isUnread, @com.squareup.moshi.Json(name="item_type") String itemType, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="question_id") Integer? questionId, @com.squareup.moshi.Json(name="site") me.tylerbwong.stack.api.model.Site? site, @com.squareup.moshi.Json(name="title") String? title);
+    method public me.tylerbwong.stack.api.model.InboxItem copy(Integer? answerId, String? body, Integer? commentId, long creationDate, boolean isUnread, String itemType, String link, Integer? questionId, me.tylerbwong.stack.api.model.Site? site, String? title);
     method public Integer? getAnswerId();
     method public String? getBody();
     method public Integer? getCommentId();
@@ -339,8 +334,8 @@ package me.tylerbwong.stack.api.model {
     property public final String? title;
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class NetworkHotQuestion {
-    ctor public NetworkHotQuestion(@com.squareup.moshi.Json(name="site") String site, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="title") String title, @com.squareup.moshi.Json(name="display_score") double displayScore, @com.squareup.moshi.Json(name="icon_url") String iconUrl, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="answer_count") int answerCount, @com.squareup.moshi.Json(name="user_name") String userName, @com.squareup.moshi.Json(name="tags") java.util.List<java.lang.String> tags);
+  @kotlinx.serialization.Serializable public final class NetworkHotQuestion {
+    ctor public NetworkHotQuestion(@kotlinx.serialization.SerialName("site") String site, @kotlinx.serialization.SerialName("question_id") int questionId, @kotlinx.serialization.SerialName("title") String title, @kotlinx.serialization.SerialName("display_score") double displayScore, @kotlinx.serialization.SerialName("icon_url") String iconUrl, @kotlinx.serialization.SerialName("creation_date") long creationDate, @kotlinx.serialization.SerialName("answer_count") int answerCount, @kotlinx.serialization.SerialName("user_name") String userName, @kotlinx.serialization.SerialName("tags") java.util.List<java.lang.String> tags);
     method public String component1();
     method public int component2();
     method public String component3();
@@ -350,7 +345,7 @@ package me.tylerbwong.stack.api.model {
     method public int component7();
     method public String component8();
     method public java.util.List<java.lang.String> component9();
-    method public me.tylerbwong.stack.api.model.NetworkHotQuestion copy(@com.squareup.moshi.Json(name="site") String site, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="title") String title, @com.squareup.moshi.Json(name="display_score") double displayScore, @com.squareup.moshi.Json(name="icon_url") String iconUrl, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="answer_count") int answerCount, @com.squareup.moshi.Json(name="user_name") String userName, @com.squareup.moshi.Json(name="tags") java.util.List<java.lang.String> tags);
+    method public me.tylerbwong.stack.api.model.NetworkHotQuestion copy(String site, int questionId, String title, double displayScore, String iconUrl, long creationDate, int answerCount, String userName, java.util.List<java.lang.String> tags);
     method public int getAnswerCount();
     method public long getCreationDate();
     method public double getDisplayScore();
@@ -371,13 +366,13 @@ package me.tylerbwong.stack.api.model {
     property public final String userName;
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class NetworkPost {
-    ctor public NetworkPost(@com.squareup.moshi.Json(name="post_id") int postId, @com.squareup.moshi.Json(name="post_type") String postType, @com.squareup.moshi.Json(name="score") int score, @com.squareup.moshi.Json(name="title") String title);
+  @kotlinx.serialization.Serializable public final class NetworkPost {
+    ctor public NetworkPost(@kotlinx.serialization.SerialName("post_id") int postId, @kotlinx.serialization.SerialName("post_type") String postType, @kotlinx.serialization.SerialName("score") int score, @kotlinx.serialization.SerialName("title") String title);
     method public int component1();
     method public String component2();
     method public int component3();
     method public String component4();
-    method public me.tylerbwong.stack.api.model.NetworkPost copy(@com.squareup.moshi.Json(name="post_id") int postId, @com.squareup.moshi.Json(name="post_type") String postType, @com.squareup.moshi.Json(name="score") int score, @com.squareup.moshi.Json(name="title") String title);
+    method public me.tylerbwong.stack.api.model.NetworkPost copy(int postId, String postType, int score, String title);
     method public int getPostId();
     method public String getPostType();
     method public int getScore();
@@ -388,8 +383,8 @@ package me.tylerbwong.stack.api.model {
     property public final String title;
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class NetworkUser {
-    ctor public NetworkUser(@com.squareup.moshi.Json(name="account_id") Integer? accountId, optional @com.squareup.moshi.Json(name="reputation") int reputation, @com.squareup.moshi.Json(name="site_name") String siteName, @com.squareup.moshi.Json(name="site_url") String siteUrl, optional @com.squareup.moshi.Json(name="user_id") int userId, @com.squareup.moshi.Json(name="user_type") String userType, @com.squareup.moshi.Json(name="badge_counts") me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="last_access_date") long lastAccessDate, @com.squareup.moshi.Json(name="question_count") int questionCount, @com.squareup.moshi.Json(name="top_answers") java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? topAnswers, @com.squareup.moshi.Json(name="top_questions") java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? topQuestions);
+  @kotlinx.serialization.Serializable public final class NetworkUser {
+    ctor public NetworkUser(@kotlinx.serialization.SerialName("account_id") Integer? accountId, optional @kotlinx.serialization.SerialName("reputation") int reputation, @kotlinx.serialization.SerialName("site_name") String siteName, @kotlinx.serialization.SerialName("site_url") String siteUrl, optional @kotlinx.serialization.SerialName("user_id") int userId, @kotlinx.serialization.SerialName("user_type") String userType, @kotlinx.serialization.SerialName("badge_counts") me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts, @kotlinx.serialization.SerialName("creation_date") long creationDate, @kotlinx.serialization.SerialName("last_access_date") long lastAccessDate, @kotlinx.serialization.SerialName("question_count") int questionCount, @kotlinx.serialization.SerialName("top_answers") java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? topAnswers, @kotlinx.serialization.SerialName("top_questions") java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? topQuestions);
     method public Integer? component1();
     method public int component10();
     method public java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? component11();
@@ -402,7 +397,7 @@ package me.tylerbwong.stack.api.model {
     method public me.tylerbwong.stack.api.model.BadgeCounts? component7();
     method public long component8();
     method public long component9();
-    method public me.tylerbwong.stack.api.model.NetworkUser copy(@com.squareup.moshi.Json(name="account_id") Integer? accountId, @com.squareup.moshi.Json(name="reputation") int reputation, @com.squareup.moshi.Json(name="site_name") String siteName, @com.squareup.moshi.Json(name="site_url") String siteUrl, @com.squareup.moshi.Json(name="user_id") int userId, @com.squareup.moshi.Json(name="user_type") String userType, @com.squareup.moshi.Json(name="badge_counts") me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="last_access_date") long lastAccessDate, @com.squareup.moshi.Json(name="question_count") int questionCount, @com.squareup.moshi.Json(name="top_answers") java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? topAnswers, @com.squareup.moshi.Json(name="top_questions") java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? topQuestions);
+    method public me.tylerbwong.stack.api.model.NetworkUser copy(Integer? accountId, int reputation, String siteName, String siteUrl, int userId, String userType, me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts, long creationDate, long lastAccessDate, int questionCount, java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? topAnswers, java.util.List<me.tylerbwong.stack.api.model.NetworkPost>? topQuestions);
     method public Integer? getAccountId();
     method public me.tylerbwong.stack.api.model.BadgeCounts? getBadgeCounts();
     method public long getCreationDate();
@@ -438,13 +433,13 @@ package me.tylerbwong.stack.api.model {
     field public static final String ORDER_PARAM = "order";
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class OriginalQuestion {
-    ctor public OriginalQuestion(optional @com.squareup.moshi.Json(name="accepted_answer_id") Integer? acceptedAnswerId, @com.squareup.moshi.Json(name="answer_count") int answerCount, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="title") String title);
+  @kotlinx.serialization.Serializable public final class OriginalQuestion {
+    ctor public OriginalQuestion(optional @kotlinx.serialization.SerialName("accepted_answer_id") Integer? acceptedAnswerId, @kotlinx.serialization.SerialName("answer_count") int answerCount, @kotlinx.serialization.SerialName("question_id") int questionId, @kotlinx.serialization.SerialName("title") String title);
     method public Integer? component1();
     method public int component2();
     method public int component3();
     method public String component4();
-    method public me.tylerbwong.stack.api.model.OriginalQuestion copy(@com.squareup.moshi.Json(name="accepted_answer_id") Integer? acceptedAnswerId, @com.squareup.moshi.Json(name="answer_count") int answerCount, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="title") String title);
+    method public me.tylerbwong.stack.api.model.OriginalQuestion copy(Integer? acceptedAnswerId, int answerCount, int questionId, String title);
     method public Integer? getAcceptedAnswerId();
     method public int getAnswerCount();
     method public int getQuestionId();
@@ -458,8 +453,8 @@ package me.tylerbwong.stack.api.model {
   @StringDef({me.tylerbwong.stack.api.model.TimelineEventKt.QUESTION, me.tylerbwong.stack.api.model.TimelineEventKt.ANSWER}) public @interface PostType {
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class PostedAnswer {
-    ctor public PostedAnswer(@com.squareup.moshi.Json(name="answer_id") int answerId, me.tylerbwong.stack.api.model.User owner, optional @com.squareup.moshi.Json(name="down_vote_count") int downVoteCount, optional @com.squareup.moshi.Json(name="up_vote_count") int upVoteCount, @com.squareup.moshi.Json(name="is_accepted") boolean isAccepted, int score, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="last_edit_date") Long? lastEditDate, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="comment_count") Integer? commentCount);
+  @kotlinx.serialization.Serializable public final class PostedAnswer {
+    ctor public PostedAnswer(@kotlinx.serialization.SerialName("answer_id") int answerId, me.tylerbwong.stack.api.model.User owner, optional @kotlinx.serialization.SerialName("down_vote_count") int downVoteCount, optional @kotlinx.serialization.SerialName("up_vote_count") int upVoteCount, @kotlinx.serialization.SerialName("is_accepted") boolean isAccepted, int score, @kotlinx.serialization.SerialName("creation_date") long creationDate, @kotlinx.serialization.SerialName("last_edit_date") Long? lastEditDate, @kotlinx.serialization.SerialName("question_id") int questionId, @kotlinx.serialization.SerialName("comment_count") Integer? commentCount);
     method public int component1();
     method public Integer? component10();
     method public me.tylerbwong.stack.api.model.User component2();
@@ -470,7 +465,7 @@ package me.tylerbwong.stack.api.model {
     method public long component7();
     method public Long? component8();
     method public int component9();
-    method public me.tylerbwong.stack.api.model.PostedAnswer copy(@com.squareup.moshi.Json(name="answer_id") int answerId, me.tylerbwong.stack.api.model.User owner, @com.squareup.moshi.Json(name="down_vote_count") int downVoteCount, @com.squareup.moshi.Json(name="up_vote_count") int upVoteCount, @com.squareup.moshi.Json(name="is_accepted") boolean isAccepted, int score, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="last_edit_date") Long? lastEditDate, @com.squareup.moshi.Json(name="question_id") int questionId, @com.squareup.moshi.Json(name="comment_count") Integer? commentCount);
+    method public me.tylerbwong.stack.api.model.PostedAnswer copy(int answerId, me.tylerbwong.stack.api.model.User owner, int downVoteCount, int upVoteCount, boolean isAccepted, int score, long creationDate, Long? lastEditDate, int questionId, Integer? commentCount);
     method public int getAnswerId();
     method public Integer? getCommentCount();
     method public long getCreationDate();
@@ -493,8 +488,8 @@ package me.tylerbwong.stack.api.model {
     property public final int upVoteCount;
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Question {
-    ctor public Question(optional @com.squareup.moshi.Json(name="answer_count") int answerCount, String? body, @com.squareup.moshi.Json(name="body_markdown") String? bodyMarkdown, @com.squareup.moshi.Json(name="closed_date") Long? closedDate, @com.squareup.moshi.Json(name="closed_reason") String? closedReason, optional @com.squareup.moshi.Json(name="closed_details") me.tylerbwong.stack.api.model.ClosedDetails? closedDetails, @com.squareup.moshi.Json(name="comment_count") Integer? commentCount, @com.squareup.moshi.Json(name="creation_date") long creationDate, optional @com.squareup.moshi.Json(name="down_vote_count") int downVoteCount, optional @com.squareup.moshi.Json(name="downvoted") boolean isDownVoted, optional @com.squareup.moshi.Json(name="favorited") boolean isBookmarked, optional @com.squareup.moshi.Json(name="favorite_count") int bookmarkCount, @com.squareup.moshi.Json(name="is_answered") boolean isAnswered, @com.squareup.moshi.Json(name="last_activity_date") Long? lastActivityDate, @com.squareup.moshi.Json(name="last_edit_date") Long? lastEditDate, @com.squareup.moshi.Json(name="last_editor") me.tylerbwong.stack.api.model.User? lastEditor, me.tylerbwong.stack.api.model.User owner, optional @com.squareup.moshi.Json(name="question_id") int questionId, int score, optional @com.squareup.moshi.Json(name="share_link") String shareLink, java.util.List<java.lang.String>? tags, String title, optional @com.squareup.moshi.Json(name="up_vote_count") int upVoteCount, optional @com.squareup.moshi.Json(name="upvoted") boolean isUpVoted, optional @com.squareup.moshi.Json(name="view_count") int viewCount);
+  @kotlinx.serialization.Serializable public final class Question {
+    ctor public Question(optional @kotlinx.serialization.SerialName("answer_count") int answerCount, String? body, @kotlinx.serialization.SerialName("body_markdown") String? bodyMarkdown, @kotlinx.serialization.SerialName("closed_date") Long? closedDate, @kotlinx.serialization.SerialName("closed_reason") String? closedReason, optional @kotlinx.serialization.SerialName("closed_details") me.tylerbwong.stack.api.model.ClosedDetails? closedDetails, @kotlinx.serialization.SerialName("comment_count") Integer? commentCount, @kotlinx.serialization.SerialName("creation_date") long creationDate, optional @kotlinx.serialization.SerialName("down_vote_count") int downVoteCount, optional @kotlinx.serialization.SerialName("downvoted") boolean isDownVoted, optional @kotlinx.serialization.SerialName("favorited") boolean isBookmarked, optional @kotlinx.serialization.SerialName("favorite_count") int bookmarkCount, @kotlinx.serialization.SerialName("is_answered") boolean isAnswered, @kotlinx.serialization.SerialName("last_activity_date") Long? lastActivityDate, @kotlinx.serialization.SerialName("last_edit_date") Long? lastEditDate, @kotlinx.serialization.SerialName("last_editor") me.tylerbwong.stack.api.model.User? lastEditor, me.tylerbwong.stack.api.model.User owner, optional @kotlinx.serialization.SerialName("question_id") int questionId, int score, optional @kotlinx.serialization.SerialName("share_link") String shareLink, java.util.List<java.lang.String>? tags, String title, optional @kotlinx.serialization.SerialName("up_vote_count") int upVoteCount, optional @kotlinx.serialization.SerialName("upvoted") boolean isUpVoted, optional @kotlinx.serialization.SerialName("view_count") int viewCount);
     method public int component1();
     method public boolean component10();
     method public boolean component11();
@@ -520,7 +515,7 @@ package me.tylerbwong.stack.api.model {
     method public Integer? component7();
     method public long component8();
     method public int component9();
-    method public me.tylerbwong.stack.api.model.Question copy(@com.squareup.moshi.Json(name="answer_count") int answerCount, String? body, @com.squareup.moshi.Json(name="body_markdown") String? bodyMarkdown, @com.squareup.moshi.Json(name="closed_date") Long? closedDate, @com.squareup.moshi.Json(name="closed_reason") String? closedReason, @com.squareup.moshi.Json(name="closed_details") me.tylerbwong.stack.api.model.ClosedDetails? closedDetails, @com.squareup.moshi.Json(name="comment_count") Integer? commentCount, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="down_vote_count") int downVoteCount, @com.squareup.moshi.Json(name="downvoted") boolean isDownVoted, @com.squareup.moshi.Json(name="favorited") boolean isBookmarked, @com.squareup.moshi.Json(name="favorite_count") int bookmarkCount, @com.squareup.moshi.Json(name="is_answered") boolean isAnswered, @com.squareup.moshi.Json(name="last_activity_date") Long? lastActivityDate, @com.squareup.moshi.Json(name="last_edit_date") Long? lastEditDate, @com.squareup.moshi.Json(name="last_editor") me.tylerbwong.stack.api.model.User? lastEditor, me.tylerbwong.stack.api.model.User owner, @com.squareup.moshi.Json(name="question_id") int questionId, int score, @com.squareup.moshi.Json(name="share_link") String shareLink, java.util.List<java.lang.String>? tags, String title, @com.squareup.moshi.Json(name="up_vote_count") int upVoteCount, @com.squareup.moshi.Json(name="upvoted") boolean isUpVoted, @com.squareup.moshi.Json(name="view_count") int viewCount);
+    method public me.tylerbwong.stack.api.model.Question copy(int answerCount, String? body, String? bodyMarkdown, Long? closedDate, String? closedReason, me.tylerbwong.stack.api.model.ClosedDetails? closedDetails, Integer? commentCount, long creationDate, int downVoteCount, boolean isDownVoted, boolean isBookmarked, int bookmarkCount, boolean isAnswered, Long? lastActivityDate, Long? lastEditDate, me.tylerbwong.stack.api.model.User? lastEditor, me.tylerbwong.stack.api.model.User owner, int questionId, int score, String shareLink, java.util.List<java.lang.String>? tags, String title, int upVoteCount, boolean isUpVoted, int viewCount);
     method public int getAnswerCount();
     method public String? getBody();
     method public String? getBodyMarkdown();
@@ -576,11 +571,11 @@ package me.tylerbwong.stack.api.model {
   @StringDef({me.tylerbwong.stack.api.model.BadgeKt.GOLD, me.tylerbwong.stack.api.model.BadgeKt.SILVER, me.tylerbwong.stack.api.model.BadgeKt.BRONZE}) public @interface Rank {
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Response<T> {
-    ctor public Response(optional @com.squareup.moshi.Json(name="items") java.util.List<? extends T> items, optional @com.squareup.moshi.Json(name="has_more") boolean hasMore);
+  @kotlinx.serialization.Serializable public final class Response<T> {
+    ctor public Response(optional @kotlinx.serialization.SerialName("items") java.util.List<? extends T> items, optional @kotlinx.serialization.SerialName("has_more") boolean hasMore);
     method public java.util.List<T> component1();
     method public boolean component2();
-    method public me.tylerbwong.stack.api.model.Response<T> copy(@com.squareup.moshi.Json(name="items") java.util.List<? extends T> items, @com.squareup.moshi.Json(name="has_more") boolean hasMore);
+    method public me.tylerbwong.stack.api.model.Response<T> copy(java.util.List<? extends T> items, boolean hasMore);
     method public boolean getHasMore();
     method public java.util.List<T> getItems();
     property public final boolean hasMore;
@@ -593,14 +588,14 @@ package me.tylerbwong.stack.api.model {
     property public final me.tylerbwong.stack.api.model.Response<kotlin.Unit> EMPTY;
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Site {
-    ctor public Site(@com.squareup.moshi.Json(name="name") String name, @com.squareup.moshi.Json(name="api_site_parameter") String parameter, @com.squareup.moshi.Json(name="site_url") String url, @com.squareup.moshi.Json(name="audience") String audience, @com.squareup.moshi.Json(name="icon_url") String iconUrl);
+  @kotlinx.serialization.Serializable public final class Site {
+    ctor public Site(@kotlinx.serialization.SerialName("name") String name, @kotlinx.serialization.SerialName("api_site_parameter") String parameter, @kotlinx.serialization.SerialName("site_url") String url, @kotlinx.serialization.SerialName("audience") String audience, @kotlinx.serialization.SerialName("icon_url") String iconUrl);
     method public String component1();
     method public String component2();
     method public String component3();
     method public String component4();
     method public String component5();
-    method public me.tylerbwong.stack.api.model.Site copy(@com.squareup.moshi.Json(name="name") String name, @com.squareup.moshi.Json(name="api_site_parameter") String parameter, @com.squareup.moshi.Json(name="site_url") String url, @com.squareup.moshi.Json(name="audience") String audience, @com.squareup.moshi.Json(name="icon_url") String iconUrl);
+    method public me.tylerbwong.stack.api.model.Site copy(String name, String parameter, String url, String audience, String iconUrl);
     method public String getAudience();
     method public String getIconUrl();
     method public String getName();
@@ -631,30 +626,30 @@ package me.tylerbwong.stack.api.model {
     field public static final String WEEK = "week";
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class Tag {
-    ctor public Tag(@com.squareup.moshi.Json(name="name") String name, @com.squareup.moshi.Json(name="count") int count);
+  @kotlinx.serialization.Serializable public final class Tag {
+    ctor public Tag(@kotlinx.serialization.SerialName("name") String name, @kotlinx.serialization.SerialName("count") int count);
     method public String component1();
     method public int component2();
-    method public me.tylerbwong.stack.api.model.Tag copy(@com.squareup.moshi.Json(name="name") String name, @com.squareup.moshi.Json(name="count") int count);
+    method public me.tylerbwong.stack.api.model.Tag copy(String name, int count);
     method public int getCount();
     method public String getName();
     property public final int count;
     property public final String name;
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class TagPreference {
-    ctor public TagPreference(@com.squareup.moshi.Json(name="tag_name") String tagName, @com.squareup.moshi.Json(name="tag_preference_type") String tagPreferenceType);
+  @kotlinx.serialization.Serializable public final class TagPreference {
+    ctor public TagPreference(@kotlinx.serialization.SerialName("tag_name") String tagName, @kotlinx.serialization.SerialName("tag_preference_type") String tagPreferenceType);
     method public String component1();
     method public String component2();
-    method public me.tylerbwong.stack.api.model.TagPreference copy(@com.squareup.moshi.Json(name="tag_name") String tagName, @com.squareup.moshi.Json(name="tag_preference_type") String tagPreferenceType);
+    method public me.tylerbwong.stack.api.model.TagPreference copy(String tagName, String tagPreferenceType);
     method public String getTagName();
     method public String getTagPreferenceType();
     property public final String tagName;
     property public final String tagPreferenceType;
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class TimelineEvent {
-    ctor public TimelineEvent(@com.squareup.moshi.Json(name="badge_id") Integer? badgeId, @com.squareup.moshi.Json(name="comment_id") Integer? commentId, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="detail") String? detail, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="post_id") Integer? postId, @com.squareup.moshi.Json(name="post_type") @me.tylerbwong.stack.api.model.PostType String? postType, @com.squareup.moshi.Json(name="suggested_edit_id") Integer? suggestedEditId, @com.squareup.moshi.Json(name="timeline_type") @me.tylerbwong.stack.api.model.TimelineType String timelineType, @com.squareup.moshi.Json(name="title") String? title, @com.squareup.moshi.Json(name="user_id") int userId);
+  @kotlinx.serialization.Serializable public final class TimelineEvent {
+    ctor public TimelineEvent(@kotlinx.serialization.SerialName("badge_id") Integer? badgeId, @kotlinx.serialization.SerialName("comment_id") Integer? commentId, @kotlinx.serialization.SerialName("creation_date") long creationDate, @kotlinx.serialization.SerialName("detail") String? detail, @kotlinx.serialization.SerialName("link") String link, @kotlinx.serialization.SerialName("post_id") Integer? postId, @kotlinx.serialization.SerialName("post_type") @me.tylerbwong.stack.api.model.PostType String? postType, @kotlinx.serialization.SerialName("suggested_edit_id") Integer? suggestedEditId, @kotlinx.serialization.SerialName("timeline_type") @me.tylerbwong.stack.api.model.TimelineType String timelineType, @kotlinx.serialization.SerialName("title") String? title, @kotlinx.serialization.SerialName("user_id") int userId);
     method public Integer? component1();
     method public String? component10();
     method public int component11();
@@ -666,7 +661,7 @@ package me.tylerbwong.stack.api.model {
     method public String? component7();
     method public Integer? component8();
     method public String component9();
-    method public me.tylerbwong.stack.api.model.TimelineEvent copy(@com.squareup.moshi.Json(name="badge_id") Integer? badgeId, @com.squareup.moshi.Json(name="comment_id") Integer? commentId, @com.squareup.moshi.Json(name="creation_date") long creationDate, @com.squareup.moshi.Json(name="detail") String? detail, @com.squareup.moshi.Json(name="link") String link, @com.squareup.moshi.Json(name="post_id") Integer? postId, @com.squareup.moshi.Json(name="post_type") @me.tylerbwong.stack.api.model.PostType String? postType, @com.squareup.moshi.Json(name="suggested_edit_id") Integer? suggestedEditId, @com.squareup.moshi.Json(name="timeline_type") @me.tylerbwong.stack.api.model.TimelineType String timelineType, @com.squareup.moshi.Json(name="title") String? title, @com.squareup.moshi.Json(name="user_id") int userId);
+    method public me.tylerbwong.stack.api.model.TimelineEvent copy(Integer? badgeId, Integer? commentId, long creationDate, String? detail, String link, Integer? postId, @me.tylerbwong.stack.api.model.PostType String? postType, Integer? suggestedEditId, @me.tylerbwong.stack.api.model.TimelineType String timelineType, String? title, int userId);
     method public Integer? getBadgeId();
     method public Integer? getCommentId();
     method public long getCreationDate();
@@ -707,8 +702,8 @@ package me.tylerbwong.stack.api.model {
   @StringDef({me.tylerbwong.stack.api.model.TimelineEventKt.COMMENTED, me.tylerbwong.stack.api.model.TimelineEventKt.ASKED, me.tylerbwong.stack.api.model.TimelineEventKt.ANSWERED, me.tylerbwong.stack.api.model.TimelineEventKt.BADGE, me.tylerbwong.stack.api.model.TimelineEventKt.REVISION, me.tylerbwong.stack.api.model.TimelineEventKt.ACCEPTED, me.tylerbwong.stack.api.model.TimelineEventKt.REVIEWED, me.tylerbwong.stack.api.model.TimelineEventKt.SUGGESTED}) public @interface TimelineType {
   }
 
-  @com.squareup.moshi.JsonClass(generateAdapter=true) public final class User {
-    ctor public User(@com.squareup.moshi.Json(name="about_me") String? aboutMe, @com.squareup.moshi.Json(name="accept_rate") Integer? acceptRate, @com.squareup.moshi.Json(name="account_id") Integer? accountId, @com.squareup.moshi.Json(name="display_name") String displayName, @com.squareup.moshi.Json(name="link") String? link, @com.squareup.moshi.Json(name="location") String? location, @com.squareup.moshi.Json(name="profile_image") String? profileImage, optional @com.squareup.moshi.Json(name="reputation") int reputation, optional @com.squareup.moshi.Json(name="user_id") int userId, @com.squareup.moshi.Json(name="user_type") String userType, @com.squareup.moshi.Json(name="badge_counts") me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts);
+  @kotlinx.serialization.Serializable public final class User {
+    ctor public User(@kotlinx.serialization.SerialName("about_me") String? aboutMe, @kotlinx.serialization.SerialName("accept_rate") Integer? acceptRate, @kotlinx.serialization.SerialName("account_id") Integer? accountId, @kotlinx.serialization.SerialName("display_name") String displayName, @kotlinx.serialization.SerialName("link") String? link, @kotlinx.serialization.SerialName("location") String? location, @kotlinx.serialization.SerialName("profile_image") String? profileImage, optional @kotlinx.serialization.SerialName("reputation") int reputation, optional @kotlinx.serialization.SerialName("user_id") int userId, @kotlinx.serialization.SerialName("user_type") String userType, @kotlinx.serialization.SerialName("badge_counts") me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts);
     method public String? component1();
     method public String component10();
     method public me.tylerbwong.stack.api.model.BadgeCounts? component11();
@@ -720,7 +715,7 @@ package me.tylerbwong.stack.api.model {
     method public String? component7();
     method public int component8();
     method public int component9();
-    method public me.tylerbwong.stack.api.model.User copy(@com.squareup.moshi.Json(name="about_me") String? aboutMe, @com.squareup.moshi.Json(name="accept_rate") Integer? acceptRate, @com.squareup.moshi.Json(name="account_id") Integer? accountId, @com.squareup.moshi.Json(name="display_name") String displayName, @com.squareup.moshi.Json(name="link") String? link, @com.squareup.moshi.Json(name="location") String? location, @com.squareup.moshi.Json(name="profile_image") String? profileImage, @com.squareup.moshi.Json(name="reputation") int reputation, @com.squareup.moshi.Json(name="user_id") int userId, @com.squareup.moshi.Json(name="user_type") String userType, @com.squareup.moshi.Json(name="badge_counts") me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts);
+    method public me.tylerbwong.stack.api.model.User copy(String? aboutMe, Integer? acceptRate, Integer? accountId, String displayName, String? link, String? location, String? profileImage, int reputation, int userId, String userType, me.tylerbwong.stack.api.model.BadgeCounts? badgeCounts);
     method public String? getAboutMe();
     method public Integer? getAcceptRate();
     method public Integer? getAccountId();

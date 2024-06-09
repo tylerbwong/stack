@@ -1,13 +1,13 @@
 package me.tylerbwong.stack.api.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Response<out T>(
-    @Json(name = "items")
+    @SerialName("items")
     val items: List<T> = emptyList(),
-    @Json(name = "has_more")
+    @SerialName("has_more")
     val hasMore: Boolean = false
 ) {
     companion object {

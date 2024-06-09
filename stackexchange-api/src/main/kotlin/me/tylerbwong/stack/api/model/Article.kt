@@ -1,38 +1,38 @@
 package me.tylerbwong.stack.api.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Article(
-    @Json(name = "article_id")
+    @SerialName("article_id")
     val id: Int,
-    @Json(name = "article_type")
+    @SerialName("article_type")
     val articleType: String,
-    @Json(name = "body_markdown")
+    @SerialName("body_markdown")
     val bodyMarkdown: String?,
-    @Json(name = "comment_count")
+    @SerialName("comment_count")
     val commentCount: Int?,
-    @Json(name = "comments")
+    @SerialName("comments")
     val comments: List<Comment>?,
-    @Json(name = "creation_date")
+    @SerialName("creation_date")
     val creationDate: Long?,
-    @Json(name = "last_activity_date")
+    @SerialName("last_activity_date")
     val lastActivityDate: Long?,
-    @Json(name = "last_edit_date")
+    @SerialName("last_edit_date")
     val lastEditDate: Long?,
-    @Json(name = "last_editor")
+    @SerialName("last_editor")
     val lastEditor: User?,
-    @Json(name = "link")
+    @SerialName("link")
     val link: String,
-    @Json(name = "owner")
+    @SerialName("owner")
     val owner: User,
-    @Json(name = "score")
+    @SerialName("score")
     val score: Int,
-    @Json(name = "tags")
+    @SerialName("tags")
     val tags: List<String>?,
-    @Json(name = "title")
+    @SerialName("title")
     val title: String,
-    @Json(name = "view_count")
+    @SerialName("view_count")
     val viewCount: Int,
 )
