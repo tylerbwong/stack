@@ -30,7 +30,8 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.compose.ui.tooling)
 
     androidTestImplementation(libs.androidx.compose.ui.test)
     androidTestImplementation(libs.androidx.test.core.ktx)

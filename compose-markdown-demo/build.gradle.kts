@@ -25,7 +25,8 @@ dependencies {
     // compose
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.compose.ui.tooling)
 
     // markdown
     implementation(projects.composeMarkdown)
